@@ -88,10 +88,26 @@ struct R: Rswift.Validatable {
     try intern.validate()
   }
 
-  /// This `R.color` struct is generated, and contains static references to 1 colors.
+  /// This `R.color` struct is generated, and contains static references to 9 colors.
   struct color {
     /// Color `AccentColor`.
     static let accentColor = Rswift.ColorResource(bundle: R.hostingBundle, name: "AccentColor")
+    /// Color `Gray1`.
+    static let gray1 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray1")
+    /// Color `Gray2`.
+    static let gray2 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray2")
+    /// Color `Gray3`.
+    static let gray3 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray3")
+    /// Color `Gray4`.
+    static let gray4 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray4")
+    /// Color `Gray5`.
+    static let gray5 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray5")
+    /// Color `Gray6`.
+    static let gray6 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray6")
+    /// Color `Orange`.
+    static let orange = Rswift.ColorResource(bundle: R.hostingBundle, name: "Orange")
+    /// Color `Red`.
+    static let red = Rswift.ColorResource(bundle: R.hostingBundle, name: "Red")
 
     #if os(iOS) || os(tvOS)
     /// `UIColor(named: "AccentColor", bundle: ..., traitCollection: ...)`
@@ -99,6 +115,78 @@ struct R: Rswift.Validatable {
     @available(iOS 11.0, *)
     static func accentColor(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
       return UIKit.UIColor(resource: R.color.accentColor, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray1", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray1(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray1, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray2", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray2(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray2, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray3", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray3(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray3, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray4", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray4(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray4, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray5", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray5(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray5, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray6", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray6(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray6, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Orange", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func orange(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.orange, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Red", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func red(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.red, compatibleWith: traitCollection)
     }
     #endif
 
@@ -110,18 +198,67 @@ struct R: Rswift.Validatable {
     }
     #endif
 
-    fileprivate init() {}
-  }
+    #if os(watchOS)
+    /// `UIColor(named: "Gray1", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray1(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray1.name)
+    }
+    #endif
 
-  /// This `R.image` struct is generated, and contains static references to 1 images.
-  struct image {
-    /// Image `My`.
-    static let my = Rswift.ImageResource(bundle: R.hostingBundle, name: "My")
+    #if os(watchOS)
+    /// `UIColor(named: "Gray2", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray2(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray2.name)
+    }
+    #endif
 
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "My", bundle: ..., traitCollection: ...)`
-    static func my(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.my, compatibleWith: traitCollection)
+    #if os(watchOS)
+    /// `UIColor(named: "Gray3", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray3(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray3.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray4", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray4(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray4.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray5", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray5(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray5.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray6", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray6(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray6.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Orange", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func orange(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.orange.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Red", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func red(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.red.name)
     }
     #endif
 
@@ -130,22 +267,97 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 1 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 6 localization keys.
     struct localizable {
-      /// Value: Отмена
-      static let cancel = Rswift.StringResource(key: "cancel", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Create account
+      static let createAccBtt = Rswift.StringResource(key: "createAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Email address
+      static let email = Rswift.StringResource(key: "email", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Password
+      static let password = Rswift.StringResource(key: "password", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Register
+      static let register = Rswift.StringResource(key: "register", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Sign Int
+      static let signInAccBtt = Rswift.StringResource(key: "signInAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Sign in
+      static let signIn = Rswift.StringResource(key: "signIn", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
 
-      /// Value: Отмена
-      static func cancel(preferredLanguages: [String]? = nil) -> String {
+      /// Value: Create account
+      static func createAccBtt(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("cancel", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("createAccBtt", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "cancel"
+          return "createAccBtt"
         }
 
-        return NSLocalizedString("cancel", bundle: bundle, comment: "")
+        return NSLocalizedString("createAccBtt", bundle: bundle, comment: "")
+      }
+
+      /// Value: Email address
+      static func email(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("email", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "email"
+        }
+
+        return NSLocalizedString("email", bundle: bundle, comment: "")
+      }
+
+      /// Value: Password
+      static func password(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("password", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "password"
+        }
+
+        return NSLocalizedString("password", bundle: bundle, comment: "")
+      }
+
+      /// Value: Register
+      static func register(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("register", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "register"
+        }
+
+        return NSLocalizedString("register", bundle: bundle, comment: "")
+      }
+
+      /// Value: Sign Int
+      static func signInAccBtt(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("signInAccBtt", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "signInAccBtt"
+        }
+
+        return NSLocalizedString("signInAccBtt", bundle: bundle, comment: "")
+      }
+
+      /// Value: Sign in
+      static func signIn(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("signIn", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "signIn"
+        }
+
+        return NSLocalizedString("signIn", bundle: bundle, comment: "")
       }
 
       fileprivate init() {}

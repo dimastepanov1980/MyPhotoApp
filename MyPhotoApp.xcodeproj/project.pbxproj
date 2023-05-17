@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		0E4C2DFF84317C68256C19A7 /* Pods_MyPhotoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36CDCC9F143E459B2B9C1604 /* Pods_MyPhotoApp.framework */; };
 		5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */; };
-		5FBA26722A14A08200E972FB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA26712A14A08200E972FB /* ContentView.swift */; };
 		5FBA26742A14A08400E972FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26732A14A08400E972FB /* Assets.xcassets */; };
 		5FBA26772A14A08400E972FB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26762A14A08400E972FB /* Preview Assets.xcassets */; };
 		5FBA26812A14B88A00E972FB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26802A14B88A00E972FB /* Localizable.strings */; };
-		5FBA26882A14CE9F00E972FB /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA26872A14CE9F00E972FB /* R.generated.swift */; };
 		5FBA268A2A14D21F00E972FB /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26892A14D21F00E972FB /* Colors.xcassets */; };
+		5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA26942A1502AF00E972FB /* R.generated.swift */; };
+		5FBA26982A1536A400E972FB /* MainTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA26972A1536A400E972FB /* MainTextFieldView.swift */; };
+		5FBA269B2A15375E00E972FB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269A2A15375E00E972FB /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,12 +23,13 @@
 		3A719D453A1FA8DDE0B5B4A0 /* Pods-MyPhotoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.debug.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5FBA266C2A14A08200E972FB /* MyPhotoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPhotoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotoAppApp.swift; sourceTree = "<group>"; };
-		5FBA26712A14A08200E972FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5FBA26732A14A08400E972FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5FBA26762A14A08400E972FB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5FBA26802A14B88A00E972FB /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		5FBA26872A14CE9F00E972FB /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		5FBA26892A14D21F00E972FB /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		5FBA26942A1502AF00E972FB /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		5FBA26972A1536A400E972FB /* MainTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextFieldView.swift; sourceTree = "<group>"; };
+		5FBA269A2A15375E00E972FB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C1C15D56D3D2F0C3BE72C55D /* Pods-MyPhotoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.release.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,7 +69,6 @@
 				5FBA26822A14CA9000E972FB /* Resources */,
 				5FBA26832A14CAB000E972FB /* Sources */,
 				5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */,
-				5FBA26712A14A08200E972FB /* ContentView.swift */,
 				5FBA26752A14A08400E972FB /* Preview Content */,
 			);
 			path = MyPhotoApp;
@@ -94,6 +95,8 @@
 		5FBA26832A14CAB000E972FB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5FBA26992A15370A00E972FB /* LoginUserStory */,
+				5FBA26962A15367900E972FB /* Common */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -101,7 +104,7 @@
 		5FBA26842A14CAC400E972FB /* Rswift */ = {
 			isa = PBXGroup;
 			children = (
-				5FBA26872A14CE9F00E972FB /* R.generated.swift */,
+				5FBA26942A1502AF00E972FB /* R.generated.swift */,
 			);
 			path = Rswift;
 			sourceTree = "<group>";
@@ -121,6 +124,22 @@
 				5FBA26892A14D21F00E972FB /* Colors.xcassets */,
 			);
 			path = Assets;
+			sourceTree = "<group>";
+		};
+		5FBA26962A15367900E972FB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				5FBA26972A1536A400E972FB /* MainTextFieldView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		5FBA26992A15370A00E972FB /* LoginUserStory */ = {
+			isa = PBXGroup;
+			children = (
+				5FBA269A2A15375E00E972FB /* LoginView.swift */,
+			);
+			path = LoginUserStory;
 			sourceTree = "<group>";
 		};
 		C282337F8450236C633B7DF3 /* Pods */ = {
@@ -224,11 +243,12 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				$SRCROOT/R.generated.swift,
 				$SRCROOT/MyPhotoApp/Resources/Rswift/R.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/R.generated.swift\"\n";
+			shellScript = "\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/MyPhotoApp/Resources/Rswift/R.generated.swift\"\n";
 		};
 		B53F957D33277325CFFCE9A5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -276,9 +296,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FBA26722A14A08200E972FB /* ContentView.swift in Sources */,
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
-				5FBA26882A14CE9F00E972FB /* R.generated.swift in Sources */,
+				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
+				5FBA269B2A15375E00E972FB /* LoginView.swift in Sources */,
+				5FBA26982A1536A400E972FB /* MainTextFieldView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,4 +7,9 @@
 */
 // MARK: - Common
 
-"cancel" = "Отмена";
+"register" = "Register";
+"signIn" = "Sign in";
+"email" = "Email address";
+"password" = "Password";
+"createAccBtt" = "Create account";
+"signInAccBtt" = "Sign Int";
