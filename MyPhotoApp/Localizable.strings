@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  MyPhotoApp
+
+  Created by Dima Stepanov on 5/17/23.
+  
+*/
+// MARK: - Common
+
+"cancel" = "Отмена";

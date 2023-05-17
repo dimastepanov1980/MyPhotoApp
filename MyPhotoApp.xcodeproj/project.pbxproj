@@ -13,6 +13,7 @@
 		5FBA26742A14A08400E972FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26732A14A08400E972FB /* Assets.xcassets */; };
 		5FBA26772A14A08400E972FB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26762A14A08400E972FB /* Preview Assets.xcassets */; };
 		5FBA267F2A14B72700E972FB /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA267E2A14B72700E972FB /* R.generated.swift */; };
+		5FBA26812A14B88A00E972FB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26802A14B88A00E972FB /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		5FBA26732A14A08400E972FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5FBA26762A14A08400E972FB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5FBA267E2A14B72700E972FB /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
+		5FBA26802A14B88A00E972FB /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		C1C15D56D3D2F0C3BE72C55D /* Pods-MyPhotoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.release.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +67,7 @@
 				5FBA26712A14A08200E972FB /* ContentView.swift */,
 				5FBA26732A14A08400E972FB /* Assets.xcassets */,
 				5FBA26752A14A08400E972FB /* Preview Content */,
+				5FBA26802A14B88A00E972FB /* Localizable.strings */,
 			);
 			path = MyPhotoApp;
 			sourceTree = "<group>";
@@ -156,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FBA26772A14A08400E972FB /* Preview Assets.xcassets in Resources */,
+				5FBA26812A14B88A00E972FB /* Localizable.strings in Resources */,
 				5FBA26742A14A08400E972FB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
