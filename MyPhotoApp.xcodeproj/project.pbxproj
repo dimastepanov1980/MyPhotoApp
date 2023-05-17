@@ -24,7 +24,7 @@
 		5FBA26712A14A08200E972FB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5FBA26732A14A08400E972FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5FBA26762A14A08400E972FB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		5FBA267E2A14B72700E972FB /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = SOURCE_ROOT; };
+		5FBA267E2A14B72700E972FB /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = MyPhotoApp/Sources/Rswift/R.generated.swift; sourceTree = SOURCE_ROOT; };
 		5FBA26802A14B88A00E972FB /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		C1C15D56D3D2F0C3BE72C55D /* Pods-MyPhotoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.release.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -62,12 +62,11 @@
 		5FBA266E2A14A08200E972FB /* MyPhotoApp */ = {
 			isa = PBXGroup;
 			children = (
-				5FBA267E2A14B72700E972FB /* R.generated.swift */,
+				5FBA26822A14CA9000E972FB /* Resources */,
+				5FBA26832A14CAB000E972FB /* Sources */,
 				5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */,
 				5FBA26712A14A08200E972FB /* ContentView.swift */,
-				5FBA26732A14A08400E972FB /* Assets.xcassets */,
 				5FBA26752A14A08400E972FB /* Preview Content */,
-				5FBA26802A14B88A00E972FB /* Localizable.strings */,
 			);
 			path = MyPhotoApp;
 			sourceTree = "<group>";
@@ -78,6 +77,47 @@
 				5FBA26762A14A08400E972FB /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5FBA26822A14CA9000E972FB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5FBA26862A14CCC900E972FB /* Assets */,
+				5FBA26852A14CCAE00E972FB /* Localizations */,
+				5FBA26842A14CAC400E972FB /* Rswift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		5FBA26832A14CAB000E972FB /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		5FBA26842A14CAC400E972FB /* Rswift */ = {
+			isa = PBXGroup;
+			children = (
+				5FBA267E2A14B72700E972FB /* R.generated.swift */,
+			);
+			path = Rswift;
+			sourceTree = "<group>";
+		};
+		5FBA26852A14CCAE00E972FB /* Localizations */ = {
+			isa = PBXGroup;
+			children = (
+				5FBA26802A14B88A00E972FB /* Localizable.strings */,
+			);
+			path = Localizations;
+			sourceTree = "<group>";
+		};
+		5FBA26862A14CCC900E972FB /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				5FBA26732A14A08400E972FB /* Assets.xcassets */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		C282337F8450236C633B7DF3 /* Pods */ = {
@@ -291,7 +331,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -345,7 +385,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -371,6 +411,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -400,6 +441,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
