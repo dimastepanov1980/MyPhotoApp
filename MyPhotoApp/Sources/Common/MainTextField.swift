@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainTextFieldView: View {
+struct MainTextField: View {
     
     @State var nameTextField: String
     @State var text: String
@@ -60,6 +60,6 @@ struct MainTextFieldView: View {
 
 struct MainTextFieldView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTextFieldView(nameTextField: "Name of Text field", text: "")
+        MainTextField(nameTextField: "Name of Text field", text: "")
     }
 }

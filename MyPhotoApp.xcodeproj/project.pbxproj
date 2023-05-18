@@ -14,9 +14,10 @@
 		5FBA26812A14B88A00E972FB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26802A14B88A00E972FB /* Localizable.strings */; };
 		5FBA268A2A14D21F00E972FB /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26892A14D21F00E972FB /* Colors.xcassets */; };
 		5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA26942A1502AF00E972FB /* R.generated.swift */; };
-		5FBA26982A1536A400E972FB /* MainTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA26972A1536A400E972FB /* MainTextFieldView.swift */; };
+		5FBA26982A1536A400E972FB /* MainTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA26972A1536A400E972FB /* MainTextField.swift */; };
 		5FBA269B2A15375E00E972FB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269A2A15375E00E972FB /* LoginView.swift */; };
-		5FBA269D2A1600D800E972FB /* ButtonXlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269C2A1600D800E972FB /* ButtonXlView.swift */; };
+		5FBA269D2A1600D800E972FB /* ButtonXl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269C2A1600D800E972FB /* ButtonXl.swift */; };
+		5FBA269F2A162D6700E972FB /* SecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269E2A162D6700E972FB /* SecureTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,9 +30,10 @@
 		5FBA26802A14B88A00E972FB /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		5FBA26892A14D21F00E972FB /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		5FBA26942A1502AF00E972FB /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
-		5FBA26972A1536A400E972FB /* MainTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextFieldView.swift; sourceTree = "<group>"; };
+		5FBA26972A1536A400E972FB /* MainTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextField.swift; sourceTree = "<group>"; };
 		5FBA269A2A15375E00E972FB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		5FBA269C2A1600D800E972FB /* ButtonXlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonXlView.swift; sourceTree = "<group>"; };
+		5FBA269C2A1600D800E972FB /* ButtonXl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonXl.swift; sourceTree = "<group>"; };
+		5FBA269E2A162D6700E972FB /* SecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureTextField.swift; sourceTree = "<group>"; };
 		C1C15D56D3D2F0C3BE72C55D /* Pods-MyPhotoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.release.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,8 +133,9 @@
 		5FBA26962A15367900E972FB /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				5FBA26972A1536A400E972FB /* MainTextFieldView.swift */,
-				5FBA269C2A1600D800E972FB /* ButtonXlView.swift */,
+				5FBA26972A1536A400E972FB /* MainTextField.swift */,
+				5FBA269E2A162D6700E972FB /* SecureTextField.swift */,
+				5FBA269C2A1600D800E972FB /* ButtonXl.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -299,11 +302,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBA269F2A162D6700E972FB /* SecureTextField.swift in Sources */,
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
-				5FBA269D2A1600D800E972FB /* ButtonXlView.swift in Sources */,
+				5FBA269D2A1600D800E972FB /* ButtonXl.swift in Sources */,
 				5FBA269B2A15375E00E972FB /* LoginView.swift in Sources */,
-				5FBA26982A1536A400E972FB /* MainTextFieldView.swift in Sources */,
+				5FBA26982A1536A400E972FB /* MainTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

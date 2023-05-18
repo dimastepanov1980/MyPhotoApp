@@ -79,10 +79,10 @@ struct RegisterTab: View {
     var body: some View {
    
             VStack {
-                MainTextFieldView(nameTextField: R.string.localizable.email(), text: "")
-                MainTextFieldView(nameTextField: R.string.localizable.password(), text: "")
+                MainTextField(nameTextField: R.string.localizable.email(), text: "")
+                MainTextField(nameTextField: R.string.localizable.password(), text: "")
                 Spacer()
-                ButtonXlView(titleText: R.string.localizable.createAccBtt(), iconName: "camera.aperture") {
+                ButtonXl(titleText: R.string.localizable.createAccBtt(), iconName: "camera.aperture") {
                     //
                 }
 
@@ -97,8 +97,8 @@ struct SignInTab: View {
     var body: some View {
         
             VStack {
-                MainTextFieldView(nameTextField: R.string.localizable.email(), text: "")
-                MainTextFieldView(nameTextField: R.string.localizable.password(), text: "")
+                MainTextField(nameTextField: R.string.localizable.email(), text: "")
+                MainTextField(nameTextField: R.string.localizable.password(), text: "")
                 Button {
                     //
                 } label: {
@@ -106,7 +106,7 @@ struct SignInTab: View {
                 }
                 
                 Spacer()
-                ButtonXlView(titleText: R.string.localizable.signIn(), iconName: "camera.aperture") {
+                ButtonXl(titleText: R.string.localizable.signIn(), iconName: "camera.aperture") {
                     //
                 }
             }
