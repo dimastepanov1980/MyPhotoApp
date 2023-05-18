@@ -16,6 +16,7 @@
 		5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA26942A1502AF00E972FB /* R.generated.swift */; };
 		5FBA26982A1536A400E972FB /* MainTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA26972A1536A400E972FB /* MainTextFieldView.swift */; };
 		5FBA269B2A15375E00E972FB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269A2A15375E00E972FB /* LoginView.swift */; };
+		5FBA269D2A1600D800E972FB /* ButtonXlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269C2A1600D800E972FB /* ButtonXlView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		5FBA26942A1502AF00E972FB /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		5FBA26972A1536A400E972FB /* MainTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTextFieldView.swift; sourceTree = "<group>"; };
 		5FBA269A2A15375E00E972FB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		5FBA269C2A1600D800E972FB /* ButtonXlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonXlView.swift; sourceTree = "<group>"; };
 		C1C15D56D3D2F0C3BE72C55D /* Pods-MyPhotoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.release.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -130,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				5FBA26972A1536A400E972FB /* MainTextFieldView.swift */,
+				5FBA269C2A1600D800E972FB /* ButtonXlView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 			files = (
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
+				5FBA269D2A1600D800E972FB /* ButtonXlView.swift in Sources */,
 				5FBA269B2A15375E00E972FB /* LoginView.swift in Sources */,
 				5FBA26982A1536A400E972FB /* MainTextFieldView.swift in Sources */,
 			);

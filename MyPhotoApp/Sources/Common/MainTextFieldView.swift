@@ -29,7 +29,6 @@ struct MainTextFieldView: View {
                         }
                     }
                 }
-                
                 .background (
                     
                     Text(nameTextField)
@@ -53,17 +52,14 @@ struct MainTextFieldView: View {
         .overlay(
             RoundedRectangle(cornerRadius: 21)
                 .stroke(Color(R.color.gray3.name), lineWidth: 1))
-        
         .padding()
         
-        
     }
-    
 }
 
 
 struct MainTextFieldView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTextFieldView(nameTextField: "sddfsdf", text: "")
+        MainTextFieldView(nameTextField: "Name of Text field", text: "")
     }
 }
