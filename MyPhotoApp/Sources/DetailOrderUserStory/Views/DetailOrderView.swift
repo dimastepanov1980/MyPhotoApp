@@ -27,10 +27,13 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         Spacer()
                         priceSection
                     } .padding(.horizontal, 32)
-                    desctriptionSection
-                        .padding(.horizontal, 32)
-                    imageSection
-                        .padding(.horizontal, 16)
+                    VStack {
+                        desctriptionSection
+                        imageSection
+                    }
+                    .padding(16)
+
+
                 }
             }
         } 
