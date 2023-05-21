@@ -20,20 +20,22 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     
     var body: some View {
         NavigationView {
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .trailing) {
-                    HStack(alignment: .bottom){
-                        infoSection
-                        Spacer()
-                        priceSection
-                    } .padding(.horizontal, 32)
-                    VStack {
+            VStack{
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .trailing) {
+                        HStack(alignment: .bottom){
+                            infoSection
+                            Spacer()
+                            priceSection
+                        } .padding(.horizontal, 16)
+                        
                         desctriptionSection
                         imageSection
                     }
-                    .padding(16)
-
-
+                    
+                }
+                ButtonXl(titleText: R.string.localizable.addPhoto(), iconName: "plus.circle") {
+                    //
                 }
             }
         } 
@@ -111,19 +113,24 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     
     private var desctriptionSection: some View {
-        VStack(alignment: .trailing){
-            Text(viewModel.description!)
-                .font(.callout)
-                .foregroundColor(Color(R.color.gray2.name))
-                .padding(.top, 24)
-            HStack {
-                Button {
-                    print("Instagramm")
-                } label: {
-                    Image(R.image.ic_instagram.name)
-                }
+        VStack(alignment: .trailing, spacing: 0){
+            if let content = viewModel.description {
+                Text(content)
+                    .font(.callout)
+                    .foregroundColor(Color(R.color.gray2.name))
+                    .padding(.top, 24)
             }
-        }.padding(.bottom, 16)
+            HStack {
+                if let content = viewModel.instagramLink {
+                    Button {
+                        print("Instagramm")
+                    } label: {
+                        Image(content)
+                    }
+                }
+       
+            }.padding(.top,16)
+        }.padding(.horizontal, 16)
     }
     
     private var imageSection: some View {
@@ -177,7 +184,11 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     }
                 }
             }
-        } .confirmationDialog("Remove the image", isPresented: $showingOptions, titleVisibility: .visible) {
+        }
+        .padding(8)
+        .confirmationDialog("Remove the image",
+                            isPresented: $showingOptions,
+                            titleVisibility: .visible) {
             Button {
                 //
             } label: {
@@ -185,8 +196,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .foregroundColor(Color.white)
 
             }
-        }
-        .onAppear {
+        }.onAppear {
             if randomHeights.isEmpty {
                 generateRandomHeights()
             }
