@@ -88,10 +88,12 @@ struct R: Rswift.Validatable {
     try intern.validate()
   }
 
-  /// This `R.color` struct is generated, and contains static references to 9 colors.
+  /// This `R.color` struct is generated, and contains static references to 10 colors.
   struct color {
     /// Color `AccentColor`.
     static let accentColor = Rswift.ColorResource(bundle: R.hostingBundle, name: "AccentColor")
+    /// Color `Color`.
+    static let color = Rswift.ColorResource(bundle: R.hostingBundle, name: "Color")
     /// Color `Gray1`.
     static let gray1 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray1")
     /// Color `Gray2`.
@@ -115,6 +117,15 @@ struct R: Rswift.Validatable {
     @available(iOS 11.0, *)
     static func accentColor(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
       return UIKit.UIColor(resource: R.color.accentColor, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Color", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func color(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.color, compatibleWith: traitCollection)
     }
     #endif
 
@@ -199,6 +210,14 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(watchOS)
+    /// `UIColor(named: "Color", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func color(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.color.name)
+    }
+    #endif
+
+    #if os(watchOS)
     /// `UIColor(named: "Gray1", bundle: ..., traitCollection: ...)`
     @available(watchOSApplicationExtension 4.0, *)
     static func gray1(_: Void = ()) -> UIKit.UIColor? {
@@ -265,16 +284,171 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
+  /// This `R.file` struct is generated, and contains static references to 1 files.
+  struct file {
+    /// Resource file `GoogleService-Info.plist`.
+    static let googleServiceInfoPlist = Rswift.FileResource(bundle: R.hostingBundle, name: "GoogleService-Info", pathExtension: "plist")
+
+    /// `bundle.url(forResource: "GoogleService-Info", withExtension: "plist")`
+    static func googleServiceInfoPlist(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.googleServiceInfoPlist
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    fileprivate init() {}
+  }
+
+  /// This `R.image` struct is generated, and contains static references to 15 images.
+  struct image {
+    /// Image `Image0`.
+    static let image0 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image0")
+    /// Image `Image1`.
+    static let image1 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image1")
+    /// Image `Image2`.
+    static let image2 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image2")
+    /// Image `Image3`.
+    static let image3 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image3")
+    /// Image `Image4`.
+    static let image4 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image4")
+    /// Image `Image5`.
+    static let image5 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image5")
+    /// Image `Image6`.
+    static let image6 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image6")
+    /// Image `Image7`.
+    static let image7 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image7")
+    /// Image `Image8`.
+    static let image8 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image8")
+    /// Image `Image9`.
+    static let image9 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image9")
+    /// Image `ic_duration`.
+    static let ic_duration = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_duration")
+    /// Image `ic_edit`.
+    static let ic_edit = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_edit")
+    /// Image `ic_instagram`.
+    static let ic_instagram = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_instagram")
+    /// Image `ic_time`.
+    static let ic_time = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_time")
+    /// Image `ic_weater`.
+    static let ic_weater = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_weater")
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image0", bundle: ..., traitCollection: ...)`
+    static func image0(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image0, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image1", bundle: ..., traitCollection: ...)`
+    static func image1(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image1, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image2", bundle: ..., traitCollection: ...)`
+    static func image2(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image2, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image3", bundle: ..., traitCollection: ...)`
+    static func image3(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image3, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image4", bundle: ..., traitCollection: ...)`
+    static func image4(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image4, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image5", bundle: ..., traitCollection: ...)`
+    static func image5(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image5, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image6", bundle: ..., traitCollection: ...)`
+    static func image6(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image6, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image7", bundle: ..., traitCollection: ...)`
+    static func image7(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image7, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image8", bundle: ..., traitCollection: ...)`
+    static func image8(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image8, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "Image9", bundle: ..., traitCollection: ...)`
+    static func image9(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image9, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_duration", bundle: ..., traitCollection: ...)`
+    static func ic_duration(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_duration, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_edit", bundle: ..., traitCollection: ...)`
+    static func ic_edit(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_edit, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_instagram", bundle: ..., traitCollection: ...)`
+    static func ic_instagram(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_instagram, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_time", bundle: ..., traitCollection: ...)`
+    static func ic_time(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_time, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_weater", bundle: ..., traitCollection: ...)`
+    static func ic_weater(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_weater, compatibleWith: traitCollection)
+    }
+    #endif
+
+    fileprivate init() {}
+  }
+
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 7 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 8 localization keys.
     struct localizable {
       /// Value: Create account
       static let createAccBtt = Rswift.StringResource(key: "createAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Email address
       static let email = Rswift.StringResource(key: "email", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Forgot password?
-      static let forgotPss = Rswift.StringResource(key: "ForgotPss", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      static let forgotPss = Rswift.StringResource(key: "forgotPss", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Password
       static let password = Rswift.StringResource(key: "password", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Register
@@ -283,6 +457,8 @@ struct R: Rswift.Validatable {
       static let signInAccBtt = Rswift.StringResource(key: "signInAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Sign in
       static let signIn = Rswift.StringResource(key: "signIn", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Total price
+      static let totalPrice = Rswift.StringResource(key: "totalPrice", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
 
       /// Value: Create account
       static func createAccBtt(preferredLanguages: [String]? = nil) -> String {
@@ -313,14 +489,14 @@ struct R: Rswift.Validatable {
       /// Value: Forgot password?
       static func forgotPss(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("ForgotPss", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("forgotPss", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "ForgotPss"
+          return "forgotPss"
         }
 
-        return NSLocalizedString("ForgotPss", bundle: bundle, comment: "")
+        return NSLocalizedString("forgotPss", bundle: bundle, comment: "")
       }
 
       /// Value: Password
@@ -373,6 +549,19 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("signIn", bundle: bundle, comment: "")
+      }
+
+      /// Value: Total price
+      static func totalPrice(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("totalPrice", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "totalPrice"
+        }
+
+        return NSLocalizedString("totalPrice", bundle: bundle, comment: "")
       }
 
       fileprivate init() {}

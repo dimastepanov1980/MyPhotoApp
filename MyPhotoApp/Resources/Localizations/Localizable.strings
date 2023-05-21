@@ -13,4 +13,6 @@
 "password" = "Password";
 "createAccBtt" = "Create account";
 "signInAccBtt" = "Sign Int";
-"ForgotPss" = "Forgot password?";
+"forgotPss" = "Forgot password?";
+"totalPrice" = "Total price";
+
