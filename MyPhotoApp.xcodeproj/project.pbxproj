@@ -35,6 +35,8 @@
 		5FF5466F2A1B575500208455 /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF5466E2A1B575500208455 /* MainScreenViewModel.swift */; };
 		5FF546712A1B577300208455 /* MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546702A1B577300208455 /* MainScreenView.swift */; };
 		5FF546742A1B57E500208455 /* HCellMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546732A1B57E500208455 /* HCellMainScreenView.swift */; };
+		5FF546762A1B8EBF00208455 /* filteredByDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546752A1B8EBF00208455 /* filteredByDateView.swift */; };
+		5FF546782A1B937A00208455 /* VCellMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546772A1B937A00208455 /* VCellMainScreenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,8 @@
 		5FF5466E2A1B575500208455 /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
 		5FF546702A1B577300208455 /* MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenView.swift; sourceTree = "<group>"; };
 		5FF546732A1B57E500208455 /* HCellMainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCellMainScreenView.swift; sourceTree = "<group>"; };
+		5FF546752A1B8EBF00208455 /* filteredByDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = filteredByDateView.swift; sourceTree = "<group>"; };
+		5FF546772A1B937A00208455 /* VCellMainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCellMainScreenView.swift; sourceTree = "<group>"; };
 		C1C15D56D3D2F0C3BE72C55D /* Pods-MyPhotoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.release.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -295,8 +299,9 @@
 		5FF546692A1B571100208455 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5FF546722A1B57C800208455 /* Cell */,
+				5FF546722A1B57C800208455 /* Cells */,
 				5FF546702A1B577300208455 /* MainScreenView.swift */,
+				5FF546752A1B8EBF00208455 /* filteredByDateView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -317,12 +322,13 @@
 			path = Contractor;
 			sourceTree = "<group>";
 		};
-		5FF546722A1B57C800208455 /* Cell */ = {
+		5FF546722A1B57C800208455 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				5FF546732A1B57E500208455 /* HCellMainScreenView.swift */,
+				5FF546772A1B937A00208455 /* VCellMainScreenView.swift */,
 			);
-			path = Cell;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		C282337F8450236C633B7DF3 /* Pods */ = {
@@ -495,11 +501,13 @@
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
 				5FF5466F2A1B575500208455 /* MainScreenViewModel.swift in Sources */,
+				5FF546762A1B8EBF00208455 /* filteredByDateView.swift in Sources */,
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
 				5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */,
 				5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */,
 				5FBA269D2A1600D800E972FB /* ButtonXl.swift in Sources */,
 				5FBA269B2A15375E00E972FB /* AuthScreenView.swift in Sources */,
+				5FF546782A1B937A00208455 /* VCellMainScreenView.swift in Sources */,
 				5FBA26982A1536A400E972FB /* MainTextField.swift in Sources */,
 				5FA15D982A175727007A1AC6 /* AuthScreenContract.swift in Sources */,
 				5FF5466D2A1B573B00208455 /* MainScreenViewModelType.swift in Sources */,

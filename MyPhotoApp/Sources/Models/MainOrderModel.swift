@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct MainOrderModel: Codable {
+struct MainOrderModel: Identifiable {
+    let id: String = UUID().uuidString
     let userId: String
     let name: String
     let place: String
     let date: Date
     let duration: Double
     let imageUrl: String
-    let weaterId: String
 }

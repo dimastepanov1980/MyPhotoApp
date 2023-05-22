@@ -15,7 +15,9 @@ protocol MainScreenViewModelType: ObservableObject {
     var duration: Double { get }
     var imageUrl: String { get }
     var weaterId: String { get }
+    var orders: [MainOrderModel] { get }
     
     func createOrder()
-    func formattedDate() -> String
+    func formattedDate(date: Date) -> String
+    
 }

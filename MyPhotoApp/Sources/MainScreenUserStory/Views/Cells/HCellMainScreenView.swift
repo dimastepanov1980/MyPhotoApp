@@ -11,19 +11,10 @@ import SwiftUI
 
 struct HCellMainScreenView: View {
     let items: MainOrderModel
-//    private let place: String
-//    private let duration: Double
-//    private let time: Data
-//
-//    init(place: String, duration: Double, time: Data) {
-//        self.place = place
-//        self.duration = duration
-//        self.time = time
-//    }
-    
     var body: some View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(items.place)
+                    .lineLimit(1)
                     .font(.title2.bold())
                 HStack(alignment: .center) {
                     VStack(alignment: .leading, spacing: 4) {
@@ -33,7 +24,7 @@ struct HCellMainScreenView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 16)
                             
-                            Text(Date().displayDate)
+                            Text(Date().displayHours)
                                 .font(.footnote)
                                 .foregroundColor(Color(R.color.gray3.name))
                         }
@@ -68,7 +59,7 @@ struct HCellMainScreenView: View {
 }
 
 extension Date {
-    var displayDate: String {
+    var displayHours: String {
         self.formatted(
             .dateTime
                 .hour(.conversationalDefaultDigits(amPM: .omitted))
@@ -93,6 +84,5 @@ private class MockViewModel: ObservableObject {
                    place: "Kata Noy Beach",
                    date: Date(),
                    duration: 1.5,
-                   imageUrl: "",
-                   weaterId: "")
+                   imageUrl: "")
 }
