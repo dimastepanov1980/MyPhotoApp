@@ -441,7 +441,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 10 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 11 localization keys.
     struct localizable {
       /// Value: Add Photo
       static let addPhoto = Rswift.StringResource(key: "addPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
@@ -459,6 +459,8 @@ struct R: Rswift.Validatable {
       static let signInAccBtt = Rswift.StringResource(key: "signInAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Sign in
       static let signIn = Rswift.StringResource(key: "signIn", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Take a Photo
+      static let takeAPhoto = Rswift.StringResource(key: "takeAPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Today
       static let today = Rswift.StringResource(key: "today", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Total price
@@ -566,6 +568,19 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("signIn", bundle: bundle, comment: "")
+      }
+
+      /// Value: Take a Photo
+      static func takeAPhoto(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("takeAPhoto", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "takeAPhoto"
+        }
+
+        return NSLocalizedString("takeAPhoto", bundle: bundle, comment: "")
       }
 
       /// Value: Today

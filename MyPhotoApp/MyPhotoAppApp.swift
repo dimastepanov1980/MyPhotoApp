@@ -35,9 +35,7 @@ struct MyPhotoAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                AuthScreenView(with: AuthScreenViewModel())
-            }
+                MainScreenView(with: MainScreenViewModel())
         }
     }
 }
