@@ -9,7 +9,35 @@ import Foundation
 
 final class MainScreenViewModel: MainScreenViewModelType {
     @Published var weaterId: String  = ""
-    @Published var orders: [MainOrderModel] = []
+    @Published var orders: [MainOrderModel] = [
+        MainOrderModel(id: UUID(),
+                       name: "Ira",
+                       instagramLink: nil,
+                       place: "Kata Noy Beach",
+                       price: 5500,
+                       date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
+                       duration: 1.5,
+                       description: nil,
+                       imageUrl: ""),
+        MainOrderModel(id: UUID(),
+                       name: "Ira",
+                       instagramLink: nil,
+                       place: "Kata Noy Beach",
+                       price: 5500,
+                       date: Calendar.current.date(byAdding: .day, value: +2, to: Date()) ?? Date(),
+                       duration: 1.5,
+                       description: nil,
+                       imageUrl: ""),
+        MainOrderModel(id: UUID(),
+                       name: "Ira",
+                       instagramLink: nil,
+                       place: "Kata Noy Beach",
+                       price: 5500,
+                       date: Calendar.current.date(byAdding: .day, value: +3, to: Date()) ?? Date(),
+                       duration: 1.5,
+                       description: nil,
+                       imageUrl: ""),
+    ]
     @Published var currentWeek: [Date] = []
     @Published var currentDay: Date = Date()
     @Published var today: Date = Date()

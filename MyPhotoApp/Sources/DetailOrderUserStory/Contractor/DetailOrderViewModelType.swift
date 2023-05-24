@@ -17,6 +17,7 @@ protocol DetailOrderViewModelType: ObservableObject {
     var image: String? { get }
     var date: Date { get }
     var images: [ImageModel] { get }
+    
     func addImage(_ image: String)
     func formattedDate() -> String 
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
     @Namespace var animation
+    
     init(with viewModel: ViewModel) {
         self.viewModel = viewModel
     }
@@ -18,7 +19,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack(spacing: 16, pinnedViews: [.sectionHeaders, .sectionFooters]) {
                 Section {
-                    
                     ScrollView(.vertical) {
                         verticalCards
                     }
@@ -86,8 +86,8 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     
     var horizontalCards: some View {
         LazyHStack {
-            ForEach(viewModel.orders) { card in
-                HCellMainScreenView(items: card)
+            ForEach(viewModel.orders) { order in
+                HCellMainScreenView(items: order)
             }
         }.padding(.horizontal)
     }
@@ -95,8 +95,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     var calendarSection: some View {
         HStack(spacing: 8){
             ForEach(viewModel.currentWeek, id: \.self) { day in
-                //let date = calendar.date(byAdding: DateComponents(day: (row * 7) + column), to: startDate)!
-
                 VStack(spacing: 4) {
                     Image(systemName: "cloud.sun.rain")
                         .resizable()
@@ -151,8 +149,8 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     
     var verticalCards: some View {
         LazyVStack {
-            ForEach(viewModel.orders) { card in
-                VCellMainScreenView(items: card)
+            ForEach(viewModel.orders) { order in
+                VCellMainScreenView(items: order)
             }
         }  .padding(.horizontal)
         
@@ -189,7 +187,25 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
                        date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
                        duration: 1.5,
                        description: nil,
-                       imageUrl: "")
+                       imageUrl: ""),
+        MainOrderModel(id: UUID(),
+                       name: "Ira",
+                       instagramLink: nil,
+                       place: "Kata Noy Beach",
+                       price: 5500,
+                       date: Calendar.current.date(byAdding: .day, value: +2, to: Date()) ?? Date(),
+                       duration: 1.5,
+                       description: nil,
+                       imageUrl: ""),
+        MainOrderModel(id: UUID(),
+                       name: "Ira",
+                       instagramLink: nil,
+                       place: "Kata Noy Beach",
+                       price: 5500,
+                       date: Calendar.current.date(byAdding: .day, value: +3, to: Date()) ?? Date(),
+                       duration: 1.5,
+                       description: nil,
+                       imageUrl: ""),
     ]
     @Published var currentWeek: [Date] = []
     @Published var currentDay: Date = Date()

@@ -11,6 +11,7 @@ import SwiftUI
 
 struct HCellMainScreenView: View {
     let items: MainOrderModel
+
     var body: some View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(items.place)
@@ -74,7 +75,7 @@ extension Date {
 }
 
 struct HCellMainScreenView_Previews: PreviewProvider {
-    private static let mockModel = MockViewModel()
+    private static let mockModel = MockViewModelHCell()
     
     static var previews: some View {
         HCellMainScreenView(items: mockModel.mocData)
@@ -82,7 +83,7 @@ struct HCellMainScreenView_Previews: PreviewProvider {
 }
 
 
-private class MockViewModel: ObservableObject {
+private class MockViewModelHCell: ObservableObject {
     let mocData: MainOrderModel =
     MainOrderModel(id: UUID(),
                    name: "Katy Igor",

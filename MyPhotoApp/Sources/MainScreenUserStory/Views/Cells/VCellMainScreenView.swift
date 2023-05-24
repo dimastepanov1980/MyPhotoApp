@@ -9,6 +9,7 @@ import SwiftUI
 
 struct VCellMainScreenView: View {
     let items: MainOrderModel
+    
     var body: some View {
         HStack(alignment: .bottom){
             VStack(alignment: .leading, spacing: 8) {
@@ -60,14 +61,14 @@ struct VCellMainScreenView: View {
 }
 
 struct VCellMainScreenView_Previews: PreviewProvider {
-    private static let mockModel = MockViewModel()
+    private static let mockModel = MockViewModelVCell()
 
     static var previews: some View {
         VCellMainScreenView(items: mockModel.mocData)
     }
 }
 
-private class MockViewModel: ObservableObject {
+private class MockViewModelVCell: ObservableObject {
     let mocData: MainOrderModel =
     MainOrderModel(id: UUID(),
                    name: "Ira",

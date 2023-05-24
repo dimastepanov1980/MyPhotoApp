@@ -27,10 +27,10 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     
     func updatePreview() {
         name = order.name
-        instagramLink
-        price
+        instagramLink = order.instagramLink
+        price = order.price
         place = order.place
-        description
+        description = order.description
         duration = order.duration
         
     }
