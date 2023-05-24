@@ -15,21 +15,25 @@ struct VCellMainScreenView: View {
                 Text(items.place)
                     .lineLimit(1)
                     .font(.title2.bold())
+                    .foregroundColor(Color(R.color.gray1.name))
+                
                 HStack(alignment: .top, spacing: 4) {
-                    Image(R.image.ic_time.name)
+                    Image(systemName: "clock")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 16)
+                        .foregroundColor(Color(R.color.gray2.name))
                     
                     Text(Date().displayHours)
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray2.name))
                         .padding(.trailing)
                     
-                    Image(R.image.ic_duration.name)
+                    Image(systemName: "timer")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 16)
+                        .foregroundColor(Color(R.color.gray2.name))
                     
                     Text(String(items.duration))
                         .font(.footnote)
@@ -41,7 +45,7 @@ struct VCellMainScreenView: View {
                     .clipShape(Circle())
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 36)
-                    .overlay(Circle().stroke(Color.white,lineWidth: 1).shadow(radius: 10))
+                    .overlay(Circle().stroke(Color(R.color.gray6.name), lineWidth: 1).shadow(radius: 10))
                 
             }
             Spacer()

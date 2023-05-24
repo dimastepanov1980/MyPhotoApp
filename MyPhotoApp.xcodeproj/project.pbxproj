@@ -231,12 +231,12 @@
 		5FBA26832A14CAB000E972FB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				5FF546682A1B56F300208455 /* MainScreenUserStory */,
-				5FA15D9E2A176A06007A1AC6 /* Models */,
-				5F96A6CD2A1725CF00FBCFF5 /* BusinessLogicLayer */,
 				5FBA26992A15370A00E972FB /* AuthUserStory */,
+				5FF546682A1B56F300208455 /* MainScreenUserStory */,
 				5FA15DA52A184FA9007A1AC6 /* DetailOrderUserStory */,
 				5FBA26962A15367900E972FB /* Common */,
+				5FA15D9E2A176A06007A1AC6 /* Models */,
+				5F96A6CD2A1725CF00FBCFF5 /* BusinessLogicLayer */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
