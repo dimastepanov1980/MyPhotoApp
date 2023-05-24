@@ -1,5 +1,5 @@
 //
-//  imageModel.swift
+//  ImageModel.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/20/23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct imageModel: Identifiable {
+struct ImageModel: Identifiable {
     var id = UUID()
     var imageName: String
 }

@@ -8,45 +8,8 @@
 import Foundation
 
 final class MainScreenViewModel: MainScreenViewModelType {
-    @Published var userId: String = ""
-    @Published var name: String  = ""
-    @Published var place: String?
-    @Published var dateOrder: Date  = Date()
-    @Published var duration: Double = 0.0
-    @Published var imageUrl: String = ""
     @Published var weaterId: String  = ""
-    @Published var orders: [MainOrderModel] = [
-        MainOrderModel(userId: "",
-                       name: "Ira",
-                       place: "Kata Noy Beach",
-                       date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
-                       duration: 1.5,
-                       imageUrl: ""),
-        MainOrderModel(userId: "",
-                       name: "Olga",
-                       place: "Surin Beach",
-                       date: Calendar.current.date(byAdding: .day, value: +2, to: Date()) ?? Date(),
-                       duration: 2.0,
-                       imageUrl: ""),
-        MainOrderModel(userId: "",
-                       name: "Vika",
-                       place: "Kata Beach",
-                       date: Date(),
-                       duration: 1.5,
-                       imageUrl: ""),
-        MainOrderModel(userId: "",
-                       name: "Dasha",
-                       place: "Nai Ton Long Beach",
-                       date: Calendar.current.date(byAdding: .day, value: +2, to: Date()) ?? Date(),
-                       duration: 1.0,
-                       imageUrl: ""),
-        MainOrderModel(userId: "",
-                       name: "Nastiy",
-                       place: "Kamala Beach",
-                       date: Calendar.current.date(byAdding: .day, value: +5, to: Date()) ?? Date(),
-                       duration: 1.5,
-                       imageUrl: "")
-    ]
+    @Published var orders: [MainOrderModel] = []
     @Published var currentWeek: [Date] = []
     @Published var currentDay: Date = Date()
     @Published var today: Date = Date()

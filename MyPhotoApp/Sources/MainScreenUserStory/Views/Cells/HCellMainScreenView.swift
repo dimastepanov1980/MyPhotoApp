@@ -84,10 +84,13 @@ struct HCellMainScreenView_Previews: PreviewProvider {
 
 private class MockViewModel: ObservableObject {
     let mocData: MainOrderModel =
-    MainOrderModel(userId: "",
-                   name: "",
+    MainOrderModel(id: UUID(),
+                   name: "Katy Igor",
+                   instagramLink: nil,
                    place: "Kata Noy Beach",
+                   price: 5500,
                    date: Date(),
                    duration: 1.5,
+                   description: nil,
                    imageUrl: "")
 }

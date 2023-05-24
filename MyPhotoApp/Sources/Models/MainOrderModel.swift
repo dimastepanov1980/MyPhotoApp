@@ -8,11 +8,13 @@
 import Foundation
 
 struct MainOrderModel: Identifiable {
-    let id: String = UUID().uuidString
-    let userId: String
+    let id: UUID
     let name: String
+    let instagramLink: String?
     let place: String
+    let price: Int?
     let date: Date
     let duration: Double
+    let description: String?
     let imageUrl: String
 }

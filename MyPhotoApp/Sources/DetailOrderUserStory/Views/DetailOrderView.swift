@@ -63,7 +63,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     
     private var infoSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text(viewModel.formattedDate())
                     .font(.title2.bold())
@@ -78,20 +78,25 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             Text(viewModel.place!)
                 .font(.headline)
                 .foregroundColor(Color(R.color.gray2.name))
+            
             HStack(spacing: 4) {
-                Image(R.image.ic_time.name)
+                Image(systemName: "clock")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 16)
+                    .foregroundColor(Color(R.color.gray2.name))
+                
                 Text(viewModel.date.formatted(.dateTime.hour(.conversationalDefaultDigits(amPM: .omitted)).minute()))
                     .font(.subheadline)
                     .foregroundColor(Color(R.color.gray3.name))
                     .padding(.trailing, 16)
                 
-                Image(R.image.ic_time.name)
+                Image(systemName: "timer")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 16)
+                    .foregroundColor(Color(R.color.gray2.name))
+                
                 Text(String(format: "%.1f", viewModel.duration))
                     .font(.subheadline)
                     .foregroundColor(Color(R.color.gray3.name))
@@ -238,17 +243,17 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
     @Published var image: String? = ""
     @Published var date: Date = Date()
     
-    @Published var images: [imageModel] = [
-        imageModel(imageName: R.image.image0.name),
-        imageModel(imageName: R.image.image1.name),
-        imageModel(imageName: R.image.image2.name),
-        imageModel(imageName: R.image.image3.name),
-        imageModel(imageName: R.image.image4.name),
-        imageModel(imageName: R.image.image5.name),
-        imageModel(imageName: R.image.image6.name),
-        imageModel(imageName: R.image.image7.name),
-        imageModel(imageName: R.image.image8.name),
-        imageModel(imageName: R.image.image9.name)
+    @Published var images: [ImageModel] = [
+        ImageModel(imageName: R.image.image0.name),
+        ImageModel(imageName: R.image.image1.name),
+        ImageModel(imageName: R.image.image2.name),
+        ImageModel(imageName: R.image.image3.name),
+        ImageModel(imageName: R.image.image4.name),
+        ImageModel(imageName: R.image.image5.name),
+        ImageModel(imageName: R.image.image6.name),
+        ImageModel(imageName: R.image.image7.name),
+        ImageModel(imageName: R.image.image8.name),
+        ImageModel(imageName: R.image.image9.name)
     ]
     
     func addImage(_ image: String) {

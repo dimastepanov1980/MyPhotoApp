@@ -16,8 +16,24 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     var duration = 0.0
     var image: String?
     var date: Date = Date()
-    var images: [imageModel] = []
+    var images: [ImageModel] = []
     
+    private let order: MainOrderModel
+
+    init(order: MainOrderModel) {
+        self.order = order
+        updatePreview()
+    }
+    
+    func updatePreview() {
+        name = order.name
+        instagramLink
+        price
+        place = order.place
+        description
+        duration = order.duration
+        
+    }
     func addImage(_ image: String) {
         //
     }

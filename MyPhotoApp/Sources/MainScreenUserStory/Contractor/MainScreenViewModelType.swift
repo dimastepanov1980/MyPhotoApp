@@ -8,12 +8,6 @@
 import Foundation
 
 protocol MainScreenViewModelType: ObservableObject {
-    var userId: String { get }
-    var name: String { get }
-    var place: String? { get }
-    var dateOrder: Date { get }
-    var duration: Double { get }
-    var imageUrl: String { get }
     var weaterId: String { get }
     var orders: [MainOrderModel] { get }
     var currentWeek: [Date] { get }

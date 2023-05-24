@@ -179,44 +179,16 @@ struct MainScreenView_Previews: PreviewProvider {
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
     
     var vm = MainScreenViewModel()
-    
-    @Published var userId: String = ""
-    @Published var name: String =  ""
-    @Published var place: String?
-    @Published var dateOrder: Date = Date()
-    @Published var duration: Double = 0.0
-    @Published var imageUrl: String = ""
     @Published var weaterId: String = ""
     @Published var orders: [MainOrderModel] = [
-        MainOrderModel(userId: "",
+        MainOrderModel(id: UUID(),
                        name: "Ira",
+                       instagramLink: nil,
                        place: "Kata Noy Beach",
+                       price: 5500,
                        date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
                        duration: 1.5,
-                       imageUrl: ""),
-        MainOrderModel(userId: "",
-                       name: "Olga",
-                       place: "Surin Beach",
-                       date: Calendar.current.date(byAdding: .day, value: +2, to: Date()) ?? Date(),
-                       duration: 2.0,
-                       imageUrl: ""),
-        MainOrderModel(userId: "",
-                       name: "Vika",
-                       place: "Kata Beach",
-                       date: Date(),
-                       duration: 1.5,
-                       imageUrl: ""),
-        MainOrderModel(userId: "",
-                       name: "Dasha",
-                       place: "Nai Ton Long Beach",
-                       date: Calendar.current.date(byAdding: .day, value: +2, to: Date()) ?? Date(),
-                       duration: 1.0,
-                       imageUrl: ""),
-        MainOrderModel(userId: "",
-                       name: "Nastiy",
-                       place: "Kamala Beach",
-                       date: Calendar.current.date(byAdding: .day, value: +5, to: Date()) ?? Date(),
-                       duration: 1.5,
+                       description: nil,
                        imageUrl: "")
     ]
     @Published var currentWeek: [Date] = []

@@ -69,10 +69,13 @@ struct VCellMainScreenView_Previews: PreviewProvider {
 
 private class MockViewModel: ObservableObject {
     let mocData: MainOrderModel =
-    MainOrderModel(userId: "",
-                   name: "Dima and Ira",
+    MainOrderModel(id: UUID(),
+                   name: "Ira",
+                   instagramLink: nil,
                    place: "Kata Noy Beach",
-                   date: Date(),
+                   price: 5500,
+                   date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
                    duration: 1.5,
+                   description: nil,
                    imageUrl: "")
 }
