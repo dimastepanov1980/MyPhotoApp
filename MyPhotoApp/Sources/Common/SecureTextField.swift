@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SecureTextField: View {
     @State var nameSecureTextField: String
-    @State var text: String
+    @Binding var text: String
     @State var isTapped = false
     
     var body: some View {
@@ -34,8 +34,3 @@ struct SecureTextField: View {
     }
 }
 
-struct SecureTextField_Previews: PreviewProvider {
-    static var previews: some View {
-        SecureTextField(nameSecureTextField: R.string.localizable.password(), text: "")
-    }
-}

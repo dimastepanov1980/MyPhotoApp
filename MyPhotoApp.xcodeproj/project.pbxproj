@@ -15,11 +15,13 @@
 		5FA15D982A175727007A1AC6 /* AuthScreenContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D972A175727007A1AC6 /* AuthScreenContract.swift */; };
 		5FA15D9D2A175A91007A1AC6 /* AuthScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D9C2A175A91007A1AC6 /* AuthScreenViewModel.swift */; };
 		5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D9F2A176A21007A1AC6 /* AuthModel.swift */; };
-		5FA15DA22A17AEEC007A1AC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FA15DA12A17AEEC007A1AC6 /* GoogleService-Info.plist */; };
 		5FA15DA42A184BDC007A1AC6 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DA32A184BDC007A1AC6 /* OrderModel.swift */; };
 		5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DA92A1851E8007A1AC6 /* DetailOrderViewModelType.swift */; };
 		5FA15DAC2A185305007A1AC6 /* DetailOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */; };
 		5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAD2A186BED007A1AC6 /* DetailOrderView.swift */; };
+		5FA7224D2A1E154A003EB084 /* MocMainOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7224C2A1E154A003EB084 /* MocMainOrders.swift */; };
+		5FB717452A2090A300EC7BF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FB717442A2090A300EC7BF6 /* GoogleService-Info.plist */; };
+		5FB717482A223F6400EC7BF6 /* SettingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB717472A223F6400EC7BF6 /* SettingScreenView.swift */; };
 		5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */; };
 		5FBA26742A14A08400E972FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26732A14A08400E972FB /* Assets.xcassets */; };
 		5FBA26772A14A08400E972FB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FBA26762A14A08400E972FB /* Preview Assets.xcassets */; };
@@ -37,6 +39,8 @@
 		5FF546742A1B57E500208455 /* HCellMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546732A1B57E500208455 /* HCellMainScreenView.swift */; };
 		5FF546762A1B8EBF00208455 /* filteredByDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546752A1B8EBF00208455 /* filteredByDateView.swift */; };
 		5FF546782A1B937A00208455 /* VCellMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546772A1B937A00208455 /* VCellMainScreenView.swift */; };
+		5FF65ADC2A1F62D400F5142F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF65ADB2A1F62D400F5142F /* FirebaseAnalytics */; };
+		5FF65ADE2A1F62D400F5142F /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF65ADD2A1F62D400F5142F /* FirebaseAnalyticsSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,11 +51,14 @@
 		5FA15D972A175727007A1AC6 /* AuthScreenContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenContract.swift; sourceTree = "<group>"; };
 		5FA15D9C2A175A91007A1AC6 /* AuthScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenViewModel.swift; sourceTree = "<group>"; };
 		5FA15D9F2A176A21007A1AC6 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
-		5FA15DA12A17AEEC007A1AC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5FA15DA32A184BDC007A1AC6 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 		5FA15DA92A1851E8007A1AC6 /* DetailOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderViewModelType.swift; sourceTree = "<group>"; };
 		5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderViewModel.swift; sourceTree = "<group>"; };
 		5FA15DAD2A186BED007A1AC6 /* DetailOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderView.swift; sourceTree = "<group>"; };
+		5FA7224C2A1E154A003EB084 /* MocMainOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MocMainOrders.swift; sourceTree = "<group>"; };
+		5FA722502A1F145F003EB084 /* MyPhotoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyPhotoApp.entitlements; sourceTree = "<group>"; };
+		5FB717442A2090A300EC7BF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5FB717472A223F6400EC7BF6 /* SettingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingScreenView.swift; sourceTree = "<group>"; };
 		5FBA266C2A14A08200E972FB /* MyPhotoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPhotoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPhotoAppApp.swift; sourceTree = "<group>"; };
 		5FBA26732A14A08400E972FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -80,7 +87,9 @@
 			files = (
 				0E4C2DFF84317C68256C19A7 /* Pods_MyPhotoApp.framework in Frameworks */,
 				5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */,
+				5FF65ADC2A1F62D400F5142F /* FirebaseAnalytics in Frameworks */,
 				5F96A6CA2A1723B200FBCFF5 /* FirebaseStorage in Frameworks */,
+				5FF65ADE2A1F62D400F5142F /* FirebaseAnalyticsSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,13 +192,23 @@
 		5FB6C7FD2A1DEC77005FB152 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				5FA7224C2A1E154A003EB084 /* MocMainOrders.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */ = {
+			isa = PBXGroup;
+			children = (
+				5FB717472A223F6400EC7BF6 /* SettingScreenView.swift */,
+			);
+			path = SettingsScreenUserStory;
 			sourceTree = "<group>";
 		};
 		5FBA26632A14A08200E972FB = {
 			isa = PBXGroup;
 			children = (
+				5FB717442A2090A300EC7BF6 /* GoogleService-Info.plist */,
 				5FBA266E2A14A08200E972FB /* MyPhotoApp */,
 				5FBA266D2A14A08200E972FB /* Products */,
 				C282337F8450236C633B7DF3 /* Pods */,
@@ -208,7 +227,7 @@
 		5FBA266E2A14A08200E972FB /* MyPhotoApp */ = {
 			isa = PBXGroup;
 			children = (
-				5FA15DA12A17AEEC007A1AC6 /* GoogleService-Info.plist */,
+				5FA722502A1F145F003EB084 /* MyPhotoApp.entitlements */,
 				5FBA26822A14CA9000E972FB /* Resources */,
 				5FBA26832A14CAB000E972FB /* Sources */,
 				5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */,
@@ -238,6 +257,7 @@
 		5FBA26832A14CAB000E972FB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */,
 				5FB6C7FD2A1DEC77005FB152 /* Constants */,
 				5FBA26992A15370A00E972FB /* AuthUserStory */,
 				5FF546682A1B56F300208455 /* MainScreenUserStory */,
@@ -378,6 +398,8 @@
 			packageProductDependencies = (
 				5F96A6C72A1723B200FBCFF5 /* FirebaseAuth */,
 				5F96A6C92A1723B200FBCFF5 /* FirebaseStorage */,
+				5FF65ADB2A1F62D400F5142F /* FirebaseAnalytics */,
+				5FF65ADD2A1F62D400F5142F /* FirebaseAnalyticsSwift */,
 			);
 			productName = MyPhotoApp;
 			productReference = 5FBA266C2A14A08200E972FB /* MyPhotoApp.app */;
@@ -424,8 +446,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FA15DA22A17AEEC007A1AC6 /* GoogleService-Info.plist in Resources */,
 				5FBA26772A14A08400E972FB /* Preview Assets.xcassets in Resources */,
+				5FB717452A2090A300EC7BF6 /* GoogleService-Info.plist in Resources */,
 				5FBA268A2A14D21F00E972FB /* Colors.xcassets in Resources */,
 				5FBA26812A14B88A00E972FB /* Localizable.strings in Resources */,
 				5FBA26742A14A08400E972FB /* Assets.xcassets in Resources */,
@@ -501,8 +523,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FA7224D2A1E154A003EB084 /* MocMainOrders.swift in Sources */,
 				5FF546742A1B57E500208455 /* HCellMainScreenView.swift in Sources */,
 				5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */,
+				5FB717482A223F6400EC7BF6 /* SettingScreenView.swift in Sources */,
 				5FF546672A1B566C00208455 /* MainOrderModel.swift in Sources */,
 				5FF546712A1B577300208455 /* MainScreenView.swift in Sources */,
 				5FBA269F2A162D6700E972FB /* SecureTextField.swift in Sources */,
@@ -579,7 +603,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -633,7 +657,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -649,6 +673,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -661,13 +686,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.MyPhotoApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.takeaphoto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -682,6 +707,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -694,13 +720,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.MyPhotoApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.takeaphoto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -753,6 +779,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5F96A6C62A1723B200FBCFF5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		5FF65ADB2A1F62D400F5142F /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F96A6C62A1723B200FBCFF5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		5FF65ADD2A1F62D400F5142F /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F96A6C62A1723B200FBCFF5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

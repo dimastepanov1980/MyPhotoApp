@@ -11,7 +11,7 @@ struct ButtonXl: View {
     private let titleText: String
     private let iconName: String
     private let isActive = false
-    private let action: () -> Void
+    private let action: () async throws -> Void
     
     init(titleText: String, iconName: String, action: @escaping () -> Void) {
         self.titleText = titleText
@@ -21,7 +21,15 @@ struct ButtonXl: View {
     
     var body: some View {
         Button {
-            action()
+            Task {
+                do {
+                    try await action()
+                    print("Register in Progress")
+                } catch {
+                    // Handle error if needed
+                    print("Error: \(error)")
+                }
+            }
         } label: {
             ZStack {
                 Capsule()

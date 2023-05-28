@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTextField: View {
     
     @State var nameTextField: String
-    @State var text: String
+    @Binding var text: String
     @State var isTapped = false
     
     var body: some View {
@@ -57,9 +57,19 @@ struct MainTextField: View {
     }
 }
 
-
-struct MainTextFieldView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainTextField(nameTextField: "Name of Text field", text: "")
-    }
-}
+//
+//struct MainTextFieldView_Previews: PreviewProvider {
+//    private static let mockModel = MockViewModel(text: <#String#>)
+//
+//    static var previews: some View {
+//        MainTextField(nameTextField: "Name of Text field", text: $mockModel.text)
+//    }
+//}
+//
+//private class MockViewModel: ObservableObject {
+//    @Binding var text: String
+//    init(text: String) {
+//        self.text = text
+//    }
+//
+//}

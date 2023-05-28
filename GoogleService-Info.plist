@@ -2,22 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>111549458962-ngmdm0ba8sdfauodlo2nk22546qa52d6.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.111549458962-ngmdm0ba8sdfauodlo2nk22546qa52d6</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBkx2EaeI5G-2Xv8AAcPdYfMcqmv1dI0Xk</string>
+	<string>AIzaSyCU8wLWtjdrWr9Lyhnsm61rdBHOE5xMNBI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>111549458962</string>
+	<string>1099037012570</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.Home.MyPhotoApp</string>
+	<string>com.stepanoviosdev.takeaphoto</string>
 	<key>PROJECT_ID</key>
-	<string>takeaphoto-937ae</string>
+	<string>takeaphoto-acb22</string>
 	<key>STORAGE_BUCKET</key>
-	<string>takeaphoto-937ae.appspot.com</string>
+	<string>takeaphoto-acb22.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:111549458962:ios:9477a92070b31567ee06cb</string>
+	<string>1:1099037012570:ios:64eb2904b0025c79c49e63</string>
 </dict>
 </plist>

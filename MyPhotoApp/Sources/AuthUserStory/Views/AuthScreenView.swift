@@ -10,28 +10,40 @@ import SwiftUI
 struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-
+    
     @State var index : Int = 1
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
     var width = UIScreen.main.bounds.size.width
     var height = UIScreen.main.bounds.size.height
     
     init(with viewModel: ViewModel) {
-           self.viewModel = viewModel
-       }
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         VStack(spacing: 0) {
-            
+            Spacer()
             TabName(index: self.$index, offset: self.$offsetWidth)
                 .padding(.top, height / 6)
             
-            
             HStack(alignment: .top, spacing: 0) {
-                RegisterTab(email: viewModel.email, password: viewModel.password, action: viewModel.signIn)
+                VStack {
+                    SignInTab(email: Binding<String>(
+                        get: { viewModel.signInEmail },
+                        set: { viewModel.setSignInEmail($0) }),
+                password: Binding<String>(
+                    get: { viewModel.signInPassword },
+                    set: { viewModel.setSignInPassword($0) }), action: viewModel.signIn)
+                }.frame(width: width)
+                
+                SignUpTab(email: Binding<String>(
+                    get: { viewModel.signUpEmail },
+                    set: { viewModel.setSignUpEmail($0) }),
+            password: Binding<String>(
+                get: { viewModel.signUpPassword },
+                set: { viewModel.setSignUpPassword($0) }), action: viewModel.signUp)
                     .frame(width: width)
-                SignInTab(email: viewModel.email, password: viewModel.password, action: viewModel.signIn)
-                    .frame(width: width)
+                
             } .padding(.top, height / 6)
                 .offset(x: index == 1 ? width / 2 : -width / 2)
         }
@@ -50,7 +62,7 @@ struct TabName: View {
                     self.index = 1
                     self.offset = 0
                 } label: {
-                    Text(R.string.localizable.register())
+                    Text(R.string.localizable.signIn())
                         .foregroundColor(Color(R.color.gray1.name))
                         .font(.title)
                         .fontWeight(.bold)
@@ -65,7 +77,7 @@ struct TabName: View {
                     self.index = 2
                     self.offset = -self.width
                 } label: {
-                    Text(R.string.localizable.signIn())
+                    Text(R.string.localizable.signUp())
                         .foregroundColor(Color(R.color.gray1.name))
                         .font(.title)
                         .fontWeight(.bold)
@@ -77,23 +89,21 @@ struct TabName: View {
         }
     }
 }
-
-
-struct RegisterTab: View {
-    private var email: String
-    private var password: String
+struct SignInTab: View {
+    @Binding var email: String
+    @Binding var password: String
     private let action: () -> Void
     
-    init(email: String, password: String, action: @escaping () -> Void) {
-        self.email = email
-        self.password = password
+    init(email: Binding<String>, password: Binding<String>, action: @escaping () -> Void) {
+        self._email = email
+        self._password = password
         self.action = action
     }
     
     var body: some View {
         VStack {
-            MainTextField(nameTextField: R.string.localizable.email(), text: email)
-            SecureTextField(nameSecureTextField: R.string.localizable.password(), text: password)
+            MainTextField(nameTextField: R.string.localizable.email(), text: $email)
+            SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
             Spacer()
             ButtonXl(titleText: R.string.localizable.createAccBtt(), iconName: "camera.aperture") {
                 action()
@@ -103,22 +113,22 @@ struct RegisterTab: View {
     }
 }
 
-struct SignInTab: View {
-    private var email: String
-    private var password: String
+struct SignUpTab: View {
+    @Binding var email: String
+    @Binding var password: String
     private let action: () -> Void
     
-    init(email: String, password: String, action: @escaping () -> Void) {
-        self.email = email
-        self.password = password
+    init(email: Binding<String>, password: Binding<String>, action: @escaping () -> Void) {
+        self._email = email
+        self._password = password
         self.action = action
     }
     
     var body: some View {
         VStack {
-            MainTextField(nameTextField: R.string.localizable.email(), text: email)
-            SecureTextField(nameSecureTextField: R.string.localizable.password(), text: password)
-
+             MainTextField(nameTextField: R.string.localizable.email(), text: $email)
+             SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
+            
             Button {
                 // Action
                 print("Foreget password")
@@ -128,7 +138,7 @@ struct SignInTab: View {
             
             Spacer()
             
-            ButtonXl(titleText: R.string.localizable.signIn(), iconName: "camera.aperture") {
+            ButtonXl(titleText: R.string.localizable.signUp(), iconName: "camera.aperture") {
                 action()
                 print("SignIn in Progress")
             }
@@ -138,19 +148,38 @@ struct SignInTab: View {
 
 struct AuthScreenView_Previews: PreviewProvider {
     private static let modelMock = MockViewModel()
-
+    
     static var previews: some View {
-        AuthScreenView(with: modelMock)
+        NavigationStack {
+            AuthScreenView(with: modelMock)
+        }
     }
 }
 
 private class MockViewModel: AuthScreenViewModelType, ObservableObject {
+    var signInEmail = ""
+    var signInPassword = ""
     
+    var signUpEmail = ""
+    var signUpPassword = ""
+    
+    func setSignInEmail(_ signInEmail: String) {
+        self.signInEmail = signInEmail
+    }
+    func setSignInPassword(_ signInPassword: String) {
+        self.signInPassword = signInPassword
+    }
     func signIn() {
-        print("SignIn in Progress")
+        //
     }
     
-    @Published var email = ""
-    @Published var password = ""
+    func setSignUpEmail(_ signUpEmail: String) {
+        self.signUpEmail = signUpEmail
+    }
+    func setSignUpPassword(_ signUpPassword: String) {
+        self.signUpPassword = signUpPassword
+    }
+    func signUp() {
+        //
+    }
 }
-

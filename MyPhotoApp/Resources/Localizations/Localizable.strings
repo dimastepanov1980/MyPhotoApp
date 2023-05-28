@@ -7,12 +7,13 @@
 */
 // MARK: - Common
 
-"register" = "Register";
 "signIn" = "Sign in";
+"signUp" = "Sign up";
 "email" = "Email address";
 "password" = "Password";
 "createAccBtt" = "Create account";
-"signInAccBtt" = "Sign Int";
+"signUpAccBtt" = "Sign Up";
+"signOutAccBtt" = "Sign Out";
 "forgotPss" = "Forgot password?";
 "totalPrice" = "Total price";
 "takeAPhoto" = "Take a Photo";

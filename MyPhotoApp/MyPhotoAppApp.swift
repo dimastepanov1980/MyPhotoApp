@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Firebase
+import FirebaseCore
 
 @main
 
@@ -28,6 +28,7 @@ struct MyPhotoAppApp: App {
 }
 */
 
+
 // MARK: Версия с AppDelegate работает без предупрежденя "App Delegate does not conform to UIApplicationDelegate protocol."
 
 struct MyPhotoAppApp: App {
@@ -35,7 +36,9 @@ struct MyPhotoAppApp: App {
 
     var body: some Scene {
         WindowGroup {
+            NavigationStack {
                 MainScreenView(with: MainScreenViewModel())
+            }
         }
     }
 }
@@ -47,3 +50,4 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 }
+

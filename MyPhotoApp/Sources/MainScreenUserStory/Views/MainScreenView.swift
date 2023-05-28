@@ -11,35 +11,49 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
     @Namespace var animation
     
+    @State private var showSignInView: Bool = false
+    
     init(with viewModel: ViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack(spacing: 16, pinnedViews: [.sectionHeaders, .sectionFooters]) {
-                Section {
-                    ScrollView(.vertical) {
-                        verticalCards
+        ZStack {
+            NavigationStack {
+                ScrollView(.vertical, showsIndicators: false) {
+                    LazyVStack(spacing: 16, pinnedViews: [.sectionHeaders, .sectionFooters]) {
+                        Section {
+                            ScrollView(.vertical) {
+                                verticalCards
+                            }
+                            //MARK: Calendar
+                            
+                        } header: {
+                            headerSection
+                                .padding(.top, 64)
+                        } footer: {
+                            ButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
+                                //
+                            }
+                        }.background()
+                        
+                        
+                        
                     }
-                    //MARK: Calendar
                     
-                } header: {
-                    headerSection
-                        .padding(.top, 64)
-                } footer: {
-                    ButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
-                        //
-                    }
-                }.background()
-                
-                
-                
+                }.edgesIgnoringSafeArea(.bottom)
+                    .ignoresSafeArea()
+                    .padding(.bottom)
             }
-            
-        }.edgesIgnoringSafeArea(.bottom)
-            .ignoresSafeArea()
-            .padding(.bottom)
+        }.onAppear{
+            let authUser = try? AuthNetworkService.shared.getAuthenticationUser()
+            self.showSignInView = authUser == nil
+        }
+        .fullScreenCover(isPresented: $showSignInView) {
+            NavigationStack {
+                AuthScreenView(with: AuthScreenViewModel())
+            }
+        }
     }
     
     var headerSection: some View {
@@ -51,9 +65,15 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         .foregroundColor(Color(R.color.gray3.name))
                     
                     HStack {
-                        Text(viewModel.formattedDate(date: Date()))
+                        Text(viewModel.formattedDate(date: viewModel.today))
                             .font(.title.bold())
                             .foregroundColor(Color(R.color.gray1.name))
+                            .onAppear {
+                                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                                    viewModel.today = Date()
+                                }
+                            }
+                        
                         // TODO: Обработка погоды
                         Image(R.image.ic_weater.name)
                             .resizable()
@@ -62,15 +82,23 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     }
                 }
                 Spacer()
+                
                 Button {
-                    //
+                    
                 } label: {
-                    Image(R.image.image0.name)
-                        .resizable()
-                        .clipShape(Circle())
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 56)
-                        .overlay(Circle().stroke(Color.white,lineWidth: 2).shadow(radius: 10))
+                    NavigationLink {
+                        SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView)
+
+                    } label: {
+                        
+                        Image(R.image.image0.name)
+                            .resizable()
+                            .clipShape(Circle())
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 56)
+                            .overlay(Circle().stroke(Color.white,lineWidth: 2).shadow(radius: 10))
+                    }
+
                 }
             }.padding(.horizontal, 32)
             
@@ -149,8 +177,10 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     
     var verticalCards: some View {
         LazyVStack {
-            ForEach(viewModel.orders) { order in
-                VCellMainScreenView(items: order)
+            ForEach(viewModel.orders, id: \.id) { order in
+                NavigationLink(destination: DetailOrderView(with: MocMainOrders())) {
+                    VCellMainScreenView(items: order)
+                }
             }
         }  .padding(.horizontal)
         

@@ -10,8 +10,17 @@ import SwiftUI
 
 protocol AuthScreenViewModelType: ObservableObject {
 //    var userID: UUID { get }
-    var email: String { get set }
-    var password: String { get set }
-    
+    var signInEmail: String { get }
+    var signInPassword: String { get }
+
+    func setSignInEmail(_ signInEmail: String)
+    func setSignInPassword(_ signInPassword: String)
     func signIn()
+
+    var signUpEmail: String { get }
+    var signUpPassword: String { get }
+
+    func setSignUpEmail(_ signUpEmail: String)
+    func setSignUpPassword(_ signUpPassword: String)
+    func signUp()
 }

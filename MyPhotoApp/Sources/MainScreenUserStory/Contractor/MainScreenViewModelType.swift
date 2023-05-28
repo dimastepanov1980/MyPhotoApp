@@ -12,7 +12,7 @@ protocol MainScreenViewModelType: ObservableObject {
     var orders: [MainOrderModel] { get }
     var currentWeek: [Date] { get }
     var currentDay: Date { get set }
-    var today: Date { get }
+    var today: Date { get set }
     
     func createOrder()
     func formattedDate(date: Date) -> String
