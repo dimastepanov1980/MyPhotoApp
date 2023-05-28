@@ -10,14 +10,17 @@ import SwiftUI
 struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-    
+    @Binding var showSignInView: Bool
+
     @State var index : Int = 1
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
     var width = UIScreen.main.bounds.size.width
     var height = UIScreen.main.bounds.size.height
     
-    init(with viewModel: ViewModel) {
+    init(with viewModel: ViewModel,
+         showSignInView: Binding<Bool> ) {
         self.viewModel = viewModel
+        self._showSignInView = showSignInView
     }
     
     var body: some View {
@@ -27,14 +30,25 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                 .padding(.top, height / 6)
             
             HStack(alignment: .top, spacing: 0) {
-                VStack {
-                    SignInTab(email: Binding<String>(
-                        get: { viewModel.signInEmail },
-                        set: { viewModel.setSignInEmail($0) }),
-                password: Binding<String>(
-                    get: { viewModel.signInPassword },
-                    set: { viewModel.setSignInPassword($0) }), action: viewModel.signIn)
-                }.frame(width: width)
+                
+                SignInTab(email: Binding<String>(
+                    get: { viewModel.signInEmail },
+                    set: { viewModel.setSignInEmail($0) }),
+                          password: Binding<String>(
+                            get: { viewModel.signInPassword },
+                            set: { viewModel.setSignInPassword($0) })) {
+                    Task {
+                        do {
+                            try await viewModel.signIn()
+                            showSignInView = false
+                            print(showSignInView)
+                            return
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+                          .frame(width: width)
                 
                 SignUpTab(email: Binding<String>(
                     get: { viewModel.signUpEmail },
@@ -92,7 +106,7 @@ struct TabName: View {
 struct SignInTab: View {
     @Binding var email: String
     @Binding var password: String
-    private let action: () -> Void
+    private let action: () async throws -> Void
     
     init(email: Binding<String>, password: Binding<String>, action: @escaping () -> Void) {
         self._email = email
@@ -105,14 +119,15 @@ struct SignInTab: View {
             MainTextField(nameTextField: R.string.localizable.email(), text: $email)
             SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
             Spacer()
-            ButtonXl(titleText: R.string.localizable.createAccBtt(), iconName: "camera.aperture") {
-                action()
-                print("Register in Progress")
+            ButtonXl(titleText: R.string.localizable.createAccBtt(),
+                     iconName: "camera.aperture") {
+                Task {
+                    try await action()
+                }
             }
         }
     }
 }
-
 struct SignUpTab: View {
     @Binding var email: String
     @Binding var password: String
@@ -140,7 +155,7 @@ struct SignUpTab: View {
             
             ButtonXl(titleText: R.string.localizable.signUp(), iconName: "camera.aperture") {
                 action()
-                print("SignIn in Progress")
+                print("SignUp in Progress")
             }
         }
     }
@@ -151,7 +166,7 @@ struct AuthScreenView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationStack {
-            AuthScreenView(with: modelMock)
+            AuthScreenView(with: modelMock, showSignInView: .constant(false))
         }
     }
 }
@@ -169,7 +184,7 @@ private class MockViewModel: AuthScreenViewModelType, ObservableObject {
     func setSignInPassword(_ signInPassword: String) {
         self.signInPassword = signInPassword
     }
-    func signIn() {
+    func signIn() async throws {
         //
     }
     

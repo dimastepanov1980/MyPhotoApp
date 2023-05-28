@@ -10,11 +10,12 @@ import SwiftUI
 struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
     @Namespace var animation
+    @Binding var showSignInView: Bool
     
-    @State private var showSignInView: Bool = false
-    
-    init(with viewModel: ViewModel) {
+    init(with viewModel: ViewModel,
+         showSignInView: Binding<Bool>) {
         self.viewModel = viewModel
+        self._showSignInView = showSignInView
     }
     
     var body: some View {
@@ -44,14 +45,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 }.edgesIgnoringSafeArea(.bottom)
                     .ignoresSafeArea()
                     .padding(.bottom)
-            }
-        }.onAppear{
-            let authUser = try? AuthNetworkService.shared.getAuthenticationUser()
-            self.showSignInView = authUser == nil
-        }
-        .fullScreenCover(isPresented: $showSignInView) {
-            NavigationStack {
-                AuthScreenView(with: AuthScreenViewModel())
             }
         }
     }
@@ -200,7 +193,7 @@ extension Date {
 struct MainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
-        MainScreenView(with: mockModel)
+        MainScreenView(with: mockModel, showSignInView: .constant(true))
     }
 }
 

@@ -39,6 +39,7 @@
 		5FF546742A1B57E500208455 /* HCellMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546732A1B57E500208455 /* HCellMainScreenView.swift */; };
 		5FF546762A1B8EBF00208455 /* filteredByDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546752A1B8EBF00208455 /* filteredByDateView.swift */; };
 		5FF546782A1B937A00208455 /* VCellMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546772A1B937A00208455 /* VCellMainScreenView.swift */; };
+		5FF58F302A2380C9009AF970 /* RootScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */; };
 		5FF65ADC2A1F62D400F5142F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF65ADB2A1F62D400F5142F /* FirebaseAnalytics */; };
 		5FF65ADE2A1F62D400F5142F /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF65ADD2A1F62D400F5142F /* FirebaseAnalyticsSwift */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,7 @@
 		5FF546732A1B57E500208455 /* HCellMainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HCellMainScreenView.swift; sourceTree = "<group>"; };
 		5FF546752A1B8EBF00208455 /* filteredByDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = filteredByDateView.swift; sourceTree = "<group>"; };
 		5FF546772A1B937A00208455 /* VCellMainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCellMainScreenView.swift; sourceTree = "<group>"; };
+		5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScreenView.swift; sourceTree = "<group>"; };
 		C1C15D56D3D2F0C3BE72C55D /* Pods-MyPhotoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.release.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -257,6 +259,7 @@
 		5FBA26832A14CAB000E972FB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
 				5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */,
 				5FB6C7FD2A1DEC77005FB152 /* Constants */,
 				5FBA26992A15370A00E972FB /* AuthUserStory */,
@@ -530,6 +533,7 @@
 				5FF546672A1B566C00208455 /* MainOrderModel.swift in Sources */,
 				5FF546712A1B577300208455 /* MainScreenView.swift in Sources */,
 				5FBA269F2A162D6700E972FB /* SecureTextField.swift in Sources */,
+				5FF58F302A2380C9009AF970 /* RootScreenView.swift in Sources */,
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
 				5FF5466F2A1B575500208455 /* MainScreenViewModel.swift in Sources */,

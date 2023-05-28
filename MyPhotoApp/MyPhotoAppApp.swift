@@ -9,35 +9,15 @@ import SwiftUI
 import FirebaseCore
 
 @main
-
- // MARK: Версия без AppDelegate выдент предопреждение "App Delegate does not conform to UIApplicationDelegate protocol."
-/*
-struct MyPhotoAppApp: App {
-    
-    init() {
-        FirebaseApp.configure()
-    }
-    
-    var body: some Scene {
-        WindowGroup {
-            NavigationView {
-                AuthScreenView(with: AuthScreenViewModel())
-            }
-        }
-    }
-}
-*/
-
-
-// MARK: Версия с AppDelegate работает без предупрежденя "App Delegate does not conform to UIApplicationDelegate protocol."
-
 struct MyPhotoAppApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                MainScreenView(with: MainScreenViewModel())
+                RootScreenView()
+//                AuthScreenView(with: AuthScreenViewModel())
+//                MainScreenView(with: MainScreenViewModel(), showSignInView: .constant(true))
             }
         }
     }

@@ -13,7 +13,7 @@ struct ButtonXl: View {
     private let isActive = false
     private let action: () async throws -> Void
     
-    init(titleText: String, iconName: String, action: @escaping () -> Void) {
+    init(titleText: String, iconName: String, action: @escaping () async throws -> Void) {
         self.titleText = titleText
         self.iconName = iconName
         self.action = action

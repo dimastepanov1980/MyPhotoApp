@@ -19,18 +19,18 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
     func setSignInPassword(_ signInPassword: String) {
         self.signInPassword = signInPassword
     }
-    func signIn() {
+    func signIn() async throws {
         guard !signInEmail.isEmpty, !signInPassword.isEmpty else {
-            print("No Email or Password Found")
+            print("No found Email or Password in Sign In")
             return
         }
         Task {
             do {
                 let returnedUserData = try await AuthNetworkService.shared.createUser(email: signInEmail, password: signInPassword)
-                print("Seccess")
+                print("Seccess Sign In")
                 print(returnedUserData)
             } catch {
-                print("error \(error.localizedDescription)")
+                print("Error Sign In \(error.localizedDescription)")
             }
         }
     }

@@ -15,7 +15,7 @@ protocol AuthScreenViewModelType: ObservableObject {
 
     func setSignInEmail(_ signInEmail: String)
     func setSignInPassword(_ signInPassword: String)
-    func signIn()
+    func signIn() async throws
 
     var signUpEmail: String { get }
     var signUpPassword: String { get }
