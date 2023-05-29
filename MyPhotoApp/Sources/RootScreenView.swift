@@ -18,9 +18,7 @@ struct RootScreenView: View {
         }
         .onAppear{
             let authUser = try? AuthNetworkService.shared.getAuthenticationUser()
-            print(authUser)
             self.showSignInView = authUser == nil
-            print(showSignInView)
         }
         .fullScreenCover(isPresented: $showSignInView) {
             NavigationStack {

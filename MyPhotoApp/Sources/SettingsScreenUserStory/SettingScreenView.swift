@@ -37,12 +37,11 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     var body: some View {
         NavigationStack {
             VStack{
-                ButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "aperture") {
+                ButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "camera.aperture") {
                     Task {
                         do {
                             try viewModel.signOut()
                             showSignInView = true
-                            print("showSignInView")
                         } catch {
                             //
                         }

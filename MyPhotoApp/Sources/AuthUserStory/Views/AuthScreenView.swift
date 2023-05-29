@@ -41,7 +41,6 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                         do {
                             try await viewModel.signIn()
                             showSignInView = false
-                            print(showSignInView)
                             return
                         } catch {
                             print(error)

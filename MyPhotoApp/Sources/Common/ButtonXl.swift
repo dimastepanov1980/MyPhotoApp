@@ -24,7 +24,6 @@ struct ButtonXl: View {
             Task {
                 do {
                     try await action()
-                    print("Register in Progress")
                 } catch {
                     // Handle error if needed
                     print("Error: \(error)")

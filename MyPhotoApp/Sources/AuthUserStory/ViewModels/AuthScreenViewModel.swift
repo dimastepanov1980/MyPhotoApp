@@ -24,15 +24,7 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
             print("No found Email or Password in Sign In")
             return
         }
-        Task {
-            do {
-                let returnedUserData = try await AuthNetworkService.shared.createUser(email: signInEmail, password: signInPassword)
-                print("Seccess Sign In")
-                print(returnedUserData)
-            } catch {
-                print("Error Sign In \(error.localizedDescription)")
-            }
-        }
+        try await AuthNetworkService.shared.createUser(email: signInEmail, password: signInPassword)
     }
     
     func setSignUpEmail(_ signUpEmail: String) {
