@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class DetailOrderViewModel: DetailOrderViewModelType {
     var name = ""
     var instagramLink: String?

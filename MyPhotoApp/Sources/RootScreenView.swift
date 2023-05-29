@@ -12,9 +12,9 @@ struct RootScreenView: View {
 
     var body: some View {
         ZStack {
-            //if showSignInView {
+            if !showSignInView {
                 MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView)
-            //}
+            }
         }
         .onAppear{
             let authUser = try? AuthNetworkService.shared.getAuthenticationUser()

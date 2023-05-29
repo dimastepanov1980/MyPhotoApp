@@ -13,7 +13,7 @@
 "password" = "Password";
 "createAccBtt" = "Create account";
 "signInAccBtt" = "Sign In";
-"signOutAccBtt" = "Sign Out";
+"signOutAccBtt" = "Log Out";
 "forgotPss" = "Forgot password?";
 "totalPrice" = "Total price";
 "takeAPhoto" = "Take a Photo";

@@ -8,7 +8,9 @@
 import Foundation
 import FirebaseAuth
 
+@MainActor
 final class AuthNetworkService {
+// TODO: Заменить синглтон на DI
     static let shared = AuthNetworkService()
     
     private init() {}
@@ -30,6 +32,10 @@ final class AuthNetworkService {
            throw URLError(.badServerResponse)
         }
         return AuthDataResultModel(user: user)
+    }
+    
+    func resetPassword(email: String) async throws {
+        try await Auth.auth().sendPasswordReset(withEmail: email)
     }
     
     func signOut() throws {

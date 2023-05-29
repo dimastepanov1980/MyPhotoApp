@@ -37,11 +37,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                 //
                             }
                         }.background()
-                        
-                        
-                        
                     }
-                    
                 }.edgesIgnoringSafeArea(.bottom)
                     .ignoresSafeArea()
                     .padding(.bottom)
@@ -61,11 +57,12 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         Text(viewModel.formattedDate(date: viewModel.today))
                             .font(.title.bold())
                             .foregroundColor(Color(R.color.gray1.name))
-                            .onAppear {
-                                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                                    viewModel.today = Date()
-                                }
-                            }
+//    ToDo: need to updete date avery time then we lunch app - this method do it not coorect -
+//                            .onAppear {
+//                                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+//                                    viewModel.today = Date()
+//                                }
+//                            }
                         
                         // TODO: Обработка погоды
                         Image(R.image.ic_weater.name)

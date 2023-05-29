@@ -7,16 +7,27 @@
 
 import SwiftUI
 
-protocol SettingScreenViewModelType: ObservableObject {
 
-    func signOut() throws
+@MainActor
+protocol SettingScreenViewModelType: ObservableObject {
+    var user: DBUser? { get }
+    func LogOut() throws
+    func loadCurrentUser() async throws
+    
 }
 
-
+@MainActor
 final class SettingScreenViewModel: SettingScreenViewModelType {
     
-    func signOut() throws {
+    @Published private(set) var user: DBUser? = nil
+    
+     func LogOut() throws {
         try AuthNetworkService.shared.signOut()
+    }
+    
+    func loadCurrentUser() async throws {
+        let autDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+        self.user = try await UserManager.shared.getUser(userId: autDataResult.uid)
     }
 }
 
@@ -35,12 +46,31 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     
     
     var body: some View {
-        NavigationStack {
             VStack{
+                List {
+                    if let user = viewModel.user {
+                        Text("UserID \(user.userId)")
+                        
+                        if let email = user.email {
+                            Text("email \(email)")
+                        }
+                        if let description = user.description {
+                            Text("description \(description)")
+                        }
+                        if let photoURL = user.photoURL {
+                            Text("photoURL \(photoURL)")
+                        }
+                    }
+                   
+                    
+                }.task {
+                    try? await viewModel.loadCurrentUser()
+                }
+                
                 ButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "camera.aperture") {
                     Task {
                         do {
-                            try viewModel.signOut()
+                            try viewModel.LogOut()
                             showSignInView = true
                         } catch {
                             //
@@ -48,22 +78,23 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                     }
                 }
             }
-        }
     }
 }
 
 struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
-        SettingScreenView(with: viewModel, showSignInView: .constant(true))
+        SettingScreenView(with: viewModel, showSignInView: .constant(false))
     }
 }
 
 private class MockViewModel: SettingScreenViewModelType, ObservableObject {
-
-    func signOut() throws {
+    var user: DBUser? = nil
+    
+    func loadCurrentUser() throws {
         //
     }
-
-    
+    func LogOut() throws {
+        //
+    }
 }

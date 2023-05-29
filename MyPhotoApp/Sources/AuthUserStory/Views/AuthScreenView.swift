@@ -156,7 +156,8 @@ struct LoginTab: View {
             MainTextField(nameTextField: R.string.localizable.email(), text: $email)
             SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
             Button {
-                // Action
+             // https://youtu.be/jlC1yjVTMtA?t=837
+            // https://console.firebase.google.com/u/0/project/takeaphoto-937ae/authentication/emails
                 print("Foreget password")
             } label: {
                 Text(R.string.localizable.forgotPss())
@@ -198,7 +199,9 @@ private class MockViewModel: AuthScreenViewModelType, ObservableObject {
     func registrationUser() async throws {
         //
     }
-    
+    func resetPassword() async throws {
+        //
+    }
     func setSignUpEmail(_ signUpEmail: String) {
         self.signUpEmail = signUpEmail
     }

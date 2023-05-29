@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 protocol DetailOrderViewModelType: ObservableObject {
     var name: String  { get }
     var instagramLink: String? { get }

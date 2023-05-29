@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 protocol MainScreenViewModelType: ObservableObject {
     var weaterId: String { get }
     var orders: [MainOrderModel] { get }

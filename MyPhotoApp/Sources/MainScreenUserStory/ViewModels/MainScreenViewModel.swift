@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class MainScreenViewModel: MainScreenViewModelType {
     @Published var weaterId: String  = ""
     @Published var orders: [MainOrderModel] = [
@@ -41,8 +42,7 @@ final class MainScreenViewModel: MainScreenViewModelType {
     @Published var currentWeek: [Date] = []
     @Published var currentDay: Date = Date()
     @Published var today: Date = Date()
-
-
+    
     init() {
         fetchCurrentWeek()
     }
