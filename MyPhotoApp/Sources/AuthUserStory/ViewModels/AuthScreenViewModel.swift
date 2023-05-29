@@ -19,7 +19,7 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
     func setSignInPassword(_ signInPassword: String) {
         self.signInPassword = signInPassword
     }
-    func signIn() async throws {
+    func registrationUser() async throws {
         guard !signInEmail.isEmpty, !signInPassword.isEmpty else {
             print("No found Email or Password in Sign In")
             return
@@ -33,7 +33,11 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
     func setSignUpPassword(_ signUpPassword: String) {
         self.signUpPassword = signUpPassword
     }
-    func signUp() {
-        //
+    func loginUser() async throws {
+        guard !signUpEmail.isEmpty, !signUpPassword.isEmpty else {
+            print("No found Email or Password in Login")
+            return
+        }
+        try await AuthNetworkService.shared.signInUser(email: signUpEmail, password: signUpPassword)
     }
 }

@@ -31,15 +31,16 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
             
             HStack(alignment: .top, spacing: 0) {
                 
-                SignInTab(email: Binding<String>(
-                    get: { viewModel.signInEmail },
-                    set: { viewModel.setSignInEmail($0) }),
-                          password: Binding<String>(
-                            get: { viewModel.signInPassword },
-                            set: { viewModel.setSignInPassword($0) })) {
+                RegistrationTab(
+                    email: Binding<String>(
+                        get: { viewModel.signInEmail },
+                        set: { viewModel.setSignInEmail($0) }),
+                    password: Binding<String>(
+                        get: { viewModel.signInPassword },
+                        set: { viewModel.setSignInPassword($0) })) {
                     Task {
                         do {
-                            try await viewModel.signIn()
+                            try await viewModel.registrationUser()
                             showSignInView = false
                             return
                         } catch {
@@ -49,13 +50,25 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                 }
                           .frame(width: width)
                 
-                SignUpTab(email: Binding<String>(
-                    get: { viewModel.signUpEmail },
-                    set: { viewModel.setSignUpEmail($0) }),
-            password: Binding<String>(
-                get: { viewModel.signUpPassword },
-                set: { viewModel.setSignUpPassword($0) }), action: viewModel.signUp)
-                    .frame(width: width)
+                LoginTab(
+                    email: Binding<String>(
+                        get: { viewModel.signUpEmail },
+                        set: { viewModel.setSignUpEmail($0) }),
+                    password: Binding<String>(
+                        get: { viewModel.signUpPassword },
+                        set: { viewModel.setSignUpPassword($0) })) {
+                    Task {
+                        do {
+                            try await viewModel.loginUser()
+                            showSignInView = false
+                            print("Login succsessful")
+                            return
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+                          .frame(width: width)
                 
             } .padding(.top, height / 6)
                 .offset(x: index == 1 ? width / 2 : -width / 2)
@@ -75,7 +88,7 @@ struct TabName: View {
                     self.index = 1
                     self.offset = 0
                 } label: {
-                    Text(R.string.localizable.signIn())
+                    Text(R.string.localizable.registration())
                         .foregroundColor(Color(R.color.gray1.name))
                         .font(.title)
                         .fontWeight(.bold)
@@ -90,7 +103,7 @@ struct TabName: View {
                     self.index = 2
                     self.offset = -self.width
                 } label: {
-                    Text(R.string.localizable.signUp())
+                    Text(R.string.localizable.logIn())
                         .foregroundColor(Color(R.color.gray1.name))
                         .font(.title)
                         .fontWeight(.bold)
@@ -102,12 +115,12 @@ struct TabName: View {
         }
     }
 }
-struct SignInTab: View {
+struct RegistrationTab: View {
     @Binding var email: String
     @Binding var password: String
     private let action: () async throws -> Void
     
-    init(email: Binding<String>, password: Binding<String>, action: @escaping () -> Void) {
+    init(email: Binding<String>, password: Binding<String>, action: @escaping () async throws -> Void) {
         self._email = email
         self._password = password
         self.action = action
@@ -127,12 +140,12 @@ struct SignInTab: View {
         }
     }
 }
-struct SignUpTab: View {
+struct LoginTab: View {
     @Binding var email: String
     @Binding var password: String
-    private let action: () -> Void
+    private let action: () async throws -> Void
     
-    init(email: Binding<String>, password: Binding<String>, action: @escaping () -> Void) {
+    init(email: Binding<String>, password: Binding<String>, action: @escaping () async throws -> Void) {
         self._email = email
         self._password = password
         self.action = action
@@ -140,21 +153,20 @@ struct SignUpTab: View {
     
     var body: some View {
         VStack {
-             MainTextField(nameTextField: R.string.localizable.email(), text: $email)
-             SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
-            
+            MainTextField(nameTextField: R.string.localizable.email(), text: $email)
+            SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
             Button {
                 // Action
                 print("Foreget password")
             } label: {
                 Text(R.string.localizable.forgotPss())
             }
-            
             Spacer()
-            
-            ButtonXl(titleText: R.string.localizable.signUp(), iconName: "camera.aperture") {
-                action()
-                print("SignUp in Progress")
+            ButtonXl(titleText: R.string.localizable.signInAccBtt(),
+                     iconName: "camera.aperture") {
+                Task {
+                    try await action()
+                }
             }
         }
     }
@@ -183,7 +195,7 @@ private class MockViewModel: AuthScreenViewModelType, ObservableObject {
     func setSignInPassword(_ signInPassword: String) {
         self.signInPassword = signInPassword
     }
-    func signIn() async throws {
+    func registrationUser() async throws {
         //
     }
     
@@ -193,7 +205,7 @@ private class MockViewModel: AuthScreenViewModelType, ObservableObject {
     func setSignUpPassword(_ signUpPassword: String) {
         self.signUpPassword = signUpPassword
     }
-    func signUp() {
+    func loginUser() {
         //
     }
 }

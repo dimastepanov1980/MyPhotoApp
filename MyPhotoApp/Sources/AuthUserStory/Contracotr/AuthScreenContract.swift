@@ -15,12 +15,12 @@ protocol AuthScreenViewModelType: ObservableObject {
 
     func setSignInEmail(_ signInEmail: String)
     func setSignInPassword(_ signInPassword: String)
-    func signIn() async throws
+    func registrationUser() async throws
 
     var signUpEmail: String { get }
     var signUpPassword: String { get }
 
     func setSignUpEmail(_ signUpEmail: String)
     func setSignUpPassword(_ signUpPassword: String)
-    func signUp()
+    func loginUser() async throws
 }
