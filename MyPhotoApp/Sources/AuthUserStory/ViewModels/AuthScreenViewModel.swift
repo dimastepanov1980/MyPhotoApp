@@ -28,7 +28,10 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
             print("No found Email or Password in Sign In")
             return
         }
-        try await AuthNetworkService.shared.createUser(email: signInEmail, password: signInPassword)
+        let authDataResult = try await AuthNetworkService.shared.createUser(email: signInEmail, password: signInPassword)
+        let user = DBUser(auth: authDataResult)
+        
+        try await UserManager.shared.createNewUser(user: user)
     }
     
     func setSignUpEmail(_ signUpEmail: String) {
@@ -45,7 +48,10 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
             return
         }
         let authDataResult = try await AuthNetworkService.shared.signInUser(email: signUpEmail, password: signUpPassword)
-        try await UserManager.shared.createNewUser (auth: authDataResult)
+        let user = DBUser(auth: authDataResult)
+        
+        try await UserManager.shared.createNewUser(user: user)
+        //try await UserManager.shared.createNewUser (auth: authDataResult)
     }
     
     func resetPassword() async throws {

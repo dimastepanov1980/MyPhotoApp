@@ -8,10 +8,11 @@
 import Foundation
 
 struct OrderModel {
-    let name: String
+    let orderId: String
+    let name: String?
     let instagramLink: String?
     let price: Int?
-    let place: String?
+    let location: String?
     let description: String?
     let date: Date
     let duration: Double

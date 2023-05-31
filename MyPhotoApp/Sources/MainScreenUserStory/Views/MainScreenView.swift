@@ -11,11 +11,14 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
     @Namespace var animation
     @Binding var showSignInView: Bool
+    @Binding var showAddOrderView: Bool
     
     init(with viewModel: ViewModel,
-         showSignInView: Binding<Bool>) {
+         showSignInView: Binding<Bool>,
+         showAddOrderView: Binding<Bool>) {
         self.viewModel = viewModel
         self._showSignInView = showSignInView
+        self._showAddOrderView = showAddOrderView
     }
     
     var body: some View {
@@ -34,13 +37,17 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                 .padding(.top, 64)
                         } footer: {
                             ButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
-                                //
+                                showAddOrderView.toggle()
                             }
                         }.background()
                     }
                 }.edgesIgnoringSafeArea(.bottom)
                     .ignoresSafeArea()
                     .padding(.bottom)
+            }
+        }         .fullScreenCover(isPresented: $showAddOrderView) {
+            NavigationStack {
+                AddOrderView(with: AddOrderViewModel(), showAddOrderView: $showAddOrderView)
             }
         }
     }
@@ -190,7 +197,7 @@ extension Date {
 struct MainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
-        MainScreenView(with: mockModel, showSignInView: .constant(true))
+        MainScreenView(with: mockModel, showSignInView: .constant(true), showAddOrderView: .constant(true))
     }
 }
 

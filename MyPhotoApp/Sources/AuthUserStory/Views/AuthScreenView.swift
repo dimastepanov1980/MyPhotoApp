@@ -11,7 +11,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
     @Binding var showSignInView: Bool
-
+    
     @State var index : Int = 1
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
     var width = UIScreen.main.bounds.size.width
@@ -38,17 +38,17 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                     password: Binding<String>(
                         get: { viewModel.signInPassword },
                         set: { viewModel.setSignInPassword($0) })) {
-                    Task {
-                        do {
-                            try await viewModel.registrationUser()
-                            showSignInView = false
-                            return
-                        } catch {
-                            print(error)
+                            Task {
+                                do {
+                                    try await viewModel.registrationUser()
+                                    showSignInView = false
+                                    return
+                                } catch {
+                                    print(error)
+                                }
+                            }
                         }
-                    }
-                }
-                          .frame(width: width)
+                        .frame(width: width)
                 
                 LoginTab(
                     email: Binding<String>(
@@ -57,120 +57,121 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                     password: Binding<String>(
                         get: { viewModel.signUpPassword },
                         set: { viewModel.setSignUpPassword($0) })) {
-                    Task {
-                        do {
-                            try await viewModel.loginUser()
-                            showSignInView = false
-                            print("Login succsessful")
-                            return
-                        } catch {
-                            print(error)
+                            Task {
+                                do {
+                                    try await viewModel.loginUser()
+                                    showSignInView = false
+                                    print("Login succsessful")
+                                    return
+                                } catch {
+                                    print(error)
+                                }
+                            }
                         }
-                    }
-                }
-                          .frame(width: width)
+                        .frame(width: width)
                 
             } .padding(.top, height / 6)
                 .offset(x: index == 1 ? width / 2 : -width / 2)
         }
     }
-}
-
-struct TabName: View {
-    @Binding var index : Int
-    @Binding var offset: CGFloat
-    var width = UIScreen.main.bounds.width
     
-    var body: some View {
-        HStack(spacing: 32) {
-            VStack(spacing: 7) {
+    private struct TabName: View {
+        @Binding var index : Int
+        @Binding var offset: CGFloat
+        var width = UIScreen.main.bounds.width
+        
+        var body: some View {
+            HStack(spacing: 32) {
+                VStack(spacing: 7) {
+                    Button {
+                        self.index = 1
+                        self.offset = 0
+                    } label: {
+                        Text(R.string.localizable.registration())
+                            .foregroundColor(Color(R.color.gray1.name))
+                            .font(.title)
+                            .fontWeight(.bold)
+                    }
+                    Capsule()
+                        .fill(self.index == 1 ? Color(R.color.gray4.name) : Color.clear )
+                        .frame(width: 60, height: 2)
+                }
+                
+                VStack(spacing: 7) {
+                    Button {
+                        self.index = 2
+                        self.offset = -self.width
+                    } label: {
+                        Text(R.string.localizable.logIn())
+                            .foregroundColor(Color(R.color.gray1.name))
+                            .font(.title)
+                            .fontWeight(.bold)
+                    }
+                    Capsule()
+                        .fill(self.index == 2 ? Color(R.color.gray4.name) : Color.clear )
+                        .frame(width: 60, height: 2)
+                }
+            }
+        }
+    }
+    private struct RegistrationTab: View {
+        @Binding var email: String
+        @Binding var password: String
+        private let action: () async throws -> Void
+        
+        init(email: Binding<String>, password: Binding<String>, action: @escaping () async throws -> Void) {
+            self._email = email
+            self._password = password
+            self.action = action
+        }
+        
+        var body: some View {
+            VStack {
+                MainTextField(nameTextField: R.string.localizable.email(), text: $email)
+                SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
+                Spacer()
+                ButtonXl(titleText: R.string.localizable.createAccBtt(),
+                         iconName: "camera.aperture") {
+                    Task {
+                        try await action()
+                    }
+                }
+            }
+        }
+    }
+    private struct LoginTab: View {
+        @Binding var email: String
+        @Binding var password: String
+        private let action: () async throws -> Void
+        
+        init(email: Binding<String>, password: Binding<String>, action: @escaping () async throws -> Void) {
+            self._email = email
+            self._password = password
+            self.action = action
+        }
+        
+        var body: some View {
+            VStack {
+                MainTextField(nameTextField: R.string.localizable.email(), text: $email)
+                SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
                 Button {
-                    self.index = 1
-                    self.offset = 0
+                    // https://youtu.be/jlC1yjVTMtA?t=837
+                    // https://console.firebase.google.com/u/0/project/takeaphoto-937ae/authentication/emails
+                    print("Foreget password")
                 } label: {
-                    Text(R.string.localizable.registration())
-                        .foregroundColor(Color(R.color.gray1.name))
-                        .font(.title)
-                        .fontWeight(.bold)
+                    Text(R.string.localizable.forgotPss())
                 }
-                Capsule()
-                    .fill(self.index == 1 ? Color(R.color.gray4.name) : Color.clear )
-                    .frame(width: 60, height: 2)
-            }
-            
-            VStack(spacing: 7) {
-                Button {
-                    self.index = 2
-                    self.offset = -self.width
-                } label: {
-                    Text(R.string.localizable.logIn())
-                        .foregroundColor(Color(R.color.gray1.name))
-                        .font(.title)
-                        .fontWeight(.bold)
-                }
-                Capsule()
-                    .fill(self.index == 2 ? Color(R.color.gray4.name) : Color.clear )
-                    .frame(width: 60, height: 2)
-            }
-        }
-    }
-}
-struct RegistrationTab: View {
-    @Binding var email: String
-    @Binding var password: String
-    private let action: () async throws -> Void
-    
-    init(email: Binding<String>, password: Binding<String>, action: @escaping () async throws -> Void) {
-        self._email = email
-        self._password = password
-        self.action = action
-    }
-    
-    var body: some View {
-        VStack {
-            MainTextField(nameTextField: R.string.localizable.email(), text: $email)
-            SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
-            Spacer()
-            ButtonXl(titleText: R.string.localizable.createAccBtt(),
-                     iconName: "camera.aperture") {
-                Task {
-                    try await action()
+                Spacer()
+                ButtonXl(titleText: R.string.localizable.signInAccBtt(),
+                         iconName: "camera.aperture") {
+                    Task {
+                        try await action()
+                    }
                 }
             }
         }
     }
-}
-struct LoginTab: View {
-    @Binding var email: String
-    @Binding var password: String
-    private let action: () async throws -> Void
     
-    init(email: Binding<String>, password: Binding<String>, action: @escaping () async throws -> Void) {
-        self._email = email
-        self._password = password
-        self.action = action
-    }
-    
-    var body: some View {
-        VStack {
-            MainTextField(nameTextField: R.string.localizable.email(), text: $email)
-            SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
-            Button {
-             // https://youtu.be/jlC1yjVTMtA?t=837
-            // https://console.firebase.google.com/u/0/project/takeaphoto-937ae/authentication/emails
-                print("Foreget password")
-            } label: {
-                Text(R.string.localizable.forgotPss())
-            }
-            Spacer()
-            ButtonXl(titleText: R.string.localizable.signInAccBtt(),
-                     iconName: "camera.aperture") {
-                Task {
-                    try await action()
-                }
-            }
-        }
-    }
 }
 
 struct AuthScreenView_Previews: PreviewProvider {
