@@ -16,4 +16,5 @@ struct OrderModel {
     let description: String?
     let date: Date
     let duration: Double
+    let imageUrl: String
 }

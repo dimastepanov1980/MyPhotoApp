@@ -14,6 +14,7 @@ protocol MainScreenViewModelType: ObservableObject {
     var currentWeek: [Date] { get }
     var currentDay: Date { get set }
     var today: Date { get set }
+    var getOrders: [UserOrders]? { get }
     
     func createOrder()
     func formattedDate(date: Date) -> String
@@ -21,4 +22,5 @@ protocol MainScreenViewModelType: ObservableObject {
     func extractDate(date: Date, format: String) -> String
     func isToday(date: Date) -> Bool
     func isTodayDay(date: Date) -> Bool
+    func loadOrders() async throws
 }

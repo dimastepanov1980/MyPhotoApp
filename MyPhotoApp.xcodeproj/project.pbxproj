@@ -42,6 +42,7 @@
 		5FF58F322A2497EF009AF970 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF58F312A2497EF009AF970 /* FirebaseFirestore */; };
 		5FF58F342A2497EF009AF970 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF58F332A2497EF009AF970 /* FirebaseFirestoreSwift */; };
 		5FF58F372A24D647009AF970 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF58F362A24D647009AF970 /* UserManager.swift */; };
+		5FF58F3D2A2704CA009AF970 /* AddOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF58F3C2A2704CA009AF970 /* AddOrderView.swift */; };
 		5FF65ADC2A1F62D400F5142F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF65ADB2A1F62D400F5142F /* FirebaseAnalytics */; };
 		5FF65ADE2A1F62D400F5142F /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF65ADD2A1F62D400F5142F /* FirebaseAnalyticsSwift */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,7 @@
 		5FF546772A1B937A00208455 /* VCellMainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCellMainScreenView.swift; sourceTree = "<group>"; };
 		5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScreenView.swift; sourceTree = "<group>"; };
 		5FF58F362A24D647009AF970 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		5FF58F3C2A2704CA009AF970 /* AddOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderView.swift; sourceTree = "<group>"; };
 		C1C15D56D3D2F0C3BE72C55D /* Pods-MyPhotoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.release.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -265,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
+				5FF58F382A27043A009AF970 /* OrdersUserStory */,
 				5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */,
 				5FB6C7FD2A1DEC77005FB152 /* Constants */,
 				5FBA26992A15370A00E972FB /* AuthUserStory */,
@@ -373,6 +376,38 @@
 				5FF58F362A24D647009AF970 /* UserManager.swift */,
 			);
 			path = Firesore;
+			sourceTree = "<group>";
+		};
+		5FF58F382A27043A009AF970 /* OrdersUserStory */ = {
+			isa = PBXGroup;
+			children = (
+				5FF58F3B2A270492009AF970 /* Views */,
+				5FF58F3A2A27048E009AF970 /* ViewModels */,
+				5FF58F392A27048C009AF970 /* Contract */,
+			);
+			path = OrdersUserStory;
+			sourceTree = "<group>";
+		};
+		5FF58F392A27048C009AF970 /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Contract;
+			sourceTree = "<group>";
+		};
+		5FF58F3A2A27048E009AF970 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		5FF58F3B2A270492009AF970 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5FF58F3C2A2704CA009AF970 /* AddOrderView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		C282337F8450236C633B7DF3 /* Pods */ = {
@@ -552,6 +587,7 @@
 				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
 				5FF5466F2A1B575500208455 /* MainScreenViewModel.swift in Sources */,
 				5FF546762A1B8EBF00208455 /* filteredByDateView.swift in Sources */,
+				5FF58F3D2A2704CA009AF970 /* AddOrderView.swift in Sources */,
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
 				5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */,
 				5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */,

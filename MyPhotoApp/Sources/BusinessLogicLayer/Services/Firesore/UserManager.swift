@@ -8,8 +8,9 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import Combine
 
-struct UserOrders: Identifiable, Codable {
+struct UserOrders: Codable {
     let id: String
     let location: String?
     let name: String?
@@ -18,16 +19,57 @@ struct UserOrders: Identifiable, Codable {
     let description: String?
     let date: Date?
     let duration: Double?
+    let imageUrl: String?
     
-    init(userOrder: OrderModel) {
-        self.id = userOrder.orderId
-        self.location = userOrder.location
-        self.name = userOrder.name
-        self.instagramLink: String?
-        self.price: Int?
-        self.description: String?
-        self.date: Date?
-        self.duration: Double
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
+        self.location = try container.decodeIfPresent(String.self, forKey: .location)
+        self.name = try container.decodeIfPresent(String.self, forKey: .name)
+        self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
+        self.price = try container.decodeIfPresent(Int.self, forKey: .price)
+        self.description = try container.decodeIfPresent(String.self, forKey: .description)
+        self.date = try container.decodeIfPresent(Date.self, forKey: .date)
+        self.duration = try container.decodeIfPresent(Double.self, forKey: .duration)
+        self.imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
+
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case location = "location"
+        case name = "name"
+        case instagramLink = "instagram_link"
+        case price = "price"
+        case description = "description"
+        case date = "date"
+        case duration = "duration"
+        case imageUrl = "image_url"
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.id, forKey: .id)
+        try container.encodeIfPresent(self.location, forKey: .location)
+        try container.encodeIfPresent(self.name, forKey: .name)
+        try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
+        try container.encodeIfPresent(self.price, forKey: .price)
+        try container.encodeIfPresent(self.description, forKey: .description)
+        try container.encodeIfPresent(self.date, forKey: .date)
+        try container.encodeIfPresent(self.duration, forKey: .duration)
+        try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)
+    }
+    
+    init(order: OrderModel) {
+        self.id = order.orderId
+        self.location = order.location
+        self.name = order.name
+        self.instagramLink = order.instagramLink
+        self.price = order.price
+        self.description = order.description
+        self.date = order.date
+        self.duration = order.duration
+        self.imageUrl = order.imageUrl
     }
 }
 
@@ -114,36 +156,86 @@ final class UserManager {
         userCollection.document(userId)
     }
     private func userOrderCollection(userId: String) -> CollectionReference {
-        userDocument(userId: userId).collection ("orders")
+        userDocument(userId: userId).collection("orders")
     }
-    private func userOrderDocument(userId: String, orderId: String) -> DocumentReference {
-        userOrderCollection(userId: userId).document(orderId)
+    private func userOrderDocument(userId: String) -> DocumentReference {
+        userOrderCollection(userId: userId).document()
     }
     
     func createNewUser(user: DBUser) async throws {
         try userDocument(userId: user.userId).setData(from: user, merge: false)
     }
    
-    
-    func addUserOrder(userId: String, location: String, customerName: String) async throws {
-        let document = userOrderCollection(userId: userId).document()
-        let documentId = document.documentID
-        
-        let data: [String : Any] = [
-            "id" : documentId,
-            "date_created" : Timestamp(),
-            "customer_name" : customerName,
-            "location" : location
-        ]
-        
-        try await document.setData(data, merge: false)
+    func addNewOrder(userId: String, order: UserOrders) async throws {
+        try userOrderDocument(userId: userId).setData(from: order, merge: false)
     }
     
-    func removeUserOrder(userId: String, orderId: String) async throws {
-        try await userOrderDocument(userId: userId, orderId: orderId).delete()
+    func getOrder(userId: String) async throws -> UserOrders {
+        try await userOrderDocument(userId: userId).getDocument(as: UserOrders.self)
     }
+    
+    func getAllOrders(userId: String) async throws -> [UserOrders] {
+        try await userOrderCollection(userId: userId).getDocuments(as: UserOrders.self)
+    }
+    
+//    func removeUserOrder(userId: String, orderId: String) async throws {
+//        try await userOrderDocument(userId: userId, orderId: orderId).delete()
+//    }
     
     func getUser(userId: String) async throws -> DBUser {
         try await userDocument(userId: userId).getDocument(as: DBUser.self)
     }
+}
+
+
+extension Query {
+    
+//    func getDocuments<T>(as type: T.Type) async throws -> [T] where T : Decodable {
+//        let snapshot = try await self.getDocuments()
+//
+//        return try snapshot.documents.map({ document in
+//            try document.data(as: T.self)
+//        })
+//    }
+    
+    func getDocuments<T>(as type: T.Type) async throws -> [T] where T : Decodable {
+        try await getDocumentsWithSnapshot(as: type).products
+    }
+    
+    func getDocumentsWithSnapshot<T>(as type: T.Type) async throws -> (products: [T], lastDocument: DocumentSnapshot?) where T : Decodable {
+        let snapshot = try await self.getDocuments()
+        
+        let products = try snapshot.documents.map({ document in
+            try document.data(as: T.self)
+        })
+        
+        return (products, snapshot.documents.last)
+    }
+    
+    func startOptionally(afterDocument lastDocument: DocumentSnapshot?) -> Query {
+        guard let lastDocument else { return self }
+        return self.start(afterDocument: lastDocument)
+    }
+    
+    func aggregateCount() async throws -> Int {
+        let snapshot = try await self.count.getAggregation(source: .server)
+        return Int(truncating: snapshot.count)
+    }
+    
+    func addSnapshotListener<T>(as type: T.Type) -> (AnyPublisher<[T], Error>, ListenerRegistration) where T : Decodable {
+        let publisher = PassthroughSubject<[T], Error>()
+        
+        let listener = self.addSnapshotListener { querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("No documents")
+                return
+            }
+            
+            let products: [T] = documents.compactMap({ try? $0.data(as: T.self) })
+            publisher.send(products)
+        }
+        
+        return (publisher.eraseToAnyPublisher(), listener)
+    }
+    
 }

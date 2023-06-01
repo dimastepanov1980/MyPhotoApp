@@ -42,6 +42,8 @@ final class MainScreenViewModel: MainScreenViewModelType {
     @Published var currentWeek: [Date] = []
     @Published var currentDay: Date = Date()
     @Published var today: Date = Date()
+    @Published private(set) var getOrders: [UserOrders]? = nil
+
     
     init() {
         fetchCurrentWeek()
@@ -88,5 +90,12 @@ final class MainScreenViewModel: MainScreenViewModelType {
     func isTodayDay(date: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
+    }
+    
+    func loadOrders() async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        self.getOrders = try await UserManager.shared.getAllOrders(userId: authDateResult.uid)
+        //print("Orders: \(orders?.id)")
+
     }
 }

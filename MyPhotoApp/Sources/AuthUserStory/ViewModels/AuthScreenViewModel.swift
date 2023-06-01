@@ -29,8 +29,7 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
             return
         }
         let authDataResult = try await AuthNetworkService.shared.createUser(email: signInEmail, password: signInPassword)
-        let user = DBUser(auth: authDataResult)
-        
+        let user = DBUser(auth: authDataResult) 
         try await UserManager.shared.createNewUser(user: user)
     }
     

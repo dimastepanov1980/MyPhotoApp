@@ -202,6 +202,12 @@ struct MainScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
+    var getOrders: [UserOrders]?
+    
+    func loadOrders() async throws {
+        //
+    }
+    
     
     var vm = MainScreenViewModel()
     @Published var weaterId: String = ""

@@ -17,4 +17,16 @@ struct MainOrderModel: Identifiable {
     let duration: Double
     let description: String?
     let imageUrl: String
+    
+//    init(order: UserOrders){
+//        self.id = order.id
+//        self.name = order.name
+//        self.instagramLink = order.instagramLink
+//        self.place = order.location
+//        self.price = order.price
+//        self.date = order.date
+//        self.duration = order.duration
+//        self.description = order.description
+//        self.imageUrl = order.imageUrl
+//    }
 }

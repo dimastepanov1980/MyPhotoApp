@@ -6,19 +6,26 @@
 //
 
 import SwiftUI
+import Combine
 
 
 @MainActor
 protocol SettingScreenViewModelType: ObservableObject {
     var user: DBUser? { get }
+    var orders: [UserOrders]? { get }
     func LogOut() throws
     func loadCurrentUser() async throws
+    func loadOrders() async throws
     
 }
 
+
+
+
 @MainActor
 final class SettingScreenViewModel: SettingScreenViewModelType {
-    
+   
+    @Published private(set) var orders: [UserOrders]? = nil
     @Published private(set) var user: DBUser? = nil
     
      func LogOut() throws {
@@ -28,6 +35,13 @@ final class SettingScreenViewModel: SettingScreenViewModelType {
     func loadCurrentUser() async throws {
         let autDataResult = try AuthNetworkService.shared.getAuthenticationUser()
         self.user = try await UserManager.shared.getUser(userId: autDataResult.uid)
+    }
+    
+    func loadOrders() async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        self.orders = try await UserManager.shared.getAllOrders(userId: authDateResult.uid)
+        //print("Orders: \(orders?.id)")
+
     }
 }
 
@@ -61,11 +75,26 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                             Text("photoURL \(photoURL)")
                         }
                     }
+                    
+                    if let order =  viewModel.orders {
+                        ForEach(order, id: \.id) { items in
+                           
+                                Text(items.id)
+                                if let description = items.description {
+                                    Text(description)
+                                }
+                            
+                        }
+                    }
+                    
+                    
                    
                     
                 }.task {
                     try? await viewModel.loadCurrentUser()
+                    try? await viewModel.loadOrders()
                 }
+                
                 
                 ButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "camera.aperture") {
                     Task {
@@ -89,6 +118,12 @@ struct SettingScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: SettingScreenViewModelType, ObservableObject {
+    var orders: [UserOrders]?
+    
+    func loadOrders() async throws {
+        //
+    }
+    
     var user: DBUser? = nil
     
     func loadCurrentUser() throws {

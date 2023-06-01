@@ -6,33 +6,45 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 @MainActor
 protocol AddOrderViewModelType: ObservableObject {
     var name: String { get set }
-    var instagramLink: String? { get set }
-    var price: Int? { get set }
+    var instagramLink: String { get set }
+    var price: Int { get set }
     var place: String { get set }
-    var description: String? { get set }
-    var date: Date? { get set }
-    var duration: Double? { get set }
+    var description: String { get set }
+    var date: Date { get set }
+    var duration: Double { get set }
     
-    func addOrder(location: String, customerName: String) async throws
+    func addOrder(order: UserOrders) async throws
 }
 
 @MainActor
 final class AddOrderViewModel: AddOrderViewModelType {
     @Published var name: String = ""
-    @Published var instagramLink: String? = nil
-    @Published var price: Int? = nil
+    @Published var instagramLink: String = ""
+    @Published var price: Int = 0
     @Published var place: String = ""
-    @Published var description: String? = nil
-    @Published var date: Date? = nil
-    @Published var duration: Double? = nil
+    @Published var description: String = ""
+    @Published var date: Date = Date()
+    @Published var duration: Double = 0.0
     
-    func addOrder(location: String, customerName: String) async throws {
+//    init(order: OrderModel){
+//        self.name = order.name ?? ""
+//        self.instagramLink = order.instagramLink ?? ""
+//        self.price = order.price ?? 0
+//        self.place = order.location ?? ""
+//        self.description = order.description ?? ""
+//        self.date = order.date
+//        self.duration = order.duration
+//    }
+    
+    func addOrder(order: UserOrders) async throws {
                 let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-                try? await UserManager.shared.addUserOrder(userId: authDateResult.uid, location: location, customerName: customerName)
+        try? await UserManager.shared.addNewOrder(userId: authDateResult.uid, order: order)
    
     }
 
@@ -56,10 +68,20 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                         VStack(spacing: 10) {
                             MainTextField(nameTextField: "Client Name", text: $viewModel.name)
                             MainTextField(nameTextField: "Location", text: $viewModel.place)
+                            MainTextField(nameTextField: "Instagram Link", text: $viewModel.instagramLink)
+                            MainTextField(nameTextField: "Description", text: $viewModel.description)
                             Spacer()
                             ButtonXl(titleText: "Add Order", iconName: "") {
                                 if !viewModel.name.isEmpty, !viewModel.place.isEmpty {
-                                    try await viewModel.addOrder(location: viewModel.place, customerName: viewModel.name)
+                                    let userOrders = UserOrders(order: OrderModel(orderId: UUID().uuidString,
+                                                                                  name: viewModel.name,
+                                                                                  instagramLink: viewModel.instagramLink,
+                                                                                  price: viewModel.price,
+                                                                                  location: viewModel.place,
+                                                                                  description: viewModel.description,
+                                                                                  date: viewModel.date,
+                                                                                  duration: viewModel.duration, imageUrl: viewModel.name))
+                                    try await viewModel.addOrder(order: userOrders)
                                     showAddOrderView.toggle()
                                 }
                             }
@@ -93,14 +115,14 @@ struct AddOrderView_Previews: PreviewProvider {
 
 private class MockViewModel: AddOrderViewModelType, ObservableObject {
     @Published var name: String = ""
-    @Published var instagramLink: String? = nil
-    @Published var price: Int? = nil
+    @Published var instagramLink: String = ""
+    @Published var price: Int = 0
     @Published var place: String = ""
-    @Published var description: String? = nil
-    @Published var date: Date? = nil
-    @Published var duration: Double? = nil
+    @Published var description: String = ""
+    @Published var date: Date = Date()
+    @Published var duration: Double = 0.0
     
-    func addOrder(location: String, customerName: String) async throws {
+    func addOrder(order: UserOrders) async throws {
         //
     }
 }
