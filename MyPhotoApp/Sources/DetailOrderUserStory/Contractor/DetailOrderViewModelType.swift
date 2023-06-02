@@ -14,7 +14,7 @@ protocol DetailOrderViewModelType: ObservableObject {
     var price: Int? { get }
     var place: String? { get }
     var description: String? { get }
-    var duration: Double { get }
+    var duration: String { get }
     var image: String? { get }
     var date: Date { get }
     var images: [ImageModel] { get }

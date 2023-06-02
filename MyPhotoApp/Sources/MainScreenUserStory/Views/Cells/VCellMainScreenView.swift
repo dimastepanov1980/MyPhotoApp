@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct VCellMainScreenView: View {
-    let items: MainOrderModel
+    let items: UserOrders
     
     var body: some View {
         HStack(alignment: .bottom){
             VStack(alignment: .leading, spacing: 8) {
-                Text(items.place)
-                    .lineLimit(1)
-                    .font(.title2.bold())
-                    .foregroundColor(Color(R.color.gray1.name))
-                
+              
+                if let location = items.location {
+                    Text(location)
+                        .lineLimit(1)
+                        .font(.title2.bold())
+                        .foregroundColor(Color(R.color.gray1.name))
+                }
                 HStack(alignment: .top, spacing: 4) {
                     Image(systemName: "clock")
                         .resizable()
@@ -35,10 +37,11 @@ struct VCellMainScreenView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 16)
                         .foregroundColor(Color(R.color.gray2.name))
-                    
-                    Text(String(items.duration))
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray2.name))
+                    if let duration = items.duration {
+                        Text(String(duration))
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray2.name))
+                    }
                 }
                 
                 Image(R.image.image0.name)
@@ -50,13 +53,15 @@ struct VCellMainScreenView: View {
                 
             }
             Spacer()
-            Text(items.name)
-                .font(.subheadline)
-                .foregroundColor(Color(R.color.gray3.name))
+            if let name = items.name {
+                Text(name)
+                    .font(.subheadline)
+                    .foregroundColor(Color(R.color.gray3.name))
+            }
         }.padding(.horizontal, 24)
         .padding(.vertical, 18)
         .background(Color(R.color.gray5.name))
-        .cornerRadius(25)
+        .cornerRadius(16)
     }
 }
 
@@ -69,14 +74,15 @@ struct VCellMainScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModelVCell: ObservableObject {
-    let mocData: MainOrderModel =
-    MainOrderModel(id: UUID(),
-                   name: "Ira",
-                   instagramLink: nil,
-                   place: "Kata Noy Beach",
-                   price: 5500,
-                   date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
-                   duration: 1.5,
-                   description: nil,
-                   imageUrl: "")
+    let mocData: UserOrders = UserOrders(order:
+                                            MainOrderModel(id: UUID().uuidString,
+                                                               name: "Katy Igor",
+                                                               instagramLink: nil,
+                                                               place: "Kata Noy Beach",
+                                                               price: 5500,
+                                                               date: Date(),
+                                                               duration: "1.5",
+                                                               description: nil,
+                                                               imageUrl: "") )
+    
 }

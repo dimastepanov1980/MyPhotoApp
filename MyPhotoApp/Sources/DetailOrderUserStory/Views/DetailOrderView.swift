@@ -13,6 +13,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var showingOptions = false
     @State private var selection = "None"
     @State private var randomHeights: [CGFloat] = []
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
 
     init(with viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -31,11 +33,11 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         
                         desctriptionSection
                         imageSection
-                    }
+                    }.padding(.top)
                     
                 }
                 ButtonXl(titleText: R.string.localizable.addPhoto(), iconName: "plus.circle") {
-                    //
+
                 }
             }
         } 
@@ -44,7 +46,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         .navigationBarItems(leading:
                                 HStack {
             Button {
-                //
+                self.presentationMode.wrappedValue.dismiss()
+
             } label: {
                 Image(systemName: "chevron.backward.circle.fill")
                     .resizable()
@@ -97,7 +100,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
                 
-                Text(String(format: "%.1f", viewModel.duration))
+                Text(viewModel.duration)
                     .font(.subheadline)
                     .foregroundColor(Color(R.color.gray3.name))
             }
@@ -239,7 +242,7 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
     @Published var price: Int? = 5500
     @Published var place: String? = "Kata Noy Beach"
     @Published var description: String? = "Нет возможности делать промоакции. Нет возможноcти предлагать кросс услуги (аренда одежды, мейкап итд). Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду, Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду"
-    @Published var duration = 1.5
+    @Published var duration = "1.5"
     @Published var image: String? = ""
     @Published var date: Date = Date()
     

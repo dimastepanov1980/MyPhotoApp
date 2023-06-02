@@ -10,47 +10,13 @@ import Foundation
 @MainActor
 final class MainScreenViewModel: MainScreenViewModelType {
     @Published var weaterId: String  = ""
-    @Published var orders: [MainOrderModel] = [
-        MainOrderModel(id: UUID(),
-                       name: "Ira",
-                       instagramLink: nil,
-                       place: "Kata Noy Beach",
-                       price: 5500,
-                       date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
-                       duration: 1.5,
-                       description: nil,
-                       imageUrl: ""),
-        MainOrderModel(id: UUID(),
-                       name: "Ira",
-                       instagramLink: nil,
-                       place: "Kata Noy Beach",
-                       price: 5500,
-                       date: Calendar.current.date(byAdding: .day, value: +2, to: Date()) ?? Date(),
-                       duration: 1.5,
-                       description: nil,
-                       imageUrl: ""),
-        MainOrderModel(id: UUID(),
-                       name: "Ira",
-                       instagramLink: nil,
-                       place: "Kata Noy Beach",
-                       price: 5500,
-                       date: Calendar.current.date(byAdding: .day, value: +3, to: Date()) ?? Date(),
-                       duration: 1.5,
-                       description: nil,
-                       imageUrl: ""),
-    ]
+    @Published var orders: [UserOrders] = []
     @Published var currentWeek: [Date] = []
     @Published var currentDay: Date = Date()
     @Published var today: Date = Date()
-    @Published private(set) var getOrders: [UserOrders]? = nil
 
-    
     init() {
         fetchCurrentWeek()
-    }
-    
-    func createOrder() {
-        //
     }
     
 // MARK: Set the desired output date format
@@ -94,8 +60,13 @@ final class MainScreenViewModel: MainScreenViewModelType {
     
     func loadOrders() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        self.getOrders = try await UserManager.shared.getAllOrders(userId: authDateResult.uid)
+        self.orders = try await UserManager.shared.getAllOrders(userId: authDateResult.uid)
         //print("Orders: \(orders?.id)")
-
     }
+    
+    func deleteOrder(order: UserOrders) async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
+    }
+    
 }

@@ -10,14 +10,16 @@ import SwiftUI
 import SwiftUI
 
 struct HCellMainScreenView: View {
-    let items: MainOrderModel
+    let items: UserOrders
 
     var body: some View {
             VStack(alignment: .leading, spacing: 8) {
-                Text(items.place)
-                    .lineLimit(1)
-                    .font(.title2.bold())
-                    .foregroundColor(Color(R.color.gray1.name))
+                if let location = items.location {
+                    Text(location)
+                        .lineLimit(1)
+                        .font(.title2.bold())
+                        .foregroundColor(Color(R.color.gray1.name))
+                }
 
                 HStack(alignment: .center) {
                     VStack(alignment: .leading, spacing: 4) {
@@ -39,11 +41,14 @@ struct HCellMainScreenView: View {
                                 .frame(width: 16)
                                 .foregroundColor(Color(R.color.gray2.name))
 
-                            
-                            Text(String(items.duration))
-                                .font(.footnote)
-                                .foregroundColor(Color(R.color.gray3.name))
+                            if let duration = items.duration {
+                                
+                                Text(String(duration))
+                                    .font(.footnote)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                            }
                         }
+                            
                     }
                     Spacer()
                     Image(R.image.image0.name)
@@ -59,7 +64,7 @@ struct HCellMainScreenView: View {
             .frame(width: 165)
             .padding(.horizontal, 16)
             .background(Color(R.color.gray5.name))
-            .cornerRadius(25)
+            .cornerRadius(16)
 
     }
 }
@@ -84,14 +89,14 @@ struct HCellMainScreenView_Previews: PreviewProvider {
 
 
 private class MockViewModelHCell: ObservableObject {
-    let mocData: MainOrderModel =
-    MainOrderModel(id: UUID(),
-                   name: "Katy Igor",
-                   instagramLink: nil,
-                   place: "Kata Noy Beach",
-                   price: 5500,
-                   date: Date(),
-                   duration: 1.5,
-                   description: nil,
-                   imageUrl: "")
+    let mocData: UserOrders = UserOrders(order: MainOrderModel(id: UUID().uuidString,
+                                                               name: "Katy Igor",
+                                                               instagramLink: nil,
+                                                               place: "Kata Noy Beach",
+                                                               price: 5500,
+                                                               date: Date(),
+                                                               duration: "1.5",
+                                                               description: nil,
+                                                               imageUrl: "") )
+    
 }

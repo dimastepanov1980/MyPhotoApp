@@ -17,7 +17,7 @@ protocol AddOrderViewModelType: ObservableObject {
     var place: String { get set }
     var description: String { get set }
     var date: Date { get set }
-    var duration: Double { get set }
+    var duration: String { get set }
     
     func addOrder(order: UserOrders) async throws
 }
@@ -30,7 +30,7 @@ final class AddOrderViewModel: AddOrderViewModelType {
     @Published var place: String = ""
     @Published var description: String = ""
     @Published var date: Date = Date()
-    @Published var duration: Double = 0.0
+    @Published var duration: String = ""
     
 //    init(order: OrderModel){
 //        self.name = order.name ?? ""
@@ -70,6 +70,8 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                             MainTextField(nameTextField: "Location", text: $viewModel.place)
                             MainTextField(nameTextField: "Instagram Link", text: $viewModel.instagramLink)
                             MainTextField(nameTextField: "Description", text: $viewModel.description)
+                            MainTextField(nameTextField: "Duration", text: $viewModel.duration)
+                                .keyboardType (.decimalPad)
                             Spacer()
                             ButtonXl(titleText: "Add Order", iconName: "") {
                                 if !viewModel.name.isEmpty, !viewModel.place.isEmpty {
@@ -80,7 +82,8 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                                                                                   location: viewModel.place,
                                                                                   description: viewModel.description,
                                                                                   date: viewModel.date,
-                                                                                  duration: viewModel.duration, imageUrl: viewModel.name))
+                                                                                  duration: viewModel.duration,
+                                                                                  imageUrl: viewModel.name))
                                     try await viewModel.addOrder(order: userOrders)
                                     showAddOrderView.toggle()
                                 }
@@ -120,7 +123,7 @@ private class MockViewModel: AddOrderViewModelType, ObservableObject {
     @Published var place: String = ""
     @Published var description: String = ""
     @Published var date: Date = Date()
-    @Published var duration: Double = 0.0
+    @Published var duration: String = ""
     
     func addOrder(order: UserOrders) async throws {
         //

@@ -8,25 +8,39 @@
 import Foundation
 
 struct MainOrderModel: Identifiable {
-    let id: UUID
+    let id: String
     let name: String
     let instagramLink: String?
     let place: String
     let price: Int?
     let date: Date
-    let duration: Double
+    let duration: String
     let description: String?
     let imageUrl: String
     
-//    init(order: UserOrders){
-//        self.id = order.id
-//        self.name = order.name
-//        self.instagramLink = order.instagramLink
-//        self.place = order.location
-//        self.price = order.price
-//        self.date = order.date
-//        self.duration = order.duration
-//        self.description = order.description
-//        self.imageUrl = order.imageUrl
-//    }
+    init(order: UserOrders){
+        self.id = order.id
+        self.name = order.name ?? ""
+        self.instagramLink = order.instagramLink
+        self.place = order.location ?? ""
+        self.price = order.price
+        self.date = order.date ?? Date()
+        self.duration = order.duration ?? ""
+        self.description = order.description
+        self.imageUrl = order.imageUrl ?? ""
+    }
+    
+    init(id: String, name: String, instagramLink: String?,
+         place: String, price: Int?, date: Date, duration: String,
+         description: String?, imageUrl: String){
+        self.id = id
+        self.name = name
+        self.instagramLink = instagramLink
+        self.place = place
+        self.price = price
+        self.date = date
+        self.duration = duration
+        self.description = description
+        self.imageUrl = imageUrl
+    }
 }

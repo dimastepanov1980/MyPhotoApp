@@ -22,8 +22,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     }
     
     var body: some View {
-        ZStack {
-            NavigationStack {
+        ZStack(alignment: .bottom) {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack(spacing: 16, pinnedViews: [.sectionHeaders, .sectionFooters]) {
                         Section {
@@ -35,17 +34,23 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         } header: {
                             headerSection
                                 .padding(.top, 64)
-                        } footer: {
-                            ButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
-                                showAddOrderView.toggle()
-                            }
-                        }.background()
+                        } .background()
                     }
                 }.edgesIgnoringSafeArea(.bottom)
                     .ignoresSafeArea()
                     .padding(.bottom)
-            }
-        }         .fullScreenCover(isPresented: $showAddOrderView) {
+            
+            ButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
+                
+                try? await viewModel.loadOrders()
+                showAddOrderView.toggle()
+                
+            }.background()
+        }
+        .task {
+            try? await viewModel.loadOrders()
+        }
+        .fullScreenCover(isPresented: $showAddOrderView) {
             NavigationStack {
                 AddOrderView(with: AddOrderViewModel(), showAddOrderView: $showAddOrderView)
             }
@@ -64,12 +69,12 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         Text(viewModel.formattedDate(date: viewModel.today))
                             .font(.title.bold())
                             .foregroundColor(Color(R.color.gray1.name))
-//    ToDo: need to updete date avery time then we lunch app - this method do it not coorect -
-//                            .onAppear {
-//                                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-//                                    viewModel.today = Date()
-//                                }
-//                            }
+                        //    ToDo: need to updete date avery time then we lunch app - this method do it not coorect -
+                        //                            .onAppear {
+                        //                                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+                        //                                    viewModel.today = Date()
+                        //                                }
+                        //                            }
                         
                         // TODO: Обработка погоды
                         Image(R.image.ic_weater.name)
@@ -85,7 +90,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 } label: {
                     NavigationLink {
                         SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView)
-
+                        
                     } label: {
                         
                         Image(R.image.image0.name)
@@ -95,7 +100,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             .frame(width: 56)
                             .overlay(Circle().stroke(Color.white,lineWidth: 2).shadow(radius: 10))
                     }
-
+                    
                 }
             }.padding(.horizontal, 32)
             
@@ -108,15 +113,22 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             
         }
     }
-    
     var horizontalCards: some View {
         LazyHStack {
-            ForEach(viewModel.orders) { order in
-                HCellMainScreenView(items: order)
+            ForEach(viewModel.orders, id: \.id) { order in
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order))
+                    .navigationBarBackButtonHidden(true)) {
+                    HCellMainScreenView(items: order)
+                        .contextMenu {
+                            Button("Remove Order") {
+                                //
+                            }
+                        }
+                }
             }
-        }.padding(.horizontal)
+            
+        }  .padding(.horizontal)
     }
-    
     var calendarSection: some View {
         HStack(spacing: 8){
             ForEach(viewModel.currentWeek, id: \.self) { day in
@@ -138,7 +150,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         .fill(Color(R.color.gray4.name))
                         .frame(height: 6)
                 }
-            
+                
                 .frame(width: 50, height: 100)
                 .background(
                     
@@ -148,7 +160,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         if viewModel.isTodayDay(date: day) {
                             Capsule()
                                 .strokeBorder(Color(R.color.gray4.name), lineWidth: 1)
-                            .opacity(viewModel.isTodayDay(date: Date()) ? 1 : 0)
+                                .opacity(viewModel.isTodayDay(date: Date()) ? 1 : 0)
                         }
                     }
                 )
@@ -171,14 +183,25 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         }
         .padding()
     }
-    
     var verticalCards: some View {
         LazyVStack {
             ForEach(viewModel.orders, id: \.id) { order in
-                NavigationLink(destination: DetailOrderView(with: MocMainOrders())) {
+                
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order))
+                    .navigationBarBackButtonHidden(true)
+                ) {
                     VCellMainScreenView(items: order)
+                        .contextMenu {
+                            Button("Remove Order") {
+                                Task{
+                                    try? await viewModel.deleteOrder(order: order)
+                                    print("order remove")
+                                }
+                            }
+                        }
                 }
             }
+            
         }  .padding(.horizontal)
         
     }
@@ -202,44 +225,19 @@ struct MainScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
-    var getOrders: [UserOrders]?
-    
-    func loadOrders() async throws {
-        //
-    }
-    
-    
     var vm = MainScreenViewModel()
+    
     @Published var weaterId: String = ""
-    @Published var orders: [MainOrderModel] = [
-        MainOrderModel(id: UUID(),
-                       name: "Ira",
-                       instagramLink: nil,
-                       place: "Kata Noy Beach",
-                       price: 5500,
-                       date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
-                       duration: 1.5,
-                       description: nil,
-                       imageUrl: ""),
-        MainOrderModel(id: UUID(),
-                       name: "Ira",
-                       instagramLink: nil,
-                       place: "Kata Noy Beach",
-                       price: 5500,
-                       date: Calendar.current.date(byAdding: .day, value: +2, to: Date()) ?? Date(),
-                       duration: 1.5,
-                       description: nil,
-                       imageUrl: ""),
-        MainOrderModel(id: UUID(),
-                       name: "Ira",
-                       instagramLink: nil,
-                       place: "Kata Noy Beach",
-                       price: 5500,
-                       date: Calendar.current.date(byAdding: .day, value: +3, to: Date()) ?? Date(),
-                       duration: 1.5,
-                       description: nil,
-                       imageUrl: ""),
-    ]
+    @Published var orders: [UserOrders] = [UserOrders(order:
+                                                        MainOrderModel(id: UUID().uuidString,
+                                                                       name: "Ira",
+                                                                       instagramLink: nil,
+                                                                       place: "Kata Noy Beach",
+                                                                       price: 5500,
+                                                                       date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
+                                                                       duration: "1.5",
+                                                                       description: nil,
+                                                                       imageUrl: ""))]
     @Published var currentWeek: [Date] = []
     @Published var currentDay: Date = Date()
     @Published var today: Date = Date()
@@ -263,28 +261,26 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
             }
         }
     }
-    
     func extractDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         return formatter.string(from: date)
     }
-    
-    func createOrder() {
-        //
-    }
-    
     func formattedDate(date: Date) -> String {
         vm.formattedDate(date: date)
     }
-    
     func isToday(date: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(currentDay, inSameDayAs: date)
     }
-    
     func isTodayDay(date: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
+    }
+    func deleteOrder(order: UserOrders) async throws {
+        //
+    }
+    func loadOrders() async throws {
+        //
     }
 }

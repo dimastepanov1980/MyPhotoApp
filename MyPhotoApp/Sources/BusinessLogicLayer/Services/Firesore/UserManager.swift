@@ -18,7 +18,7 @@ struct UserOrders: Codable {
     let price: Int?
     let description: String?
     let date: Date?
-    let duration: Double?
+    let duration: String?
     let imageUrl: String?
     
     init(from decoder: Decoder) throws {
@@ -30,9 +30,20 @@ struct UserOrders: Codable {
         self.price = try container.decodeIfPresent(Int.self, forKey: .price)
         self.description = try container.decodeIfPresent(String.self, forKey: .description)
         self.date = try container.decodeIfPresent(Date.self, forKey: .date)
-        self.duration = try container.decodeIfPresent(Double.self, forKey: .duration)
+        self.duration = try container.decodeIfPresent(String.self, forKey: .duration)
         self.imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
-
+    }
+    
+    init(order: MainOrderModel) {
+        self.id = order.id
+        self.location = order.place
+        self.name = order.name
+        self.instagramLink = order.instagramLink
+        self.price = order.price
+        self.description = order.description
+        self.date = order.date
+        self.duration = order.duration
+        self.imageUrl = order.imageUrl
     }
     
     enum CodingKeys: String, CodingKey {
@@ -158,29 +169,43 @@ final class UserManager {
     private func userOrderCollection(userId: String) -> CollectionReference {
         userDocument(userId: userId).collection("orders")
     }
-    private func userOrderDocument(userId: String) -> DocumentReference {
-        userOrderCollection(userId: userId).document()
+    private func userOrderDocument(userId: String, orderId: String) -> DocumentReference {
+        userOrderCollection(userId: userId).document(orderId)
     }
     
     func createNewUser(user: DBUser) async throws {
         try userDocument(userId: user.userId).setData(from: user, merge: false)
     }
    
+//    func addNewOrder(userId: String, order: UserOrders) async throws {
+//        try userOrderDocument(userId: userId).setData(from: order, merge: false)
+//    }
+    
     func addNewOrder(userId: String, order: UserOrders) async throws {
-        try userOrderDocument(userId: userId).setData(from: order, merge: false)
+        let document = userOrderCollection(userId: userId).document()
+        let documentId = document.documentID
+        
+        let data: [String : Any] = [
+            UserOrders.CodingKeys.id.rawValue : documentId,
+            UserOrders.CodingKeys.location.rawValue : order.location ?? "",
+            UserOrders.CodingKeys.name.rawValue : order.name ?? "",
+            UserOrders.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
+            UserOrders.CodingKeys.price.rawValue : order.price ?? 0,
+            UserOrders.CodingKeys.description.rawValue : order.description  ?? "",
+            UserOrders.CodingKeys.date.rawValue : order.date ?? Timestamp(),
+            UserOrders.CodingKeys.duration.rawValue : order.duration ?? "",
+            UserOrders.CodingKeys.imageUrl.rawValue : order.imageUrl ?? ""
+        ]
+            try await document.setData(data, merge: false)
     }
     
-    func getOrder(userId: String) async throws -> UserOrders {
-        try await userOrderDocument(userId: userId).getDocument(as: UserOrders.self)
+    func removeOrder(userId: String, order: UserOrders) async throws {
+        try await userOrderDocument (userId: userId, orderId: order.id).delete()
     }
     
     func getAllOrders(userId: String) async throws -> [UserOrders] {
         try await userOrderCollection(userId: userId).getDocuments(as: UserOrders.self)
     }
-    
-//    func removeUserOrder(userId: String, orderId: String) async throws {
-//        try await userOrderDocument(userId: userId, orderId: orderId).delete()
-//    }
     
     func getUser(userId: String) async throws -> DBUser {
         try await userDocument(userId: userId).getDocument(as: DBUser.self)
@@ -189,14 +214,6 @@ final class UserManager {
 
 
 extension Query {
-    
-//    func getDocuments<T>(as type: T.Type) async throws -> [T] where T : Decodable {
-//        let snapshot = try await self.getDocuments()
-//
-//        return try snapshot.documents.map({ document in
-//            try document.data(as: T.self)
-//        })
-//    }
     
     func getDocuments<T>(as type: T.Type) async throws -> [T] where T : Decodable {
         try await getDocumentsWithSnapshot(as: type).products
