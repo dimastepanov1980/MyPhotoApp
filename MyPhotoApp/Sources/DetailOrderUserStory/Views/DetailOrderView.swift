@@ -274,7 +274,7 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
     @Published var place: String? = "Kata Noy Beach"
     @Published var description: String? = "Нет возможности делать промоакции. Нет возможноcти предлагать кросс услуги (аренда одежды, мейкап итд). Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду, Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду"
     @Published var duration = "1.5"
-    @Published var image: String? = ""
+    @Published var image: [String]? = [""]
     @Published var date: Date = Date()
     
     @Published var images: [ImageModel] = [

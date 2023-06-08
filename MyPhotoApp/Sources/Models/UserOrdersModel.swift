@@ -16,7 +16,7 @@ struct UserOrdersModel: Codable {
     let description: String?
     let date: Date?
     let duration: String?
-    let imageUrl: String?
+    let imageUrl: [String]?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -28,7 +28,7 @@ struct UserOrdersModel: Codable {
         self.description = try container.decodeIfPresent(String.self, forKey: .description)
         self.date = try container.decodeIfPresent(Date.self, forKey: .date)
         self.duration = try container.decodeIfPresent(String.self, forKey: .duration)
-        self.imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
+        self.imageUrl = try container.decodeIfPresent([String].self, forKey: .imageUrl)
     }
     
     init(order: MainOrderModel) {

@@ -27,7 +27,7 @@ class MocMainOrders: DetailOrderViewModelType {
     
     var duration: String = "1.5"
     
-    var image: String? = nil
+    var image: [String]? = nil
     
     var date: Date = Date()
     

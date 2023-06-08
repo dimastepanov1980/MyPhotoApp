@@ -17,7 +17,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     var place: String?
     var description: String?
     var duration = ""
-    var image: String?
+    var image: [String]?
     var date: Date = Date()
     var images: [ImageModel] = []
 

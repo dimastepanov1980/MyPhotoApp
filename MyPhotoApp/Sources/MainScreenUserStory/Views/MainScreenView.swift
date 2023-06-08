@@ -244,7 +244,7 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
                                                                        date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
                                                                        duration: "1.5",
                                                                        description: nil,
-                                                                       imageUrl: ""))]
+                                                                       imageUrl: [""]))]
     @Published var currentWeek: [Date] = []
     @Published var currentDay: Date = Date()
     @Published var today: Date = Date()

@@ -97,6 +97,6 @@ private class MockViewModelHCell: ObservableObject {
                                                                date: Date(),
                                                                duration: "1.5",
                                                                description: nil,
-                                                               imageUrl: "") )
+                                                               imageUrl: [""]) )
     
 }
