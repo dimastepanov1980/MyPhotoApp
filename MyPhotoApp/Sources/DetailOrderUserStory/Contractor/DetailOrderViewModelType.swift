@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
+import PhotosUI
 
 @MainActor
 protocol DetailOrderViewModelType: ObservableObject {
@@ -19,6 +21,6 @@ protocol DetailOrderViewModelType: ObservableObject {
     var date: Date { get }
     var images: [ImageModel] { get }
     
-    func addImage(_ image: String)
+    func addReferenceImage(image: PhotosPickerItem)
     func formattedDate() -> String 
 }

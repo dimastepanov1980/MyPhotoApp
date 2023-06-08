@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import PhotosUI
+import SwiftUI
 
 @MainActor
 final class DetailOrderViewModel: DetailOrderViewModelType {
@@ -18,10 +20,10 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     var image: String?
     var date: Date = Date()
     var images: [ImageModel] = []
-    
-    private let order: UserOrders
 
-    init(order: UserOrders) {
+    private let order: UserOrdersModel
+
+    init(order: UserOrdersModel) {
         self.order = order
         updatePreview()
     }
@@ -35,10 +37,19 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         duration = order.duration ?? ""
         image = order.imageUrl
         date = order.date ?? Date()
-        
     }
-    func addImage(_ image: String) {
-        //
+    
+    func addReferenceImage(image: PhotosPickerItem) {
+        Task {
+            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+
+            guard let data = try await image.loadTransferable(type: Data.self) else { return }
+            let (path, name) = try await StorageManager.shared.uploadImageToFairbase(data: data, userId: authDateResult.uid, orderId: order.id)
+            print("SUCCESS")
+            print(name)
+            print(path)
+            try await UserManager.shared.addToImageUrlLink(userId: authDateResult.uid, path: path, orderId: order.id)
+        }
     }
     
     func formattedDate() -> String {

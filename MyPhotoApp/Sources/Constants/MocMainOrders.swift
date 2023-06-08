@@ -6,8 +6,15 @@
 //
 
 import Foundation
+import SwiftUI
+import PhotosUI
 
 class MocMainOrders: DetailOrderViewModelType {
+    
+    func addReferenceImage(image: PhotosPickerItem) {
+        //
+    }
+    
     var name: String = "Ira"
     
     var instagramLink: String? = nil
@@ -26,9 +33,6 @@ class MocMainOrders: DetailOrderViewModelType {
     
     var images: [ImageModel] = []
     
-    func addImage(_ image: String) {
-        //
-    }
     
     func formattedDate() -> String {
         return ""

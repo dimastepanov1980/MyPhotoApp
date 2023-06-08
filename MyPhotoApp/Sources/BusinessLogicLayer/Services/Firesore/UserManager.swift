@@ -10,138 +10,6 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Combine
 
-struct UserOrders: Codable {
-    let id: String
-    let location: String?
-    let name: String?
-    let instagramLink: String?
-    let price: Int?
-    let description: String?
-    let date: Date?
-    let duration: String?
-    let imageUrl: String?
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
-        self.location = try container.decodeIfPresent(String.self, forKey: .location)
-        self.name = try container.decodeIfPresent(String.self, forKey: .name)
-        self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
-        self.price = try container.decodeIfPresent(Int.self, forKey: .price)
-        self.description = try container.decodeIfPresent(String.self, forKey: .description)
-        self.date = try container.decodeIfPresent(Date.self, forKey: .date)
-        self.duration = try container.decodeIfPresent(String.self, forKey: .duration)
-        self.imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
-    }
-    
-    init(order: MainOrderModel) {
-        self.id = order.id
-        self.location = order.place
-        self.name = order.name
-        self.instagramLink = order.instagramLink
-        self.price = order.price
-        self.description = order.description
-        self.date = order.date
-        self.duration = order.duration
-        self.imageUrl = order.imageUrl
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case location = "location"
-        case name = "name"
-        case instagramLink = "instagram_link"
-        case price = "price"
-        case description = "description"
-        case date = "date"
-        case duration = "duration"
-        case imageUrl = "image_url"
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.id, forKey: .id)
-        try container.encodeIfPresent(self.location, forKey: .location)
-        try container.encodeIfPresent(self.name, forKey: .name)
-        try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
-        try container.encodeIfPresent(self.price, forKey: .price)
-        try container.encodeIfPresent(self.description, forKey: .description)
-        try container.encodeIfPresent(self.date, forKey: .date)
-        try container.encodeIfPresent(self.duration, forKey: .duration)
-        try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)
-    }
-    
-    init(order: OrderModel) {
-        self.id = order.orderId
-        self.location = order.location
-        self.name = order.name
-        self.instagramLink = order.instagramLink
-        self.price = order.price
-        self.description = order.description
-        self.date = order.date
-        self.duration = order.duration
-        self.imageUrl = order.imageUrl
-    }
-}
-
-struct DBUser: Codable {
-    let userId: String
-    let description: String?
-    let email: String?
-    let photoURL: String?
-    let dateCreate: Date?
-    //add updeting bool property https://youtu.be/elGMTQGRZGo?t=1062
-    
-    init(auth: AuthDataResultModel) {
-        self.userId = auth.uid
-        self.description = auth.description
-        self.email = auth.email
-        self.photoURL = auth.photoURL
-        self.dateCreate = Date()
-    }
-
-    init(userId: String,
-         description: String? = nil,
-         email: String? = nil,
-         photoURL: String? = nil,
-         dateCreate: Date? = nil
-    ){
-        self.userId = userId
-        self.description = description
-        self.email = email
-        self.photoURL = photoURL
-        self.dateCreate = dateCreate
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case userId = "user_id"
-        case description = "description"
-        case email = "email"
-        case photoURL = "photo_url"
-        case dateCreate = "date_create"
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.userId = try container.decode(String.self, forKey: .userId)
-        self.description = try container.decodeIfPresent(String.self, forKey: .description)
-        self.email = try container.decodeIfPresent(String.self, forKey: .email)
-        self.photoURL = try container.decodeIfPresent(String.self, forKey: .photoURL)
-        self.dateCreate = try container.decodeIfPresent(Date.self, forKey: .dateCreate)
-
-    }
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.userId, forKey: .userId)
-        try container.encodeIfPresent(self.description, forKey: .description)
-        try container.encodeIfPresent(self.email, forKey: .email)
-        try container.encodeIfPresent(self.photoURL, forKey: .photoURL)
-        try container.encodeIfPresent(self.dateCreate, forKey: .dateCreate)
-        
-    }
-}
-
 final class UserManager {
     
     static let shared = UserManager()
@@ -173,7 +41,7 @@ final class UserManager {
         userOrderCollection(userId: userId).document(orderId)
     }
     
-    func createNewUser(user: DBUser) async throws {
+    func createNewUser(user: DBUserModel) async throws {
         try userDocument(userId: user.userId).setData(from: user, merge: false)
     }
    
@@ -181,37 +49,43 @@ final class UserManager {
 //        try userOrderDocument(userId: userId).setData(from: order, merge: false)
 //    }
     
-    func addNewOrder(userId: String, order: UserOrders) async throws {
+    func addNewOrder(userId: String, order: UserOrdersModel) async throws {
         let document = userOrderCollection(userId: userId).document()
         let documentId = document.documentID
         
         let data: [String : Any] = [
-            UserOrders.CodingKeys.id.rawValue : documentId,
-            UserOrders.CodingKeys.location.rawValue : order.location ?? "",
-            UserOrders.CodingKeys.name.rawValue : order.name ?? "",
-            UserOrders.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
-            UserOrders.CodingKeys.price.rawValue : order.price ?? 0,
-            UserOrders.CodingKeys.description.rawValue : order.description  ?? "",
-            UserOrders.CodingKeys.date.rawValue : order.date ?? Timestamp(),
-            UserOrders.CodingKeys.duration.rawValue : order.duration ?? "",
-            UserOrders.CodingKeys.imageUrl.rawValue : order.imageUrl ?? ""
+            UserOrdersModel.CodingKeys.id.rawValue : documentId,
+            UserOrdersModel.CodingKeys.location.rawValue : order.location ?? "",
+            UserOrdersModel.CodingKeys.name.rawValue : order.name ?? "",
+            UserOrdersModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
+            UserOrdersModel.CodingKeys.price.rawValue : order.price ?? 0,
+            UserOrdersModel.CodingKeys.description.rawValue : order.description  ?? "",
+            UserOrdersModel.CodingKeys.date.rawValue : order.date ?? Timestamp(),
+            UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? "",
+            UserOrdersModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? ""
         ]
             try await document.setData(data, merge: false)
     }
     
-    func removeOrder(userId: String, order: UserOrders) async throws {
+    func removeOrder(userId: String, order: UserOrdersModel) async throws {
         try await userOrderDocument (userId: userId, orderId: order.id).delete()
     }
     
-    func getAllOrders(userId: String) async throws -> [UserOrders] {
-        try await userOrderCollection(userId: userId).getDocuments(as: UserOrders.self)
+    func addToImageUrlLink(userId: String, path: String, orderId: String) async throws {
+        let data: [String : Any] = [
+            UserOrdersModel.CodingKeys.imageUrl.rawValue : path
+        ]
+            try await userOrderDocument (userId: userId, orderId: orderId).setData(data, merge: true)
     }
     
-    func getUser(userId: String) async throws -> DBUser {
-        try await userDocument(userId: userId).getDocument(as: DBUser.self)
+    func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
+        try await userOrderCollection(userId: userId).getDocuments(as: UserOrdersModel.self)
+    }
+    
+    func getUser(userId: String) async throws -> DBUserModel {
+        try await userDocument(userId: userId).getDocument(as: DBUserModel.self)
     }
 }
-
 
 extension Query {
     

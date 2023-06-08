@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 protocol MainScreenViewModelType: ObservableObject {
     var weaterId: String { get }
-    var orders: [UserOrders] { get }
+    var orders: [UserOrdersModel] { get }
     var currentWeek: [Date] { get }
     var currentDay: Date { get set }
     var today: Date { get set }
@@ -21,5 +21,5 @@ protocol MainScreenViewModelType: ObservableObject {
     func isToday(date: Date) -> Bool
     func isTodayDay(date: Date) -> Bool
     func loadOrders() async throws
-    func deleteOrder(order: UserOrders) async throws
+    func deleteOrder(order: UserOrdersModel) async throws
 }

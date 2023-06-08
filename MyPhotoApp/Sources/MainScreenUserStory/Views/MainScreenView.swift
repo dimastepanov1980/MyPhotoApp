@@ -46,7 +46,11 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 showAddOrderView.toggle()
                 
             }.background()
-        }
+        } .onChange(of: showAddOrderView, perform: { _ in
+            Task{
+                try? await viewModel.loadOrders()
+            }
+        })
         .task {
             try? await viewModel.loadOrders()
         }
@@ -121,7 +125,10 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     HCellMainScreenView(items: order)
                         .contextMenu {
                             Button("Remove Order") {
-                                //
+                                Task{
+                                    try? await viewModel.deleteOrder(order: order)
+                                    try? await viewModel.loadOrders()
+                                }
                             }
                         }
                 }
@@ -195,7 +202,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             Button("Remove Order") {
                                 Task{
                                     try? await viewModel.deleteOrder(order: order)
-                                    print("order remove")
+                                    try? await viewModel.loadOrders()
                                 }
                             }
                         }
@@ -228,7 +235,7 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
     var vm = MainScreenViewModel()
     
     @Published var weaterId: String = ""
-    @Published var orders: [UserOrders] = [UserOrders(order:
+    @Published var orders: [UserOrdersModel] = [UserOrdersModel(order:
                                                         MainOrderModel(id: UUID().uuidString,
                                                                        name: "Ira",
                                                                        instagramLink: nil,
@@ -277,7 +284,7 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
     }
-    func deleteOrder(order: UserOrders) async throws {
+    func deleteOrder(order: UserOrdersModel) async throws {
         //
     }
     func loadOrders() async throws {

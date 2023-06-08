@@ -11,8 +11,8 @@ import Combine
 
 @MainActor
 protocol SettingScreenViewModelType: ObservableObject {
-    var user: DBUser? { get }
-    var orders: [UserOrders]? { get }
+    var user: DBUserModel? { get }
+    var orders: [UserOrdersModel]? { get }
     func LogOut() throws
     func loadCurrentUser() async throws
     func loadOrders() async throws
@@ -25,8 +25,8 @@ protocol SettingScreenViewModelType: ObservableObject {
 @MainActor
 final class SettingScreenViewModel: SettingScreenViewModelType {
    
-    @Published private(set) var orders: [UserOrders]? = nil
-    @Published private(set) var user: DBUser? = nil
+    @Published private(set) var orders: [UserOrdersModel]? = nil
+    @Published private(set) var user: DBUserModel? = nil
     
      func LogOut() throws {
         try AuthNetworkService.shared.signOut()
@@ -118,13 +118,13 @@ struct SettingScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: SettingScreenViewModelType, ObservableObject {
-    var orders: [UserOrders]?
+    var orders: [UserOrdersModel]?
     
     func loadOrders() async throws {
         //
     }
     
-    var user: DBUser? = nil
+    var user: DBUserModel? = nil
     
     func loadCurrentUser() throws {
         //

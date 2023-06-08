@@ -18,7 +18,7 @@ struct MainOrderModel: Identifiable {
     let description: String?
     let imageUrl: String
     
-    init(order: UserOrders){
+    init(order: UserOrdersModel){
         self.id = order.id
         self.name = order.name ?? ""
         self.instagramLink = order.instagramLink

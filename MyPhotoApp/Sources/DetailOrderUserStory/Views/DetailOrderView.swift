@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     
@@ -13,6 +14,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var showingOptions = false
     @State private var selection = "None"
     @State private var randomHeights: [CGFloat] = []
+    @State private var selectedPhoto: PhotosPickerItem? = nil
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
 
@@ -36,18 +39,21 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     }.padding(.top)
                     
                 }
-                ButtonXl(titleText: R.string.localizable.addPhoto(), iconName: "plus.circle") {
-
-                }
+                addPhotoButton
+                    .onChange(of: selectedPhoto) { image in
+                        if let image {
+                            viewModel.addReferenceImage(image: image)
+                        }
+                    }
             }
-        } 
+        }
         
         .navigationBarTitle(Text(viewModel.name), displayMode: .inline)
         .navigationBarItems(leading:
                                 HStack {
             Button {
                 self.presentationMode.wrappedValue.dismiss()
-
+                
             } label: {
                 Image(systemName: "chevron.backward.circle.fill")
                     .resizable()
@@ -136,7 +142,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         Image(content)
                     }
                 }
-       
             }.padding(.top,16)
         }.padding(.horizontal, 16)
     }
@@ -212,6 +217,28 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         
     }
     
+    private var addPhotoButton: some View {
+        PhotosPicker(selection: $selectedPhoto,
+                     matching: .images,
+                     preferredItemEncoding: .automatic) {
+            ZStack {
+                Capsule()
+                    .foregroundColor(Color(R.color.gray1.name))
+                    .frame(height: 50)
+                HStack{
+                    Image(systemName: "plus.circle")
+                        .foregroundColor(Color(R.color.gray6.name))
+                    Text(R.string.localizable.addPhoto()
+                    )
+                    .font(.body)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(R.color.gray6.name))
+                }
+            }
+            .padding(16)
+        }
+    }
+    
     private func generateRandomHeights() {
         randomHeights = (0..<viewModel.images.count).map { _ in generateRandomHeight() }
     }
@@ -233,6 +260,10 @@ struct DetailOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
+    func addReferenceImage(image: PhotosPickerItem) {
+        //
+    }
+    
     func formattedDate() -> String {
         return "04 September"
     }
@@ -258,8 +289,4 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
         ImageModel(imageName: R.image.image8.name),
         ImageModel(imageName: R.image.image9.name)
     ]
-    
-    func addImage(_ image: String) {
-        //
-    }
 }

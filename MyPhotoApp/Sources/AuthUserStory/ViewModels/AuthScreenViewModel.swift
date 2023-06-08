@@ -29,7 +29,7 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
             return
         }
         let authDataResult = try await AuthNetworkService.shared.createUser(email: signInEmail, password: signInPassword)
-        let user = DBUser(auth: authDataResult) 
+        let user = DBUserModel(auth: authDataResult) 
         try await UserManager.shared.createNewUser(user: user)
     }
     
@@ -47,7 +47,7 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
             return
         }
         let authDataResult = try await AuthNetworkService.shared.signInUser(email: signUpEmail, password: signUpPassword)
-        let user = DBUser(auth: authDataResult)
+        let user = DBUserModel(auth: authDataResult)
         
         try await UserManager.shared.createNewUser(user: user)
         //try await UserManager.shared.createNewUser (auth: authDataResult)

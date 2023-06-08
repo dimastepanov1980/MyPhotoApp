@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 final class MainScreenViewModel: MainScreenViewModelType {
     @Published var weaterId: String  = ""
-    @Published var orders: [UserOrders] = []
+    @Published var orders: [UserOrdersModel] = []
     @Published var currentWeek: [Date] = []
     @Published var currentDay: Date = Date()
     @Published var today: Date = Date()
@@ -64,7 +64,7 @@ final class MainScreenViewModel: MainScreenViewModelType {
         //print("Orders: \(orders?.id)")
     }
     
-    func deleteOrder(order: UserOrders) async throws {
+    func deleteOrder(order: UserOrdersModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
     }

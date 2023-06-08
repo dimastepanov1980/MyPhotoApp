@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftUI
 
 struct HCellMainScreenView: View {
-    let items: UserOrders
+    let items: UserOrdersModel
 
     var body: some View {
             VStack(alignment: .leading, spacing: 8) {
@@ -89,7 +89,7 @@ struct HCellMainScreenView_Previews: PreviewProvider {
 
 
 private class MockViewModelHCell: ObservableObject {
-    let mocData: UserOrders = UserOrders(order: MainOrderModel(id: UUID().uuidString,
+    let mocData: UserOrdersModel = UserOrdersModel(order: MainOrderModel(id: UUID().uuidString,
                                                                name: "Katy Igor",
                                                                instagramLink: nil,
                                                                place: "Kata Noy Beach",
