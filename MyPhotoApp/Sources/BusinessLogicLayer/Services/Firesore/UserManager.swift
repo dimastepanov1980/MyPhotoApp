@@ -72,10 +72,10 @@ final class UserManager {
     }
     
     func addToImageUrlLink(userId: String, path: String, orderId: String) async throws {
-        let data: [String : Any] = [
-            UserOrdersModel.CodingKeys.imageUrl.rawValue : path
+        let data: [String : [Any]] = [
+            UserOrdersModel.CodingKeys.imageUrl.rawValue : [path]
         ]
-            try await userOrderDocument (userId: userId, orderId: orderId).setData(data, merge: true)
+        try await userOrderDocument (userId: userId, orderId: orderId).updateData(data) //.setData(data, merge: true)
     }
     
     func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
