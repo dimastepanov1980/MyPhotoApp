@@ -27,7 +27,7 @@ struct MainOrderModel: Identifiable {
         self.date = order.date ?? Date()
         self.duration = order.duration ?? ""
         self.description = order.description
-        self.imageUrl = order.imageUrl ?? [""]
+        self.imageUrl = order.imageUrl ?? []
     }
     
     init(id: String, name: String, instagramLink: String?,

@@ -16,7 +16,7 @@ final class AddOrderViewModel: AddOrderViewModelType {
     @Published var description: String = ""
     @Published var date: Date = Date()
     @Published var duration: String = ""
-    @Published var imageUrl: [String] = [""]
+    @Published var imageUrl: [String] = []
 
     
 //    init(order: OrderModel){

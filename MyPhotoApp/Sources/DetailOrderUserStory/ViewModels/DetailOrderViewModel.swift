@@ -39,6 +39,23 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         date = order.date ?? Date()
     }
     
+    func addReferenceImages(images: [PhotosPickerItem]) {
+        Task {
+            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+            var selectedImages: [String] = []
+            for iamgeData in images {
+                guard let data = try await iamgeData.loadTransferable(type: Data.self) else { return }
+                let (path, _) = try await StorageManager.shared.uploadImageToFairbase(data: data, userId: authDateResult.uid, orderId: order.id)
+                print("SUCCESS")
+                print(path)
+                selectedImages.append(path)
+            }
+            try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.id)
+
+
+        }
+    }
+    
     func addReferenceImage(image: PhotosPickerItem) {
         Task {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()

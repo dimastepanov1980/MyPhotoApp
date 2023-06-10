@@ -62,7 +62,7 @@ final class UserManager {
             UserOrdersModel.CodingKeys.description.rawValue : order.description  ?? "",
             UserOrdersModel.CodingKeys.date.rawValue : order.date ?? Timestamp(),
             UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? "",
-            UserOrdersModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? ""
+            UserOrdersModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? [""]
         ]
             try await document.setData(data, merge: false)
     }
@@ -76,6 +76,10 @@ final class UserManager {
             UserOrdersModel.CodingKeys.imageUrl.rawValue : [path]
         ]
         try await userOrderDocument (userId: userId, orderId: orderId).updateData(data) //.setData(data, merge: true)
+    }
+    
+    func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
+        try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
     }
     
     func getAllOrders(userId: String) async throws -> [UserOrdersModel] {

@@ -18,7 +18,7 @@ final class StorageManager {
     private func userReferenceImage(userId: String) -> StorageReference {
         storage.child("users").child(userId)
     }
-    
+
     func uploadImageToFairbase(data: Data, userId: String, orderId: String) async throws -> (path: String, name: String) {
         
         let metadata = StorageMetadata()
@@ -32,6 +32,22 @@ final class StorageManager {
         
         return (returnedPath, returnedName)
     }
+    
+  /*
+   func uploadImageToFairbase(data: Data, userId: String, orderId: String) async throws -> (path: String, name: String) {
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        let path = "\(UUID().uuidString).jpg"
+        let returnedMetadata = try await userReferenceImage(userId: userId).child(orderId).child(path).putDataAsync(data, metadata: metadata)
+        
+        guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
+            throw URLError(.badServerResponse)
+        }
+        
+        return (returnedPath, returnedName)
+    }
+   */
     
     func uploadImageToFairbase(image: UIImage, userId: String, orderId: String) async throws -> (path: String, name: String) {
         guard let data = image.jpegData(compressionQuality: 0.5) else {

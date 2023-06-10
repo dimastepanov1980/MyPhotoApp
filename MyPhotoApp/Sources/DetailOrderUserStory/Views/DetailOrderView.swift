@@ -15,6 +15,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var selection = "None"
     @State private var randomHeights: [CGFloat] = []
     @State private var selectedPhoto: PhotosPickerItem? = nil
+    @State private var maxSelectedImages: [PhotosPickerItem] = []
+    @State private var selectedImages: [UIImage] = []
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -40,10 +42,10 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     
                 }
                 addPhotoButton
-                    .onChange(of: selectedPhoto) { image in
-                        if let image {
-                            viewModel.addReferenceImage(image: image)
-                        }
+                    .onChange(of: maxSelectedImages) { image in
+                        
+                            viewModel.addReferenceImages(images: image)
+                        
                     }
             }
         }
@@ -218,6 +220,31 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     
     private var addPhotoButton: some View {
+        PhotosPicker(selection: $maxSelectedImages,
+                     maxSelectionCount: 10,
+                     matching: .any(of: [.images, .not(.videos)]),
+                     preferredItemEncoding: .automatic,
+                     photoLibrary: .shared()) {
+            ZStack {
+                Capsule()
+                    .foregroundColor(Color(R.color.gray1.name))
+                    .frame(height: 50)
+                HStack{
+                    Image(systemName: "plus.circle")
+                        .foregroundColor(Color(R.color.gray6.name))
+                    Text(R.string.localizable.addPhoto()
+                    )
+                    .font(.body)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(R.color.gray6.name))
+                }
+            }
+            .padding(16)
+        }
+    }
+    
+    /*
+    private var addPhotoButton: some View {
         PhotosPicker(selection: $selectedPhoto,
                      matching: .images,
                      preferredItemEncoding: .automatic) {
@@ -238,7 +265,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             .padding(16)
         }
     }
-    
+    */
     private func generateRandomHeights() {
         randomHeights = (0..<viewModel.images.count).map { _ in generateRandomHeight() }
     }
@@ -260,6 +287,10 @@ struct DetailOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
+    func addReferenceImages(images: [PhotosPickerItem]) {
+        //
+    }
+    
     func addReferenceImage(image: PhotosPickerItem) {
         //
     }

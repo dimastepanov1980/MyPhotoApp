@@ -14,6 +14,9 @@ class MocMainOrders: DetailOrderViewModelType {
     func addReferenceImage(image: PhotosPickerItem) {
         //
     }
+    func addReferenceImages(images: [PhotosPickerItem]) {
+        //
+    }
     
     var name: String = "Ira"
     
