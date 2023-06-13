@@ -11,6 +11,10 @@ import SwiftUI
 
 @MainActor
 final class DetailOrderViewModel: DetailOrderViewModelType {
+    func getReferenceImages(path: String) async throws {
+        //
+    }
+    
     var name = ""
     var instagramLink: String?
     var price: Int?
@@ -45,18 +49,21 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             var selectedImages: [String] = []
             for iamgeData in images {
                 guard let data = try await iamgeData.loadTransferable(type: Data.self) else { return }
-                let (path, _) = try await StorageManager.shared.uploadImageToFairbase(data: data, userId: authDateResult.uid, orderId: order.id)
+                let (path, name) = try await StorageManager.shared.uploadImageToFairbase(data: data, userId: authDateResult.uid, orderId: order.id)
                 print("SUCCESS")
                 print(path)
+                print(name)
                 selectedImages.append(path)
             }
             try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.id)
-
-
         }
     }
     
-    func addReferenceImage(image: PhotosPickerItem) {
+    func getReferenceImages(path: String) async throws -> UIImage {
+        try await StorageManager.shared.getReferenceImage(path: path)
+    }
+    
+    func addAvatarImage(image: PhotosPickerItem) {
         Task {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
 
@@ -65,7 +72,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             print("SUCCESS")
             print(name)
             print(path)
-            try await UserManager.shared.addToImageUrlLink(userId: authDateResult.uid, path: path, orderId: order.id)
+            try await UserManager.shared.addToAvatarLink(userId: authDateResult.uid, path: path, orderId: order.id)
         }
     }
     

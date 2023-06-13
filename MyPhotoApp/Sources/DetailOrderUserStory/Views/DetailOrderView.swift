@@ -17,6 +17,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var selectedPhoto: PhotosPickerItem? = nil
     @State private var maxSelectedImages: [PhotosPickerItem] = []
     @State private var selectedImages: [UIImage] = []
+    @State private var setImage: [Data] = []
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -43,9 +44,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 }
                 addPhotoButton
                     .onChange(of: maxSelectedImages) { image in
-                        
                             viewModel.addReferenceImages(images: image)
-                        
                     }
             }
         }
@@ -141,15 +140,40 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     Button {
                         print("Instagramm")
                     } label: {
-                        Image(content)
+                        Image(R.image.ic_instagram.name)
                     }
                 }
             }.padding(.top,16)
         }.padding(.horizontal, 16)
     }
     
+ //   @State private var setImage: [Data] = []
+
     private var imageSection: some View {
-        HStack(alignment: .top) {
+        VStack {
+            ForEach(setImage, id: \.self) { imageData in
+                if let image = UIImage(data: imageData) {
+                    Image(uiImage: image)
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                }
+            }
+        }
+        .task {
+            if let urlString = viewModel.image {
+                for item in urlString {
+                    do {
+                        let data = try await StorageManager.shared.getReferenceImageData(path: item)
+                        setImage.append(data)
+                    } catch {
+                        print("Error fetching image data: \(error)")
+                    }
+                }
+            }
+        }
+    }
+        
+        /* HStack(alignment: .top) {
             VStack {
                 ForEach(viewModel.images.prefix(viewModel.images.count / 2), id: \.id) { image in
                     let index = viewModel.images.prefix(viewModel.images.count / 2).firstIndex { $0.id == image.id } ?? 0
@@ -216,8 +240,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 generateRandomHeights()
             }
         }
-        
-    }
+        */
+
     
     private var addPhotoButton: some View {
         PhotosPicker(selection: $maxSelectedImages,
@@ -242,30 +266,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             .padding(16)
         }
     }
-    
-    /*
-    private var addPhotoButton: some View {
-        PhotosPicker(selection: $selectedPhoto,
-                     matching: .images,
-                     preferredItemEncoding: .automatic) {
-            ZStack {
-                Capsule()
-                    .foregroundColor(Color(R.color.gray1.name))
-                    .frame(height: 50)
-                HStack{
-                    Image(systemName: "plus.circle")
-                        .foregroundColor(Color(R.color.gray6.name))
-                    Text(R.string.localizable.addPhoto()
-                    )
-                    .font(.body)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color(R.color.gray6.name))
-                }
-            }
-            .padding(16)
-        }
-    }
-    */
+
     private func generateRandomHeights() {
         randomHeights = (0..<viewModel.images.count).map { _ in generateRandomHeight() }
     }
@@ -287,11 +288,15 @@ struct DetailOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
+    func getReferenceImages(path: String) async throws {
+        //
+    }
+    
     func addReferenceImages(images: [PhotosPickerItem]) {
         //
     }
     
-    func addReferenceImage(image: PhotosPickerItem) {
+    func addAvatarImage(image: PhotosPickerItem) {
         //
     }
     

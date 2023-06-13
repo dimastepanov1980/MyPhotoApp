@@ -10,10 +10,14 @@ import SwiftUI
 import PhotosUI
 
 class MocMainOrders: DetailOrderViewModelType {
-    
-    func addReferenceImage(image: PhotosPickerItem) {
+    func getReferenceImages(path: String) async throws {
         //
     }
+    
+    func addAvatarImage(image: PhotosPickerItem) {
+        //
+    }
+
     func addReferenceImages(images: [PhotosPickerItem]) {
         //
     }

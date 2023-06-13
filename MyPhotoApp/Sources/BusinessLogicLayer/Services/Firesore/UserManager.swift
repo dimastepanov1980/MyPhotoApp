@@ -71,7 +71,7 @@ final class UserManager {
         try await userOrderDocument (userId: userId, orderId: order.id).delete()
     }
     
-    func addToImageUrlLink(userId: String, path: String, orderId: String) async throws {
+    func addToAvatarLink(userId: String, path: String, orderId: String) async throws {
         let data: [String : [Any]] = [
             UserOrdersModel.CodingKeys.imageUrl.rawValue : [path]
         ]
