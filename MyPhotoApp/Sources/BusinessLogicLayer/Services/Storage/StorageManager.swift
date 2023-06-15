@@ -22,7 +22,6 @@ final class StorageManager {
     func getReferenceImageData(path: String) async throws -> Data {
         print("\(storage)\(path)")
         let data = try await storage.child(path).data(maxSize: 3 * 1024 * 1024)
-        print("printing data\(data)")
         return data
         
     }
@@ -30,10 +29,8 @@ final class StorageManager {
     func getReferenceImage(path: String) async throws -> UIImage {
         let data = try await getReferenceImageData(path: path)
         guard let image = UIImage(data: data) else {
-            print("error")
             throw URLError(.badServerResponse)
         }
-        print(data.count)
         return image
     }
     
@@ -47,7 +44,6 @@ final class StorageManager {
         guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
             throw URLError(.badServerResponse)
         }
-        
         return (returnedPath, returnedName)
     }
     
@@ -59,3 +55,5 @@ final class StorageManager {
 
     }
 }
+
+

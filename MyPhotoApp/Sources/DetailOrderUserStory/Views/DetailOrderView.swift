@@ -14,9 +14,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var showingOptions = false
     @State private var selection = "None"
     @State private var randomHeights: [CGFloat] = []
-    @State private var selectedPhoto: PhotosPickerItem? = nil
     @State private var maxSelectedImages: [PhotosPickerItem] = []
-    @State private var selectedImages: [UIImage] = []
     @State private var setImage: [Data] = []
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -136,7 +134,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .padding(.top, 24)
             }
             HStack {
-                if let content = viewModel.instagramLink {
+                if let _ = viewModel.instagramLink {
                     Button {
                         print("Instagramm")
                     } label: {
@@ -147,15 +145,57 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         }.padding(.horizontal, 16)
     }
     
- //   @State private var setImage: [Data] = []
-
     private var imageSection: some View {
-        VStack {
-            ForEach(setImage, id: \.self) { imageData in
-                if let image = UIImage(data: imageData) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .frame(width: 100, height: 100)
+            HStack(alignment: .top) {
+            VStack {
+                ForEach(setImage.prefix(setImage.count / 2), id: \.self) { image in
+                    let index = setImage.prefix(setImage.count / 2).firstIndex { $0 == image.self } ?? 0
+                    let height = randomHeights.indices.contains(index) ? randomHeights[index] : generateRandomHeight()
+                    if let image = UIImage(data: image) {
+                    ZStack(alignment: .topTrailing) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .frame(height: 250)
+                            .foregroundColor(.blue)
+                            .cornerRadius(10)
+                        
+                        Button {
+                            showingOptions = true
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundColor(Color.white)
+                        }
+                        .padding(16)
+                    }
+                    }
+                }
+            }
+                
+            VStack {
+                ForEach(setImage.suffix(setImage.count / 2), id: \.self) { image in
+                    let index = setImage.suffix(setImage.count / 2).firstIndex { $0 == image.self } ?? 0
+                    let height = randomHeights.indices.contains(index) ? randomHeights[index] : generateRandomHeight()
+                    if let image = UIImage(data: image) {
+                    ZStack(alignment: .topTrailing) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .frame(height: 250)
+                            .foregroundColor(.blue)
+                            .cornerRadius(10)
+                        
+                        Button {
+                            showingOptions = true
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundColor(Color.white)
+                        }
+                        .padding(16)
+                    }
+                    }
                 }
             }
         }
@@ -171,8 +211,24 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 }
             }
         }
+        .padding(8)
+        .confirmationDialog("Remove the image",
+                            isPresented: $showingOptions,
+                            titleVisibility: .visible) {
+            Button {
+                //
+            } label: {
+                Text("Remove")
+                    .foregroundColor(Color.white)
+                
+            }
+        }.onAppear {
+            if randomHeights.isEmpty {
+                generateRandomHeights()
+            }
+        }
     }
-        
+    
         /* HStack(alignment: .top) {
             VStack {
                 ForEach(viewModel.images.prefix(viewModel.images.count / 2), id: \.id) { image in
