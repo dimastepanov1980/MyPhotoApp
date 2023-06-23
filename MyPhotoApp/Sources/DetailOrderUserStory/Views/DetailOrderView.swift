@@ -7,19 +7,19 @@
 
 import SwiftUI
 import PhotosUI
+import SDWebImageSwiftUI
+import Firebase
 
 struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
     @State private var showingOptions = false
-    @State private var selection = "None"
     @State private var randomHeights: [CGFloat] = []
-    @State private var maxSelectedImages: [PhotosPickerItem] = []
-    @State private var setImage: [Data] = []
+    @State private var selectedItems: [PhotosPickerItem] = []
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-
+    
+    
     init(with viewModel: ViewModel) {
         self.viewModel = viewModel
     }
@@ -33,17 +33,22 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             infoSection
                             Spacer()
                             priceSection
-                        } .padding(.horizontal, 16)
+                        }
                         
                         desctriptionSection
                         imageSection
-                    }.padding(.top)
+                    }
+                    .padding(.top)
+                    .padding(.horizontal, 16)
                     
                 }
                 addPhotoButton
-                    .onChange(of: maxSelectedImages) { image in
-                            viewModel.addReferenceImages(images: image)
+                    .onChange(of: selectedItems) { image in
+                        Task {
+                            try await viewModel.addReferenceUIImages(selectedItems: image)
+                        }
                     }
+                
             }
         }
         
@@ -111,7 +116,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             }
         }
     }
-    
     private var priceSection: some View {
         VStack {
             if let price = viewModel.price {
@@ -124,17 +128,18 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             }
         }
     }
-    
     private var desctriptionSection: some View {
-        VStack(alignment: .trailing, spacing: 0){
+        VStack(alignment: .leading, spacing: 0){
             if let content = viewModel.description {
                 Text(content)
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray2.name))
+                    .multilineTextAlignment(.leading)
                     .padding(.top, 24)
             }
             HStack {
                 if let _ = viewModel.instagramLink {
+                    Spacer()
                     Button {
                         print("Instagramm")
                     } label: {
@@ -142,79 +147,42 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     }
                 }
             }.padding(.top,16)
-        }.padding(.horizontal, 16)
+        }
     }
-    
     private var imageSection: some View {
-            HStack(alignment: .top) {
+        // MARK: https://stackoverflow.com/questions/66101176/how-could-i-use-a-swiftui-lazyvgrid-to-create-a-staggered-grid
+        // Сделать в две  строчки
+        // Проверить что бы добовлялись изображения
+        HStack(alignment: .top) {
             VStack {
-                ForEach(setImage.prefix(setImage.count / 2), id: \.self) { image in
-                    let index = setImage.prefix(setImage.count / 2).firstIndex { $0 == image.self } ?? 0
-                    let height = randomHeights.indices.contains(index) ? randomHeights[index] : generateRandomHeight()
-                    if let image = UIImage(data: image) {
-                    ZStack(alignment: .topTrailing) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .frame(height: 250)
-                            .foregroundColor(.blue)
-                            .cornerRadius(10)
-                        
-                        Button {
-                            showingOptions = true
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .foregroundColor(Color.white)
+                ForEach(viewModel.selectImages, id: \.self) { image in
+                  
+                        ZStack(alignment: .topTrailing) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .frame(height: 250)
+                                .foregroundColor(.blue)
+                                .cornerRadius(10)
+                            
+                            Button {
+                                showingOptions = true
+                            } label: {
+                                Image(systemName: "ellipsis")
+                                    .foregroundColor(Color.white)
+                            }
+                            .padding(16)
                         }
-                        .padding(16)
-                    }
-                    }
-                }
-            }
-                
-            VStack {
-                ForEach(setImage.suffix(setImage.count / 2), id: \.self) { image in
-                    let index = setImage.suffix(setImage.count / 2).firstIndex { $0 == image.self } ?? 0
-                    let height = randomHeights.indices.contains(index) ? randomHeights[index] : generateRandomHeight()
-                    if let image = UIImage(data: image) {
-                    ZStack(alignment: .topTrailing) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .frame(height: 250)
-                            .foregroundColor(.blue)
-                            .cornerRadius(10)
-                        
-                        Button {
-                            showingOptions = true
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .foregroundColor(Color.white)
-                        }
-                        .padding(16)
-                    }
-                    }
+                    
                 }
             }
         }
         .task {
-            if let urlString = viewModel.image {
-                for item in urlString {
-                    do {
-                        let data = try await StorageManager.shared.getReferenceImageData(path: item)
-                        setImage.append(data)
-                    } catch {
-                        print("Error fetching image data: \(error)")
-                    }
-                }
-            }
+            try? await viewModel.fetchImages()
         }
-        .padding(8)
         .confirmationDialog("Remove the image",
-                            isPresented: $showingOptions,
-                            titleVisibility: .visible) {
+                            isPresented: $showingOptions) {
             Button {
                 //
             } label: {
@@ -222,85 +190,10 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .foregroundColor(Color.white)
                 
             }
-        }.onAppear {
-            if randomHeights.isEmpty {
-                generateRandomHeights()
-            }
         }
     }
-    
-        /* HStack(alignment: .top) {
-            VStack {
-                ForEach(viewModel.images.prefix(viewModel.images.count / 2), id: \.id) { image in
-                    let index = viewModel.images.prefix(viewModel.images.count / 2).firstIndex { $0.id == image.id } ?? 0
-                    let height = randomHeights.indices.contains(index) ? randomHeights[index] : generateRandomHeight()
-
-                    ZStack(alignment: .topTrailing) {
-                        Image(image.imageName)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .frame(height: height)
-                            .foregroundColor(.blue)
-                            .cornerRadius(10)
-
-                        Button {
-                            showingOptions = true
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .foregroundColor(Color.white)
-                        }
-                        .padding(16)
-                    }
-                }
-            }
-            
-            VStack {
-                ForEach(viewModel.images.suffix(viewModel.images.count / 2), id: \.id) { image in
-                    let index = viewModel.images.suffix(viewModel.images.count / 2).firstIndex { $0.id == image.id } ?? 0
-                    let height = randomHeights.indices.contains(index) ? randomHeights[index] : generateRandomHeight()
-
-                    ZStack(alignment: .topTrailing) {
-                        Image(image.imageName)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .frame(height: height)
-                            .foregroundColor(.blue)
-                            .cornerRadius(10)
-
-                        Button {
-                            showingOptions = true
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .foregroundColor(Color.white)
-                        }
-                        .padding(16)
-                    }
-                }
-            }
-        }
-        .padding(8)
-        .confirmationDialog("Remove the image",
-                            isPresented: $showingOptions,
-                            titleVisibility: .visible) {
-            Button {
-                //
-            } label: {
-                Text("Remove")
-                    .foregroundColor(Color.white)
-
-            }
-        }.onAppear {
-            if randomHeights.isEmpty {
-                generateRandomHeights()
-            }
-        }
-        */
-
-    
     private var addPhotoButton: some View {
-        PhotosPicker(selection: $maxSelectedImages,
+        PhotosPicker(selection: $selectedItems,
                      maxSelectionCount: 10,
                      matching: .any(of: [.images, .not(.videos)]),
                      preferredItemEncoding: .automatic,
@@ -322,11 +215,9 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             .padding(16)
         }
     }
-
     private func generateRandomHeights() {
-        randomHeights = (0..<viewModel.images.count).map { _ in generateRandomHeight() }
+        randomHeights = (0..<viewModel.setImage.count).map { _ in generateRandomHeight() }
     }
-
     private func generateRandomHeight() -> CGFloat {
         return CGFloat.random(in: 150...350)
     }
@@ -342,43 +233,31 @@ struct DetailOrderView_Previews: PreviewProvider {
         }
     }
 }
-
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
-    func getReferenceImages(path: String) async throws {
+    func fetchImages() async throws {
         //
     }
     
-    func addReferenceImages(images: [PhotosPickerItem]) {
-        //
-    }
-    
-    func addAvatarImage(image: PhotosPickerItem) {
-        //
-    }
-    
-    func formattedDate() -> String {
-        return "04 September"
-    }
-    
+    @Published var selectImages: [UIImage] = []
+    @Published var selectedItems: [PhotosPickerItem] = []
+    @Published var setImage: [Data] = []
     @Published var name = "Marat Olga"
     @Published var instagramLink: String? = ""
     @Published var price: Int? = 5500
     @Published var place: String? = "Kata Noy Beach"
     @Published var description: String? = "Нет возможности делать промоакции. Нет возможноcти предлагать кросс услуги (аренда одежды, мейкап итд). Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду, Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду"
     @Published var duration = "1.5"
-    @Published var image: [String]? = [""]
+    @Published var image: [String]? = []
     @Published var date: Date = Date()
+
     
-    @Published var images: [ImageModel] = [
-        ImageModel(imageName: R.image.image0.name),
-        ImageModel(imageName: R.image.image1.name),
-        ImageModel(imageName: R.image.image2.name),
-        ImageModel(imageName: R.image.image3.name),
-        ImageModel(imageName: R.image.image4.name),
-        ImageModel(imageName: R.image.image5.name),
-        ImageModel(imageName: R.image.image6.name),
-        ImageModel(imageName: R.image.image7.name),
-        ImageModel(imageName: R.image.image8.name),
-        ImageModel(imageName: R.image.image9.name)
-    ]
+    func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws {
+        //
+    }
+    func addAvatarImage(image: PhotosPickerItem) {
+        //
+    }
+    func formattedDate() -> String {
+        return "04 September"
+    }
 }

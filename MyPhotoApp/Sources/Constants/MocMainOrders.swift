@@ -10,37 +10,30 @@ import SwiftUI
 import PhotosUI
 
 class MocMainOrders: DetailOrderViewModelType {
-    func getReferenceImages(path: String) async throws {
+    func fetchImages() async throws {
         //
     }
     
-    func addAvatarImage(image: PhotosPickerItem) {
+    @Published var selectImages: [UIImage] = []
+    @Published var selectedItems: [PhotosPickerItem] = []
+    @Published var setImage: [Data] = []
+    @Published var name: String = "Ira"
+    @Published var instagramLink: String? = nil
+    @Published var price: Int? = 6500
+    @Published var place: String? = "Kata Noy Beach1"
+    @Published var description: String? = "Included with your membership are two Technical Support Incidents (TSIs), which can be used during your membership year to request code-level support for Apple frameworks, APIs, and tools from an Apple Developer Technical Support Engineer. You’ll receive two new TSIs when you renew your membership. Additional TSIs are available for purchase at any time."
+    
+    @Published var duration: String = "1.5"
+    @Published var image: [String]? = nil
+    @Published var date: Date = Date()
+    
+    func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws {
         //
     }
 
-    func addReferenceImages(images: [PhotosPickerItem]) {
+    func addAvatarImage(image: PhotosPickerItem) {
         //
     }
-    
-    var name: String = "Ira"
-    
-    var instagramLink: String? = nil
-    
-    var price: Int? = 6500
-    
-    var place: String? = "Kata Noy Beach1"
-    
-    var description: String? = "Included with your membership are two Technical Support Incidents (TSIs), which can be used during your membership year to request code-level support for Apple frameworks, APIs, and tools from an Apple Developer Technical Support Engineer. You’ll receive two new TSIs when you renew your membership. Additional TSIs are available for purchase at any time."
-    
-    var duration: String = "1.5"
-    
-    var image: [String]? = nil
-    
-    var date: Date = Date()
-    
-    var images: [ImageModel] = []
-    
-    
     func formattedDate() -> String {
         return ""
     }

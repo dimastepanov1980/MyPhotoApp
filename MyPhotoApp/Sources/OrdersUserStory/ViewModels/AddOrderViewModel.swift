@@ -32,7 +32,7 @@ final class AddOrderViewModel: AddOrderViewModelType {
     func addOrder(order: UserOrdersModel) async throws {
                 let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try? await UserManager.shared.addNewOrder(userId: authDateResult.uid, order: order)
-   
+        
     }
 
 }

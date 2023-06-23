@@ -20,7 +20,8 @@ final class StorageManager {
     }
 
     func getReferenceImageData(path: String) async throws -> Data {
-        print("\(storage)\(path)")
+        print("\(storage)")
+        print("\(path)")
         let data = try await storage.child(path).data(maxSize: 3 * 1024 * 1024)
         return data
         
@@ -48,11 +49,36 @@ final class StorageManager {
     }
     
     func uploadImageToFairbase(image: UIImage, userId: String, orderId: String) async throws -> (path: String, name: String) {
-        guard let data = image.jpegData(compressionQuality: 0.5) else {
+        
+        guard let resizeImage = resizeImage(image: image, targetSize: CGSize(width: 1200, height: 1200)),
+              let data = resizeImage.jpegData(compressionQuality: 0.3) else {
             throw URLError(.backgroundSessionWasDisconnected)
         }
+        print("compressed size\(data)")
         return try await uploadImageToFairbase(data: data, userId: userId, orderId: orderId)
-
+    }
+    
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        let rect = CGRect(origin: .zero, size: newSize)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
     }
 }
 

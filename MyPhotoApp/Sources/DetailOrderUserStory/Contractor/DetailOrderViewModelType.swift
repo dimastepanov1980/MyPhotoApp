@@ -19,10 +19,12 @@ protocol DetailOrderViewModelType: ObservableObject {
     var duration: String { get }
     var image: [String]? { get }
     var date: Date { get }
-    var images: [ImageModel] { get }
+    var selectedItems: [PhotosPickerItem] { get }
+    var setImage: [Data] { get set }
+    var selectImages: [UIImage] { get set }
     
     func addAvatarImage(image: PhotosPickerItem)
-    func addReferenceImages(images: [PhotosPickerItem])
     func formattedDate() -> String
-    func getReferenceImages(path: String) async throws
+    func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws
+    func fetchImages() async throws
 }

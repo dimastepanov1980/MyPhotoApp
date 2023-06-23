@@ -26,12 +26,12 @@ struct VCellMainScreenView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 16)
                         .foregroundColor(Color(R.color.gray2.name))
-                    
-                    Text(Date().displayHours)
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray2.name))
-                        .padding(.trailing)
-                    
+                    if let time = items.date {
+                        Text(time.formatted(Date.FormatStyle().hour().minute()))
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray2.name))
+                            .padding(.trailing)
+                    }
                     Image(systemName: "timer")
                         .resizable()
                         .aspectRatio(contentMode: .fit)

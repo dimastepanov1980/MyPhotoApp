@@ -13,6 +13,33 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @Binding var showSignInView: Bool
     @Binding var showAddOrderView: Bool
     
+    var filteredOrdersForToday: [UserOrdersModel] {
+        let today = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM"
+        
+        return viewModel.orders.filter { order in
+            let formattedOrderDate = dateFormatter.string(from: order.date ?? Date())
+            let formattedToday = dateFormatter.string(from: today)
+            return formattedOrderDate == formattedToday
+        }
+    }
+    
+    var filteredOrdersForDate: [Date : [UserOrdersModel]] {
+        var dictionaryByMonth = [Date : [UserOrdersModel]]()
+        for item in viewModel.orders {
+            if let date = item.date {
+                let date = Calendar.current.startOfDay(for: date)
+                if dictionaryByMonth[date] == nil {
+                    dictionaryByMonth[date] = [item]
+                } else {
+                    dictionaryByMonth[date]?.append(item)
+                }
+            }
+        }
+        return dictionaryByMonth
+    }
+    
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
          showAddOrderView: Binding<Bool>) {
@@ -22,13 +49,14 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     }
     
     var body: some View {
-        ZStack(alignment: .bottom) {
+        VStack {
                 ScrollView(.vertical, showsIndicators: false) {
                     LazyVStack(spacing: 16, pinnedViews: [.sectionHeaders, .sectionFooters]) {
                         Section {
                             ScrollView(.vertical) {
                                 verticalCards
                             }
+                            
                             //MARK: Calendar
                             
                         } header: {
@@ -41,19 +69,21 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     .padding(.bottom)
             
             ButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
-                
-                try? await viewModel.loadOrders()
                 showAddOrderView.toggle()
-                
             }.background()
         } .onChange(of: showAddOrderView, perform: { _ in
             Task{
                 try? await viewModel.loadOrders()
+                print("toogle LoadOrder")
+              
             }
         })
+        
         .task {
             try? await viewModel.loadOrders()
+
         }
+        
         .fullScreenCover(isPresented: $showAddOrderView) {
             NavigationStack {
                 AddOrderView(with: AddOrderViewModel(), showAddOrderView: $showAddOrderView)
@@ -119,13 +149,13 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     }
     var horizontalCards: some View {
         LazyHStack {
-            ForEach(viewModel.orders, id: \.id) { order in
+            ForEach(filteredOrdersForToday, id: \.id) { order in
                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order))
-                    .navigationBarBackButtonHidden(true)) {
+                                .navigationBarBackButtonHidden(true)) {
                     HCellMainScreenView(items: order)
                         .contextMenu {
                             Button("Remove Order") {
-                                Task{
+                                Task {
                                     try? await viewModel.deleteOrder(order: order)
                                     try? await viewModel.loadOrders()
                                 }
@@ -133,8 +163,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         }
                 }
             }
-            
-        }  .padding(.horizontal)
+        }.padding(.horizontal)
     }
     var calendarSection: some View {
         HStack(spacing: 8){
@@ -191,26 +220,50 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         .padding()
     }
     var verticalCards: some View {
-        LazyVStack {
-            ForEach(viewModel.orders, id: \.id) { order in
-                
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order))
-                    .navigationBarBackButtonHidden(true)
-                ) {
-                    VCellMainScreenView(items: order)
-                        .contextMenu {
-                            Button("Remove Order") {
-                                Task{
-                                    try? await viewModel.deleteOrder(order: order)
-                                    try? await viewModel.loadOrders()
+       VStack {
+           ForEach(filteredOrdersForDate.keys.sorted(), id: \.self) { date in
+               Section(header: Text(date, style: .date)) {
+                   ForEach(filteredOrdersForDate[date]!, id: \.date) { order in
+                       NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order))
+                        .navigationBarBackButtonHidden(true)
+                       ) {
+                           VCellMainScreenView(items: order)
+                               .contextMenu {
+                                   Button("Remove Order") {
+                                       Task{
+                                           try? await viewModel.deleteOrder(order: order)
+                                           try? await viewModel.loadOrders()
+                                       }
+                                   }
+                               }
+                       }
+                   }
+               }
+           }
+           /* ForEach(viewModel.orders.sorted(by: { $0.date! < $1.date! }), id: \.date) { order in
+                Section {
+                    if let date = order.date?.formatted(Date.FormatStyle().day().month()) {
+                        Text("\(date)")
+                    }
+                    NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order))
+                        .navigationBarBackButtonHidden(true)
+                    ) {
+                        VCellMainScreenView(items: order)
+                            .contextMenu {
+                                Button("Remove Order") {
+                                    Task{
+                                        try? await viewModel.deleteOrder(order: order)
+                                        try? await viewModel.loadOrders()
+                                    }
                                 }
                             }
-                        }
+                    }
                 }
+                
             }
-            
+            */
         }  .padding(.horizontal)
-        
+
     }
 }
 // MARK: Формтируем дату в День месяц

@@ -11,19 +11,18 @@ import SwiftUI
 
 @MainActor
 final class DetailOrderViewModel: DetailOrderViewModelType {
-    func getReferenceImages(path: String) async throws {
-        //
-    }
-    
-    var name = ""
-    var instagramLink: String?
-    var price: Int?
-    var place: String?
-    var description: String?
-    var duration = ""
-    var image: [String]?
-    var date: Date = Date()
-    var images: [ImageModel] = []
+    @Published var selectedItems: [PhotosPickerItem] = []
+    @Published var setImage: [Data] = []
+    @Published var name = ""
+    @Published var instagramLink: String?
+    @Published var price: Int?
+    @Published var place: String?
+    @Published var description: String?
+    @Published var duration = ""
+    @Published var image: [String]?
+    @Published var date: Date = Date()
+    @Published var selectImages: [UIImage] = []
+
 
     private let order: UserOrdersModel
 
@@ -42,27 +41,34 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         image = order.imageUrl
         date = order.date ?? Date()
     }
-    
-    func addReferenceImages(images: [PhotosPickerItem]) {
-        Task {
-            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-            var selectedImages: [String] = []
-            for iamgeData in images {
-                guard let data = try await iamgeData.loadTransferable(type: Data.self) else { return }
-                let (path, name) = try await StorageManager.shared.uploadImageToFairbase(data: data, userId: authDateResult.uid, orderId: order.id)
-                print("SUCCESS")
-                print(path)
-                print(name)
-                selectedImages.append(path)
+    func fetchImages() async throws {
+        if let imageUrl = image {
+            for item in imageUrl {
+                let image = try await StorageManager.shared.getReferenceImage(path: item)
+                selectImages.append(image)
+                try Task.checkCancellation()
             }
-            try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.id)
         }
     }
-    
-    func getReferenceImages(path: String) async throws -> UIImage {
-        try await StorageManager.shared.getReferenceImage(path: path)
+
+    func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws {
+            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+            var selectedImages: [String] = []
+            for item in selectedItems {
+                
+                guard let data = try? await item.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) else {
+                    throw URLError(.backgroundSessionWasDisconnected)
+                }
+                print("Not compressed size\(data)")
+                let (path, _) = try await StorageManager.shared.uploadImageToFairbase(image: uiImage, userId: authDateResult.uid , orderId: order.id)
+                selectedImages.append(path)
+                
+                try Task.checkCancellation()
+            }
+            try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.id)
+
     }
-    
+
     func addAvatarImage(image: PhotosPickerItem) {
         Task {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
@@ -75,7 +81,6 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             try await UserManager.shared.addToAvatarLink(userId: authDateResult.uid, path: path, orderId: order.id)
         }
     }
-    
     func formattedDate() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMMM" // Set the desired output date format

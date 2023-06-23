@@ -22,28 +22,32 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     var body: some View {
         VStack {
                     NavigationView {
-                        VStack(spacing: 10) {
-                            MainTextField(nameTextField: "Client Name", text: $viewModel.name)
-                            MainTextField(nameTextField: "Location", text: $viewModel.place)
-                            MainTextField(nameTextField: "Instagram Link", text: $viewModel.instagramLink)
-                            MainTextField(nameTextField: "Description", text: $viewModel.description)
-                            MainTextField(nameTextField: "Duration", text: $viewModel.duration)
-
-                                .keyboardType (.decimalPad)
+                        ScrollView {
+                            VStack(spacing: 0){
+                                MainTextField(nameTextField: "Client Name", text: $viewModel.name)
+                                MainTextField(nameTextField: "Location", text: $viewModel.place)
+                                MainTextField(nameTextField: "Instagram Link", text: $viewModel.instagramLink)
+                                MainTextField(nameTextField: "Description", text: $viewModel.description)
+                                MainTextField(nameTextField: "Duration", text: $viewModel.duration)
+                                    .keyboardType (.decimalPad)
+                                
+                                DatePicker("Chosee Data", selection: $viewModel.date).datePickerStyle(.graphical)
+                            }
                             Spacer()
                             ButtonXl(titleText: "Add Order", iconName: "") {
                                 if !viewModel.name.isEmpty, !viewModel.place.isEmpty {
                                     let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
-                                                                                  name: viewModel.name,
-                                                                                  instagramLink: viewModel.instagramLink,
-                                                                                  price: viewModel.price,
-                                                                                  location: viewModel.place,
-                                                                                  description: viewModel.description,
-                                                                                  date: viewModel.date,
-                                                                                  duration: viewModel.duration,
-                                                                                  imageUrl: viewModel.imageUrl))
+                                                                                       name: viewModel.name,
+                                                                                       instagramLink: viewModel.instagramLink,
+                                                                                       price: viewModel.price,
+                                                                                       location: viewModel.place,
+                                                                                       description: viewModel.description,
+                                                                                       date: viewModel.date,
+                                                                                       duration: viewModel.duration,
+                                                                                       imageUrl: viewModel.imageUrl))
                                     try await viewModel.addOrder(order: userOrders)
                                     showAddOrderView.toggle()
+                                    
                                 }
                             }
                         }
