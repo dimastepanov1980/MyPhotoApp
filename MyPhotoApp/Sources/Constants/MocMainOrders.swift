@@ -19,7 +19,7 @@ class MocMainOrders: DetailOrderViewModelType {
     @Published var setImage: [Data] = []
     @Published var name: String = "Ira"
     @Published var instagramLink: String? = nil
-    @Published var price: Int? = 6500
+    @Published var price: String? = "6500"
     @Published var place: String? = "Kata Noy Beach1"
     @Published var description: String? = "Included with your membership are two Technical Support Incidents (TSIs), which can be used during your membership year to request code-level support for Apple frameworks, APIs, and tools from an Apple Developer Technical Support Engineer. You’ll receive two new TSIs when you renew your membership. Additional TSIs are available for purchase at any time."
     
@@ -34,7 +34,7 @@ class MocMainOrders: DetailOrderViewModelType {
     func addAvatarImage(image: PhotosPickerItem) {
         //
     }
-    func formattedDate() -> String {
+    func formattedDate(date: Date, format: String) -> String {
         return ""
     }
 

@@ -24,20 +24,41 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             return formattedOrderDate == formattedToday
         }
     }
-    
     var filteredOrdersForDate: [Date : [UserOrdersModel]] {
         var dictionaryByMonth = [Date : [UserOrdersModel]]()
-        for item in viewModel.orders {
-            if let date = item.date {
-                let date = Calendar.current.startOfDay(for: date)
-                if dictionaryByMonth[date] == nil {
-                    dictionaryByMonth[date] = [item]
+        for order in viewModel.orders {
+            if let date = order.date, date > Date() {
+                let orderDate = Calendar.current.startOfDay(for: date)
+                if dictionaryByMonth[orderDate] == nil {
+                    dictionaryByMonth[orderDate] = [order]
                 } else {
-                    dictionaryByMonth[date]?.append(item)
+                    dictionaryByMonth[orderDate]?.append(order)
                 }
             }
         }
         return dictionaryByMonth
+    }
+    var weatherByDate: [Date: [Weather]] {
+        var weather = [Date: [Weather]]()
+
+        if let dailyArray = viewModel.weather?.daily {
+            for dailyWeather in dailyArray {
+                let date = dailyWeather.dt
+                print("Print weather By Date \(date)")
+                if let existingWeather = weather[date] {
+                    weather[date] = existingWeather + dailyWeather.weather
+                } else {
+                    weather[date] = dailyWeather.weather
+                }
+            }
+        }
+
+        return weather
+    }
+    var dateFormatter: DateFormatter {
+     let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E, MMM, d"
+        return dateFormatter
     }
     
     init(with viewModel: ViewModel,
@@ -56,9 +77,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             ScrollView(.vertical) {
                                 verticalCards
                             }
-                            
-                            //MARK: Calendar
-                            
                         } header: {
                             headerSection
                                 .padding(.top, 64)
@@ -74,14 +92,13 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         } .onChange(of: showAddOrderView, perform: { _ in
             Task{
                 try? await viewModel.loadOrders()
-                print("toogle LoadOrder")
-              
             }
         })
-        
         .task {
-            try? await viewModel.loadOrders()
-
+            do{
+                try? await viewModel.loadOrders()
+                try? await viewModel.fetchCurrentWeather(lat: "7.837090", lon: "98.294619", exclude: "current,minutely,hourly,alerts")
+            }
         }
         
         .fullScreenCover(isPresented: $showAddOrderView) {
@@ -100,7 +117,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         .foregroundColor(Color(R.color.gray3.name))
                     
                     HStack {
-                        Text(viewModel.formattedDate(date: viewModel.today))
+                        Text(viewModel.formattedDate(date: viewModel.today, format: "dd MMMM"))
                             .font(.title.bold())
                             .foregroundColor(Color(R.color.gray1.name))
                         //    ToDo: need to updete date avery time then we lunch app - this method do it not coorect -
@@ -110,7 +127,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         //                                }
                         //                            }
                         
-                        // TODO: Обработка погоды
+                        // TODO: Обработка погоды на сегодня
                         Image(R.image.ic_weater.name)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -120,7 +137,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 Spacer()
                 
                 Button {
-                    
                 } label: {
                     NavigationLink {
                         SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView)
@@ -134,7 +150,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             .frame(width: 56)
                             .overlay(Circle().stroke(Color.white,lineWidth: 2).shadow(radius: 10))
                     }
-                    
                 }
             }.padding(.horizontal, 32)
             
@@ -166,27 +181,39 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         }.padding(.horizontal)
     }
     var calendarSection: some View {
-        HStack(spacing: 8){
-            ForEach(viewModel.currentWeek, id: \.self) { day in
-                VStack(spacing: 4) {
-                    Image(systemName: "cloud.sun.rain")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                        .foregroundColor(Color(R.color.gray3.name))
-                    
-                    Text(viewModel.extractDate(date: day, format: "dd"))
-                        .font(.body.bold())
-                        .foregroundColor(Color(R.color.gray2.name))
-                    
-                    Text(viewModel.extractDate(date: day, format: "EEE"))
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray3.name))
-                    
-                    Circle()
-                        .fill(Color(R.color.gray4.name))
-                        .frame(height: 6)
+        HStack(alignment: .bottom, spacing: 8 ) {
+            ForEach(viewModel.weatherByDate.keys.sorted(), id: \.self) { day in
+                ForEach(viewModel.weatherByDate[day]!, id: \.self) { icon in
+                    VStack(spacing: 4) {
+                        Spacer()
+                        
+                        if let icon = icon {
+                            if let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png") {
+                                AsyncImage(url: url) { image in
+                                    image
+                                        .resizable()
+                                        .frame(width: 32, height: 32)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                            }
+                        } else {
+                            Image(systemName: "cloud.snow")
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                        }
+                        Text(viewModel.formattedDate(date: day, format: "dd"))
+                            .font(.body.bold())
+                            .foregroundColor(Color(R.color.gray2.name))
+                        Text(viewModel.formattedDate(date: day, format: "EEE"))
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray3.name))
+                        Circle()
+                            .fill(Color(R.color.gray4.name))
+                            .frame(height: 6)
+                    }
+                    .padding(.bottom, 16)
                 }
-                
                 .frame(width: 50, height: 100)
                 .background(
                     
@@ -212,13 +239,14 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 .containerShape(Capsule())
                 .onTapGesture {
                     withAnimation {
-                        viewModel.currentDay = day
+                        viewModel.selectedDay = day
                     }
                 }
             }
         }
         .padding()
     }
+    
     var verticalCards: some View {
        VStack {
            ForEach(filteredOrdersForDate.keys.sorted(), id: \.self) { date in
@@ -240,30 +268,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                    }
                }
            }
-           /* ForEach(viewModel.orders.sorted(by: { $0.date! < $1.date! }), id: \.date) { order in
-                Section {
-                    if let date = order.date?.formatted(Date.FormatStyle().day().month()) {
-                        Text("\(date)")
-                    }
-                    NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order))
-                        .navigationBarBackButtonHidden(true)
-                    ) {
-                        VCellMainScreenView(items: order)
-                            .contextMenu {
-                                Button("Remove Order") {
-                                    Task{
-                                        try? await viewModel.deleteOrder(order: order)
-                                        try? await viewModel.loadOrders()
-                                    }
-                                }
-                            }
-                    }
-                }
-                
-            }
-            */
         }  .padding(.horizontal)
-
     }
 }
 // MARK: Формтируем дату в День месяц
@@ -285,57 +290,43 @@ struct MainScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
+    var weatherByDate = [Date : [Weather?]]()
+    
     var vm = MainScreenViewModel()
     
+    @Published var weather: WeatherModel? = nil
     @Published var weaterId: String = ""
     @Published var orders: [UserOrdersModel] = [UserOrdersModel(order:
                                                         MainOrderModel(id: UUID().uuidString,
                                                                        name: "Ira",
                                                                        instagramLink: nil,
                                                                        place: "Kata Noy Beach",
-                                                                       price: 5500,
+                                                                       price: "5500",
                                                                        date: Calendar.current.date(byAdding: .day, value: +1, to: Date()) ?? Date(),
                                                                        duration: "1.5",
                                                                        description: nil,
                                                                        imageUrl: []))]
-    @Published var currentWeek: [Date] = []
-    @Published var currentDay: Date = Date()
+    @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
     
     init() {
-        fetchCurrentWeek()
+       
     }
     
-    func fetchCurrentWeek() {
-        let today = Date()
-        let calendar = Calendar.current
-        let week = calendar.dateInterval(of: .weekOfMonth, for: today)
-        
-        guard let firstWeekDay = week?.start else {
-            return
-        }
-        
-        (1...14).forEach { day in
-            if let weekDay = calendar.date(byAdding: .day, value: day, to: firstWeekDay) {
-                currentWeek.append(weekDay)
-            }
-        }
+    func fetchCurrentWeather(lat: String, lon: String, exclude: String) async throws {
+        //
     }
-    func extractDate(date: Date, format: String) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
-        return formatter.string(from: date)
+
+    func formattedDate(date: Date, format: String) -> String {
+     
+        return ""
     }
-    func formattedDate(date: Date) -> String {
-        vm.formattedDate(date: date)
-    }
+
     func isToday(date: Date) -> Bool {
-        let calendar = Calendar.current
-        return calendar.isDate(currentDay, inSameDayAs: date)
+        return true
     }
     func isTodayDay(date: Date) -> Bool {
-        let calendar = Calendar.current
-        return calendar.isDate(today, inSameDayAs: date)
+        return true
     }
     func deleteOrder(order: UserOrdersModel) async throws {
         //

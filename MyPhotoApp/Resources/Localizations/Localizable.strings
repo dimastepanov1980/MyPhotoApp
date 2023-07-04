@@ -6,9 +6,8 @@
   
 */
 // MARK: - Common
-
-"Registration" = "Registration";
-"LogIn" = "LogIn";
+"registration" = "Registration";
+"logIn" = "LogIn";
 "email" = "Email address";
 "password" = "Password";
 "createAccBtt" = "Create account";
@@ -19,3 +18,14 @@
 "takeAPhoto" = "Take a Photo";
 "addPhoto" = "Add Photo";
 "today" = "Today";
+
+// MARK: - New Order
+"order_ClientName" = "Client Name";
+"order_Location" = "Location";
+"order_Price" = "Price";
+"order_InstagramLink" = "Instagram Link";
+"order_Description" = "Description";
+"order_Duration" = "Duration";
+"order_SelectDate" = "Select a date";
+"order_AddOrder" = "Add Order";
+"order_NewOrder" = "New Order";

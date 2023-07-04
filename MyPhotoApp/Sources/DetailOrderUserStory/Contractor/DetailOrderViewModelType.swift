@@ -13,7 +13,7 @@ import PhotosUI
 protocol DetailOrderViewModelType: ObservableObject {
     var name: String  { get }
     var instagramLink: String? { get }
-    var price: Int? { get }
+    var price: String? { get }
     var place: String? { get }
     var description: String? { get }
     var duration: String { get }
@@ -23,8 +23,7 @@ protocol DetailOrderViewModelType: ObservableObject {
     var setImage: [Data] { get set }
     var selectImages: [UIImage] { get set }
     
-    func addAvatarImage(image: PhotosPickerItem)
-    func formattedDate() -> String
+    func formattedDate(date: Date, format: String) -> String
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws
     func fetchImages() async throws
 }

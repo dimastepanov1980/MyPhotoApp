@@ -13,7 +13,7 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
     @Binding var showAddOrderView: Bool
-
+    
     init(with viewModel: ViewModel,
          showAddOrderView: Binding<Bool>) {
         self.viewModel = viewModel
@@ -21,39 +21,48 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     }
     var body: some View {
         VStack {
-                    NavigationView {
-                        ScrollView {
-                            VStack(spacing: 0){
-                                MainTextField(nameTextField: "Client Name", text: $viewModel.name)
-                                MainTextField(nameTextField: "Location", text: $viewModel.place)
-                                MainTextField(nameTextField: "Instagram Link", text: $viewModel.instagramLink)
-                                MainTextField(nameTextField: "Description", text: $viewModel.description)
-                                MainTextField(nameTextField: "Duration", text: $viewModel.duration)
-                                    .keyboardType (.decimalPad)
-                                
-                                DatePicker("Chosee Data", selection: $viewModel.date).datePickerStyle(.graphical)
-                            }
-                            Spacer()
-                            ButtonXl(titleText: "Add Order", iconName: "") {
-                                if !viewModel.name.isEmpty, !viewModel.place.isEmpty {
-                                    let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
-                                                                                       name: viewModel.name,
-                                                                                       instagramLink: viewModel.instagramLink,
-                                                                                       price: viewModel.price,
-                                                                                       location: viewModel.place,
-                                                                                       description: viewModel.description,
-                                                                                       date: viewModel.date,
-                                                                                       duration: viewModel.duration,
-                                                                                       imageUrl: viewModel.imageUrl))
-                                    try await viewModel.addOrder(order: userOrders)
-                                    showAddOrderView.toggle()
-                                    
-                                }
-                            }
+            NavigationView {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0){
+                        MainTextField(nameTextField: R.string.localizable.order_ClientName(), text: $viewModel.name)
+                        MainTextField(nameTextField: R.string.localizable.order_Location(), text: $viewModel.place)
+                        
+                        Text(R.string.localizable.order_SelectDate())
+                            .padding(.horizontal, 28)
+                            .padding(.vertical)
+                            .foregroundColor(Color(R.color.gray1.name))
+                        
+                        DatePicker(R.string.localizable.order_SelectDate(), selection: $viewModel.date)
+                            .datePickerStyle(.graphical)
+                        
+                        MainTextField(nameTextField: R.string.localizable.order_Price(), text: $viewModel.price)
+                            .keyboardType (.decimalPad)
+                        MainTextField(nameTextField: R.string.localizable.order_InstagramLink(), text: $viewModel.instagramLink)
+                        MainTextField(nameTextField: R.string.localizable.order_Description(), text: $viewModel.description)
+                        MainTextField(nameTextField: R.string.localizable.order_Duration(), text: $viewModel.duration)
+                            .keyboardType (.decimalPad)
+                        
+                    }
+                    Spacer()
+                    ButtonXl(titleText: R.string.localizable.order_AddOrder(), iconName: "") {
+                        if !viewModel.name.isEmpty, !viewModel.place.isEmpty {
+                            let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
+                                                                               name: viewModel.name,
+                                                                               instagramLink: viewModel.instagramLink,
+                                                                               price: viewModel.price,
+                                                                               location: viewModel.place,
+                                                                               description: viewModel.description,
+                                                                               date: viewModel.date,
+                                                                               duration: viewModel.duration,
+                                                                               imageUrl: viewModel.imageUrl))
+                            try await viewModel.addOrder(order: userOrders)
+                            showAddOrderView.toggle()
                         }
                     }
+                }
+            }
         }
-        .navigationTitle("New Order")
+        .navigationTitle(R.string.localizable.order_NewOrder())
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -69,7 +78,7 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
 
 struct AddOrderView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
-
+    
     static var previews: some View {
         NavigationView {
             AddOrderView(with: mockModel, showAddOrderView: .constant(true))
@@ -81,7 +90,7 @@ struct AddOrderView_Previews: PreviewProvider {
 private class MockViewModel: AddOrderViewModelType, ObservableObject {
     @Published var name: String = ""
     @Published var instagramLink: String = ""
-    @Published var price: Int = 0
+    @Published var price: String = ""
     @Published var place: String = ""
     @Published var description: String = ""
     @Published var date: Date = Date()

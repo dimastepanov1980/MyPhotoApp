@@ -12,7 +12,7 @@ struct UserOrdersModel: Codable {
     let location: String?
     let name: String?
     let instagramLink: String?
-    let price: Int?
+    let price: String?
     let description: String?
     let date: Date?
     let duration: String?
@@ -24,7 +24,7 @@ struct UserOrdersModel: Codable {
         self.location = try container.decodeIfPresent(String.self, forKey: .location)
         self.name = try container.decodeIfPresent(String.self, forKey: .name)
         self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
-        self.price = try container.decodeIfPresent(Int.self, forKey: .price)
+        self.price = try container.decodeIfPresent(String.self, forKey: .price)
         self.description = try container.decodeIfPresent(String.self, forKey: .description)
         self.date = try container.decodeIfPresent(Date.self, forKey: .date)
         self.duration = try container.decodeIfPresent(String.self, forKey: .duration)

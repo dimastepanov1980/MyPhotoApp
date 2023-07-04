@@ -79,7 +79,7 @@ private class MockViewModelVCell: ObservableObject {
                                                                name: "Katy Igor",
                                                                instagramLink: nil,
                                                                place: "Kata Noy Beach",
-                                                               price: 5500,
+                                                               price: "5500",
                                                                date: Date(),
                                                                duration: "1.5",
                                                                description: nil,

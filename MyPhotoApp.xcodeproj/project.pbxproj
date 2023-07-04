@@ -12,6 +12,9 @@
 		5F0F8D822A31C3C100AF4EED /* AddOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D812A31C3C100AF4EED /* AddOrderViewModel.swift */; };
 		5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D832A31E22A00AF4EED /* DBUserModel.swift */; };
 		5F0F8D862A31E28B00AF4EED /* UserOrdersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D852A31E28B00AF4EED /* UserOrdersModel.swift */; };
+		5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2711882A488FAA00679028 /* WeatherModel.swift */; };
+		5F27118C2A4934AD00679028 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F27118B2A4934AD00679028 /* WeatherManager.swift */; };
+		5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F27118E2A4AB7BD00679028 /* Constants.swift */; };
 		5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96A6C72A1723B200FBCFF5 /* FirebaseAuth */; };
 		5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */; };
 		5FA15D982A175727007A1AC6 /* AuthScreenContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D972A175727007A1AC6 /* AuthScreenContract.swift */; };
@@ -60,6 +63,9 @@
 		5F0F8D812A31C3C100AF4EED /* AddOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderViewModel.swift; sourceTree = "<group>"; };
 		5F0F8D832A31E22A00AF4EED /* DBUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUserModel.swift; sourceTree = "<group>"; };
 		5F0F8D852A31E28B00AF4EED /* UserOrdersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrdersModel.swift; sourceTree = "<group>"; };
+		5F2711882A488FAA00679028 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
+		5F27118B2A4934AD00679028 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
+		5F27118E2A4AB7BD00679028 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNetworkService.swift; sourceTree = "<group>"; };
 		5FA15D972A175727007A1AC6 /* AuthScreenContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenContract.swift; sourceTree = "<group>"; };
 		5FA15D9C2A175A91007A1AC6 /* AuthScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenViewModel.swift; sourceTree = "<group>"; };
@@ -116,9 +122,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F27118A2A49348600679028 /* OpenWeather */ = {
+			isa = PBXGroup;
+			children = (
+				5F27118B2A4934AD00679028 /* WeatherManager.swift */,
+			);
+			path = OpenWeather;
+			sourceTree = "<group>";
+		};
+		5F27118D2A4AB79800679028 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				5F27118E2A4AB7BD00679028 /* Constants.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		5F96A6CB2A1724D700FBCFF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5F27118A2A49348600679028 /* OpenWeather */,
 				5FC1C0D32A2F7A7E00081FF1 /* Storage */,
 				5FF58F352A24D61D009AF970 /* Firesore */,
 				5F96A6CC2A1725A700FBCFF5 /* Authentication */,
@@ -174,6 +197,7 @@
 				5FF546662A1B566C00208455 /* MainOrderModel.swift */,
 				5F0F8D832A31E22A00AF4EED /* DBUserModel.swift */,
 				5F0F8D852A31E28B00AF4EED /* UserOrdersModel.swift */,
+				5F2711882A488FAA00679028 /* WeatherModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -270,6 +294,7 @@
 		5FBA26822A14CA9000E972FB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5F27118D2A4AB79800679028 /* Config */,
 				5FBA26862A14CCC900E972FB /* Assets */,
 				5FBA26852A14CCAE00E972FB /* Localizations */,
 				5FBA26842A14CAC400E972FB /* Rswift */,
@@ -603,11 +628,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F0F8D802A31C39E00AF4EED /* AddOrderViewModelContract.swift in Sources */,
+				5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */,
 				5FA7224D2A1E154A003EB084 /* MocMainOrders.swift in Sources */,
 				5FF546742A1B57E500208455 /* HCellMainScreenView.swift in Sources */,
 				5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */,
 				5FC1C0D52A2F7C0A00081FF1 /* StorageManager.swift in Sources */,
 				5FB717482A223F6400EC7BF6 /* SettingScreenView.swift in Sources */,
+				5F27118C2A4934AD00679028 /* WeatherManager.swift in Sources */,
 				5FF546672A1B566C00208455 /* MainOrderModel.swift in Sources */,
 				5FF546712A1B577300208455 /* MainScreenView.swift in Sources */,
 				5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */,
@@ -616,6 +643,7 @@
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
 				5FF5466F2A1B575500208455 /* MainScreenViewModel.swift in Sources */,
+				5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */,
 				5FF546762A1B8EBF00208455 /* filteredByDateView.swift in Sources */,
 				5F0F8D862A31E28B00AF4EED /* UserOrdersModel.swift in Sources */,
 				5FF58F3D2A2704CA009AF970 /* AddOrderView.swift in Sources */,

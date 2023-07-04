@@ -34,9 +34,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             Spacer()
                             priceSection
                         }
-                        
-                        desctriptionSection
-                        imageSection
+                            desctriptionSection
+                            imageSection
                     }
                     .padding(.top)
                     .padding(.horizontal, 16)
@@ -78,7 +77,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     private var infoSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text(viewModel.formattedDate())
+                Text(viewModel.formattedDate(date: Date(), format: "dd MMMM"))
                     .font(.title2.bold())
                     .foregroundColor(Color(R.color.gray1.name))
                 
@@ -117,14 +116,16 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         }
     }
     private var priceSection: some View {
-        VStack {
-            if let price = viewModel.price {
-                Text(R.string.localizable.totalPrice())
-                    .font(.subheadline)
-                    .foregroundColor(Color(R.color.gray2.name))
-                Text("\(String(price)) Thb")
-                    .font(.headline.bold())
-                    .foregroundColor(Color(R.color.gray2.name))
+        VStack(alignment: .trailing) {
+            if let price = viewModel.price, !price.isEmpty {
+             
+                    Text(R.string.localizable.totalPrice())
+                        .font(.subheadline)
+                        .foregroundColor(Color(R.color.gray2.name))
+                    Text("\(price) Thb")
+                        .font(.headline.bold())
+                        .foregroundColor(Color(R.color.gray2.name))
+                
             }
         }
     }
@@ -138,17 +139,32 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .padding(.top, 24)
             }
             HStack {
-                if let _ = viewModel.instagramLink {
-                    Spacer()
-                    Button {
-                        print("Instagramm")
-                    } label: {
-                        Image(R.image.ic_instagram.name)
+                
+                /*
+                 var instagramHooks = "instagram://user?username=johndoe"
+                 var instagramUrl = NSURL(string: instagramHooks)
+                 if UIApplication.sharedApplication().canOpenURL(instagramUrl!) {
+                   UIApplication.sharedApplication().openURL(instagramUrl!)
+                 } else {
+                   //redirect to safari because the user doesn't have Instagram
+                   UIApplication.sharedApplication().openURL(NSURL(string: "http://instagram.com/")!)
+                 }
+                 */
+                
+                Button(action: {
+                    if let instagramLink =  viewModel.instagramLink {
+                        if let url = URL(string: instagramLink) {
+                            UIApplication.shared.open(url)
+                        }
                     }
-                }
-            }.padding(.top,16)
+                }) {
+                    Spacer()
+                    Image(R.image.ic_instagram.name)
+                }.padding(.top,16)
+            }
         }
     }
+    
     private var imageSection: some View {
         // MARK: https://stackoverflow.com/questions/66101176/how-could-i-use-a-swiftui-lazyvgrid-to-create-a-staggered-grid
         // Сделать в две  строчки
@@ -243,7 +259,7 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
     @Published var setImage: [Data] = []
     @Published var name = "Marat Olga"
     @Published var instagramLink: String? = ""
-    @Published var price: Int? = 5500
+    @Published var price: String? = "5500"
     @Published var place: String? = "Kata Noy Beach"
     @Published var description: String? = "Нет возможности делать промоакции. Нет возможноcти предлагать кросс услуги (аренда одежды, мейкап итд). Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду, Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду"
     @Published var duration = "1.5"
@@ -257,7 +273,7 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
     func addAvatarImage(image: PhotosPickerItem) {
         //
     }
-    func formattedDate() -> String {
+    func formattedDate(date: Date, format: String) -> String {
         return "04 September"
     }
 }

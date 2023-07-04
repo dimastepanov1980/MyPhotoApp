@@ -32,8 +32,8 @@ struct MainTextField: View {
                 .background (
                     
                     Text(nameTextField)
-                        .scaleEffect(isTapped ? 0.8 : 1)
-                        .offset(x: isTapped ? -7 : 0, y: isTapped ? -35 : 0 )
+                        .scaleEffect(isTapped || !text.isEmpty ? 0.8 : 1)
+                        .offset(x: isTapped || !text.isEmpty ? -7 : 0, y: isTapped || !text.isEmpty ? -35 : 0 )
                         .foregroundColor(Color(R.color.gray4.name)),
                     alignment: .leading
                 )
@@ -53,23 +53,5 @@ struct MainTextField: View {
             RoundedRectangle(cornerRadius: 21)
                 .stroke(Color(R.color.gray3.name), lineWidth: 1))
         .padding()
-        
     }
 }
-
-//
-//struct MainTextFieldView_Previews: PreviewProvider {
-//    private static let mockModel = MockViewModel(text: <#String#>)
-//
-//    static var previews: some View {
-//        MainTextField(nameTextField: "Name of Text field", text: $mockModel.text)
-//    }
-//}
-//
-//private class MockViewModel: ObservableObject {
-//    @Binding var text: String
-//    init(text: String) {
-//        self.text = text
-//    }
-//
-//}

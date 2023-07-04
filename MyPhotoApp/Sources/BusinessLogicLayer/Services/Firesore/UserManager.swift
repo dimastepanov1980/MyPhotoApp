@@ -58,7 +58,7 @@ final class UserManager {
             UserOrdersModel.CodingKeys.location.rawValue : order.location ?? "",
             UserOrdersModel.CodingKeys.name.rawValue : order.name ?? "",
             UserOrdersModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
-            UserOrdersModel.CodingKeys.price.rawValue : order.price ?? 0,
+            UserOrdersModel.CodingKeys.price.rawValue : order.price ?? "0",
             UserOrdersModel.CodingKeys.description.rawValue : order.description  ?? "",
             UserOrdersModel.CodingKeys.date.rawValue : order.date ?? Timestamp(),
             UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? "",

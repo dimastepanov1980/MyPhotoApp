@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import PhotosUI
 
 
 @MainActor
@@ -16,6 +17,7 @@ protocol SettingScreenViewModelType: ObservableObject {
     func LogOut() throws
     func loadCurrentUser() async throws
     func loadOrders() async throws
+//    func addAvatarImage(image: PhotosPickerItem)
     
 }
 
@@ -40,9 +42,21 @@ final class SettingScreenViewModel: SettingScreenViewModelType {
     func loadOrders() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         self.orders = try await UserManager.shared.getAllOrders(userId: authDateResult.uid)
-        //print("Orders: \(orders?.id)")
-
     }
+    
+    // TODo сделать загрузку аватарки - переделать функцию не для заказа а для пользователя
+//    func addAvatarImage(image: PhotosPickerItem) {
+//        Task {
+//            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+//
+//            guard let data = try await image.loadTransferable(type: Data.self) else { return }
+//            let (path, name) = try await StorageManager.shared.uploadImageToFairbase(data: data, userId: authDateResult.uid, orderId: order.id)
+//            print("SUCCESS")
+//            print(name)
+//            print(path)
+//            try await UserManager.shared.addToAvatarLink(userId: authDateResult.uid, path: path, orderId: order.id)
+//        }
+//    }
 }
 
 

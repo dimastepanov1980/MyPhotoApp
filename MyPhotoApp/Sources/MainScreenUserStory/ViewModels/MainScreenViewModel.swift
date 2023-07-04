@@ -6,43 +6,44 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 final class MainScreenViewModel: MainScreenViewModelType {
-    @Published var weaterId: String  = ""
+    @Published var weather: WeatherModel? = nil
     @Published var orders: [UserOrdersModel] = []
-    @Published var currentWeek: [Date] = []
-    @Published var currentDay: Date = Date()
+    @Published var weatherByDate: [Date: [Weather?]] = [:]
+    @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
 
     init() {
-        fetchCurrentWeek()
     }
     
 // MARK: Set the desired output date format
-    func formattedDate(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMMM"
-        return dateFormatter.string(from: date)
-    }
+  
     
-    func fetchCurrentWeek() {
+    func fetchCurrentWeather(lat: String, lon: String, exclude: String) async throws {
         let today = Date()
         let calendar = Calendar.current
-        let week = calendar.dateInterval(of: .weekOfMonth, for: today)
+        var weatherByDate: [Date: [Weather?]] = [:]
+        let weather = try await WeatherManager.shared.fetcWeather(lat: lat, lon: lon, exclude: exclude)
+        let weatherForCurrentDay = weather.daily
         
-        guard let firstWeekDay = week?.start else {
-            return
-        }
-        
-        (1...14).forEach { day in
-            if let weekDay = calendar.date(byAdding: .day, value: day, to: firstWeekDay) {
-                currentWeek.append(weekDay)
+        (0...14).forEach { day in
+            let dayOfWeek = calendar.date(byAdding: .day, value: day, to: today)!
+            let matchingDate = weatherForCurrentDay.first { formattedDate(date: dayOfWeek, format: "dd MMMM YYYY") == formattedDate(date: $0.dt, format: "dd MMMM YYYY") }
+            
+            if let matchingDate = matchingDate {
+                weatherByDate[dayOfWeek] = matchingDate.weather
+            } else {
+                weatherByDate[dayOfWeek] = [nil]
             }
         }
+        
+        self.weatherByDate = weatherByDate
     }
     
-    func extractDate(date: Date, format: String) -> String {
+    func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         return formatter.string(from: date)
@@ -50,7 +51,7 @@ final class MainScreenViewModel: MainScreenViewModelType {
     
     func isToday(date: Date) -> Bool {
         let calendar = Calendar.current
-        return calendar.isDate(currentDay, inSameDayAs: date)
+        return calendar.isDate(selectedDay, inSameDayAs: date)
     }
     
     func isTodayDay(date: Date) -> Bool {
@@ -61,7 +62,6 @@ final class MainScreenViewModel: MainScreenViewModelType {
     func loadOrders() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         self.orders = try await UserManager.shared.getAllOrders(userId: authDateResult.uid)
-        //print("Orders: \(orders?.id)")
     }
     
     func deleteOrder(order: UserOrdersModel) async throws {

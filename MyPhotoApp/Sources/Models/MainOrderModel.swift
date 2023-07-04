@@ -12,7 +12,7 @@ struct MainOrderModel: Identifiable {
     let name: String
     let instagramLink: String?
     let place: String
-    let price: Int?
+    let price: String?
     let date: Date
     let duration: String
     let description: String?
@@ -31,7 +31,7 @@ struct MainOrderModel: Identifiable {
     }
     
     init(id: String, name: String, instagramLink: String?,
-         place: String, price: Int?, date: Date, duration: String,
+         place: String, price: String?, date: Date, duration: String,
          description: String?, imageUrl: [String]){
         self.id = id
         self.name = name

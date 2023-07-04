@@ -15,7 +15,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     @Published var setImage: [Data] = []
     @Published var name = ""
     @Published var instagramLink: String?
-    @Published var price: Int?
+    @Published var price: String?
     @Published var place: String?
     @Published var description: String?
     @Published var duration = ""
@@ -68,22 +68,9 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.id)
 
     }
-
-    func addAvatarImage(image: PhotosPickerItem) {
-        Task {
-            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-
-            guard let data = try await image.loadTransferable(type: Data.self) else { return }
-            let (path, name) = try await StorageManager.shared.uploadImageToFairbase(data: data, userId: authDateResult.uid, orderId: order.id)
-            print("SUCCESS")
-            print(name)
-            print(path)
-            try await UserManager.shared.addToAvatarLink(userId: authDateResult.uid, path: path, orderId: order.id)
-        }
-    }
-    func formattedDate() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMMM" // Set the desired output date format
-        return dateFormatter.string(from: date)
+    func formattedDate(date: Date, format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: date)
     }
 }

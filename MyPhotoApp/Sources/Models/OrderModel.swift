@@ -11,7 +11,7 @@ struct OrderModel {
     let orderId: String
     let name: String?
     let instagramLink: String?
-    let price: Int?
+    let price: String?
     let location: String?
     let description: String?
     let date: Date
