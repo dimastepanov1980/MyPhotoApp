@@ -127,10 +127,10 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
         
         var body: some View {
             VStack {
-                MainTextField(nameTextField: R.string.localizable.email(), text: $email)
-                SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
+                CustomTextField(nameTextField: R.string.localizable.email(), text: $email)
+                CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
                 Spacer()
-                ButtonXl(titleText: R.string.localizable.createAccBtt(),
+                CustomButtonXl(titleText: R.string.localizable.createAccBtt(),
                          iconName: "camera.aperture") {
                     Task {
                         try await action()
@@ -152,8 +152,8 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
         
         var body: some View {
             VStack {
-                MainTextField(nameTextField: R.string.localizable.email(), text: $email)
-                SecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
+                CustomTextField(nameTextField: R.string.localizable.email(), text: $email)
+                CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
                 Button {
                     // https://youtu.be/jlC1yjVTMtA?t=837
                     // https://console.firebase.google.com/u/0/project/takeaphoto-937ae/authentication/emails
@@ -162,7 +162,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                     Text(R.string.localizable.forgotPss())
                 }
                 Spacer()
-                ButtonXl(titleText: R.string.localizable.signInAccBtt(),
+                CustomButtonXl(titleText: R.string.localizable.signInAccBtt(),
                          iconName: "camera.aperture") {
                     Task {
                         try await action()

@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-struct MainTextField: View {
-    
+struct CustomTextField: View {
     @State var nameTextField: String
     @Binding var text: String
     @State var isTapped = false
-    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4, content: {
@@ -30,7 +28,6 @@ struct MainTextField: View {
                     }
                 }
                 .background (
-                    
                     Text(nameTextField)
                         .scaleEffect(isTapped || !text.isEmpty ? 0.8 : 1)
                         .offset(x: isTapped || !text.isEmpty ? -7 : 0, y: isTapped || !text.isEmpty ? -35 : 0 )
@@ -38,7 +35,6 @@ struct MainTextField: View {
                     alignment: .leading
                 )
             })
-            
             
             Button {
                 text = ""
@@ -52,6 +48,7 @@ struct MainTextField: View {
         .overlay(
             RoundedRectangle(cornerRadius: 21)
                 .stroke(Color(R.color.gray3.name), lineWidth: 1))
-        .padding()
+        .padding(.vertical, 8)
+        .padding(.horizontal)
     }
 }

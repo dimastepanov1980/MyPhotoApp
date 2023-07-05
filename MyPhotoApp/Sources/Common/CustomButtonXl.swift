@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ButtonXl: View {
+struct CustomButtonXl: View {
     private let titleText: String
     private let iconName: String
     private let isActive = false
@@ -50,7 +50,7 @@ struct ButtonXl: View {
 
 struct ButtonXlView_Previews: PreviewProvider {
     static var previews: some View {
-        ButtonXl(titleText: R.string.localizable.createAccBtt(),
+        CustomButtonXl(titleText: R.string.localizable.createAccBtt(),
                      iconName: "camera.aperture") {
             //
         }

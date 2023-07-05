@@ -10,28 +10,28 @@ import Combine
 
 @MainActor
 final class MainScreenViewModel: MainScreenViewModelType {
-    @Published var weather: WeatherModel? = nil
     @Published var orders: [UserOrdersModel] = []
     @Published var weatherByDate: [Date: [Weather?]] = [:]
+    @Published var weatherForCurrentDay: String? = nil
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
-
     init() {
     }
     
 // MARK: Set the desired output date format
   
     
-    func fetchCurrentWeather(lat: String, lon: String, exclude: String) async throws {
+    func fetchWeather(lat: String, lon: String, exclude: String) async throws {
         let today = Date()
         let calendar = Calendar.current
         var weatherByDate: [Date: [Weather?]] = [:]
         let weather = try await WeatherManager.shared.fetcWeather(lat: lat, lon: lon, exclude: exclude)
-        let weatherForCurrentDay = weather.daily
+        let weatherForAllDay = weather.daily
+        let weatherForCurrentDay = weather.current.weather.first?.icon
         
         (0...14).forEach { day in
             let dayOfWeek = calendar.date(byAdding: .day, value: day, to: today)!
-            let matchingDate = weatherForCurrentDay.first { formattedDate(date: dayOfWeek, format: "dd MMMM YYYY") == formattedDate(date: $0.dt, format: "dd MMMM YYYY") }
+            let matchingDate = weatherForAllDay.first { formattedDate(date: dayOfWeek, format: "dd MMMM YYYY") == formattedDate(date: $0.dt, format: "dd MMMM YYYY") }
             
             if let matchingDate = matchingDate {
                 weatherByDate[dayOfWeek] = matchingDate.weather
@@ -39,7 +39,7 @@ final class MainScreenViewModel: MainScreenViewModelType {
                 weatherByDate[dayOfWeek] = [nil]
             }
         }
-        
+        self.weatherForCurrentDay = weatherForCurrentDay
         self.weatherByDate = weatherByDate
     }
     

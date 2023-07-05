@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SecureTextField: View {
+struct CustomSecureTextField: View {
     @State var nameSecureTextField: String
     @Binding var text: String
     @State var isTapped = false
@@ -23,14 +23,12 @@ struct SecureTextField: View {
                     .foregroundColor(Color(R.color.gray4.name))
             }
         }
-        
         .frame(height: 42)
         .padding(.horizontal)
         .overlay(
             RoundedRectangle(cornerRadius: 21)
                 .stroke(Color(R.color.gray3.name), lineWidth: 1))
         .padding()
-        
     }
 }
 

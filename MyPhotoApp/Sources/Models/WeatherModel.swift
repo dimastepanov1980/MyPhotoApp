@@ -11,17 +11,22 @@ import Foundation
 struct WeatherModel: Codable {
     let lat: Double
     let lon: Double
+    let current: Current
     let daily: [Daily]
-}
 
+}
 // MARK: - Daily
 struct Daily: Codable {
     let dt: Date
     let temp: Temp
     let weather: [Weather]
 }
-
-
+// MARK: - Current
+struct Current: Codable {
+    let dt: Date
+    let temp: Double
+    let weather: [Weather]
+}
 // MARK: - Temp
 struct Temp: Codable {
     let day: Double
@@ -31,7 +36,6 @@ struct Temp: Codable {
     let eve: Double
     let morn: Double
 }
-
 // MARK: - Weather
 struct Weather: Codable, Hashable {
     let id: Int

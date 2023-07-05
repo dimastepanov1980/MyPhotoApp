@@ -26,8 +26,8 @@ final class WeatherManager {
             let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .secondsSince1970
                 let weatherModel = try decoder.decode(WeatherModel.self, from: data)
+            print(weatherModel)
             return weatherModel
-            
         } catch {
             throw error
         }

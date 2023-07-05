@@ -110,7 +110,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                 }
                 
                 
-                ButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "camera.aperture") {
+                CustomButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "camera.aperture") {
                     Task {
                         do {
                             try viewModel.LogOut()

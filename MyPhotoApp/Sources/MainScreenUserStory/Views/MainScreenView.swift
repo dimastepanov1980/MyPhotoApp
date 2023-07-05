@@ -38,29 +38,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         }
         return dictionaryByMonth
     }
-    var weatherByDate: [Date: [Weather]] {
-        var weather = [Date: [Weather]]()
 
-        if let dailyArray = viewModel.weather?.daily {
-            for dailyWeather in dailyArray {
-                let date = dailyWeather.dt
-                print("Print weather By Date \(date)")
-                if let existingWeather = weather[date] {
-                    weather[date] = existingWeather + dailyWeather.weather
-                } else {
-                    weather[date] = dailyWeather.weather
-                }
-            }
-        }
-
-        return weather
-    }
-    var dateFormatter: DateFormatter {
-     let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "E, MMM, d"
-        return dateFormatter
-    }
-    
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
          showAddOrderView: Binding<Bool>) {
@@ -86,7 +64,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     .ignoresSafeArea()
                     .padding(.bottom)
             
-            ButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
+            CustomButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
                 showAddOrderView.toggle()
             }.background()
         } .onChange(of: showAddOrderView, perform: { _ in
@@ -97,7 +75,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         .task {
             do{
                 try? await viewModel.loadOrders()
-                try? await viewModel.fetchCurrentWeather(lat: "7.837090", lon: "98.294619", exclude: "current,minutely,hourly,alerts")
+                try? await viewModel.fetchWeather(lat: "7.837090", lon: "98.294619", exclude: "minutely,hourly,alerts")
             }
         }
         
@@ -128,10 +106,23 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         //                            }
                         
                         // TODO: Обработка погоды на сегодня
-                        Image(R.image.ic_weater.name)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 32)
+                        
+                        if let weather = viewModel.weatherForCurrentDay {
+                            let url = URL(string: "https://openweathermap.org/img/wn/\(weather)@2x.png")
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 32)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                        } else {
+                            Image(systemName: "cloud.snow")
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                        }
+                        
                     }
                 }
                 Spacer()
@@ -186,7 +177,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 ForEach(viewModel.weatherByDate[day]!, id: \.self) { icon in
                     VStack(spacing: 4) {
                         Spacer()
-                        
                         if let icon = icon {
                             if let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png") {
                                 AsyncImage(url: url) { image in
@@ -246,7 +236,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         }
         .padding()
     }
-    
     var verticalCards: some View {
        VStack {
            ForEach(filteredOrdersForDate.keys.sorted(), id: \.self) { date in
@@ -290,12 +279,13 @@ struct MainScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
-    var weatherByDate = [Date : [Weather?]]()
-    
     var vm = MainScreenViewModel()
     
-    @Published var weather: WeatherModel? = nil
+    @Published var weatherByDate = [Date : [Weather?]]()
+    @Published var weatherForCurrentDay: String? = nil
     @Published var weaterId: String = ""
+    @Published var selectedDay: Date = Date()
+    @Published var today: Date = Date()
     @Published var orders: [UserOrdersModel] = [UserOrdersModel(order:
                                                         MainOrderModel(id: UUID().uuidString,
                                                                        name: "Ira",
@@ -306,22 +296,15 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
                                                                        duration: "1.5",
                                                                        description: nil,
                                                                        imageUrl: []))]
-    @Published var selectedDay: Date = Date()
-    @Published var today: Date = Date()
     
-    init() {
-       
-    }
+    init() {}
     
-    func fetchCurrentWeather(lat: String, lon: String, exclude: String) async throws {
+    func fetchWeather(lat: String, lon: String, exclude: String) async throws {
         //
     }
-
     func formattedDate(date: Date, format: String) -> String {
-     
         return ""
     }
-
     func isToday(date: Date) -> Bool {
         return true
     }

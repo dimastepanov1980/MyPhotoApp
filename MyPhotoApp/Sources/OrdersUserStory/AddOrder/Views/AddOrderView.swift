@@ -23,28 +23,9 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
         VStack {
             NavigationView {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 0){
-                        MainTextField(nameTextField: R.string.localizable.order_ClientName(), text: $viewModel.name)
-                        MainTextField(nameTextField: R.string.localizable.order_Location(), text: $viewModel.place)
-                        
-                        Text(R.string.localizable.order_SelectDate())
-                            .padding(.horizontal, 28)
-                            .padding(.vertical)
-                            .foregroundColor(Color(R.color.gray1.name))
-                        
-                        DatePicker(R.string.localizable.order_SelectDate(), selection: $viewModel.date)
-                            .datePickerStyle(.graphical)
-                        
-                        MainTextField(nameTextField: R.string.localizable.order_Price(), text: $viewModel.price)
-                            .keyboardType (.decimalPad)
-                        MainTextField(nameTextField: R.string.localizable.order_InstagramLink(), text: $viewModel.instagramLink)
-                        MainTextField(nameTextField: R.string.localizable.order_Description(), text: $viewModel.description)
-                        MainTextField(nameTextField: R.string.localizable.order_Duration(), text: $viewModel.duration)
-                            .keyboardType (.decimalPad)
-                        
-                    }
+                    orderFiels()
                     Spacer()
-                    ButtonXl(titleText: R.string.localizable.order_AddOrder(), iconName: "") {
+                    CustomButtonXl(titleText: R.string.localizable.order_AddOrder(), iconName: "") {
                         if !viewModel.name.isEmpty, !viewModel.place.isEmpty {
                             let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
                                                                                name: viewModel.name,
@@ -73,6 +54,33 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                 }
             }
         }
+    }
+    
+    private func orderFiels() -> some View {
+        VStack(alignment: .leading, spacing: 16){
+            DatePicker(R.string.localizable.order_SelectDate(), selection: $viewModel.date)
+                .datePickerStyle(.compact)
+                .accentColor(Color(R.color.gray2.name))
+                .frame(height: 42)
+                .padding(.horizontal)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 21)
+                        .stroke(Color(R.color.gray3.name), lineWidth: 1))
+                .padding(.bottom, 8)
+                .padding(.horizontal)
+                .padding(.top, 32)
+                .foregroundColor(Color(R.color.gray4.name))
+            
+            CustomTextField(nameTextField: R.string.localizable.order_ClientName(), text: $viewModel.name)
+            CustomTextField(nameTextField: R.string.localizable.order_Location(), text: $viewModel.place)
+            CustomTextField(nameTextField: R.string.localizable.order_Price(), text: $viewModel.price)
+                .keyboardType (.decimalPad)
+            CustomTextField(nameTextField: R.string.localizable.order_InstagramLink(), text: $viewModel.instagramLink)
+            CustomTextField(nameTextField: R.string.localizable.order_Description(), text: $viewModel.description)
+            CustomTextField(nameTextField: R.string.localizable.order_Duration(), text: $viewModel.duration)
+                .keyboardType (.decimalPad)
+        }
+         
     }
 }
 
