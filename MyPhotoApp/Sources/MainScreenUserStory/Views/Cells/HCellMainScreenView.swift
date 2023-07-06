@@ -89,14 +89,15 @@ struct HCellMainScreenView_Previews: PreviewProvider {
 
 
 private class MockViewModelHCell: ObservableObject {
-    let mocData: UserOrdersModel = UserOrdersModel(order: MainOrderModel(id: UUID().uuidString,
-                                                               name: "Katy Igor",
-                                                               instagramLink: nil,
-                                                               place: "Kata Noy Beach",
-                                                               price: "5500",
-                                                               date: Date(),
-                                                               duration: "1.5",
-                                                               description: nil,
-                                                               imageUrl: []) )
+    let mocData: UserOrdersModel = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
+                                                                        name: "Katy Igor",
+                                                                     instagramLink: nil,
+                                                                     price: "5500",
+                                                                     location: "Kata",
+                                                                     description: "Some Text",
+                                                                     date: Date(),
+                                                                     duration: "2",
+                                                                     imageUrl: []))
+        
     
 }

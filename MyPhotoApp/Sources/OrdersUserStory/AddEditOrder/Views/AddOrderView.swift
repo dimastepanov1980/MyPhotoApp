@@ -13,11 +13,14 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
     @Binding var showAddOrderView: Bool
+    var mode: Mode
     
     init(with viewModel: ViewModel,
-         showAddOrderView: Binding<Bool>) {
+         showAddOrderView: Binding<Bool>,
+         mode: Mode) {
         self.viewModel = viewModel
         self._showAddOrderView = showAddOrderView
+        self.mode = mode
     }
     var body: some View {
         VStack {
@@ -25,30 +28,37 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                 ScrollView {
                     orderFiels()
                     Spacer()
-                    CustomButtonXl(titleText: R.string.localizable.order_AddOrder(), iconName: "") {
-                        if !viewModel.name.isEmpty, !viewModel.place.isEmpty {
-                            let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
-                                                                               name: viewModel.name,
-                                                                               instagramLink: viewModel.instagramLink,
-                                                                               price: viewModel.price,
-                                                                               location: viewModel.place,
-                                                                               description: viewModel.description,
-                                                                               date: viewModel.date,
-                                                                               duration: viewModel.duration,
-                                                                               imageUrl: viewModel.imageUrl))
-                            try await viewModel.addOrder(order: userOrders)
-                            showAddOrderView.toggle()
-                        }
-                    }
                 }
             }
+            
+            if mode == .edit {
+                Button(R.string.localizable.order_Delete()) {
+                    //
+                }
+            }
+            
+            CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_AddOrder() : R.string.localizable.order_SaveOrder(), iconName: "") {
+                let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
+                                                                   name: viewModel.name,
+                                                                   instagramLink: viewModel.instagramLink,
+                                                                   price: viewModel.price,
+                                                                   location: viewModel.place,
+                                                                   description: viewModel.description,
+                                                                   date: viewModel.date,
+                                                                   duration: viewModel.duration,
+                                                                   imageUrl: viewModel.imageUrl))
+                mode == .new ? try await viewModel.addOrder(order: userOrders) : print("save")
+                    showAddOrderView.toggle()
+            }
+            //.disabled(viewModel.modified)
         }
-        .navigationTitle(R.string.localizable.order_NewOrder())
+        .navigationTitle(mode == .new ? R.string.localizable.order_NewOrder() : R.string.localizable.order_EditOrder())
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     showAddOrderView.toggle()
                 } label: {
+                    
                     Image(systemName: "xmark.circle.fill")
                         .font(.title2)
                 }
@@ -79,8 +89,14 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
             CustomTextField(nameTextField: R.string.localizable.order_Description(), text: $viewModel.description)
             CustomTextField(nameTextField: R.string.localizable.order_Duration(), text: $viewModel.duration)
                 .keyboardType (.decimalPad)
+            
         }
          
+    }
+    
+    enum Mode {
+        case new
+        case edit
     }
 }
 
@@ -89,23 +105,26 @@ struct AddOrderView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            AddOrderView(with: mockModel, showAddOrderView: .constant(true))
+            AddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
         }
     }
 }
 
 
 private class MockViewModel: AddOrderViewModelType, ObservableObject {
-    @Published var name: String = ""
-    @Published var instagramLink: String = ""
-    @Published var price: String = ""
-    @Published var place: String = ""
-    @Published var description: String = ""
-    @Published var date: Date = Date()
-    @Published var duration: String = ""
-    @Published var imageUrl: [String] = []
+    var name: String = ""
+    var instagramLink: String = ""
+    var price: String = ""
+    var place: String = ""
+    var description: String = ""
+    var date = Date()
+    var duration: String = ""
+    var imageUrl: [String]  = []
     
     func addOrder(order: UserOrdersModel) async throws {
+        //
+    }
+    func updatePreview() {
         //
     }
 }

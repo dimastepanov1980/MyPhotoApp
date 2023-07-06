@@ -28,4 +28,7 @@
 "order_Duration" = "Duration";
 "order_SelectDate" = "Select a date";
 "order_AddOrder" = "Add Order";
+"order_SaveOrder" = "Save Order";
+"order_EditOrder" = "Edit Order";
 "order_NewOrder" = "New Order";
+"order_Delete" = "Delete Order";

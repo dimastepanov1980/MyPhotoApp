@@ -8,6 +8,7 @@
 import Foundation
 import PhotosUI
 import SwiftUI
+import Combine
 
 @MainActor
 final class DetailOrderViewModel: DetailOrderViewModelType {
@@ -22,15 +23,13 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     @Published var image: [String]?
     @Published var date: Date = Date()
     @Published var selectImages: [UIImage] = []
-
-
-    private let order: UserOrdersModel
+    @Published var order: UserOrdersModel
 
     init(order: UserOrdersModel) {
         self.order = order
         updatePreview()
     }
-    
+
     func updatePreview() {
         name = order.name ?? ""
         instagramLink = order.instagramLink
@@ -50,7 +49,6 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             }
         }
     }
-
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
             var selectedImages: [String] = []

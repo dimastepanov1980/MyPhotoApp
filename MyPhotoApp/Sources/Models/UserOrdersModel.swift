@@ -8,13 +8,14 @@
 import Foundation
 
 struct UserOrdersModel: Codable {
+
     let id: String
     let location: String?
     let name: String?
     let instagramLink: String?
     let price: String?
     let description: String?
-    let date: Date?
+    let date: Date
     let duration: String?
     let imageUrl: [String]?
     
@@ -26,23 +27,11 @@ struct UserOrdersModel: Codable {
         self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
         self.price = try container.decodeIfPresent(String.self, forKey: .price)
         self.description = try container.decodeIfPresent(String.self, forKey: .description)
-        self.date = try container.decodeIfPresent(Date.self, forKey: .date)
+        self.date = try container.decode(Date.self, forKey: .date)
         self.duration = try container.decodeIfPresent(String.self, forKey: .duration)
         self.imageUrl = try container.decodeIfPresent([String].self, forKey: .imageUrl)
     }
-    
-    init(order: MainOrderModel) {
-        self.id = order.id
-        self.location = order.place
-        self.name = order.name
-        self.instagramLink = order.instagramLink
-        self.price = order.price
-        self.description = order.description
-        self.date = order.date
-        self.duration = order.duration
-        self.imageUrl = order.imageUrl
-    }
-    
+
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case location = "location"
@@ -54,7 +43,7 @@ struct UserOrdersModel: Codable {
         case duration = "duration"
         case imageUrl = "image_url"
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.id, forKey: .id)
@@ -67,7 +56,12 @@ struct UserOrdersModel: Codable {
         try container.encodeIfPresent(self.duration, forKey: .duration)
         try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)
     }
-    
+    /*
+    init(id: String,
+         location: String?,
+         name: String?, instagramLink: String?, price: String?, description: String?, date: Date?, duration: String?, imageUrl: [String]?)
+     */
+  
     init(order: OrderModel) {
         self.id = order.orderId
         self.location = order.location
@@ -79,4 +73,5 @@ struct UserOrdersModel: Codable {
         self.duration = order.duration
         self.imageUrl = order.imageUrl
     }
+
 }

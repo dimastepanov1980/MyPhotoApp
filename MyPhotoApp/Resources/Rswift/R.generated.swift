@@ -459,7 +459,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 21 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 24 localization keys.
     struct localizable {
       /// Value: Add Order
       static let order_AddOrder = Rswift.StringResource(key: "order_AddOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
@@ -469,10 +469,14 @@ struct R: Rswift.Validatable {
       static let order_ClientName = Rswift.StringResource(key: "order_ClientName", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Create account
       static let createAccBtt = Rswift.StringResource(key: "createAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Delete Order
+      static let order_Delete = Rswift.StringResource(key: "order_Delete", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Description
       static let order_Description = Rswift.StringResource(key: "order_Description", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Duration
       static let order_Duration = Rswift.StringResource(key: "order_Duration", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Edit Order
+      static let order_EditOrder = Rswift.StringResource(key: "order_EditOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Email address
       static let email = Rswift.StringResource(key: "email", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Forgot password?
@@ -493,6 +497,8 @@ struct R: Rswift.Validatable {
       static let order_Price = Rswift.StringResource(key: "order_Price", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Registration
       static let registration = Rswift.StringResource(key: "registration", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Save Order
+      static let order_SaveOrder = Rswift.StringResource(key: "order_SaveOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Select a date
       static let order_SelectDate = Rswift.StringResource(key: "order_SelectDate", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Sign In
@@ -556,6 +562,19 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("createAccBtt", bundle: bundle, comment: "")
       }
 
+      /// Value: Delete Order
+      static func order_Delete(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_Delete", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_Delete"
+        }
+
+        return NSLocalizedString("order_Delete", bundle: bundle, comment: "")
+      }
+
       /// Value: Description
       static func order_Description(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
@@ -580,6 +599,19 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("order_Duration", bundle: bundle, comment: "")
+      }
+
+      /// Value: Edit Order
+      static func order_EditOrder(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_EditOrder", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_EditOrder"
+        }
+
+        return NSLocalizedString("order_EditOrder", bundle: bundle, comment: "")
       }
 
       /// Value: Email address
@@ -710,6 +742,19 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("registration", bundle: bundle, comment: "")
+      }
+
+      /// Value: Save Order
+      static func order_SaveOrder(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_SaveOrder", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_SaveOrder"
+        }
+
+        return NSLocalizedString("order_SaveOrder", bundle: bundle, comment: "")
       }
 
       /// Value: Select a date

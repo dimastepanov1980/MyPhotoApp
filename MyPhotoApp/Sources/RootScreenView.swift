@@ -10,10 +10,11 @@ import SwiftUI
 struct RootScreenView: View {
     @State private var showSignInView: Bool = false
     @State private var showAddOrderView: Bool = false
+    @State private var showEditOrderView: Bool = false
     var body: some View {
         ZStack {
             if !showSignInView {
-                MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showAddOrderView: $showAddOrderView)
+                MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView )
             }
         }
         .onAppear{

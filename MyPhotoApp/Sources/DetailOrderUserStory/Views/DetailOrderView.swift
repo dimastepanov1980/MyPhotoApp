@@ -16,12 +16,13 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var showingOptions = false
     @State private var randomHeights: [CGFloat] = []
     @State private var selectedItems: [PhotosPickerItem] = []
-    
+    @Binding var showEditOrderView: Bool
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    
-    init(with viewModel: ViewModel) {
+    init(with viewModel: ViewModel,
+         showEditOrderView: Binding<Bool>) {
         self.viewModel = viewModel
+        self._showEditOrderView = showEditOrderView
     }
     
     var body: some View {
@@ -50,7 +51,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 
             }
         }
-        
         .navigationBarTitle(Text(viewModel.name), displayMode: .inline)
         .navigationBarItems(leading:
                                 HStack {
@@ -67,17 +67,23 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             ,trailing:
                                 HStack {
             Button {
-                //
+                showEditOrderView.toggle()
             } label: {
                 Image(R.image.ic_edit.name)
             }
+        
         })
+        .fullScreenCover(isPresented: $showEditOrderView) {
+            NavigationStack {
+                AddOrderView(with: AddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
+            }
+        }
     }
     
     private var infoSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text(viewModel.formattedDate(date: Date(), format: "dd MMMM"))
+                Text(viewModel.formattedDate(date: viewModel.date, format: "dd MMMM"))
                     .font(.title2.bold())
                     .foregroundColor(Color(R.color.gray1.name))
                 
@@ -112,6 +118,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 Text(viewModel.duration)
                     .font(.subheadline)
                     .foregroundColor(Color(R.color.gray3.name))
+               
             }
         }
     }
@@ -164,7 +171,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             }
         }
     }
-    
     private var imageSection: some View {
         // MARK: https://stackoverflow.com/questions/66101176/how-could-i-use-a-swiftui-lazyvgrid-to-create-a-staggered-grid
         // Сделать в две  строчки
@@ -231,25 +237,27 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             .padding(16)
         }
     }
+    
     private func generateRandomHeights() {
         randomHeights = (0..<viewModel.setImage.count).map { _ in generateRandomHeight() }
     }
     private func generateRandomHeight() -> CGFloat {
         return CGFloat.random(in: 150...350)
     }
-    
 }
-
+/*
 struct DetailOrderView_Previews: PreviewProvider {
     private static let modelMock = MockViewModel()
     
     static var previews: some View {
         NavigationView {
-            DetailOrderView(with: modelMock)
+            DetailOrderView(with: modelMock, showEditOrderView: .constant(true))
         }
     }
 }
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
+    var order: UserOrdersModel
+    
     func fetchImages() async throws {
         //
     }
@@ -277,3 +285,4 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
         return "04 September"
     }
 }
+*/

@@ -26,12 +26,12 @@ struct VCellMainScreenView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 16)
                         .foregroundColor(Color(R.color.gray2.name))
-                    if let time = items.date {
-                        Text(time.formatted(Date.FormatStyle().hour().minute()))
-                            .font(.footnote)
-                            .foregroundColor(Color(R.color.gray2.name))
-                            .padding(.trailing)
-                    }
+                    
+                    Text(items.date.formatted(Date.FormatStyle().hour().minute()))
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.gray2.name))
+                        .padding(.trailing)
+                    
                     Image(systemName: "timer")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -75,14 +75,13 @@ struct VCellMainScreenView_Previews: PreviewProvider {
 
 private class MockViewModelVCell: ObservableObject {
     let mocData: UserOrdersModel = UserOrdersModel(order:
-                                            MainOrderModel(id: UUID().uuidString,
+                                                    OrderModel(orderId: UUID().uuidString,
                                                                name: "Katy Igor",
                                                                instagramLink: nil,
-                                                               place: "Kata Noy Beach",
                                                                price: "5500",
+                                                               location: "Kata",
+                                                               description: "Some Text",
                                                                date: Date(),
-                                                               duration: "1.5",
-                                                               description: nil,
-                                                               imageUrl: []) )
-    
+                                                               duration: "2",
+                                                               imageUrl: []))
 }
