@@ -29,7 +29,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         NavigationView {
             VStack{
                 ScrollView(showsIndicators: false) {
-                    VStack(alignment: .trailing) {
+                    VStack(alignment: .leading) {
                         HStack(alignment: .bottom){
                             infoSection
                             Spacer()
@@ -52,26 +52,30 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             }
         }
         .navigationBarTitle(Text(viewModel.name), displayMode: .inline)
-        .navigationBarItems(leading:
-                                HStack {
+        .navigationBarItems(leading: HStack {
             Button {
                 self.presentationMode.wrappedValue.dismiss()
-                
             } label: {
                 Image(systemName: "chevron.backward.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 36)
             }.foregroundColor(Color(R.color.gray2.name))
-        }
-                            ,trailing:
-                                HStack {
+        },trailing: HStack {
+            if let instagramLink = viewModel.instagramLink, !instagramLink.isEmpty  {
+                Button(action: {
+                    if let url = URL(string: instagramLink) {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Image(R.image.ic_instagram.name)
+                }
+            }
             Button {
                 showEditOrderView.toggle()
             } label: {
                 Image(R.image.ic_edit.name)
             }
-        
         })
         .fullScreenCover(isPresented: $showEditOrderView) {
             NavigationStack {
@@ -145,30 +149,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .multilineTextAlignment(.leading)
                     .padding(.top, 24)
             }
-            HStack {
-                
-                /*
-                 var instagramHooks = "instagram://user?username=johndoe"
-                 var instagramUrl = NSURL(string: instagramHooks)
-                 if UIApplication.sharedApplication().canOpenURL(instagramUrl!) {
-                   UIApplication.sharedApplication().openURL(instagramUrl!)
-                 } else {
-                   //redirect to safari because the user doesn't have Instagram
-                   UIApplication.sharedApplication().openURL(NSURL(string: "http://instagram.com/")!)
-                 }
-                 */
-                
-                Button(action: {
-                    if let instagramLink =  viewModel.instagramLink {
-                        if let url = URL(string: instagramLink) {
-                            UIApplication.shared.open(url)
-                        }
-                    }
-                }) {
-                    Spacer()
-                    Image(R.image.ic_instagram.name)
-                }.padding(.top,16)
-            }
         }
     }
     private var imageSection: some View {
@@ -196,7 +176,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             }
                             .padding(16)
                         }
-                    
                 }
             }
         }

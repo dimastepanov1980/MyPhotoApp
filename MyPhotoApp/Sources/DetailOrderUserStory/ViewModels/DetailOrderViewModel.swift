@@ -30,7 +30,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         updatePreview()
     }
 
-    func updatePreview() {
+    private func updatePreview() {
         name = order.name ?? ""
         instagramLink = order.instagramLink
         price = order.price
@@ -38,7 +38,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         description = order.description
         duration = order.duration ?? ""
         image = order.imageUrl
-        date = order.date ?? Date()
+        date = order.date
     }
     func fetchImages() async throws {
         if let imageUrl = image {

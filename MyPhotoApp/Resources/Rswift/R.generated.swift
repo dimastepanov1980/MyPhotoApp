@@ -491,6 +491,8 @@ struct R: Rswift.Validatable {
       static let logIn = Rswift.StringResource(key: "logIn", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: New Order
       static let order_NewOrder = Rswift.StringResource(key: "order_NewOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Orders for today
+      static let today = Rswift.StringResource(key: "today", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Password
       static let password = Rswift.StringResource(key: "password", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Price
@@ -505,8 +507,6 @@ struct R: Rswift.Validatable {
       static let signInAccBtt = Rswift.StringResource(key: "signInAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Take a Photo
       static let takeAPhoto = Rswift.StringResource(key: "takeAPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
-      /// Value: Today
-      static let today = Rswift.StringResource(key: "today", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Total price
       static let totalPrice = Rswift.StringResource(key: "totalPrice", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
 
@@ -705,6 +705,19 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("order_NewOrder", bundle: bundle, comment: "")
       }
 
+      /// Value: Orders for today
+      static func today(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("today", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "today"
+        }
+
+        return NSLocalizedString("today", bundle: bundle, comment: "")
+      }
+
       /// Value: Password
       static func password(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
@@ -794,19 +807,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("takeAPhoto", bundle: bundle, comment: "")
-      }
-
-      /// Value: Today
-      static func today(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("today", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "today"
-        }
-
-        return NSLocalizedString("today", bundle: bundle, comment: "")
       }
 
       /// Value: Total price

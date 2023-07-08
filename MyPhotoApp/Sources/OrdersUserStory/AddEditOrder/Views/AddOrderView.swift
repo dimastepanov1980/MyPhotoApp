@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 
 struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     
-    @ObservedObject var viewModel: ViewModel
+    @ObservedObject private var viewModel: ViewModel
     @Binding var showAddOrderView: Bool
     var mode: Mode
     
@@ -38,16 +38,7 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
             }
             
             CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_AddOrder() : R.string.localizable.order_SaveOrder(), iconName: "") {
-                let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
-                                                                   name: viewModel.name,
-                                                                   instagramLink: viewModel.instagramLink,
-                                                                   price: viewModel.price,
-                                                                   location: viewModel.place,
-                                                                   description: viewModel.description,
-                                                                   date: viewModel.date,
-                                                                   duration: viewModel.duration,
-                                                                   imageUrl: viewModel.imageUrl))
-                mode == .new ? try await viewModel.addOrder(order: userOrders) : print("save")
+                mode == .new ? try await viewModel.addOrder(order: viewModel.order) : try await viewModel.updateOrder()
                     showAddOrderView.toggle()
             }
             //.disabled(viewModel.modified)
@@ -100,31 +91,29 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     }
 }
 
-struct AddOrderView_Previews: PreviewProvider {
-    private static let mockModel = MockViewModel()
-    
-    static var previews: some View {
-        NavigationView {
-            AddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
-        }
-    }
-}
-
-
-private class MockViewModel: AddOrderViewModelType, ObservableObject {
-    var name: String = ""
-    var instagramLink: String = ""
-    var price: String = ""
-    var place: String = ""
-    var description: String = ""
-    var date = Date()
-    var duration: String = ""
-    var imageUrl: [String]  = []
-    
-    func addOrder(order: UserOrdersModel) async throws {
-        //
-    }
-    func updatePreview() {
-        //
-    }
-}
+//struct AddOrderView_Previews: PreviewProvider {
+//    private static let mockModel = MockViewModel()
+//
+//    static var previews: some View {
+//        NavigationView {
+//            AddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
+//        }
+//    }
+//}
+//
+//
+//private class MockViewModel: AddOrderViewModelType, ObservableObject {
+//    var order: UserOrdersModel = UserOrdersModel()
+//    var name: String = ""
+//    var instagramLink: String = ""
+//    var price: String = ""
+//    var place: String = ""
+//    var description: String = ""
+//    var date = Date()
+//    var duration: String = ""
+//    var imageUrl: [String]  = []
+//
+//    func addOrder(order: UserOrdersModel) async throws {
+//        //
+//    }
+//}

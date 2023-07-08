@@ -56,11 +56,6 @@ struct UserOrdersModel: Codable {
         try container.encodeIfPresent(self.duration, forKey: .duration)
         try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)
     }
-    /*
-    init(id: String,
-         location: String?,
-         name: String?, instagramLink: String?, price: String?, description: String?, date: Date?, duration: String?, imageUrl: [String]?)
-     */
   
     init(order: OrderModel) {
         self.id = order.orderId

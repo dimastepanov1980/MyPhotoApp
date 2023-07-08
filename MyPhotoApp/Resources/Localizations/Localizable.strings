@@ -17,7 +17,7 @@
 "totalPrice" = "Total price";
 "takeAPhoto" = "Take a Photo";
 "addPhoto" = "Add Photo";
-"today" = "Today";
+"today" = "Orders for today";
 
 // MARK: - New Order
 "order_ClientName" = "Client Name";

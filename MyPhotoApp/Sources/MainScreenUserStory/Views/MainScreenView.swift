@@ -13,7 +13,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @Binding var showSignInView: Bool
     @Binding var showEditOrderView: Bool
     @Binding var showAddOrderView: Bool
-    
+
     var filteredOrdersForToday: [UserOrdersModel] {
         let today = Date()
         let dateFormatter = DateFormatter()
@@ -25,20 +25,24 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             return formattedOrderDate == formattedToday
         }
     }
-    var filteredOrdersForDate: [Date : [UserOrdersModel]] {
-        var dictionaryByMonth = [Date : [UserOrdersModel]]()
+    var filteredOrdersByDate: [Date : [UserOrdersModel]] {
+        var filteredOrders = [Date : [UserOrdersModel]]()
+        
+        let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
+        
         for order in viewModel.orders {
-            let date = order.date
-            if date > Date() {
+            let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
+            
+            if date > currentDate {
                 let orderDate = Calendar.current.startOfDay(for: date)
-                if dictionaryByMonth[orderDate] == nil {
-                    dictionaryByMonth[orderDate] = [order]
+                if filteredOrders[orderDate] == nil {
+                    filteredOrders[orderDate] = [order]
                 } else {
-                    dictionaryByMonth[orderDate]?.append(order)
+                    filteredOrders[orderDate]?.append(order)
                 }
             }
         }
-        return dictionaryByMonth
+        return filteredOrders
     }
     
     init(with viewModel: ViewModel,
@@ -52,30 +56,29 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     }
     
     var body: some View {
-        VStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                LazyVStack(spacing: 16, pinnedViews: [.sectionHeaders, .sectionFooters]) {
-                    Section {
-                        ScrollView(.vertical) {
-                            verticalCards
-                        }
-                    } header: {
-                        headerSection
-                            .padding(.top, 64)
-                    } .background()
-                }
-            }.edgesIgnoringSafeArea(.bottom)
-                .ignoresSafeArea()
-                .padding(.bottom)
+        VStack(spacing: 0) {
+            ScrollViewReader { date in
+                
+                ScrollView(.vertical, showsIndicators: false) {
+                    LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders, .sectionFooters]) {
+                        Section {
+                            ScrollView(.vertical) {
+                                verticalCards
+                            }
+                        } header: {
+                            headerSection
+                                .padding(.top, 64)
+                        } .background()
+                    }
+                }.edgesIgnoringSafeArea(.bottom)
+                    .ignoresSafeArea()
+                    .padding(.bottom)
+            }
+          
             
             CustomButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
                 showAddOrderView.toggle()
             }.background()
-                .fullScreenCover(isPresented: $showAddOrderView) {
-                    NavigationStack {
-                        AddOrderView(with: AddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: "", name: "", instagramLink: "", price: "", location: "", description: "", date: Date(), duration: "", imageUrl: []))) /*(order: order)*/, showAddOrderView: $showAddOrderView, mode: .new)
-                    }
-                }
         } .onChange(of: showAddOrderView, perform: { _ in
             Task{
                 try? await viewModel.loadOrders()
@@ -87,9 +90,14 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 try? await viewModel.fetchWeather(lat: "7.837090", lon: "98.294619", exclude: "minutely,hourly,alerts")
             }
         }
+        .fullScreenCover(isPresented: $showAddOrderView) {
+            NavigationStack {
+                AddOrderView(with: AddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: <#T##String#>, name: <#T##String?#>, instagramLink: <#T##String?#>, price: <#T##String?#>, location: <#T##String?#>, description: <#T##String?#>, date: <#T##Date#>, duration: <#T##String#>, imageUrl: <#T##[String]#>))), showAddOrderView: $showEditOrderView, mode: .new)
+            }
+        }
         
     }
-    var headerSection: some View {
+    private var headerSection: some View {
         VStack(spacing: 16) {
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
@@ -156,7 +164,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             
         }
     }
-    var horizontalCards: some View {
+    private var horizontalCards: some View {
         LazyHStack {
             ForEach(filteredOrdersForToday, id: \.id) { order in
                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
@@ -174,7 +182,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             }
         }.padding(.horizontal)
     }
-    var calendarSection: some View {
+    private var calendarSection: some View {
         HStack(alignment: .bottom, spacing: 8 ) {
             ForEach(viewModel.weatherByDate.keys.sorted(), id: \.self) { day in
                 ForEach(viewModel.weatherByDate[day]!, id: \.self) { icon in
@@ -202,8 +210,8 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray3.name))
                         HStack(spacing: 2) {
-                            ForEach(filteredOrdersForDate.keys.sorted(), id: \.self) { date in
-                                ForEach(filteredOrdersForDate[date]!, id: \.date) { index in
+                            ForEach(filteredOrdersByDate.keys.sorted(), id: \.self) { date in
+                                ForEach(filteredOrdersByDate[date]!, id: \.date) { index in
                                     if viewModel.formattedDate(date: day, format: "dd, MMMM") == viewModel.formattedDate(date: index.date, format: "dd, MMMM") {
                                         Circle()
                                             .fill(Color.gray)
@@ -220,7 +228,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             }
                         }
                     }
-                    .padding(.bottom, 16)
+                    .padding(.bottom, 8)
                 }
                 .frame(width: 50, height: 100)
                 .background(
@@ -254,13 +262,13 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         }
         .padding()
     }
-    var verticalCards: some View {
+    private var verticalCards: some View {
         VStack(alignment: .center) {
-            ForEach(filteredOrdersForDate.keys.sorted(), id: \.self) { date in
+            ForEach(filteredOrdersByDate.keys.sorted(), id: \.self) { date in
                 Section(header: Text(date, style: .date)
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray3.name))) {
-                        ForEach(filteredOrdersForDate[date]!, id: \.date) { order in
+                        ForEach(filteredOrdersByDate[date]!, id: \.date) { order in
                             NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                                 .navigationBarBackButtonHidden(true)) {
                                     VCellMainScreenView(items: order)
@@ -296,7 +304,6 @@ struct MainScreenView_Previews: PreviewProvider {
         MainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), showAddOrderView: .constant(false))
     }
 }
-
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
     var vm = MainScreenViewModel()
     
