@@ -60,11 +60,40 @@ final class UserManager {
             UserOrdersModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             UserOrdersModel.CodingKeys.price.rawValue : order.price ?? "0",
             UserOrdersModel.CodingKeys.description.rawValue : order.description  ?? "",
-            UserOrdersModel.CodingKeys.date.rawValue : order.date ?? Timestamp(),
+            UserOrdersModel.CodingKeys.date.rawValue : order.date,
             UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? "",
             UserOrdersModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? [""]
         ]
             try await document.setData(data, merge: false)
+    }
+    
+//    func updateOrder(userId: String, order: UserOrdersModel) async throws {
+//        let data: [String : Any] = [
+//            UserOrdersModel.CodingKeys.id.rawValue : order.id,
+//            UserOrdersModel.CodingKeys.location.rawValue : order.location ?? "",
+//            UserOrdersModel.CodingKeys.name.rawValue : order.name ?? "",
+//            UserOrdersModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
+//            UserOrdersModel.CodingKeys.price.rawValue : order.price ?? "",
+//            UserOrdersModel.CodingKeys.description.rawValue : order.description  ?? "",
+//            UserOrdersModel.CodingKeys.date.rawValue : order.date,
+//            UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? "",
+//            UserOrdersModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? [""]
+//        ]
+//          print("Update Order")
+//          try await userOrderDocument(userId: userId, orderId: order.id).setData(data, merge: true)
+//      }
+    
+    func updateOrder(userId: String, order: UserOrdersModel, orderId: String) async throws {
+        let data: [String : Any] = [
+                   UserOrdersModel.CodingKeys.location.rawValue : order.location ?? "",
+                   UserOrdersModel.CodingKeys.name.rawValue : order.name ?? "",
+                   UserOrdersModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
+                   UserOrdersModel.CodingKeys.price.rawValue : order.price ?? "",
+                   UserOrdersModel.CodingKeys.description.rawValue : order.description  ?? "",
+                   UserOrdersModel.CodingKeys.date.rawValue : order.date,
+                   UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? ""
+               ]
+        try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
     }
     
     func removeOrder(userId: String, order: UserOrdersModel) async throws {

@@ -47,7 +47,7 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                                                                    date: viewModel.date,
                                                                    duration: viewModel.duration,
                                                                    imageUrl: viewModel.imageUrl))
-                mode == .new ? try await viewModel.addOrder(order: userOrders) : print("save")
+                mode == .new ? try await viewModel.addOrder(order: userOrders) :  try await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }
             //.disabled(viewModel.modified)
@@ -112,6 +112,10 @@ struct AddOrderView_Previews: PreviewProvider {
 
 
 private class MockViewModel: AddOrderViewModelType, ObservableObject {
+    func updateOrder(orderModel: UserOrdersModel) async throws {
+        //
+    }
+    
     var name: String = ""
     var instagramLink: String = ""
     var price: String = ""
