@@ -25,20 +25,24 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             return formattedOrderDate == formattedToday
         }
     }
-    var filteredOrdersForDate: [Date : [UserOrdersModel]] {
-        var dictionaryByMonth = [Date : [UserOrdersModel]]()
+    var filteredOrdersByDate: [Date : [UserOrdersModel]] {
+        var filteredOrders = [Date : [UserOrdersModel]]()
+        
+        let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
+        
         for order in viewModel.orders {
-            let date = order.date
-            if date > Date() {
+            let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
+            
+            if date > currentDate {
                 let orderDate = Calendar.current.startOfDay(for: date)
-                if dictionaryByMonth[orderDate] == nil {
-                    dictionaryByMonth[orderDate] = [order]
+                if filteredOrders[orderDate] == nil {
+                    filteredOrders[orderDate] = [order]
                 } else {
-                    dictionaryByMonth[orderDate]?.append(order)
+                    filteredOrders[orderDate]?.append(order)
                 }
             }
         }
-        return dictionaryByMonth
+        return filteredOrders
     }
     
     init(with viewModel: ViewModel,
@@ -202,8 +206,8 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray3.name))
                         HStack(spacing: 2) {
-                            ForEach(filteredOrdersForDate.keys.sorted(), id: \.self) { date in
-                                ForEach(filteredOrdersForDate[date]!, id: \.date) { index in
+                            ForEach(filteredOrdersByDate.keys.sorted(), id: \.self) { date in
+                                ForEach(filteredOrdersByDate[date]!, id: \.date) { index in
                                     if viewModel.formattedDate(date: day, format: "dd, MMMM") == viewModel.formattedDate(date: index.date, format: "dd, MMMM") {
                                         Circle()
                                             .fill(Color.gray)
@@ -256,11 +260,11 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     }
     var verticalCards: some View {
         VStack(alignment: .center) {
-            ForEach(filteredOrdersForDate.keys.sorted(), id: \.self) { date in
+            ForEach(filteredOrdersByDate.keys.sorted(), id: \.self) { date in
                 Section(header: Text(date, style: .date)
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray3.name))) {
-                        ForEach(filteredOrdersForDate[date]!, id: \.date) { order in
+                        ForEach(filteredOrdersByDate[date]!, id: \.date) { order in
                             NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                                 .navigationBarBackButtonHidden(true)) {
                                     VCellMainScreenView(items: order)
