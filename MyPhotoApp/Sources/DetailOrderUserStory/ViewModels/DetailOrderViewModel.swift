@@ -23,7 +23,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     @Published var image: [String]?
     @Published var date: Date = Date()
     @Published var selectImages: [UIImage] = []
-    @Published var order: UserOrdersModel
+    private var order: UserOrdersModel
 
     init(order: UserOrdersModel) {
         self.order = order

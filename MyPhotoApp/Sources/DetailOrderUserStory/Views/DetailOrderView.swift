@@ -79,7 +79,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         })
         .fullScreenCover(isPresented: $showEditOrderView) {
             NavigationStack {
-                AddOrderView(with: AddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
+                AddOrderView(with: AddOrderViewModel(), showAddOrderView: $showEditOrderView, mode: .edit)
             }
         }
     }

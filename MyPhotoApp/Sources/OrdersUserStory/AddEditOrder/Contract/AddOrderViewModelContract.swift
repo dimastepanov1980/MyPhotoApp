@@ -17,9 +17,9 @@ protocol AddOrderViewModelType: ObservableObject {
     var date: Date { get set }
     var duration: String { get set }
     var imageUrl: [String] { get set }
-    var order: UserOrdersModel { get set }
+//    var order: UserOrdersModel { get set }
     
     func addOrder(order: UserOrdersModel) async throws
-    func updateOrder() async throws
+    func updateOrder(order: UserOrdersModel) async throws
     
 }

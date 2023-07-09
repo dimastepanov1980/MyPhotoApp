@@ -38,7 +38,23 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
             }
             
             CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_AddOrder() : R.string.localizable.order_SaveOrder(), iconName: "") {
-                mode == .new ? try await viewModel.addOrder(order: viewModel.order) : try await viewModel.updateOrder()
+                mode == .new ? try await viewModel.addOrder(order: UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
+                                                                                               name: viewModel.name,
+                                                                                               instagramLink: viewModel.instagramLink,
+                                                                                               price: viewModel.price,
+                                                                                               location: viewModel.place,
+                                                                                               description: viewModel.description,
+                                                                                               date: viewModel.date,
+                                                                                               duration: viewModel.duration,
+                                                                                               imageUrl: viewModel.imageUrl))) : try await viewModel.updateOrder(order: UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
+                                                                                                                                                                                                          name: viewModel.name,
+                                                                                                                                                                                                          instagramLink: viewModel.instagramLink,
+                                                                                                                                                                                                          price: viewModel.price,
+                                                                                                                                                                                                          location: viewModel.place,
+                                                                                                                                                                                                          description: viewModel.description,
+                                                                                                                                                                                                          date: viewModel.date,
+                                                                                                                                                                                                          duration: viewModel.duration,
+                                                                                                                                                                                                          imageUrl: viewModel.imageUrl)))
                     showAddOrderView.toggle()
             }
             //.disabled(viewModel.modified)

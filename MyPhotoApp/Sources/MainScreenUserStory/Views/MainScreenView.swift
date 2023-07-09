@@ -92,10 +92,9 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         }
         .fullScreenCover(isPresented: $showAddOrderView) {
             NavigationStack {
-                AddOrderView(with: AddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: <#T##String#>, name: <#T##String?#>, instagramLink: <#T##String?#>, price: <#T##String?#>, location: <#T##String?#>, description: <#T##String?#>, date: <#T##Date#>, duration: <#T##String#>, imageUrl: <#T##[String]#>))), showAddOrderView: $showEditOrderView, mode: .new)
+                AddOrderView(with: AddOrderViewModel(), showAddOrderView: $showAddOrderView, mode: .new)
             }
         }
-        
     }
     private var headerSection: some View {
         VStack(spacing: 16) {
