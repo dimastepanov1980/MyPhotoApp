@@ -14,7 +14,7 @@ struct RootScreenView: View {
     var body: some View {
         ZStack {
             if !showSignInView {
-                MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView )
+                CustomTabBar()
             }
         }
         .onAppear{

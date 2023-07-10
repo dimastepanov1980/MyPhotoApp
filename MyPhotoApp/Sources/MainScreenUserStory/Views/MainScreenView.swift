@@ -58,29 +58,22 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     var body: some View {
         VStack {
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVStack(spacing: 16, pinnedViews: [.sectionHeaders, .sectionFooters]) {
+                LazyVStack(pinnedViews: [.sectionHeaders, .sectionFooters]) {
                     Section {
                         ScrollView(.vertical) {
                             verticalCards
+                                .padding(.bottom)
                         }
                     } header: {
                         headerSection
                             .padding(.top, 64)
                     } .background()
                 }
-            }.edgesIgnoringSafeArea(.bottom)
-                .ignoresSafeArea()
-                .padding(.bottom)
-            
-            CustomButtonXl(titleText: R.string.localizable.takeAPhoto(), iconName: "camera.aperture") {
-                showAddOrderView.toggle()
-            }.background()
-                .fullScreenCover(isPresented: $showAddOrderView) {
-                    NavigationStack {
-                        AddOrderView(with: AddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: "", name: "", instagramLink: "", price: "", location: "", description: "", date: Date(), duration: "", imageUrl: []))) /*(order: order)*/, showAddOrderView: $showAddOrderView, mode: .new)
-                    }
-                }
-        } .onChange(of: showAddOrderView, perform: { _ in
+            }
+        }
+        .background()
+        .ignoresSafeArea()
+        .onChange(of: showAddOrderView, perform: { _ in
             Task{
                 try? await viewModel.loadOrders()
             }
@@ -91,10 +84,9 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 try? await viewModel.fetchWeather(lat: "7.837090", lon: "98.294619", exclude: "minutely,hourly,alerts")
             }
         }
-        
-    }
+            }
     var headerSection: some View {
-        VStack(spacing: 16) {
+        VStack() {
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(R.string.localizable.today())
@@ -132,32 +124,14 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         
                     }
                 }
-                Spacer()
-                
-                Button {
-                } label: {
-                    NavigationLink {
-                        SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView)
-                        
-                    } label: {
-                        
-                        Image(R.image.image0.name)
-                            .resizable()
-                            .clipShape(Circle())
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 56)
-                            .overlay(Circle().stroke(Color.white,lineWidth: 2).shadow(radius: 10))
-                    }
-                }
+//                Spacer()
             }.padding(.horizontal, 32)
-            
             ScrollView(.horizontal, showsIndicators: false) {
                 horizontalCards
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 calendarSection
             }
-            
         }
     }
     var horizontalCards: some View {
