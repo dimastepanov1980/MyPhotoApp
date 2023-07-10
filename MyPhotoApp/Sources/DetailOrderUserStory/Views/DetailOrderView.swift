@@ -29,7 +29,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         NavigationView {
             VStack{
                 ScrollView(showsIndicators: false) {
-                    VStack(alignment: .trailing) {
+                    VStack(alignment: .leading) {
                         HStack(alignment: .bottom){
                             infoSection
                             Spacer()
@@ -48,7 +48,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             try await viewModel.addReferenceUIImages(selectedItems: image)
                         }
                     }
-                
             }
         }
         .navigationBarTitle(Text(viewModel.name), displayMode: .inline)
@@ -115,7 +114,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
                 
-                Text(viewModel.duration)
+                Text("\(viewModel.duration) h")
                     .font(.subheadline)
                     .foregroundColor(Color(R.color.gray3.name))
                
@@ -124,6 +123,16 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     private var priceSection: some View {
         VStack(alignment: .trailing) {
+                Button(action: {
+                    if let instagramLink =  viewModel.instagramLink {
+                        if let url = URL(string: instagramLink) {
+                            UIApplication.shared.open(url)
+                        }
+                    }
+                }) {
+                    Image(R.image.ic_instagram.name)
+                }.padding(.top,16)
+            
             if let price = viewModel.price, !price.isEmpty {
              
                     Text(R.string.localizable.totalPrice())
@@ -137,37 +146,13 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         }
     }
     private var desctriptionSection: some View {
-        VStack(alignment: .leading, spacing: 0){
+        VStack(alignment: .leading, spacing: 0) {
             if let content = viewModel.description {
                 Text(content)
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray2.name))
                     .multilineTextAlignment(.leading)
                     .padding(.top, 24)
-            }
-            HStack {
-                
-                /*
-                 var instagramHooks = "instagram://user?username=johndoe"
-                 var instagramUrl = NSURL(string: instagramHooks)
-                 if UIApplication.sharedApplication().canOpenURL(instagramUrl!) {
-                   UIApplication.sharedApplication().openURL(instagramUrl!)
-                 } else {
-                   //redirect to safari because the user doesn't have Instagram
-                   UIApplication.sharedApplication().openURL(NSURL(string: "http://instagram.com/")!)
-                 }
-                 */
-                
-                Button(action: {
-                    if let instagramLink =  viewModel.instagramLink {
-                        if let url = URL(string: instagramLink) {
-                            UIApplication.shared.open(url)
-                        }
-                    }
-                }) {
-                    Spacer()
-                    Image(R.image.ic_instagram.name)
-                }.padding(.top,16)
             }
         }
     }
@@ -245,22 +230,17 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         return CGFloat.random(in: 150...350)
     }
 }
-/*
+
 struct DetailOrderView_Previews: PreviewProvider {
     private static let modelMock = MockViewModel()
     
     static var previews: some View {
         NavigationView {
-            DetailOrderView(with: modelMock, showEditOrderView: .constant(true))
+            DetailOrderView(with: modelMock, showEditOrderView: .constant(false))
         }
     }
 }
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
-    var order: UserOrdersModel
-    
-    func fetchImages() async throws {
-        //
-    }
     
     @Published var selectImages: [UIImage] = []
     @Published var selectedItems: [PhotosPickerItem] = []
@@ -269,12 +249,26 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
     @Published var instagramLink: String? = ""
     @Published var price: String? = "5500"
     @Published var place: String? = "Kata Noy Beach"
-    @Published var description: String? = "Нет возможности делать промоакции. Нет возможноcти предлагать кросс услуги (аренда одежды, мейкап итд). Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду, Нет возможности оставлять заметки о предстоящей фотосессии. Смотреть погоду"
+    @Published var description: String? = "Нет возможности делать промоакции."
     @Published var duration = "1.5"
     @Published var image: [String]? = []
     @Published var date: Date = Date()
-
     
+    @Published var order: UserOrdersModel = UserOrdersModel(order: newOrder)
+    
+    private static let newOrder = OrderModel(orderId: "1",
+                                             name: "Kata Noy Beach",
+                                             instagramLink: "Marat Olga",
+                                             price: "5500",
+                                             location: "KataNoy",
+                                             description: "Нет возможности делать промоакции.",
+                                             date: Date(),
+                                             duration: "1.5",
+                                             imageUrl: [])
+
+    func fetchImages() async throws {
+        //
+    }
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws {
         //
     }
@@ -285,4 +279,4 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
         return "04 September"
     }
 }
-*/
+
