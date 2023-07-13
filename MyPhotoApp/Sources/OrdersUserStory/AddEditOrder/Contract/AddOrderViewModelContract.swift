@@ -26,4 +26,9 @@ protocol AddOrderViewModelType: ObservableObject {
     func updatePreview()
 }
 
+enum Mode {
+    case new
+    case edit
+}
+
 

@@ -8,7 +8,6 @@
 import Foundation
 import PhotosUI
 import SwiftUI
-import Combine
 
 @MainActor
 final class DetailOrderViewModel: DetailOrderViewModelType {
@@ -16,10 +15,18 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     @Published var setImage: [Data] = []
     @Published var selectImages: [UIImage] = []
     @Published var order: UserOrdersModel
-    @Published var avaibleStatus: [String] = ["Upcoming", "In progress", "Completed"]
-
-    init(order: UserOrdersModel) {
+    @Published var avaibleStatus: [String] = ["Upcoming", "In progress", "Completed", "Canceled"]
+    @Published var status: String = ""
+    
+    init(order: UserOrdersModel,
+         status: String) {
         self.order = order
+//        self.status = order.status ?? ""
+        updatePreview()
+    }
+    
+    func updatePreview() {
+        status = order.status ?? ""
     }
 
     func fetchImages() async throws {
@@ -31,14 +38,11 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             }
         }
     }
-    
-    
-    
-    func updateStatus(orderModel: UserOrdersModel, status: String) async throws {
+    func updateStatus(orderModel: UserOrdersModel) async throws {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        try await UserManager.shared.updateStatus(userId: authDateResult.uid, order: orderModel, orderId: order.id)
+        print("updateStatus")
+        try? await UserManager.shared.updateOrder(userId: authDateResult.uid, order: orderModel, orderId: order.id)
     }
-    
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
             var selectedImages: [String] = []

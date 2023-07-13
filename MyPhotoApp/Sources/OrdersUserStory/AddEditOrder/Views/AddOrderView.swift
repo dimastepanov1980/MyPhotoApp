@@ -94,11 +94,6 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
         }
          
     }
-    
-    enum Mode {
-        case new
-        case edit
-    }
 }
 
 //struct AddOrderView_Previews: PreviewProvider {

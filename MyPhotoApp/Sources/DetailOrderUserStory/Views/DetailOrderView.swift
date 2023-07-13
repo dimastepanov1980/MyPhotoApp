@@ -102,13 +102,24 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             ForEach(viewModel.avaibleStatus, id: \.self) { status in
                 Button(status) {
                     Task {
-//                        try await viewModel.updateStatus(orderModel: <#T##UserOrdersModel#>, status: status)
+                        self.viewModel.status = status
+                        let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
+                                                                           name: viewModel.order.name,
+                                                                           instagramLink: viewModel.order.instagramLink,
+                                                                           price: viewModel.order.price,
+                                                                           location: viewModel.order.location,
+                                                                           description: viewModel.order.description,
+                                                                           date: viewModel.order.date,
+                                                                           duration: viewModel.order.duration ?? "",
+                                                                           imageUrl: viewModel.order.imageUrl ?? [],
+                                                                           status: viewModel.status))
+                        
+                        try await viewModel.updateStatus(orderModel: userOrders)
                     }
                 }
             }
         }
     }
-    
     private var infoSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
@@ -154,16 +165,17 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     private var priceSection: some View {
         VStack(alignment: .trailing) {
-            if let status = viewModel.order.status, !status.isEmpty {
+            if !viewModel.status.isEmpty {
                 Button {
                         showActionSheet.toggle()
                 } label: {
                     ZStack {
                         Capsule()
-                            .foregroundColor(.blue)
+                            .foregroundColor(.gray)
                             .frame(width: 80, height: 25)
-                        Text(status)
+                        Text(viewModel.status)
                             .font(.caption)
+                            .foregroundColor(Color.white)
                     }
                 }
             }
@@ -174,7 +186,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     Text("\(price) Thb")
                         .font(.headline.bold())
                         .foregroundColor(Color(R.color.gray2.name))
-                
             }
         }
     }
@@ -196,25 +207,23 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         HStack(alignment: .top) {
             VStack {
                 ForEach(viewModel.selectImages, id: \.self) { image in
-                  
-                        ZStack(alignment: .topTrailing) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .frame(height: 250)
-                                .foregroundColor(.blue)
-                                .cornerRadius(10)
-                            
-                            Button {
-                                showingOptions = true
-                            } label: {
-                                Image(systemName: "ellipsis")
-                                    .foregroundColor(Color.white)
-                            }
-                            .padding(16)
+                    ZStack(alignment: .topTrailing) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .frame(height: 250)
+                            .foregroundColor(.blue)
+                            .cornerRadius(10)
+                        
+                        Button {
+                            showingOptions = true
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundColor(Color.white)
                         }
-                    
+                        .padding(16)
+                    }
                 }
             }
         }
@@ -255,7 +264,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             .padding(16)
         }
     }
-
 }
 
 
@@ -269,10 +277,12 @@ struct DetailOrderView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
-    func updateStatus(orderModel: UserOrdersModel, status: String) async throws {
+   
+    
+    func updateStatus(orderModel: UserOrdersModel) async throws {
         //
     }
-    
+    @Published var status: String = "Upcoming"
     @Published var avaibleStatus: [String] = ["Upcoming", "In progress", "Completed"]
     @Published var selectImages: [UIImage] = []
     @Published var selectedItems: [PhotosPickerItem] = []

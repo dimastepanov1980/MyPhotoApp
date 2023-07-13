@@ -138,7 +138,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     var horizontalCards: some View {
         LazyHStack {
             ForEach(filteredOrdersForToday, id: \.id) { order in
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order, status: order.status ?? ""), showEditOrderView: $showEditOrderView)
                     .navigationBarBackButtonHidden(true)) {
                         HCellMainScreenView(items: order)
                             .contextMenu {
@@ -240,7 +240,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray3.name))) {
                         ForEach(filteredOrdersByDate[date]!, id: \.date) { order in
-                            NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
+                            NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order, status: order.status ?? ""), showEditOrderView: $showEditOrderView)
                                 .navigationBarBackButtonHidden(true)) {
                                     VCellMainScreenView(items: order)
                                         .contextMenu {
