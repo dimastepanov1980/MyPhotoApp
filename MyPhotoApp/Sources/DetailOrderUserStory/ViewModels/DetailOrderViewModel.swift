@@ -14,41 +14,31 @@ import Combine
 final class DetailOrderViewModel: DetailOrderViewModelType {
     @Published var selectedItems: [PhotosPickerItem] = []
     @Published var setImage: [Data] = []
-    @Published var name = ""
-    @Published var instagramLink: String?
-    @Published var price: String?
-    @Published var place: String?
-    @Published var description: String?
-    @Published var duration = ""
-    @Published var image: [String]?
-    @Published var date: Date = Date()
     @Published var selectImages: [UIImage] = []
     @Published var order: UserOrdersModel
+    @Published var avaibleStatus: [String] = ["Upcoming", "In progress", "Completed"]
 
     init(order: UserOrdersModel) {
         self.order = order
-        updatePreview()
     }
 
-    func updatePreview() {
-        name = order.name ?? ""
-        instagramLink = order.instagramLink
-        price = order.price
-        place = order.location
-        description = order.description
-        duration = order.duration ?? ""
-        image = order.imageUrl
-        date = order.date
-    }
     func fetchImages() async throws {
-        if let imageUrl = image {
-            for item in imageUrl {
-                let image = try await StorageManager.shared.getReferenceImage(path: item)
+        if let imageUrl = order.imageUrl {
+            for image in imageUrl {
+                let image = try await StorageManager.shared.getReferenceImage(path: image)
                 selectImages.append(image)
                 try Task.checkCancellation()
             }
         }
     }
+    
+    
+    
+    func updateStatus(orderModel: UserOrdersModel, status: String) async throws {
+            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        try await UserManager.shared.updateStatus(userId: authDateResult.uid, order: orderModel, orderId: order.id)
+    }
+    
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
             var selectedImages: [String] = []

@@ -13,6 +13,7 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
     @Binding var showAddOrderView: Bool
+    @State var showActionSheet: Bool = false
     var mode: Mode
     
     init(with viewModel: ViewModel,
@@ -46,7 +47,8 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                                                                    description: viewModel.description,
                                                                    date: viewModel.date,
                                                                    duration: viewModel.duration,
-                                                                   imageUrl: viewModel.imageUrl))
+                                                                   imageUrl: viewModel.imageUrl,
+                                                                   status: viewModel.status))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) :  try await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }
@@ -89,7 +91,6 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
             CustomTextField(nameTextField: R.string.localizable.order_Description(), text: $viewModel.description)
             CustomTextField(nameTextField: R.string.localizable.order_Duration(), text: $viewModel.duration)
                 .keyboardType (.decimalPad)
-            
         }
          
     }
@@ -100,22 +101,21 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     }
 }
 
-struct AddOrderView_Previews: PreviewProvider {
-    private static let mockModel = MockViewModel()
-    
-    static var previews: some View {
-        NavigationView {
-            AddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
-        }
-    }
-}
+//struct AddOrderView_Previews: PreviewProvider {
+//    private static let mockModel = MockViewModel(order: updatePreview())
+//
+//    static var previews: some View {
+//        NavigationView {
+//            AddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
+//        }
+//    }
+//}
 
 
 private class MockViewModel: AddOrderViewModelType, ObservableObject {
-    func updateOrder(orderModel: UserOrdersModel) async throws {
-        //
-    }
-    
+    var avaibleStatus = [""]
+    var status: String = ""
+    var order: UserOrdersModel 
     var name: String = ""
     var instagramLink: String = ""
     var price: String = ""
@@ -124,11 +124,28 @@ private class MockViewModel: AddOrderViewModelType, ObservableObject {
     var date = Date()
     var duration: String = ""
     var imageUrl: [String]  = []
+    init(order: UserOrdersModel) {
+        self.order = order
+        updatePreview()
+    }
+
+    func updatePreview() {
+        name = order.name ?? ""
+        instagramLink = order.instagramLink ?? ""
+        price = order.price ?? ""
+        place = order.location ?? ""
+        description = order.description ?? ""
+        duration = order.duration ?? ""
+        imageUrl = order.imageUrl ?? []
+        date = order.date
+        status = order.status ?? ""
+    }
     
     func addOrder(order: UserOrdersModel) async throws {
         //
     }
-    func updatePreview() {
+    func updateOrder(orderModel: UserOrdersModel) async throws {
         //
     }
 }
+

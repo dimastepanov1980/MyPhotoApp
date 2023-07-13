@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 protocol AddOrderViewModelType: ObservableObject {
@@ -17,6 +18,8 @@ protocol AddOrderViewModelType: ObservableObject {
     var date: Date { get set }
     var duration: String { get set }
     var imageUrl: [String] { get set }
+    var order: UserOrdersModel { get set }
+    var status: String { get set }
     
     func addOrder(order: UserOrdersModel) async throws
     func updateOrder(orderModel: UserOrdersModel) async throws

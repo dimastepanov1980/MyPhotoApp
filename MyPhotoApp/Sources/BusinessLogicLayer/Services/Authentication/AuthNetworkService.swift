@@ -10,7 +10,7 @@ import FirebaseAuth
 
 @MainActor
 final class AuthNetworkService {
-// TODO: Заменить синглтон на DI
+
     static let shared = AuthNetworkService()
     
     private init() {}

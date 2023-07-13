@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 final class AddOrderViewModel: AddOrderViewModelType {
+    @Published var status: String = ""
     @Published var name: String = ""
     @Published var instagramLink: String = ""
     @Published var price: String = ""
@@ -17,8 +19,7 @@ final class AddOrderViewModel: AddOrderViewModelType {
     @Published var date: Date = Date()
     @Published var duration: String = ""
     @Published var imageUrl: [String] = []
-
-    private let order: UserOrdersModel
+    @Published var order: UserOrdersModel
 
     init(order: UserOrdersModel) {
         self.order = order
@@ -34,6 +35,7 @@ final class AddOrderViewModel: AddOrderViewModelType {
         duration = order.duration ?? ""
         imageUrl = order.imageUrl ?? []
         date = order.date
+        status = order.status ?? ""
     }
     
     func addOrder(order: UserOrdersModel) async throws {
@@ -45,21 +47,4 @@ final class AddOrderViewModel: AddOrderViewModelType {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try? await UserManager.shared.updateOrder(userId: authDateResult.uid, order: orderModel, orderId: order.id)
     }
-    
-    
 }
-
-/*
- 
- 
- let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
-                                                    name: viewModel.name,
-                                                    instagramLink: viewModel.instagramLink,
-                                                    price: viewModel.price,
-                                                    location: viewModel.place,
-                                                    description: viewModel.description,
-                                                    date: viewModel.date,
-                                                    duration: viewModel.duration,
-                                                    imageUrl: viewModel.imageUrl))
- 
- */

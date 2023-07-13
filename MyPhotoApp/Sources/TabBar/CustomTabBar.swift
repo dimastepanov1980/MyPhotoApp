@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CustomTabBar: View {
     @State var index = 0
-    @State private var showSignInView: Bool = false
+    @Binding var showSignInView: Bool
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
     
@@ -36,7 +36,7 @@ struct CustomTabBar: View {
         .background(Color(R.color.gray6.name))
         .fullScreenCover(isPresented: $showAddOrderView) {
             NavigationStack {
-                AddOrderView(with: AddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: "", name: "", instagramLink: "", price: "", location: "", description: "", date: Date(), duration: "", imageUrl: []))), showAddOrderView: $showAddOrderView, mode: .new)
+                AddOrderView(with: AddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: "", name: "", instagramLink: "", price: "", location: "", description: "", date: Date(), duration: "", imageUrl: [], status: ""))), showAddOrderView: $showAddOrderView, mode: .new)
             }
         }
 
@@ -160,7 +160,7 @@ struct CShape : Shape {
 
 struct CustomTabBar_Previews: PreviewProvider {
     static var previews: some View {
-        CustomTabBar()
+        CustomTabBar(showSignInView: .constant(false))
     }
 }
 

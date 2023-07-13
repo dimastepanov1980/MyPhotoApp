@@ -97,7 +97,8 @@ private class MockViewModelHCell: ObservableObject {
                                                                      description: "Some Text",
                                                                      date: Date(),
                                                                      duration: "2",
-                                                                     imageUrl: []))
+                                                                     imageUrl: [],
+                                                                     status: "Upcoming"))
         
     
 }

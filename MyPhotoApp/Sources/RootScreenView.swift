@@ -14,7 +14,7 @@ struct RootScreenView: View {
     var body: some View {
         ZStack {
             if !showSignInView {
-                CustomTabBar()
+                CustomTabBar(showSignInView: $showSignInView)
             }
         }
         .onAppear{

@@ -11,20 +11,13 @@ import PhotosUI
 
 @MainActor
 protocol DetailOrderViewModelType: ObservableObject {
-    var name: String  { get }
-    var instagramLink: String? { get }
-    var price: String? { get }
-    var place: String? { get }
-    var description: String? { get }
-    var duration: String { get }
-    var image: [String]? { get }
-    var date: Date { get }
     var selectedItems: [PhotosPickerItem] { get }
     var setImage: [Data] { get set }
     var selectImages: [UIImage] { get set }
     var order: UserOrdersModel { get set }
-    
+    var avaibleStatus: [String] { get }
     func formattedDate(date: Date, format: String) -> String
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws
     func fetchImages() async throws
+    func updateStatus(orderModel: UserOrdersModel, status: String) async throws
 }

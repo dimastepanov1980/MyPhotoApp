@@ -13,11 +13,12 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @Binding var showSignInView: Bool
     @Binding var showEditOrderView: Bool
     @Binding var showAddOrderView: Bool
+    @State var showActionSheet: Bool = false
     
     var filteredOrdersForToday: [UserOrdersModel] {
         let today = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM"
+        dateFormatter.dateFormat = "dd.MM.YYYY"
         
         return viewModel.orders.filter { order in
             let formattedOrderDate = dateFormatter.string(from: order.date)
@@ -182,7 +183,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         HStack(spacing: 2) {
                             ForEach(filteredOrdersByDate.keys.sorted(), id: \.self) { date in
                                 ForEach(filteredOrdersByDate[date]!, id: \.date) { index in
-                                    if viewModel.formattedDate(date: day, format: "dd, MMMM") == viewModel.formattedDate(date: index.date, format: "dd, MMMM") {
+                                    if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: index.date, format: "dd, MM, YYYY") {
                                         Circle()
                                             .fill(Color.gray)
                                             .frame(height: 6)
@@ -190,7 +191,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                 }
                             }
                             ForEach(filteredOrdersForToday, id: \.date) { item in
-                                if viewModel.formattedDate(date: day, format: "dd, MMMM") == viewModel.formattedDate(date: item.date, format: "dd, MMMM") {
+                                if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: item.date, format: "dd, MM, YYYY") {
                                     Circle()
                                         .fill(Color.red)
                                         .frame(height: 6)
@@ -291,7 +292,8 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
                                                                                   description: "Some Text",
                                                                                   date: Date(),
                                                                                   duration: "2",
-                                                                                  imageUrl: []))]
+                                                                                  imageUrl: [],
+                                                                                  status: "Upcoming"))]
     
     init() {}
     

@@ -17,6 +17,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var randomHeights: [CGFloat] = []
     @State private var selectedItems: [PhotosPickerItem] = []
     @Binding var showEditOrderView: Bool
+    @State var showActionSheet: Bool = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     init(with viewModel: ViewModel,
@@ -50,9 +51,29 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     }
             }
         }
-        .navigationBarTitle(Text(viewModel.name), displayMode: .inline)
-        .navigationBarItems(leading:
-                                HStack {
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                if let instagramLink = viewModel.order.instagramLink, instagramLink.isEmpty {
+                    Button(action: {
+                        if let url = URL(string: instagramLink) {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
+                        HStack {
+                            Text(viewModel.order.name ?? "")
+                            Image(R.image.ic_instagram.name)
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                            
+                        }
+                    }.foregroundColor(Color(R.color.gray2.name))
+                } else {
+                    Text(viewModel.order.name ?? "")
+                }
+            }
+        }
+        .navigationBarItems(leading: HStack {
             Button {
                 self.presentationMode.wrappedValue.dismiss()
                 
@@ -61,20 +82,29 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 36)
-            }.foregroundColor(Color(R.color.gray2.name))
-        }
-                            ,trailing:
-                                HStack {
+            }
+            .foregroundColor(Color(R.color.gray2.name))
+        },
+                            trailing: HStack {
             Button {
                 showEditOrderView.toggle()
             } label: {
                 Image(R.image.ic_edit.name)
             }
-        
+            
         })
         .fullScreenCover(isPresented: $showEditOrderView) {
             NavigationStack {
                 AddOrderView(with: AddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
+            }
+        }
+        .confirmationDialog("Change Status", isPresented: $showActionSheet) {
+            ForEach(viewModel.avaibleStatus, id: \.self) { status in
+                Button(status) {
+                    Task {
+//                        try await viewModel.updateStatus(orderModel: <#T##UserOrdersModel#>, status: status)
+                    }
+                }
             }
         }
     }
@@ -82,7 +112,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     private var infoSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text(viewModel.formattedDate(date: viewModel.date, format: "dd MMMM"))
+                Text(viewModel.formattedDate(date: viewModel.order.date, format: "dd MMMM"))
                     .font(.title2.bold())
                     .foregroundColor(Color(R.color.gray1.name))
                 
@@ -91,11 +121,11 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 32)
             }
-            
-            Text(viewModel.place!)
-                .font(.headline)
-                .foregroundColor(Color(R.color.gray2.name))
-            
+            if let location = viewModel.order.location {
+                Text(location)
+                    .font(.headline)
+                    .foregroundColor(Color(R.color.gray2.name))
+            }
             HStack(spacing: 4) {
                 Image(systemName: "clock")
                     .resizable()
@@ -103,7 +133,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
                 
-                Text(viewModel.date.formatted(.dateTime.hour(.conversationalDefaultDigits(amPM: .omitted)).minute()))
+                Text(viewModel.order.date.formatted(.dateTime.hour(.conversationalDefaultDigits(amPM: .omitted)).minute()))
                     .font(.subheadline)
                     .foregroundColor(Color(R.color.gray3.name))
                     .padding(.trailing, 16)
@@ -114,27 +144,30 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
                 
-                Text("\(viewModel.duration) h")
-                    .font(.subheadline)
-                    .foregroundColor(Color(R.color.gray3.name))
-               
+                if let duration = viewModel.order.duration {
+                    Text("\(duration)h")
+                        .font(.subheadline)
+                        .foregroundColor(Color(R.color.gray3.name))
+                }
             }
         }
     }
     private var priceSection: some View {
         VStack(alignment: .trailing) {
-                Button(action: {
-                    if let instagramLink =  viewModel.instagramLink {
-                        if let url = URL(string: instagramLink) {
-                            UIApplication.shared.open(url)
-                        }
+            if let status = viewModel.order.status, !status.isEmpty {
+                Button {
+                        showActionSheet.toggle()
+                } label: {
+                    ZStack {
+                        Capsule()
+                            .foregroundColor(.blue)
+                            .frame(width: 80, height: 25)
+                        Text(status)
+                            .font(.caption)
                     }
-                }) {
-                    Image(R.image.ic_instagram.name)
-                }.padding(.top,16)
-            
-            if let price = viewModel.price, !price.isEmpty {
-             
+                }
+            }
+            if let price = viewModel.order.price, !price.isEmpty {
                     Text(R.string.localizable.totalPrice())
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray2.name))
@@ -147,8 +180,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     private var desctriptionSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if let content = viewModel.description {
-                Text(content)
+            if let description = viewModel.order.description {
+                Text(description)
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray2.name))
                     .multilineTextAlignment(.leading)
@@ -222,14 +255,9 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             .padding(16)
         }
     }
-    
-    private func generateRandomHeights() {
-        randomHeights = (0..<viewModel.setImage.count).map { _ in generateRandomHeight() }
-    }
-    private func generateRandomHeight() -> CGFloat {
-        return CGFloat.random(in: 150...350)
-    }
+
 }
+
 
 struct DetailOrderView_Previews: PreviewProvider {
     private static let modelMock = MockViewModel()
@@ -241,18 +269,14 @@ struct DetailOrderView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
+    func updateStatus(orderModel: UserOrdersModel, status: String) async throws {
+        //
+    }
     
+    @Published var avaibleStatus: [String] = ["Upcoming", "In progress", "Completed"]
     @Published var selectImages: [UIImage] = []
     @Published var selectedItems: [PhotosPickerItem] = []
     @Published var setImage: [Data] = []
-    @Published var name = "Marat Olga"
-    @Published var instagramLink: String? = ""
-    @Published var price: String? = "5500"
-    @Published var place: String? = "Kata Noy Beach"
-    @Published var description: String? = "Нет возможности делать промоакции."
-    @Published var duration = "1.5"
-    @Published var image: [String]? = []
-    @Published var date: Date = Date()
     
     @Published var order: UserOrdersModel = UserOrdersModel(order: newOrder)
     
@@ -264,7 +288,8 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
                                              description: "Нет возможности делать промоакции.",
                                              date: Date(),
                                              duration: "1.5",
-                                             imageUrl: [])
+                                             imageUrl: [],
+                                             status: "Upcoming")
 
     func fetchImages() async throws {
         //
@@ -279,4 +304,3 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
         return "04 September"
     }
 }
-

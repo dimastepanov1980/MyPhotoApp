@@ -18,6 +18,7 @@ struct UserOrdersModel: Codable {
     let date: Date
     let duration: String?
     let imageUrl: [String]?
+    let status: String?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -30,6 +31,7 @@ struct UserOrdersModel: Codable {
         self.date = try container.decode(Date.self, forKey: .date)
         self.duration = try container.decodeIfPresent(String.self, forKey: .duration)
         self.imageUrl = try container.decodeIfPresent([String].self, forKey: .imageUrl)
+        self.status = try container.decodeIfPresent(String.self, forKey: .status)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -42,6 +44,7 @@ struct UserOrdersModel: Codable {
         case date = "date"
         case duration = "duration"
         case imageUrl = "image_url"
+        case status = "status"
     }
 
     func encode(to encoder: Encoder) throws {
@@ -55,12 +58,9 @@ struct UserOrdersModel: Codable {
         try container.encodeIfPresent(self.date, forKey: .date)
         try container.encodeIfPresent(self.duration, forKey: .duration)
         try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)
+        try container.encodeIfPresent(self.status, forKey: .status)
+
     }
-    /*
-    init(id: String,
-         location: String?,
-         name: String?, instagramLink: String?, price: String?, description: String?, date: Date?, duration: String?, imageUrl: [String]?)
-     */
   
     init(order: OrderModel) {
         self.id = order.orderId
@@ -72,6 +72,6 @@ struct UserOrdersModel: Codable {
         self.date = order.date
         self.duration = order.duration
         self.imageUrl = order.imageUrl
+        self.status = order.status
     }
-
 }
