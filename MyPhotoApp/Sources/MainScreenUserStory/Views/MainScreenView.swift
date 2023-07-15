@@ -14,6 +14,8 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @Binding var showEditOrderView: Bool
     @Binding var showAddOrderView: Bool
     @State var showActionSheet: Bool = false
+    @State private var shouldScroll = false
+
     
     var filteredOrdersForToday: [UserOrdersModel] {
         let today = Date()
@@ -66,8 +68,9 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                 verticalCards()
                                     .padding(.bottom)
                             }
+                        
                         } header: {
-                            headerSection(value: data)
+                            headerSection(scroll: data)
                                 .padding(.top, 64)
                         } .background()
                     }
@@ -89,7 +92,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             }
         }
             }
-    func headerSection(value: ScrollViewProxy) -> some View {
+    func headerSection(scroll: ScrollViewProxy) -> some View {
         VStack() {
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
@@ -134,7 +137,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 horizontalCards
             }
             ScrollView(.horizontal, showsIndicators: false) {
-                calendarSection(value: value)
+                calendarSection(value: scroll)
             }
         }
     }
@@ -160,7 +163,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         HStack(alignment: .bottom, spacing: 8 ) {
             ForEach(viewModel.weatherByDate.keys.sorted(), id: \.self) { day in
                 ForEach(viewModel.weatherByDate[day]!, id: \.self) { icon in
-                    
                     VStack(spacing: 4) {
                         Spacer()
                         if let icon = icon {
@@ -228,9 +230,9 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 .onTapGesture {
                     withAnimation {
                         viewModel.selectedDay = day
+                        shouldScroll.toggle()
                     }
-                    value.scrollTo(viewModel.formattedDate(date: day, format: "dd MMMM YYYY" ), anchor: .top)
-                    print(viewModel.formattedDate(date: day, format: "dd MMMM YYYY" ))
+                    value.scrollTo(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM YYYY" ), anchor: .top)
                 }
             }
         }
