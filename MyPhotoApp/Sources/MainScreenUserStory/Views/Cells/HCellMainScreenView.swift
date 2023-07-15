@@ -30,7 +30,7 @@ struct HCellMainScreenView: View {
                                 .frame(width: 16)
                                 .foregroundColor(Color(R.color.gray2.name))
                             
-                            Text(Date().displayHours)
+                            Text(items.date.displayHours)
                                 .font(.footnote)
                                 .foregroundColor(Color(R.color.gray3.name))
                         }
@@ -43,7 +43,7 @@ struct HCellMainScreenView: View {
 
                             if let duration = items.duration {
                                 
-                                Text(String(duration))
+                                Text("\(duration)\(R.string.localizable.order_hour())")
                                     .font(.footnote)
                                     .foregroundColor(Color(R.color.gray3.name))
                             }

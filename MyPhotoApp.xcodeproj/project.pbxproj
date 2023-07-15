@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E4C2DFF84317C68256C19A7 /* Pods_MyPhotoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36CDCC9F143E459B2B9C1604 /* Pods_MyPhotoApp.framework */; };
-		5F0F8D802A31C39E00AF4EED /* AddOrderViewModelContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D7F2A31C39E00AF4EED /* AddOrderViewModelContract.swift */; };
+		5F0F8D802A31C39E00AF4EED /* AddOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D7F2A31C39E00AF4EED /* AddOrderViewModelType.swift */; };
 		5F0F8D822A31C3C100AF4EED /* AddOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D812A31C3C100AF4EED /* AddOrderViewModel.swift */; };
 		5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D832A31E22A00AF4EED /* DBUserModel.swift */; };
 		5F0F8D862A31E28B00AF4EED /* UserOrdersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D852A31E28B00AF4EED /* UserOrdersModel.swift */; };
@@ -59,7 +59,7 @@
 /* Begin PBXFileReference section */
 		36CDCC9F143E459B2B9C1604 /* Pods_MyPhotoApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPhotoApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A719D453A1FA8DDE0B5B4A0 /* Pods-MyPhotoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.debug.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.debug.xcconfig"; sourceTree = "<group>"; };
-		5F0F8D7F2A31C39E00AF4EED /* AddOrderViewModelContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderViewModelContract.swift; sourceTree = "<group>"; };
+		5F0F8D7F2A31C39E00AF4EED /* AddOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderViewModelType.swift; sourceTree = "<group>"; };
 		5F0F8D812A31C3C100AF4EED /* AddOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderViewModel.swift; sourceTree = "<group>"; };
 		5F0F8D832A31E22A00AF4EED /* DBUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUserModel.swift; sourceTree = "<group>"; };
 		5F0F8D852A31E28B00AF4EED /* UserOrdersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrdersModel.swift; sourceTree = "<group>"; };
@@ -322,13 +322,13 @@
 		5FBA26832A14CAB000E972FB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				5FA3C3462A5BDC07003EA4F8 /* TabBar */,
 				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
+				5FF546682A1B56F300208455 /* MainScreenUserStory */,
+				5FA3C3462A5BDC07003EA4F8 /* TabBar */,
 				5FF58F382A27043A009AF970 /* OrdersUserStory */,
 				5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */,
 				5FB6C7FD2A1DEC77005FB152 /* Constants */,
 				5FBA26992A15370A00E972FB /* AuthUserStory */,
-				5FF546682A1B56F300208455 /* MainScreenUserStory */,
 				5FA15DA52A184FA9007A1AC6 /* DetailOrderUserStory */,
 				5FBA26962A15367900E972FB /* Common */,
 				5FA15D9E2A176A06007A1AC6 /* Models */,
@@ -454,7 +454,7 @@
 		5FF58F392A27048C009AF970 /* Contract */ = {
 			isa = PBXGroup;
 			children = (
-				5F0F8D7F2A31C39E00AF4EED /* AddOrderViewModelContract.swift */,
+				5F0F8D7F2A31C39E00AF4EED /* AddOrderViewModelType.swift */,
 			);
 			path = Contract;
 			sourceTree = "<group>";
@@ -643,7 +643,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F0F8D802A31C39E00AF4EED /* AddOrderViewModelContract.swift in Sources */,
+				5F0F8D802A31C39E00AF4EED /* AddOrderViewModelType.swift in Sources */,
 				5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */,
 				5FA7224D2A1E154A003EB084 /* MocMainOrders.swift in Sources */,
 				5FF546742A1B57E500208455 /* HCellMainScreenView.swift in Sources */,

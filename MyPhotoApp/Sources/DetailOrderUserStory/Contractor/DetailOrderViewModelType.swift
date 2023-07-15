@@ -22,4 +22,5 @@ protocol DetailOrderViewModelType: ObservableObject {
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws
     func fetchImages() async throws
     func updateStatus(orderModel: UserOrdersModel) async throws
+    func loadOrders(orderModel: UserOrdersModel) async throws
 }

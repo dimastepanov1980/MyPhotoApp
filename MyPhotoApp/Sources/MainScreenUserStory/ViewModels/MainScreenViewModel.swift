@@ -15,12 +15,11 @@ final class MainScreenViewModel: MainScreenViewModelType {
     @Published var weatherForCurrentDay: String? = nil
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
+    
     init() {
     }
     
 // MARK: Set the desired output date format
-  
-    
     func fetchWeather(lat: String, lon: String, exclude: String) async throws {
         let today = Date()
         let calendar = Calendar.current
@@ -42,28 +41,23 @@ final class MainScreenViewModel: MainScreenViewModelType {
         self.weatherForCurrentDay = weatherForCurrentDay
         self.weatherByDate = weatherByDate
     }
-    
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         return formatter.string(from: date)
     }
-    
     func isToday(date: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(selectedDay, inSameDayAs: date)
     }
-    
     func isTodayDay(date: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
     }
-    
     func loadOrders() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         self.orders = try await UserManager.shared.getAllOrders(userId: authDateResult.uid)
     }
-    
     func deleteOrder(order: UserOrdersModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)

@@ -20,7 +20,7 @@ import PhotosUI
  @Published var name: String = "Ira"
  @Published var instagramLink: String? = nil
  @Published var price: String? = "6500"
- @Published var place: String? = "Kata Noy Beach1"
+ @Published var location: String? = "Kata Noy Beach1"
  @Published var description: String? = "Included with your membership are two Technical Support Incidents (TSIs), which can be used during your membership year to request code-level support for Apple frameworks, APIs, and tools from an Apple Developer Technical Support Engineer. You’ll receive two new TSIs when you renew your membership. Additional TSIs are available for purchase at any time."
  
  @Published var duration: String = "1.5"

@@ -38,10 +38,11 @@ struct VCellMainScreenView: View {
                         .frame(width: 16)
                         .foregroundColor(Color(R.color.gray2.name))
                     if let duration = items.duration {
-                        Text(String(duration))
+                        Text("\(duration)\(R.string.localizable.order_hour())")
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray2.name))
                     }
+                    
                 }
                 
                 Image(R.image.image0.name)

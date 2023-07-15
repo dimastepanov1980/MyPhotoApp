@@ -18,6 +18,21 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var selectedItems: [PhotosPickerItem] = []
     @Binding var showEditOrderView: Bool
     @State var showActionSheet: Bool = false
+
+    var statusColor: Color {
+        switch viewModel.status {
+        case R.string.localizable.status_upcoming():
+            return Color(R.color.upcoming.name)
+        case R.string.localizable.status_inProgress():
+            return Color(R.color.inProgress.name)
+        case R.string.localizable.status_completed():
+            return Color(R.color.completed.name)
+        case R.string.localizable.status_canceled():
+            return Color(R.color.canceled.name)
+        default:
+            return Color.gray
+        }
+    }
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     init(with viewModel: ViewModel,
@@ -36,12 +51,11 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             Spacer()
                             priceSection
                         }
-                            desctriptionSection
-                            imageSection
+                        desctriptionSection
+                        imageSection
                     }
                     .padding(.top)
                     .padding(.horizontal, 16)
-                    
                 }
                 addPhotoButton
                     .onChange(of: selectedItems) { image in
@@ -65,7 +79,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             Image(R.image.ic_instagram.name)
                                 .resizable()
                                 .frame(width: 24, height: 24)
-                            
                         }
                     }.foregroundColor(Color(R.color.gray2.name))
                 } else {
@@ -156,7 +169,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .foregroundColor(Color(R.color.gray2.name))
                 
                 if let duration = viewModel.order.duration {
-                    Text("\(duration)h")
+                    Text("\(duration)\(R.string.localizable.order_hour())")
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray3.name))
                 }
@@ -171,7 +184,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 } label: {
                     ZStack {
                         Capsule()
-                            .foregroundColor(.gray)
+                            .foregroundColor(statusColor)
                             .frame(width: 80, height: 25)
                         Text(viewModel.status)
                             .font(.caption)
@@ -265,8 +278,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         }
     }
 }
-
-
+/*
 struct DetailOrderView_Previews: PreviewProvider {
     private static let modelMock = MockViewModel()
     
@@ -276,9 +288,9 @@ struct DetailOrderView_Previews: PreviewProvider {
         }
     }
 }
+
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
-   
-    
+    @Published var statusColor: Color = .gray
     func updateStatus(orderModel: UserOrdersModel) async throws {
         //
     }
@@ -314,3 +326,4 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
         return "04 September"
     }
 }
+*/

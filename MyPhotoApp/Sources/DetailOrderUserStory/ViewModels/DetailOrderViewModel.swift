@@ -15,20 +15,20 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     @Published var setImage: [Data] = []
     @Published var selectImages: [UIImage] = []
     @Published var order: UserOrdersModel
-    @Published var avaibleStatus: [String] = ["Upcoming", "In progress", "Completed", "Canceled"]
+    @Published var avaibleStatus: [String] = [R.string.localizable.status_upcoming(),
+                                              R.string.localizable.status_inProgress(),
+                                              R.string.localizable.status_completed(),
+                                              R.string.localizable.status_canceled()]
     @Published var status: String = ""
     
-    init(order: UserOrdersModel,
-         status: String) {
+    init(order: UserOrdersModel) {
         self.order = order
-//        self.status = order.status ?? ""
         updatePreview()
     }
     
     func updatePreview() {
         status = order.status ?? ""
     }
-
     func fetchImages() async throws {
         if let imageUrl = order.imageUrl {
             for image in imageUrl {
@@ -40,7 +40,6 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     }
     func updateStatus(orderModel: UserOrdersModel) async throws {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        print("updateStatus")
         try? await UserManager.shared.updateOrder(userId: authDateResult.uid, order: orderModel, orderId: order.id)
     }
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws {
@@ -64,5 +63,9 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         return formatter.string(from: date)
+    }
+    func loadOrders(orderModel: UserOrdersModel) async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        self.order = try await UserManager.shared.getCurrentOrders(userId: authDateResult.uid, order: orderModel)
     }
 }

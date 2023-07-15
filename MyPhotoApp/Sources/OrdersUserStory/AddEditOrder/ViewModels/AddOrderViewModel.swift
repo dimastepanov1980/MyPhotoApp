@@ -14,12 +14,13 @@ final class AddOrderViewModel: AddOrderViewModelType {
     @Published var name: String = ""
     @Published var instagramLink: String = ""
     @Published var price: String = ""
-    @Published var place: String = ""
+    @Published var location: String = ""
     @Published var description: String = ""
     @Published var date: Date = Date()
     @Published var duration: String = ""
     @Published var imageUrl: [String] = []
-    @Published var order: UserOrdersModel
+    
+    private let order: UserOrdersModel
 
     init(order: UserOrdersModel) {
         self.order = order
@@ -30,7 +31,7 @@ final class AddOrderViewModel: AddOrderViewModelType {
         name = order.name ?? ""
         instagramLink = order.instagramLink ?? ""
         price = order.price ?? ""
-        place = order.location ?? ""
+        location = order.location ?? ""
         description = order.description ?? ""
         duration = order.duration ?? ""
         imageUrl = order.imageUrl ?? []

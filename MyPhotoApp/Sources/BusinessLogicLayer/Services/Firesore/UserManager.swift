@@ -63,11 +63,10 @@ final class UserManager {
             UserOrdersModel.CodingKeys.date.rawValue : order.date,
             UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? "",
             UserOrdersModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? [""],
-            UserOrdersModel.CodingKeys.status.rawValue : "Upcoming"
+            UserOrdersModel.CodingKeys.status.rawValue : R.string.localizable.status_upcoming()
         ]
             try await document.setData(data, merge: false)
     }
-    
     func updateOrder(userId: String, order: UserOrdersModel, orderId: String) async throws {
         let data: [String : Any] = [
                    UserOrdersModel.CodingKeys.location.rawValue : order.location ?? "",
@@ -77,37 +76,34 @@ final class UserManager {
                    UserOrdersModel.CodingKeys.description.rawValue : order.description  ?? "",
                    UserOrdersModel.CodingKeys.date.rawValue : order.date,
                    UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? "",
-                   UserOrdersModel.CodingKeys.status.rawValue : order.status ?? "Upcoming"
+                   UserOrdersModel.CodingKeys.status.rawValue : order.status ?? R.string.localizable.status_upcoming()
                ]
         try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
     }
-    
     func updateStatus(userId: String, order: UserOrdersModel, orderId: String) async throws {
         let data: [String : Any] = [
-                   UserOrdersModel.CodingKeys.status.rawValue : order.status ?? "Upcoming"
+                   UserOrdersModel.CodingKeys.status.rawValue : order.status ?? R.string.localizable.status_upcoming()
                ]
         try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
     }
-    
     func removeOrder(userId: String, order: UserOrdersModel) async throws {
-        try await userOrderDocument (userId: userId, orderId: order.id).delete()
+        try await userOrderDocument(userId: userId, orderId: order.id).delete()
     }
-    
     func addToAvatarLink(userId: String, path: String, orderId: String) async throws {
         let data: [String : [Any]] = [
             UserOrdersModel.CodingKeys.imageUrl.rawValue : [path]
         ]
         try await userOrderDocument (userId: userId, orderId: orderId).updateData(data) //.setData(data, merge: true)
     }
-    
     func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
         try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
     }
-    
     func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
         try await userOrderCollection(userId: userId).getDocuments(as: UserOrdersModel.self)
     }
-    
+    func getCurrentOrders(userId: String, order: UserOrdersModel) async throws -> UserOrdersModel {
+        try await userOrderDocument(userId: userId, orderId: order.id).getDocument(as: UserOrdersModel.self)
+    }
     func getUser(userId: String) async throws -> DBUserModel {
         try await userDocument(userId: userId).getDocument(as: DBUserModel.self)
     }

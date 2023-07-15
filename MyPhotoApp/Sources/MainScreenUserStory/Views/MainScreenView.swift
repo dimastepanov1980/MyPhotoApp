@@ -26,7 +26,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             return formattedOrderDate == formattedToday
         }
     }
-    var filteredOrdersByDate: [Date : [UserOrdersModel]] {
+    var filteredUpcomingOrders: [Date : [UserOrdersModel]] {
         var filteredOrders = [Date : [UserOrdersModel]]()
         
         let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
@@ -34,7 +34,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         for order in viewModel.orders {
             let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
             
-            if date > currentDate {
+            if date > currentDate/*, order.status == R.string.localizable.status_upcoming()*/ {
                 let orderDate = Calendar.current.startOfDay(for: date)
                 if filteredOrders[orderDate] == nil {
                     filteredOrders[orderDate] = [order]
@@ -138,7 +138,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     var horizontalCards: some View {
         LazyHStack {
             ForEach(filteredOrdersForToday, id: \.id) { order in
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order, status: order.status ?? ""), showEditOrderView: $showEditOrderView)
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                     .navigationBarBackButtonHidden(true)) {
                         HCellMainScreenView(items: order)
                             .contextMenu {
@@ -181,8 +181,8 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray3.name))
                         HStack(spacing: 2) {
-                            ForEach(filteredOrdersByDate.keys.sorted(), id: \.self) { date in
-                                ForEach(filteredOrdersByDate[date]!, id: \.date) { index in
+                            ForEach(filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
+                                ForEach(filteredUpcomingOrders[date]!, id: \.date) { index in
                                     if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: index.date, format: "dd, MM, YYYY") {
                                         Circle()
                                             .fill(Color.gray)
@@ -235,12 +235,12 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     }
     var verticalCards: some View {
         VStack(alignment: .center) {
-            ForEach(filteredOrdersByDate.keys.sorted(), id: \.self) { date in
+            ForEach(filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
                 Section(header: Text(date, style: .date)
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray3.name))) {
-                        ForEach(filteredOrdersByDate[date]!, id: \.date) { order in
-                            NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order, status: order.status ?? ""), showEditOrderView: $showEditOrderView)
+                        ForEach(filteredUpcomingOrders[date]!, id: \.date) { order in
+                            NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                                 .navigationBarBackButtonHidden(true)) {
                                     VCellMainScreenView(items: order)
                                         .contextMenu {

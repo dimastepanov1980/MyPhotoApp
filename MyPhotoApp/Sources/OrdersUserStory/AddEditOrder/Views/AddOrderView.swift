@@ -43,13 +43,13 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                                                                    name: viewModel.name,
                                                                    instagramLink: viewModel.instagramLink,
                                                                    price: viewModel.price,
-                                                                   location: viewModel.place,
+                                                                   location: viewModel.location,
                                                                    description: viewModel.description,
                                                                    date: viewModel.date,
                                                                    duration: viewModel.duration,
                                                                    imageUrl: viewModel.imageUrl,
                                                                    status: viewModel.status))
-                mode == .new ? try await viewModel.addOrder(order: userOrders) :  try await viewModel.updateOrder(orderModel: userOrders)
+                mode == .new ? try await viewModel.addOrder(order: userOrders) : try await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }
             //.disabled(viewModel.modified)
@@ -84,7 +84,7 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                 .foregroundColor(Color(R.color.gray4.name))
             
             CustomTextField(nameTextField: R.string.localizable.order_ClientName(), text: $viewModel.name)
-            CustomTextField(nameTextField: R.string.localizable.order_Location(), text: $viewModel.place)
+            CustomTextField(nameTextField: R.string.localizable.order_Location(), text: $viewModel.location)
             CustomTextField(nameTextField: R.string.localizable.order_Price(), text: $viewModel.price)
                 .keyboardType (.decimalPad)
             CustomTextField(nameTextField: R.string.localizable.order_InstagramLink(), text: $viewModel.instagramLink)
@@ -105,20 +105,19 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
 //        }
 //    }
 //}
-
-
 private class MockViewModel: AddOrderViewModelType, ObservableObject {
     var avaibleStatus = [""]
     var status: String = ""
-    var order: UserOrdersModel 
     var name: String = ""
     var instagramLink: String = ""
     var price: String = ""
-    var place: String = ""
+    var location: String = ""
     var description: String = ""
     var date = Date()
     var duration: String = ""
     var imageUrl: [String]  = []
+    
+    var order: UserOrdersModel
     init(order: UserOrdersModel) {
         self.order = order
         updatePreview()
@@ -128,7 +127,7 @@ private class MockViewModel: AddOrderViewModelType, ObservableObject {
         name = order.name ?? ""
         instagramLink = order.instagramLink ?? ""
         price = order.price ?? ""
-        place = order.location ?? ""
+        location = order.location ?? ""
         description = order.description ?? ""
         duration = order.duration ?? ""
         imageUrl = order.imageUrl ?? []

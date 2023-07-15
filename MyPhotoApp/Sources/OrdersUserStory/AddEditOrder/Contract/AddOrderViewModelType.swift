@@ -1,5 +1,5 @@
 //
-//  AddOrderViewModelContract.swift
+//  AddOrderViewModelType.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 6/8/23.
@@ -18,7 +18,7 @@ protocol AddOrderViewModelType: ObservableObject {
     var date: Date { get set }
     var duration: String { get set }
     var imageUrl: [String] { get set }
-    var order: UserOrdersModel { get set }
+//    var order: UserOrdersModel { get set }
     var status: String { get set }
     
     func addOrder(order: UserOrdersModel) async throws
