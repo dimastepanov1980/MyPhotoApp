@@ -13,7 +13,7 @@ protocol AddOrderViewModelType: ObservableObject {
     var name: String { get set }
     var instagramLink: String { get set }
     var price: String { get set }
-    var place: String { get set }
+    var location: String { get set }
     var description: String { get set }
     var date: Date { get set }
     var duration: String { get set }

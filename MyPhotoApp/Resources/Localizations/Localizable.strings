@@ -1,10 +1,9 @@
-/* 
-  Localizable.strings
-  MyPhotoApp
-
-  Created by Dima Stepanov on 5/17/23.
+//  Localizable.strings
+//  MyPhotoApp
+//
+//  Created by Dima Stepanov on 5/17/23.
   
-*/
+ 
 // MARK: - Common
 "registration" = "Registration";
 "logIn" = "LogIn";
@@ -32,3 +31,11 @@
 "order_EditOrder" = "Edit Order";
 "order_NewOrder" = "New Order";
 "order_Delete" = "Delete Order";
+"order_hour" = "h";
+
+// MARK: - order Status
+"status_upcoming" = "Upcoming";
+"status_inProgress" = "In progress";
+"status_completed" = "Completed";
+"status_canceled" = "Canceled";
+

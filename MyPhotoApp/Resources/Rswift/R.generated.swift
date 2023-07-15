@@ -88,12 +88,16 @@ struct R: Rswift.Validatable {
     try intern.validate()
   }
 
-  /// This `R.color` struct is generated, and contains static references to 10 colors.
+  /// This `R.color` struct is generated, and contains static references to 14 colors.
   struct color {
     /// Color `AccentColor`.
     static let accentColor = Rswift.ColorResource(bundle: R.hostingBundle, name: "AccentColor")
+    /// Color `Canceled`.
+    static let canceled = Rswift.ColorResource(bundle: R.hostingBundle, name: "Canceled")
     /// Color `Color`.
     static let color = Rswift.ColorResource(bundle: R.hostingBundle, name: "Color")
+    /// Color `Completed`.
+    static let completed = Rswift.ColorResource(bundle: R.hostingBundle, name: "Completed")
     /// Color `Gray1`.
     static let gray1 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray1")
     /// Color `Gray2`.
@@ -106,10 +110,14 @@ struct R: Rswift.Validatable {
     static let gray5 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray5")
     /// Color `Gray6`.
     static let gray6 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray6")
+    /// Color `InProgress`.
+    static let inProgress = Rswift.ColorResource(bundle: R.hostingBundle, name: "InProgress")
     /// Color `Orange`.
     static let orange = Rswift.ColorResource(bundle: R.hostingBundle, name: "Orange")
     /// Color `Red`.
     static let red = Rswift.ColorResource(bundle: R.hostingBundle, name: "Red")
+    /// Color `Upcoming`.
+    static let upcoming = Rswift.ColorResource(bundle: R.hostingBundle, name: "Upcoming")
 
     #if os(iOS) || os(tvOS)
     /// `UIColor(named: "AccentColor", bundle: ..., traitCollection: ...)`
@@ -121,11 +129,29 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Canceled", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func canceled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.canceled, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
     /// `UIColor(named: "Color", bundle: ..., traitCollection: ...)`
     @available(tvOS 11.0, *)
     @available(iOS 11.0, *)
     static func color(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
       return UIKit.UIColor(resource: R.color.color, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Completed", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func completed(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.completed, compatibleWith: traitCollection)
     }
     #endif
 
@@ -184,6 +210,15 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "InProgress", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func inProgress(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.inProgress, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
     /// `UIColor(named: "Orange", bundle: ..., traitCollection: ...)`
     @available(tvOS 11.0, *)
     @available(iOS 11.0, *)
@@ -201,6 +236,15 @@ struct R: Rswift.Validatable {
     }
     #endif
 
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Upcoming", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func upcoming(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.upcoming, compatibleWith: traitCollection)
+    }
+    #endif
+
     #if os(watchOS)
     /// `UIColor(named: "AccentColor", bundle: ..., traitCollection: ...)`
     @available(watchOSApplicationExtension 4.0, *)
@@ -210,10 +254,26 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(watchOS)
+    /// `UIColor(named: "Canceled", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func canceled(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.canceled.name)
+    }
+    #endif
+
+    #if os(watchOS)
     /// `UIColor(named: "Color", bundle: ..., traitCollection: ...)`
     @available(watchOSApplicationExtension 4.0, *)
     static func color(_: Void = ()) -> UIKit.UIColor? {
       return UIKit.UIColor(named: R.color.color.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Completed", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func completed(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.completed.name)
     }
     #endif
 
@@ -266,6 +326,14 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(watchOS)
+    /// `UIColor(named: "InProgress", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func inProgress(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.inProgress.name)
+    }
+    #endif
+
+    #if os(watchOS)
     /// `UIColor(named: "Orange", bundle: ..., traitCollection: ...)`
     @available(watchOSApplicationExtension 4.0, *)
     static func orange(_: Void = ()) -> UIKit.UIColor? {
@@ -278,6 +346,14 @@ struct R: Rswift.Validatable {
     @available(watchOSApplicationExtension 4.0, *)
     static func red(_: Void = ()) -> UIKit.UIColor? {
       return UIKit.UIColor(named: R.color.red.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Upcoming", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func upcoming(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.upcoming.name)
     }
     #endif
 
@@ -459,14 +535,18 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 24 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 29 localization keys.
     struct localizable {
       /// Value: Add Order
       static let order_AddOrder = Rswift.StringResource(key: "order_AddOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Add Photo
       static let addPhoto = Rswift.StringResource(key: "addPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Canceled
+      static let status_canceled = Rswift.StringResource(key: "status_canceled", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Client Name
       static let order_ClientName = Rswift.StringResource(key: "order_ClientName", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Completed
+      static let status_completed = Rswift.StringResource(key: "status_completed", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Create account
       static let createAccBtt = Rswift.StringResource(key: "createAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Delete Order
@@ -481,6 +561,8 @@ struct R: Rswift.Validatable {
       static let email = Rswift.StringResource(key: "email", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Forgot password?
       static let forgotPss = Rswift.StringResource(key: "forgotPss", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: In progress
+      static let status_inProgress = Rswift.StringResource(key: "status_inProgress", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Instagram Link
       static let order_InstagramLink = Rswift.StringResource(key: "order_InstagramLink", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Location
@@ -509,6 +591,10 @@ struct R: Rswift.Validatable {
       static let takeAPhoto = Rswift.StringResource(key: "takeAPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
       /// Value: Total price
       static let totalPrice = Rswift.StringResource(key: "totalPrice", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: Upcoming
+      static let status_upcoming = Rswift.StringResource(key: "status_upcoming", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// Value: h
+      static let order_hour = Rswift.StringResource(key: "order_hour", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
 
       /// Value: Add Order
       static func order_AddOrder(preferredLanguages: [String]? = nil) -> String {
@@ -536,6 +622,19 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("addPhoto", bundle: bundle, comment: "")
       }
 
+      /// Value: Canceled
+      static func status_canceled(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_canceled", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_canceled"
+        }
+
+        return NSLocalizedString("status_canceled", bundle: bundle, comment: "")
+      }
+
       /// Value: Client Name
       static func order_ClientName(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
@@ -547,6 +646,19 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("order_ClientName", bundle: bundle, comment: "")
+      }
+
+      /// Value: Completed
+      static func status_completed(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_completed", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_completed"
+        }
+
+        return NSLocalizedString("status_completed", bundle: bundle, comment: "")
       }
 
       /// Value: Create account
@@ -638,6 +750,19 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("forgotPss", bundle: bundle, comment: "")
+      }
+
+      /// Value: In progress
+      static func status_inProgress(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_inProgress", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_inProgress"
+        }
+
+        return NSLocalizedString("status_inProgress", bundle: bundle, comment: "")
       }
 
       /// Value: Instagram Link
@@ -820,6 +945,32 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("totalPrice", bundle: bundle, comment: "")
+      }
+
+      /// Value: Upcoming
+      static func status_upcoming(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_upcoming", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_upcoming"
+        }
+
+        return NSLocalizedString("status_upcoming", bundle: bundle, comment: "")
+      }
+
+      /// Value: h
+      static func order_hour(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_hour", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_hour"
+        }
+
+        return NSLocalizedString("order_hour", bundle: bundle, comment: "")
       }
 
       fileprivate init() {}
