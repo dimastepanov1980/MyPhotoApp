@@ -58,19 +58,22 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     
     var body: some View {
         VStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                LazyVStack(pinnedViews: [.sectionHeaders, .sectionFooters]) {
-                    Section {
-                        ScrollView(.vertical) {
-                            verticalCards
-                                .padding(.bottom)
-                        }
-                    } header: {
-                        headerSection
-                            .padding(.top, 64)
-                    } .background()
+            ScrollViewReader { data in
+                ScrollView(.vertical, showsIndicators: false) {
+                    LazyVStack(pinnedViews: [.sectionHeaders, .sectionFooters]) {
+                        Section {
+                            ScrollView(.vertical) {
+                                verticalCards()
+                                    .padding(.bottom)
+                            }
+                        } header: {
+                            headerSection(value: data)
+                                .padding(.top, 64)
+                        } .background()
+                    }
                 }
             }
+    
         }
         .background()
         .ignoresSafeArea()
@@ -86,7 +89,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             }
         }
             }
-    var headerSection: some View {
+    func headerSection(value: ScrollViewProxy) -> some View {
         VStack() {
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
@@ -131,7 +134,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 horizontalCards
             }
             ScrollView(.horizontal, showsIndicators: false) {
-                calendarSection
+                calendarSection(value: value)
             }
         }
     }
@@ -153,10 +156,11 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             }
         }.padding(.horizontal)
     }
-    var calendarSection: some View {
+    func calendarSection(value: ScrollViewProxy) -> some View {
         HStack(alignment: .bottom, spacing: 8 ) {
             ForEach(viewModel.weatherByDate.keys.sorted(), id: \.self) { day in
                 ForEach(viewModel.weatherByDate[day]!, id: \.self) { icon in
+                    
                     VStack(spacing: 4) {
                         Spacer()
                         if let icon = icon {
@@ -203,9 +207,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 }
                 .frame(width: 50, height: 100)
                 .background(
-                    
-                    // MARK: Проверить почему не получается выделить текущий день
-                    
                     ZStack {
                         if viewModel.isTodayDay(date: day) {
                             Capsule()
@@ -228,15 +229,18 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     withAnimation {
                         viewModel.selectedDay = day
                     }
+                    value.scrollTo(viewModel.formattedDate(date: day, format: "dd MMMM YYYY" ), anchor: .top)
+                    print(viewModel.formattedDate(date: day, format: "dd MMMM YYYY" ))
                 }
             }
         }
         .padding()
     }
-    var verticalCards: some View {
+    func verticalCards() -> some View {
         VStack(alignment: .center) {
             ForEach(filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
                 Section(header: Text(date, style: .date)
+                    .id(viewModel.formattedDate(date: date, format: "dd MMMM YYYY" ))
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray3.name))) {
                         ForEach(filteredUpcomingOrders[date]!, id: \.date) { order in
@@ -268,14 +272,12 @@ extension Date {
         )
     }
 }
-
 struct MainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
         MainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), showAddOrderView: .constant(false))
     }
 }
-
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
     var vm = MainScreenViewModel()
     
