@@ -17,6 +17,7 @@ protocol DetailOrderViewModelType: ObservableObject {
     var order: UserOrdersModel { get set }
     var avaibleStatus: [String] { get set }
     var status: String { get set }
+    var statusColor: Color { get }
     
     func formattedDate(date: Date, format: String) -> String
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws

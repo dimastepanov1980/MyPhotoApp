@@ -14,6 +14,9 @@ protocol MainScreenViewModelType: ObservableObject {
     var selectedDay: Date { get set }
     var today: Date { get set }
     var weatherForCurrentDay: String? { get }
+    var filteredUpcomingOrders: [Date : [UserOrdersModel]] { get }
+    var filteredOtherOrders: [Date : [UserOrdersModel]] { get }
+    var filteredOrdersForToday: [UserOrdersModel] { get }
     
     func formattedDate(date: Date, format: String) -> String
     func isToday(date: Date) -> Bool

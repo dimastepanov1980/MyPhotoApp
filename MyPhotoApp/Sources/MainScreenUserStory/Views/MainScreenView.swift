@@ -15,47 +15,18 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @Binding var showAddOrderView: Bool
     @State var showActionSheet: Bool = false
     @State private var shouldScroll = false
+    var statusOrder: StatusOrder
 
-    
-    var filteredOrdersForToday: [UserOrdersModel] {
-        let today = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.YYYY"
-        
-        return viewModel.orders.filter { order in
-            let formattedOrderDate = dateFormatter.string(from: order.date)
-            let formattedToday = dateFormatter.string(from: today)
-            return formattedOrderDate == formattedToday
-        }
-    }
-    var filteredUpcomingOrders: [Date : [UserOrdersModel]] {
-        var filteredOrders = [Date : [UserOrdersModel]]()
-        
-        let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
-        
-        for order in viewModel.orders {
-            let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
-            
-            if date > currentDate/*, order.status == R.string.localizable.status_upcoming()*/ {
-                let orderDate = Calendar.current.startOfDay(for: date)
-                if filteredOrders[orderDate] == nil {
-                    filteredOrders[orderDate] = [order]
-                } else {
-                    filteredOrders[orderDate]?.append(order)
-                }
-            }
-        }
-        return filteredOrders
-    }
-    
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
          showEditOrderView: Binding<Bool>,
-         showAddOrderView: Binding<Bool>) {
+         showAddOrderView: Binding<Bool>,
+         statusOrder: StatusOrder) {
         self.viewModel = viewModel
         self._showSignInView = showSignInView
         self._showEditOrderView = showEditOrderView
         self._showAddOrderView = showAddOrderView
+        self.statusOrder = statusOrder
     }
     
     var body: some View {
@@ -67,12 +38,16 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             ScrollView(.vertical) {
                                 verticalCards()
                                     .padding(.bottom)
+                                    .padding(.top, statusOrder == .Upcoming ? 0 : 80)
                             }
                         
                         } header: {
-                            headerSection(scroll: data)
-                                .padding(.top, 64)
+                            if statusOrder == .Upcoming {
+                                headerSection(scroll: data)
+                                    .padding(.top, 64)
+                            }
                         } .background()
+                        
                     }
                 }
             }
@@ -143,7 +118,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     }
     var horizontalCards: some View {
         LazyHStack {
-            ForEach(filteredOrdersForToday, id: \.id) { order in
+            ForEach(viewModel.filteredOrdersForToday, id: \.id) { order in
                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                     .navigationBarBackButtonHidden(true)) {
                         HCellMainScreenView(items: order)
@@ -187,16 +162,16 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray3.name))
                         HStack(spacing: 2) {
-                            ForEach(filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
-                                ForEach(filteredUpcomingOrders[date]!, id: \.date) { index in
-                                    if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: index.date, format: "dd, MM, YYYY") {
-                                        Circle()
-                                            .fill(Color.gray)
-                                            .frame(height: 6)
+                                ForEach(viewModel.filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
+                                    ForEach(viewModel.filteredUpcomingOrders[date]!, id: \.date) { index in
+                                        if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: index.date, format: "dd, MM, YYYY") {
+                                            Circle()
+                                                .fill(Color.gray)
+                                                .frame(height: 6)
+                                        }
                                     }
                                 }
-                            }
-                            ForEach(filteredOrdersForToday, id: \.date) { item in
+                            ForEach(viewModel.filteredOrdersForToday, id: \.date) { item in
                                 if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: item.date, format: "dd, MM, YYYY") {
                                     Circle()
                                         .fill(Color.red)
@@ -232,6 +207,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         viewModel.selectedDay = day
                         shouldScroll.toggle()
                     }
+// MARK: - make animation scroll
                     value.scrollTo(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM YYYY" ), anchor: .top)
                 }
             }
@@ -240,12 +216,12 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     }
     func verticalCards() -> some View {
         VStack(alignment: .center) {
-            ForEach(filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
+            ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders.keys.sorted() : viewModel.filteredOtherOrders.keys.sorted(), id: \.self) { date in
                 Section(header: Text(date, style: .date)
                     .id(viewModel.formattedDate(date: date, format: "dd MMMM YYYY" ))
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray3.name))) {
-                        ForEach(filteredUpcomingOrders[date]!, id: \.date) { order in
+                        ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.date) { order in
                             NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                                 .navigationBarBackButtonHidden(true)) {
                                     VCellMainScreenView(items: order)
@@ -277,10 +253,15 @@ extension Date {
 struct MainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
-        MainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), showAddOrderView: .constant(false))
+        MainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), showAddOrderView: .constant(false), statusOrder: .Upcoming)
     }
 }
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
+    var filteredOtherOrders: [Date : [UserOrdersModel]] = [:]
+    
+    
+    var filteredOrdersForToday: [UserOrdersModel] = []
+    var filteredUpcomingOrders: [Date : [UserOrdersModel]] = [:]
     var vm = MainScreenViewModel()
     
     @Published var weatherByDate = [Date : [Weather?]]()

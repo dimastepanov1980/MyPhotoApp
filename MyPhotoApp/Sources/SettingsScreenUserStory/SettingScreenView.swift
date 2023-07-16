@@ -94,6 +94,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                                     Text(description)
                                 }
                         }
+                        Text("order count \(order.count)")
                     }
                 }.task {
                     try? await viewModel.loadCurrentUser()

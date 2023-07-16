@@ -16,6 +16,56 @@ final class MainScreenViewModel: MainScreenViewModelType {
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
     
+    var filteredOtherOrders: [Date : [UserOrdersModel]] {
+        var filteredOrders = [Date : [UserOrdersModel]]()
+        
+        let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
+        
+        for order in orders {
+            let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
+            
+            if date < currentDate {
+                let orderDate = Calendar.current.startOfDay(for: date)
+                if filteredOrders[orderDate] == nil {
+                    filteredOrders[orderDate] = [order]
+                } else {
+                    filteredOrders[orderDate]?.append(order)
+                }
+            }
+        }
+        return filteredOrders
+    }
+    var filteredUpcomingOrders: [Date : [UserOrdersModel]] {
+        var filteredOrders = [Date : [UserOrdersModel]]()
+        
+        let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
+        
+        for order in orders {
+            let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
+            
+            if date > currentDate {
+                let orderDate = Calendar.current.startOfDay(for: date)
+                if filteredOrders[orderDate] == nil {
+                    filteredOrders[orderDate] = [order]
+                } else {
+                    filteredOrders[orderDate]?.append(order)
+                }
+            }
+        }
+        return filteredOrders
+    }
+    var filteredOrdersForToday: [UserOrdersModel] {
+        let today = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.YYYY"
+        
+        return orders.filter { order in
+            let formattedOrderDate = dateFormatter.string(from: order.date)
+            let formattedToday = dateFormatter.string(from: today)
+            return formattedOrderDate == formattedToday
+        }
+    }
+    
     init() {
     }
     
@@ -62,5 +112,11 @@ final class MainScreenViewModel: MainScreenViewModelType {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
     }
-    
+}
+
+enum StatusOrder {
+    case Upcoming
+    case InProgress
+    case Done
+    case Cancelled
 }

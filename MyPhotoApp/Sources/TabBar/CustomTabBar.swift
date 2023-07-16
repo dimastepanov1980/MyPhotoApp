@@ -17,10 +17,10 @@ struct CustomTabBar: View {
         VStack{
             ZStack {
                 if self.index == 0 {
-                    MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView )
+                    MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .Upcoming )
 
                 } else if self.index == 1 {
-                    Color.red
+                    MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .InProgress )
                 } else if self.index == 2 {
                     Color.yellow
                 } else if self.index == 3 {

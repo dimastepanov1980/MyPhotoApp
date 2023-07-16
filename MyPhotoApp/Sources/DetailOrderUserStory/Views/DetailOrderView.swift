@@ -18,21 +18,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var selectedItems: [PhotosPickerItem] = []
     @Binding var showEditOrderView: Bool
     @State var showActionSheet: Bool = false
-
-    var statusColor: Color {
-        switch viewModel.status {
-        case R.string.localizable.status_upcoming():
-            return Color(R.color.upcoming.name)
-        case R.string.localizable.status_inProgress():
-            return Color(R.color.inProgress.name)
-        case R.string.localizable.status_completed():
-            return Color(R.color.completed.name)
-        case R.string.localizable.status_canceled():
-            return Color(R.color.canceled.name)
-        default:
-            return Color.gray
-        }
-    }
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     init(with viewModel: ViewModel,
@@ -184,7 +169,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 } label: {
                     ZStack {
                         Capsule()
-                            .foregroundColor(statusColor)
+                            .foregroundColor(viewModel.statusColor)
                             .frame(width: 80, height: 25)
                         Text(viewModel.status)
                             .font(.caption)

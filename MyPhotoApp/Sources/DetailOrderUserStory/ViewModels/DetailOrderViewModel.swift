@@ -21,6 +21,21 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
                                               R.string.localizable.status_canceled()]
     @Published var status: String = ""
     
+    var statusColor: Color {
+        switch status {
+        case R.string.localizable.status_upcoming():
+            return Color(R.color.upcoming.name)
+        case R.string.localizable.status_inProgress():
+            return Color(R.color.inProgress.name)
+        case R.string.localizable.status_completed():
+            return Color(R.color.completed.name)
+        case R.string.localizable.status_canceled():
+            return Color(R.color.canceled.name)
+        default:
+            return Color.gray
+        }
+    }
+    
     init(order: UserOrdersModel) {
         self.order = order
         updatePreview()
