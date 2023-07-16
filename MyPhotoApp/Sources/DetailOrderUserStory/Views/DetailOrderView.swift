@@ -53,7 +53,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                if let instagramLink = viewModel.order.instagramLink, instagramLink.isEmpty {
+                if let instagramLink = viewModel.order.instagramLink, !instagramLink.isEmpty {
                     Button(action: {
                         if let url = URL(string: instagramLink) {
                             UIApplication.shared.open(url)
