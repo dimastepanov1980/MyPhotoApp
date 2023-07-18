@@ -221,7 +221,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     .id(viewModel.formattedDate(date: date, format: "dd MMMM YYYY" ))
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray3.name))) {
-                        ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.date) { order in
+                        ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.id) { order in
                             NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order, imageURLs: viewModel.imageURLs), showEditOrderView: $showEditOrderView)
                                 .navigationBarBackButtonHidden(true)) {
                                     VCellMainScreenView(items: order, statusColor: orderStausColor(order: order.status))

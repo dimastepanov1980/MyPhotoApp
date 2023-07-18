@@ -18,10 +18,10 @@ final class MainScreenViewModel: MainScreenViewModelType {
     @Published var today: Date = Date()
     @Published var imageURLs: [URL] = []
     
-    var filteredOtherOrders: [Date : [UserOrdersModel]] {
+/*    var filteredOtherOrders: [Date : [UserOrdersModel]] {
         var filteredOrders = [Date : [UserOrdersModel]]()
         let currentDate = Calendar.current.startOfDay(for: Date())
-        let sortedFilteredOrders = filteredOrders.sorted { $0.key > $1.key }
+        let sortedFilteredOrders = filteredOrders.sorted { $0.key < $1.key }
         let sortedFilteredOrdersDictionary = Dictionary(uniqueKeysWithValues: sortedFilteredOrders)
         
         for order in orders {
@@ -37,6 +37,25 @@ final class MainScreenViewModel: MainScreenViewModelType {
             }
         }
         return sortedFilteredOrdersDictionary
+    } */
+    var filteredOtherOrders: [Date : [UserOrdersModel]] {
+        var filteredOrders = [Date : [UserOrdersModel]]()
+        
+        let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
+        
+        for order in orders {
+            let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
+            
+            if date < currentDate {
+                let orderDate = Calendar.current.startOfDay(for: date)
+                if filteredOrders[orderDate] == nil {
+                    filteredOrders[orderDate] = [order]
+                } else {
+                    filteredOrders[orderDate]?.append(order)
+                }
+            }
+        }
+        return filteredOrders
     }
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] {
         var filteredOrders = [Date : [UserOrdersModel]]()
