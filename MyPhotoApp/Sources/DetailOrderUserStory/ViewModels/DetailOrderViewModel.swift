@@ -11,6 +11,9 @@ import SwiftUI
 
 @MainActor
 final class DetailOrderViewModel: DetailOrderViewModelType {
+    func fetchImages() async throws {
+        //
+    }
     @Published var selectedItems: [PhotosPickerItem] = []
     @Published var setImage: [Data] = []
     @Published var selectImages: [UIImage] = []
@@ -20,7 +23,8 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
                                               R.string.localizable.status_completed(),
                                               R.string.localizable.status_canceled()]
     @Published var status: String = ""
-    
+    @Published var imageURLs: [URL]
+
     var statusColor: Color {
         switch status {
         case R.string.localizable.status_upcoming():
@@ -36,14 +40,17 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         }
     }
     
-    init(order: UserOrdersModel) {
+    init(order: UserOrdersModel,
+         imageURLs: [URL]) {
         self.order = order
+        self.imageURLs = imageURLs
         updatePreview()
     }
     
     func updatePreview() {
         status = order.status ?? ""
     }
+    /*
     func fetchImages() async throws {
         if let imageUrl = order.imageUrl {
             for image in imageUrl {
@@ -52,6 +59,18 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
                 try Task.checkCancellation()
             }
         }
+    }
+    */
+    func fetchImageURL(imageUrlArray: [String]) async throws {
+        var imageURL: [URL] = []
+
+        for imagePath in imageUrlArray {
+            let url = try await StorageManager.shared.getImageURL(path: imagePath)
+            imageURL.append(url)
+            
+            try Task.checkCancellation()
+        }
+            imageURLs = imageURL
     }
     func updateStatus(orderModel: UserOrdersModel) async throws {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
@@ -74,6 +93,12 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.id)
 
     }
+    func removeURLSelectedImage(order: UserOrdersModel, path: String) async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        try? await StorageManager.shared.removeImages(path: path)
+        try? await UserManager.shared.removeImagesUrlLink(userId: authDateResult.uid, path: path, orderId: order.id)
+    }
+    
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format

@@ -198,13 +198,14 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             }
         }
     }
-    private var imageSection: some View {
+    /* private var imageSection: some View {
         // MARK: https://stackoverflow.com/questions/66101176/how-could-i-use-a-swiftui-lazyvgrid-to-create-a-staggered-grid
         // Сделать в две  строчки
         // Проверить что бы добовлялись изображения
         HStack(alignment: .top) {
             VStack {
                 ForEach(viewModel.selectImages, id: \.self) { image in
+                    NavigationLink(destination: ImageFullScreenView(image: image)) {
                     ZStack(alignment: .topTrailing) {
                         Image(uiImage: image)
                             .resizable()
@@ -223,6 +224,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         .padding(16)
                     }
                 }
+                }
             }
         }
         .task {
@@ -231,14 +233,67 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         .confirmationDialog("Remove the image",
                             isPresented: $showingOptions) {
             Button {
-                //
+                Task{
+                    try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: "")
+                }
             } label: {
                 Text("Remove")
                     .foregroundColor(Color.white)
                 
             }
         }
+    } */
+    
+    private var imageSection: some View {
+        // MARK: https://stackoverflow.com/questions/66101176/how-could-i-use-a-swiftui-lazyvgrid-to-create-a-staggered-grid
+        // Сделать в две  строчки
+        // Проверить что бы добовлялись изображения
+        HStack(alignment: .top) {
+            VStack {
+                ForEach(viewModel.imageURLs, id: \.self) { url in
+                        ZStack(alignment: .topTrailing) {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                    .frame(height: 250)
+                                    .foregroundColor(.blue)
+                                    .cornerRadius(10)
+                                
+                            } placeholder: {
+                                ProgressView()
+                            }
+                        }
+                    }
+                    Button {
+                        showingOptions = true
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .foregroundColor(Color.white)
+                    }
+                    .padding(16)
+                
+            }
+//            .task {
+//                try? await viewModel.fetchImageURL(imageUrlArray: viewModel.order.imageUrl ?? [])
+//            }
+           
+            .confirmationDialog("Remove the image",
+                            isPresented: $showingOptions) {
+            Button {
+                Task{
+                    try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: "")
+                }
+            } label: {
+                Text("Remove")
+                    .foregroundColor(Color.white)
+                
+            }
+        }
+        }
     }
+    
     private var addPhotoButton: some View {
         PhotosPicker(selection: $selectedItems,
                      maxSelectionCount: 10,

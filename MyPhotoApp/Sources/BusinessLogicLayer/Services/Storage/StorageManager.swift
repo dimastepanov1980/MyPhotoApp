@@ -9,6 +9,7 @@ import Foundation
 import FirebaseStorage
 import UIKit
 
+
 final class StorageManager {
     static let shared = StorageManager()
     private let storage = Storage.storage().reference()
@@ -24,7 +25,18 @@ final class StorageManager {
         print("\(path)")
         let data = try await storage.child(path).data(maxSize: 3 * 1024 * 1024)
         return data
-        
+    }
+    
+    func removeImages(path: String) async throws {
+        storage.child(path).delete { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func getImageURL(path: String)  async throws -> URL {
+       try await storage.child(path).downloadURL()
     }
     
     func getReferenceImage(path: String) async throws -> UIImage {
@@ -45,6 +57,12 @@ final class StorageManager {
         guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
             throw URLError(.badServerResponse)
         }
+        
+        print("bucket: \(returnedMetadata.bucket)")
+        print("fullPath: \(returnedMetadata.storageReference?.fullPath)")
+        print("parent: \(returnedMetadata.storageReference?.parent())")
+        print("returnedPath: \(returnedPath)")
+        print("returnedName: \(returnedName)")
         return (returnedPath, returnedName)
     }
     

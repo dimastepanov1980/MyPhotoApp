@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
@@ -16,7 +17,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @State var showActionSheet: Bool = false
     @State private var shouldScroll = false
     var statusOrder: StatusOrder
-
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
          showEditOrderView: Binding<Bool>,
@@ -119,7 +119,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     var horizontalCards: some View {
         LazyHStack {
             ForEach(viewModel.filteredOrdersForToday, id: \.id) { order in
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order, imageURLs: viewModel.imageURLs), showEditOrderView: $showEditOrderView)
                     .navigationBarBackButtonHidden(true)) {
                         HCellMainScreenView(items: order)
                             .contextMenu {
@@ -222,9 +222,9 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray3.name))) {
                         ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.date) { order in
-                            NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
+                            NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order, imageURLs: viewModel.imageURLs), showEditOrderView: $showEditOrderView)
                                 .navigationBarBackButtonHidden(true)) {
-                                    VCellMainScreenView(items: order)
+                                    VCellMainScreenView(items: order, statusColor: orderStausColor(order: order.status))
                                         .contextMenu {
                                             Button("Remove Order") {
                                                 Task{
@@ -234,11 +234,34 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                             }
                                         }
                                 }
+                                .onAppear{
+                                    Task{
+                                        try? await viewModel.fetchImageURL(imageUrlArray: order.imageUrl ?? [])
+                                    }
+                                }
                         }
                     }
             }
         }  .padding(.horizontal)
     }
+    func orderStausColor (order: String?) -> Color {
+        if let order = order {
+            switch order {
+            case R.string.localizable.status_upcoming():
+                return Color(R.color.upcoming.name)
+            case R.string.localizable.status_inProgress():
+                return Color(R.color.inProgress.name)
+            case R.string.localizable.status_completed():
+                return Color(R.color.completed.name)
+            case R.string.localizable.status_canceled():
+                return Color(R.color.canceled.name)
+            default:
+                break
+            }
+        }
+        return Color.gray
+    }
+    
 }
 // MARK: Формтируем дату в День месяц
 extension Date {
@@ -257,9 +280,13 @@ struct MainScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
+    func fetchImageURL(imageUrlArray: [String]) async throws {
+        //
+    }
+    
+    var imageURLs: [URL] = []
+    
     var filteredOtherOrders: [Date : [UserOrdersModel]] = [:]
-    
-    
     var filteredOrdersForToday: [UserOrdersModel] = []
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] = [:]
     var vm = MainScreenViewModel()

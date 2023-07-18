@@ -44,10 +44,6 @@ final class UserManager {
     func createNewUser(user: DBUserModel) async throws {
         try userDocument(userId: user.userId).setData(from: user, merge: false)
     }
-   
-//    func addNewOrder(userId: String, order: UserOrders) async throws {
-//        try userOrderDocument(userId: userId).setData(from: order, merge: false)
-//    }
     
     func addNewOrder(userId: String, order: UserOrdersModel) async throws {
         let document = userOrderCollection(userId: userId).document()
@@ -97,6 +93,12 @@ final class UserManager {
     }
     func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
         try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
+    }
+    func removeImagesUrlLink(userId: String, path: String, orderId: String) async throws {
+       let data: [String : [Any]] = [
+            UserOrdersModel.CodingKeys.imageUrl.rawValue : [path]
+        ]
+        try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
     }
     func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
         try await userOrderCollection(userId: userId).getDocuments(as: UserOrdersModel.self)

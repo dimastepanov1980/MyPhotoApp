@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 @MainActor
 final class MainScreenViewModel: MainScreenViewModelType {
@@ -15,14 +16,16 @@ final class MainScreenViewModel: MainScreenViewModelType {
     @Published var weatherForCurrentDay: String? = nil
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
+    @Published var imageURLs: [URL] = []
     
     var filteredOtherOrders: [Date : [UserOrdersModel]] {
         var filteredOrders = [Date : [UserOrdersModel]]()
-        
-        let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
+        let currentDate = Calendar.current.startOfDay(for: Date())
+        let sortedFilteredOrders = filteredOrders.sorted { $0.key > $1.key }
+        let sortedFilteredOrdersDictionary = Dictionary(uniqueKeysWithValues: sortedFilteredOrders)
         
         for order in orders {
-            let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
+            let date = Calendar.current.startOfDay(for: order.date)
             
             if date < currentDate {
                 let orderDate = Calendar.current.startOfDay(for: date)
@@ -33,15 +36,14 @@ final class MainScreenViewModel: MainScreenViewModelType {
                 }
             }
         }
-        return filteredOrders
+        return sortedFilteredOrdersDictionary
     }
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] {
         var filteredOrders = [Date : [UserOrdersModel]]()
-        
-        let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
+        let currentDate = Calendar.current.startOfDay(for: Date())
         
         for order in orders {
-            let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
+            let date = Calendar.current.startOfDay(for: order.date)
             
             if date > currentDate {
                 let orderDate = Calendar.current.startOfDay(for: date)
@@ -68,8 +70,6 @@ final class MainScreenViewModel: MainScreenViewModelType {
     
     init() {
     }
-    
-// MARK: Set the desired output date format
     func fetchWeather(lat: String, lon: String, exclude: String) async throws {
         let today = Date()
         let calendar = Calendar.current
@@ -111,6 +111,18 @@ final class MainScreenViewModel: MainScreenViewModelType {
     func deleteOrder(order: UserOrdersModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
+    }
+    func fetchImageURL(imageUrlArray: [String]) async throws {
+        var imageURL: [URL] = []
+
+        for imagePath in imageUrlArray {
+            let url = try await StorageManager.shared.getImageURL(path: imagePath)
+            imageURL.append(url)
+            print(url)
+            
+            try Task.checkCancellation()
+        }
+            imageURLs = imageURL
     }
 }
 
