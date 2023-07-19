@@ -234,11 +234,15 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                             }
                                         }
                                 }
+                            /*
+                             
+                             get imageURL on mainPage
                                 .onAppear{
                                     Task{
                                         try? await viewModel.fetchImageURL(imageUrlArray: order.imageUrl ?? [])
                                     }
                                 }
+                            */
                         }
                     }
             }

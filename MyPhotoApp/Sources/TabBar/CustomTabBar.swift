@@ -18,11 +18,12 @@ struct CustomTabBar: View {
             ZStack {
                 if self.index == 0 {
                     MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .Upcoming )
-
                 } else if self.index == 1 {
                     MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .InProgress )
                 } else if self.index == 2 {
-                    Text("Comming soon")
+                    VStack{
+                        Text("Comming soon")
+                    }
                 } else if self.index == 3 {
                     SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView)
                 }

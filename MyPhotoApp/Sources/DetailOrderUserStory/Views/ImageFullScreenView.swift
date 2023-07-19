@@ -14,7 +14,8 @@ struct ImageFullScreenView: View {
     private let minScale = 1.0
     private let maxScale = 3.0
 
-    var image: UIImage
+//    var image: UIImage
+    var urlImage: URL
     var magnification: some Gesture {
         MagnificationGesture()
             .onChanged { state in
@@ -27,31 +28,37 @@ struct ImageFullScreenView: View {
                 lastScale = 1.0
             }
     }
-    
-    var drag: some Gesture {
-        DragGesture()
-            .onChanged { value in
-                offset.width = value.translation.width / lastScale
-                offset.height = value.translation.height / lastScale
-            }
-            .onEnded { _ in
-                withAnimation {
-                    checkOffset()
-                }
-            }
-    }
+//    var drag: some Gesture {
+//        DragGesture()
+//            .onChanged { value in
+//                offset.width = value.translation.width / lastScale
+//                offset.height = value.translation.height / lastScale
+//            }
+//            .onEnded { _ in
+//                withAnimation {
+//                    checkOffset()
+//                }
+//            }
+//    }
 
 // MARK: - доработать зуум
     
     var body: some View {
         VStack {
-            Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .scaleEffect(scale)
-                .offset(offset)
-                .gesture(magnification/*.simultaneously(with: drag) доработать зуум*/)
-                .statusBar(hidden: true)
+            
+            AsyncImage(url: urlImage) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .scaleEffect(scale)
+                    .offset(offset)
+                    .gesture(magnification/*.simultaneously(with: drag) доработать зуум*/)
+                    .statusBar(hidden: true)
+                
+            } placeholder: {
+                ProgressView()
+            }
+            
         }
     }
     
@@ -73,16 +80,16 @@ struct ImageFullScreenView: View {
         scale = getMaxScaleAmmount()
     }
     
-    func checkOffset() {
-        let scaledWidth = image.size.width * lastScale
-        let scaledHeight = image.size.height * lastScale
-        
-        let maxWidth = (UIScreen.main.bounds.width - scaledWidth) / 2
-        let maxHeight = (UIScreen.main.bounds.height - scaledHeight) / 2
-        
-        offset.width = max(-maxWidth, min(offset.width, maxWidth))
-        offset.height = max(-maxHeight, min(offset.height, maxHeight))
-    }
+//    func checkOffset() {
+//        let scaledWidth = image.size.width * lastScale
+//        let scaledHeight = image.size.height * lastScale
+//
+//        let maxWidth = (UIScreen.main.bounds.width - scaledWidth) / 2
+//        let maxHeight = (UIScreen.main.bounds.height - scaledHeight) / 2
+//
+//        offset.width = max(-maxWidth, min(offset.width, maxWidth))
+//        offset.height = max(-maxHeight, min(offset.height, maxHeight))
+//    }
 }
 
 //struct ImageFullScreenView_Previews: PreviewProvider {

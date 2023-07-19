@@ -11,9 +11,6 @@ import SwiftUI
 
 @MainActor
 final class DetailOrderViewModel: DetailOrderViewModelType {
-    func fetchImages() async throws {
-        //
-    }
     @Published var selectedItems: [PhotosPickerItem] = []
     @Published var setImage: [Data] = []
     @Published var selectImages: [UIImage] = []
@@ -50,17 +47,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     func updatePreview() {
         status = order.status ?? ""
     }
-    /*
-    func fetchImages() async throws {
-        if let imageUrl = order.imageUrl {
-            for image in imageUrl {
-                let image = try await StorageManager.shared.getReferenceImage(path: image)
-                selectImages.append(image)
-                try Task.checkCancellation()
-            }
-        }
-    }
-    */
+
     func fetchImageURL(imageUrlArray: [String]) async throws {
         var imageURL: [URL] = []
 

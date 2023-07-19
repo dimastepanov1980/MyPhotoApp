@@ -10,10 +10,6 @@ import SwiftUI
 import PhotosUI
 /*
  class MocMainOrders: DetailOrderViewModelType {
- func fetchImages() async throws {
- //
- }
- 
  @Published var selectImages: [UIImage] = []
  @Published var selectedItems: [PhotosPickerItem] = []
  @Published var setImage: [Data] = []
