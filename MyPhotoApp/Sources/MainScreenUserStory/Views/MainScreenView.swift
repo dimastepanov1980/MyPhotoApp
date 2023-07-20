@@ -119,7 +119,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     var horizontalCards: some View {
         LazyHStack {
             ForEach(viewModel.filteredOrdersForToday, id: \.id) { order in
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order, imageURLs: viewModel.imageURLs), showEditOrderView: $showEditOrderView)
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                     .navigationBarBackButtonHidden(true)) {
                         HCellMainScreenView(items: order)
                             .contextMenu {
@@ -222,7 +222,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray3.name))) {
                         ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.id) { order in
-                            NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order, imageURLs: viewModel.imageURLs), showEditOrderView: $showEditOrderView)
+                            NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                                 .navigationBarBackButtonHidden(true)) {
                                     VCellMainScreenView(items: order, statusColor: orderStausColor(order: order.status))
                                         .contextMenu {
@@ -234,15 +234,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                             }
                                         }
                                 }
-                            /*
-                             
-                             get imageURL on mainPage
-                                .onAppear{
-                                    Task{
-                                        try? await viewModel.fetchImageURL(imageUrlArray: order.imageUrl ?? [])
-                                    }
-                                }
-                            */
                         }
                     }
             }
@@ -284,12 +275,6 @@ struct MainScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
-    func fetchImageURL(imageUrlArray: [String]) async throws {
-        //
-    }
-    
-    var imageURLs: [URL] = []
-    
     var filteredOtherOrders: [Date : [UserOrdersModel]] = [:]
     var filteredOrdersForToday: [UserOrdersModel] = []
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] = [:]

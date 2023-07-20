@@ -16,7 +16,6 @@ final class MainScreenViewModel: MainScreenViewModelType {
     @Published var weatherForCurrentDay: String? = nil
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
-    @Published var imageURLs: [URL] = []
     
 /*    var filteredOtherOrders: [Date : [UserOrdersModel]] {
         var filteredOrders = [Date : [UserOrdersModel]]()
@@ -130,18 +129,6 @@ final class MainScreenViewModel: MainScreenViewModelType {
     func deleteOrder(order: UserOrdersModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
-    }
-    func fetchImageURL(imageUrlArray: [String]) async throws {
-        var imageURL: [URL] = []
-
-        for imagePath in imageUrlArray {
-            let url = try await StorageManager.shared.getImageURL(path: imagePath)
-            imageURL.append(url)
-            print(url)
-            
-            try Task.checkCancellation()
-        }
-            imageURLs = imageURL
     }
 }
 

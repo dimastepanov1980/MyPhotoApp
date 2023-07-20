@@ -20,7 +20,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
                                               R.string.localizable.status_completed(),
                                               R.string.localizable.status_canceled()]
     @Published var status: String = ""
-    @Published var imageURLs: [URL]
+    @Published var imageURLs: [URL] = []
 
     var statusColor: Color {
         switch status {
@@ -37,10 +37,8 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         }
     }
     
-    init(order: UserOrdersModel,
-         imageURLs: [URL]) {
+    init(order: UserOrdersModel) {
         self.order = order
-        self.imageURLs = imageURLs
         updatePreview()
     }
     
@@ -54,11 +52,14 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         var imageURL: [URL] = []
 
         for imagePath in imageUrlArray {
+            print("imagePath: \(imagePath)")
             let url = try await StorageManager.shared.getImageURL(path: imagePath)
             imageURL.append(url)
-            
+            print("url: \(url)")
             try Task.checkCancellation()
         }
+        print("imagesURL: \(imageURL)")
+
             imageURLs = imageURL
     }
     func updateStatus(orderModel: UserOrdersModel) async throws {
@@ -86,7 +87,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try? await StorageManager.shared.removeImages(path: path, order: order)
         let stingURL = path.absoluteString
-        UserManager.shared.removeImagesUrlLink(userId: authDateResult.uid, path: [stingURL], orderId: order.id)
+//        UserManager.shared.removeImagesUrlLink(userId: authDateResult.uid, path: [stingURL], orderId: order.id)
 
     }
     

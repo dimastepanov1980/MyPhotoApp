@@ -17,7 +17,6 @@ protocol MainScreenViewModelType: ObservableObject {
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] { get }
     var filteredOtherOrders: [Date : [UserOrdersModel]] { get }
     var filteredOrdersForToday: [UserOrdersModel] { get }
-    var imageURLs: [URL] { get }
     
     func formattedDate(date: Date, format: String) -> String
     func isToday(date: Date) -> Bool
@@ -25,5 +24,4 @@ protocol MainScreenViewModelType: ObservableObject {
     func loadOrders() async throws
     func deleteOrder(order: UserOrdersModel) async throws
     func fetchWeather(lat: String, lon: String, exclude: String) async throws
-    func fetchImageURL(imageUrlArray: [String]) async throws
 }

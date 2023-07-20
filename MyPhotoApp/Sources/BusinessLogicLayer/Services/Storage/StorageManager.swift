@@ -28,7 +28,9 @@ final class StorageManager {
     }
     
     func removeImages(path: URL, order: UserOrdersModel) async throws {
-        try await storage.storage.reference(forURL:"\(path)").delete()
+//        let listFile = try await storage.child("users").listAll()
+//        print(listFile)
+//        try await storage.storage.reference(forURL:"\(path)").delete()
     }
     
     func getImageURL(path: String)  async throws -> URL {
