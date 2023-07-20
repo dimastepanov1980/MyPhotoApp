@@ -19,6 +19,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @Binding var showEditOrderView: Bool
     @State var showActionSheet: Bool = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State private var selectedURLs = Set<URL>()
     
     init(with viewModel: ViewModel,
          showEditOrderView: Binding<Bool>) {
@@ -198,7 +199,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             }
         }
     }
-  
     private var imageSection: some View {
         // MARK: https://stackoverflow.com/questions/66101176/how-could-i-use-a-swiftui-lazyvgrid-to-create-a-staggered-grid
         // Сделать в две  строчки
@@ -228,25 +228,27 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             }.padding(16)
                         }
                     }
+                    //                }
+                    //            }
+                    .confirmationDialog("Remove the image", isPresented: $showingOptions) {
+                        Button {
+                            Task{
+                                try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: url)
+                            }
+                        } label: {
+                            Text("Remove")
+                                .foregroundColor(Color.white)
+                            
+                        }
+                    }
+                  
                 }
-            }
-            .confirmationDialog("Remove the image", isPresented: $showingOptions) {
-            Button {
-                Task{
-                    try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: "")
-                }
-            } label: {
-                Text("Remove")
-                    .foregroundColor(Color.white)
-                
             }
         }
-            .task {
-                try? await viewModel.fetchImageURL(imageUrlArray: viewModel.order.imageUrl ?? [])
-            }
+        .task {
+            try? await viewModel.fetchImageURL(imageUrlArray: viewModel.order.imageUrl ?? [])
         }
     }
-    
     private var addPhotoButton: some View {
         PhotosPicker(selection: $selectedItems,
                      maxSelectionCount: 10,

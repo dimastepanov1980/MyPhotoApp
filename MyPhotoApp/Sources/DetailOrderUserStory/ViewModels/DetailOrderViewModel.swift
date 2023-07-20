@@ -47,7 +47,9 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     func updatePreview() {
         status = order.status ?? ""
     }
-
+    func getImageURL(path: String) async throws -> URL {
+        return try await StorageManager.shared.getImageURL(path: path)
+    }
     func fetchImageURL(imageUrlArray: [String]) async throws {
         var imageURL: [URL] = []
 
@@ -80,10 +82,12 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.id)
 
     }
-    func removeURLSelectedImage(order: UserOrdersModel, path: String) async throws {
+    func removeURLSelectedImage(order: UserOrdersModel, path: URL) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        try? await StorageManager.shared.removeImages(path: path)
-        try? await UserManager.shared.removeImagesUrlLink(userId: authDateResult.uid, path: path, orderId: order.id)
+        try? await StorageManager.shared.removeImages(path: path, order: order)
+        let stingURL = path.absoluteString
+        UserManager.shared.removeImagesUrlLink(userId: authDateResult.uid, path: [stingURL], orderId: order.id)
+
     }
     
     func formattedDate(date: Date, format: String) -> String {
