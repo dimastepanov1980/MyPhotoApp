@@ -21,9 +21,7 @@ struct CustomTabBar: View {
                 } else if self.index == 1 {
                     MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .InProgress )
                 } else if self.index == 2 {
-                    VStack{
-                        Text("Comming soon")
-                    }
+                    PortfolioView()
                 } else if self.index == 3 {
                     SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView)
                 }

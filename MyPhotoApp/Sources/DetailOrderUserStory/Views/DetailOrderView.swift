@@ -200,9 +200,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         }
     }
     private var imageSection: some View {
-        // MARK: https://stackoverflow.com/questions/66101176/how-could-i-use-a-swiftui-lazyvgrid-to-create-a-staggered-grid
-        // Сделать в две  строчки
-        // Проверить что бы добовлялись изображения
         HStack(alignment: .top) {
             VStack {
                 ForEach(viewModel.imageURLs, id: \.self) { url in
@@ -214,11 +211,17 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                     .scaledToFill()
                                     .frame(minWidth: 0, maxWidth: .infinity)
                                     .frame(height: 250)
-                                    .foregroundColor(.blue)
                                     .cornerRadius(10)
                                 
                             } placeholder: {
-                                ProgressView()
+                                ZStack{
+                                    ProgressView()
+                                    Color.gray.opacity(0.2)
+                                        .frame(minWidth: 0, maxWidth: .infinity)
+                                        .frame(height: 250)
+                                        .cornerRadius(10)
+                                        .padding(4)
+                                }
                             }
                             Button {
                                 showingOptions = true

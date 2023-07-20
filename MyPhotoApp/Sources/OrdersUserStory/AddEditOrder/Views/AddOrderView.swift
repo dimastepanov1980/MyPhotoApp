@@ -49,7 +49,7 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
                                                                    duration: viewModel.duration,
                                                                    imageUrl: viewModel.imageUrl,
                                                                    status: viewModel.status))
-                mode == .new ? try await viewModel.addOrder(order: userOrders) : try await viewModel.updateOrder(orderModel: userOrders)
+                mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }
             //.disabled(viewModel.modified)
