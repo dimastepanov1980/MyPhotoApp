@@ -233,7 +233,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .confirmationDialog("Remove the image", isPresented: $showingOptions) {
                         Button {
                             Task{
-                                try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: url)
+                                try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: url, imagesArray: viewModel.order.imageUrl ?? [])
                             }
                         } label: {
                             Text("Remove")

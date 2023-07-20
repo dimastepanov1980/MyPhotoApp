@@ -58,8 +58,6 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             print("url: \(url)")
             try Task.checkCancellation()
         }
-        print("imagesURL: \(imageURL)")
-
             imageURLs = imageURL
     }
     func updateStatus(orderModel: UserOrdersModel) async throws {
@@ -83,12 +81,9 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.id)
 
     }
-    func removeURLSelectedImage(order: UserOrdersModel, path: URL) async throws {
+    func removeURLSelectedImage(order: UserOrdersModel, path: URL, imagesArray: [String]) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        try? await StorageManager.shared.removeImages(path: path, order: order)
-        let stingURL = path.absoluteString
-//        UserManager.shared.removeImagesUrlLink(userId: authDateResult.uid, path: [stingURL], orderId: order.id)
-
+        try? await StorageManager.shared.removeImages(pathURL: path, order: order, userId: authDateResult.uid, imagesArray: imagesArray)
     }
     
     func formattedDate(date: Date, format: String) -> String {

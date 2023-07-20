@@ -7,353 +7,77 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD"
+            uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48"
             shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "removeURLSelectedImage(order:path:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD - 393a1258c1e3a5e9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.removeURLSelectedImage(order: MyPhotoApp.UserOrdersModel, path: Foundation.URL) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "116">
-               </Location>
-               <Location
-                  uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD - 3b238c2132c8ad47"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) await resume partial function for MyPhotoApp.DetailOrderViewModel.removeURLSelectedImage(order: MyPhotoApp.UserOrdersModel, path: Foundation.URL) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "36">
-               </Location>
-               <Location
-                  uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD - 85c0a9d4fe1d61eb"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(5) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.removeURLSelectedImage(order: MyPhotoApp.UserOrdersModel, path: Foundation.URL) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "52">
-               </Location>
-               <Location
-                  uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD - 2be4642ef181ffe4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(6) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.removeURLSelectedImage(order: MyPhotoApp.UserOrdersModel, path: Foundation.URL) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "132">
-               </Location>
-               <Location
-                  uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD - 51893f60eb341de5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(7) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.removeURLSelectedImage(order: MyPhotoApp.UserOrdersModel, path: Foundation.URL) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "52">
-               </Location>
-               <Location
-                  uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD - 393a1258c1e3a5e9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.removeURLSelectedImage(order: MyPhotoApp.UserOrdersModel, path: Foundation.URL) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "100">
-               </Location>
-               <Location
-                  uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD - 5fdfee92c496c3ea"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.removeURLSelectedImage(order: MyPhotoApp.UserOrdersModel, path: Foundation.URL) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "116">
-               </Location>
-               <Location
-                  uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD - 393a1258c1e3a5e9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.removeURLSelectedImage(order: MyPhotoApp.UserOrdersModel, path: Foundation.URL) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "220">
-               </Location>
-               <Location
-                  uuid = "EB568C4F-FE4B-43F8-8AF2-427865BED6CD - 5fdfee92c496c3ea"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.removeURLSelectedImage(order: MyPhotoApp.UserOrdersModel, path: Foundation.URL) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "87"
-                  endingLineNumber = "87"
-                  offsetFromSymbolStart = "236">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9743C5F9-865B-4B70-9CA3-3AD436F940BA"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "fetchImageURL(imageUrlArray:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "9743C5F9-865B-4B70-9CA3-3AD436F940BA - fef9d7a00a025d13"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.fetchImageURL(imageUrlArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "700">
-               </Location>
-               <Location
-                  uuid = "9743C5F9-865B-4B70-9CA3-3AD436F940BA - 2002237ecb002e10"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for MyPhotoApp.DetailOrderViewModel.fetchImageURL(imageUrlArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "36">
-               </Location>
-               <Location
-                  uuid = "9743C5F9-865B-4B70-9CA3-3AD436F940BA - 972332e25c551911"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.fetchImageURL(imageUrlArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "172">
-               </Location>
-               <Location
-                  uuid = "9743C5F9-865B-4B70-9CA3-3AD436F940BA - a3b67f43b94da4de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.fetchImageURL(imageUrlArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "54"
-                  endingLineNumber = "54"
-                  offsetFromSymbolStart = "44">
-               </Location>
-               <Location
-                  uuid = "9743C5F9-865B-4B70-9CA3-3AD436F940BA - a3b67f43b94dbb10"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.fetchImageURL(imageUrlArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  uuid = "9743C5F9-865B-4B70-9CA3-3AD436F940BA - fef9d7a00a025d13"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.fetchImageURL(imageUrlArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "720">
-               </Location>
-               <Location
-                  uuid = "9743C5F9-865B-4B70-9CA3-3AD436F940BA - 972332e25c551911"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for MyPhotoApp.DetailOrderViewModel.fetchImageURL(imageUrlArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/DetailOrderUserStory/ViewModels/DetailOrderViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "188">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F13D2A82-8CA2-4B1B-B7C1-EFB03002137C"
-            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "getImageURL(path:)"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "removeImages(pathURL:order:userId:imagesArray:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "F13D2A82-8CA2-4B1B-B7C1-EFB03002137C - 4e49f4df2dd2176e"
+                  uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48 - 337a5ffe1449dc1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for MyPhotoApp.StorageManager.getImageURL(path: Swift.String) async throws -&gt; Foundation.URL"
+                  symbolName = "(3) suspend resume partial function for MyPhotoApp.StorageManager.removeImages(pathURL: Foundation.URL, order: MyPhotoApp.UserOrdersModel, userId: Swift.String, imagesArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
                   moduleName = "MyPhotoApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "80">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "180">
                </Location>
                <Location
-                  uuid = "F13D2A82-8CA2-4B1B-B7C1-EFB03002137C - f8f6f8c2484c828f"
+                  uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48 - 176c33d4e03cbfdd"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for MyPhotoApp.StorageManager.getImageURL(path: Swift.String) async throws -&gt; Foundation.URL"
+                  symbolName = "(4) await resume partial function for MyPhotoApp.StorageManager.removeImages(pathURL: Foundation.URL, order: MyPhotoApp.UserOrdersModel, userId: Swift.String, imagesArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
                   moduleName = "MyPhotoApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
                   offsetFromSymbolStart = "36">
                </Location>
                <Location
-                  uuid = "F13D2A82-8CA2-4B1B-B7C1-EFB03002137C - 1fd7ec05f9049f52"
+                  uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48 - c7dd9bfb749fc1c3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for MyPhotoApp.StorageManager.getImageURL(path: Swift.String) async throws -&gt; Foundation.URL"
+                  symbolName = "(5) suspend resume partial function for MyPhotoApp.StorageManager.removeImages(pathURL: Foundation.URL, order: MyPhotoApp.UserOrdersModel, userId: Swift.String, imagesArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
                   moduleName = "MyPhotoApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "36">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "84">
                </Location>
                <Location
-                  uuid = "F13D2A82-8CA2-4B1B-B7C1-EFB03002137C - 37aee8615f5fc350"
+                  uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48 - 9ae249e6cab905c5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for MyPhotoApp.StorageManager.getImageURL(path: Swift.String) async throws -&gt; Foundation.URL"
+                  symbolName = "(7) suspend resume partial function for MyPhotoApp.StorageManager.removeImages(pathURL: Foundation.URL, order: MyPhotoApp.UserOrdersModel, userId: Swift.String, imagesArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
                   moduleName = "MyPhotoApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "40">
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "84">
                </Location>
             </Locations>
          </BreakpointContent>

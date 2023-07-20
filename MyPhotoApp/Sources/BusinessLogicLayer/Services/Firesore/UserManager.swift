@@ -93,14 +93,11 @@ final class UserManager {
     func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
         try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
     }
-    func removeImagesUrlLink(userId: String, path: [String], orderId: String) {
-//        let stringPath = try String(contentsOf: path)
-//        print("print Path \(stringPath)")
-       let data: [String : [Any]] = [
-            UserOrdersModel.CodingKeys.imageUrl.rawValue : path
-        ]
-        userOrderDocument (userId: userId, orderId: orderId).updateData(data)
+    
+    func deleteImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
+        try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : path])
     }
+
     func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
         try await userOrderCollection(userId: userId).getDocuments(as: UserOrdersModel.self)
     }

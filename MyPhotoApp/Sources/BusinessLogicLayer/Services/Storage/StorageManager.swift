@@ -27,10 +27,15 @@ final class StorageManager {
         return data
     }
     
-    func removeImages(path: URL, order: UserOrdersModel) async throws {
-//        let listFile = try await storage.child("users").listAll()
-//        print(listFile)
-//        try await storage.storage.reference(forURL:"\(path)").delete()
+    func removeImages(pathURL: URL, order: UserOrdersModel, userId: String, imagesArray: [String]) async throws {
+        let imageStringPath = storage.storage.reference(forURL:"\(pathURL)")
+        let elementInArray = imageStringPath.fullPath
+        let newImagesArray = imagesArray.filter { $0 != elementInArray }
+        print("elementInArray: \(elementInArray)")
+        print("imagesArray: \(imagesArray)")
+        print("newImagesArray: \(newImagesArray)")
+        try await UserManager.shared.deleteImagesUrlLinks(userId: userId, path: newImagesArray, orderId: order.id)
+        try await imageStringPath.delete()
     }
     
     func getImageURL(path: String)  async throws -> URL {
