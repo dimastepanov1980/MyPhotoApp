@@ -74,7 +74,6 @@ final class MainScreenViewModel: MainScreenViewModelType {
         self.orders = orders
         Task {
             try await addListener()
-//            try await loadOrders()
         }
 //        self.$orders
 //            .dropFirst()
@@ -117,10 +116,6 @@ final class MainScreenViewModel: MainScreenViewModelType {
     func isTodayDay(date: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
-    }
-    func loadOrders() async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        self.orders = try await UserManager.shared.subscribe2(userId: authDateResult.uid)
     }
     func addListener() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()

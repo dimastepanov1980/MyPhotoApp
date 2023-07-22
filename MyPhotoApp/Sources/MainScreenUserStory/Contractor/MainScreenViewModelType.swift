@@ -21,7 +21,6 @@ protocol MainScreenViewModelType: ObservableObject {
     func formattedDate(date: Date, format: String) -> String
     func isToday(date: Date) -> Bool
     func isTodayDay(date: Date) -> Bool
-    func loadOrders() async throws
     func deleteOrder(order: UserOrdersModel) async throws
     func fetchWeather(lat: String, lon: String, exclude: String) async throws
 }

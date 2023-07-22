@@ -96,42 +96,6 @@ final class UserManager {
     func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
         try await userOrderCollection(userId: userId).getDocuments(as: UserOrdersModel.self)
     }
-    /*
-    func addListenerRegistration(userId: String) -> [UserOrdersModel] {
-        // Assuming you have a reference to your Firestore collection
-        var listenerOrders: [UserOrdersModel] = []
-        let query = userOrderCollection(userId: userId)
-        
-        // Set up the snapshot listener
-        if listenerRegistration == nil {
-        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
-            if let error = error {
-                print("Error fetching documents: \(error)")
-                return
-            }
-            
-            // Check if there are any documents
-            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
-                print("No documents")
-                return
-            }
-            
-            // Convert the documents to an array of UserOrdersModel objects
-            let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
-                try? queryDocumentSnapshot.data(as: UserOrdersModel.self)
-            }
-            listenerOrders = orders
-            print("querySnapshotOrders \(orders)")
-            // Do something with the orders array (e.g., update UI, process data, etc.)
-            
-        }
-            
-        }
-        print("listenerOrders \(listenerOrders)")
-        return listenerOrders
-    
-    }
-    */
     func addListenerRegistration(userId: String, completion: @escaping ([UserOrdersModel]) -> Void) -> ListenerRegistration {
         // Assuming you have a reference to your Firestore collection
         let query = userOrderCollection(userId: userId)
@@ -159,26 +123,6 @@ final class UserManager {
         }
 
         return listenerRegistration
-    }
-    
-    func subscribe2(userId: String) async throws -> [UserOrdersModel] {
-        if listenerRegistration == nil {
-            let querySnapshot = try await userOrderCollection(userId: userId).getDocuments()
-            
-            guard !querySnapshot.isEmpty else {
-                print("No documents")
-                return []
-            }
-
-            let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
-                try? queryDocumentSnapshot.data(as: UserOrdersModel.self)
-            }
-//            print(orders)
-
-            return orders
-        }
-
-        return []
     }
     func unsubscribe() {
       if listenerRegistration != nil {
