@@ -31,9 +31,7 @@ final class StorageManager {
         let imageStringPath = storage.storage.reference(forURL:"\(pathURL)")
         let elementInArray = imageStringPath.fullPath
         let newImagesArray = imagesArray.filter { $0 != elementInArray }
-        print("elementInArray: \(elementInArray)")
-        print("imagesArray: \(imagesArray)")
-        print("newImagesArray: \(newImagesArray)")
+        
         try await UserManager.shared.deleteImagesUrlLinks(userId: userId, path: newImagesArray, orderId: order.id)
         try await imageStringPath.delete()
     }

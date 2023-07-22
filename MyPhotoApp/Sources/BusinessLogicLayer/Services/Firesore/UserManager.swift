@@ -13,23 +13,20 @@ import Combine
 final class UserManager {
     
     static let shared = UserManager()
-    
     private let userCollection = Firestore.firestore().collection("users")
-
-    
+    private var listenerRegistration: ListenerRegistration?
     private let encoder: Firestore.Encoder = {
         let encoder = Firestore.Encoder()
 //        encoder.keyEncodingStrategy = .convertToSnakeCase
         return encoder
     }()
-
     private let decoder: Firestore.Decoder = {
         let decoder = Firestore.Decoder()
 //        decoder.keyDecodingStrategy = .convertFromSnakeCase
         return decoder
     }()
 
-    private init() {}
+    init() {}
     
     private func userDocument(userId: String) -> DocumentReference {
         userCollection.document(userId)
@@ -93,13 +90,101 @@ final class UserManager {
     func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
         try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
     }
-    
     func deleteImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
         try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : path])
     }
-
     func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
         try await userOrderCollection(userId: userId).getDocuments(as: UserOrdersModel.self)
+    }
+    /*
+    func addListenerRegistration(userId: String) -> [UserOrdersModel] {
+        // Assuming you have a reference to your Firestore collection
+        var listenerOrders: [UserOrdersModel] = []
+        let query = userOrderCollection(userId: userId)
+        
+        // Set up the snapshot listener
+        if listenerRegistration == nil {
+        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error fetching documents: \(error)")
+                return
+            }
+            
+            // Check if there are any documents
+            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
+                print("No documents")
+                return
+            }
+            
+            // Convert the documents to an array of UserOrdersModel objects
+            let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                try? queryDocumentSnapshot.data(as: UserOrdersModel.self)
+            }
+            listenerOrders = orders
+            print("querySnapshotOrders \(orders)")
+            // Do something with the orders array (e.g., update UI, process data, etc.)
+            
+        }
+            
+        }
+        print("listenerOrders \(listenerOrders)")
+        return listenerOrders
+    
+    }
+    */
+    func addListenerRegistration(userId: String, completion: @escaping ([UserOrdersModel]) -> Void) -> ListenerRegistration {
+        // Assuming you have a reference to your Firestore collection
+        let query = userOrderCollection(userId: userId)
+
+        // Set up the snapshot listener
+        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error fetching documents: \(error)")
+                return
+            }
+
+            // Check if there are any documents
+            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
+                print("No documents")
+                return
+            }
+
+            // Convert the documents to an array of UserOrdersModel objects
+            let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                try? queryDocumentSnapshot.data(as: UserOrdersModel.self)
+            }
+            print("querySnapshotOrders \(orders)")
+            // Do something with the orders array (e.g., update UI, process data, etc.)
+            completion(orders)
+        }
+
+        return listenerRegistration
+    }
+    
+    func subscribe2(userId: String) async throws -> [UserOrdersModel] {
+        if listenerRegistration == nil {
+            let querySnapshot = try await userOrderCollection(userId: userId).getDocuments()
+            
+            guard !querySnapshot.isEmpty else {
+                print("No documents")
+                return []
+            }
+
+            let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                try? queryDocumentSnapshot.data(as: UserOrdersModel.self)
+            }
+//            print(orders)
+
+            return orders
+        }
+
+        return []
+    }
+    func unsubscribe() {
+      if listenerRegistration != nil {
+        listenerRegistration?.remove()
+        listenerRegistration = nil
+      }
     }
     func getCurrentOrders(userId: String, order: UserOrdersModel) async throws -> UserOrdersModel {
         try await userOrderDocument(userId: userId, orderId: order.id).getDocument(as: UserOrdersModel.self)
@@ -114,7 +199,6 @@ extension Query {
     func getDocuments<T>(as type: T.Type) async throws -> [T] where T : Decodable {
         try await getDocumentsWithSnapshot(as: type).products
     }
-    
     func getDocumentsWithSnapshot<T>(as type: T.Type) async throws -> (products: [T], lastDocument: DocumentSnapshot?) where T : Decodable {
         let snapshot = try await self.getDocuments()
         
@@ -124,17 +208,14 @@ extension Query {
         
         return (products, snapshot.documents.last)
     }
-    
     func startOptionally(afterDocument lastDocument: DocumentSnapshot?) -> Query {
         guard let lastDocument else { return self }
         return self.start(afterDocument: lastDocument)
     }
-    
     func aggregateCount() async throws -> Int {
         let snapshot = try await self.count.getAggregation(source: .server)
         return Int(truncating: snapshot.count)
     }
-    
     func addSnapshotListener<T>(as type: T.Type) -> (AnyPublisher<[T], Error>, ListenerRegistration) where T : Decodable {
         let publisher = PassthroughSubject<[T], Error>()
         

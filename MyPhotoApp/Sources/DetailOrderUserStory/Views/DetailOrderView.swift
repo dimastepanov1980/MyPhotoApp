@@ -19,7 +19,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @Binding var showEditOrderView: Bool
     @State var showActionSheet: Bool = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State private var selectedURLs = Set<URL>()
     
     init(with viewModel: ViewModel,
          showEditOrderView: Binding<Bool>) {

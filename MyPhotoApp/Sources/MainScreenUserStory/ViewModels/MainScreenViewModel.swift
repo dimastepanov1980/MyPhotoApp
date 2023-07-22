@@ -8,35 +8,19 @@
 import Foundation
 import Combine
 import SwiftUI
+import FirebaseFirestore
 
 @MainActor
 final class MainScreenViewModel: MainScreenViewModelType {
-    @Published var orders: [UserOrdersModel] = []
+    @Published var orders: [UserOrdersModel]
     @Published var weatherByDate: [Date: [Weather?]] = [:]
     @Published var weatherForCurrentDay: String? = nil
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
-    
-/*    var filteredOtherOrders: [Date : [UserOrdersModel]] {
-        var filteredOrders = [Date : [UserOrdersModel]]()
-        let currentDate = Calendar.current.startOfDay(for: Date())
-        let sortedFilteredOrders = filteredOrders.sorted { $0.key < $1.key }
-        let sortedFilteredOrdersDictionary = Dictionary(uniqueKeysWithValues: sortedFilteredOrders)
-        
-        for order in orders {
-            let date = Calendar.current.startOfDay(for: order.date)
-            
-            if date < currentDate {
-                let orderDate = Calendar.current.startOfDay(for: date)
-                if filteredOrders[orderDate] == nil {
-                    filteredOrders[orderDate] = [order]
-                } else {
-                    filteredOrders[orderDate]?.append(order)
-                }
-            }
-        }
-        return sortedFilteredOrdersDictionary
-    } */
+    @Published var modified = false
+    private var cancellables = Set<AnyCancellable>()
+    private var listenerRegistration: ListenerRegistration?
+
     var filteredOtherOrders: [Date : [UserOrdersModel]] {
         var filteredOrders = [Date : [UserOrdersModel]]()
         
@@ -86,8 +70,20 @@ final class MainScreenViewModel: MainScreenViewModelType {
         }
     }
     
-    init() {
-    }
+    init(orders: [UserOrdersModel] = []) {
+        self.orders = orders
+        Task {
+            try await addListener()
+//            try await loadOrders()
+        }
+//        self.$orders
+//            .dropFirst()
+//            .sink { [weak self] orders in
+//                self?.modified = true
+//            }
+//            .store(in: &self.cancellables)
+        }
+    
     func fetchWeather(lat: String, lon: String, exclude: String) async throws {
         let today = Date()
         let calendar = Calendar.current
@@ -124,8 +120,16 @@ final class MainScreenViewModel: MainScreenViewModelType {
     }
     func loadOrders() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        self.orders = try await UserManager.shared.getAllOrders(userId: authDateResult.uid)
+        self.orders = try await UserManager.shared.subscribe2(userId: authDateResult.uid)
     }
+    func addListener() async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        listenerRegistration = UserManager.shared.addListenerRegistration(userId: authDateResult.uid, completion: { orders in
+            self.orders = orders
+        })
+        print("describing: \(String(describing: listenerRegistration))")
+    }
+
     func deleteOrder(order: UserOrdersModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)

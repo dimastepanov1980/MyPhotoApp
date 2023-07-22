@@ -7,79 +7,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48"
-            shouldBeEnabled = "No"
+            uuid = "4482F7CD-2E0A-444D-A8B5-6AD836DDDC42"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
+            filePath = "MyPhotoApp/Sources/MainScreenUserStory/ViewModels/MainScreenViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "removeImages(pathURL:order:userId:imagesArray:)"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "addListener()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48 - 337a5ffe1449dc1"
+                  uuid = "4482F7CD-2E0A-444D-A8B5-6AD836DDDC42 - f6817d70e74385e6"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for MyPhotoApp.StorageManager.removeImages(pathURL: Foundation.URL, order: MyPhotoApp.UserOrdersModel, userId: Swift.String, imagesArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
+                  symbolName = "MyPhotoApp.MainScreenViewModel.addListener() async throws -&gt; ()"
                   moduleName = "MyPhotoApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
+                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/MainScreenUserStory/ViewModels/MainScreenViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "38"
-                  endingLineNumber = "38"
-                  offsetFromSymbolStart = "180">
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "60">
                </Location>
                <Location
-                  uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48 - 176c33d4e03cbfdd"
+                  uuid = "4482F7CD-2E0A-444D-A8B5-6AD836DDDC42 - 3e001ed92b447bf4"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "(4) await resume partial function for MyPhotoApp.StorageManager.removeImages(pathURL: Foundation.URL, order: MyPhotoApp.UserOrdersModel, userId: Swift.String, imagesArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
+                  symbolName = "(1) suspend resume partial function for MyPhotoApp.MainScreenViewModel.addListener() async throws -&gt; ()"
                   moduleName = "MyPhotoApp"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
+                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/MainScreenUserStory/ViewModels/MainScreenViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "38"
-                  endingLineNumber = "38"
-                  offsetFromSymbolStart = "36">
-               </Location>
-               <Location
-                  uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48 - c7dd9bfb749fc1c3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(5) suspend resume partial function for MyPhotoApp.StorageManager.removeImages(pathURL: Foundation.URL, order: MyPhotoApp.UserOrdersModel, userId: Swift.String, imagesArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "38"
-                  endingLineNumber = "38"
-                  offsetFromSymbolStart = "84">
-               </Location>
-               <Location
-                  uuid = "ED8AFCD2-5EB2-49BE-837D-51B1CE1A6E48 - 9ae249e6cab905c5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(7) suspend resume partial function for MyPhotoApp.StorageManager.removeImages(pathURL: Foundation.URL, order: MyPhotoApp.UserOrdersModel, userId: Swift.String, imagesArray: Swift.Array&lt;Swift.String&gt;) async throws -&gt; ()"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/Documents/GitHub/MyPhotoApp/MyPhotoApp/Sources/BusinessLogicLayer/Services/Storage/StorageManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "38"
-                  endingLineNumber = "38"
-                  offsetFromSymbolStart = "84">
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "92">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3A31257E-C209-4855-8886-092C966B1BC0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyPhotoApp/Sources/BusinessLogicLayer/Services/Firesore/UserManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "UserManager"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
