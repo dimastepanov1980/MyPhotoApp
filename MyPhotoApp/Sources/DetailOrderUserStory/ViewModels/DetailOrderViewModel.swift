@@ -91,8 +91,4 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         formatter.dateFormat = format
         return formatter.string(from: date)
     }
-    func loadOrders(orderModel: UserOrdersModel) async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        self.order = try await UserManager.shared.getCurrentOrders(userId: authDateResult.uid, order: orderModel)
-    }
 }

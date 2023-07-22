@@ -16,9 +16,6 @@ protocol SettingScreenViewModelType: ObservableObject {
     var orders: [UserOrdersModel]? { get }
     func LogOut() throws
     func loadCurrentUser() async throws
-    func loadOrders() async throws
-//    func addAvatarImage(image: PhotosPickerItem)
-    
 }
 
 
@@ -38,11 +35,7 @@ final class SettingScreenViewModel: SettingScreenViewModelType {
         let autDataResult = try AuthNetworkService.shared.getAuthenticationUser()
         self.user = try await UserManager.shared.getUser(userId: autDataResult.uid)
     }
-    
-    func loadOrders() async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        self.orders = try await UserManager.shared.getAllOrders(userId: authDateResult.uid)
-    }
+ 
     
     // TODo сделать загрузку аватарки - переделать функцию не для заказа а для пользователя
 //    func addAvatarImage(image: PhotosPickerItem) {
@@ -98,7 +91,6 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                     }
                 }.task {
                     try? await viewModel.loadCurrentUser()
-                    try? await viewModel.loadOrders()
                 }
                 CustomButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "camera.aperture") {
                     Task {
@@ -123,10 +115,7 @@ struct SettingScreenView_Previews: PreviewProvider {
 
 private class MockViewModel: SettingScreenViewModelType, ObservableObject {
     var orders: [UserOrdersModel]?
-    
-    func loadOrders() async throws {
-        //
-    }
+
     
     var user: DBUserModel? = nil
     
