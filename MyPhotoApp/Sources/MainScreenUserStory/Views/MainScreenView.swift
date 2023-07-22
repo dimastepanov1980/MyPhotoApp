@@ -55,19 +55,8 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         }
         .background()
         .ignoresSafeArea()
-        .onChange(of: showAddOrderView, perform: { _ in
-            Task{
-//                try? await viewModel.loadOrders()
-            }
-        })
-        .onAppear{
-            Task{
-//                try? await viewModel.loadOrders()
-            }
-        }
         .task {
             do{
-//                try? await viewModel.loadOrders()
                 try? await viewModel.fetchWeather(lat: "7.837090", lon: "98.294619", exclude: "minutely,hourly,alerts")
             }
         }
@@ -131,7 +120,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                 Button("Remove Order") {
                                     Task {
                                         try? await viewModel.deleteOrder(order: order)
-//                                        try? await viewModel.loadOrders()
                                     }
                                 }
                             }
@@ -234,7 +222,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                             Button("Remove Order") {
                                                 Task{
                                                     try? await viewModel.deleteOrder(order: order)
-//                                                    try? await viewModel.loadOrders()
                                                 }
                                             }
                                         }
@@ -316,9 +303,6 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
         return true
     }
     func deleteOrder(order: UserOrdersModel) async throws {
-        //
-    }
-    func loadOrders() async throws {
         //
     }
 }
