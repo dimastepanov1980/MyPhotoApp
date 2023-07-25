@@ -79,29 +79,23 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                             Text("photoURL \(photoURL)")
                         }
                     }
+                    CustomButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "camera.aperture") {
+                        Task {
+                            do {
+                                try viewModel.LogOut()
+                                showSignInView = true
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                    }
                     
-                    if let order =  viewModel.orders {
-                        ForEach(order, id: \.id) { items in
-                                Text(items.id)
-                                if let description = items.description {
-                                    Text(description)
-                                }
-                        }
-                        Text("order count \(order.count)")
-                    }
-                }.task {
+                
+            }.padding(.top, 64)
+            .task {
                     try? await viewModel.loadCurrentUser()
-                }
-                CustomButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "camera.aperture") {
-                    Task {
-                        do {
-                            try viewModel.LogOut()
-                            showSignInView = true
-                        } catch {
-                            print(error.localizedDescription)
-                        }
-                    }
-                }
+               
             }
     }
 }

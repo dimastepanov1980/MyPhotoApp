@@ -117,7 +117,6 @@ final class UserManager {
             let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
                 try? queryDocumentSnapshot.data(as: UserOrdersModel.self)
             }
-            print("querySnapshotOrders \(orders)")
             // Do something with the orders array (e.g., update UI, process data, etc.)
             completion(orders)
         }

@@ -12,6 +12,9 @@ struct CustomTabBar: View {
     @Binding var showSignInView: Bool
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
+    @State private var selectedSection = "In Progres"
+    var section = ["In Progres", "Complited"]
+
     
     var body: some View {
         VStack{
@@ -19,8 +22,12 @@ struct CustomTabBar: View {
                 if self.index == 0 {
                     MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .Upcoming )
                 } else if self.index == 1 {
-                    MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .InProgress )
-                } else if self.index == 2 {
+                    
+                    MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView,
+                                   showEditOrderView: $showEditOrderView,
+                                   showAddOrderView: $showAddOrderView,
+                                   statusOrder: .InProgress )
+                    } else if self.index == 2 {
                     PortfolioView()
                 } else if self.index == 3 {
                     SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView)

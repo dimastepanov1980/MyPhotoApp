@@ -18,6 +18,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var selectedItems: [PhotosPickerItem] = []
     @Binding var showEditOrderView: Bool
     @State var showActionSheet: Bool = false
+    @State private var selectedImageURL: URL?
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     init(with viewModel: ViewModel,
@@ -205,13 +206,12 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     NavigationLink(destination: ImageFullScreenView(urlImage: url)) {
                         ZStack(alignment: .topTrailing) {
                             AsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(minWidth: 0, maxWidth: .infinity)
-                                    .frame(height: 250)
-                                    .cornerRadius(10)
-                                
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(minWidth: 0, maxWidth: .infinity)
+                                        .frame(height: 250)
+                                        .cornerRadius(10)
                             } placeholder: {
                                 ZStack{
                                     ProgressView()
@@ -223,6 +223,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                 }
                             }
                             Button {
+                                self.selectedImageURL = url
                                 showingOptions = true
                             } label: {
                                 Image(systemName: "ellipsis")
@@ -230,25 +231,22 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             }.padding(16)
                         }
                     }
-                    //                }
-                    //            }
+               
                     .confirmationDialog("Remove the image", isPresented: $showingOptions) {
                         Button {
                             Task{
-                                try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: url, imagesArray: viewModel.order.imageUrl ?? [])
+                                if let url = selectedImageURL {
+                                    try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: url, imagesArray: viewModel.order.imageUrl ?? [])
+                                }
                             }
                         } label: {
                             Text("Remove")
                                 .foregroundColor(Color.white)
-                            
                         }
                     }
                   
                 }
             }
-        }
-        .task {
-            try? await viewModel.fetchImageURL(imageUrlArray: viewModel.order.imageUrl ?? [])
         }
     }
     private var addPhotoButton: some View {

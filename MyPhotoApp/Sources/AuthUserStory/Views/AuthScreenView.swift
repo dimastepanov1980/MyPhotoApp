@@ -16,6 +16,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
     var width = UIScreen.main.bounds.size.width
     var height = UIScreen.main.bounds.size.height
+    @State var errorMasswge: String = ""
     
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool> ) {
@@ -30,21 +31,21 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                 .padding(.top, height / 6)
             
             HStack(alignment: .top, spacing: 0) {
-                
                 RegistrationTab(
                     email: Binding<String>(
                         get: { viewModel.signInEmail },
                         set: { viewModel.setSignInEmail($0) }),
                     password: Binding<String>(
                         get: { viewModel.signInPassword },
-                        set: { viewModel.setSignInPassword($0) })) {
+                        set: { viewModel.setSignInPassword($0) }),
+                    errorMassage: errorMasswge) {
                             Task {
                                 do {
                                     try await viewModel.registrationUser()
                                     showSignInView = false
                                     return
                                 } catch {
-                                    print(error)
+                                    self.errorMasswge = error.localizedDescription
                                 }
                             }
                         }
@@ -56,7 +57,8 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                         set: { viewModel.setSignUpEmail($0) }),
                     password: Binding<String>(
                         get: { viewModel.signUpPassword },
-                        set: { viewModel.setSignUpPassword($0) })) {
+                        set: { viewModel.setSignUpPassword($0) }),
+                    errorMassage: errorMasswge) {
                             Task {
                                 do {
                                     try await viewModel.loginUser()
@@ -64,7 +66,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                                     print("Login succsessful")
                                     return
                                 } catch {
-                                    print(error)
+                                    self.errorMasswge = error.localizedDescription
                                 }
                             }
                         }
@@ -117,18 +119,26 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     private struct RegistrationTab: View {
         @Binding var email: String
         @Binding var password: String
+        let errorMassage: String
         private let action: () async throws -> Void
-        
-        init(email: Binding<String>, password: Binding<String>, action: @escaping () async throws -> Void) {
+        init(email: Binding<String>, password: Binding<String>, errorMassage: String, action: @escaping () async throws -> Void) {
             self._email = email
             self._password = password
+            self.errorMassage = errorMassage
             self.action = action
         }
         
         var body: some View {
-            VStack {
-                CustomTextField(nameTextField: R.string.localizable.email(), text: $email)
-                CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
+            VStack(spacing: 0) {
+                    CustomTextField(nameTextField: R.string.localizable.email(), text: $email)
+                        .padding(.bottom, 32)
+                    CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
+                    Text(errorMassage)
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.red.name))
+                        .padding(.top, 32)
+                
+                
                 Spacer()
                 CustomButtonXl(titleText: R.string.localizable.createAccBtt(),
                          iconName: "camera.aperture") {
@@ -142,25 +152,34 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     private struct LoginTab: View {
         @Binding var email: String
         @Binding var password: String
+        let errorMassage: String
         private let action: () async throws -> Void
         
-        init(email: Binding<String>, password: Binding<String>, action: @escaping () async throws -> Void) {
+        init(email: Binding<String>, password: Binding<String>, errorMassage: String, action: @escaping () async throws -> Void) {
             self._email = email
             self._password = password
+            self.errorMassage = errorMassage
             self.action = action
         }
         
         var body: some View {
-            VStack {
+            VStack(spacing: 0) {
                 CustomTextField(nameTextField: R.string.localizable.email(), text: $email)
+                    .padding(.bottom, 32)
+
                 CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
-                Button {
-                    // https://youtu.be/jlC1yjVTMtA?t=837
-                    // https://console.firebase.google.com/u/0/project/takeaphoto-937ae/authentication/emails
-                    print("Foreget password")
-                } label: {
-                    Text(R.string.localizable.forgotPss())
-                }
+                Text(errorMassage)
+                    .font(.footnote)
+                    .foregroundColor(Color(R.color.red.name))
+                    .padding(.top, 32)
+                    .padding(.horizontal)
+//                Button {
+//                    // https://youtu.be/jlC1yjVTMtA?t=837
+//                    // https://console.firebase.google.com/u/0/project/takeaphoto-937ae/authentication/emails
+//                    print("Foreget password")
+//                } label: {
+//                    Text(R.string.localizable.forgotPss())
+//                }
                 Spacer()
                 CustomButtonXl(titleText: R.string.localizable.signInAccBtt(),
                          iconName: "camera.aperture") {

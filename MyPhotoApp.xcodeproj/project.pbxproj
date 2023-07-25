@@ -27,6 +27,7 @@
 		5FA3C3482A5BDC23003EA4F8 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA3C3472A5BDC23003EA4F8 /* CustomTabBar.swift */; };
 		5FA7224D2A1E154A003EB084 /* MocMainOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7224C2A1E154A003EB084 /* MocMainOrders.swift */; };
 		5FA767E42A69762900861F7D /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA767E32A69762900861F7D /* PortfolioView.swift */; };
+		5FA767E72A6BE67E00861F7D /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 5FA767E62A6BE67E00861F7D /* GoogleMobileAds */; };
 		5FB717452A2090A300EC7BF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FB717442A2090A300EC7BF6 /* GoogleService-Info.plist */; };
 		5FB717482A223F6400EC7BF6 /* SettingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB717472A223F6400EC7BF6 /* SettingScreenView.swift */; };
 		5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */; };
@@ -113,6 +114,7 @@
 				0E4C2DFF84317C68256C19A7 /* Pods_MyPhotoApp.framework in Frameworks */,
 				5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */,
 				5FF65ADC2A1F62D400F5142F /* FirebaseAnalytics in Frameworks */,
+				5FA767E72A6BE67E00861F7D /* GoogleMobileAds in Frameworks */,
 				5FF58F342A2497EF009AF970 /* FirebaseFirestoreSwift in Frameworks */,
 				5FE461122A3D9E4B001CD607 /* SDWebImageSwiftUI in Frameworks */,
 				5FF58F412A2A3370009AF970 /* FirebaseStorage in Frameworks */,
@@ -530,6 +532,7 @@
 				5FF58F332A2497EF009AF970 /* FirebaseFirestoreSwift */,
 				5FF58F402A2A3370009AF970 /* FirebaseStorage */,
 				5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */,
+				5FA767E62A6BE67E00861F7D /* GoogleMobileAds */,
 			);
 			productName = MyPhotoApp;
 			productReference = 5FBA266C2A14A08200E972FB /* MyPhotoApp.app */;
@@ -562,6 +565,7 @@
 			packageReferences = (
 				5F96A6C62A1723B200FBCFF5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				5FE461102A3D9E4B001CD607 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				5FA767E52A6BE67E00861F7D /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 5FBA266D2A14A08200E972FB /* Products */;
 			projectDirPath = "";
@@ -909,6 +913,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		5FA767E52A6BE67E00861F7D /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 		5FE461102A3D9E4B001CD607 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
@@ -924,6 +936,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5F96A6C62A1723B200FBCFF5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		5FA767E62A6BE67E00861F7D /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5FA767E52A6BE67E00861F7D /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 		5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

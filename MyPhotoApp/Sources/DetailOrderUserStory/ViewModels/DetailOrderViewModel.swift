@@ -40,22 +40,20 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     init(order: UserOrdersModel) {
         self.order = order
         updatePreview()
+        Task {
+           try? await fetchImageURL(imageUrlArray: order.imageUrl ?? [])
+        }
     }
     
     func updatePreview() {
         status = order.status ?? ""
     }
-    func getImageURL(path: String) async throws -> URL {
-        return try await StorageManager.shared.getImageURL(path: path)
-    }
     func fetchImageURL(imageUrlArray: [String]) async throws {
         var imageURL: [URL] = []
 
         for imagePath in imageUrlArray {
-            print("imagePath: \(imagePath)")
             let url = try await StorageManager.shared.getImageURL(path: imagePath)
             imageURL.append(url)
-            print("url: \(url)")
             try Task.checkCancellation()
         }
             imageURLs = imageURL

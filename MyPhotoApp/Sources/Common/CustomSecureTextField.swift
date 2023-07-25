@@ -28,7 +28,7 @@ struct CustomSecureTextField: View {
         .overlay(
             RoundedRectangle(cornerRadius: 21)
                 .stroke(Color(R.color.gray3.name), lineWidth: 1))
-        .padding()
+        .padding(.horizontal)
     }
 }
 

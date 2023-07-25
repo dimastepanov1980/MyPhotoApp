@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import SwiftUI
 import FirebaseFirestore
+import GoogleMobileAds
 
 @MainActor
 final class MainScreenViewModel: MainScreenViewModelType {
@@ -73,15 +74,14 @@ final class MainScreenViewModel: MainScreenViewModelType {
     init(orders: [UserOrdersModel] = []) {
         self.orders = orders
         Task {
-            try await addListener()
+            try await subscribe()
         }
-//        self.$orders
-//            .dropFirst()
-//            .sink { [weak self] orders in
-//                self?.modified = true
-//            }
-//            .store(in: &self.cancellables)
-        }
+    }
+//    deinit {
+//        Task {
+//            await unsubscribe()
+//        }
+//    }
     
     func fetchWeather(lat: String, lon: String, exclude: String) async throws {
         let today = Date()
@@ -117,12 +117,16 @@ final class MainScreenViewModel: MainScreenViewModelType {
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
     }
-    func addListener() async throws {
+    func subscribe() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         listenerRegistration = UserManager.shared.addListenerRegistration(userId: authDateResult.uid, completion: { orders in
             self.orders = orders
         })
         print("describing: \(String(describing: listenerRegistration))")
+    }
+    
+    func unsubscribe() {
+        UserManager.shared.unsubscribe()
     }
 
     func deleteOrder(order: UserOrdersModel) async throws {
