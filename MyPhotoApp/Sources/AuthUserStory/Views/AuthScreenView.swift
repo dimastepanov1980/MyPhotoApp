@@ -14,9 +14,9 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     
     @State var index : Int = 1
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
+    @State var errorMasswge: String = ""
     var width = UIScreen.main.bounds.size.width
     var height = UIScreen.main.bounds.size.height
-    @State var errorMasswge: String = ""
     
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool> ) {
@@ -26,9 +26,11 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            Image(R.image.image_logo.name)
+                .padding(.top, height / 8)
             Spacer()
             TabName(index: self.$index, offset: self.$offsetWidth)
-                .padding(.top, height / 6)
+                .padding(.top, height / 9)
             
             HStack(alignment: .top, spacing: 0) {
                 RegistrationTab(
@@ -72,7 +74,8 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                         }
                         .frame(width: width)
                 
-            } .padding(.top, height / 6)
+            }
+            .padding(.top, 32)
                 .offset(x: index == 1 ? width / 2 : -width / 2)
         }
     }
@@ -91,7 +94,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                     } label: {
                         Text(R.string.localizable.registration())
                             .foregroundColor(Color(R.color.gray1.name))
-                            .font(.title)
+                            .font(.body)
                             .fontWeight(.bold)
                     }
                     Capsule()
@@ -106,7 +109,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                     } label: {
                         Text(R.string.localizable.logIn())
                             .foregroundColor(Color(R.color.gray1.name))
-                            .font(.title)
+                            .font(.body)
                             .fontWeight(.bold)
                     }
                     Capsule()

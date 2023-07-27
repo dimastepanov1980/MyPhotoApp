@@ -43,6 +43,7 @@
 		5FBDF84B2A64FD2300C1108D /* ImageFullScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDF84A2A64FD2300C1108D /* ImageFullScreenView.swift */; };
 		5FC1C0D52A2F7C0A00081FF1 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC1C0D42A2F7C0A00081FF1 /* StorageManager.swift */; };
 		5FE461122A3D9E4B001CD607 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */; };
+		5FE927E62A6FA59E00D3FEEA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE927E52A6FA59E00D3FEEA /* LocationManager.swift */; };
 		5FF5466D2A1B573B00208455 /* MainScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF5466C2A1B573B00208455 /* MainScreenViewModelType.swift */; };
 		5FF5466F2A1B575500208455 /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF5466E2A1B575500208455 /* MainScreenViewModel.swift */; };
 		5FF546712A1B577300208455 /* MainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546702A1B577300208455 /* MainScreenView.swift */; };
@@ -95,6 +96,7 @@
 		5FBA269E2A162D6700E972FB /* CustomSecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextField.swift; sourceTree = "<group>"; };
 		5FBDF84A2A64FD2300C1108D /* ImageFullScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFullScreenView.swift; sourceTree = "<group>"; };
 		5FC1C0D42A2F7C0A00081FF1 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		5FE927E52A6FA59E00D3FEEA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5FF5466C2A1B573B00208455 /* MainScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModelType.swift; sourceTree = "<group>"; };
 		5FF5466E2A1B575500208455 /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
 		5FF546702A1B577300208455 /* MainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenView.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 		5F96A6CB2A1724D700FBCFF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5FE927E42A6FA56C00D3FEEA /* LocationManager */,
 				5F27118A2A49348600679028 /* OpenWeather */,
 				5FC1C0D32A2F7A7E00081FF1 /* Storage */,
 				5FF58F352A24D61D009AF970 /* Firesore */,
@@ -336,12 +339,12 @@
 			isa = PBXGroup;
 			children = (
 				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
+				5FBA26992A15370A00E972FB /* AuthUserStory */,
 				5FF546682A1B56F300208455 /* MainScreenUserStory */,
 				5FA3C3462A5BDC07003EA4F8 /* TabBar */,
 				5FF58F382A27043A009AF970 /* OrdersUserStory */,
 				5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */,
 				5FB6C7FD2A1DEC77005FB152 /* Constants */,
-				5FBA26992A15370A00E972FB /* AuthUserStory */,
 				5FA767E22A6975FB00861F7D /* PortfolioUserStory */,
 				5FA15DA52A184FA9007A1AC6 /* DetailOrderUserStory */,
 				5FBA26962A15367900E972FB /* Common */,
@@ -402,6 +405,14 @@
 				5FC1C0D42A2F7C0A00081FF1 /* StorageManager.swift */,
 			);
 			path = Storage;
+			sourceTree = "<group>";
+		};
+		5FE927E42A6FA56C00D3FEEA /* LocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				5FE927E52A6FA59E00D3FEEA /* LocationManager.swift */,
+			);
+			path = LocationManager;
 			sourceTree = "<group>";
 		};
 		5FF546682A1B56F300208455 /* MainScreenUserStory */ = {
@@ -666,6 +677,7 @@
 				5FC1C0D52A2F7C0A00081FF1 /* StorageManager.swift in Sources */,
 				5FB717482A223F6400EC7BF6 /* SettingScreenView.swift in Sources */,
 				5F27118C2A4934AD00679028 /* WeatherManager.swift in Sources */,
+				5FE927E62A6FA59E00D3FEEA /* LocationManager.swift in Sources */,
 				5FA3C3482A5BDC23003EA4F8 /* CustomTabBar.swift in Sources */,
 				5FF546712A1B577300208455 /* MainScreenView.swift in Sources */,
 				5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */,
@@ -827,6 +839,10 @@
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -861,6 +877,10 @@
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

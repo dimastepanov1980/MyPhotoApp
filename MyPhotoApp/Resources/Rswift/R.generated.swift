@@ -392,28 +392,8 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.image` struct is generated, and contains static references to 15 images.
+  /// This `R.image` struct is generated, and contains static references to 7 images.
   struct image {
-    /// Image `Image0`.
-    static let image0 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image0")
-    /// Image `Image1`.
-    static let image1 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image1")
-    /// Image `Image2`.
-    static let image2 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image2")
-    /// Image `Image3`.
-    static let image3 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image3")
-    /// Image `Image4`.
-    static let image4 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image4")
-    /// Image `Image5`.
-    static let image5 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image5")
-    /// Image `Image6`.
-    static let image6 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image6")
-    /// Image `Image7`.
-    static let image7 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image7")
-    /// Image `Image8`.
-    static let image8 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image8")
-    /// Image `Image9`.
-    static let image9 = Rswift.ImageResource(bundle: R.hostingBundle, name: "Image9")
     /// Image `ic_duration`.
     static let ic_duration = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_duration")
     /// Image `ic_edit`.
@@ -424,76 +404,10 @@ struct R: Rswift.Validatable {
     static let ic_time = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_time")
     /// Image `ic_weater`.
     static let ic_weater = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_weater")
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image0", bundle: ..., traitCollection: ...)`
-    static func image0(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image0, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image1", bundle: ..., traitCollection: ...)`
-    static func image1(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image1, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image2", bundle: ..., traitCollection: ...)`
-    static func image2(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image2, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image3", bundle: ..., traitCollection: ...)`
-    static func image3(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image3, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image4", bundle: ..., traitCollection: ...)`
-    static func image4(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image4, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image5", bundle: ..., traitCollection: ...)`
-    static func image5(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image5, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image6", bundle: ..., traitCollection: ...)`
-    static func image6(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image6, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image7", bundle: ..., traitCollection: ...)`
-    static func image7(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image7, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image8", bundle: ..., traitCollection: ...)`
-    static func image8(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image8, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "Image9", bundle: ..., traitCollection: ...)`
-    static func image9(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.image9, compatibleWith: traitCollection)
-    }
-    #endif
+    /// Image `image_logo`.
+    static let image_logo = Rswift.ImageResource(bundle: R.hostingBundle, name: "image_logo")
+    /// Image `image_pateron`.
+    static let image_pateron = Rswift.ImageResource(bundle: R.hostingBundle, name: "image_pateron")
 
     #if os(iOS) || os(tvOS)
     /// `UIImage(named: "ic_duration", bundle: ..., traitCollection: ...)`
@@ -527,6 +441,20 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "ic_weater", bundle: ..., traitCollection: ...)`
     static func ic_weater(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.ic_weater, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "image_logo", bundle: ..., traitCollection: ...)`
+    static func image_logo(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image_logo, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "image_pateron", bundle: ..., traitCollection: ...)`
+    static func image_pateron(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image_pateron, compatibleWith: traitCollection)
     }
     #endif
 

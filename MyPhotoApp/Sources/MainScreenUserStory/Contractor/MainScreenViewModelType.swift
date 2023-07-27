@@ -17,6 +17,7 @@ protocol MainScreenViewModelType: ObservableObject {
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] { get }
     var filteredOtherOrders: [Date : [UserOrdersModel]] { get }
     var filteredOrdersForToday: [UserOrdersModel] { get }
+    var location: LocationViewModel { get set }
     
     func formattedDate(date: Date, format: String) -> String
     func isToday(date: Date) -> Bool

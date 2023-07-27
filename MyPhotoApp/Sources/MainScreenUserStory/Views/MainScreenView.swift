@@ -57,7 +57,10 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         .ignoresSafeArea()
         .task {
             do{
-                try? await viewModel.fetchWeather(lat: "7.837090", lon: "98.294619", exclude: "minutely,hourly,alerts")
+                if let latitude = viewModel.location.location?.coordinate.latitude.description,
+                   let longitude = viewModel.location.location?.coordinate.longitude.description {
+                    try? await viewModel.fetchWeather(lat: latitude, lon: longitude, exclude: "minutely,hourly,alerts")
+                }
             }
         }
             }
@@ -271,6 +274,7 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
     var filteredOrdersForToday: [UserOrdersModel] = []
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] = [:]
     var vm = MainScreenViewModel()
+    var location = LocationViewModel()
     
     @Published var weatherByDate = [Date : [Weather?]]()
     @Published var weatherForCurrentDay: String? = nil

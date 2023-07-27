@@ -10,6 +10,7 @@ import Combine
 import SwiftUI
 import FirebaseFirestore
 import GoogleMobileAds
+import MapKit
 
 @MainActor
 final class MainScreenViewModel: MainScreenViewModelType {
@@ -19,6 +20,9 @@ final class MainScreenViewModel: MainScreenViewModelType {
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
     @Published var modified = false
+    @Published var location = LocationViewModel()
+
+
     private var cancellables = Set<AnyCancellable>()
     private var listenerRegistration: ListenerRegistration?
 
@@ -76,12 +80,12 @@ final class MainScreenViewModel: MainScreenViewModelType {
         Task {
             try await subscribe()
         }
+        fetchLocation()
     }
-//    deinit {
-//        Task {
-//            await unsubscribe()
-//        }
-//    }
+    
+    func fetchLocation() {
+        location.requestLocation()
+    }
     
     func fetchWeather(lat: String, lon: String, exclude: String) async throws {
         let today = Date()

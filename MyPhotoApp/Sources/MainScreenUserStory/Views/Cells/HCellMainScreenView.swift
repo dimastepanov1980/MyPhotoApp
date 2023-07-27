@@ -51,13 +51,14 @@ struct HCellMainScreenView: View {
                             
                     }
                     Spacer()
+                    /*
                     Image(R.image.image0.name)
                         .resizable()
                         .clipShape(Circle())
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 36)
                         .overlay(Circle().stroke(Color(R.color.gray6.name), lineWidth: 1).shadow(radius: 10))
-                        
+                       */
                         
                 }
             } .padding(.vertical, 12)
