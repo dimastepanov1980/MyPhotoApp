@@ -76,14 +76,6 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         Text(viewModel.formattedDate(date: viewModel.today, format: "dd MMMM"))
                             .font(.title.bold())
                             .foregroundColor(Color(R.color.gray1.name))
-                        //    ToDo: need to updete date avery time then we lunch app - this method do it not coorect -
-                        //                            .onAppear {
-                        //                                Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                        //                                    viewModel.today = Date()
-                        //                                }
-                        //                            }
-                        
-                        // TODO: Обработка погоды на сегодня
                         
                         if let weather = viewModel.weatherForCurrentDay {
                             let url = URL(string: "https://openweathermap.org/img/wn/\(weather)@2x.png")
@@ -147,9 +139,11 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                 }
                             }
                         } else {
-                            Image(systemName: "cloud.snow")
+                            Image(systemName: "icloud.slash")
                                 .resizable()
                                 .frame(width: 16, height: 16)
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(Color(R.color.gray3.name))
                         }
                         Text(viewModel.formattedDate(date: day, format: "dd"))
                             .font(.body.bold())

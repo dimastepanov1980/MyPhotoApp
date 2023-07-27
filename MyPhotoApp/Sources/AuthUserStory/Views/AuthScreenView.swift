@@ -14,7 +14,6 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     
     @State var index : Int = 1
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
-    @State var errorMasswge: String = ""
     var width = UIScreen.main.bounds.size.width
     var height = UIScreen.main.bounds.size.height
     
@@ -25,58 +24,76 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            Image(R.image.image_logo.name)
-                .padding(.top, height / 8)
-            Spacer()
-            TabName(index: self.$index, offset: self.$offsetWidth)
-                .padding(.top, height / 9)
-            
-            HStack(alignment: .top, spacing: 0) {
-                RegistrationTab(
-                    email: Binding<String>(
-                        get: { viewModel.signInEmail },
-                        set: { viewModel.setSignInEmail($0) }),
-                    password: Binding<String>(
-                        get: { viewModel.signInPassword },
-                        set: { viewModel.setSignInPassword($0) }),
-                    errorMassage: errorMasswge) {
-                            Task {
-                                do {
-                                    try await viewModel.registrationUser()
-                                    showSignInView = false
-                                    return
-                                } catch {
-                                    self.errorMasswge = error.localizedDescription
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                Image(R.image.image_logo.name)
+                    .padding(.top, height / 8)
+                Spacer()
+                TabName(index: self.$index, offset: self.$offsetWidth)
+                    .padding(.top, height / 9)
+                
+                HStack(alignment: .top, spacing: 0) {
+                    RegistrationTab(
+                        email: Binding<String>(
+                            get: { viewModel.signInEmail },
+                            set: { viewModel.setSignInEmail($0) }),
+                        password: Binding<String>(
+                            get: { viewModel.signInPassword },
+                            set: { viewModel.setSignInPassword($0) }),
+                        errorMassage: viewModel.errorMasswge) {
+                            if !viewModel.signInEmail.isEmpty && !viewModel.signInPassword.isEmpty {
+                                Task {
+                                    do {
+                                        try await viewModel.registrationUser()
+                                        showSignInView = false
+                                        return
+                                    } catch {
+                                        self.viewModel.errorMasswge = error.localizedDescription
+                                    }
                                 }
                             }
                         }
                         .frame(width: width)
-                
-                LoginTab(
-                    email: Binding<String>(
-                        get: { viewModel.signUpEmail },
-                        set: { viewModel.setSignUpEmail($0) }),
-                    password: Binding<String>(
-                        get: { viewModel.signUpPassword },
-                        set: { viewModel.setSignUpPassword($0) }),
-                    errorMassage: errorMasswge) {
-                            Task {
-                                do {
-                                    try await viewModel.loginUser()
-                                    showSignInView = false
-                                    print("Login succsessful")
-                                    return
-                                } catch {
-                                    self.errorMasswge = error.localizedDescription
+                    
+                    LoginTab(
+                        email: Binding<String>(
+                            get: { viewModel.signUpEmail },
+                            set: { viewModel.setSignUpEmail($0) }),
+                        password: Binding<String>(
+                            get: { viewModel.signUpPassword },
+                            set: { viewModel.setSignUpPassword($0) }),
+                        errorMassage: viewModel.errorMasswge) {
+                            if !viewModel.signUpEmail.isEmpty && !viewModel.signUpPassword.isEmpty {
+                                Task {
+                                    do {
+                                        try await viewModel.loginUser()
+                                        showSignInView = false
+                                        print("Login succsessful")
+                                        return
+                                    } catch {
+                                        self.viewModel.errorMasswge = error.localizedDescription
+                                    }
                                 }
                             }
                         }
                         .frame(width: width)
-                
-            }
-            .padding(.top, 32)
+                    
+                }
+                .padding(.top, 32)
                 .offset(x: index == 1 ? width / 2 : -width / 2)
+            }
+            Spacer()
+            if index == 2 {
+                Button {
+                    Task {
+                        try await viewModel.resetPassword()
+                    }
+                } label: {
+                    Text(R.string.localizable.forgotPss())
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.gray4.name))
+                }.padding(.bottom, 80)
+            }
         }
     }
     
@@ -158,7 +175,11 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
         let errorMassage: String
         private let action: () async throws -> Void
         
-        init(email: Binding<String>, password: Binding<String>, errorMassage: String, action: @escaping () async throws -> Void) {
+        init(email: Binding<String>,
+             password: Binding<String>,
+             errorMassage: String,
+             action: @escaping () async throws -> Void
+        ) {
             self._email = email
             self._password = password
             self.errorMassage = errorMassage
@@ -176,13 +197,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                     .foregroundColor(Color(R.color.red.name))
                     .padding(.top, 32)
                     .padding(.horizontal)
-//                Button {
-//                    // https://youtu.be/jlC1yjVTMtA?t=837
-//                    // https://console.firebase.google.com/u/0/project/takeaphoto-937ae/authentication/emails
-//                    print("Foreget password")
-//                } label: {
-//                    Text(R.string.localizable.forgotPss())
-//                }
+             
                 Spacer()
                 CustomButtonXl(titleText: R.string.localizable.signInAccBtt(),
                          iconName: "camera.aperture") {
@@ -207,9 +222,9 @@ struct AuthScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: AuthScreenViewModelType, ObservableObject {
+    var errorMasswge = ""
     var signInEmail = ""
     var signInPassword = ""
-    
     var signUpEmail = ""
     var signUpPassword = ""
     

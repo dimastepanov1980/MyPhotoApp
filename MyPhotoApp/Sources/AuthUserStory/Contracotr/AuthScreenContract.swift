@@ -13,6 +13,7 @@ protocol AuthScreenViewModelType: ObservableObject {
 //    var userID: UUID { get }
     var signInEmail: String { get }
     var signInPassword: String { get }
+    var errorMasswge: String { get set }
 
     func setSignInEmail(_ signInEmail: String)
     func setSignInPassword(_ signInPassword: String)

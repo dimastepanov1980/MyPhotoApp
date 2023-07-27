@@ -22,6 +22,7 @@ class LocationViewModel: NSObject, ObservableObject {
     
     func requestLocation() {
         locationManager.requestWhenInUseAuthorization()
+        locationManager.requestAlwaysAuthorization()
         locationManager.requestLocation()
     }
     
@@ -39,6 +40,5 @@ extension LocationViewModel: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location update failed with error: \(error.localizedDescription)")
-        // Handle error as needed
     }
 }
