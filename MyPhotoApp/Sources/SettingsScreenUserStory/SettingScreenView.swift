@@ -74,14 +74,18 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
 
     
     var body: some View {
-        VStack{
-            Image(R.image.image_logo.name)
-                .padding(.top, height / 12)
-            Text("App version: \(viewModel.appVersion)")
-                .font(.caption)
-                .foregroundColor(Color(R.color.gray3.name))
-                .padding(.bottom, 36)
-            Spacer()
+        ZStack{
+            Color.white
+            .ignoresSafeArea()
+            
+            VStack{
+                Image(R.image.image_logo.name)
+                    .padding(.top, height / 12)
+                Text("App version: \(viewModel.appVersion)")
+                    .font(.caption)
+                    .foregroundColor(Color(R.color.gray3.name))
+                    .padding(.bottom, 36)
+                Spacer()
                 if let user = viewModel.user {
                     if let email = user.email {
                         Text("Your Account")
@@ -94,45 +98,58 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                         Text("photoURL \(photoURL)")
                     }
                 }
-            Spacer()
-            Link(destination: URL(string: "https://patreon.com/TakeAPhoto?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=creatorshare_creator&utm_content=join_link")!) {
-                VStack {
-                    Text("Support us")
-                        .font(.caption)
-                        .foregroundColor(Color(R.color.gray3.name))
-                        Image(R.image.image_pateron.name)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 80)
+                Spacer()
+                Link(destination: URL(string: "http://takeaphoto.app")!) {
+                    VStack {
+                        Text("""
+            Contact with us:
+            http://takeaphoto.app
+            """)
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.gray1.name))
+                        .padding(8)
+                    }
                 }
-            }
-            
-            Text("""
+                
+                Text("""
                  When we subscribe more than 100 photographers,
                  we will start to develop a portfolio service
                 """)
                 .font(.caption)
                 .foregroundColor(Color(R.color.gray3.name))
                 .multilineTextAlignment(.center)
-         
-            
-            
-            CustomButtonXl(titleText: R.string.localizable.signOutAccBtt(), iconName: "camera.aperture") {
-                Task {
-                    do {
-                        try viewModel.LogOut()
-                        showSignInView = true
-                    } catch {
-                        print(error.localizedDescription)
+                .padding(.bottom, 32)
+                
+                
+                Button {
+                    Task {
+                        do {
+                            try viewModel.LogOut()
+                            showSignInView = true
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+                    }
+                } label: {
+                    ZStack {
+                        Text(R.string.localizable.signOutAccBtt())
+                            .font(.headline)
+                            .foregroundColor(Color(R.color.gray6.name))
+                            .padding(8)
+                            .padding(.horizontal, 16)
+                            .background(Color(R.color.gray1.name))
+                            .cornerRadius(20)
                     }
                 }
+                Spacer()
             }
-            Spacer()
-        }.padding(.top, 64)
-            .task {
-                try? await viewModel.loadCurrentUser()
-                
-            }
+            .padding(.top, 64)
+            
+        }
+        .task {
+            try? await viewModel.loadCurrentUser()
+            
+        }
     }
 }
 
