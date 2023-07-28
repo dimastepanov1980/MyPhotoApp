@@ -1,0 +1,41 @@
+//  Localizable.strings
+//  MyPhotoApp
+//
+//  Created by Dima Stepanov on 5/17/23.
+  
+ 
+// MARK: - Common
+"registration" = "Зарегистрироваться";
+"logIn" = "Войти";
+"email" = "Введите Email";
+"password" = "Введите пароль";
+"createAccBtt" = "Создать аккаунт";
+"signInAccBtt" = "Войти";
+"signOutAccBtt" = "Выйти";
+"forgotPss" = "Забыли пароль?";
+"totalPrice" = "Стоимсоть";
+"takeAPhoto" = "Take a Photo";
+"addPhoto" = "Добавить фото";
+"today" = "Заказы на сегодня";
+
+// MARK: - New Order
+"order_ClientName" = "Имя клиента";
+"order_Location" = "Место фотоссесии";
+"order_Price" = "Стоимость";
+"order_InstagramLink" = "ссылка на Instagram";
+"order_Description" = "Описание";
+"order_Duration" = "Продолжительность";
+"order_SelectDate" = "Дата фотоссесии";
+"order_AddOrder" = "Добавить заказ";
+"order_SaveOrder" = "Сохранить";
+"order_EditOrder" = "Редактировать";
+"order_NewOrder" = "Создать";
+"order_Delete" = "Удалить";
+"order_hour" = "ч";
+
+// MARK: - order Status
+"status_upcoming" = "Предстоящий";
+"status_inProgress" = "В процессе";
+"status_completed" = "Завершенный";
+"status_canceled" = "Отмененный";
+

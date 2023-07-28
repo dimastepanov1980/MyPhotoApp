@@ -22,14 +22,14 @@ struct VCellMainScreenView: View {
                 }
                 Spacer()
                 if let status = items.status, !status.isEmpty {
-                    ZStack {
-                        Capsule()
-                            .foregroundColor(statusColor)
-                            .frame(width: 80, height: 20)
                         Text(status)
                             .font(.caption2)
                             .foregroundColor(Color.white)
-                    }
+                            .padding(.horizontal,10)
+                            .padding(.vertical, 5)
+                            .background(statusColor)
+                            .cornerRadius(15)
+                    
                 }
             }
             HStack(alignment: .top, spacing: 4) {
@@ -99,5 +99,5 @@ private class MockViewModelVCell: ObservableObject {
                                                                date: Date(),
                                                                duration: "2",
                                                                imageUrl: [],
-                                                               status: "Upcoming"))
+                                                               status: "Завершенный"))
 }

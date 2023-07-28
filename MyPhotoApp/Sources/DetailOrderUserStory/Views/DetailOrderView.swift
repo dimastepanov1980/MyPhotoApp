@@ -168,21 +168,21 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 Button {
                         showActionSheet.toggle()
                 } label: {
-                    ZStack {
-                        Capsule()
-                            .foregroundColor(viewModel.statusColor)
-                            .frame(width: 80, height: 25)
-                        Text(viewModel.status)
-                            .font(.caption)
-                            .foregroundColor(Color.white)
-                    }
+                    
+                    Text(viewModel.status)
+                        .font(.caption2)
+                        .foregroundColor(Color.white)
+                        .padding(.horizontal,10)
+                        .padding(.vertical, 5)
+                        .background(viewModel.statusColor)
+                        .cornerRadius(15)
                 }
             }
             if let price = viewModel.order.price, !price.isEmpty {
                     Text(R.string.localizable.totalPrice())
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray2.name))
-                    Text("\(price) Thb")
+                    Text("\(price)")
                         .font(.headline.bold())
                         .foregroundColor(Color(R.color.gray2.name))
             }
