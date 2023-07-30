@@ -54,8 +54,28 @@ struct CustomTabs: View {
     @Binding var index: Int
     
     var body: some View {
-        ZStack {
-            HStack(alignment: .bottom) {
+        ZStack(alignment: .bottom) {
+            Circle()
+                .foregroundColor(Color(R.color.gray6.name))
+                .frame(height: 80)
+            
+            Button {
+                showAddOrderView.toggle()
+            } label: {
+                ZStack {
+                    Circle()
+                        .foregroundColor(Color(R.color.gray1.name))
+                        .frame(height: 80)
+                    
+                    Image(systemName: "camera.aperture")
+                        .resizable()
+                        .frame(width: 32, height: 32)
+                        .foregroundColor(Color(R.color.gray6.name))
+                    
+                }
+            }
+            
+       HStack(alignment: .bottom, spacing: 20) {
                 Button {
                     self.index = 0
                 } label: {
@@ -65,13 +85,12 @@ struct CustomTabs: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 18)
                             .foregroundColor(self.index == 0 ? Color(R.color.gray2.name) : Color(R.color.gray4.name))
-                        Text("Feature")
+                        Text(R.string.localizable.tabs_feature())
                             .font(.caption2)
                             .foregroundColor(self.index == 0 ? Color(R.color.gray2.name) : Color(R.color.gray4.name))
                     }
                 }
-                
-                Spacer(minLength: 0)
+                .padding(.trailing, 20)
                 Button {
                     self.index = 1
                 } label: {
@@ -81,31 +100,14 @@ struct CustomTabs: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 18)
                             .foregroundColor(self.index == 1 ? Color(R.color.gray2.name) : Color(R.color.gray4.name))
-                        Text("Edit")
+                        Text(R.string.localizable.tabs_edit())
                             .font(.caption2)
                             .foregroundColor(self.index == 1 ? Color(R.color.gray2.name) : Color(R.color.gray4.name))
                     }
                 }
                 
-                Spacer(minLength: 0)
-                Button {
-                    showAddOrderView.toggle()
-                } label: {
-                    ZStack {
-                        Circle()
-                            .foregroundColor(Color(R.color.gray1.name))
-                            .frame(height: 80)
-                        
-                        Image(systemName: "camera.aperture")
-                            .resizable()
-                            .frame(width: 32, height: 32)
-                            .foregroundColor(Color(R.color.gray6.name))
-                        
-                    }
-                }
-                
-                
-                Spacer(minLength: 0)
+          Spacer()
+           
                 Button {
                     self.index = 2
                 } label: {
@@ -116,13 +118,11 @@ struct CustomTabs: View {
                             .frame(width: 18)
                             .foregroundColor(self.index == 2 ? Color(R.color.gray2.name) : Color(R.color.gray4.name))
                         
-                        Text("Portfolio")
+                        Text(R.string.localizable.tabs_portfolio())
                             .font(.caption2)
                             .foregroundColor(self.index == 2 ? Color(R.color.gray2.name) : Color(R.color.gray4.name))
                     }
                 }
-                
-                Spacer(minLength: 0)
                 Button {
                     self.index = 3
                 } label: {
@@ -132,35 +132,13 @@ struct CustomTabs: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 16)
                             .foregroundColor(self.index == 3 ? Color(R.color.gray2.name) : Color(R.color.gray4.name))
-                        Text("Profil")
+                        Text(R.string.localizable.tabs_profile())
                             .font(.caption2)
                             .foregroundColor(self.index == 3 ? Color(R.color.gray2.name) : Color(R.color.gray4.name))
                     }
                 }
             }
-
-            .ignoresSafeArea()
-            .padding(.horizontal, 36)
-            .background(Color(R.color.gray6.name))
-            .clipShape(CShape())
-        }
-        
-    }
-}
-struct CShape : Shape {
-    func path(in rect: CGRect) -> Path {
-        return Path{path in
-            path.move(to: CGPoint(x: 0, y: 32))
-            path.addLine(to: CGPoint(x: 0, y: (rect.height) + 40))
-            path.addLine(to: CGPoint(x: rect.width, y: (rect.height) + 40))
-            path.addLine(to: CGPoint(x: rect.width, y: 32))
-            
-            path.addArc(center: CGPoint(x: (rect.width / 2) - 6, y: 40),
-                         radius: 40,
-                        startAngle: .zero,
-                         endAngle: .init (degrees: 180),
-                         clockwise: true)
-        }
+      }.padding(.horizontal, 36)
     }
 }
 

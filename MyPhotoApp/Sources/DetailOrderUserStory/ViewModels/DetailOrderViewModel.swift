@@ -39,15 +39,45 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     
     init(order: UserOrdersModel) {
         self.order = order
-        updatePreview()
+        updateStatus()
         Task {
            try? await fetchImageURL(imageUrlArray: order.imageUrl ?? [])
         }
     }
     
-    func updatePreview() {
-        status = order.status ?? ""
+//    func updatePreview() {
+//        status = order.status ?? ""
+//    }
+    
+    private func updateStatus() {
+        switch order.status {
+        case "Upcoming":
+            status = R.string.localizable.status_upcoming()
+        case "In progress":
+            status = R.string.localizable.status_inProgress()
+        case "Completed":
+            status = R.string.localizable.status_completed()
+        case "Canceled":
+            status = R.string.localizable.status_canceled()
+        default:
+            status = R.string.localizable.status_upcoming()
+        }
     }
+    
+    func returnedStatus(status: String) -> String {
+           switch status {
+           case R.string.localizable.status_upcoming():
+               return "Upcoming"
+           case R.string.localizable.status_inProgress():
+               return "In progress"
+           case R.string.localizable.status_completed():
+               return "Completed"
+           case R.string.localizable.status_canceled():
+               return "Canceled"
+           default:
+               return "Upcoming"
+           }
+       }
     func fetchImageURL(imageUrlArray: [String]) async throws {
         var imageURL: [URL] = []
 

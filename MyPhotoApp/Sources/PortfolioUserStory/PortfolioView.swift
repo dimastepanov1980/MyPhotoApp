@@ -14,7 +14,15 @@ struct PortfolioView: View {
             Color.green
                 .opacity(0.1)
                 .ignoresSafeArea()
-            Text("Cooming Soon")
+            VStack{
+                Image(R.image.image_no_portfolio.name)
+                    .resizable()
+                    .frame(width: 150, height: 150)
+                    .aspectRatio(contentMode: .fit)
+                    .padding(.bottom, 36)
+                Text("Cooming Soon")
+                    .font(.headline)
+            }
         }
     }
 }

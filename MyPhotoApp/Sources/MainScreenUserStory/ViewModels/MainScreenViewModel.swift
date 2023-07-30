@@ -86,7 +86,6 @@ final class MainScreenViewModel: MainScreenViewModelType {
     func fetchLocation() {
         location.requestLocation()
     }
-    
     func fetchWeather(lat: String, lon: String, exclude: String) async throws {
         let today = Date()
         let calendar = Calendar.current
@@ -128,14 +127,46 @@ final class MainScreenViewModel: MainScreenViewModelType {
         })
         print("describing: \(String(describing: listenerRegistration))")
     }
-    
     func unsubscribe() {
         UserManager.shared.unsubscribe()
     }
-
     func deleteOrder(order: UserOrdersModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
+    }
+    func orderStausColor (order: String?) -> Color {
+        if let order = order {
+            switch order {
+            case "Upcoming":
+                return Color(R.color.upcoming.name)
+            case "In progress":
+                return Color(R.color.inProgress.name)
+            case "Completed":
+                return Color(R.color.completed.name)
+            case "Canceled":
+                return Color(R.color.canceled.name)
+            default:
+                break
+            }
+        }
+        return Color.gray
+    }
+    func orderStausName (status: String?) -> String {
+        if let order = status {
+            switch order {
+            case "Upcoming":
+                return R.string.localizable.status_upcoming()
+            case "In progress":
+                return R.string.localizable.status_inProgress()
+            case "Completed":
+                return R.string.localizable.status_completed()
+            case "Canceled":
+                return R.string.localizable.status_canceled()
+            default:
+                break
+            }
+        }
+        return R.string.localizable.status_upcoming()
     }
 }
 

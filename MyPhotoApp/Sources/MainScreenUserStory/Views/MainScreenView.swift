@@ -40,7 +40,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                                     .padding(.bottom)
                                     .padding(.top, statusOrder == .Upcoming ? 0 : 80)
                             }
-                        
+                            
                         } header: {
                             if statusOrder == .Upcoming {
                                 headerSection(scroll: data)
@@ -51,19 +51,27 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     }
                 }
             }
-    
+            
         }
         .background()
         .ignoresSafeArea()
         .task {
             do{
-                if let latitude = viewModel.location.location?.coordinate.latitude.description,
-                   let longitude = viewModel.location.location?.coordinate.longitude.description {
+                if let location = viewModel.location.location {
+                    let longitude = location.coordinate.longitude.description
+                    let latitude = location.coordinate.latitude.description
+                    print(longitude, latitude)
                     try? await viewModel.fetchWeather(lat: latitude, lon: longitude, exclude: "minutely,hourly,alerts")
+                } else {
+                    
+// MARK: - Default Phuket Location -
+// TODO: Нужно переделать запрос, если локация не определилась возвращаем просто дату без погоды -
+                    
+                    try? await viewModel.fetchWeather(lat: "7.951933", lon: "98.338089", exclude: "minutely,hourly,alerts")
                 }
             }
         }
-            }
+    }
     func headerSection(scroll: ScrollViewProxy) -> some View {
         VStack() {
             HStack {
@@ -95,7 +103,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         
                     }
                 }
-//                Spacer()
+                //                Spacer()
             }.padding(.horizontal, 32)
             ScrollView(.horizontal, showsIndicators: false) {
                 horizontalCards
@@ -151,16 +159,18 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         Text(viewModel.formattedDate(date: day, format: "EEE"))
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray3.name))
+                        
                         HStack(spacing: 2) {
-                                ForEach(viewModel.filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
-                                    ForEach(viewModel.filteredUpcomingOrders[date]!, id: \.date) { index in
-                                        if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: index.date, format: "dd, MM, YYYY") {
-                                            Circle()
-                                                .fill(Color.gray)
-                                                .frame(height: 6)
-                                        }
+                            ForEach(viewModel.filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
+                                ForEach(viewModel.filteredUpcomingOrders[date]!, id: \.date) { index in
+                                    if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: index.date, format: "dd, MM, YYYY") {
+                                        Circle()
+                                            .fill(Color.gray)
+                                            .frame(height: 6)
                                     }
                                 }
+                            }
+                            
                             ForEach(viewModel.filteredOrdersForToday, id: \.date) { item in
                                 if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: item.date, format: "dd, MM, YYYY") {
                                     Circle()
@@ -197,7 +207,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         viewModel.selectedDay = day
                         shouldScroll.toggle()
                     }
-// MARK: - make animation scroll
+                    // MARK: - make animation scroll
                     value.scrollTo(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM YYYY" ), anchor: .top)
                 }
             }
@@ -214,7 +224,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.id) { order in
                             NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                                 .navigationBarBackButtonHidden(true)) {
-                                    VCellMainScreenView(items: order, statusColor: orderStausColor(order: order.status))
+                                    VCellMainScreenView(items: order, statusColor: viewModel.orderStausColor(order: order.status), status: viewModel.orderStausName (status: order.status))
                                         .contextMenu {
                                             Button("Remove Order") {
                                                 Task{
@@ -228,23 +238,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             }
         }  .padding(.horizontal)
     }
-    func orderStausColor (order: String?) -> Color {
-        if let order = order {
-            switch order {
-            case R.string.localizable.status_upcoming():
-                return Color(R.color.upcoming.name)
-            case R.string.localizable.status_inProgress():
-                return Color(R.color.inProgress.name)
-            case R.string.localizable.status_completed():
-                return Color(R.color.completed.name)
-            case R.string.localizable.status_canceled():
-                return Color(R.color.canceled.name)
-            default:
-                break
-            }
-        }
-        return Color.gray
-    }
+
     
 }
 // MARK: Формтируем дату в День месяц
@@ -257,6 +251,7 @@ extension Date {
         )
     }
 }
+
 struct MainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
@@ -264,6 +259,9 @@ struct MainScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
+    func orderStausName(status: String?) -> String {
+        "Upcoming"
+    }
     var filteredOtherOrders: [Date : [UserOrdersModel]] = [:]
     var filteredOrdersForToday: [UserOrdersModel] = []
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] = [:]
@@ -291,6 +289,10 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
     func fetchWeather(lat: String, lon: String, exclude: String) async throws {
         //
     }
+    func orderStausColor(order: String?) -> Color {
+        return Color.gray
+    }
+
     func formattedDate(date: Date, format: String) -> String {
         return ""
     }

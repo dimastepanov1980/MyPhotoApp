@@ -39,3 +39,8 @@
 "status_completed" = "Завершенный";
 "status_canceled" = "Отмененный";
 
+// MARK: - CustomTabs
+"tabs_feature" = "Новые";
+"tabs_edit" = "В работе";
+"tabs_portfolio" = "Портфолио";
+"tabs_profile" = "Профиль";

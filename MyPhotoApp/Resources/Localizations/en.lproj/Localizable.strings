@@ -38,3 +38,9 @@
 "status_inProgress" = "In progress";
 "status_completed" = "Completed";
 "status_canceled" = "Canceled";
+
+// MARK: - CustomTabs
+"tabs_feature" = "Feature";
+"tabs_edit" = "Edit";
+"tabs_portfolio" = "Portfolio";
+"tabs_profile" = "Profile";

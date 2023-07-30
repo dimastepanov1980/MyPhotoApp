@@ -10,6 +10,7 @@ import SwiftUI
 struct VCellMainScreenView: View {
     let items: UserOrdersModel
     let statusColor: Color
+    var status: String?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -21,7 +22,7 @@ struct VCellMainScreenView: View {
                         .foregroundColor(Color(R.color.gray1.name))
                 }
                 Spacer()
-                if let status = items.status, !status.isEmpty {
+                if let status = status, !status.isEmpty {
                         Text(status)
                             .font(.caption2)
                             .foregroundColor(Color.white)
@@ -82,12 +83,10 @@ struct VCellMainScreenView: View {
 
 struct VCellMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModelVCell()
-
     static var previews: some View {
         VCellMainScreenView(items: mockModel.mocData, statusColor: Color(R.color.upcoming.name))
     }
 }
-
 private class MockViewModelVCell: ObservableObject {
     let mocData: UserOrdersModel = UserOrdersModel(order:
                                                     OrderModel(orderId: UUID().uuidString,

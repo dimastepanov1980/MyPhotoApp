@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 protocol MainScreenViewModelType: ObservableObject {
@@ -24,4 +25,6 @@ protocol MainScreenViewModelType: ObservableObject {
     func isTodayDay(date: Date) -> Bool
     func deleteOrder(order: UserOrdersModel) async throws
     func fetchWeather(lat: String, lon: String, exclude: String) async throws
+    func orderStausColor (order: String?) -> Color
+    func orderStausName (status: String?) -> String
 }

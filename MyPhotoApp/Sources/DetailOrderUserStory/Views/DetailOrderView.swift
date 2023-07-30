@@ -111,7 +111,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                                            date: viewModel.order.date,
                                                                            duration: viewModel.order.duration ?? "",
                                                                            imageUrl: viewModel.order.imageUrl ?? [],
-                                                                           status: viewModel.status))
+                                                                           status: viewModel.returnedStatus(status: viewModel.status) ))
                         
                         try await viewModel.updateStatus(orderModel: userOrders)
                     }
