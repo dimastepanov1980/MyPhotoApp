@@ -22,13 +22,13 @@ class LocationViewModel: NSObject, ObservableObject {
     }
     
     func requestLocation() async throws {
-        try await locationManager.requestWhenInUseAuthorization()
-        try await locationManager.requestLocation()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
     }
     
     private func setupLocationManager() {
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.desiredAccuracy = kCLLocationAccuracyReduced
     }
 }
 

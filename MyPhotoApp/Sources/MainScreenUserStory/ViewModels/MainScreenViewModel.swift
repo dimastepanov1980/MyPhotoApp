@@ -106,8 +106,6 @@ final class MainScreenViewModel: MainScreenViewModelType, ObservableObject {
     func fetchWeather(with location: CLLocation) {
         let longitude = location.coordinate.longitude.description
         let latitude = location.coordinate.latitude.description
-        
-
         let today = Date()
         let calendar = Calendar.current
         var weatherByDate: [Date: [Weather?]] = [:]
@@ -132,6 +130,7 @@ final class MainScreenViewModel: MainScreenViewModelType, ObservableObject {
                     // Update the @Published properties on the main thread
                     self.weatherForCurrentDay = weatherForCurrentDay
                     self.weatherByDate = weatherByDate
+
                 }
                 
             } catch {
@@ -139,6 +138,7 @@ final class MainScreenViewModel: MainScreenViewModelType, ObservableObject {
                 // Handle the error, show an error message, or take appropriate actions.
             }
         }
+
     }
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()

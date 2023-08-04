@@ -5,8 +5,8 @@
   
  
 // MARK: - Common
-"registration" = "Registration";
-"logIn" = "LogIn";
+"registration" = "Sign Up";
+"logIn" = "Sign In";
 "email" = "Email address";
 "password" = "Password";
 "createAccBtt" = "Create account";
