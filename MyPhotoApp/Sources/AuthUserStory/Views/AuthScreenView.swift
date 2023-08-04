@@ -91,7 +91,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                 } label: {
                     Text(R.string.localizable.forgotPss())
                         .font(.footnote)
-                        .foregroundColor(Color(R.color.gray4.name))
+                        .foregroundColor(Color(R.color.gray3.name))
                 }.padding(.bottom, 80)
             }
         }
@@ -220,7 +220,6 @@ struct AuthScreenView_Previews: PreviewProvider {
         }
     }
 }
-
 private class MockViewModel: AuthScreenViewModelType, ObservableObject {
     var errorMasswge = ""
     var signInEmail = ""

@@ -16,7 +16,10 @@
 "totalPrice" = "Total price";
 "takeAPhoto" = "Take a Photo";
 "addPhoto" = "Add Photo";
+
+// MARK: - Main Screen
 "today" = "Order for today";
+"order_not_found" = "You don't have orders";
 
 // MARK: - New Order
 "order_ClientName" = "Client Name";
@@ -44,3 +47,13 @@
 "tabs_edit" = "Edit";
 "tabs_portfolio" = "Portfolio";
 "tabs_profile" = "Profile";
+
+//MARK: - Setting screen
+"app_version" = "App version:";
+"contact_with_us" = "Contact with us:\ntakeaphoto.app";
+"notes" = "When more than 100 photographers use our application,\nwe will start developing the «Portfolio» service.";
+"your_login" = "Your Login:";
+"version_not_available" = "Version not available";
+
+
+

@@ -88,7 +88,7 @@ struct R: Rswift.Validatable {
     try intern.validate()
   }
 
-  /// This `R.color` struct is generated, and contains static references to 14 colors.
+  /// This `R.color` struct is generated, and contains static references to 15 colors.
   struct color {
     /// Color `AccentColor`.
     static let accentColor = Rswift.ColorResource(bundle: R.hostingBundle, name: "AccentColor")
@@ -110,6 +110,8 @@ struct R: Rswift.Validatable {
     static let gray5 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray5")
     /// Color `Gray6`.
     static let gray6 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray6")
+    /// Color `Gray7`.
+    static let gray7 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray7")
     /// Color `InProgress`.
     static let inProgress = Rswift.ColorResource(bundle: R.hostingBundle, name: "InProgress")
     /// Color `Orange`.
@@ -206,6 +208,15 @@ struct R: Rswift.Validatable {
     @available(iOS 11.0, *)
     static func gray6(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
       return UIKit.UIColor(resource: R.color.gray6, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray7", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray7(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray7, compatibleWith: traitCollection)
     }
     #endif
 
@@ -322,6 +333,14 @@ struct R: Rswift.Validatable {
     @available(watchOSApplicationExtension 4.0, *)
     static func gray6(_: Void = ()) -> UIKit.UIColor? {
       return UIKit.UIColor(named: R.color.gray6.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray7", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray7(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray7.name)
     }
     #endif
 
@@ -472,7 +491,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 33 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 39 localization keys.
     struct localizable {
       /// en translation: Add Order
       ///
@@ -482,6 +501,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let addPhoto = Rswift.StringResource(key: "addPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: App version:
+      ///
+      /// Locales: en, ru
+      static let app_version = Rswift.StringResource(key: "app_version", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Canceled
       ///
       /// Locales: en, ru
@@ -494,6 +517,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let status_completed = Rswift.StringResource(key: "status_completed", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Contact with us: takeaphoto.app
+      ///
+      /// Locales: en, ru
+      static let contact_with_us = Rswift.StringResource(key: "contact_with_us", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Create account
       ///
       /// Locales: en, ru
@@ -602,6 +629,22 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let status_upcoming = Rswift.StringResource(key: "status_upcoming", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Version not available
+      ///
+      /// Locales: en, ru
+      static let version_not_available = Rswift.StringResource(key: "version_not_available", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: When more than 100 photographers use our application, we will start developing the «Portfolio» service.
+      ///
+      /// Locales: en, ru
+      static let notes = Rswift.StringResource(key: "notes", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: You don't have orders
+      ///
+      /// Locales: en, ru
+      static let order_not_found = Rswift.StringResource(key: "order_not_found", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Your Login:
+      ///
+      /// Locales: en, ru
+      static let your_login = Rswift.StringResource(key: "your_login", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: h
       ///
       /// Locales: en, ru
@@ -635,6 +678,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("addPhoto", bundle: bundle, comment: "")
+      }
+
+      /// en translation: App version:
+      ///
+      /// Locales: en, ru
+      static func app_version(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("app_version", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "app_version"
+        }
+
+        return NSLocalizedString("app_version", bundle: bundle, comment: "")
       }
 
       /// en translation: Canceled
@@ -680,6 +738,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("status_completed", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Contact with us: takeaphoto.app
+      ///
+      /// Locales: en, ru
+      static func contact_with_us(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("contact_with_us", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "contact_with_us"
+        }
+
+        return NSLocalizedString("contact_with_us", bundle: bundle, comment: "")
       }
 
       /// en translation: Create account
@@ -1085,6 +1158,66 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("status_upcoming", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Version not available
+      ///
+      /// Locales: en, ru
+      static func version_not_available(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("version_not_available", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "version_not_available"
+        }
+
+        return NSLocalizedString("version_not_available", bundle: bundle, comment: "")
+      }
+
+      /// en translation: When more than 100 photographers use our application, we will start developing the «Portfolio» service.
+      ///
+      /// Locales: en, ru
+      static func notes(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("notes", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "notes"
+        }
+
+        return NSLocalizedString("notes", bundle: bundle, comment: "")
+      }
+
+      /// en translation: You don't have orders
+      ///
+      /// Locales: en, ru
+      static func order_not_found(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_not_found", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_not_found"
+        }
+
+        return NSLocalizedString("order_not_found", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Your Login:
+      ///
+      /// Locales: en, ru
+      static func your_login(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("your_login", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "your_login"
+        }
+
+        return NSLocalizedString("your_login", bundle: bundle, comment: "")
       }
 
       /// en translation: h

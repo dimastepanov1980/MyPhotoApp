@@ -16,7 +16,10 @@
 "totalPrice" = "Стоимсоть";
 "takeAPhoto" = "Take a Photo";
 "addPhoto" = "Добавить фото";
+
+// MARK: - Main Screen
 "today" = "Заказы на сегодня";
+"order_not_found" = "У Вас нет заказов";
 
 // MARK: - New Order
 "order_ClientName" = "Имя клиента";
@@ -44,3 +47,11 @@
 "tabs_edit" = "В работе";
 "tabs_portfolio" = "Портфолио";
 "tabs_profile" = "Профиль";
+
+//MARK: - Setting screen
+"app_version" = "Версия программы:";
+"contact_with_us" = "Свяжитесь с Нами: takeaphoto.app";
+"notes" = "Когда нашим приложением будут пользоваться более чем 100 фотографов, мы начнем развивать сервис «Портфолио».";
+"your_login" = "Ваш логин:";
+"version_not_available" = "Версия программы не доступна";
+

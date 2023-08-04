@@ -18,6 +18,8 @@
 		5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96A6C72A1723B200FBCFF5 /* FirebaseAuth */; };
 		5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */; };
 		5FA0EB712A73A6D70024AB71 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FA0EB732A73A6D70024AB71 /* Localizable.strings */; };
+		5FA0EB762A7952200024AB71 /* SettingScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA0EB752A7952200024AB71 /* SettingScreenViewModel.swift */; };
+		5FA0EB782A79523E0024AB71 /* SettingScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA0EB772A79523E0024AB71 /* SettingScreenViewModelType.swift */; };
 		5FA15D982A175727007A1AC6 /* AuthScreenContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D972A175727007A1AC6 /* AuthScreenContract.swift */; };
 		5FA15D9D2A175A91007A1AC6 /* AuthScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D9C2A175A91007A1AC6 /* AuthScreenViewModel.swift */; };
 		5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D9F2A176A21007A1AC6 /* AuthModel.swift */; };
@@ -72,6 +74,8 @@
 		5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNetworkService.swift; sourceTree = "<group>"; };
 		5FA0EB722A73A6D70024AB71 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FA0EB742A73A7050024AB71 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5FA0EB752A7952200024AB71 /* SettingScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingScreenViewModel.swift; sourceTree = "<group>"; };
+		5FA0EB772A79523E0024AB71 /* SettingScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingScreenViewModelType.swift; sourceTree = "<group>"; };
 		5FA15D972A175727007A1AC6 /* AuthScreenContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenContract.swift; sourceTree = "<group>"; };
 		5FA15D9C2A175A91007A1AC6 /* AuthScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthScreenViewModel.swift; sourceTree = "<group>"; };
 		5FA15D9F2A176A21007A1AC6 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
@@ -282,6 +286,8 @@
 			isa = PBXGroup;
 			children = (
 				5FB717472A223F6400EC7BF6 /* SettingScreenView.swift */,
+				5FA0EB772A79523E0024AB71 /* SettingScreenViewModelType.swift */,
+				5FA0EB752A7952200024AB71 /* SettingScreenViewModel.swift */,
 			);
 			path = SettingsScreenUserStory;
 			sourceTree = "<group>";
@@ -671,6 +677,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FA0EB762A7952200024AB71 /* SettingScreenViewModel.swift in Sources */,
 				5F0F8D802A31C39E00AF4EED /* AddOrderViewModelType.swift in Sources */,
 				5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */,
 				5FA7224D2A1E154A003EB084 /* MocMainOrders.swift in Sources */,
@@ -692,6 +699,7 @@
 				5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */,
 				5F0F8D862A31E28B00AF4EED /* UserOrdersModel.swift in Sources */,
 				5FF58F3D2A2704CA009AF970 /* AddOrderView.swift in Sources */,
+				5FA0EB782A79523E0024AB71 /* SettingScreenViewModelType.swift in Sources */,
 				5F0F8D822A31C3C100AF4EED /* AddOrderViewModel.swift in Sources */,
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
 				5FBDF84B2A64FD2300C1108D /* ImageFullScreenView.swift in Sources */,
@@ -855,27 +863,29 @@
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = TakeAPhoto;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.takeaphoto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -893,27 +903,29 @@
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = TakeAPhoto;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.takeaphoto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftUI
+import Combine
+import MapKit
 
 @MainActor
 protocol MainScreenViewModelType: ObservableObject {
@@ -19,12 +21,15 @@ protocol MainScreenViewModelType: ObservableObject {
     var filteredOtherOrders: [Date : [UserOrdersModel]] { get }
     var filteredOrdersForToday: [UserOrdersModel] { get }
     var location: LocationViewModel { get set }
+    var objectWillChange: ObservableObjectPublisher { get }
+
     
     func formattedDate(date: Date, format: String) -> String
     func isToday(date: Date) -> Bool
     func isTodayDay(date: Date) -> Bool
     func deleteOrder(order: UserOrdersModel) async throws
-    func fetchWeather(lat: String, lon: String, exclude: String) async throws
+    func fetchWeather(with location: CLLocation)
     func orderStausColor (order: String?) -> Color
     func orderStausName (status: String?) -> String
+    func getIconForWeatherCode(weatherCode: String) -> String
 }

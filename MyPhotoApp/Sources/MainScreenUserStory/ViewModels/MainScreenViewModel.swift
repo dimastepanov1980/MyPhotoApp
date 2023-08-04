@@ -9,24 +9,21 @@ import Foundation
 import Combine
 import SwiftUI
 import FirebaseFirestore
-import GoogleMobileAds
 import MapKit
 
 @MainActor
-final class MainScreenViewModel: MainScreenViewModelType {
+final class MainScreenViewModel: MainScreenViewModelType, ObservableObject {
     @Published var orders: [UserOrdersModel]
     @Published var weatherByDate: [Date: [Weather?]] = [:]
     @Published var weatherForCurrentDay: String? = nil
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
     @Published var modified = false
-    @Published var location = LocationViewModel()
-
-
+    var location = LocationViewModel()
     private var cancellables = Set<AnyCancellable>()
     private var listenerRegistration: ListenerRegistration?
 
-    var filteredOtherOrders: [Date : [UserOrdersModel]] {
+    var filteredOtherOrders: [Date : [UserOrdersModel]]  {
         var filteredOrders = [Date : [UserOrdersModel]]()
         
         let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
@@ -77,35 +74,71 @@ final class MainScreenViewModel: MainScreenViewModelType {
     
     init(orders: [UserOrdersModel] = []) {
         self.orders = orders
+        
+        location.$location
+                  .receive(on: DispatchQueue.main) // Ensure updates are received on the main thread
+                  .sink { [weak self] newLocation in
+                      // Update the view with the new location value
+                      self?.handleNewLocation(newLocation)
+                  }
+                  .store(in: &cancellables)
+        
         Task {
             try await subscribe()
+            try await fetchLocation()
         }
-        fetchLocation()
     }
     
-    func fetchLocation() {
-        location.requestLocation()
+    func fetchLocation() async throws {
+        try await location.requestLocation()
     }
-    func fetchWeather(lat: String, lon: String, exclude: String) async throws {
+    
+    private func handleNewLocation(_ location: CLLocation?) {
+        guard let location = location else {
+            // Handle the case when the location is nil (e.g., location services are disabled)
+            // You can choose to show an error message or take appropriate actions.
+            print("Location is nil.")
+            return
+        }
+        fetchWeather(with: location)
+    }
+    
+    func fetchWeather(with location: CLLocation) {
+        let longitude = location.coordinate.longitude.description
+        let latitude = location.coordinate.latitude.description
+        
+
         let today = Date()
         let calendar = Calendar.current
         var weatherByDate: [Date: [Weather?]] = [:]
-        let weather = try await WeatherManager.shared.fetcWeather(lat: lat, lon: lon, exclude: exclude)
-        let weatherForAllDay = weather.daily
-        let weatherForCurrentDay = weather.current.weather.first?.icon
-        
-        (0...14).forEach { day in
-            let dayOfWeek = calendar.date(byAdding: .day, value: day, to: today)!
-            let matchingDate = weatherForAllDay.first { formattedDate(date: dayOfWeek, format: "dd MMMM YYYY") == formattedDate(date: $0.dt, format: "dd MMMM YYYY") }
-            
-            if let matchingDate = matchingDate {
-                weatherByDate[dayOfWeek] = matchingDate.weather
-            } else {
-                weatherByDate[dayOfWeek] = [nil]
+        Task {
+            do {
+                let weather = try await WeatherManager.shared.fetcWeather(lat: latitude, lon: longitude, exclude: "minutely,hourly,alerts")
+                let weatherForAllDay = weather.daily
+                let weatherForCurrentDay = weather.current.weather.first?.icon
+                
+                (0...14).forEach { day in
+                    let dayOfWeek = calendar.date(byAdding: .day, value: day, to: today)!
+                    let matchingDate = weatherForAllDay.first { formattedDate(date: dayOfWeek, format: "dd MMMM YYYY") == formattedDate(date: $0.dt, format: "dd MMMM YYYY") }
+                    
+                    if let matchingDate = matchingDate {
+                        weatherByDate[dayOfWeek] = matchingDate.weather
+                    } else {
+                        weatherByDate[dayOfWeek] = [nil]
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    // Update the @Published properties on the main thread
+                    self.weatherForCurrentDay = weatherForCurrentDay
+                    self.weatherByDate = weatherByDate
+                }
+                
+            } catch {
+                print("Error fetching weather: \(error)")
+                // Handle the error, show an error message, or take appropriate actions.
             }
         }
-        self.weatherForCurrentDay = weatherForCurrentDay
-        self.weatherByDate = weatherByDate
     }
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
@@ -125,7 +158,6 @@ final class MainScreenViewModel: MainScreenViewModelType {
         listenerRegistration = UserManager.shared.addListenerRegistration(userId: authDateResult.uid, completion: { orders in
             self.orders = orders
         })
-        print("describing: \(String(describing: listenerRegistration))")
     }
     func unsubscribe() {
         UserManager.shared.unsubscribe()
@@ -167,6 +199,30 @@ final class MainScreenViewModel: MainScreenViewModelType {
             }
         }
         return R.string.localizable.status_upcoming()
+    }
+    func getIconForWeatherCode(weatherCode: String) -> String {
+        switch weatherCode {
+        case "01d", "01n":
+            return "sun.max"
+        case "02d", "02n":
+            return "cloud.sun"
+        case "03d", "03n":
+            return "cloud"
+        case "04d", "04n":
+            return "cloud"
+        case "09d", "09n":
+            return "cloud.rain"
+        case "10d", "10n":
+            return "cloud.sun.rain"
+        case "11d", "11n":
+            return "cloud.bolt.rain"
+        case "13d", "13n":
+            return "cloud.snow"
+        case "50d", "50n":
+            return "cloud.fog"
+        default:
+            return "icloud.slash"
+        }
     }
 }
 

@@ -69,7 +69,7 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     }
     
     private func orderFiels() -> some View {
-        VStack(alignment: .leading, spacing: 16){
+        VStack(alignment: .leading, spacing: 28){
             DatePicker(R.string.localizable.order_SelectDate(), selection: $viewModel.date)
                 .datePickerStyle(.compact)
                 .accentColor(Color(R.color.gray2.name))

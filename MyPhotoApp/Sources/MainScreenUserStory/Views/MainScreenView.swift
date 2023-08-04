@@ -33,49 +33,32 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
         VStack {
             ScrollViewReader { data in
                 ScrollView(.vertical, showsIndicators: false) {
-                    LazyVStack(pinnedViews: [.sectionHeaders, .sectionFooters]) {
+                    LazyVStack(pinnedViews: [.sectionHeaders]) {
                         Section {
                             ScrollView(.vertical) {
                                 verticalCards()
                                     .padding(.bottom)
                                     .padding(.top, statusOrder == .Upcoming ? 0 : 80)
                             }
-                            
                         } header: {
                             if statusOrder == .Upcoming {
                                 headerSection(scroll: data)
                                     .padding(.top, 64)
                             }
-                        } .background()
-                        
+                        }
+                        .background(Color(R.color.gray7.name))
                     }
                 }
             }
             
         }
-        .background()
+        .background(Color(R.color.gray7.name))
         .ignoresSafeArea()
-        .task {
-            do{
-                if let location = viewModel.location.location {
-                    let longitude = location.coordinate.longitude.description
-                    let latitude = location.coordinate.latitude.description
-                    print(longitude, latitude)
-                    try? await viewModel.fetchWeather(lat: latitude, lon: longitude, exclude: "minutely,hourly,alerts")
-                } else {
-                    
-// MARK: - Default Phuket Location -
-// TODO: Нужно переделать запрос, если локация не определилась возвращаем просто дату без погоды -
-                    
-                    try? await viewModel.fetchWeather(lat: "7.951933", lon: "98.338089", exclude: "minutely,hourly,alerts")
-                }
-            }
-        }
     }
     func headerSection(scroll: ScrollViewProxy) -> some View {
         VStack() {
             HStack {
-                VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .center, spacing: 0) {
                     Text(R.string.localizable.today())
                         .font(.subheadline.bold())
                         .foregroundColor(Color(R.color.gray3.name))
@@ -84,26 +67,20 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                         Text(viewModel.formattedDate(date: viewModel.today, format: "dd MMMM"))
                             .font(.title.bold())
                             .foregroundColor(Color(R.color.gray1.name))
-                        
-                        if let weather = viewModel.weatherForCurrentDay {
-                            let url = URL(string: "https://openweathermap.org/img/wn/\(weather)@2x.png")
-                            AsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 32)
-                            } placeholder: {
-                                ProgressView()
-                            }
+                        if let returnedIcon = viewModel.weatherForCurrentDay {
+                            Image(systemName: viewModel.getIconForWeatherCode(weatherCode: returnedIcon))
+                                .symbolRenderingMode(.palette)
+                                .font(.system(size: 24))
+                                .foregroundStyle(Color(R.color.gray4.name), Color(R.color.upcoming.name))
                         } else {
-                            Image(systemName: "cloud.snow")
-                                .resizable()
-                                .frame(width: 16, height: 16)
+                            Image(systemName: "icloud.slash")
+                                .symbolRenderingMode(.palette)
+                                .font(.system(size: 24))
+                                .foregroundStyle(Color(R.color.upcoming.name), Color(R.color.gray4.name))
                         }
                         
                     }
                 }
-                //                Spacer()
             }.padding(.horizontal, 32)
             ScrollView(.horizontal, showsIndicators: false) {
                 horizontalCards
@@ -120,7 +97,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                     .navigationBarBackButtonHidden(true)) {
                         HCellMainScreenView(items: order)
                             .contextMenu {
-                                Button("Remove Order") {
+                                Button(R.string.localizable.order_Delete()) {
                                     Task {
                                         try? await viewModel.deleteOrder(order: order)
                                     }
@@ -136,22 +113,16 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                 ForEach(viewModel.weatherByDate[day]!, id: \.self) { icon in
                     VStack(spacing: 4) {
                         Spacer()
-                        if let icon = icon {
-                            if let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png") {
-                                AsyncImage(url: url) { image in
-                                    image
-                                        .resizable()
-                                        .frame(width: 32, height: 32)
-                                } placeholder: {
-                                    ProgressView()
-                                }
-                            }
+                        if let returnedItem = icon {
+                            Image(systemName: viewModel.getIconForWeatherCode(weatherCode: returnedItem.icon))
+                                .symbolRenderingMode(.palette)
+                                .font(.system(size: 16))
+                                .foregroundStyle(Color(R.color.gray4.name), Color(R.color.upcoming.name))
                         } else {
                             Image(systemName: "icloud.slash")
-                                .resizable()
-                                .frame(width: 16, height: 16)
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(Color(R.color.gray3.name))
+                                .symbolRenderingMode(.palette)
+                                .font(.system(size: 14))
+                                .foregroundStyle(Color(R.color.upcoming.name), Color(R.color.gray4.name))
                         }
                         Text(viewModel.formattedDate(date: day, format: "dd"))
                             .font(.body.bold())
@@ -216,30 +187,28 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     }
     func verticalCards() -> some View {
         VStack(alignment: .center) {
-            ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders.keys.sorted() : viewModel.filteredOtherOrders.keys.sorted(), id: \.self) { date in
-                Section(header: Text(date, style: .date)
-                    .id(viewModel.formattedDate(date: date, format: "dd MMMM YYYY" ))
-                    .font(.footnote)
-                    .foregroundColor(Color(R.color.gray3.name))) {
-                        ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.id) { order in
-                            NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
-                                .navigationBarBackButtonHidden(true)) {
-                                    VCellMainScreenView(items: order, statusColor: viewModel.orderStausColor(order: order.status), status: viewModel.orderStausName (status: order.status))
-                                        .contextMenu {
-                                            Button("Remove Order") {
-                                                Task{
-                                                    try? await viewModel.deleteOrder(order: order)
+                ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders.keys.sorted() : viewModel.filteredOtherOrders.keys.sorted(), id: \.self) { date in
+                    Section(header: Text(date, style: .date)
+                        .id(viewModel.formattedDate(date: date, format: "dd MMMM YYYY" ))
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.gray3.name))) {
+                            ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.id) { order in
+                                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
+                                    .navigationBarBackButtonHidden(true)) {
+                                        VCellMainScreenView(items: order, statusColor: viewModel.orderStausColor(order: order.status), status: viewModel.orderStausName (status: order.status))
+                                            .contextMenu {
+                                                Button(R.string.localizable.order_Delete()) {
+                                                    Task{
+                                                        try? await viewModel.deleteOrder(order: order)
+                                                    }
                                                 }
                                             }
-                                        }
-                                }
+                                    }
+                            }
                         }
-                    }
-            }
+                }
         }  .padding(.horizontal)
     }
-
-    
 }
 // MARK: Формтируем дату в День месяц
 extension Date {
@@ -251,7 +220,7 @@ extension Date {
         )
     }
 }
-
+/*
 struct MainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
@@ -259,6 +228,10 @@ struct MainScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
+    func getIconForWeatherCode(weatherCode: String) -> String {
+        return ""
+    }
+    
     func orderStausName(status: String?) -> String {
         "Upcoming"
     }
@@ -286,13 +259,13 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
     
     init() {}
     
-    func fetchWeather(lat: String, lon: String, exclude: String) async throws {
+    func fetchWeather() async throws {
         //
     }
     func orderStausColor(order: String?) -> Color {
         return Color.gray
     }
-
+    
     func formattedDate(date: Date, format: String) -> String {
         return ""
     }
@@ -306,3 +279,4 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
         //
     }
 }
+*/
