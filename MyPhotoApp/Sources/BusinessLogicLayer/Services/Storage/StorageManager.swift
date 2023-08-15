@@ -19,14 +19,10 @@ final class StorageManager {
     private func userReferenceImage(userId: String) -> StorageReference {
         storage.child("users").child(userId)
     }
-
     func getReferenceImageData(path: String) async throws -> Data {
-        print("\(storage)")
-        print("\(path)")
         let data = try await storage.child(path).data(maxSize: 3 * 1024 * 1024)
         return data
     }
-    
     func removeImages(pathURL: URL, order: UserOrdersModel, userId: String, imagesArray: [String]) async throws {
         let imageStringPath = storage.storage.reference(forURL:"\(pathURL)")
         let elementInArray = imageStringPath.fullPath
@@ -35,11 +31,9 @@ final class StorageManager {
         try await UserManager.shared.deleteImagesUrlLinks(userId: userId, path: newImagesArray, orderId: order.id)
         try await imageStringPath.delete()
     }
-    
     func getImageURL(path: String)  async throws -> URL {
        try await storage.child(path).downloadURL()
     }
-    
     func getReferenceImage(path: String) async throws -> UIImage {
         let data = try await getReferenceImageData(path: path)
         guard let image = UIImage(data: data) else {
@@ -47,7 +41,6 @@ final class StorageManager {
         }
         return image
     }
-    
     func uploadURLImageToFairbase(data: Data, userId: String, orderId: String) async throws -> (path: String, name: String) {
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
@@ -58,11 +51,8 @@ final class StorageManager {
         guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
             throw URLError(.badServerResponse)
         }
-        print(returnedPath)
-        print(returnedName)
         return (returnedPath, returnedName)
     }
-    
     func uploadImageToFairbase(data: Data, userId: String, orderId: String) async throws -> (path: String, name: String) {
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
@@ -72,20 +62,15 @@ final class StorageManager {
         guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
             throw URLError(.badServerResponse)
         }
-        print(returnedPath)
-        print(returnedName)
         return (returnedPath, returnedName)
     }
-    
     func uploadImageToFairbase(image: UIImage, userId: String, orderId: String) async throws -> (path: String, name: String) {
         guard let resizeImage = resizeImage(image: image, targetSize: CGSize(width: 1200, height: 1200)),
               let jpegData = resizeImage.jpegData(compressionQuality: 0.3) else {
             throw URLError(.backgroundSessionWasDisconnected)
         }
-        print("compressed size\(jpegData)")
         return try await uploadImageToFairbase(data: jpegData, userId: userId, orderId: orderId)
     }
-    
     func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
         let size = image.size
         

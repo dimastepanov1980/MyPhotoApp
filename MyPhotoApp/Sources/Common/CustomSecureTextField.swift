@@ -17,7 +17,7 @@ struct CustomSecureTextField: View {
             SecureField("", text: $text, prompt: Text(nameSecureTextField))
                 .padding(10)
             Button {
-                text = ""
+                self.text = ""
             } label: {
                 Image(systemName: "xmark.circle.fill")
                     .foregroundColor(Color(R.color.gray4.name))

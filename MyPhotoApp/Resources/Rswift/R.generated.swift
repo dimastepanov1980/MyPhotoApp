@@ -491,7 +491,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 39 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 43 localization keys.
     struct localizable {
       /// en translation: Add Order
       ///
@@ -505,6 +505,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let app_version = Rswift.StringResource(key: "app_version", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Cancel
+      ///
+      /// Locales: en, ru
+      static let cancel = Rswift.StringResource(key: "cancel", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Canceled
       ///
       /// Locales: en, ru
@@ -517,7 +521,7 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let status_completed = Rswift.StringResource(key: "status_completed", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Contact with us: takeaphoto.app
+      /// en translation: Contact with us: www.takeaphoto.app
       ///
       /// Locales: en, ru
       static let contact_with_us = Rswift.StringResource(key: "contact_with_us", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
@@ -525,10 +529,18 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let createAccBtt = Rswift.StringResource(key: "createAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Delete Account
+      ///
+      /// Locales: en, ru
+      static let delete_user = Rswift.StringResource(key: "delete_user", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Delete Order
       ///
       /// Locales: en, ru
       static let order_Delete = Rswift.StringResource(key: "order_Delete", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Deleting account will delete all your information in this App. Are you sure you want to continue?
+      ///
+      /// Locales: en, ru
+      static let delete_user_allert = Rswift.StringResource(key: "delete_user_allert", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Description
       ///
       /// Locales: en, ru
@@ -553,6 +565,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let tabs_feature = Rswift.StringResource(key: "tabs_feature", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: For delete account enter your current password
+      ///
+      /// Locales: en, ru
+      static let delete_user_password = Rswift.StringResource(key: "delete_user_password", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Forgot password?
       ///
       /// Locales: en, ru
@@ -695,6 +711,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("app_version", bundle: bundle, comment: "")
       }
 
+      /// en translation: Cancel
+      ///
+      /// Locales: en, ru
+      static func cancel(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("cancel", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "cancel"
+        }
+
+        return NSLocalizedString("cancel", bundle: bundle, comment: "")
+      }
+
       /// en translation: Canceled
       ///
       /// Locales: en, ru
@@ -740,7 +771,7 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("status_completed", bundle: bundle, comment: "")
       }
 
-      /// en translation: Contact with us: takeaphoto.app
+      /// en translation: Contact with us: www.takeaphoto.app
       ///
       /// Locales: en, ru
       static func contact_with_us(preferredLanguages: [String]? = nil) -> String {
@@ -770,6 +801,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("createAccBtt", bundle: bundle, comment: "")
       }
 
+      /// en translation: Delete Account
+      ///
+      /// Locales: en, ru
+      static func delete_user(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("delete_user", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "delete_user"
+        }
+
+        return NSLocalizedString("delete_user", bundle: bundle, comment: "")
+      }
+
       /// en translation: Delete Order
       ///
       /// Locales: en, ru
@@ -783,6 +829,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("order_Delete", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Deleting account will delete all your information in this App. Are you sure you want to continue?
+      ///
+      /// Locales: en, ru
+      static func delete_user_allert(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("delete_user_allert", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "delete_user_allert"
+        }
+
+        return NSLocalizedString("delete_user_allert", bundle: bundle, comment: "")
       }
 
       /// en translation: Description
@@ -873,6 +934,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("tabs_feature", bundle: bundle, comment: "")
+      }
+
+      /// en translation: For delete account enter your current password
+      ///
+      /// Locales: en, ru
+      static func delete_user_password(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("delete_user_password", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "delete_user_password"
+        }
+
+        return NSLocalizedString("delete_user_password", bundle: bundle, comment: "")
       }
 
       /// en translation: Forgot password?

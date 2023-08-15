@@ -107,13 +107,11 @@ final class UserManager {
                 return
             }
 
-            // Check if there are any documents
             guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
                 print("No documents")
                 return
             }
 
-            // Convert the documents to an array of UserOrdersModel objects
             let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
                 try? queryDocumentSnapshot.data(as: UserOrdersModel.self)
             }

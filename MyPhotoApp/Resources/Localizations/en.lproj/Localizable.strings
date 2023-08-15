@@ -16,6 +16,10 @@
 "totalPrice" = "Total price";
 "takeAPhoto" = "Take a Photo";
 "addPhoto" = "Add Photo";
+"delete_user" = "Delete Account";
+"delete_user_allert" = "Deleting account will delete all your information in this App. Are you sure you want to continue?";
+"cancel" = "Cancel";
+"delete_user_password" = "For delete account enter your current password";
 
 // MARK: - Main Screen
 "today" = "Order for today";
@@ -50,7 +54,7 @@
 
 //MARK: - Setting screen
 "app_version" = "App version:";
-"contact_with_us" = "Contact with us:\ntakeaphoto.app";
+"contact_with_us" = "Contact with us:\nwww.takeaphoto.app";
 "notes" = "When more than 100 photographers use our application,\nwe will start developing the «Portfolio» service.";
 "your_login" = "Your Login:";
 "version_not_available" = "Version not available";

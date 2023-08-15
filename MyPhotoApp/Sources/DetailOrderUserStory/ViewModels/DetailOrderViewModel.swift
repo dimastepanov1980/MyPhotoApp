@@ -100,7 +100,6 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
                 guard let data = try? await item.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) else {
                     throw URLError(.backgroundSessionWasDisconnected)
                 }
-                print("Not compressed size\(data)")
                 let (path, _) = try await StorageManager.shared.uploadImageToFairbase(image: uiImage, userId: authDateResult.uid , orderId: order.id)
                 selectedImages.append(path)
                 

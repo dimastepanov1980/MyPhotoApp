@@ -10,10 +10,9 @@ import SwiftUI
 
 @MainActor
 protocol AuthScreenViewModelType: ObservableObject {
-//    var userID: UUID { get }
     var signInEmail: String { get }
     var signInPassword: String { get }
-    var errorMasswge: String { get set }
+    var errorMessage: String { get set }
 
     func setSignInEmail(_ signInEmail: String)
     func setSignInPassword(_ signInPassword: String)
@@ -25,6 +24,5 @@ protocol AuthScreenViewModelType: ObservableObject {
     func setSignUpEmail(_ signUpEmail: String)
     func setSignUpPassword(_ signUpPassword: String)
     func loginUser() async throws
-    
     func resetPassword() async throws
 }

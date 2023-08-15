@@ -45,6 +45,9 @@
 		5FBDF84B2A64FD2300C1108D /* ImageFullScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBDF84A2A64FD2300C1108D /* ImageFullScreenView.swift */; };
 		5FC1C0D52A2F7C0A00081FF1 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC1C0D42A2F7C0A00081FF1 /* StorageManager.swift */; };
 		5FE461122A3D9E4B001CD607 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */; };
+		5FE606432A887E1200E33205 /* ReAuthScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606422A887E1200E33205 /* ReAuthScreenView.swift */; };
+		5FE606452A8880CB00E33205 /* ReAuthScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606442A8880CB00E33205 /* ReAuthScreenViewModel.swift */; };
+		5FE606472A8880D800E33205 /* ReAuthScreenContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606462A8880D800E33205 /* ReAuthScreenContract.swift */; };
 		5FE927E62A6FA59E00D3FEEA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE927E52A6FA59E00D3FEEA /* LocationManager.swift */; };
 		5FF5466D2A1B573B00208455 /* MainScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF5466C2A1B573B00208455 /* MainScreenViewModelType.swift */; };
 		5FF5466F2A1B575500208455 /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF5466E2A1B575500208455 /* MainScreenViewModel.swift */; };
@@ -101,6 +104,9 @@
 		5FBA269E2A162D6700E972FB /* CustomSecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextField.swift; sourceTree = "<group>"; };
 		5FBDF84A2A64FD2300C1108D /* ImageFullScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFullScreenView.swift; sourceTree = "<group>"; };
 		5FC1C0D42A2F7C0A00081FF1 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		5FE606422A887E1200E33205 /* ReAuthScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthScreenView.swift; sourceTree = "<group>"; };
+		5FE606442A8880CB00E33205 /* ReAuthScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthScreenViewModel.swift; sourceTree = "<group>"; };
+		5FE606462A8880D800E33205 /* ReAuthScreenContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthScreenContract.swift; sourceTree = "<group>"; };
 		5FE927E52A6FA59E00D3FEEA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5FF5466C2A1B573B00208455 /* MainScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModelType.swift; sourceTree = "<group>"; };
 		5FF5466E2A1B575500208455 /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
@@ -347,6 +353,7 @@
 			children = (
 				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
 				5FBA26992A15370A00E972FB /* AuthUserStory */,
+				5FE6063E2A887D9D00E33205 /* ReAuthUserStory */,
 				5FF546682A1B56F300208455 /* MainScreenUserStory */,
 				5FA3C3462A5BDC07003EA4F8 /* TabBar */,
 				5FF58F382A27043A009AF970 /* OrdersUserStory */,
@@ -412,6 +419,40 @@
 				5FC1C0D42A2F7C0A00081FF1 /* StorageManager.swift */,
 			);
 			path = Storage;
+			sourceTree = "<group>";
+		};
+		5FE6063E2A887D9D00E33205 /* ReAuthUserStory */ = {
+			isa = PBXGroup;
+			children = (
+				5FE606412A887DE900E33205 /* Views */,
+				5FE606402A887DE700E33205 /* ViewModel */,
+				5FE6063F2A887DE300E33205 /* Contractor */,
+			);
+			path = ReAuthUserStory;
+			sourceTree = "<group>";
+		};
+		5FE6063F2A887DE300E33205 /* Contractor */ = {
+			isa = PBXGroup;
+			children = (
+				5FE606462A8880D800E33205 /* ReAuthScreenContract.swift */,
+			);
+			path = Contractor;
+			sourceTree = "<group>";
+		};
+		5FE606402A887DE700E33205 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5FE606442A8880CB00E33205 /* ReAuthScreenViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5FE606412A887DE900E33205 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5FE606422A887E1200E33205 /* ReAuthScreenView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		5FE927E42A6FA56C00D3FEEA /* LocationManager */ = {
@@ -681,6 +722,7 @@
 				5F0F8D802A31C39E00AF4EED /* AddOrderViewModelType.swift in Sources */,
 				5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */,
 				5FA7224D2A1E154A003EB084 /* MocMainOrders.swift in Sources */,
+				5FE606472A8880D800E33205 /* ReAuthScreenContract.swift in Sources */,
 				5FF546742A1B57E500208455 /* HCellMainScreenView.swift in Sources */,
 				5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */,
 				5FC1C0D52A2F7C0A00081FF1 /* StorageManager.swift in Sources */,
@@ -696,6 +738,7 @@
 				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
 				5FF5466F2A1B575500208455 /* MainScreenViewModel.swift in Sources */,
 				5FA767E42A69762900861F7D /* PortfolioView.swift in Sources */,
+				5FE606452A8880CB00E33205 /* ReAuthScreenViewModel.swift in Sources */,
 				5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */,
 				5F0F8D862A31E28B00AF4EED /* UserOrdersModel.swift in Sources */,
 				5FF58F3D2A2704CA009AF970 /* AddOrderView.swift in Sources */,
@@ -704,6 +747,7 @@
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
 				5FBDF84B2A64FD2300C1108D /* ImageFullScreenView.swift in Sources */,
 				5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */,
+				5FE606432A887E1200E33205 /* ReAuthScreenView.swift in Sources */,
 				5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */,
 				5FBA269D2A1600D800E972FB /* CustomButtonXl.swift in Sources */,
 				5FF58F372A24D647009AF970 /* UserManager.swift in Sources */,
@@ -858,7 +902,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyPhotoApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
@@ -876,7 +920,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.takeaphoto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -898,7 +942,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyPhotoApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
@@ -916,7 +960,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.takeaphoto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

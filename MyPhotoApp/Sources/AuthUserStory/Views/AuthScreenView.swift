@@ -11,7 +11,6 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
     @Binding var showSignInView: Bool
-    
     @State var index : Int = 1
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
     var width = UIScreen.main.bounds.size.width
@@ -40,7 +39,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                         password: Binding<String>(
                             get: { viewModel.signInPassword },
                             set: { viewModel.setSignInPassword($0) }),
-                        errorMassage: viewModel.errorMasswge) {
+                        errorMassage: viewModel.errorMessage) {
                             if !viewModel.signInEmail.isEmpty && !viewModel.signInPassword.isEmpty {
                                 Task {
                                     do {
@@ -48,7 +47,7 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                                         showSignInView = false
                                         return
                                     } catch {
-                                        self.viewModel.errorMasswge = error.localizedDescription
+                                        self.viewModel.errorMessage = error.localizedDescription
                                     }
                                 }
                             }
@@ -62,16 +61,15 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
                         password: Binding<String>(
                             get: { viewModel.signUpPassword },
                             set: { viewModel.setSignUpPassword($0) }),
-                        errorMassage: viewModel.errorMasswge) {
+                        errorMassage: viewModel.errorMessage) {
                             if !viewModel.signUpEmail.isEmpty && !viewModel.signUpPassword.isEmpty {
                                 Task {
                                     do {
                                         try await viewModel.loginUser()
                                         showSignInView = false
-                                        print("Login succsessful")
                                         return
                                     } catch {
-                                        self.viewModel.errorMasswge = error.localizedDescription
+                                        self.viewModel.errorMessage = error.localizedDescription
                                     }
                                 }
                             }
@@ -221,7 +219,7 @@ struct AuthScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: AuthScreenViewModelType, ObservableObject {
-    var errorMasswge = ""
+    var errorMessage = ""
     var signInEmail = ""
     var signInPassword = ""
     var signUpEmail = ""

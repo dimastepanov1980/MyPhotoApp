@@ -12,14 +12,16 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
     @Binding var showSignInView: Bool
+    @Binding var isShowActionSheet: Bool
     var height = UIScreen.main.bounds.size.height
 
     init(with viewModel: ViewModel,
-         showSignInView: Binding<Bool>) {
+         showSignInView: Binding<Bool>,
+         isShowActionSheet: Binding<Bool>) {
         self.viewModel = viewModel
         self._showSignInView = showSignInView
+        self._isShowActionSheet = isShowActionSheet
     }
-
     
     var body: some View {
         ZStack{
@@ -79,9 +81,23 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                                 .cornerRadius(20)
                         }
                     }
+                Button {
+                    isShowActionSheet.toggle()
+                } label: {
+                    Text(R.string.localizable.delete_user())
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.gray5.name))
+                }.padding(.top, 16)
+                
+
                     Spacer()
                 }
                 .padding(.top, 64)
+        }
+        .fullScreenCover(isPresented: $isShowActionSheet) {
+            NavigationView {
+                ReAuthScreenView(with: ReAuthScreenViewModel(), isShowActionSheet: $isShowActionSheet, showSignInView: $showSignInView)
+            }
         }
         .task {
             try? await viewModel.loadCurrentUser()
@@ -92,22 +108,14 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
 struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
-        SettingScreenView(with: viewModel, showSignInView: .constant(false))
+        SettingScreenView(with: viewModel, showSignInView: .constant(false), isShowActionSheet: .constant(false))
     }
 }
 
 private class MockViewModel: SettingScreenViewModelType, ObservableObject {
     var appVersion: String = "1.2"
-    
     var orders: [UserOrdersModel]?
-    
-    
     var user: DBUserModel? = nil
-    
-    func loadCurrentUser() throws {
-        //
-    }
-    func LogOut() throws {
-        //
-    }
+    func loadCurrentUser() throws {}
+    func LogOut() throws {}
 }

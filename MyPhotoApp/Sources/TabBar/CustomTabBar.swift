@@ -12,6 +12,7 @@ struct CustomTabBar: View {
     @Binding var showSignInView: Bool
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
+    @State private var isShowActionSheet: Bool = false
     @State private var selectedSection = "In Progres"
     var section = ["In Progres", "Complited"]
 
@@ -30,7 +31,7 @@ struct CustomTabBar: View {
                     } else if self.index == 2 {
                     PortfolioView()
                 } else if self.index == 3 {
-                    SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView)
+                    SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView, isShowActionSheet: $isShowActionSheet)
                 }
             }
             .padding(.bottom, -40)

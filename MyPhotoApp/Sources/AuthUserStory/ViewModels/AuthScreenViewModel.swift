@@ -14,7 +14,7 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
     @Published var signInPassword = ""
     @Published var signUpEmail = ""
     @Published var signUpPassword = ""
-    @Published var errorMasswge = ""
+    @Published var errorMessage = ""
     
     func setSignInEmail(_ signInEmail: String) {
         self.signInEmail = signInEmail
@@ -53,7 +53,7 @@ final class AuthScreenViewModel: AuthScreenViewModelType {
         do {
             try await AuthNetworkService.shared.resetPassword(email: signUpEmail)
         } catch {
-            self.errorMasswge = error.localizedDescription
+            self.errorMessage = error.localizedDescription
         }
     }
 }
