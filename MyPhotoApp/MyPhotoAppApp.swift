@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import AppTrackingTransparency
 
 @main
 struct MyPhotoAppApp: App {
@@ -16,8 +17,8 @@ struct MyPhotoAppApp: App {
         WindowGroup {
             NavigationStack {
                 RootScreenView()
-//                AuthScreenView(with: AuthScreenViewModel())
-//                MainScreenView(with: MainScreenViewModel(), showSignInView: .constant(true))
+            }.onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
             }
         }
     }

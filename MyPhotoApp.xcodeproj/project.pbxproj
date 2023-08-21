@@ -15,6 +15,8 @@
 		5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2711882A488FAA00679028 /* WeatherModel.swift */; };
 		5F27118C2A4934AD00679028 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F27118B2A4934AD00679028 /* WeatherManager.swift */; };
 		5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F27118E2A4AB7BD00679028 /* Constants.swift */; };
+		5F3909632A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3909622A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift */; };
+		5F3909652A8F6D1C006E539A /* PortfolioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3909642A8F6D1C006E539A /* PortfolioModel.swift */; };
 		5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96A6C72A1723B200FBCFF5 /* FirebaseAuth */; };
 		5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */; };
 		5FA0EB712A73A6D70024AB71 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FA0EB732A73A6D70024AB71 /* Localizable.strings */; };
@@ -28,7 +30,6 @@
 		5FA15DAC2A185305007A1AC6 /* DetailOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */; };
 		5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAD2A186BED007A1AC6 /* DetailOrderView.swift */; };
 		5FA3C3482A5BDC23003EA4F8 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA3C3472A5BDC23003EA4F8 /* CustomTabBar.swift */; };
-		5FA7224D2A1E154A003EB084 /* MocMainOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA7224C2A1E154A003EB084 /* MocMainOrders.swift */; };
 		5FA767E42A69762900861F7D /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA767E32A69762900861F7D /* PortfolioView.swift */; };
 		5FA767E72A6BE67E00861F7D /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 5FA767E62A6BE67E00861F7D /* GoogleMobileAds */; };
 		5FB717452A2090A300EC7BF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FB717442A2090A300EC7BF6 /* GoogleService-Info.plist */; };
@@ -48,6 +49,7 @@
 		5FE606432A887E1200E33205 /* ReAuthScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606422A887E1200E33205 /* ReAuthScreenView.swift */; };
 		5FE606452A8880CB00E33205 /* ReAuthScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606442A8880CB00E33205 /* ReAuthScreenViewModel.swift */; };
 		5FE606472A8880D800E33205 /* ReAuthScreenContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606462A8880D800E33205 /* ReAuthScreenContract.swift */; };
+		5FE606492A8BD9DE00E33205 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE606482A8BD9DD00E33205 /* AppTrackingTransparency.framework */; };
 		5FE927E62A6FA59E00D3FEEA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE927E52A6FA59E00D3FEEA /* LocationManager.swift */; };
 		5FF5466D2A1B573B00208455 /* MainScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF5466C2A1B573B00208455 /* MainScreenViewModelType.swift */; };
 		5FF5466F2A1B575500208455 /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF5466E2A1B575500208455 /* MainScreenViewModel.swift */; };
@@ -62,6 +64,8 @@
 		5FF58F412A2A3370009AF970 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF58F402A2A3370009AF970 /* FirebaseStorage */; };
 		5FF65ADC2A1F62D400F5142F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF65ADB2A1F62D400F5142F /* FirebaseAnalytics */; };
 		5FF65ADE2A1F62D400F5142F /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5FF65ADD2A1F62D400F5142F /* FirebaseAnalyticsSwift */; };
+		5FFC5AB32A919E4E006E10E9 /* CustomerMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC5AB22A919E4E006E10E9 /* CustomerMainScreenView.swift */; };
+		5FFC5AB62A91A536006E10E9 /* CustomerMainCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFC5AB52A91A536006E10E9 /* CustomerMainCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +78,8 @@
 		5F2711882A488FAA00679028 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		5F27118B2A4934AD00679028 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		5F27118E2A4AB7BD00679028 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5F3909622A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMainScreenViewModelType.swift; sourceTree = "<group>"; };
+		5F3909642A8F6D1C006E539A /* PortfolioModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioModel.swift; sourceTree = "<group>"; };
 		5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNetworkService.swift; sourceTree = "<group>"; };
 		5FA0EB722A73A6D70024AB71 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FA0EB742A73A7050024AB71 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -87,7 +93,6 @@
 		5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderViewModel.swift; sourceTree = "<group>"; };
 		5FA15DAD2A186BED007A1AC6 /* DetailOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderView.swift; sourceTree = "<group>"; };
 		5FA3C3472A5BDC23003EA4F8 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
-		5FA7224C2A1E154A003EB084 /* MocMainOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MocMainOrders.swift; sourceTree = "<group>"; };
 		5FA722502A1F145F003EB084 /* MyPhotoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyPhotoApp.entitlements; sourceTree = "<group>"; };
 		5FA767E32A69762900861F7D /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		5FB717442A2090A300EC7BF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -107,6 +112,8 @@
 		5FE606422A887E1200E33205 /* ReAuthScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthScreenView.swift; sourceTree = "<group>"; };
 		5FE606442A8880CB00E33205 /* ReAuthScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthScreenViewModel.swift; sourceTree = "<group>"; };
 		5FE606462A8880D800E33205 /* ReAuthScreenContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthScreenContract.swift; sourceTree = "<group>"; };
+		5FE606482A8BD9DD00E33205 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
+		5FE6064A2A8BDC0E00E33205 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5FE927E52A6FA59E00D3FEEA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5FF5466C2A1B573B00208455 /* MainScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModelType.swift; sourceTree = "<group>"; };
 		5FF5466E2A1B575500208455 /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
@@ -116,6 +123,8 @@
 		5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootScreenView.swift; sourceTree = "<group>"; };
 		5FF58F362A24D647009AF970 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		5FF58F3C2A2704CA009AF970 /* AddOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderView.swift; sourceTree = "<group>"; };
+		5FFC5AB22A919E4E006E10E9 /* CustomerMainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMainScreenView.swift; sourceTree = "<group>"; };
+		5FFC5AB52A91A536006E10E9 /* CustomerMainCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMainCellView.swift; sourceTree = "<group>"; };
 		C1C15D56D3D2F0C3BE72C55D /* Pods-MyPhotoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPhotoApp.release.xcconfig"; path = "Target Support Files/Pods-MyPhotoApp/Pods-MyPhotoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +138,7 @@
 				5FF65ADC2A1F62D400F5142F /* FirebaseAnalytics in Frameworks */,
 				5FA767E72A6BE67E00861F7D /* GoogleMobileAds in Frameworks */,
 				5FF58F342A2497EF009AF970 /* FirebaseFirestoreSwift in Frameworks */,
+				5FE606492A8BD9DE00E33205 /* AppTrackingTransparency.framework in Frameworks */,
 				5FE461122A3D9E4B001CD607 /* SDWebImageSwiftUI in Frameworks */,
 				5FF58F412A2A3370009AF970 /* FirebaseStorage in Frameworks */,
 				5FF65ADE2A1F62D400F5142F /* FirebaseAnalyticsSwift in Frameworks */,
@@ -153,6 +163,64 @@
 				5F27118E2A4AB7BD00679028 /* Constants.swift */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		5F39095C2A8F52A0006E539A /* AuthorUserStory */ = {
+			isa = PBXGroup;
+			children = (
+				5FBA26992A15370A00E972FB /* AuthUserStory */,
+				5FBA26962A15367900E972FB /* Common */,
+				5FE6063E2A887D9D00E33205 /* ReAuthUserStory */,
+				5FF546682A1B56F300208455 /* MainScreenUserStory */,
+				5FA3C3462A5BDC07003EA4F8 /* TabBar */,
+				5FF58F382A27043A009AF970 /* OrdersUserStory */,
+				5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */,
+				5FA767E22A6975FB00861F7D /* PortfolioUserStory */,
+				5FA15DA52A184FA9007A1AC6 /* DetailOrderUserStory */,
+			);
+			path = AuthorUserStory;
+			sourceTree = "<group>";
+		};
+		5F39095D2A8F52B6006E539A /* CustomerUserStory */ = {
+			isa = PBXGroup;
+			children = (
+				5F39095E2A8F5F7C006E539A /* MainScreenUserStory */,
+			);
+			path = CustomerUserStory;
+			sourceTree = "<group>";
+		};
+		5F39095E2A8F5F7C006E539A /* MainScreenUserStory */ = {
+			isa = PBXGroup;
+			children = (
+				5F3909612A8F5F9D006E539A /* Contractor */,
+				5F3909602A8F5F9B006E539A /* ViewModels */,
+				5F39095F2A8F5F98006E539A /* Views */,
+			);
+			path = MainScreenUserStory;
+			sourceTree = "<group>";
+		};
+		5F39095F2A8F5F98006E539A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5FFC5AB42A91A50B006E10E9 /* Cells */,
+				5FFC5AB22A919E4E006E10E9 /* CustomerMainScreenView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5F3909602A8F5F9B006E539A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		5F3909612A8F5F9D006E539A /* Contractor */ = {
+			isa = PBXGroup;
+			children = (
+				5F3909622A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift */,
+			);
+			path = Contractor;
 			sourceTree = "<group>";
 		};
 		5F96A6CB2A1724D700FBCFF5 /* Services */ = {
@@ -215,6 +283,7 @@
 				5F0F8D852A31E28B00AF4EED /* UserOrdersModel.swift */,
 				5F0F8D832A31E22A00AF4EED /* DBUserModel.swift */,
 				5F2711882A488FAA00679028 /* WeatherModel.swift */,
+				5F3909642A8F6D1C006E539A /* PortfolioModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -280,14 +349,6 @@
 			path = AddEditOrder;
 			sourceTree = "<group>";
 		};
-		5FB6C7FD2A1DEC77005FB152 /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				5FA7224C2A1E154A003EB084 /* MocMainOrders.swift */,
-			);
-			path = Constants;
-			sourceTree = "<group>";
-		};
 		5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,6 +381,7 @@
 		5FBA266E2A14A08200E972FB /* MyPhotoApp */ = {
 			isa = PBXGroup;
 			children = (
+				5FE6064A2A8BDC0E00E33205 /* Info.plist */,
 				5FA722502A1F145F003EB084 /* MyPhotoApp.entitlements */,
 				5FBA26822A14CA9000E972FB /* Resources */,
 				5FBA26832A14CAB000E972FB /* Sources */,
@@ -352,16 +414,8 @@
 			isa = PBXGroup;
 			children = (
 				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
-				5FBA26992A15370A00E972FB /* AuthUserStory */,
-				5FE6063E2A887D9D00E33205 /* ReAuthUserStory */,
-				5FF546682A1B56F300208455 /* MainScreenUserStory */,
-				5FA3C3462A5BDC07003EA4F8 /* TabBar */,
-				5FF58F382A27043A009AF970 /* OrdersUserStory */,
-				5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */,
-				5FB6C7FD2A1DEC77005FB152 /* Constants */,
-				5FA767E22A6975FB00861F7D /* PortfolioUserStory */,
-				5FA15DA52A184FA9007A1AC6 /* DetailOrderUserStory */,
-				5FBA26962A15367900E972FB /* Common */,
+				5F39095D2A8F52B6006E539A /* CustomerUserStory */,
+				5F39095C2A8F52A0006E539A /* AuthorUserStory */,
 				5FA15D9E2A176A06007A1AC6 /* Models */,
 				5F96A6CD2A1725CF00FBCFF5 /* BusinessLogicLayer */,
 			);
@@ -406,9 +460,9 @@
 		5FBA26992A15370A00E972FB /* AuthUserStory */ = {
 			isa = PBXGroup;
 			children = (
+				5FA15D992A17588E007A1AC6 /* Contracotr */,
 				5FA15D9B2A1758AA007A1AC6 /* ViewModels */,
 				5FA15D9A2A17589A007A1AC6 /* Views */,
-				5FA15D992A17588E007A1AC6 /* Contracotr */,
 			);
 			path = AuthUserStory;
 			sourceTree = "<group>";
@@ -547,6 +601,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		5FFC5AB42A91A50B006E10E9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5FFC5AB52A91A536006E10E9 /* CustomerMainCellView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		C282337F8450236C633B7DF3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -559,6 +621,7 @@
 		D768762854DA29471B6A235A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FE606482A8BD9DD00E33205 /* AppTrackingTransparency.framework */,
 				36CDCC9F143E459B2B9C1604 /* Pods_MyPhotoApp.framework */,
 			);
 			name = Frameworks;
@@ -721,15 +784,18 @@
 				5FA0EB762A7952200024AB71 /* SettingScreenViewModel.swift in Sources */,
 				5F0F8D802A31C39E00AF4EED /* AddOrderViewModelType.swift in Sources */,
 				5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */,
-				5FA7224D2A1E154A003EB084 /* MocMainOrders.swift in Sources */,
+				5FFC5AB62A91A536006E10E9 /* CustomerMainCellView.swift in Sources */,
 				5FE606472A8880D800E33205 /* ReAuthScreenContract.swift in Sources */,
+				5F3909632A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift in Sources */,
 				5FF546742A1B57E500208455 /* HCellMainScreenView.swift in Sources */,
 				5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */,
 				5FC1C0D52A2F7C0A00081FF1 /* StorageManager.swift in Sources */,
 				5FB717482A223F6400EC7BF6 /* SettingScreenView.swift in Sources */,
 				5F27118C2A4934AD00679028 /* WeatherManager.swift in Sources */,
+				5FFC5AB32A919E4E006E10E9 /* CustomerMainScreenView.swift in Sources */,
 				5FE927E62A6FA59E00D3FEEA /* LocationManager.swift in Sources */,
 				5FA3C3482A5BDC23003EA4F8 /* CustomTabBar.swift in Sources */,
+				5F3909652A8F6D1C006E539A /* PortfolioModel.swift in Sources */,
 				5FF546712A1B577300208455 /* MainScreenView.swift in Sources */,
 				5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */,
 				5FBA269F2A162D6700E972FB /* CustomSecureTextField.swift in Sources */,
@@ -902,15 +968,17 @@
 				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"MyPhotoApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyPhotoApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TakeAPhoto;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We use location to show you weather information for your current location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use location to show you weather information for your current location.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "In-app activity is tracked to deliver relevant messaging at relevant times for the user";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -942,15 +1010,17 @@
 				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"MyPhotoApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MyPhotoApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TakeAPhoto;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We use location to show you weather information for your current location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use location to show you weather information for your current location.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "In-app activity is tracked to deliver relevant messaging at relevant times for the user";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

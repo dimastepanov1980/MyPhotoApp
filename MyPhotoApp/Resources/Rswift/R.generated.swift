@@ -491,7 +491,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 43 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 44 localization keys.
     struct localizable {
       /// en translation: Add Order
       ///
@@ -665,6 +665,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let order_hour = Rswift.StringResource(key: "order_hour", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: start from
+      ///
+      /// Locales: en, ru
+      static let price_start = Rswift.StringResource(key: "price_start", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
 
       /// en translation: Add Order
       ///
@@ -1309,6 +1313,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("order_hour", bundle: bundle, comment: "")
+      }
+
+      /// en translation: start from
+      ///
+      /// Locales: en, ru
+      static func price_start(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("price_start", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "price_start"
+        }
+
+        return NSLocalizedString("price_start", bundle: bundle, comment: "")
       }
 
       fileprivate init() {}

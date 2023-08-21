@@ -13,10 +13,7 @@ struct CustomTabBar: View {
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
     @State private var isShowActionSheet: Bool = false
-    @State private var selectedSection = "In Progres"
-    var section = ["In Progres", "Complited"]
 
-    
     var body: some View {
         VStack{
             ZStack {

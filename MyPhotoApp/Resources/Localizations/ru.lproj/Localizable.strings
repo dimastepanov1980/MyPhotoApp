@@ -59,3 +59,5 @@
 "your_login" = "Ваш логин:";
 "version_not_available" = "Версия программы не доступна";
 
+//MARK: - Customer Zone -
+"price_start" = "цена от";
