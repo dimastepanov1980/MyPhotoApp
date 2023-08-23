@@ -6,9 +6,14 @@
 //
 
 import Foundation
+import SwiftUI
 
+@MainActor
 protocol CustomerMainScreenViewModelType: ObservableObject {
-    var portfolio: PortfolioModel { get }
+    var portfolio: [AuthorPortfolioModel] { get }
+    
+    func stringToURL(imageString: String) -> URL?
+    func currencySymbol(for regionCode: String) -> String
 }
 
 
