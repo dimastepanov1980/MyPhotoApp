@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import MapKit
 
 struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
@@ -220,7 +221,7 @@ extension Date {
         )
     }
 }
-/*
+
 struct MainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
@@ -228,6 +229,9 @@ struct MainScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: MainScreenViewModelType, ObservableObject {
+    func fetchWeather(with location: CLLocation) {
+    }
+    
     func getIconForWeatherCode(weatherCode: String) -> String {
         return ""
     }
@@ -279,4 +283,4 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
         //
     }
 }
-*/
+

@@ -95,8 +95,6 @@ final class MainScreenViewModel: MainScreenViewModelType, ObservableObject {
     
     private func handleNewLocation(_ location: CLLocation?) {
         guard let location = location else {
-            // Handle the case when the location is nil (e.g., location services are disabled)
-            // You can choose to show an error message or take appropriate actions.
             print("Location is nil.")
             return
         }
@@ -127,15 +125,14 @@ final class MainScreenViewModel: MainScreenViewModelType, ObservableObject {
                 }
                 
                 DispatchQueue.main.async {
-                    // Update the @Published properties on the main thread
                     self.weatherForCurrentDay = weatherForCurrentDay
                     self.weatherByDate = weatherByDate
 
                 }
                 
             } catch {
-                print("Error fetching weather: \(error)")
-                // Handle the error, show an error message, or take appropriate actions.
+                print("Error fetching weather: \(error.localizedDescription)")
+                // Handle the error, show an error message.
             }
         }
 
