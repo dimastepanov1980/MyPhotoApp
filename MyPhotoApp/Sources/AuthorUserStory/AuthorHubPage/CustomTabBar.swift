@@ -1,0 +1,57 @@
+//
+//  AuthorHubPageView.swift
+//  MyPhotoApp
+//
+//  Created by Dima Stepanov on 7/10/23.
+//
+
+import SwiftUI
+
+struct AuthorHubPageView: View {
+    @State var index = 0
+    @Binding var showSignInView: Bool
+    @State private var showAddOrderView: Bool = false
+    @State private var showEditOrderView: Bool = false
+    @State private var isShowActionSheet: Bool = false
+
+    var body: some View {
+        VStack{
+            ZStack {
+                if self.index == 0 {
+                    MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .Upcoming )
+                } else if self.index == 1 {
+                    
+                    MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView,
+                                   showEditOrderView: $showEditOrderView,
+                                   showAddOrderView: $showAddOrderView,
+                                   statusOrder: .InProgress )
+                    } else if self.index == 2 {
+                    PortfolioView()
+                } else if self.index == 3 {
+                    SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView, isShowActionSheet: $isShowActionSheet)
+                }
+            }
+            .padding(.bottom, -40)
+            .ignoresSafeArea()
+                
+            CustomTabs(showAddOrderView: $showAddOrderView, index: self.$index)
+
+        }
+        .background(Color(R.color.gray6.name))
+        .fullScreenCover(isPresented: $showAddOrderView) {
+            NavigationStack {
+                AddOrderView(with: AddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: "", name: "", instagramLink: "", price: "", location: "", description: "", date: Date(), duration: "", imageUrl: [], status: ""))), showAddOrderView: $showAddOrderView, mode: .new)
+            }
+        }
+
+    }
+}
+
+
+struct AuthorHubPageView_Previews: PreviewProvider {
+    static var previews: some View {
+        AuthorHubPageView(showSignInView: .constant(false))
+    }
+}
+
+

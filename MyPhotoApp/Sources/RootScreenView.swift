@@ -14,18 +14,21 @@ struct RootScreenView: View {
     var body: some View {
         ZStack {
             if !showSignInView {
-                CustomTabBar(showSignInView: $showSignInView)
+                AuthorHubPageView(showSignInView: $showSignInView)
             }
         }
         .onAppear{
             let authUser = try? AuthNetworkService.shared.getAuthenticationUser()
             self.showSignInView = authUser == nil
-        }
-        .fullScreenCover(isPresented: $showSignInView) {
-            NavigationStack {
-                AuthScreenView(with: AuthScreenViewModel(), showSignInView: $showSignInView)
-            }
-        }
+        }.sheet(isPresented: $showSignInView, content: {
+            AuthScreenView(with: AuthScreenViewModel(), showSignInView: $showSignInView)
+
+        })
+//        .fullScreenCover(isPresented: $showSignInView) {
+//            NavigationStack {
+//                AuthScreenView(with: AuthScreenViewModel(), showSignInView: $showSignInView)
+//            }
+//        }
     }
 }
 
