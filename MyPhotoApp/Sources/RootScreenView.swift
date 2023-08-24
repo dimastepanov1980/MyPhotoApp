@@ -21,12 +21,12 @@ struct RootScreenView: View {
             let authUser = try? AuthNetworkService.shared.getAuthenticationUser()
             self.showSignInView = authUser == nil
         }.sheet(isPresented: $showSignInView, content: {
-            AuthScreenView(with: AuthScreenViewModel(), showSignInView: $showSignInView)
+            AuthorizationScreenView(with: AuthorizationScreenViewModel(), showSignInView: $showSignInView)
 
         })
 //        .fullScreenCover(isPresented: $showSignInView) {
 //            NavigationStack {
-//                AuthScreenView(with: AuthScreenViewModel(), showSignInView: $showSignInView)
+//                AuthorizationScreenView(with: AuthorizationScreenViewModel(), showSignInView: $showSignInView)
 //            }
 //        }
     }

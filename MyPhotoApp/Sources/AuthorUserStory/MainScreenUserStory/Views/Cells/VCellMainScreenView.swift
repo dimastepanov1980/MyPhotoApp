@@ -1,5 +1,5 @@
 //
-//  VCellMainScreenView.swift
+//  AuthorVCellMainScreenView.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/22/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VCellMainScreenView: View {
+struct AuthorVCellMainScreenView: View {
     let items: UserOrdersModel
     let statusColor: Color
     var status: String?
@@ -81,10 +81,10 @@ struct VCellMainScreenView: View {
     }
 }
 
-struct VCellMainScreenView_Previews: PreviewProvider {
+struct AuthorVCellMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModelVCell()
     static var previews: some View {
-        VCellMainScreenView(items: mockModel.mocData, statusColor: Color(R.color.upcoming.name))
+        AuthorVCellMainScreenView(items: mockModel.mocData, statusColor: Color(R.color.upcoming.name))
     }
 }
 private class MockViewModelVCell: ObservableObject {

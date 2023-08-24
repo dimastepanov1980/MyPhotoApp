@@ -96,7 +96,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
         }
         .fullScreenCover(isPresented: $isShowActionSheet) {
             NavigationView {
-                ReAuthScreenView(with: ReAuthScreenViewModel(), isShowActionSheet: $isShowActionSheet, showSignInView: $showSignInView)
+                ReAuthorizationScreenView(with: ReAuthorizationScreenViewModel(), isShowActionSheet: $isShowActionSheet, showSignInView: $showSignInView)
             }
         }
         .task {

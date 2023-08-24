@@ -18,10 +18,10 @@ struct AuthorHubPageView: View {
         VStack{
             ZStack {
                 if self.index == 0 {
-                    MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .Upcoming )
+                    AuthorMainScreenView(with: AuthorMainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .Upcoming )
                 } else if self.index == 1 {
                     
-                    MainScreenView(with: MainScreenViewModel(), showSignInView: $showSignInView,
+                    AuthorMainScreenView(with: AuthorMainScreenViewModel(), showSignInView: $showSignInView,
                                    showEditOrderView: $showEditOrderView,
                                    showAddOrderView: $showAddOrderView,
                                    statusOrder: .InProgress )

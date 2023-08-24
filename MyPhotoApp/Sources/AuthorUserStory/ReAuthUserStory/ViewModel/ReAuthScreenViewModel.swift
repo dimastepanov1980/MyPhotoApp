@@ -1,5 +1,5 @@
 //
-//  ReAuthScreenViewModel.swift
+//  ReAuthorizationScreenViewModel.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 8/13/23.
@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-final class ReAuthScreenViewModel: ReAuthScreenType{
+final class ReAuthorizationScreenViewModel: ReAuthorizationScreenType{
     @Published var reSignInPassword: String = ""
     @Published var errorMessage: String = ""
     

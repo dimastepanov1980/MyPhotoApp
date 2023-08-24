@@ -1,5 +1,5 @@
 //
-//  ReAuthScreenView.swift
+//  ReAuthorizationScreenView.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 8/13/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ReAuthScreenView<ViewModel: ReAuthScreenType>: View {
+struct ReAuthorizationScreenView<ViewModel: ReAuthorizationScreenType>: View {
     @ObservedObject private var viewModel: ViewModel
     @Binding var isShowActionSheet: Bool
     @Binding var showSignInView: Bool
@@ -67,22 +67,22 @@ struct ReAuthScreenView<ViewModel: ReAuthScreenType>: View {
             }
         }      .fullScreenCover(isPresented: $showSignInView) {
             NavigationStack {
-                AuthScreenView(with: AuthScreenViewModel(), showSignInView: $showSignInView)
+                AuthorizationScreenView(with: AuthorizationScreenViewModel(), showSignInView: $showSignInView)
             }
         }
     }
 }
 
-struct ReAuthScreenView_Previews: PreviewProvider {
+struct ReAuthorizationScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
         NavigationView {
-            ReAuthScreenView(with: viewModel, isShowActionSheet: .constant(false), showSignInView: .constant(true))
+            ReAuthorizationScreenView(with: viewModel, isShowActionSheet: .constant(false), showSignInView: .constant(true))
         }
     }
 }
 
-private class MockViewModel: ReAuthScreenType, ObservableObject {
+private class MockViewModel: ReAuthorizationScreenType, ObservableObject {
     var reSignInPassword: String = ""
     var errorMessage: String = ""
     

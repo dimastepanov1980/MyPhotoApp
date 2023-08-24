@@ -1,5 +1,5 @@
 //
-//  MainScreenView.swift
+//  AuthorMainScreenView.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/21/23.
@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import MapKit
 
-struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
+struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
     @Namespace var animation
     @Binding var showSignInView: Bool
@@ -96,7 +96,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
             ForEach(viewModel.filteredOrdersForToday, id: \.id) { order in
                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                     .navigationBarBackButtonHidden(true)) {
-                        HCellMainScreenView(items: order)
+                        AuthorHCellMainScreenView(items: order)
                             .contextMenu {
                                 Button(R.string.localizable.order_Delete()) {
                                     Task {
@@ -196,7 +196,7 @@ struct MainScreenView<ViewModel: MainScreenViewModelType> : View {
                             ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.id) { order in
                                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                                     .navigationBarBackButtonHidden(true)) {
-                                        VCellMainScreenView(items: order, statusColor: viewModel.orderStausColor(order: order.status), status: viewModel.orderStausName (status: order.status))
+                                        AuthorVCellMainScreenView(items: order, statusColor: viewModel.orderStausColor(order: order.status), status: viewModel.orderStausName (status: order.status))
                                             .contextMenu {
                                                 Button(R.string.localizable.order_Delete()) {
                                                     Task{
@@ -222,13 +222,13 @@ extension Date {
     }
 }
 
-struct MainScreenView_Previews: PreviewProvider {
+struct AuthorMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
-        MainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), showAddOrderView: .constant(false), statusOrder: .Upcoming)
+        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), showAddOrderView: .constant(false), statusOrder: .Upcoming)
     }
 }
-private class MockViewModel: MainScreenViewModelType, ObservableObject {
+private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
     func fetchWeather(with location: CLLocation) {
     }
     
@@ -242,7 +242,7 @@ private class MockViewModel: MainScreenViewModelType, ObservableObject {
     var filteredOtherOrders: [Date : [UserOrdersModel]] = [:]
     var filteredOrdersForToday: [UserOrdersModel] = []
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] = [:]
-    var vm = MainScreenViewModel()
+    var vm = AuthorMainScreenViewModel()
     var location = LocationViewModel()
     
     @Published var weatherByDate = [Date : [Weather?]]()

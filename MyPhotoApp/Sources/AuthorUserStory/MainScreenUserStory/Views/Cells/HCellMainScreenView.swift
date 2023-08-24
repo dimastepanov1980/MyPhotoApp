@@ -1,5 +1,5 @@
 //
-//  HCellMainScreenView.swift
+//  AuthorHCellMainScreenView.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/22/23.
@@ -9,7 +9,7 @@ import SwiftUI
 
 import SwiftUI
 
-struct HCellMainScreenView: View {
+struct AuthorHCellMainScreenView: View {
     let items: UserOrdersModel
 
     var body: some View {
@@ -80,11 +80,11 @@ extension Date {
     }
 }
 
-struct HCellMainScreenView_Previews: PreviewProvider {
+struct AuthorHCellMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModelHCell()
     
     static var previews: some View {
-        HCellMainScreenView(items: mockModel.mocData)
+        AuthorHCellMainScreenView(items: mockModel.mocData)
     }
 }
 

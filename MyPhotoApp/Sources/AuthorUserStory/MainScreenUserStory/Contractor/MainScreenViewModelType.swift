@@ -1,5 +1,5 @@
 //
-//  MainScreenViewModelType.swift
+//  AuthorMainScreenViewModelType.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/22/23.
@@ -11,7 +11,7 @@ import Combine
 import MapKit
 
 @MainActor
-protocol MainScreenViewModelType: ObservableObject {
+protocol AuthorMainScreenViewModelType: ObservableObject {
     var orders: [UserOrdersModel] { get }
     var weatherByDate: [Date: [Weather?]] { get }
     var selectedDay: Date { get set }

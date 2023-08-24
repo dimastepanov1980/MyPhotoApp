@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
+struct AuthorizationScreenView<ViewModel: AuthorizationScreenViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
     @Binding var showSignInView: Bool
@@ -209,16 +209,16 @@ struct AuthScreenView<ViewModel: AuthScreenViewModelType>: View {
     
 }
 
-struct AuthScreenView_Previews: PreviewProvider {
+struct AuthorizationScreenView_Previews: PreviewProvider {
     private static let modelMock = MockViewModel()
     
     static var previews: some View {
         NavigationStack {
-            AuthScreenView(with: modelMock, showSignInView: .constant(false))
+            AuthorizationScreenView(with: modelMock, showSignInView: .constant(false))
         }
     }
 }
-private class MockViewModel: AuthScreenViewModelType, ObservableObject {
+private class MockViewModel: AuthorizationScreenViewModelType, ObservableObject {
     var errorMessage = ""
     var signInEmail = ""
     var signInPassword = ""

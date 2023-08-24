@@ -1,5 +1,5 @@
 //
-//  MainScreenViewModel.swift
+//  AuthorMainScreenViewModel.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/22/23.
@@ -12,7 +12,7 @@ import FirebaseFirestore
 import MapKit
 
 @MainActor
-final class MainScreenViewModel: MainScreenViewModelType, ObservableObject {
+final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, ObservableObject {
     @Published var orders: [UserOrdersModel]
     @Published var weatherByDate: [Date: [Weather?]] = [:]
     @Published var weatherForCurrentDay: String? = nil

@@ -1,5 +1,5 @@
 //
-//  ReAuthScreenContract.swift
+//  ReAuthorizationScreenContract.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 8/13/23.
@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-protocol ReAuthScreenType: ObservableObject {
+protocol ReAuthorizationScreenType: ObservableObject {
     var reSignInPassword: String { get set }
     var errorMessage: String { get set }
 
