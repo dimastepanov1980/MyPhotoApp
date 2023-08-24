@@ -1,5 +1,5 @@
 //
-//  AddOrderViewModel.swift
+//  AuthorAddOrderViewModel.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 6/8/23.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-final class AddOrderViewModel: AddOrderViewModelType {
+final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     @Published var status: String = ""
     @Published var name: String = ""
     @Published var instagramLink: String = ""

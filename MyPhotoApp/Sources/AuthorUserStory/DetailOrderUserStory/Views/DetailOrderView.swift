@@ -94,7 +94,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         })
         .fullScreenCover(isPresented: $showEditOrderView) {
             NavigationStack {
-                AddOrderView(with: AddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
+                AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
             }
         }
         .confirmationDialog("Change Status", isPresented: $showActionSheet) {

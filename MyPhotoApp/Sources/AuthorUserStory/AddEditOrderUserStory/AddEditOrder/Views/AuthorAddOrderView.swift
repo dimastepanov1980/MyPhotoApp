@@ -1,5 +1,5 @@
 //
-//  AddOrderView.swift
+//  AuthorAddOrderView.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/31/23.
@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
+struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
     @Binding var showAddOrderView: Bool
@@ -96,16 +96,16 @@ struct AddOrderView<ViewModel: AddOrderViewModelType>: View {
     }
 }
 
-//struct AddOrderView_Previews: PreviewProvider {
+//struct AuthorAddOrderView_Previews: PreviewProvider {
 //    private static let mockModel = MockViewModel(order: updatePreview())
 //
 //    static var previews: some View {
 //        NavigationView {
-//            AddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
+//            AuthorAddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
 //        }
 //    }
 //}
-private class MockViewModel: AddOrderViewModelType, ObservableObject {
+private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
     var avaibleStatus = [""]
     var status: String = ""
     var name: String = ""

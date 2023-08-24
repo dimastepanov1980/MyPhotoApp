@@ -40,7 +40,7 @@ struct AuthorHubPageView: View {
         .background(Color(R.color.gray6.name))
         .fullScreenCover(isPresented: $showAddOrderView) {
             NavigationStack {
-                AddOrderView(with: AddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: "", name: "", instagramLink: "", price: "", location: "", description: "", date: Date(), duration: "", imageUrl: [], status: ""))), showAddOrderView: $showAddOrderView, mode: .new)
+                AuthorAddOrderView(with: AuthorAddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: "", name: "", instagramLink: "", price: "", location: "", description: "", date: Date(), duration: "", imageUrl: [], status: ""))), showAddOrderView: $showAddOrderView, mode: .new)
             }
         }
 

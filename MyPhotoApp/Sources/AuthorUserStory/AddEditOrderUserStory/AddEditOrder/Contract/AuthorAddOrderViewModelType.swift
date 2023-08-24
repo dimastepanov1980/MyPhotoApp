@@ -1,5 +1,5 @@
 //
-//  AddOrderViewModelType.swift
+//  AuthorAddOrderViewModelType.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 6/8/23.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-protocol AddOrderViewModelType: ObservableObject {
+protocol AuthorAddOrderViewModelType: ObservableObject {
     var name: String { get set }
     var instagramLink: String { get set }
     var price: String { get set }
