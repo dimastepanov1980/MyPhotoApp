@@ -10,8 +10,7 @@ import SwiftUI
 
 struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
-    @State var show = false
-
+    @State var showDetailView = false
     init(with viewModel: ViewModel) {
         self.viewModel = viewModel
     }
@@ -20,23 +19,26 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
         NavigationStack {
             ScrollView{
                 ForEach(viewModel.portfolio, id: \.id) { item in
-                    CustomerMainCellView(items: item.author)
-                        .fullScreenCover(isPresented: $show) {
-                            NavigationStack {
-                                CustomerDetailScreenView(items: item)
-                                
+                    if let author = item.author {
+                        CustomerMainCellView(items: author)
+                            .onTapGesture {
+                                viewModel.selectedItem = item
+                                showDetailView.toggle()
                             }
-                        }
+                            .fullScreenCover(isPresented: $showDetailView) {
+                                if let selectedItem = viewModel.selectedItem {
+                                        CustomerDetailScreenView(with: CustomerDetailScreenViewModel(items: selectedItem), showDetailView: $showDetailView)
+                                }
+                            }
+                    }
                 }
-        }
-        }.onTapGesture {
-            self.show.toggle()
+            }
         }
         
         
     }
 }
-
+/*
 struct CustomerMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
@@ -47,8 +49,7 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
 
 private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
     var portfolio: [AuthorPortfolioModel] = [
-        AuthorPortfolioModel(
-            id: UUID().uuidString,
+        AuthorPortfolioModel(id: UUID().uuidString,
                                        author: Author(author: AuthorModel(id: UUID().uuidString,
                                                                           rateAuthor: 4.32,
                                                                           likedAuthor: true,
@@ -131,3 +132,4 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
     }
 }
 
+*/

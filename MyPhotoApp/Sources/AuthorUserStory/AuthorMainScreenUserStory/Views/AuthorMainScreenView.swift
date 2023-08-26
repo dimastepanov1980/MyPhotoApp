@@ -14,19 +14,17 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     @Namespace var animation
     @Binding var showSignInView: Bool
     @Binding var showEditOrderView: Bool
-    @Binding var showAddOrderView: Bool
     @State var showActionSheet: Bool = false
     @State private var shouldScroll = false
     var statusOrder: StatusOrder
+    
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
          showEditOrderView: Binding<Bool>,
-         showAddOrderView: Binding<Bool>,
          statusOrder: StatusOrder) {
         self.viewModel = viewModel
         self._showSignInView = showSignInView
         self._showEditOrderView = showEditOrderView
-        self._showAddOrderView = showAddOrderView
         self.statusOrder = statusOrder
     }
     
@@ -39,7 +37,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                             ScrollView(.vertical) {
                                 verticalCards()
                                     .padding(.bottom)
-                                    .padding(.top, statusOrder == .Upcoming ? 0 : 80)
+                                    .padding(.top, statusOrder == .Upcoming ? 0 : 32)
                             }
                         } header: {
                             if statusOrder == .Upcoming {
@@ -49,7 +47,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                         }
                         .background(Color(R.color.gray7.name))
                     }
-                }
+                }.padding(.vertical, 32)
             }
             
         }
@@ -225,7 +223,7 @@ extension Date {
 struct AuthorMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
-        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), showAddOrderView: .constant(false), statusOrder: .Upcoming)
+        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), statusOrder: .Upcoming)
     }
 }
 private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {

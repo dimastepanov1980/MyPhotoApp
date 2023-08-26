@@ -8,27 +8,24 @@
 import SwiftUI
 
 struct RootScreenView: View {
-    @State private var showSignInView: Bool = false
+    @State private var showSignInView: Bool = true
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
     var body: some View {
         ZStack {
             if !showSignInView {
-                AuthorHubPageView(showSignInView: $showSignInView)
+//                AuthorHubPageView(showSignInView: $showSignInView)
+                CustomerPageHubView()
+
             }
         }
         .onAppear{
             let authUser = try? AuthNetworkService.shared.getAuthenticationUser()
             self.showSignInView = authUser == nil
         }.sheet(isPresented: $showSignInView, content: {
-            AuthorizationScreenView(with: AuthorizationScreenViewModel(), showSignInView: $showSignInView)
+            AuthenticationScreenView(with: AuthenticationScreenViewModel(), showSignInView: $showSignInView)
 
         })
-//        .fullScreenCover(isPresented: $showSignInView) {
-//            NavigationStack {
-//                AuthorizationScreenView(with: AuthorizationScreenViewModel(), showSignInView: $showSignInView)
-//            }
-//        }
     }
 }
 

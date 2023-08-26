@@ -18,12 +18,11 @@ struct AuthorHubPageView: View {
         VStack{
             ZStack {
                 if self.index == 0 {
-                    AuthorMainScreenView(with: AuthorMainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, showAddOrderView: $showAddOrderView, statusOrder: .Upcoming )
+                    AuthorMainScreenView(with: AuthorMainScreenViewModel(), showSignInView: $showSignInView, showEditOrderView: $showEditOrderView, statusOrder: .Upcoming )
                 } else if self.index == 1 {
                     
                     AuthorMainScreenView(with: AuthorMainScreenViewModel(), showSignInView: $showSignInView,
                                    showEditOrderView: $showEditOrderView,
-                                   showAddOrderView: $showAddOrderView,
                                    statusOrder: .InProgress )
                     } else if self.index == 2 {
                     PortfolioView()
@@ -33,11 +32,10 @@ struct AuthorHubPageView: View {
             }
             .padding(.bottom, -40)
             .ignoresSafeArea()
-                
-            CustomTabs(showAddOrderView: $showAddOrderView, index: self.$index)
-
+            AuthorCustomTabs(showAddOrderView: $showAddOrderView, index: self.$index)
         }
-        .background(Color(R.color.gray6.name))
+        .ignoresSafeArea()
+        
         .fullScreenCover(isPresented: $showAddOrderView) {
             NavigationStack {
                 AuthorAddOrderView(with: AuthorAddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: "", name: "", instagramLink: "", price: "", location: "", description: "", date: Date(), duration: "", imageUrl: [], status: ""))), showAddOrderView: $showAddOrderView, mode: .new)

@@ -1,5 +1,5 @@
 //
-//  AuthorizationScreenViewModelType.swift
+//  AuthenticationScreenViewModelType.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/19/23.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-protocol AuthorizationScreenViewModelType: ObservableObject {
+protocol AuthenticationScreenViewModelType: ObservableObject {
     var signInEmail: String { get }
     var signInPassword: String { get }
     var errorMessage: String { get set }

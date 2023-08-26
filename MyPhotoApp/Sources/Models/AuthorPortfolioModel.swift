@@ -9,13 +9,24 @@ import Foundation
 
 struct AuthorPortfolioModel {
     let id: String
-    let author: Author
+    let author: Author?
     let avatarAuthor: String
     let smallImagesPortfolio: [String]
     let largeImagesPortfolio: [String]
     let descriptionAuthor: String
     let reviews: [Reviews]
     let appointmen: [Appointmen]
+    
+    init(portfolio: DBPortfolioModel) {
+        self.id = portfolio.id
+        self.author = portfolio.author
+        self.avatarAuthor = portfolio.avatarAuthor ?? ""
+        self.smallImagesPortfolio = portfolio.smallImagesPortfolio ?? []
+        self.largeImagesPortfolio = portfolio.largeImagesPortfolio ?? []
+        self.descriptionAuthor = portfolio.descriptionAuthor ?? ""
+        self.reviews = portfolio.reviews ?? []
+        self.appointmen = portfolio.appointmen ?? []
+    }
 }
 
 struct AuthorModel {

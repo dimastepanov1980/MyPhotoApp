@@ -1,5 +1,5 @@
 //
-//  AuthorizationScreenViewModel.swift
+//  AuthenticationScreenViewModel.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/19/23.
@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-final class AuthorizationScreenViewModel: AuthorizationScreenViewModelType {
+final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
     
     @Published var signInEmail = ""
     @Published var signInPassword = ""

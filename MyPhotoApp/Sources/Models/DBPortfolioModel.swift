@@ -38,6 +38,17 @@ struct DBPortfolioModel: Codable {
         self.reviews = portfolio.reviews
         self.appointmen = portfolio.appointmen
     }
+    init(id: String, author: Author?, avatarAuthor: String?, smallImagesPortfolio: [String]?, largeImagesPortfolio: [String]?, descriptionAuthor: String?, reviews: [Reviews]?, appointmen: [Appointmen]?) {
+        self.id = id
+        self.author = author
+        self.avatarAuthor = avatarAuthor
+        self.smallImagesPortfolio = smallImagesPortfolio
+        self.largeImagesPortfolio = largeImagesPortfolio
+        self.descriptionAuthor = descriptionAuthor
+        self.reviews = reviews
+        self.appointmen = appointmen
+    }
+
     
     enum CodingKeys: String, CodingKey {
         case id = "author_id"
@@ -123,6 +134,7 @@ struct Author: Codable {
 }
 
 struct Appointmen: Codable {
+    var id = UUID()
     var data: Date
     var timeSlot: [TimeSlot]
     

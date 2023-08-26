@@ -13,7 +13,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
     @Binding var showAddOrderView: Bool
-    @State var showActionSheet: Bool = false
+//    @State var showActionSheet: Bool = false
     var mode: Mode
     
     init(with viewModel: ViewModel,

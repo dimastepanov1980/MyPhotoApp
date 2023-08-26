@@ -156,9 +156,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             self.orders = orders
         })
     }
-    func unsubscribe() {
-        UserManager.shared.unsubscribe()
-    }
+
     func deleteOrder(order: UserOrdersModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
