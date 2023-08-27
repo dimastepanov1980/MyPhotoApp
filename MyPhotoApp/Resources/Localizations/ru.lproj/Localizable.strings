@@ -61,3 +61,6 @@
 
 //MARK: - Customer Zone -
 "price_start" = "цена от";
+"select_date" = "Выберите дату";
+"select_time" = "Выберите время";
+"reservation_button" = "Забронировать за";

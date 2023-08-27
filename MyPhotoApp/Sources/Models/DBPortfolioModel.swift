@@ -159,7 +159,7 @@ struct Appointmen: Codable {
     }
 }
 
-struct TimeSlot: Codable {
+struct TimeSlot: Codable, Hashable {
     var time: String
     var available: Bool
     

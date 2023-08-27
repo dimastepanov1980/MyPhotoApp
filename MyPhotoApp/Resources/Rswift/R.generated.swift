@@ -491,7 +491,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 44 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 47 localization keys.
     struct localizable {
       /// en translation: Add Order
       ///
@@ -613,6 +613,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let tabs_profile = Rswift.StringResource(key: "tabs_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Reservation for
+      ///
+      /// Locales: en, ru
+      static let reservation_button = Rswift.StringResource(key: "reservation_button", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Save Order
       ///
       /// Locales: en, ru
@@ -621,6 +625,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let order_SelectDate = Rswift.StringResource(key: "order_SelectDate", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select date
+      ///
+      /// Locales: en, ru
+      static let select_date = Rswift.StringResource(key: "select_date", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select time
+      ///
+      /// Locales: en, ru
+      static let select_time = Rswift.StringResource(key: "select_time", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Sign In
       ///
       /// Locales: en, ru
@@ -1120,6 +1132,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("tabs_profile", bundle: bundle, comment: "")
       }
 
+      /// en translation: Reservation for
+      ///
+      /// Locales: en, ru
+      static func reservation_button(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("reservation_button", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "reservation_button"
+        }
+
+        return NSLocalizedString("reservation_button", bundle: bundle, comment: "")
+      }
+
       /// en translation: Save Order
       ///
       /// Locales: en, ru
@@ -1148,6 +1175,36 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("order_SelectDate", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select date
+      ///
+      /// Locales: en, ru
+      static func select_date(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("select_date", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "select_date"
+        }
+
+        return NSLocalizedString("select_date", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select time
+      ///
+      /// Locales: en, ru
+      static func select_time(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("select_time", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "select_time"
+        }
+
+        return NSLocalizedString("select_time", bundle: bundle, comment: "")
       }
 
       /// en translation: Sign In

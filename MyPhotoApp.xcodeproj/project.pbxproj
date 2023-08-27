@@ -20,6 +20,9 @@
 		5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F27118E2A4AB7BD00679028 /* Constants.swift */; };
 		5F3909632A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3909622A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift */; };
 		5F3909652A8F6D1C006E539A /* DBPortfolioModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3909642A8F6D1C006E539A /* DBPortfolioModel.swift */; };
+		5F4A1B2F2A9B151200EC67B2 /* FlexibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B2E2A9B151200EC67B2 /* FlexibleView.swift */; };
+		5F4A1B312A9B153100EC67B2 /* _FlexibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B302A9B153100EC67B2 /* _FlexibleView.swift */; };
+		5F4A1B332A9B154F00EC67B2 /* SizeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B322A9B154F00EC67B2 /* SizeReader.swift */; };
 		5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96A6C72A1723B200FBCFF5 /* FirebaseAuth */; };
 		5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */; };
 		5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */; };
@@ -93,6 +96,9 @@
 		5F27118E2A4AB7BD00679028 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5F3909622A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMainScreenViewModelType.swift; sourceTree = "<group>"; };
 		5F3909642A8F6D1C006E539A /* DBPortfolioModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBPortfolioModel.swift; sourceTree = "<group>"; };
+		5F4A1B2E2A9B151200EC67B2 /* FlexibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleView.swift; sourceTree = "<group>"; };
+		5F4A1B302A9B153100EC67B2 /* _FlexibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _FlexibleView.swift; sourceTree = "<group>"; };
+		5F4A1B322A9B154F00EC67B2 /* SizeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeReader.swift; sourceTree = "<group>"; };
 		5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNetworkService.swift; sourceTree = "<group>"; };
 		5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenView.swift; sourceTree = "<group>"; };
 		5F9F323B2A93744E004D48B7 /* CustomerMainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMainScreenViewModel.swift; sourceTree = "<group>"; };
@@ -291,6 +297,16 @@
 			path = Contractor;
 			sourceTree = "<group>";
 		};
+		5F4A1B2D2A9B14C500EC67B2 /* FlexibleView */ = {
+			isa = PBXGroup;
+			children = (
+				5F4A1B2E2A9B151200EC67B2 /* FlexibleView.swift */,
+				5F4A1B302A9B153100EC67B2 /* _FlexibleView.swift */,
+				5F4A1B322A9B154F00EC67B2 /* SizeReader.swift */,
+			);
+			path = FlexibleView;
+			sourceTree = "<group>";
+		};
 		5F96A6CB2A1724D700FBCFF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,6 +338,7 @@
 		5F9F32492A9735E0004D48B7 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				5F4A1B2D2A9B14C500EC67B2 /* FlexibleView */,
 				5F9F324A2A973604004D48B7 /* CustomerCustomTabs.swift */,
 			);
 			path = Common;
@@ -864,6 +881,7 @@
 				5F0F8D802A31C39E00AF4EED /* AuthorAddOrderViewModelType.swift in Sources */,
 				5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */,
 				5FFC5AB62A91A536006E10E9 /* CustomerMainCellView.swift in Sources */,
+				5F4A1B2F2A9B151200EC67B2 /* FlexibleView.swift in Sources */,
 				5FE606472A8880D800E33205 /* ReAuthorizationScreenContract.swift in Sources */,
 				5F3909632A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift in Sources */,
 				5FF546742A1B57E500208455 /* AuthorHCellMainScreenView.swift in Sources */,
@@ -878,6 +896,7 @@
 				5FF546712A1B577300208455 /* AuthorMainScreenView.swift in Sources */,
 				5F9F324B2A973604004D48B7 /* CustomerCustomTabs.swift in Sources */,
 				5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */,
+				5F4A1B332A9B154F00EC67B2 /* SizeReader.swift in Sources */,
 				5FBA269F2A162D6700E972FB /* CustomSecureTextField.swift in Sources */,
 				5FF58F302A2380C9009AF970 /* RootScreenView.swift in Sources */,
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
@@ -909,6 +928,7 @@
 				5FBA26982A1536A400E972FB /* CustomTextField.swift in Sources */,
 				5FA15D982A175727007A1AC6 /* AuthenticationScreenContract.swift in Sources */,
 				5F9F323C2A93744E004D48B7 /* CustomerMainScreenViewModel.swift in Sources */,
+				5F4A1B312A9B153100EC67B2 /* _FlexibleView.swift in Sources */,
 				5FF5466D2A1B573B00208455 /* AuthorMainScreenViewModelType.swift in Sources */,
 				5FA15DA42A184BDC007A1AC6 /* OrderModel.swift in Sources */,
 				5FA15DAC2A185305007A1AC6 /* DetailOrderViewModel.swift in Sources */,

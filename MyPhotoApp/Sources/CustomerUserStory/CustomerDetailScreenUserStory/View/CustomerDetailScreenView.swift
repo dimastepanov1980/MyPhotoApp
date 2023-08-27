@@ -19,12 +19,57 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     }
 
     var body: some View {
-        ScrollView {
-            VStack{
-                slider
+        VStack{
+            ScrollView(showsIndicators: false) {
                 VStack{
-                    bottomSheet
-                        .offset(y: -100)
+                    slider
+                    VStack{
+                        bottomSheet
+                            .offset(y: -100)
+                    }
+                    Spacer()
+
+                }
+            }
+            Spacer()
+            ZStack(alignment: .bottom){
+                HStack(spacing: 16){
+                    if let selectedDay = viewModel.selectedDay {
+                        HStack(spacing: 2) {
+                            Image(systemName: "calendar")
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray1.name))
+                            
+                            Text(viewModel.formattedDate(date: selectedDay, format: "dd MMMM"))
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
+                    }
+                    if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
+                        
+                        HStack(spacing: 2) {
+                            Image(systemName: "clock")
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray1.name))
+                            Text(time)
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
+                        
+                        
+                        HStack(spacing: 2){
+                            Image(systemName: "timer")
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray1.name))
+                            Text("\(viewModel.selectedTime.count)")
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
+                    }
+                }
+                .padding(.bottom, 80)
+                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime))", iconName: "") {
+                    //
                 }
             }
         }
@@ -67,7 +112,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                         Text(author.nameAuthor)
                             .font(.title2.bold())
                             .foregroundColor(Color(R.color.gray1.name))
-                        Text("\(author.city) \(Locale.current.localizedString(forRegionCode: author.countryCode) ?? "")")
+                        Text("\(author.city), \(Locale.current.localizedString(forRegionCode: author.countryCode) ?? "")")
                             .font(.callout)
                             .foregroundColor(Color(R.color.gray4.name))
                     }
@@ -104,59 +149,135 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 Text(viewModel.items.descriptionAuthor)
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray2.name))
-                Divider()
-        }.padding(.horizontal, 24)
-            .padding(.top, 24)
-            .frame(maxWidth: .infinity)
-            .background (
-                Rectangle()
-                    .fill(Color.white)
-                    .cornerRadius(25, corners: [.topLeft, .topRight])
-                    .edgesIgnoringSafeArea(.all)
-            )
+                
+        }
+        .padding(.top, 24)
+
     }
     private var timeSlotSection: some View {
-        VStack(alignment: .leading){
-            Text("Selected date")
-                .font(.caption2)
-                .foregroundColor(Color(R.color.gray3.name))
-                .padding(.leading, 24)
+        VStack(alignment: .leading, spacing: 6){
+            Group {
+                Divider()
+                Text(R.string.localizable.select_date())
+                    .font(.caption2)
+                    .foregroundColor(Color(R.color.gray3.name))
+            }
+            .padding(.horizontal, 24)
+
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .bottom, spacing: 8 ) {
                     ForEach(viewModel.items.appointmen, id: \.id) { date in
-                        VStack(alignment: .center, spacing: 2) {
-                            Text("\(viewModel.formattedDate(date: date.data, format: "dd"))")
-                                .font(.body.bold())
-                                .foregroundColor(Color(R.color.gray2.name))
-                            Text("\(viewModel.formattedDate(date: date.data, format: "MMM"))")
-                                .font(.footnote)
-                                .foregroundColor(Color(R.color.gray3.name))
+                        VStack{
+                            VStack(alignment: .center, spacing: 2) {
+                                Text("\(viewModel.formattedDate(date: date.data, format: "dd"))")
+                                    .font(.body.bold())
+                                    .foregroundColor(Color(R.color.gray2.name))
+                                Text("\(viewModel.formattedDate(date: date.data, format: "MMM"))")
+                                    .font(.footnote)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                            }
+                            .padding(.vertical, 20)
+                            .frame(width: 45)
+                            .background(
+                                ZStack {
+                                    Capsule()
+                                        .strokeBorder(Color(R.color.gray4.name), lineWidth: 1)
+                                        .opacity(viewModel.isTodayDay(date: Date()) ? 1 : 0)
+                                }
+                            )
+                            .background(
+                                ZStack {
+                                    if viewModel.isToday(date: date.data) {
+                                        Capsule()
+                                            .fill(Color(R.color.gray5.name))
+                                    }
+                                }
+                            )
+                            .containerShape(Capsule())
+                            .onTapGesture {
+                                withAnimation {
+                                    viewModel.selectedDay = date.data
+                                    viewModel.selectedTime = []
+                                    viewModel.timeslotSelectedDay = date.timeSlot
+                                }
+                            }
+                        
                         }
-                        .padding(.vertical, 20)
-                        .frame(width: 45)
-                        .background(
-                            ZStack {
-                                Capsule()
-                                    .strokeBorder(Color(R.color.gray2.name), lineWidth: 1)
-                                    .opacity(0.1)
-                            }
-                        )
-                        .background(
-                            ZStack {
-                                Capsule()
-                                    .fill(Color(R.color.gray5.name))
-                                //                                    .matchedGeometryEffect(id: "CURRENTDAY", in: animation)
-                            }
-                        )
-                        //                    .containerShape(Capsule())
-                        //                    .onTapGesture {
-                        //                        withAnimation {
-                        //                            viewModel.selectedDay = day
-                        //                            shouldScroll.toggle()
-                        //                        }
                     }
                 }
-                .padding(.horizontal)
+                .padding(.leading, 24)
+            }
+            .padding(.bottom, 12)
+            
+            Group {
+            Divider()
+            if viewModel.selectedDay != nil {
+            Text(R.string.localizable.select_time())
+                .font(.caption2)
+                .foregroundColor(Color(R.color.gray3.name))
+            
+            FlexibleView(
+                data: viewModel.timeslotSelectedDay,
+                spacing: 6,
+                alignment: .leading) { time in
+                    tagTime(time: time.time, available: time.available)
+                }
+              }
+            }
+            .padding(.horizontal, 24)
+        }
+    }
+    private func tagTime(time: String, available: Bool) -> some View{
+        Group{
+            if viewModel.selectedTime.contains(time) {
+                Text(time)
+                    .font(.footnote)
+                    .foregroundColor(available ? Color(R.color.gray2.name) : Color(R.color.gray5.name))
+                    .padding(.horizontal, 11)
+                    .padding(.vertical, 8)
+                    .background(
+                        ZStack {
+                            Capsule()
+                                .strokeBorder(!available ? Color(R.color.gray5.name) : .clear, lineWidth: 1)
+                                .frame(width: 50, height: 27)
+                        }
+                    )
+                    .background(
+                        ZStack {
+                            Capsule()
+                                .fill(available ? Color(R.color.gray5.name) : .white)
+                                .frame(width: 50, height: 27)
+                        }
+                    )
+            } else {
+                Text(time)
+                    .font(.footnote)
+                    .foregroundColor(available ? Color(R.color.gray2.name) : Color(R.color.gray5.name))
+                    .padding(.horizontal, 11)
+                    .padding(.vertical, 8)
+                    .background(
+                        ZStack {
+                            Capsule()
+                                .strokeBorder(available ? Color(R.color.gray4.name) : Color(R.color.gray5.name), lineWidth: 0.5)
+                                .frame(width: 50, height: 27)
+                        }
+                    )
+                    .background(
+                        ZStack {
+                            Capsule()
+                                .fill(.white)
+                                .frame(width: 50, height: 27)
+                        }
+                    )
+            }
+        }
+        .onTapGesture {
+            if available {
+                if viewModel.selectedTime.contains(time) {
+                    viewModel.selectedTime.removeAll { $0 == time }
+                } else {
+                    viewModel.selectedTime.append(time)
+                }
             }
         }
     }
@@ -195,7 +316,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
         .overlay(alignment: .bottomTrailing) {
-            VStack {
+            Group {
                 Text("\(currentStep + 1) / \(viewModel.items.smallImagesPortfolio.count)")
                     .font(.caption2)
                     .foregroundColor(.white)
@@ -203,17 +324,30 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                     .padding(.vertical, 3)
                     .background(Color.black.opacity(0.2))
                     .cornerRadius(10)
-                    .padding(.bottom, 100)
+                    .padding(.bottom, 12)
                     .padding(.trailing, 36)
             }
         }
         .frame(height: 350)
     }
     private var bottomSheet: some View {
-        VStack{
+        VStack(spacing: 20){
             authorSection
+                .padding(.horizontal, 24)
             timeSlotSection
+            Spacer()
         }
+        .frame(maxWidth: .infinity)
+        .background (
+            Rectangle()
+                .fill(Color.white)
+                .cornerRadius(25, corners: [.topLeft, .topRight])
+                .edgesIgnoringSafeArea(.all)
+            )
+
+    }
+    func totalCost(price: String?, timeSlot: [String]) -> String {
+        String(describing: (Int(price ?? "0") ?? 0) * timeSlot.count)
     }
 }
 extension View {
@@ -239,7 +373,7 @@ struct CustomerDetailScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
-    var items: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
+    @Published var items: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
             DBPortfolioModel(id: UUID().uuidString,
                            author: Author(author: AuthorModel(id: UUID().uuidString,
                                                               rateAuthor: 4.32,
@@ -257,24 +391,66 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
                            reviews: [Reviews(review: ReviewsModel(reviewerAuthor: "Safron Sandeev",
                                                                   reviewDescription: "Best photographer on the world",
                                                                   reviewRate: 5.0))],
-                           appointmen: [Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)), TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))])),
-                                        Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)), TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))])),
-                                        Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)), TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))]))]))
-
-func formattedDate(date: Date, format: String) -> String {
-let formatter = DateFormatter()
-formatter.dateFormat = format
-return formatter.string(from: date)
-}
-func stringToURL(imageString: String) -> URL? {
-guard let imageURL = URL(string: imageString) else { return nil }
-return imageURL
-}
-func currencySymbol(for regionCode: String) -> String {
-let locale = Locale(identifier: Locale.identifier(fromComponents: [NSLocale.Key.countryCode.rawValue: regionCode]))
-guard let currency = locale.currencySymbol else { return "$" }
-return currency
-}
+                           appointmen: [
+                            Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [
+                                TimeSlot(timeSlot: TimeSlotModel(time: "08:00", available: false)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "09:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "15:00", available: false)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "16:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "17:00", available: false)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "18:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "19:00", available: false)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "20:00", available: true)),
+                            ])),
+                            Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [
+                                TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))]
+                                                                  )),
+                            Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [
+                                TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)),
+                                TimeSlot(timeSlot: TimeSlotModel(time: "15:00", available: false))
+                            ]))]))
+    @Published var selectedTime: [String] = []
+    @Published var selectedDay: Date? = Date()
+    @Published var today: Date = Date()
+    @Published var timeslotSelectedDay: [TimeSlot] = []
+    
+    func sortedDate(array: [String]) -> [String] {
+        []
+    }
+    func formattedDate(date: Date, format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
+    func stringToURL(imageString: String) -> URL? {
+        guard let imageURL = URL(string: imageString) else { return nil }
+        return imageURL
+    }
+    func currencySymbol(for regionCode: String) -> String {
+        let locale = Locale(identifier: Locale.identifier(fromComponents: [NSLocale.Key.countryCode.rawValue: regionCode]))
+        guard let currency = locale.currencySymbol else { return "$" }
+        return currency
+    }
+    func isTodayDay(date: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(today, inSameDayAs: date)
+    }
+    func isToday(date: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(selectedDay ?? Date(), inSameDayAs: date)
+    }
 
 
 }

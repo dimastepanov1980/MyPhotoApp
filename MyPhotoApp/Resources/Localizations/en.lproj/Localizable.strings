@@ -62,7 +62,6 @@
 
 //MARK: - Customer Zone -
 "price_start" = "start from";
-
-
-
-
+"select_date" = "Select date";
+"select_time" = "Select time";
+"reservation_button" = "Reservation for";

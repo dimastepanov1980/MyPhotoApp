@@ -54,9 +54,10 @@ struct CustomerMainCellView: View {
                             Text(items.nameAuthor)
                                 .font(.title2.bold())
                                 .foregroundColor(Color(R.color.gray1.name))
-                            Text("\(items.city) \(Locale.current.localizedString(forRegionCode: items.countryCode) ?? "")")
-                                .font(.title3)
+                            Text("\(items.city), \(Locale.current.localizedString(forRegionCode: items.countryCode) ?? "")")
+                                .font(.callout)
                                 .foregroundColor(Color(R.color.gray4.name))
+
                         }
                         .padding(.leading, 36)
                         Spacer()
