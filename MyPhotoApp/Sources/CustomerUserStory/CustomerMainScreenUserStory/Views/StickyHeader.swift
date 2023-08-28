@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StickyHeader: View {
+struct StickyHeader1: View {
     
     let safeArea: EdgeInsets
     let size: CGSize
@@ -19,6 +19,7 @@ struct StickyHeader: View {
                 
                 VStack(spacing: 10){
                     TextView()
+                        .background(Color.red)
                 }
             }
         }
@@ -41,29 +42,9 @@ struct StickyHeader: View {
                 .aspectRatio(contentMode: .fill)
                 .frame(width: size.width, height: size.height + (minY > 0 ? minY : 0))
                 .clipped()
-                .overlay(content: {
-                    ZStack(alignment: .bottom){
-                        Rectangle()
-                            .fill(.linearGradient(colors: (0...1).map { Color.white.opacity(Double($0) * 0.2 - progress) }, startPoint: .top, endPoint: .bottom))
-                        
-                        VStack(spacing: 0){
-                            Text("Chocolate\nCake Recipe")
-                                .font(.system(size: 45))
-                                .fontWeight(.bold)
-                                .multilineTextAlignment(.center)
-                            
-                            Text("10K Monthly Viewers")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(.red)
-                                .padding(.top, 15)
-                        }.opacity(1 + (progress > 0 ? -progress : progress)).padding(.bottom, 55).offset(y: minY < 0 ? minY : 0)
-                        
-                    }
-                    
-                }).offset(y: -minY)
+            
         }
-        .frame(height: height + safeArea.top)
+        .frame(height: height + safeArea.bottom)
     }
     
     @ViewBuilder
@@ -83,7 +64,7 @@ struct StickyHeader_Previews: PreviewProvider {
         GeometryReader{
             let safeArea = $0.safeAreaInsets
             let size = $0.size
-            StickyHeader(safeArea: safeArea, size: size)
+            StickyHeader1(safeArea: safeArea, size: size)
                 .ignoresSafeArea(.container, edges: .top)
         }
     }

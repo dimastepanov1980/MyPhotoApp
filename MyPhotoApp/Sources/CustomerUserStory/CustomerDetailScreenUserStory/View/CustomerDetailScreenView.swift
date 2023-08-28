@@ -18,61 +18,72 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
         self._showDetailView = showDetailView
     }
 
-    var body: some View {
-        VStack{
-            ScrollView(showsIndicators: false) {
+   var body: some View {
+            ScrollView(showsIndicators: false){
                 VStack{
                     slider
-                    VStack{
-                        bottomSheet
-                            .offset(y: -100)
-                    }
                     Spacer()
-
+                    bottomSheet
+                        .offset(y: -110)
                 }
             }
-            Spacer()
-            ZStack(alignment: .bottom){
-                HStack(spacing: 16){
-                    if let selectedDay = viewModel.selectedDay {
-                        HStack(spacing: 2) {
-                            Image(systemName: "calendar")
-                                .font(.subheadline)
-                                .foregroundColor(Color(R.color.gray1.name))
-                            
-                            Text(viewModel.formattedDate(date: selectedDay, format: "dd MMMM"))
-                                .font(.subheadline)
-                                .foregroundColor(Color(R.color.gray3.name))
-                        }
+           .safeAreaInset(edge: .bottom) {
+               VStack{
+                   HStack(spacing: 16){
+                       if let selectedDay = viewModel.selectedDay {
+                           HStack(spacing: 2) {
+                               Image(systemName: "calendar")
+                                   .font(.subheadline)
+                                   .foregroundColor(Color(R.color.gray1.name))
+                               
+                               Text(viewModel.formattedDate(date: selectedDay, format: "dd MMMM"))
+                                   .font(.subheadline)
+                                   .foregroundColor(Color(R.color.gray3.name))
+                           }
+                       }
+                       if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
+                           
+                           HStack(spacing: 2) {
+                               Image(systemName: "clock")
+                                   .font(.subheadline)
+                                   .foregroundColor(Color(R.color.gray1.name))
+                               Text(time)
+                                   .font(.subheadline)
+                                   .foregroundColor(Color(R.color.gray3.name))
+                           }
+                           
+                           
+                           HStack(spacing: 2){
+                               Image(systemName: "timer")
+                                   .font(.subheadline)
+                                   .foregroundColor(Color(R.color.gray1.name))
+                               Text("\(viewModel.selectedTime.count)")
+                                   .font(.subheadline)
+                                   .foregroundColor(Color(R.color.gray3.name))
+                           }
+                       }
+                   }
+                   if let author = viewModel.items.author {
+                       if viewModel.selectedDay != nil {
+                           if viewModel.selectedTime.isEmpty {
+                               CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
+                                   // Action
+                               }
+                           } else {
+                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.countryCode))", iconName: "") {
+                                   // Action
+                               }
+                           }
+                       } else {
+                           CustomButtonXl(titleText: "\(R.string.localizable.select_date()) ", iconName: "") {
+                               // Action
+                           }
+                       }
+                   }
+               }.padding(.top, 4)
+                   .background(Color(R.color.gray7.name))
                     }
-                    if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
-                        
-                        HStack(spacing: 2) {
-                            Image(systemName: "clock")
-                                .font(.subheadline)
-                                .foregroundColor(Color(R.color.gray1.name))
-                            Text(time)
-                                .font(.subheadline)
-                                .foregroundColor(Color(R.color.gray3.name))
-                        }
-                        
-                        
-                        HStack(spacing: 2){
-                            Image(systemName: "timer")
-                                .font(.subheadline)
-                                .foregroundColor(Color(R.color.gray1.name))
-                            Text("\(viewModel.selectedTime.count)")
-                                .font(.subheadline)
-                                .foregroundColor(Color(R.color.gray3.name))
-                        }
-                    }
-                }
-                .padding(.bottom, 80)
-                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime))", iconName: "") {
-                    //
-                }
-            }
-        }
+           .background(Color(R.color.gray7.name))
     }
     
     private struct ParallaxHeader<Content: View>: View {
@@ -83,7 +94,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 content()
                     .frame(
                         width: gr.size.width,
-                        height: gr.size.height + max(minY, 0)
+                        height: gr.size.height + max(minY * 0.3, 0)
                     )
                     .offset(y: -minY)
             }
@@ -171,17 +182,17 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                             VStack(alignment: .center, spacing: 2) {
                                 Text("\(viewModel.formattedDate(date: date.data, format: "dd"))")
                                     .font(.body.bold())
-                                    .foregroundColor(Color(R.color.gray2.name))
+                                    .foregroundColor(viewModel.isToday(date: date.data) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
                                 Text("\(viewModel.formattedDate(date: date.data, format: "MMM"))")
                                     .font(.footnote)
-                                    .foregroundColor(Color(R.color.gray3.name))
+                                    .foregroundColor(viewModel.isToday(date: date.data) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
                             }
                             .padding(.vertical, 20)
                             .frame(width: 45)
                             .background(
                                 ZStack {
                                     Capsule()
-                                        .strokeBorder(Color(R.color.gray4.name), lineWidth: 1)
+                                        .strokeBorder(Color(R.color.gray4.name), lineWidth: 0.5)
                                         .opacity(viewModel.isTodayDay(date: Date()) ? 1 : 0)
                                 }
                             )
@@ -189,7 +200,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                 ZStack {
                                     if viewModel.isToday(date: date.data) {
                                         Capsule()
-                                            .fill(Color(R.color.gray5.name))
+                                            .fill(Color(R.color.gray2.name))
                                     }
                                 }
                             )
@@ -232,8 +243,8 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             if viewModel.selectedTime.contains(time) {
                 Text(time)
                     .font(.footnote)
-                    .foregroundColor(available ? Color(R.color.gray2.name) : Color(R.color.gray5.name))
-                    .padding(.horizontal, 11)
+                    .foregroundColor(available ? Color(R.color.gray7.name) : Color(R.color.gray7.name))
+                    .padding(.horizontal, 10)
                     .padding(.vertical, 8)
                     .background(
                         ZStack {
@@ -245,7 +256,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                     .background(
                         ZStack {
                             Capsule()
-                                .fill(available ? Color(R.color.gray5.name) : .white)
+                                .fill(available ? Color(R.color.gray2.name) : Color(R.color.gray7.name))
                                 .frame(width: 50, height: 27)
                         }
                     )
@@ -253,7 +264,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 Text(time)
                     .font(.footnote)
                     .foregroundColor(available ? Color(R.color.gray2.name) : Color(R.color.gray5.name))
-                    .padding(.horizontal, 11)
+                    .padding(.horizontal, 10)
                     .padding(.vertical, 8)
                     .background(
                         ZStack {
@@ -265,7 +276,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                     .background(
                         ZStack {
                             Capsule()
-                                .fill(.white)
+                                .fill(Color(R.color.gray7.name))
                                 .frame(width: 50, height: 27)
                         }
                     )
@@ -292,7 +303,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .frame(height: 450)
                             .clipped()
-                            .ignoresSafeArea(.all)
                         
                     } placeholder: {
                         ZStack{
@@ -315,19 +325,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
-        .overlay(alignment: .bottomTrailing) {
-            Group {
-                Text("\(currentStep + 1) / \(viewModel.items.smallImagesPortfolio.count)")
-                    .font(.caption2)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 3)
-                    .background(Color.black.opacity(0.2))
-                    .cornerRadius(10)
-                    .padding(.bottom, 12)
-                    .padding(.trailing, 36)
-            }
-        }
         .frame(height: 350)
     }
     private var bottomSheet: some View {
@@ -335,18 +332,29 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             authorSection
                 .padding(.horizontal, 24)
             timeSlotSection
-            Spacer()
         }
         .frame(maxWidth: .infinity)
-        .background (
+        .background(
             Rectangle()
-                .fill(Color.white)
+                .fill(Color(R.color.gray7.name))
                 .cornerRadius(25, corners: [.topLeft, .topRight])
-                .edgesIgnoringSafeArea(.all)
             )
-
+        .overlay(alignment: .topTrailing) {
+            Group {
+                Text("\(currentStep + 1) / \(viewModel.items.smallImagesPortfolio.count)")
+                    .font(.caption2)
+                    .foregroundColor(Color(R.color.gray7.name))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(Color.black.opacity(0.2))
+                    .cornerRadius(10)
+                    .padding(.bottom, 20)
+                    .padding(.trailing, 36)
+            }
+            .offset(y: -50)
+        }
     }
-    func totalCost(price: String?, timeSlot: [String]) -> String {
+    private func totalCost(price: String?, timeSlot: [String]) -> String {
         String(describing: (Int(price ?? "0") ?? 0) * timeSlot.count)
     }
 }
@@ -455,3 +463,35 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
 
 }
 
+struct StickyHeader<Content: View>: View {
+ 
+    var minHeight: CGFloat
+    var content: Content
+     
+    init(minHeight: CGFloat = 200, @ViewBuilder content: () -> Content) {
+        self.minHeight = minHeight
+        self.content = content()
+    }
+     
+    var body: some View {
+        GeometryReader { geo in
+            if(geo.frame(in: .global).minY <= 0) {
+                content
+                    .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
+            } else {
+                content
+                    .offset(y: -geo.frame(in: .global).minY)
+                    .frame(width: geo.size.width, height: geo.size.height + geo.frame(in: .global).minY)
+            }
+        }.frame(minHeight: minHeight)
+    }
+}
+ 
+struct CardModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .cornerRadius(20)
+            .shadow(color: Color.black.opacity(0.2), radius: 20, x: 0, y: 0)
+    }
+     
+}
