@@ -23,6 +23,9 @@
 		5F4A1B2F2A9B151200EC67B2 /* FlexibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B2E2A9B151200EC67B2 /* FlexibleView.swift */; };
 		5F4A1B312A9B153100EC67B2 /* _FlexibleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B302A9B153100EC67B2 /* _FlexibleView.swift */; };
 		5F4A1B332A9B154F00EC67B2 /* SizeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B322A9B154F00EC67B2 /* SizeReader.swift */; };
+		5F4A1B392A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B382A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift */; };
+		5F4A1B3B2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B3A2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift */; };
+		5F4A1B3D2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B3C2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift */; };
 		5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96A6C72A1723B200FBCFF5 /* FirebaseAuth */; };
 		5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */; };
 		5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */; };
@@ -99,6 +102,9 @@
 		5F4A1B2E2A9B151200EC67B2 /* FlexibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexibleView.swift; sourceTree = "<group>"; };
 		5F4A1B302A9B153100EC67B2 /* _FlexibleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _FlexibleView.swift; sourceTree = "<group>"; };
 		5F4A1B322A9B154F00EC67B2 /* SizeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeReader.swift; sourceTree = "<group>"; };
+		5F4A1B382A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerConfirmOrderViewModelType.swift; sourceTree = "<group>"; };
+		5F4A1B3A2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerConfirmOrderViewModel.swift; sourceTree = "<group>"; };
+		5F4A1B3C2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerConfirmOrderView.swift; sourceTree = "<group>"; };
 		5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNetworkService.swift; sourceTree = "<group>"; };
 		5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenView.swift; sourceTree = "<group>"; };
 		5F9F323B2A93744E004D48B7 /* CustomerMainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMainScreenViewModel.swift; sourceTree = "<group>"; };
@@ -252,6 +258,7 @@
 		5F39095D2A8F52B6006E539A /* CustomerUserStory */ = {
 			isa = PBXGroup;
 			children = (
+				5F4A1B342A9C58B100EC67B2 /* CustomerConfirmOrderUserStory */,
 				5F214E062A9744B80014AD9B /* CustomerHubPage */,
 				5F214E092A997D490014AD9B /* CustomerDetailScreenUserStory */,
 				5F39095E2A8F5F7C006E539A /* CustomerMainScreenUserStory */,
@@ -305,6 +312,40 @@
 				5F4A1B322A9B154F00EC67B2 /* SizeReader.swift */,
 			);
 			path = FlexibleView;
+			sourceTree = "<group>";
+		};
+		5F4A1B342A9C58B100EC67B2 /* CustomerConfirmOrderUserStory */ = {
+			isa = PBXGroup;
+			children = (
+				5F4A1B372A9C58E900EC67B2 /* Contract */,
+				5F4A1B362A9C58E700EC67B2 /* ViewModel */,
+				5F4A1B352A9C58E500EC67B2 /* View */,
+			);
+			path = CustomerConfirmOrderUserStory;
+			sourceTree = "<group>";
+		};
+		5F4A1B352A9C58E500EC67B2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5F4A1B3C2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5F4A1B362A9C58E700EC67B2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5F4A1B3A2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5F4A1B372A9C58E900EC67B2 /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				5F4A1B382A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift */,
+			);
+			path = Contract;
 			sourceTree = "<group>";
 		};
 		5F96A6CB2A1724D700FBCFF5 /* Services */ = {
@@ -880,6 +921,7 @@
 				5F214E0E2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift in Sources */,
 				5F0F8D802A31C39E00AF4EED /* AuthorAddOrderViewModelType.swift in Sources */,
 				5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */,
+				5F4A1B3D2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift in Sources */,
 				5FFC5AB62A91A536006E10E9 /* CustomerMainCellView.swift in Sources */,
 				5F4A1B2F2A9B151200EC67B2 /* FlexibleView.swift in Sources */,
 				5FE606472A8880D800E33205 /* ReAuthorizationScreenContract.swift in Sources */,
@@ -915,11 +957,13 @@
 				5FF58F3D2A2704CA009AF970 /* AuthorAddOrderView.swift in Sources */,
 				5FA0EB782A79523E0024AB71 /* SettingScreenViewModelType.swift in Sources */,
 				5F0F8D822A31C3C100AF4EED /* AuthorAddOrderViewModel.swift in Sources */,
+				5F4A1B3B2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift in Sources */,
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
 				5FBDF84B2A64FD2300C1108D /* ImageFullScreenView.swift in Sources */,
 				5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */,
 				5FE606432A887E1200E33205 /* ReAuthorizationScreenView.swift in Sources */,
 				5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */,
+				5F4A1B392A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift in Sources */,
 				5F9F32462A96006D004D48B7 /* CountryCodesView.swift in Sources */,
 				5FBA269D2A1600D800E972FB /* CustomButtonXl.swift in Sources */,
 				5FF58F372A24D647009AF970 /* UserManager.swift in Sources */,
