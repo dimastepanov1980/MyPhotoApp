@@ -11,6 +11,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     @ObservedObject var viewModel: ViewModel
     @State private var currentStep = 0
     @Binding var showDetailView: Bool
+    @State var showOrderConfirm: Bool = false
+
+    @State var orderDescription: String = R.string.localizable.default_message()
+
 
     init(with viewModel: ViewModel,
          showDetailView: Binding<Bool>){
@@ -71,7 +75,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                }
                            } else {
                                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.countryCode))", iconName: "") {
-                                   // Action
+                                   showOrderConfirm.toggle()
+                               }.fullScreenCover(isPresented: $showOrderConfirm) {
+                                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime), orderDescription: $orderDescription), showOrderConfirm: $showOrderConfirm)
+                                   
                                }
                            }
                        } else {

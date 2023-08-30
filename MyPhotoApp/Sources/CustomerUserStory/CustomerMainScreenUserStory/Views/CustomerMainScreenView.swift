@@ -38,7 +38,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
         
     }
 }
-/*
+
 struct CustomerMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
@@ -48,7 +48,32 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
+    var selectedItem: AuthorPortfolioModel? 
+    
+    var showDetailScreen: Bool = false
+    
+    var portfolio: [AuthorPortfolioModel] = []
+    
+    func stringToURL(imageString: String) -> URL? {
+        URL(string: "")
+    }
+    
+    func currencySymbol(for regionCode: String) -> String {
+        ""
+    }
+    
+
+    /*
     var portfolio: [AuthorPortfolioModel] = [
+        AuthorPortfolioModel(portfolio:
+                                DBPortfolioModel(id: UUID().uuidString,
+                                                 author: <#T##Author?#>,
+                                                 avatarAuthor: <#T##String?#>,
+                                                 smallImagesPortfolio: <#T##[String]?#>,
+                                                 largeImagesPortfolio: <#T##[String]?#>,
+                                                 descriptionAuthor: <#T##String?#>,
+                                                 reviews: <#T##[Reviews]?#>,
+                                                 appointmen: <#T##[Appointmen]?#>))]
         AuthorPortfolioModel(id: UUID().uuidString,
                                        author: Author(author: AuthorModel(id: UUID().uuidString,
                                                                           rateAuthor: 4.32,
@@ -69,67 +94,8 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
                                        appointmen: [
                                         Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)), TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))])),
                                         Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)), TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))]))
-                                       ]),
-        AuthorPortfolioModel(
-            id: UUID().uuidString,
-            author: Author(author: AuthorModel(id: UUID().uuidString,
-                                                                          rateAuthor: 4.32,
-                                                                          likedAuthor: true,
-                                                                          nameAuthor: "Iryna Tandanaeva",
-                                                                          countryCode: "th",
-                                                                          city: "Phuket",
-                                                                          genreAuthor: ["Love Story", "Wedding", "Portrait", "Fashion"],
-                                                                          imagesCover: ["https://images.unsplash.com/photo-1511898290398-cee3038fa7a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-                                                                                       "https://plus.unsplash.com/premium_photo-1673809125491-0f38d88c6a9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-                                                                                       "https://images.unsplash.com/photo-1553617554-adef761d4bb4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bG92ZSUyMHN0b3J5fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
-                                                                                        "https://plus.unsplash.com/premium_photo-1664529914557-ee01920185e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bG92ZSUyMHN0b3J5fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
-                                                                                       "https://images.unsplash.com/photo-1692363026310-bdbac53f2ba5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"],
-                                                                          priceAuthor: "250")),
-                                       avatarAuthor: "https://images.unsplash.com/photo-1558612937-4ecf7ae1e375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyZXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
-                                       smallImagesPortfolio: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1544717304-14d94551b7dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjF8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1608048944439-505d956e1429?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"],
-                                       largeImagesPortfolio: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1558612937-4ecf7ae1e375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyZXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"],
-                                       descriptionAuthor: "As one of the most important parts of your portfolio, it is imperative that your photographer 'About Me' page appears on your website menu. This practice is a must regardless of whether your bio has a dedicated page or appears as a strip on your one-page website. In any case, your visitors shouldn’t have to click more than once before finding it.",
-                                       reviews: [Reviews(review: ReviewsModel(reviewerAuthor: "Safron Sandeev",
-                                                                              reviewDescription: "Best photographer on the world",
-                                                                              reviewRate: 5.0))],
-                                       appointmen: [
-                                        Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)), TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))])),
-                                        Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)), TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))]))
-                                       ]),
-        AuthorPortfolioModel(
-            id: UUID().uuidString,
-            author: Author(author: AuthorModel(id: UUID().uuidString,
-                                                                          rateAuthor: 4.32,
-                                                                          likedAuthor: true,
-                                                                          nameAuthor: "Iryna Tandanaeva",
-                                                                          countryCode: "th",
-                                                                          city: "Phuket",
-                                                                          genreAuthor: ["Love Story", "Wedding", "Portrait", "Fashion"],
-                                                                          imagesCover: ["https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bG92ZSUyMHN0b3J5fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
-                                                                                       "https://plus.unsplash.com/premium_photo-1663021824165-4256f8381934?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bG92ZSUyMHN0b3J5fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
-                                                                                       "https://images.unsplash.com/photo-1501834694136-5c1e87f85fa7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-                                                                                        "https://images.unsplash.com/photo-1495345679747-53991aedf9c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-                                                                                       "https://images.unsplash.com/photo-1616468484095-dc209bde33fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bG92ZSUyMHN0b3J5fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"],
-                                                                          priceAuthor: "150")),
-                                       avatarAuthor: "https://images.unsplash.com/photo-1558612937-4ecf7ae1e375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyZXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
-                                       smallImagesPortfolio: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1544717304-14d94551b7dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjF8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1608048944439-505d956e1429?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"],
-                                       largeImagesPortfolio: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1558612937-4ecf7ae1e375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyZXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"],
-                                       descriptionAuthor: "As one of the most important parts of your portfolio, it is imperative that your photographer 'About Me' page appears on your website menu. This practice is a must regardless of whether your bio has a dedicated page or appears as a strip on your one-page website. In any case, your visitors shouldn’t have to click more than once before finding it.",
-                                       reviews: [Reviews(review: ReviewsModel(reviewerAuthor: "Safron Sandeev",
-                                                                              reviewDescription: "Best photographer on the world",
-                                                                              reviewRate: 5.0))],
-                                       appointmen: [
-                                        Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)), TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))])),
-                                        Appointmen(appointmen: AppointmenModel(data: Date(), timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: false)), TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true)), TimeSlot(timeSlot: TimeSlotModel(time: "14:00", available: false))]))
                                        ])
     ]
-    
-    func stringToURL(imageString: String) -> URL? {
-        return nil
-    }
-    func currencySymbol(for regionCode: String) -> String {
-        return "Thb"
-    }
-}
 
-*/
+     */
+}
