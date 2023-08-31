@@ -42,11 +42,7 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
             print("No found Email or Password in Login")
             return
         }
-        let authDataResult = try await AuthNetworkService.shared.signInUser(email: signUpEmail, password: signUpPassword)
-        let user = DBUserModel(auth: authDataResult)
-        
-        try await UserManager.shared.createNewUser(user: user)
-        //try await UserManager.shared.createNewUser (auth: authDataResult)
+        try await AuthNetworkService.shared.signInUser(email: signUpEmail, password: signUpPassword)
     }
     
     func resetPassword() async throws {

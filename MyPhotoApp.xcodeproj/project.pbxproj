@@ -26,6 +26,9 @@
 		5F4A1B392A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B382A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift */; };
 		5F4A1B3B2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B3A2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift */; };
 		5F4A1B3D2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B3C2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift */; };
+		5F4A1B402A9EF21F00EC67B2 /* SearchLocationManaget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B3F2A9EF21F00EC67B2 /* SearchLocationManaget.swift */; };
+		5F4A1B422A9EF73F00EC67B2 /* SearchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B412A9EF73F00EC67B2 /* SearchLocation.swift */; };
+		5F4A1B492AA086CA00EC67B2 /* PortfolioViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */; };
 		5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96A6C72A1723B200FBCFF5 /* FirebaseAuth */; };
 		5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */; };
 		5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */; };
@@ -105,6 +108,9 @@
 		5F4A1B382A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerConfirmOrderViewModelType.swift; sourceTree = "<group>"; };
 		5F4A1B3A2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerConfirmOrderViewModel.swift; sourceTree = "<group>"; };
 		5F4A1B3C2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerConfirmOrderView.swift; sourceTree = "<group>"; };
+		5F4A1B3F2A9EF21F00EC67B2 /* SearchLocationManaget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationManaget.swift; sourceTree = "<group>"; };
+		5F4A1B412A9EF73F00EC67B2 /* SearchLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocation.swift; sourceTree = "<group>"; };
+		5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModelType.swift; sourceTree = "<group>"; };
 		5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNetworkService.swift; sourceTree = "<group>"; };
 		5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenView.swift; sourceTree = "<group>"; };
 		5F9F323B2A93744E004D48B7 /* CustomerMainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMainScreenViewModel.swift; sourceTree = "<group>"; };
@@ -250,7 +256,6 @@
 				5FB717462A223F3000EC7BF6 /* SettingsScreenUserStory */,
 				5FA767E22A6975FB00861F7D /* PortfolioUserStory */,
 				5FA15DA52A184FA9007A1AC6 /* DetailOrderUserStory */,
-				5FBA26962A15367900E972FB /* Common */,
 			);
 			path = AuthorUserStory;
 			sourceTree = "<group>";
@@ -258,11 +263,10 @@
 		5F39095D2A8F52B6006E539A /* CustomerUserStory */ = {
 			isa = PBXGroup;
 			children = (
-				5F4A1B342A9C58B100EC67B2 /* CustomerConfirmOrderUserStory */,
 				5F214E062A9744B80014AD9B /* CustomerHubPage */,
-				5F214E092A997D490014AD9B /* CustomerDetailScreenUserStory */,
 				5F39095E2A8F5F7C006E539A /* CustomerMainScreenUserStory */,
-				5F9F32492A9735E0004D48B7 /* Common */,
+				5F214E092A997D490014AD9B /* CustomerDetailScreenUserStory */,
+				5F4A1B342A9C58B100EC67B2 /* CustomerConfirmOrderUserStory */,
 			);
 			path = CustomerUserStory;
 			sourceTree = "<group>";
@@ -348,9 +352,41 @@
 			path = Contract;
 			sourceTree = "<group>";
 		};
+		5F4A1B3E2A9EF1D000EC67B2 /* LocationSearchManaget */ = {
+			isa = PBXGroup;
+			children = (
+				5F4A1B3F2A9EF21F00EC67B2 /* SearchLocationManaget.swift */,
+				5F4A1B412A9EF73F00EC67B2 /* SearchLocation.swift */,
+			);
+			path = LocationSearchManaget;
+			sourceTree = "<group>";
+		};
+		5F4A1B452AA0869000EC67B2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5F4A1B462AA0869200EC67B2 /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */,
+			);
+			path = Contract;
+			sourceTree = "<group>";
+		};
+		5F4A1B472AA0869500EC67B2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		5F96A6CB2A1724D700FBCFF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5F4A1B3E2A9EF1D000EC67B2 /* LocationSearchManaget */,
 				5FE927E42A6FA56C00D3FEEA /* LocationManager */,
 				5F27118A2A49348600679028 /* OpenWeather */,
 				5FC1C0D32A2F7A7E00081FF1 /* Storage */,
@@ -376,13 +412,17 @@
 			path = BusinessLogicLayer;
 			sourceTree = "<group>";
 		};
-		5F9F32492A9735E0004D48B7 /* Common */ = {
+		5F9F32492A9735E0004D48B7 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5FBA26972A1536A400E972FB /* CustomTextField.swift */,
+				5FBA269E2A162D6700E972FB /* CustomSecureTextField.swift */,
+				5FBA269C2A1600D800E972FB /* CustomButtonXl.swift */,
+				5F9F32472A96F065004D48B7 /* AuthorCustomTabs.swift */,
 				5F4A1B2D2A9B14C500EC67B2 /* FlexibleView */,
 				5F9F324A2A973604004D48B7 /* CustomerCustomTabs.swift */,
 			);
-			path = Common;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		5FA15D992A17588E007A1AC6 /* Contracotr */ = {
@@ -469,6 +509,9 @@
 		5FA767E22A6975FB00861F7D /* PortfolioUserStory */ = {
 			isa = PBXGroup;
 			children = (
+				5F4A1B452AA0869000EC67B2 /* Views */,
+				5F4A1B472AA0869500EC67B2 /* ViewModel */,
+				5F4A1B462AA0869200EC67B2 /* Contract */,
 				5FA767E32A69762900861F7D /* PortfolioView.swift */,
 			);
 			path = PortfolioUserStory;
@@ -551,6 +594,7 @@
 				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
 				5F39095D2A8F52B6006E539A /* CustomerUserStory */,
 				5F39095C2A8F52A0006E539A /* AuthorUserStory */,
+				5F9F32492A9735E0004D48B7 /* Components */,
 				5FA15D9E2A176A06007A1AC6 /* Models */,
 				5F96A6CD2A1725CF00FBCFF5 /* BusinessLogicLayer */,
 			);
@@ -580,17 +624,6 @@
 				5FBA26892A14D21F00E972FB /* Colors.xcassets */,
 			);
 			path = Assets;
-			sourceTree = "<group>";
-		};
-		5FBA26962A15367900E972FB /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				5FBA26972A1536A400E972FB /* CustomTextField.swift */,
-				5FBA269E2A162D6700E972FB /* CustomSecureTextField.swift */,
-				5FBA269C2A1600D800E972FB /* CustomButtonXl.swift */,
-				5F9F32472A96F065004D48B7 /* AuthorCustomTabs.swift */,
-			);
-			path = Common;
 			sourceTree = "<group>";
 		};
 		5FBA26992A15370A00E972FB /* AuthenticationUserStory */ = {
@@ -920,6 +953,7 @@
 				5FA0EB762A7952200024AB71 /* SettingScreenViewModel.swift in Sources */,
 				5F214E0E2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift in Sources */,
 				5F0F8D802A31C39E00AF4EED /* AuthorAddOrderViewModelType.swift in Sources */,
+				5F4A1B492AA086CA00EC67B2 /* PortfolioViewModelType.swift in Sources */,
 				5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */,
 				5F4A1B3D2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift in Sources */,
 				5FFC5AB62A91A536006E10E9 /* CustomerMainCellView.swift in Sources */,
@@ -953,6 +987,7 @@
 				5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */,
 				5F0F8D862A31E28B00AF4EED /* UserOrdersModel.swift in Sources */,
 				5F9F32482A96F065004D48B7 /* AuthorCustomTabs.swift in Sources */,
+				5F4A1B422A9EF73F00EC67B2 /* SearchLocation.swift in Sources */,
 				5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */,
 				5FF58F3D2A2704CA009AF970 /* AuthorAddOrderView.swift in Sources */,
 				5FA0EB782A79523E0024AB71 /* SettingScreenViewModelType.swift in Sources */,
@@ -968,6 +1003,7 @@
 				5FBA269D2A1600D800E972FB /* CustomButtonXl.swift in Sources */,
 				5FF58F372A24D647009AF970 /* UserManager.swift in Sources */,
 				5FBA269B2A15375E00E972FB /* AuthenticationScreenView.swift in Sources */,
+				5F4A1B402A9EF21F00EC67B2 /* SearchLocationManaget.swift in Sources */,
 				5FF546782A1B937A00208455 /* AuthorVCellMainScreenView.swift in Sources */,
 				5FBA26982A1536A400E972FB /* CustomTextField.swift in Sources */,
 				5FA15D982A175727007A1AC6 /* AuthenticationScreenContract.swift in Sources */,

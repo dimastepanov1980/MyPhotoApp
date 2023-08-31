@@ -127,6 +127,24 @@ final class UserManager {
     
     //MARK: - Customer Section
     
+    private func userPortfolioCollection(userId: String) -> CollectionReference {
+        userDocument(userId: userId).collection("portfolio")
+    }
+    
+    private func userPortfolio(userId: String, portfolio: DBPortfolioModel) async throws {
+        let portfolio = userPortfolioCollection(userId: userId).document()
+        let portfolioId = portfolio.documentID
+        
+        let data: [String : Any] = [
+            DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
+        ]
+        
+        try await portfolio.setData(data, merge: false)
+        
+    }
+    
+    
+    // MARK: - Old
     private let portfolioCollection = Firestore.firestore().collection("portfolio")
     
     private func authorLocation(location: String) -> DocumentReference {
