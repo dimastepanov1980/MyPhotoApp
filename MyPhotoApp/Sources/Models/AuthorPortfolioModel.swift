@@ -9,13 +9,13 @@ import Foundation
 
 struct AuthorPortfolioModel {
     let id: String
-    let author: Author?
+    let author: DBAuthor?
     let avatarAuthor: String
     let smallImagesPortfolio: [String]
     let largeImagesPortfolio: [String]
     let descriptionAuthor: String
-    let reviews: [Reviews]
-    let appointmen: [Appointmen]
+    let reviews: [DBReviews]
+    let appointmen: [DBAppointmen]
     
     init(portfolio: DBPortfolioModel) {
         self.id = portfolio.id
@@ -43,7 +43,7 @@ struct AuthorModel {
 
 struct AppointmenModel {
     var data: Date
-    var timeSlot: [TimeSlot]
+    var timeSlot: [DBTimeSlot]
 }
 
 struct TimeSlotModel {

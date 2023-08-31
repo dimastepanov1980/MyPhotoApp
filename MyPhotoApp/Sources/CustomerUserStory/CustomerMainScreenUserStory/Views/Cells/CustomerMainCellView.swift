@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomerMainCellView: View {
-    var items: Author
+    var items: DBAuthor
     @State private var currentStep = 0
     
     var body: some View {
@@ -95,7 +95,7 @@ struct CustomerMainCellView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: ObservableObject {
-    let mocData = Author(author: AuthorModel(id: UUID().uuidString,
+    let mocData = DBAuthor(author: AuthorModel(id: UUID().uuidString,
                          rateAuthor: 4.32,
                          likedAuthor: true,
                          nameAuthor: "Iryna Tandanaeva",

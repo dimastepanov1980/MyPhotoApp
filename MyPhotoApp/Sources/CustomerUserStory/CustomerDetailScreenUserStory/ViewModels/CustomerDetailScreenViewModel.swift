@@ -14,7 +14,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var selectedDay: Date? = nil
     @Published var selectedTime: [String] = []
     @Published var today: Date = Date()
-    @Published var timeslotSelectedDay: [TimeSlot] = []
+    @Published var timeslotSelectedDay: [DBTimeSlot] = []
     init(items: AuthorPortfolioModel) {
         self.items = items
     }

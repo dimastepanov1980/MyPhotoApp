@@ -55,7 +55,7 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
     var portfolio: [AuthorPortfolioModel] = [
         AuthorPortfolioModel(portfolio:
                                 DBPortfolioModel(id: UUID().uuidString,
-                                                 author: Author(author:
+                                                 author: DBAuthor(author:
                                                 AuthorModel(id: UUID().uuidString,
                                                             rateAuthor: 4.32,
                                                             likedAuthor: true,
@@ -72,24 +72,24 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
                                                  reviews: nil,
                                                  appointmen:
                                                     [
-                                                        Appointmen(appointmen: AppointmenModel(data: Date(),
+                                                        DBAppointmen(appointmen: AppointmenModel(data: Date(),
                                                                                                timeSlot: [
-                                                                                                  TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: true)),
-                                                                                                  TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)),
-                                                                                                  TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)),
-                                                                                                  TimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true))
+                                                                                                DBTimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: true)),
+                                                                                                DBTimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true)),
+                                                                                                DBTimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true)),
+                                                                                                DBTimeSlot(timeSlot: TimeSlotModel(time: "13:00", available: true))
                                                                                                          ])),
                                                         
-                                                        Appointmen(appointmen: AppointmenModel(data: Date(),
+                                                        DBAppointmen(appointmen: AppointmenModel(data: Date(),
                                                                                                timeSlot: [
-                                                                                                TimeSlot(timeSlot: TimeSlotModel(time: "08:00", available: true)),
-                                                                                                TimeSlot(timeSlot: TimeSlotModel(time: "09:00", available: true)),
-                                                                                                TimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: true)),
-                                                                                                TimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true))
+                                                                                                DBTimeSlot(timeSlot: TimeSlotModel(time: "08:00", available: true)),
+                                                                                                DBTimeSlot(timeSlot: TimeSlotModel(time: "09:00", available: true)),
+                                                                                                DBTimeSlot(timeSlot: TimeSlotModel(time: "10:00", available: true)),
+                                                                                                DBTimeSlot(timeSlot: TimeSlotModel(time: "11:00", available: true))
                                                                                                          ])),
                                                      
-                                                        Appointmen(appointmen: AppointmenModel(data: Date(),
-                                                                                               timeSlot: [TimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true))
+                                                        DBAppointmen(appointmen: AppointmenModel(data: Date(),
+                                                                                               timeSlot: [DBTimeSlot(timeSlot: TimeSlotModel(time: "12:00", available: true))
                                                                                                          ]))
                                                     ]
                                                 ))]

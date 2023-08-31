@@ -9,24 +9,24 @@ import Foundation
 
 struct DBPortfolioModel: Codable {
     let id: String
-    let author: Author?
+    let author: DBAuthor?
     let avatarAuthor: String?
     let smallImagesPortfolio: [String]?
     let largeImagesPortfolio: [String]?
     let descriptionAuthor: String?
-    let reviews: [Reviews]?
-    let appointmen: [Appointmen]?
+    let reviews: [DBReviews]?
+    let appointmen: [DBAppointmen]?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
-        self.author = try container.decodeIfPresent(Author.self, forKey: .author)
+        self.author = try container.decodeIfPresent(DBAuthor.self, forKey: .author)
         self.avatarAuthor = try container.decodeIfPresent(String.self, forKey: .avatarAuthor)
         self.smallImagesPortfolio = try container.decodeIfPresent([String].self, forKey: .smallImagesPortfolio)
         self.largeImagesPortfolio = try container.decodeIfPresent([String].self, forKey: .largeImagesPortfolio)
         self.descriptionAuthor = try container.decodeIfPresent(String.self, forKey: .descriptionAuthor)
-        self.reviews = try container.decodeIfPresent([Reviews].self, forKey: .reviews)
-        self.appointmen = try container.decodeIfPresent([Appointmen].self, forKey: .appointmen)
+        self.reviews = try container.decodeIfPresent([DBReviews].self, forKey: .reviews)
+        self.appointmen = try container.decodeIfPresent([DBAppointmen].self, forKey: .appointmen)
     }
     init(portfolio: AuthorPortfolioModel) {
         self.id = portfolio.id
@@ -38,7 +38,7 @@ struct DBPortfolioModel: Codable {
         self.reviews = portfolio.reviews
         self.appointmen = portfolio.appointmen
     }
-    init(id: String, author: Author?, avatarAuthor: String?, smallImagesPortfolio: [String]?, largeImagesPortfolio: [String]?, descriptionAuthor: String?, reviews: [Reviews]?, appointmen: [Appointmen]?) {
+    init(id: String, author: DBAuthor?, avatarAuthor: String?, smallImagesPortfolio: [String]?, largeImagesPortfolio: [String]?, descriptionAuthor: String?, reviews: [DBReviews]?, appointmen: [DBAppointmen]?) {
         self.id = id
         self.author = author
         self.avatarAuthor = avatarAuthor
@@ -73,7 +73,7 @@ struct DBPortfolioModel: Codable {
     }
 }
 
-struct Author: Codable {
+struct DBAuthor: Codable {
     var id: String
     var rateAuthor: Double
     var likedAuthor: Bool
@@ -133,15 +133,15 @@ struct Author: Codable {
     }
 }
 
-struct Appointmen: Codable {
+struct DBAppointmen: Codable {
     var id = UUID()
     var data: Date
-    var timeSlot: [TimeSlot]
+    var timeSlot: [DBTimeSlot]
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.data = try container.decode(Date.self, forKey: .data)
-        self.timeSlot = try container.decode([TimeSlot].self, forKey: .timeSlot)
+        self.timeSlot = try container.decode([DBTimeSlot].self, forKey: .timeSlot)
     }
     init(appointmen: AppointmenModel) {
         self.data = appointmen.data
@@ -159,7 +159,7 @@ struct Appointmen: Codable {
     }
 }
 
-struct TimeSlot: Codable, Hashable {
+struct DBTimeSlot: Codable, Hashable {
     var time: String
     var available: Bool
     
@@ -184,8 +184,7 @@ struct TimeSlot: Codable, Hashable {
     }
 }
 
-
-struct Reviews: Codable {
+struct DBReviews: Codable {
     var reviewerAuthor: String?
     var reviewDescription: String
     var reviewRate: Double

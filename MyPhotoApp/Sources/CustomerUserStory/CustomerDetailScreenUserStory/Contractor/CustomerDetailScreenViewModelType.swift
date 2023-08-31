@@ -12,7 +12,7 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     var items: AuthorPortfolioModel { get set }
     var selectedDay: Date? { get set }
     var selectedTime: [String] { get set }
-    var timeslotSelectedDay: [TimeSlot] { get set }
+    var timeslotSelectedDay: [DBTimeSlot] { get set }
     var today: Date { get set }
     func formattedDate(date: Date, format: String) -> String
     func stringToURL(imageString: String) -> URL?
