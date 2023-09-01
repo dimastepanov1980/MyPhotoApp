@@ -35,6 +35,7 @@ struct AuthorModel {
     var likedAuthor: Bool
     var nameAuthor: String
     var familynameAuthor: String
+    var sexAuthor: String
     var countryCode: String
     var city: String
     var genreAuthor: [String]
@@ -47,6 +48,7 @@ struct AuthorModel {
         self.likedAuthor = author.likedAuthor
         self.nameAuthor = author.nameAuthor
         self.familynameAuthor = author.familynameAuthor
+        self.sexAuthor = author.sexAuthor
         self.countryCode = author.countryCode
         self.city = author.city
         self.genreAuthor = author.genreAuthor

@@ -70,6 +70,7 @@ struct DBAuthor: Codable {
     var likedAuthor: Bool
     var nameAuthor: String
     var familynameAuthor: String
+    var sexAuthor: String
     var countryCode: String
     var city: String
     var genreAuthor: [String]
@@ -83,6 +84,7 @@ struct DBAuthor: Codable {
         self.likedAuthor = try container.decode(Bool.self, forKey: .likedAuthor)
         self.nameAuthor = try container.decode(String.self, forKey: .nameAuthor)
         self.familynameAuthor = try container.decode(String.self, forKey: .familynameAuthor)
+        self.sexAuthor = try container.decode(String.self, forKey: .sexAuthor)
         self.countryCode = try container.decode(String.self, forKey: .countryCode)
         self.city = try container.decode(String.self, forKey: .city)
         self.genreAuthor = try container.decode([String].self, forKey: .genreAuthor)
@@ -90,12 +92,13 @@ struct DBAuthor: Codable {
         self.priceAuthor = try container.decode(String.self, forKey: .priceAuthor)
     }
 
-    init(id: String, rateAuthor: Double, likedAuthor: Bool, nameAuthor: String, familynameAuthor: String, countryCode: String, city: String, genreAuthor: [String], imagesCover: [String], priceAuthor: String) {
+    init(id: String, rateAuthor: Double, likedAuthor: Bool, nameAuthor: String, familynameAuthor: String, sexAuthor: String, countryCode: String, city: String, genreAuthor: [String], imagesCover: [String], priceAuthor: String) {
         self.id = id
         self.rateAuthor = rateAuthor
         self.likedAuthor = likedAuthor
         self.nameAuthor = nameAuthor
         self.familynameAuthor = familynameAuthor
+        self.sexAuthor = sexAuthor
         self.countryCode = countryCode
         self.city = city
         self.genreAuthor = genreAuthor
@@ -109,6 +112,7 @@ struct DBAuthor: Codable {
         case likedAuthor = "liked_author"
         case nameAuthor = "name_author"
         case familynameAuthor = "familyname_author"
+        case sexAuthor = "sex_author"
         case countryCode = "country_code"
         case city = "city"
         case genreAuthor = "genre_author"
@@ -122,6 +126,7 @@ struct DBAuthor: Codable {
         try container.encode(self.likedAuthor, forKey: .likedAuthor)
         try container.encode(self.nameAuthor, forKey: .nameAuthor)
         try container.encode(self.familynameAuthor, forKey: .familynameAuthor)
+        try container.encode(self.sexAuthor, forKey: .sexAuthor)
         try container.encode(self.countryCode, forKey: .countryCode)
         try container.encode(self.city, forKey: .city)
         try container.encode(self.genreAuthor, forKey: .genreAuthor)

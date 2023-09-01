@@ -60,6 +60,7 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
                                                                    likedAuthor: true,
                                                                    nameAuthor: "Iryna",
                                                                    familynameAuthor: "Test",
+                                                                   sexAuthor: "Female",
                                                                    countryCode: "th",
                                                                    city: "Phuket",
                                                                    genreAuthor: ["Test", "Test", "Test", "Test"],
