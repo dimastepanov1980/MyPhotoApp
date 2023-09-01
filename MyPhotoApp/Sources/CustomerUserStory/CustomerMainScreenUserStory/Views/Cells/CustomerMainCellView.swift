@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomerMainCellView: View {
-    var items: DBAuthor
+    var items: AuthorModel
     @State private var currentStep = 0
     
     var body: some View {
@@ -51,7 +51,7 @@ struct CustomerMainCellView: View {
                     
                     HStack{
                         VStack(alignment: .leading){
-                            Text(items.nameAuthor)
+                            Text("\(items.nameAuthor) \(items.familynameAuthor)")
                                 .font(.title2.bold())
                                 .foregroundColor(Color(R.color.gray1.name))
                             Text("\(items.city), \(Locale.current.localizedString(forRegionCode: items.countryCode) ?? "")")
@@ -86,7 +86,7 @@ struct CustomerMainCellView: View {
         return currency
     }
 }
-
+/*
 struct CustomerMainCellView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     
@@ -95,7 +95,7 @@ struct CustomerMainCellView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: ObservableObject {
-    let mocData = DBAuthor(author: AuthorModel(id: UUID().uuidString,
+    let mocData = AuthorModel(author: DBAuthor(id: UUID().uuidString,
                          rateAuthor: 4.32,
                          likedAuthor: true,
                          nameAuthor: "Iryna Tandanaeva",
@@ -105,3 +105,4 @@ private class MockViewModel: ObservableObject {
                          imagesCover: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"],
                          priceAuthor: "250"))
 }
+*/

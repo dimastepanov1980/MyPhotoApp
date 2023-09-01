@@ -34,11 +34,25 @@ struct AuthorModel {
     var rateAuthor: Double
     var likedAuthor: Bool
     var nameAuthor: String
+    var familynameAuthor: String
     var countryCode: String
     var city: String
     var genreAuthor: [String]
     var imagesCover: [String]
     var priceAuthor: String
+    
+    init(author: DBAuthor) {
+        self.id = author.id
+        self.rateAuthor = author.rateAuthor
+        self.likedAuthor = author.likedAuthor
+        self.nameAuthor = author.nameAuthor
+        self.familynameAuthor = author.familynameAuthor
+        self.countryCode = author.countryCode
+        self.city = author.city
+        self.genreAuthor = author.genreAuthor
+        self.imagesCover = author.imagesCover
+        self.priceAuthor = author.priceAuthor
+    }
 }
 
 struct AppointmenModel {
@@ -49,10 +63,21 @@ struct AppointmenModel {
 struct TimeSlotModel {
     var time: String
     var available: Bool
+    
+    init(dbTimeSlot: DBTimeSlot) {
+        self.time = dbTimeSlot.time
+        self.available = dbTimeSlot.available
+    }
 }
 
 struct ReviewsModel {
     var reviewerAuthor: String
     var reviewDescription: String
     var reviewRate: Double
+    
+    init(review: DBReviews) {
+        self.reviewerAuthor = review.reviewerAuthor ?? ""
+        self.reviewDescription = review.reviewDescription ?? ""
+        self.reviewRate = review.reviewRate ?? 0
+    }
 }

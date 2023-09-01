@@ -28,16 +28,7 @@ struct DBPortfolioModel: Codable {
         self.reviews = try container.decodeIfPresent([DBReviews].self, forKey: .reviews)
         self.appointmen = try container.decodeIfPresent([DBAppointmen].self, forKey: .appointmen)
     }
-    init(portfolio: AuthorPortfolioModel) {
-        self.id = portfolio.id
-        self.author = portfolio.author
-        self.avatarAuthor = portfolio.avatarAuthor
-        self.smallImagesPortfolio = portfolio.smallImagesPortfolio
-        self.largeImagesPortfolio = portfolio.largeImagesPortfolio
-        self.descriptionAuthor = portfolio.descriptionAuthor
-        self.reviews = portfolio.reviews
-        self.appointmen = portfolio.appointmen
-    }
+    
     init(id: String, author: DBAuthor?, avatarAuthor: String?, smallImagesPortfolio: [String]?, largeImagesPortfolio: [String]?, descriptionAuthor: String?, reviews: [DBReviews]?, appointmen: [DBAppointmen]?) {
         self.id = id
         self.author = author
@@ -78,6 +69,7 @@ struct DBAuthor: Codable {
     var rateAuthor: Double
     var likedAuthor: Bool
     var nameAuthor: String
+    var familynameAuthor: String
     var countryCode: String
     var city: String
     var genreAuthor: [String]
@@ -90,22 +82,25 @@ struct DBAuthor: Codable {
         self.rateAuthor = try container.decode(Double.self, forKey: .rateAuthor)
         self.likedAuthor = try container.decode(Bool.self, forKey: .likedAuthor)
         self.nameAuthor = try container.decode(String.self, forKey: .nameAuthor)
+        self.familynameAuthor = try container.decode(String.self, forKey: .familynameAuthor)
         self.countryCode = try container.decode(String.self, forKey: .countryCode)
         self.city = try container.decode(String.self, forKey: .city)
         self.genreAuthor = try container.decode([String].self, forKey: .genreAuthor)
         self.imagesCover = try container.decode([String].self, forKey: .imagesCover)
         self.priceAuthor = try container.decode(String.self, forKey: .priceAuthor)
     }
-    init(author: AuthorModel) {
-        self.id = author.id
-        self.rateAuthor = author.rateAuthor
-        self.likedAuthor = author.likedAuthor
-        self.nameAuthor = author.nameAuthor
-        self.countryCode = author.countryCode
-        self.city = author.city
-        self.genreAuthor = author.genreAuthor
-        self.imagesCover = author.imagesCover
-        self.priceAuthor = author.priceAuthor
+
+    init(id: String, rateAuthor: Double, likedAuthor: Bool, nameAuthor: String, familynameAuthor: String, countryCode: String, city: String, genreAuthor: [String], imagesCover: [String], priceAuthor: String) {
+        self.id = id
+        self.rateAuthor = rateAuthor
+        self.likedAuthor = likedAuthor
+        self.nameAuthor = nameAuthor
+        self.familynameAuthor = familynameAuthor
+        self.countryCode = countryCode
+        self.city = city
+        self.genreAuthor = genreAuthor
+        self.imagesCover = imagesCover
+        self.priceAuthor = priceAuthor
     }
     
     enum CodingKeys: String, CodingKey {
@@ -113,6 +108,7 @@ struct DBAuthor: Codable {
         case rateAuthor = "rate_author"
         case likedAuthor = "liked_author"
         case nameAuthor = "name_author"
+        case familynameAuthor = "familyname_author"
         case countryCode = "country_code"
         case city = "city"
         case genreAuthor = "genre_author"
@@ -125,6 +121,7 @@ struct DBAuthor: Codable {
         try container.encode(self.rateAuthor, forKey: .rateAuthor)
         try container.encode(self.likedAuthor, forKey: .likedAuthor)
         try container.encode(self.nameAuthor, forKey: .nameAuthor)
+        try container.encode(self.familynameAuthor, forKey: .familynameAuthor)
         try container.encode(self.countryCode, forKey: .countryCode)
         try container.encode(self.city, forKey: .city)
         try container.encode(self.genreAuthor, forKey: .genreAuthor)
@@ -143,9 +140,10 @@ struct DBAppointmen: Codable {
         self.data = try container.decode(Date.self, forKey: .data)
         self.timeSlot = try container.decode([DBTimeSlot].self, forKey: .timeSlot)
     }
-    init(appointmen: AppointmenModel) {
-        self.data = appointmen.data
-        self.timeSlot = appointmen.timeSlot
+    init(id: UUID = UUID(), data: Date, timeSlot: [DBTimeSlot]) {
+        self.id = id
+        self.data = data
+        self.timeSlot = timeSlot
     }
     
     enum CodingKeys: String, CodingKey {
@@ -168,9 +166,9 @@ struct DBTimeSlot: Codable, Hashable {
         self.time = try container.decode(String.self, forKey: .time)
         self.available = try container.decode(Bool.self, forKey: .available)
     }
-    init(timeSlot: TimeSlotModel) {
-        self.time = timeSlot.time
-        self.available = timeSlot.available
+    init(time: String, available: Bool) {
+        self.time = time
+        self.available = available
     }
     
     enum CodingKeys: String, CodingKey {
@@ -186,21 +184,21 @@ struct DBTimeSlot: Codable, Hashable {
 
 struct DBReviews: Codable {
     var reviewerAuthor: String?
-    var reviewDescription: String
-    var reviewRate: Double
-    
+    var reviewDescription: String?
+    var reviewRate: Double?
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.reviewerAuthor = try container.decode(String.self, forKey: .reviewerAuthor)
         self.reviewDescription = try container.decode(String.self, forKey: .reviewDescription)
         self.reviewRate = try container.decode(Double.self, forKey: .reviewRate)
     }
-    init(review: ReviewsModel) {
-        self.reviewerAuthor = review.reviewerAuthor
-        self.reviewDescription = review.reviewDescription
-        self.reviewRate = review.reviewRate
+    init(reviewerAuthor: String? = nil, reviewDescription: String, reviewRate: Double) {
+        self.reviewerAuthor = reviewerAuthor
+        self.reviewDescription = reviewDescription
+        self.reviewRate = reviewRate
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case reviewerAuthor = "reviewer_author"
         case reviewDescription = "review_description"

@@ -168,7 +168,8 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
 
 private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject {
     @Published var orderPrice: String = "5500"
-    @Published var authorName: String = "Iryna Tondaeva"
+    @Published var authorName: String = "Iryna"
+    @Published var familynameAuthor: String = "Tondaeva"
     @Published var authorRegion: String = "Thailand"
     @Published var authorCity: String = "Phuket"
     @Published var orderDate: Date = Date()
