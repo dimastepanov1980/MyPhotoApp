@@ -1,20 +1,21 @@
 //
-//  MainTextFieldView.swift
+//  CustomTextEdit.swift
 //  MyPhotoApp
 //
-//  Created by Dima Stepanov on 5/17/23.
+//  Created by Dima Stepanov on 9/1/23.
 //
 
 import SwiftUI
-
-struct CustomTextField: View {
+/*
+struct CustomTextEdit: View {
     @State var nameTextField: String
     @Binding var text: String
     @State var isTapped = false
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                TextField("", text: $text) { (status) in
+                TextField(<#T##title: StringProtocol##StringProtocol#>, text: <#T##Binding<String>#>, prompt: <#T##Text?#>, axis: <#T##Axis#>)
+                TextEditor(text: $text) { (status) in
                     if status {
                         withAnimation(.easeIn) {
                             isTapped = true
@@ -31,9 +32,8 @@ struct CustomTextField: View {
                 .foregroundColor(Color(R.color.gray2.name))
                 .background (
                     Text(nameTextField)
-                        .font(.callout)
-                        .scaleEffect(isTapped || !text.isEmpty ? 0.7 : 0.9)
-                        .offset(y: isTapped || !text.isEmpty ? -30 : 0 )
+                        .scaleEffect(isTapped || !text.isEmpty ? 0.8 : 1)
+                        .offset(x: isTapped || !text.isEmpty ? -7 : 0, y: isTapped || !text.isEmpty ? -35 : 0 )
                         .foregroundColor(Color(R.color.gray4.name)),
                     alignment: .leading
                 )
@@ -58,3 +58,9 @@ struct CustomTextField: View {
     }
 }
 
+struct CustomTextEdit_Previews: PreviewProvider {
+    static var previews: some View {
+        CustomTextEdit(nameTextField: "", text: Binding<String>)
+    }
+}
+*/

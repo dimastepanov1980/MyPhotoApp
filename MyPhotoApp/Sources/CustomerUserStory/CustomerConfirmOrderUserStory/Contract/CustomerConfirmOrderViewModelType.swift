@@ -12,8 +12,7 @@ import SwiftUI
 protocol CustomerConfirmOrderViewModelType: ObservableObject {
     var authorName: String { get }
     var familynameAuthor: String { get }
-    var authorRegion: String { get }
-    var authorCity: String { get }
+    var location: String { get }
     var orderDate: Date { get }
     var orderTime: [String] { get }
     var orderDuration: String { get }

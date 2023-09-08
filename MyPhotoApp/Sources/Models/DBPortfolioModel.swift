@@ -65,17 +65,17 @@ struct DBPortfolioModel: Codable {
 }
 
 struct DBAuthor: Codable {
-    var id: String
-    var rateAuthor: Double
-    var likedAuthor: Bool
-    var nameAuthor: String
-    var familynameAuthor: String
-    var sexAuthor: String
-    var countryCode: String
-    var city: String
-    var genreAuthor: [String]
-    var imagesCover: [String]
-    var priceAuthor: String
+    let id: String
+    let rateAuthor: Double
+    let likedAuthor: Bool
+    let nameAuthor: String
+    let familynameAuthor: String
+    let sexAuthor: String
+    let ageAuthor: String
+    let location: String
+    let styleAuthor: [String]
+    let imagesCover: [String]
+    let priceAuthor: String
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -85,23 +85,23 @@ struct DBAuthor: Codable {
         self.nameAuthor = try container.decode(String.self, forKey: .nameAuthor)
         self.familynameAuthor = try container.decode(String.self, forKey: .familynameAuthor)
         self.sexAuthor = try container.decode(String.self, forKey: .sexAuthor)
-        self.countryCode = try container.decode(String.self, forKey: .countryCode)
-        self.city = try container.decode(String.self, forKey: .city)
-        self.genreAuthor = try container.decode([String].self, forKey: .genreAuthor)
+        self.ageAuthor = try container.decode(String.self, forKey: .ageAuthor)
+        self.location = try container.decode(String.self, forKey: .location)
+        self.styleAuthor = try container.decode([String].self, forKey: .styleAuthor)
         self.imagesCover = try container.decode([String].self, forKey: .imagesCover)
         self.priceAuthor = try container.decode(String.self, forKey: .priceAuthor)
     }
 
-    init(id: String, rateAuthor: Double, likedAuthor: Bool, nameAuthor: String, familynameAuthor: String, sexAuthor: String, countryCode: String, city: String, genreAuthor: [String], imagesCover: [String], priceAuthor: String) {
+    init(id: String, rateAuthor: Double, likedAuthor: Bool, nameAuthor: String, familynameAuthor: String, sexAuthor: String, ageAuthor: String, location: String, styleAuthor: [String], imagesCover: [String], priceAuthor: String) {
         self.id = id
         self.rateAuthor = rateAuthor
         self.likedAuthor = likedAuthor
         self.nameAuthor = nameAuthor
         self.familynameAuthor = familynameAuthor
         self.sexAuthor = sexAuthor
-        self.countryCode = countryCode
-        self.city = city
-        self.genreAuthor = genreAuthor
+        self.ageAuthor = ageAuthor
+        self.location = location
+        self.styleAuthor = styleAuthor
         self.imagesCover = imagesCover
         self.priceAuthor = priceAuthor
     }
@@ -113,9 +113,9 @@ struct DBAuthor: Codable {
         case nameAuthor = "name_author"
         case familynameAuthor = "familyname_author"
         case sexAuthor = "sex_author"
-        case countryCode = "country_code"
-        case city = "city"
-        case genreAuthor = "genre_author"
+        case ageAuthor = "age_author"
+        case location = "location"
+        case styleAuthor = "style_author"
         case imagesCover = "images_cover"
         case priceAuthor = "price_author"
     }
@@ -127,26 +127,25 @@ struct DBAuthor: Codable {
         try container.encode(self.nameAuthor, forKey: .nameAuthor)
         try container.encode(self.familynameAuthor, forKey: .familynameAuthor)
         try container.encode(self.sexAuthor, forKey: .sexAuthor)
-        try container.encode(self.countryCode, forKey: .countryCode)
-        try container.encode(self.city, forKey: .city)
-        try container.encode(self.genreAuthor, forKey: .genreAuthor)
+        try container.encode(self.ageAuthor, forKey: .ageAuthor)
+        try container.encode(self.location, forKey: .location)
+        try container.encode(self.styleAuthor, forKey: .styleAuthor)
         try container.encode(self.imagesCover, forKey: .imagesCover)
         try container.encode(self.priceAuthor, forKey: .priceAuthor)
     }
 }
 
 struct DBAppointmen: Codable {
-    var id = UUID()
-    var data: Date
-    var timeSlot: [DBTimeSlot]
+    let id = UUID()
+    let data: Date
+    let timeSlot: [DBTimeSlot]
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.data = try container.decode(Date.self, forKey: .data)
         self.timeSlot = try container.decode([DBTimeSlot].self, forKey: .timeSlot)
     }
-    init(id: UUID = UUID(), data: Date, timeSlot: [DBTimeSlot]) {
-        self.id = id
+    init(data: Date, timeSlot: [DBTimeSlot]) {
         self.data = data
         self.timeSlot = timeSlot
     }
@@ -163,8 +162,8 @@ struct DBAppointmen: Codable {
 }
 
 struct DBTimeSlot: Codable, Hashable {
-    var time: String
-    var available: Bool
+    let time: String
+    let available: Bool
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -188,9 +187,9 @@ struct DBTimeSlot: Codable, Hashable {
 }
 
 struct DBReviews: Codable {
-    var reviewerAuthor: String?
-    var reviewDescription: String?
-    var reviewRate: Double?
+    let reviewerAuthor: String?
+    let reviewDescription: String?
+    let reviewRate: Double?
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

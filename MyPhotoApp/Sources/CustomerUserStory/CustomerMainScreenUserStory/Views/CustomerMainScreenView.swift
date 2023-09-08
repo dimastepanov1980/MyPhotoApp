@@ -61,9 +61,9 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
                                                                    nameAuthor: "Iryna",
                                                                    familynameAuthor: "Test",
                                                                    sexAuthor: "Female",
-                                                                   countryCode: "th",
-                                                                   city: "Phuket",
-                                                                   genreAuthor: ["Test", "Test", "Test", "Test"],
+                                                                   ageAuthor: "27",
+                                                                   location: "th",
+                                                                   styleAuthor: ["Test", "Test", "Test", "Test"],
                                                                    imagesCover: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"],
                                                                    priceAuthor: "1234"),
                                                  

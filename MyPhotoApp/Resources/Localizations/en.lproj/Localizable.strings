@@ -74,3 +74,54 @@
 "total_price" = "Total price";
 "date_detail" = "Date, Time, Duration";
 "location" = "Location";
+
+//MARK: - Add Portfolio
+"portfolio" = "Portfolio";
+"save" = "Save";
+"portfolio_first_name" = "Firs Name";
+"portfolio_last_name" = "Last Name";
+"portfolio_age" = "Your Age";
+"portfolio_gender" = "Select your gender";
+"portfolio_location" = "Location";
+"portfolio_genre" = "Style of photography";
+"portfolio_genre_description" = "Select four genres";
+"portfolio_about" = "About your self";
+"portfolio_schedule" = "Add schedule";
+
+//MARK: - Style of  Photography
+
+"style_photography_aerial" = "Aerial";
+"style_photography_architecture" = "Architecture";
+"style_photography_documentary" = "Documentary";
+"style_photography_event" = "Event";
+"style_photography_fashion" = "Fashion";
+"style_photography_food" = "Food";
+"style_photography_love Story" = "Love Story";
+"style_photography_macro" = "Macro";
+"style_photography_people" = "People";
+"style_photography_pet" = "Pet";
+"style_photography_portraits" = "Portraits";
+"style_photography_product" = "Product";
+"style_photography_real Estate" = "Real Estate";
+"style_photography_sports" = "Sports";
+"style_photography_wedding" = "Wedding";
+"style_photography_wildlife" = "Wildlife";
+
+//MARK: - Gender
+"gender_select" = "Select";
+"gender_male" = "Male";
+"gender_female" = "Female";
+
+
+//MARK: - Schedule
+"schedule" = "Schedule";
+"schedule_save" = "Save";
+"schedule_delete" = "Delete Schedule";
+"schedule_set" = "Set Schedule";
+"schedule_add" = "Add Schedule";
+"schedule_start" = "Start Date";
+"schedule_end" = "End Date";
+"schedule_interval" = "Time interval /Hr";
+"schedule_price" = "Price";
+"schedule_price_per_slot" = "Price per Time slot";
+"schedule_holidays" = "Add Holidays";

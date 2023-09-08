@@ -73,3 +73,53 @@
 "total_price" = "Стоимость";
 "date_detail" = "Дата, время, продолжительность";
 "location" = "Местоположение";
+
+//MARK: - Add Portfolio
+"portfolio" = "Портфолио";
+"save" = "Сохранить";
+"portfolio_first_name" = "Имя";
+"portfolio_last_name" = "Фамилия";
+"portfolio_age" = "Возраст";
+"portfolio_gender" = "Укажите свой пол";
+"portfolio_location" = "Местоположение";
+"portfolio_genre" = "Стиль фотографии";
+"portfolio_genre_description" = "Выберите четыре жанра";
+"portfolio_about" = "О себе";
+"portfolio_schedule" = "Добавить расписание";
+
+//MARK: - Style of  Photography
+
+"style_photography_aerial" = "Аэрофотосъемка";
+"style_photography_architecture" = "Архитектура";
+"style_photography_documentary" = "Документальная";
+"style_photography_event" = "События";
+"style_photography_fashion" = "Мода";
+"style_photography_food" = "Еда";
+"style_photography_love Story" = "История любви";
+"style_photography_macro" = "Макро";
+"style_photography_people" = "Люди";
+"style_photography_pet" = "Животные";
+"style_photography_portraits" = "Портреты";
+"style_photography_product" = "Продуктовая";
+"style_photography_real Estate" = "Недвижимость";
+"style_photography_sports" = "Спортивная";
+"style_photography_wedding" = "Свадьбная";
+"style_photography_wildlife" = "Дикая природа";
+
+//MARK: - Gender
+"gender_select" = "Выберите";
+"gender_male" = "Мужской";
+"gender_female" = "Женский";
+
+//MARK: - Schedule
+"schedule" = "Расписание";
+"schedule_save" = "Сохранить";
+"schedule_delete" = "Удалить";
+"schedule_add" = "Добавить";
+"schedule_set" = "Настроить расписание";
+"schedule_start" = "Начало";
+"schedule_end" = "Окончания";
+"schedule_interval" = "Интервал времени /часа";
+"schedule_price" = "Цена";
+"schedule_price_per_slot" = "Цена за один интервал";
+"schedule_holidays" = "Добавить праздники";

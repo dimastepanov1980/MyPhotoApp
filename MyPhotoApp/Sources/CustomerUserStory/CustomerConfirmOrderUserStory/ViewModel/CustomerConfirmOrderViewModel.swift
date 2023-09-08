@@ -13,8 +13,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     
     @Published var authorName: String
     @Published var familynameAuthor: String
-    @Published var authorRegion: String
-    @Published var authorCity: String
+    @Published var location: String
     @Published var orderDate: Date
     @Published var orderTime: [String]
     @Published var orderDuration: String
@@ -24,8 +23,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     init(author: AuthorPortfolioModel, orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String, orderDescription: Binding<String>) {
         self.authorName = author.author?.nameAuthor ?? ""
         self.familynameAuthor = author.author?.familynameAuthor ?? ""
-        self.authorRegion = author.author?.countryCode ?? ""
-        self.authorCity = author.author?.city ?? ""
+        self.location = author.author?.location ?? ""
         self.orderDate = orderDate
         self.orderTime = orderTime
         self.orderDuration = orderDuration

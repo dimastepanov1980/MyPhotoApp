@@ -25,16 +25,16 @@ struct AuthorHubPageView: View {
                                    showEditOrderView: $showEditOrderView,
                                    statusOrder: .InProgress )
                     } else if self.index == 2 {
-                    PortfolioView()
+                        PortfolioView(with: PortfolioViewModel())
                 } else if self.index == 3 {
                     SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView, isShowActionSheet: $isShowActionSheet)
                 }
             }
             .padding(.bottom, -40)
-            .ignoresSafeArea()
+//            .ignoresSafeArea()
             AuthorCustomTabs(showAddOrderView: $showAddOrderView, index: self.$index)
         }
-        .ignoresSafeArea()
+        .edgesIgnoringSafeArea(.bottom)
         
         .fullScreenCover(isPresented: $showAddOrderView) {
             NavigationStack {

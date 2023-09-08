@@ -16,6 +16,17 @@ final class UserManager {
     
     //MARK: - Author Section
     private let userCollection = Firestore.firestore().collection("users")
+   
+    private let encoder: Firestore.Encoder = {
+        let encoder = Firestore.Encoder()
+        return encoder
+    }()
+    
+    private let decoder: Firestore.Decoder = {
+        let decoder = Firestore.Decoder()
+        return decoder
+    }()
+    
     private var listenerRegistration: ListenerRegistration?
     
     private func userDocument(userId: String) -> DocumentReference {
@@ -26,6 +37,9 @@ final class UserManager {
     }
     private func userOrderDocument(userId: String, orderId: String) -> DocumentReference {
         userOrderCollection(userId: userId).document(orderId)
+    }
+    private func userPortfolioCollection(userId: String) -> CollectionReference {
+        userDocument(userId: userId).collection("portfolio")
     }
     
     func createNewUser(user: DBUserModel) async throws {
@@ -124,27 +138,26 @@ final class UserManager {
         try await userDocument(userId: userId).getDocument(as: DBUserModel.self)
     }
     
-    
-    //MARK: - Customer Section
-    
-    private func userPortfolioCollection(userId: String) -> CollectionReference {
-        userDocument(userId: userId).collection("portfolio")
-    }
-    
-    private func userPortfolio(userId: String, portfolio: DBPortfolioModel) async throws {
-        let portfolio = userPortfolioCollection(userId: userId).document()
-        let portfolioId = portfolio.documentID
-        
-        let data: [String : Any] = [
+    func setUserPortfolio(userId: String, portfolio: DBPortfolioModel) async throws {
+        guard let authorData = try? encoder.encode(portfolio.author) else {
+            throw URLError(.badURL)
+        }
+        let portfolioDoc = userPortfolioCollection(userId: userId).document(userId)
+        let portfolioId = portfolioDoc.documentID
+
+        let dict: [String : Any] = [
             DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
+            DBPortfolioModel.CodingKeys.author.rawValue : authorData,
+//            DBPortfolioModel.CodingKeys.avatarAuthor.rawValue : portfolio.avatarAuthor ?? "",
+            DBPortfolioModel.CodingKeys.descriptionAuthor.rawValue : portfolio.descriptionAuthor ?? ""
         ]
-        
-        try await portfolio.setData(data, merge: false)
-        
+        try await portfolioDoc.updateData(dict)
+    }
+    func getUserPortfolio(userId: String) async throws -> DBPortfolioModel {
+        try await userPortfolioCollection(userId: userId).document(userId).getDocument(as: DBPortfolioModel.self)
     }
     
-    
-    // MARK: - Old
+    // MARK: - Old Customer Section
     private let portfolioCollection = Firestore.firestore().collection("portfolio")
     
     private func authorLocation(location: String) -> DocumentReference {

@@ -30,17 +30,16 @@ struct AuthorPortfolioModel {
 }
 
 struct AuthorModel {
-    var id: String
-    var rateAuthor: Double
-    var likedAuthor: Bool
-    var nameAuthor: String
-    var familynameAuthor: String
-    var sexAuthor: String
-    var countryCode: String
-    var city: String
-    var genreAuthor: [String]
-    var imagesCover: [String]
-    var priceAuthor: String
+    let id: String
+    let rateAuthor: Double
+    let likedAuthor: Bool
+    let nameAuthor: String
+    let familynameAuthor: String
+    let sexAuthor: String
+    let location: String
+    let styleAuthor: [String]
+    let imagesCover: [String]
+    let priceAuthor: String
     
     init(author: DBAuthor) {
         self.id = author.id
@@ -49,22 +48,21 @@ struct AuthorModel {
         self.nameAuthor = author.nameAuthor
         self.familynameAuthor = author.familynameAuthor
         self.sexAuthor = author.sexAuthor
-        self.countryCode = author.countryCode
-        self.city = author.city
-        self.genreAuthor = author.genreAuthor
+        self.location = author.location
+        self.styleAuthor = author.styleAuthor
         self.imagesCover = author.imagesCover
         self.priceAuthor = author.priceAuthor
     }
 }
 
 struct AppointmenModel {
-    var data: Date
-    var timeSlot: [DBTimeSlot]
+    let data: Date
+    let timeSlot: [DBTimeSlot]
 }
 
 struct TimeSlotModel {
-    var time: String
-    var available: Bool
+    let time: String
+    let available: Bool
     
     init(dbTimeSlot: DBTimeSlot) {
         self.time = dbTimeSlot.time
@@ -73,9 +71,9 @@ struct TimeSlotModel {
 }
 
 struct ReviewsModel {
-    var reviewerAuthor: String
-    var reviewDescription: String
-    var reviewRate: Double
+    let reviewerAuthor: String
+    let reviewDescription: String
+    let reviewRate: Double
     
     init(review: DBReviews) {
         self.reviewerAuthor = review.reviewerAuthor ?? ""

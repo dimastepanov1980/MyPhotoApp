@@ -18,9 +18,8 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             self.portfolio = [] // Initialize with an empty array initially
             Task {
                 do {
-                    let bdPortfolio = try await getAllPortfolioInLocation(location: "Thailand")
-                    self.portfolio = bdPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
-                    print(portfolio)
+                    let dbPortfolio = try await getAllPortfolioInLocation(location: "Thailand")
+                    self.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
                 } catch {
                     print(error.localizedDescription)
                 }

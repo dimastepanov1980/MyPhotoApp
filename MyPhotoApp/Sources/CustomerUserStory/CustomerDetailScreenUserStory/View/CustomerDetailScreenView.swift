@@ -74,7 +74,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                    // Action
                                }
                            } else {
-                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.countryCode))", iconName: "") {
+                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.location))", iconName: "") {
                                    showOrderConfirm.toggle()
                                }.fullScreenCover(isPresented: $showOrderConfirm) {
                                    CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime), orderDescription: $orderDescription), showOrderConfirm: $showOrderConfirm)
@@ -130,7 +130,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                         Text("\(author.nameAuthor) \(author.familynameAuthor)")
                             .font(.title2.bold())
                             .foregroundColor(Color(R.color.gray1.name))
-                        Text("\(author.city), \(Locale.current.localizedString(forRegionCode: author.countryCode) ?? "")")
+                        Text("\(author.location)")
                             .font(.callout)
                             .foregroundColor(Color(R.color.gray4.name))
                     }
@@ -140,7 +140,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                         Text(R.string.localizable.price_start())
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
-                        Text("\(author.priceAuthor)\(viewModel.currencySymbol(for: author.countryCode))")
+                        Text("\(author.priceAuthor)\(viewModel.currencySymbol(for: author.location))")
                             .font(.headline.bold())
                             .foregroundColor(Color(R.color.gray2.name))
                     }
@@ -149,7 +149,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             
             if let author = viewModel.items.author {
                 HStack(spacing: 16){
-                    ForEach(author.genreAuthor, id: \.self) { genre in
+                    ForEach(author.styleAuthor, id: \.self) { genre in
                         HStack{
                             Image(systemName: "heart.fill")
                                 .resizable()
@@ -397,9 +397,9 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
                                                                nameAuthor: "Iryna",
                                                                familynameAuthor: "Test",
                                                                sexAuthor: "Female",
-                                                               countryCode: "th",
-                                                               city: "Phuket",
-                                                               genreAuthor: ["Test", "Test", "Test", "Test"],
+                                                               ageAuthor: "47",
+                                                               location: "th",
+                                                               styleAuthor: ["Test", "Test", "Test", "Test"],
                                                                imagesCover: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"],
                                                                priceAuthor: "1234"),
                                              

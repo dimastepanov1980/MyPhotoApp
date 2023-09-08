@@ -65,7 +65,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
             Text(R.string.localizable.location())
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
-            Text("\(viewModel.authorCity), \(viewModel.authorRegion)")
+            Text("\(viewModel.location), \(viewModel.location)")
                 .font(.body)
                 .foregroundColor(Color(R.color.gray2.name))
         }
@@ -170,8 +170,7 @@ private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject
     @Published var orderPrice: String = "5500"
     @Published var authorName: String = "Iryna"
     @Published var familynameAuthor: String = "Tondaeva"
-    @Published var authorRegion: String = "Thailand"
-    @Published var authorCity: String = "Phuket"
+    @Published var location: String = "Thailand"
     @Published var orderDate: Date = Date()
     @Published var orderTime: [String] = ["08:00", "09:00"]
     @Published var orderDuration: String = "2"
