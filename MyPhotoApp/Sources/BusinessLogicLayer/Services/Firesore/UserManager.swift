@@ -85,12 +85,6 @@ final class UserManager {
     func removeOrder(userId: String, order: UserOrdersModel) async throws {
         try await userOrderDocument(userId: userId, orderId: order.id).delete()
     }
-    func addToAvatarLink(userId: String, path: String, orderId: String) async throws {
-        let data: [String : [Any]] = [
-            UserOrdersModel.CodingKeys.imageUrl.rawValue : [path]
-        ]
-        try await userOrderDocument (userId: userId, orderId: orderId).updateData(data) //.setData(data, merge: true)
-    }
     func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
         try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
     }
@@ -153,6 +147,22 @@ final class UserManager {
         ]
         try await portfolioDoc.updateData(dict)
     }
+    
+    func setSchedule(userId: String, schedules: Schedule) async throws {
+        guard let schedul = try? encoder.encode(schedules) else {
+            throw URLError(.badURL)
+        }
+        let portfolioDoc = userPortfolioCollection(userId: userId).document(userId)
+        try await portfolioDoc.updateData([DBPortfolioModel.CodingKeys.appointmen.rawValue : FieldValue.arrayUnion([schedul])])
+    }
+    func setUserAvatar(userId: String, portfolio: DBPortfolioModel) async throws {
+        let portfolioDoc = userPortfolioCollection(userId: userId).document(userId)
+        let data: [String : Any] = [
+            DBPortfolioModel.CodingKeys.avatarAuthor.rawValue : portfolio.avatarAuthor ?? "",
+        ]
+        try await portfolioDoc.updateData(data)
+    }
+    
     func getUserPortfolio(userId: String) async throws -> DBPortfolioModel {
         try await userPortfolioCollection(userId: userId).document(userId).getDocument(as: DBPortfolioModel.self)
     }

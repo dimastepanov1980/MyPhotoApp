@@ -44,11 +44,6 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
            try? await fetchImageURL(imageUrlArray: order.imageUrl ?? [])
         }
     }
-    
-//    func updatePreview() {
-//        status = order.status ?? ""
-//    }
-    
     private func updateStatus() {
         switch order.status {
         case "Upcoming":
@@ -63,7 +58,6 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
             status = R.string.localizable.status_upcoming()
         }
     }
-    
     func returnedStatus(status: String) -> String {
            switch status {
            case R.string.localizable.status_upcoming():

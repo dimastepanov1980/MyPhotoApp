@@ -77,6 +77,9 @@
 		5FE606472A8880D800E33205 /* ReAuthorizationScreenContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606462A8880D800E33205 /* ReAuthorizationScreenContract.swift */; };
 		5FE606492A8BD9DE00E33205 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE606482A8BD9DD00E33205 /* AppTrackingTransparency.framework */; };
 		5FE927E62A6FA59E00D3FEEA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE927E52A6FA59E00D3FEEA /* LocationManager.swift */; };
+		5FEB71762AAC6A3D00DCC07E /* ScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB71752AAC6A3D00DCC07E /* ScheduleModel.swift */; };
+		5FEB71782AACA92000DCC07E /* PortfolioScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB71772AACA92000DCC07E /* PortfolioScheduleViewModel.swift */; };
+		5FEB717A2AACA93100DCC07E /* PortfolioScheduleViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEB71792AACA93100DCC07E /* PortfolioScheduleViewModelType.swift */; };
 		5FF5466D2A1B573B00208455 /* AuthorMainScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF5466C2A1B573B00208455 /* AuthorMainScreenViewModelType.swift */; };
 		5FF5466F2A1B575500208455 /* AuthorMainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF5466E2A1B575500208455 /* AuthorMainScreenViewModel.swift */; };
 		5FF546712A1B577300208455 /* AuthorMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF546702A1B577300208455 /* AuthorMainScreenView.swift */; };
@@ -167,6 +170,9 @@
 		5FE606482A8BD9DD00E33205 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		5FE6064A2A8BDC0E00E33205 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5FE927E52A6FA59E00D3FEEA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		5FEB71752AAC6A3D00DCC07E /* ScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleModel.swift; sourceTree = "<group>"; };
+		5FEB71772AACA92000DCC07E /* PortfolioScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioScheduleViewModel.swift; sourceTree = "<group>"; };
+		5FEB71792AACA93100DCC07E /* PortfolioScheduleViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioScheduleViewModelType.swift; sourceTree = "<group>"; };
 		5FF5466C2A1B573B00208455 /* AuthorMainScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorMainScreenViewModelType.swift; sourceTree = "<group>"; };
 		5FF5466E2A1B575500208455 /* AuthorMainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorMainScreenViewModel.swift; sourceTree = "<group>"; };
 		5FF546702A1B577300208455 /* AuthorMainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorMainScreenView.swift; sourceTree = "<group>"; };
@@ -390,6 +396,7 @@
 			isa = PBXGroup;
 			children = (
 				5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */,
+				5FEB71792AACA93100DCC07E /* PortfolioScheduleViewModelType.swift */,
 			);
 			path = Contract;
 			sourceTree = "<group>";
@@ -398,6 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				5FE5AADA2AA1AFBB0033F51B /* PortfolioViewModel.swift */,
+				5FEB71772AACA92000DCC07E /* PortfolioScheduleViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -481,6 +489,7 @@
 				5F3909642A8F6D1C006E539A /* DBPortfolioModel.swift */,
 				5F9F32432A94C894004D48B7 /* AuthorPortfolioModel.swift */,
 				5FE5AAE32AA2B8AC0033F51B /* DBLocationModel.swift */,
+				5FEB71752AAC6A3D00DCC07E /* ScheduleModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1013,6 +1022,7 @@
 				5FF5466F2A1B575500208455 /* AuthorMainScreenViewModel.swift in Sources */,
 				5F9F32422A947765004D48B7 /* StickyHeader.swift in Sources */,
 				5F9F32442A94C894004D48B7 /* AuthorPortfolioModel.swift in Sources */,
+				5FEB71762AAC6A3D00DCC07E /* ScheduleModel.swift in Sources */,
 				5F214E102A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift in Sources */,
 				5FA767E42A69762900861F7D /* PortfolioView.swift in Sources */,
 				5FE606452A8880CB00E33205 /* ReAuthorizationScreenViewModel.swift in Sources */,
@@ -1022,6 +1032,7 @@
 				5F4A1B422A9EF73F00EC67B2 /* SearchLocationView.swift in Sources */,
 				5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */,
 				5FF58F3D2A2704CA009AF970 /* AuthorAddOrderView.swift in Sources */,
+				5FEB717A2AACA93100DCC07E /* PortfolioScheduleViewModelType.swift in Sources */,
 				5FA0EB782A79523E0024AB71 /* SettingScreenViewModelType.swift in Sources */,
 				5FE5AAEA2AA46C160033F51B /* PortfolioScheduleView.swift in Sources */,
 				5F0F8D822A31C3C100AF4EED /* AuthorAddOrderViewModel.swift in Sources */,
@@ -1030,6 +1041,7 @@
 				5FBDF84B2A64FD2300C1108D /* ImageFullScreenView.swift in Sources */,
 				5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */,
 				5FE606432A887E1200E33205 /* ReAuthorizationScreenView.swift in Sources */,
+				5FEB71782AACA92000DCC07E /* PortfolioScheduleViewModel.swift in Sources */,
 				5FE5AAE82AA357500033F51B /* PhotoGenresView.swift in Sources */,
 				5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */,
 				5F4A1B392A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift in Sources */,

@@ -43,7 +43,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType> : View {
                         }
                 }
                 .navigationDestination(isPresented: $showScheduleView) {
-                    PortfolioScheduleView(startDate: Date(), endDate: Date(), timeIntervalSelected: "1/2", holidays: false, price: "0.0")
+                    PortfolioScheduleView(with: PortfolioScheduleViewModel())
                 }
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing) {

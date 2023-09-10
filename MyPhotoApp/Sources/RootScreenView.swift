@@ -14,8 +14,8 @@ struct RootScreenView: View {
     var body: some View {
         ZStack {
             if !showSignInView {
-//                AuthorHubPageView(showSignInView: $showSignInView)
-                CustomerPageHubView()
+                AuthorHubPageView(showSignInView: $showSignInView)
+//                CustomerPageHubView()
 
             }
         }

@@ -35,7 +35,7 @@ struct StickyHeader1: View {
             
             let size = proxy.size
             let minY = proxy.frame(in: .named("SCROLL")).minY
-            let progress = minY / (height * (minY > 0 ? 0.5 : 0.8))
+//            let progress = minY / (height * (minY > 0 ? 0.5 : 0.8))
             
             Image("image_no_portfolio")
                 .resizable()
