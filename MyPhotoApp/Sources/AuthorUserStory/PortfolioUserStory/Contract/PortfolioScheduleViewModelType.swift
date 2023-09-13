@@ -17,4 +17,5 @@ protocol PortfolioScheduleViewModelType: ObservableObject {
     var schedules: [Schedule] { get set }
     
     func setSchedule(schedules: [Schedule]) async throws
+    func getSchedule() async throws -> [DbSchedule]
 }

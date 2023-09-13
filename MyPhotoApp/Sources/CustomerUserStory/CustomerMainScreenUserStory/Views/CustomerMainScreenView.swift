@@ -38,7 +38,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
         
     }
 }
-
+/*
 struct CustomerMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
@@ -118,3 +118,4 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
     }
     
 }
+*/

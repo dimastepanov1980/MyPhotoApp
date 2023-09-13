@@ -124,4 +124,4 @@
 "schedule_interval" = "Time interval /Hr";
 "schedule_price" = "Price";
 "schedule_price_per_slot" = "Price per Time slot";
-"schedule_holidays" = "Add Holidays";
+"schedule_holidays" = "Including weekends";

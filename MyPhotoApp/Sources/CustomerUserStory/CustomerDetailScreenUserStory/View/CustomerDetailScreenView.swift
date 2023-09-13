@@ -27,7 +27,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 VStack{
                     slider
                     Spacer()
-                    bottomSheet
+                 /*   bottomSheet */
                         .offset(y: -110)
                 }
             }
@@ -172,7 +172,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
         .padding(.top, 24)
 
     }
-    private var timeSlotSection: some View {
+ /*   private var timeSlotSection: some View {
         VStack(alignment: .leading, spacing: 6){
             Group {
                 Divider()
@@ -244,7 +244,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             }
             .padding(.horizontal, 24)
         }
-    }
+    } */
     private func tagTime(time: String, available: Bool) -> some View{
         Group{
             if viewModel.selectedTime.contains(time) {
@@ -334,7 +334,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
         .tabViewStyle(.page(indexDisplayMode: .never))
         .frame(height: 350)
     }
-    private var bottomSheet: some View {
+  /*  private var bottomSheet: some View {
         VStack(spacing: 20){
             authorSection
                 .padding(.horizontal, 24)
@@ -360,7 +360,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             }
             .offset(y: -50)
         }
-    }
+    } */
     private func totalCost(price: String?, timeSlot: [String]) -> String {
         String(describing: (Int(price ?? "0") ?? 0) * timeSlot.count)
     }
@@ -380,7 +380,7 @@ private struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
-
+/*
 struct CustomerDetailScreenView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
     static var previews: some View {
@@ -478,3 +478,4 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
 
 
 }
+*/

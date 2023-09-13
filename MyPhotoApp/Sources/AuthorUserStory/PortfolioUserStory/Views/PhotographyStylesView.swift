@@ -1,5 +1,5 @@
 //
-//  PhotoGenresView.swift
+//  PhotographyStylesView.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 9/2/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PhotoGenresView: View {
+struct PhotographyStylesView: View {
     var photographyStyles: [String]
     @Binding var styleSelected: [String]
     @Binding var showStyleList: Bool
@@ -110,7 +110,7 @@ struct MultipleSelectionRow: View {
 
 struct PhotoGenresView_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoGenresView(photographyStyles: ["Aerial", "Sports"], styleSelected: .constant(["Sports", "Aerial"]), showStyleList: .constant(false))
+        PhotographyStylesView(photographyStyles: ["Aerial", "Sports"], styleSelected: .constant(["Sports", "Aerial"]), showStyleList: .constant(false))
     }
 }
 

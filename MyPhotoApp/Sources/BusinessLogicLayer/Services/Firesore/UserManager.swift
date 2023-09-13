@@ -41,6 +41,10 @@ final class UserManager {
     private func userPortfolioCollection(userId: String) -> CollectionReference {
         userDocument(userId: userId).collection("portfolio")
     }
+    private func userPortfolioDocument(userId: String) -> DocumentReference {
+        userPortfolioCollection(userId: userId).document(userId)
+    }
+
     
     func createNewUser(user: DBUserModel) async throws {
         try userDocument(userId: user.userId).setData(from: user, merge: false)
@@ -142,34 +146,33 @@ final class UserManager {
         let dict: [String : Any] = [
             DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
             DBPortfolioModel.CodingKeys.author.rawValue : authorData,
-//            DBPortfolioModel.CodingKeys.avatarAuthor.rawValue : portfolio.avatarAuthor ?? "",
             DBPortfolioModel.CodingKeys.descriptionAuthor.rawValue : portfolio.descriptionAuthor ?? ""
         ]
         try await portfolioDoc.updateData(dict)
     }
-    
-    func setSchedule(userId: String, schedules: Schedule) async throws {
+    func getUserPortfolio(userId: String) async throws -> DBPortfolioModel {
+        try await userPortfolioCollection(userId: userId).document(userId).getDocument(as: DBPortfolioModel.self)
+    }
+    func setUserSchedule(userId: String, schedules: Schedule) async throws {
         guard let schedul = try? encoder.encode(schedules) else {
             throw URLError(.badURL)
         }
         let portfolioDoc = userPortfolioCollection(userId: userId).document(userId)
-        try await portfolioDoc.updateData([DBPortfolioModel.CodingKeys.appointmen.rawValue : FieldValue.arrayUnion([schedul])])
+        try await portfolioDoc.setData([DBPortfolioModel.CodingKeys.schedule.rawValue : FieldValue.arrayUnion([schedul])], merge: true)
     }
-    func setUserAvatar(userId: String, portfolio: DBPortfolioModel) async throws {
+    func removeUserSchedule(userId: String) async throws {
         let portfolioDoc = userPortfolioCollection(userId: userId).document(userId)
-        let data: [String : Any] = [
-            DBPortfolioModel.CodingKeys.avatarAuthor.rawValue : portfolio.avatarAuthor ?? "",
-        ]
-        try await portfolioDoc.updateData(data)
+        try await portfolioDoc.updateData([DBPortfolioModel.CodingKeys.schedule.rawValue : [] as NSArray])
     }
-    
-    func getUserPortfolio(userId: String) async throws -> DBPortfolioModel {
+    func getUserSchedule(userId: String) async throws -> DBPortfolioModel {
         try await userPortfolioCollection(userId: userId).document(userId).getDocument(as: DBPortfolioModel.self)
+    }
+    func addAvatarUrl(userId: String, path: String) async throws {
+        try await userPortfolioDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.avatarAuthor.rawValue : path])
     }
     
     // MARK: - Old Customer Section
     private let portfolioCollection = Firestore.firestore().collection("portfolio")
-    
     private func authorLocation(location: String) -> DocumentReference {
         portfolioCollection.document(location)
     }

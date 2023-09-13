@@ -7,7 +7,6 @@
 
 import SwiftUI
 import PhotosUI
-import SDWebImageSwiftUI
 import Firebase
 
 struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {

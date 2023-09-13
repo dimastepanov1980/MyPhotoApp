@@ -33,21 +33,12 @@ struct CustomTextField: View {
                     Text(nameTextField)
                         .font(.callout)
                         .scaleEffect(isTapped || !text.isEmpty ? 0.7 : 0.9)
-                        .offset(y: isTapped || !text.isEmpty ? -30 : 0 )
+                        .offset(x: isTapped || !text.isEmpty ? -10 : 0, y: isTapped || !text.isEmpty ? -30 : 0 )
                         .foregroundColor(Color(R.color.gray4.name)),
                     alignment: .leading
                 )
                 
             }
-
-            /*
-            Button {
-                self.text = ""
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundColor(Color(R.color.gray4.name))
-            }
-             */
         }
         .frame(height: 42)
         .padding(.horizontal)

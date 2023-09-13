@@ -14,7 +14,8 @@ import PhotosUI
 
 @MainActor
 final class PortfolioViewModel: PortfolioViewModelType {
-    
+    @Published var avatarImageID: UUID = UUID()
+    @Published var avatarURL: URL?
     @Published var locationAuthor: String = "" {
         didSet {
             searchForCity(text: locationAuthor)
@@ -23,13 +24,12 @@ final class PortfolioViewModel: PortfolioViewModelType {
     @Published var locationResult = [DBLocationModel]()
     var service = SearchLocationManaget()
     private var cancellable: AnyCancellable?
-
+    @Published var selectedAvatar: PhotosPickerItem?
     @Published var avatarAuthor: String = ""
     @Published var nameAuthor: String = ""
     @Published var familynameAuthor: String = ""
     @Published var ageAuthor: String = ""
     @Published var sexAuthor: String = "Select"
-//    @Published var location: String = ""
     @Published var styleAuthor: [String] = []
     @Published var descriptionAuthor: String = ""
     @State var styleOfPhotography =  ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food",
@@ -37,7 +37,7 @@ final class PortfolioViewModel: PortfolioViewModelType {
                                       "Sports", "Wedding", "Wildlife"]
     
     @State var sexAuthorList = ["Select", "Male", "Female"]
-
+    
     @Published var dbModel: DBPortfolioModel?
     
     init(dbModel: DBPortfolioModel? = nil) {
@@ -45,6 +45,7 @@ final class PortfolioViewModel: PortfolioViewModelType {
         Task {
             try await getAuthorPortfolio()
             updatePreview()
+            self.avatarURL = try await avatarPathToURL(path: avatarAuthor)
         }
         
         cancellable = service.searchLocationPublisher.sink { mapItems in
@@ -82,5 +83,19 @@ final class PortfolioViewModel: PortfolioViewModelType {
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try? await UserManager.shared.setUserPortfolio(userId: authDateResult.uid, portfolio: portfolio)
+    }
+    
+    func addAvatar(selectImage: PhotosPickerItem?) async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        
+        guard let data = try? await selectImage?.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) else {
+            throw URLError(.backgroundSessionWasDisconnected)
+        }
+        let (patch, _) = try await StorageManager.shared.uploadAvatarToFairbase(image: uiImage, userId: authDateResult.uid)
+        try await UserManager.shared.addAvatarUrl(userId: authDateResult.uid, path: patch)
+        self.avatarURL = try await avatarPathToURL(path: patch)
+        }
+    func avatarPathToURL(path: String) async throws -> URL {
+        try await StorageManager.shared.getImageURL(path: path)
     }
 }

@@ -15,7 +15,8 @@ struct DBPortfolioModel: Codable {
     let largeImagesPortfolio: [String]?
     let descriptionAuthor: String?
     let reviews: [DBReviews]?
-    let appointmen: [DBAppointmen]?
+    let schedule: [DbSchedule]?
+    let bookingDays: [BookinDate]?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -26,10 +27,19 @@ struct DBPortfolioModel: Codable {
         self.largeImagesPortfolio = try container.decodeIfPresent([String].self, forKey: .largeImagesPortfolio)
         self.descriptionAuthor = try container.decodeIfPresent(String.self, forKey: .descriptionAuthor)
         self.reviews = try container.decodeIfPresent([DBReviews].self, forKey: .reviews)
-        self.appointmen = try container.decodeIfPresent([DBAppointmen].self, forKey: .appointmen)
+        self.schedule = try container.decodeIfPresent([DbSchedule].self, forKey: .schedule)
+        self.bookingDays = try container.decodeIfPresent([BookinDate].self, forKey: .bookingDays)
     }
     
-    init(id: String, author: DBAuthor?, avatarAuthor: String?, smallImagesPortfolio: [String]?, largeImagesPortfolio: [String]?, descriptionAuthor: String?, reviews: [DBReviews]?, appointmen: [DBAppointmen]?) {
+    init(id: String, author: DBAuthor?,
+         avatarAuthor: String?,
+         smallImagesPortfolio: [String]?,
+         largeImagesPortfolio: [String]?,
+         descriptionAuthor: String?,
+         reviews: [DBReviews]?,
+         schedule: [DbSchedule]?,
+         bookingDays: [BookinDate]?)
+    {
         self.id = id
         self.author = author
         self.avatarAuthor = avatarAuthor
@@ -37,7 +47,8 @@ struct DBPortfolioModel: Codable {
         self.largeImagesPortfolio = largeImagesPortfolio
         self.descriptionAuthor = descriptionAuthor
         self.reviews = reviews
-        self.appointmen = appointmen
+        self.schedule = schedule
+        self.bookingDays = bookingDays
     }
 
     
@@ -49,7 +60,8 @@ struct DBPortfolioModel: Codable {
         case largeImagesPortfolio = "large_images_portfolio"
         case descriptionAuthor = "description_author"
         case reviews = "reviews"
-        case appointmen = "avaible_appointment"
+        case schedule = "avaible_schedule"
+        case bookingDays = "booking_days"
     }
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -60,7 +72,31 @@ struct DBPortfolioModel: Codable {
         try container.encodeIfPresent(self.largeImagesPortfolio, forKey: .largeImagesPortfolio)
         try container.encodeIfPresent(self.descriptionAuthor, forKey: .descriptionAuthor)
         try container.encodeIfPresent(self.reviews, forKey: .reviews)
-        try container.encodeIfPresent(self.appointmen, forKey: .appointmen)
+        try container.encodeIfPresent(self.schedule, forKey: .schedule)
+        try container.encodeIfPresent(self.bookingDays, forKey: .bookingDays)
+    }
+}
+
+struct BookinDate: Codable {
+    let date: Date
+    let dayOff: Bool
+    let orderId: String
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.date = try container.decode(Date.self, forKey: .date)
+        self.dayOff = try container.decode(Bool.self, forKey: .dayOff)
+        self.orderId = try container.decode(String.self, forKey: .orderId)
+    }
+    enum CodingKeys: String, CodingKey {
+        case date = "date"
+        case dayOff = "day_off"
+        case orderId = "order_id"
+    }
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.date, forKey: .date)
+        try container.encode(self.dayOff, forKey: .dayOff)
+        try container.encode(self.orderId, forKey: .orderId)
     }
 }
 
@@ -135,30 +171,50 @@ struct DBAuthor: Codable {
     }
 }
 
-struct DBAppointmen: Codable {
-    let id = UUID()
-    let data: Date
-    let timeSlot: [DBTimeSlot]
+struct DbSchedule: Codable {
+    let id: UUID
+    var holidays: Bool
+    var startDate: Date
+    var endDate: Date
+    var timeIntervalSelected: String
+    var price: String
+    
+    init(id: UUID, holidays: Bool, startDate: Date, endDate: Date, timeIntervalSelected: String, price: String) {
+        self.id = id
+        self.holidays = holidays
+        self.startDate = startDate
+        self.endDate = endDate
+        self.timeIntervalSelected = timeIntervalSelected
+        self.price = price
+    }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.data = try container.decode(Date.self, forKey: .data)
-        self.timeSlot = try container.decode([DBTimeSlot].self, forKey: .timeSlot)
+        self.id = try container.decode(UUID.self, forKey: .id)
+        self.holidays = try container.decode(Bool.self, forKey: .holidays)
+        self.startDate = try container.decode(Date.self, forKey: .startDate)
+        self.endDate = try container.decode(Date.self, forKey: .endDate)
+        self.timeIntervalSelected = try container.decode(String.self, forKey: .timeIntervalSelected)
+        self.price = try container.decode(String.self, forKey: .price)
     }
-    init(data: Date, timeSlot: [DBTimeSlot]) {
-        self.data = data
-        self.timeSlot = timeSlot
-    }
-    
     enum CodingKeys: String, CodingKey {
-        case data = "date"
-        case timeSlot = "time_slot"
+        case id = "id_schedule"
+        case holidays = "holidays"
+        case startDate = "start_date"
+        case endDate = "end_date"
+        case timeIntervalSelected = "time_interval"
+        case price = "price"
     }
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.data, forKey: .data)
-        try container.encode(self.timeSlot, forKey: .timeSlot)
+        try container.encode(self.id, forKey: .id)
+        try container.encode(self.holidays, forKey: .holidays)
+        try container.encode(self.startDate, forKey: .startDate)
+        try container.encode(self.endDate, forKey: .endDate)
+        try container.encode(self.timeIntervalSelected, forKey: .timeIntervalSelected)
+        try container.encode(self.price, forKey: .price)
     }
+    
 }
 
 struct DBTimeSlot: Codable, Hashable {

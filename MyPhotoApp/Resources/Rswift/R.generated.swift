@@ -497,10 +497,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let portfolio_about = Rswift.StringResource(key: "portfolio_about", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Add Holidays
-      ///
-      /// Locales: en, ru
-      static let schedule_holidays = Rswift.StringResource(key: "schedule_holidays", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add Order
       ///
       /// Locales: en, ru
@@ -637,6 +633,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let status_inProgress = Rswift.StringResource(key: "status_inProgress", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Including weekends
+      ///
+      /// Locales: en, ru
+      static let schedule_holidays = Rswift.StringResource(key: "schedule_holidays", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Instagram Link
       ///
       /// Locales: en, ru
@@ -887,21 +887,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("portfolio_about", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Add Holidays
-      ///
-      /// Locales: en, ru
-      static func schedule_holidays(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("schedule_holidays", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "schedule_holidays"
-        }
-
-        return NSLocalizedString("schedule_holidays", bundle: bundle, comment: "")
       }
 
       /// en translation: Add Order
@@ -1412,6 +1397,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("status_inProgress", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Including weekends
+      ///
+      /// Locales: en, ru
+      static func schedule_holidays(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_holidays", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_holidays"
+        }
+
+        return NSLocalizedString("schedule_holidays", bundle: bundle, comment: "")
       }
 
       /// en translation: Instagram Link

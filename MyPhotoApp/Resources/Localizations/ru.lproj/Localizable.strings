@@ -122,4 +122,4 @@
 "schedule_interval" = "Интервал времени /часа";
 "schedule_price" = "Цена";
 "schedule_price_per_slot" = "Цена за один интервал";
-"schedule_holidays" = "Добавить праздники";
+"schedule_holidays" = "Включая выходные";

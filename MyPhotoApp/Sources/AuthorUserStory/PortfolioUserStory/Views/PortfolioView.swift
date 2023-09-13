@@ -1,252 +1,157 @@
 //
-//  PortfolioView.swift
+//  PortfolioAddImagesView.swift
 //  MyPhotoApp
 //
-//  Created by Dima Stepanov on 7/20/23.
+//  Created by Dima Stepanov on 9/12/23.
 //
 
 import SwiftUI
+import PhotosUI
 
-struct PortfolioView<ViewModel: PortfolioViewModelType> : View {
-    
+struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @State var isTapped = false
-    @State var showStyleList: Bool = false
-    @State var showScheduleView: Bool = false
-
+    @State var showPortfolioEditView: Bool = false
+    @State private var selectPortfolioImages: [PhotosPickerItem] = []
+    
     init(with viewModel : ViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
         NavigationStack{
-            ScrollView(showsIndicators: false){
-                VStack(spacing: 24){
-                    avatarImage
-                    CustomTextField(nameTextField: R.string.localizable.portfolio_first_name(), text: $viewModel.nameAuthor)
-                    CustomTextField(nameTextField: R.string.localizable.portfolio_last_name(), text: $viewModel.familynameAuthor)
-                    CustomTextField(nameTextField: R.string.localizable.portfolio_age(), text: $viewModel.ageAuthor)
-                    genderSection
-                    searchLocation
-                    photoStyleSection
-                        .onTapGesture {
-                            showStyleList.toggle()
-                        }
-                        .navigationDestination(isPresented: $showStyleList) {
-                            PhotoGenresView(photographyStyles: viewModel.styleOfPhotography, styleSelected: $viewModel.styleAuthor, showStyleList: $showStyleList)
-                        }
+            ScrollView{
+                authorSection
+                    .padding(.horizontal, 24)
+            }
+        }.toolbar{
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack{
                     
-                    descriptionSection
-                    addSchedule
-                        .onTapGesture {
-                            showScheduleView.toggle()
-                        }
+                    PhotosPicker(selection: $selectPortfolioImages,
+                                 maxSelectionCount: 10,
+                                 matching: .any(of: [.images, .not(.videos)]),
+                                 preferredItemEncoding: .automatic,
+                                 photoLibrary: .shared()) {
+                        Image(systemName: "plus.app")
+                    }
+                    
+                    Button {
+                        showPortfolioEditView.toggle()
+                    } label: {
+                        Image(systemName: "pencil.line")
+                    }
                 }
-                .navigationDestination(isPresented: $showScheduleView) {
-                    PortfolioScheduleView(with: PortfolioScheduleViewModel())
-                }
-                .toolbar{
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(R.string.localizable.save()) {
-                                Task {
-                                    try await viewModel.setAuthorPortfolio(portfolio: DBPortfolioModel(id: UUID().uuidString,
-                                                                           author: DBAuthor(id: UUID().uuidString,
-                                                                                            rateAuthor: 0.0,
-                                                                                            likedAuthor: true,
-                                                                                            nameAuthor: viewModel.nameAuthor,
-                                                                                            familynameAuthor: viewModel.familynameAuthor,
-                                                                                            sexAuthor: viewModel.sexAuthor,
-                                                                                            ageAuthor: viewModel.ageAuthor,
-                                                                                            location: viewModel.locationAuthor,
-                                                                                            styleAuthor: viewModel.styleAuthor,
-                                                                                            imagesCover: [],
-                                                                                            priceAuthor: ""),
-                                                                           avatarAuthor: nil,
-                                                                           smallImagesPortfolio: [],
-                                                                           largeImagesPortfolio: [],
-                                                                           descriptionAuthor: viewModel.descriptionAuthor,
-                                                                           reviews: [DBReviews](),
-                                                                           appointmen: [DBAppointmen]()))
-                                }
-                        }
-                        .foregroundColor(Color(R.color.gray2.name))
-                        .padding()
-                                        }
-                }
-                .padding(.bottom, 64)
-            }
-        }
-    }
-    var avatarImage: some View {
-        VStack {
-            AsyncImage(url: stringToURL(imageString: viewModel.avatarAuthor)){ image in
-                image
-                    .resizable()
-                    .scaledToFill()
-            } placeholder: {
-                ZStack{
-                    ProgressView()
-                    Color.gray.opacity(0.2)
-                }
-            }.mask {
-                Circle()
-            }
-            .frame(width: 110, height: 110)
-        }
-    }
-    var genderSection: some View {
-        HStack{
-            Text(R.string.localizable.portfolio_gender())
-                .font(.callout)
-                .foregroundColor(Color(R.color.gray4.name))
-            Spacer()
-            Picker(R.string.localizable.portfolio_genre(), selection: $viewModel.sexAuthor) {
-                ForEach(viewModel.sexAuthorList, id: \.self) {
-                    Text(selectGender(gender: $0))
-                }
-            }
-            .pickerStyle(.menu)
-        }
-        .padding(.horizontal)
-        .frame(height: 42)
-        .overlay(
-            RoundedRectangle(cornerRadius: 21)
-                .stroke(Color(R.color.gray5.name), lineWidth: 1))
-        .padding(.horizontal)
-    }
-    var descriptionSection: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(R.string.localizable.portfolio_about())
-                .font(.caption)
-                .foregroundColor(Color(R.color.gray4.name))
-                .padding(.horizontal)
-            
-            TextEditor(text: $viewModel.descriptionAuthor)
-                .font(.callout)
+                
                 .foregroundColor(Color(R.color.gray2.name))
-                .padding(.horizontal)
-                .frame(height: 165)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 21)
-                        .stroke(Color(R.color.gray5.name), lineWidth: 1))
-
-        }.padding(.horizontal)    }
-    var photoStyleSection: some View {
-        HStack{
-            Text(viewModel.styleAuthor.joined(separator: ", "))
-                .font(.callout)
-                .foregroundColor(viewModel.styleAuthor.joined().isEmpty ? Color(R.color.gray4.name) : Color(R.color.gray2.name))
-                .frame(height: 42)
-                .padding(.horizontal)
-            Spacer()
-            Image(systemName: "chevron.right")
-                .font(.callout)
-                .foregroundColor(viewModel.styleAuthor.joined().isEmpty ? Color(R.color.gray4.name) : Color(R.color.gray2.name))
-                .frame(height: 42)
-                .padding(.horizontal)
-        }
-        .overlay(
-            RoundedRectangle(cornerRadius: 21)
-                .stroke(Color(R.color.gray5.name), lineWidth: 1))
-        .overlay(content: {
-            HStack {
-                Text(R.string.localizable.portfolio_genre())
-                    .font(.callout)
-                    .scaleEffect(isTapped || !viewModel.styleAuthor.joined().isEmpty ? 0.7 : 1)
-                    .offset(y: isTapped || !viewModel.styleAuthor.joined().isEmpty ? -30 : 0 )
-                    .foregroundColor(Color(R.color.gray4.name))
-                    .padding(.leading, viewModel.styleAuthor.joined().isEmpty ? 20 : -5)
-                Spacer()
-            }
-        })
-        .padding(.horizontal)
-    }
-    var addSchedule: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 21)
-                .fill(Color(R.color.gray1.name))
-            
-            HStack{
-                Text(R.string.localizable.schedule_set())
-                    .font(.callout)
-                    .foregroundColor(Color(R.color.gray6.name))
-                    .padding(.leading, 24)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.callout)
-                    .foregroundColor(Color(R.color.gray6.name))
-                    .frame(height: 42)
-                    .padding(.trailing, 24)
+                .padding()
             }
         }
-        
-        .padding(.horizontal)
-    }
-    var searchLocation: some View {
-        VStack(alignment: .leading) {
-            CustomTextField(nameTextField: R.string.localizable.portfolio_location(), text: $viewModel.locationAuthor)
-            ForEach(viewModel.locationResult) { result in
-                if viewModel.locationAuthor != result.location {
-                    VStack(alignment: .leading) {
-                        Text(result.location)
-                            .font(.subheadline)
-                            .foregroundColor(Color(R.color.gray4.name))
-                            .padding(.leading, 36)
-                    }
-                    .onTapGesture {
-                        withAnimation {
-                            viewModel.locationAuthor = result.location
-                        }
-                    }
-                }
-            }
+        .navigationDestination(isPresented: $showPortfolioEditView) {
+            PortfolioEditView(with: PortfolioViewModel(),
+                              selectedAvatar: $viewModel.selectedAvatar,
+                              nameAuthor: $viewModel.nameAuthor,
+                              avatarURL: $viewModel.avatarURL,
+                              familynameAuthor: $viewModel.familynameAuthor,
+                              ageAuthor: $viewModel.ageAuthor,
+                              locationAuthor: $viewModel.locationAuthor,
+                              styleAuthor: $viewModel.styleAuthor,
+                              avatarAuthor: $viewModel.avatarAuthor,
+                              descriptionAuthor: $viewModel.descriptionAuthor)
         }
     }
     
-    func selectGender(gender: String?) -> String {
-        if let select = gender {
-            switch select {
-            case "Select":
-                return R.string.localizable.gender_select()
-            case "Male":
-                return R.string.localizable.gender_male()
-            case "Female":
-                return R.string.localizable.gender_female()
-            default:
-                break
+    private var authorSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack{
+                AsyncImage(url: viewModel.avatarURL){ image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    ZStack{
+                        ProgressView()
+                        Color.gray.opacity(0.2)
+                        
+                    }
+                }.mask {
+                    Circle()
+                }
+                .frame(width: 68, height: 68)
+                .id(viewModel.avatarImageID)
+                
+                VStack(alignment: .leading){
+                    Text("\(viewModel.nameAuthor) \(viewModel.familynameAuthor)")
+                        .font(.title2.bold())
+                        .foregroundColor(Color(R.color.gray1.name))
+                    Text("\(viewModel.locationAuthor)")
+                        .font(.callout)
+                        .foregroundColor(Color(R.color.gray4.name))
+                }
+                .padding(12)
+                
             }
+            
+            HStack(spacing: 16){
+                ForEach(viewModel.styleAuthor, id: \.self) { genre in
+                    HStack{
+                        Image(systemName: "heart.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .foregroundColor(Color(R.color.gray4.name))
+                            .frame(width: 20, height: 20)
+                        Text(genre)
+                            .font(.caption2)
+                            .foregroundColor(Color(R.color.gray4.name))
+                    }
+                }
+            }
+            Divider()
+            
+            Text(viewModel.descriptionAuthor)
+                .font(.callout)
+                .foregroundColor(Color(R.color.gray2.name))
+            
         }
-        return ""
+        .padding(.top, 24)
+        
     }
-
+    
 }
 
-struct PortfolioView_Previews: PreviewProvider {
+struct PortfolioAddImagesView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     
     static var previews: some View {
-        PortfolioView(with: viewModel)
+        NavigationStack{
+            PortfolioView(with: viewModel)
+        }
     }
 }
 
+
 private class MockViewModel: PortfolioViewModelType, ObservableObject {
+    var selectedAvatar: PhotosPickerItem?
+    var avatarImageID: UUID = UUID()
+    var avatarURL: URL?
+    func avatarPathToURL(path: String) async throws -> URL {
+        URL(string: "")!
+    }
+    
+    func addAvatar(selectImage: PhotosPickerItem?) async throws {}
     var sexAuthorList: [String] = ["Select", "Male", "Female"]
-    
-    
     var dbModel: DBPortfolioModel?
-    var styleOfPhotography: [String] = ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food", "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate", "Sports", "Wedding", "Wildlife"]    
-    var locationAuthor: String = ""
+    var styleOfPhotography: [String] = ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food", "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate", "Sports", "Wedding", "Wildlife"]
+    var locationAuthor: String = "Phuket, Thailand"
     var locationResult: [DBLocationModel] = []
     var avatarAuthor: String = "https://images.unsplash.com/photo-1558612937-4ecf7ae1e375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyZXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
-    var nameAuthor: String = ""
-    var familynameAuthor: String = ""
-    var ageAuthor: String = ""
-    var sexAuthor: String = ""
-    var location: String = ""
-    var styleAuthor: [String]  = []
-    var descriptionAuthor: String  = ""
+    var nameAuthor: String = "Iryna"
+    var familynameAuthor: String = "Bocharova"
+    var ageAuthor: String = "27"
+    var sexAuthor: String = "Female"
+    var styleAuthor: [String]  = ["Aerial", "Architecture", "Documentary", "Sports"]
+    var descriptionAuthor: String  = "Swift, SwiftUI, the Swift logo, Swift Playgrounds, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright © 1994 Miramax Films. Hacking with Swift is ©2023 Hudson Heavy Industries."
     func updatePreview() {}
     func getAuthorPortfolio() async throws {}
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws {}
-
+    
 }

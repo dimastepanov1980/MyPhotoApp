@@ -24,7 +24,7 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                 }
                 Button(action: {
                     // Add a new schedule when the button is tapped
-                    viewModel.schedules.append(Schedule(holidays: false, startDate: Date(), endDate: Date(), timeIntervalSelected: "1", price: ""))
+                    viewModel.schedules.append(Schedule(id: UUID(), holidays: false, startDate: Date(), endDate: Date(), timeIntervalSelected: "1", price: ""))
                 }) {
                     Text(R.string.localizable.schedule_add())
                         .foregroundColor(Color(R.color.gray1.name))
@@ -57,6 +57,7 @@ struct AddScheduleSection: View {
                 .foregroundColor(Color(R.color.gray3.name))
                 .tint(Color(R.color.gray1.name))
             DatePicker(R.string.localizable.schedule_start(), selection: $schedule.startDate, displayedComponents: [.hourAndMinute, .date])
+                .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
                 .foregroundColor(Color(R.color.gray3.name))
             DatePicker(R.string.localizable.schedule_end(), selection: $schedule.endDate, displayedComponents: [.hourAndMinute, .date])
                 .foregroundColor(Color(R.color.gray3.name))
@@ -97,8 +98,9 @@ struct PortfolioScheduleView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: PortfolioScheduleViewModelType, ObservableObject {
+  
+    func getSchedule() async throws -> [DbSchedule] {return []}
     func setSchedule(schedules: [Schedule]) async throws {}
-    
     var startDate: Date = Date()
     var endDate: Date  = Date()
     var timeIntervalSelected: String = "1"

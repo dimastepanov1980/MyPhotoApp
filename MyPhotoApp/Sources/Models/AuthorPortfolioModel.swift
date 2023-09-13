@@ -15,7 +15,7 @@ struct AuthorPortfolioModel {
     let largeImagesPortfolio: [String]
     let descriptionAuthor: String
     let reviews: [DBReviews]
-    let appointmen: [DBAppointmen]
+    let appointmen: [DbSchedule]
     
     init(portfolio: DBPortfolioModel) {
         self.id = portfolio.id
@@ -25,7 +25,7 @@ struct AuthorPortfolioModel {
         self.largeImagesPortfolio = portfolio.largeImagesPortfolio ?? []
         self.descriptionAuthor = portfolio.descriptionAuthor ?? ""
         self.reviews = portfolio.reviews ?? []
-        self.appointmen = portfolio.appointmen ?? []
+        self.appointmen = portfolio.schedule ?? []
     }
 }
 
