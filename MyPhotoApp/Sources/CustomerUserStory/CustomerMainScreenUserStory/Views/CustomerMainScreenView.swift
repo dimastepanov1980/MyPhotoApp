@@ -19,8 +19,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
         NavigationStack {
             ScrollView{
                 ForEach(viewModel.portfolio, id: \.id) { item in
-                    if let author = item.author {
-                        CustomerMainCellView(items: AuthorModel(author: author))
+                    CustomerMainCellView(items: item)
                             .onTapGesture {
                                 viewModel.selectedItem = item
                                 showDetailView.toggle()
@@ -30,8 +29,18 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                         CustomerDetailScreenView(with: CustomerDetailScreenViewModel(items: selectedItem), showDetailView: $showDetailView)
                                 }
                             }
-                    }
+                            .onAppear{
+                                Task{
+                                    do{
+                                        try await viewModel.imagePathToURL(imagePath: item.smallImagesPortfolio)
+                                    }catch{
+                                        throw error
+                                    }
+                                    
+                                }
+                            }
                 }
+                
             }
         }
         

@@ -14,9 +14,10 @@ struct DBPortfolioModel: Codable {
     let smallImagesPortfolio: [String]?
     let largeImagesPortfolio: [String]?
     let descriptionAuthor: String?
-    let reviews: [DBReviews]?
+    
+//    let reviews: [DBReviews]?
     let schedule: [DbSchedule]?
-    let bookingDays: [BookinDate]?
+//    let bookingDays: [BookinDate]?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -26,9 +27,9 @@ struct DBPortfolioModel: Codable {
         self.smallImagesPortfolio = try container.decodeIfPresent([String].self, forKey: .smallImagesPortfolio)
         self.largeImagesPortfolio = try container.decodeIfPresent([String].self, forKey: .largeImagesPortfolio)
         self.descriptionAuthor = try container.decodeIfPresent(String.self, forKey: .descriptionAuthor)
-        self.reviews = try container.decodeIfPresent([DBReviews].self, forKey: .reviews)
+//        self.reviews = try container.decodeIfPresent([DBReviews].self, forKey: .reviews)
         self.schedule = try container.decodeIfPresent([DbSchedule].self, forKey: .schedule)
-        self.bookingDays = try container.decodeIfPresent([BookinDate].self, forKey: .bookingDays)
+//        self.bookingDays = try container.decodeIfPresent([BookinDate].self, forKey: .bookingDays)
     }
     
     init(id: String, author: DBAuthor?,
@@ -36,9 +37,10 @@ struct DBPortfolioModel: Codable {
          smallImagesPortfolio: [String]?,
          largeImagesPortfolio: [String]?,
          descriptionAuthor: String?,
-         reviews: [DBReviews]?,
-         schedule: [DbSchedule]?,
-         bookingDays: [BookinDate]?)
+//         reviews: [DBReviews]?,
+         schedule: [DbSchedule]?
+//         bookingDays: [BookinDate]?
+    )
     {
         self.id = id
         self.author = author
@@ -46,9 +48,9 @@ struct DBPortfolioModel: Codable {
         self.smallImagesPortfolio = smallImagesPortfolio
         self.largeImagesPortfolio = largeImagesPortfolio
         self.descriptionAuthor = descriptionAuthor
-        self.reviews = reviews
+//        self.reviews = reviews
         self.schedule = schedule
-        self.bookingDays = bookingDays
+//        self.bookingDays = bookingDays
     }
 
     
@@ -59,7 +61,7 @@ struct DBPortfolioModel: Codable {
         case smallImagesPortfolio = "small_images_portfolio"
         case largeImagesPortfolio = "large_images_portfolio"
         case descriptionAuthor = "description_author"
-        case reviews = "reviews"
+//        case reviews = "reviews"
         case schedule = "avaible_schedule"
         case bookingDays = "booking_days"
     }
@@ -71,103 +73,107 @@ struct DBPortfolioModel: Codable {
         try container.encodeIfPresent(self.smallImagesPortfolio, forKey: .smallImagesPortfolio)
         try container.encodeIfPresent(self.largeImagesPortfolio, forKey: .largeImagesPortfolio)
         try container.encodeIfPresent(self.descriptionAuthor, forKey: .descriptionAuthor)
-        try container.encodeIfPresent(self.reviews, forKey: .reviews)
+//        try container.encodeIfPresent(self.reviews, forKey: .reviews)
         try container.encodeIfPresent(self.schedule, forKey: .schedule)
-        try container.encodeIfPresent(self.bookingDays, forKey: .bookingDays)
+//        try container.encodeIfPresent(self.bookingDays, forKey: .bookingDays)
     }
 }
 
 struct BookinDate: Codable {
-    let date: Date
+    let dateStart: Date
+    let dateEnd: Date
     let dayOff: Bool
     let orderId: String
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.date = try container.decode(Date.self, forKey: .date)
+        self.dateStart = try container.decode(Date.self, forKey: .dateStart)
+        self.dateEnd = try container.decode(Date.self, forKey: .dateEnd)
         self.dayOff = try container.decode(Bool.self, forKey: .dayOff)
         self.orderId = try container.decode(String.self, forKey: .orderId)
     }
     enum CodingKeys: String, CodingKey {
-        case date = "date"
+        case dateStart = "date_start"
+        case dateEnd = "date_end"
         case dayOff = "day_off"
         case orderId = "order_id"
     }
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.date, forKey: .date)
+        try container.encode(self.dateStart, forKey: .dateStart)
+        try container.encode(self.dateEnd, forKey: .dateEnd)
         try container.encode(self.dayOff, forKey: .dayOff)
         try container.encode(self.orderId, forKey: .orderId)
     }
 }
 
 struct DBAuthor: Codable {
-    let id: String
     let rateAuthor: Double
     let likedAuthor: Bool
+    let typeAuthor: String
     let nameAuthor: String
     let familynameAuthor: String
     let sexAuthor: String
     let ageAuthor: String
     let location: String
+    let regionAuthor: String
     let styleAuthor: [String]
     let imagesCover: [String]
-    let priceAuthor: String
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
         self.rateAuthor = try container.decode(Double.self, forKey: .rateAuthor)
+        self.typeAuthor = try container.decode(String.self, forKey: .typeAuthor)
         self.likedAuthor = try container.decode(Bool.self, forKey: .likedAuthor)
         self.nameAuthor = try container.decode(String.self, forKey: .nameAuthor)
         self.familynameAuthor = try container.decode(String.self, forKey: .familynameAuthor)
         self.sexAuthor = try container.decode(String.self, forKey: .sexAuthor)
         self.ageAuthor = try container.decode(String.self, forKey: .ageAuthor)
         self.location = try container.decode(String.self, forKey: .location)
+        self.regionAuthor = try container.decode(String.self, forKey: .regionAuthor)
         self.styleAuthor = try container.decode([String].self, forKey: .styleAuthor)
         self.imagesCover = try container.decode([String].self, forKey: .imagesCover)
-        self.priceAuthor = try container.decode(String.self, forKey: .priceAuthor)
     }
 
-    init(id: String, rateAuthor: Double, likedAuthor: Bool, nameAuthor: String, familynameAuthor: String, sexAuthor: String, ageAuthor: String, location: String, styleAuthor: [String], imagesCover: [String], priceAuthor: String) {
-        self.id = id
+    init(rateAuthor: Double, likedAuthor: Bool, typeAuthor: String, nameAuthor: String, familynameAuthor: String, sexAuthor: String, ageAuthor: String, location: String, regionAuthor: String, styleAuthor: [String], imagesCover: [String]) {
         self.rateAuthor = rateAuthor
         self.likedAuthor = likedAuthor
+        self.typeAuthor = typeAuthor
         self.nameAuthor = nameAuthor
         self.familynameAuthor = familynameAuthor
         self.sexAuthor = sexAuthor
         self.ageAuthor = ageAuthor
         self.location = location
+        self.regionAuthor = regionAuthor
         self.styleAuthor = styleAuthor
         self.imagesCover = imagesCover
-        self.priceAuthor = priceAuthor
     }
     
     enum CodingKeys: String, CodingKey {
-        case id = "user_id"
         case rateAuthor = "rate_author"
         case likedAuthor = "liked_author"
+        case typeAuthor = "type_author"
         case nameAuthor = "name_author"
         case familynameAuthor = "familyname_author"
         case sexAuthor = "sex_author"
         case ageAuthor = "age_author"
         case location = "location"
+        case regionAuthor = "region_author"
         case styleAuthor = "style_author"
         case imagesCover = "images_cover"
-        case priceAuthor = "price_author"
     }
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.id, forKey: .id)
         try container.encode(self.rateAuthor, forKey: .rateAuthor)
+        try container.encode(self.typeAuthor, forKey: .typeAuthor)
         try container.encode(self.likedAuthor, forKey: .likedAuthor)
         try container.encode(self.nameAuthor, forKey: .nameAuthor)
         try container.encode(self.familynameAuthor, forKey: .familynameAuthor)
         try container.encode(self.sexAuthor, forKey: .sexAuthor)
         try container.encode(self.ageAuthor, forKey: .ageAuthor)
         try container.encode(self.location, forKey: .location)
+        try container.encode(self.regionAuthor, forKey: .regionAuthor)
         try container.encode(self.styleAuthor, forKey: .styleAuthor)
         try container.encode(self.imagesCover, forKey: .imagesCover)
-        try container.encode(self.priceAuthor, forKey: .priceAuthor)
     }
 }
 

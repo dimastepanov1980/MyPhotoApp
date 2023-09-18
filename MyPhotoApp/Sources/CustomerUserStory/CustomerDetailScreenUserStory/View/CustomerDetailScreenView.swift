@@ -25,9 +25,27 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
    var body: some View {
             ScrollView(showsIndicators: false){
                 VStack{
-                    slider
+                    ParallaxHeader{
+                        TabView(selection: $currentStep) {
+                            ForEach(viewModel.items.smallImagesPortfolio.indices, id: \.self) { index in
+                                AsyncImageView(imagePath: viewModel.items.smallImagesPortfolio[index])
+                            }
+                }
+                .overlay(alignment: .topTrailing) {
+                    Button {
+                       showDetailView.toggle()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(Color(R.color.gray3.name).opacity(0.5))
+                    }.padding(.top, 48)
+                        .padding(.trailing, 36)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(height: 350)
                     Spacer()
-                 /*   bottomSheet */
+                 bottomSheet
                         .offset(y: -110)
                 }
             }
@@ -74,10 +92,12 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                    // Action
                                }
                            } else {
-                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.location))", iconName: "") {
+                               
+//                      TODO: - change price property form Schedule
+                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: "change price form Schedule", timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.location))", iconName: "") {
                                    showOrderConfirm.toggle()
                                }.fullScreenCover(isPresented: $showOrderConfirm) {
-                                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.items.author?.priceAuthor, timeSlot: viewModel.selectedTime), orderDescription: $orderDescription), showOrderConfirm: $showOrderConfirm)
+                                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: "change price form Schedule", timeSlot: viewModel.selectedTime), orderDescription: $orderDescription), showOrderConfirm: $showOrderConfirm)
                                    
                                }
                            }
@@ -140,9 +160,11 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                         Text(R.string.localizable.price_start())
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
-                        Text("\(author.priceAuthor)\(viewModel.currencySymbol(for: author.location))")
-                            .font(.headline.bold())
-                            .foregroundColor(Color(R.color.gray2.name))
+//                      TODO: - change price property form Schedule
+
+//                        Text("\(author.priceAuthor)\(viewModel.currencySymbol(for: author.location))")
+//                            .font(.headline.bold())
+//                            .foregroundColor(Color(R.color.gray2.name))
                     }
                 }
             }
@@ -172,8 +194,9 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
         .padding(.top, 24)
 
     }
- /*   private var timeSlotSection: some View {
+    private var timeSlotSection: some View {
         VStack(alignment: .leading, spacing: 6){
+            /*
             Group {
                 Divider()
                 Text(R.string.localizable.select_date())
@@ -243,8 +266,9 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
               }
             }
             .padding(.horizontal, 24)
+             */
         }
-    } */
+    }
     private func tagTime(time: String, available: Bool) -> some View{
         Group{
             if viewModel.selectedTime.contains(time) {
@@ -299,42 +323,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             }
         }
     }
-    private var slider: some View {
-        ParallaxHeader{
-            TabView(selection: $currentStep) {
-                ForEach(viewModel.items.smallImagesPortfolio.indices, id: \.self) { index in
-                    AsyncImage(url: viewModel.stringToURL(imageString: viewModel.items.smallImagesPortfolio[index])){ image in
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .frame(height: 450)
-                            .clipped()
-                        
-                    } placeholder: {
-                        ZStack{
-                            ProgressView()
-                            Color.gray.opacity(0.2)
-                                .cornerRadius(10)
-                        }
-                    }
-                }
-            }
-            .overlay(alignment: .topTrailing) {
-                Button {
-                   showDetailView.toggle()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.largeTitle)
-                        .foregroundColor(Color(R.color.gray3.name).opacity(0.5))
-                }.padding(.top, 48)
-                    .padding(.trailing, 36)
-            }
-        }
-        .tabViewStyle(.page(indexDisplayMode: .never))
-        .frame(height: 350)
-    }
-  /*  private var bottomSheet: some View {
+    private var bottomSheet: some View {
         VStack(spacing: 20){
             authorSection
                 .padding(.horizontal, 24)
@@ -360,9 +349,50 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             }
             .offset(y: -50)
         }
-    } */
+    }
     private func totalCost(price: String?, timeSlot: [String]) -> String {
         String(describing: (Int(price ?? "0") ?? 0) * timeSlot.count)
+    }
+    
+    private struct AsyncImageView: View {
+        let imagePath: String
+        @State private var imageURL: URL?
+        @State private var image: UIImage? // New state to hold the image
+        
+        var body: some View {
+            Group {
+                if let image = image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                } else {
+                    // Placeholder view for when the image is being loaded
+                    ProgressView()
+                }
+            }
+            .onAppear {
+                // Fetch the image URL and download the image concurrently
+                Task {
+                    do {
+                        let url = try await imagePathToURL(imagePath: imagePath)
+                        imageURL = url
+                        
+                        // Download the image using the URL
+                        let (imageData, _) = try await URLSession.shared.data(from: url)
+                        image = UIImage(data: imageData)
+                    } catch {
+                        // Handle errors
+                        print("Error fetching image URL or downloading image: \(error)")
+                    }
+                }
+            }
+        }
+        
+        private func imagePathToURL(imagePath: String) async throws -> URL {
+            // Assume you have a StorageManager.shared.getImageURL method
+            try await StorageManager.shared.getImageURL(path: imagePath)
+        }
     }
 }
 extension View {
@@ -371,7 +401,6 @@ extension View {
     }
 }
 private struct RoundedCorner: Shape {
-    
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
     
@@ -380,7 +409,7 @@ private struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
-/*
+
 struct CustomerDetailScreenView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
     static var previews: some View {
@@ -388,63 +417,25 @@ struct CustomerDetailScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
-    @Published var items: AuthorPortfolioModel =
-    AuthorPortfolioModel(portfolio:
-                            DBPortfolioModel(id: UUID().uuidString,
-                                             author:  DBAuthor(id: UUID().uuidString,
-                                                               rateAuthor: 4.32,
-                                                               likedAuthor: true,
-                                                               nameAuthor: "Iryna",
-                                                               familynameAuthor: "Test",
-                                                               sexAuthor: "Female",
-                                                               ageAuthor: "47",
-                                                               location: "th",
-                                                               styleAuthor: ["Test", "Test", "Test", "Test"],
-                                                               imagesCover: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"],
-                                                               priceAuthor: "1234"),
-                                             
-                                             avatarAuthor: "https://images.unsplash.com/photo-1558612937-4ecf7ae1e375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyZXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
-                                             
-                                             smallImagesPortfolio: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1544717304-14d94551b7dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjF8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1608048944439-505d956e1429?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"],
-                                             
-                                             largeImagesPortfolio: ["https://images.unsplash.com/photo-1550005809-91ad75fb315f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80", "https://images.unsplash.com/photo-1544717304-14d94551b7dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjF8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1546032996-6dfacbacbf3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdlZGRpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60","https://images.unsplash.com/photo-1692265963326-1a9a7eafec5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0M3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://plus.unsplash.com/premium_photo-1692392181683-77be581a5aaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60", "https://images.unsplash.com/photo-1608048944439-505d956e1429?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjN8fGxvdmUlMjBzdG9yeXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"],
-                                             
-                                             descriptionAuthor: "As one of the most important parts of your portfolio, it is imperative that your photographer 'About Me' page appears on your website menu. This practice is a must regardless of whether your bio has a dedicated page or appears as a strip on your one-page website. In any case, your visitors shouldn’t have to click more than once before finding it.",
+    @Published var items: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
+                                                DBPortfolioModel(id: UUID().uuidString,
+                                                                 author:   DBAuthor(rateAuthor: 0.0,
+                                                                                    likedAuthor: true,
+                                                                                    typeAuthor: "photo",
+                                                                                    nameAuthor: "Test",
+                                                                                    familynameAuthor: "Author",
+                                                                                    sexAuthor: "Male",
+                                                                                    ageAuthor: "25",
+                                                                                    location: "Maoi",
+                                                                                    regionAuthor: "UA",
+                                                                                    styleAuthor: ["Fashion", "Love Story"],
+                                                                                    imagesCover: ["", ""]),
+                                                                 avatarAuthor: "",
+                                                                 smallImagesPortfolio: [],
+                                                                 largeImagesPortfolio: [],
+                                                                 descriptionAuthor: "",
+                                                                 schedule: []))
 
-                                             reviews: [DBReviews(reviewerAuthor: "Safron Sandeev",
-                                                                                      reviewDescription: "Best photographer on the world",
-                                                                                      reviewRate: 5.0)],
-
-                                             appointmen: [
-                                                DBAppointmen(data: Date(), timeSlot: [
-                                                    DBTimeSlot(time: "09:00", available: true),
-                                                    DBTimeSlot(time: "10:00", available: false),
-                                                    DBTimeSlot(time: "11:00", available: true),
-                                                    DBTimeSlot(time: "12:00", available: true),
-                                                    DBTimeSlot(time: "13:00", available: true),
-                                                    DBTimeSlot(time: "14:00", available: false),
-                                                    DBTimeSlot(time: "15:00", available: false),
-                                                    DBTimeSlot(time: "16:00", available: true),
-                                                    DBTimeSlot(time: "17:00", available: false),
-                                                    DBTimeSlot(time: "18:00", available: true),
-                                                    DBTimeSlot(time: "19:00", available: false),
-                                                    DBTimeSlot(time: "20:00", available: true) ]),
-                                                
-                                                DBAppointmen(data: Date(), timeSlot: [
-                                                    DBTimeSlot(time: "09:30", available: true),
-                                                    DBTimeSlot(time: "10:30", available: false),
-                                                    DBTimeSlot(time: "11:30", available: true),
-                                                    DBTimeSlot(time: "12:30", available: true),
-                                                    DBTimeSlot(time: "13:30", available: true),
-                                                    DBTimeSlot(time: "14:30", available: false),
-                                                    DBTimeSlot(time: "15:30", available: false),
-                                                    DBTimeSlot(time: "16:30", available: true),
-                                                    DBTimeSlot(time: "17:30", available: false),
-                                                    DBTimeSlot(time: "18:30", available: true),
-                                                    DBTimeSlot(time: "19:30", available: false),
-                                                    DBTimeSlot(time: "20:30", available: true) ])
-                                                                                        ]))
-    
     @Published var selectedTime: [String] = []
     @Published var selectedDay: Date? = Date()
     @Published var today: Date = Date()
@@ -478,4 +469,4 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
 
 
 }
-*/
+

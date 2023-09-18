@@ -11,3 +11,4 @@ public func stringToURL(imageString: String) -> URL? {
     guard let imageURL = URL(string: imageString) else { return nil }
     return imageURL
 }
+

@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct RootScreenView: View {
-    @State private var showSignInView: Bool = true
+    @State private var showSignInView: Bool = false
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
     var body: some View {
-        ZStack {
+        Group {
             if !showSignInView {
+                CustomerPageHubView()
+            } else {
                 AuthorHubPageView(showSignInView: $showSignInView)
-//                CustomerPageHubView()
-
             }
         }
         .onAppear{

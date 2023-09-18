@@ -13,6 +13,8 @@
 		5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D832A31E22A00AF4EED /* DBUserModel.swift */; };
 		5F0F8D862A31E28B00AF4EED /* UserOrdersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0F8D852A31E28B00AF4EED /* UserOrdersModel.swift */; };
 		5F1BCA9B2AB006BA00223146 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BCA9A2AB006BA00223146 /* PortfolioView.swift */; };
+		5F1BCA9D2AB1C63300223146 /* PortfolioEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BCA9C2AB1C63300223146 /* PortfolioEditViewModel.swift */; };
+		5F1BCA9F2AB1C64E00223146 /* PortfolioEditViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BCA9E2AB1C64E00223146 /* PortfolioEditViewModelType.swift */; };
 		5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E072A9744FF0014AD9B /* CustomerPageHubView.swift */; };
 		5F214E0E2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E0D2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift */; };
 		5F214E102A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E0F2A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift */; };
@@ -106,6 +108,8 @@
 		5F0F8D832A31E22A00AF4EED /* DBUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBUserModel.swift; sourceTree = "<group>"; };
 		5F0F8D852A31E28B00AF4EED /* UserOrdersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOrdersModel.swift; sourceTree = "<group>"; };
 		5F1BCA9A2AB006BA00223146 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
+		5F1BCA9C2AB1C63300223146 /* PortfolioEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditViewModel.swift; sourceTree = "<group>"; };
+		5F1BCA9E2AB1C64E00223146 /* PortfolioEditViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditViewModelType.swift; sourceTree = "<group>"; };
 		5F214E072A9744FF0014AD9B /* CustomerPageHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerPageHubView.swift; sourceTree = "<group>"; };
 		5F214E0D2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenViewModelType.swift; sourceTree = "<group>"; };
 		5F214E0F2A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenViewModel.swift; sourceTree = "<group>"; };
@@ -400,6 +404,7 @@
 			children = (
 				5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */,
 				5FEB71792AACA93100DCC07E /* PortfolioScheduleViewModelType.swift */,
+				5F1BCA9E2AB1C64E00223146 /* PortfolioEditViewModelType.swift */,
 			);
 			path = Contract;
 			sourceTree = "<group>";
@@ -409,6 +414,7 @@
 			children = (
 				5FE5AADA2AA1AFBB0033F51B /* PortfolioViewModel.swift */,
 				5FEB71772AACA92000DCC07E /* PortfolioScheduleViewModel.swift */,
+				5F1BCA9C2AB1C63300223146 /* PortfolioEditViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1049,6 +1055,8 @@
 				5FE5AAE82AA357500033F51B /* PhotographyStylesView.swift in Sources */,
 				5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */,
 				5F4A1B392A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift in Sources */,
+				5F1BCA9F2AB1C64E00223146 /* PortfolioEditViewModelType.swift in Sources */,
+				5F1BCA9D2AB1C63300223146 /* PortfolioEditViewModel.swift in Sources */,
 				5F9F32462A96006D004D48B7 /* CountryCodesView.swift in Sources */,
 				5FBA269D2A1600D800E972FB /* CustomButtonXl.swift in Sources */,
 				5FF58F372A24D647009AF970 /* UserManager.swift in Sources */,

@@ -12,18 +12,26 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State var showPortfolioEditView: Bool = false
     @State private var selectPortfolioImages: [PhotosPickerItem] = []
+    @State private var selectPortfolioImagesData: [Data]? = []
+    @State private var columns = [ GridItem(.flexible(), spacing: 0),
+                                   GridItem(.flexible(), spacing: 0),
+                                   GridItem(.flexible(), spacing: 0)]
+    
+    @State private var imageGallerySize = UIScreen.main.bounds.width / 3
     
     init(with viewModel : ViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
-        NavigationStack{
-            ScrollView{
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 24) {
                 authorSection
                     .padding(.horizontal, 24)
+                imageSection
             }
-        }.toolbar{
+        }
+        .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack{
                     
@@ -33,7 +41,28 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                  preferredItemEncoding: .automatic,
                                  photoLibrary: .shared()) {
                         Image(systemName: "plus.app")
-                    }
+                    }.onChange(of: selectPortfolioImages, perform: { images in
+                                     Task {
+                                         do {
+                                             print("uploading images:")
+                                             selectPortfolioImages = []
+                                             for image in images {
+                                                 if let data = try? await image.loadTransferable(type: Data.self), let image = UIImage(data: data){
+                                                     viewModel.portfolioImages.append(image)
+                                                     selectPortfolioImagesData?.append(data)
+                                                 }
+                                             }
+                                             if let selectPortfolioImagesData = selectPortfolioImagesData {
+                                                 try await viewModel.addPortfolioImages(selectedImagesData: selectPortfolioImagesData)
+                                             }
+                                             viewModel.avatarAuthorID = UUID()
+                                         } catch {
+                                             print("Error uploading images: \(error)")
+                                             throw error
+                                         }
+                                    }
+                                 })
+                    .disabled( viewModel.smallImagesPortfolio.count > 10 )
                     
                     Button {
                         showPortfolioEditView.toggle()
@@ -41,29 +70,35 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                         Image(systemName: "pencil.line")
                     }
                 }
-                
                 .foregroundColor(Color(R.color.gray2.name))
                 .padding()
             }
         }
         .navigationDestination(isPresented: $showPortfolioEditView) {
-            PortfolioEditView(with: PortfolioViewModel(),
-                              selectedAvatar: $viewModel.selectedAvatar,
-                              nameAuthor: $viewModel.nameAuthor,
-                              avatarURL: $viewModel.avatarURL,
-                              familynameAuthor: $viewModel.familynameAuthor,
-                              ageAuthor: $viewModel.ageAuthor,
-                              locationAuthor: $viewModel.locationAuthor,
-                              styleAuthor: $viewModel.styleAuthor,
-                              avatarAuthor: $viewModel.avatarAuthor,
-                              descriptionAuthor: $viewModel.descriptionAuthor)
+            PortfolioEditView(with: PortfolioEditViewModel(locationAuthor: viewModel.locationAuthor,
+                                                           typeAuthor: $viewModel.typeAuthor,
+                                                           nameAuthor: $viewModel.nameAuthor,
+                                                           avatarAuthorID: $viewModel.avatarAuthorID,
+                                                           avatarURL: $viewModel.avatarURL,
+                                                           familynameAuthor: $viewModel.familynameAuthor,
+                                                           sexAuthor: $viewModel.sexAuthor,
+                                                           ageAuthor: $viewModel.ageAuthor,
+                                                           styleAuthor: $viewModel.styleAuthor,
+                                                           avatarAuthor: $viewModel.avatarAuthor,
+                                                           descriptionAuthor: $viewModel.descriptionAuthor))
+        }
+        .onAppear{
+            Task {
+                try await viewModel.getAuthorPortfolio()
+                viewModel.updatePreview()
+                try await viewModel.getPortfolioImages(imagesPath: viewModel.smallImagesPortfolio)
+            }
         }
     }
-    
     private var authorSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack{
-                AsyncImage(url: viewModel.avatarURL){ image in
+                AsyncImage(url: URL(string: viewModel.avatarAuthor)){ image in
                     image
                         .resizable()
                         .scaledToFill()
@@ -77,7 +112,8 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                     Circle()
                 }
                 .frame(width: 68, height: 68)
-                .id(viewModel.avatarImageID)
+                .id(viewModel.avatarAuthorID)
+                
                 
                 VStack(alignment: .leading){
                     Text("\(viewModel.nameAuthor) \(viewModel.familynameAuthor)")
@@ -110,12 +146,46 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
             Text(viewModel.descriptionAuthor)
                 .font(.callout)
                 .foregroundColor(Color(R.color.gray2.name))
-            
         }
         .padding(.top, 24)
         
     }
-    
+    private var imageSection: some View {
+        VStack{
+            if viewModel.portfolioImages.count > 0 {
+                ScrollView{
+                    LazyVGrid(columns: columns, spacing: 0){
+                        ForEach(viewModel.portfolioImages, id: \.self){ image in
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: imageGallerySize, height: imageGallerySize)
+                                .border(Color.white)
+                                .clipped()
+                        }
+                    }
+                }
+            } else {
+                if viewModel.smallImagesPortfolio.count > 0 {
+                    VStack{
+                        ProgressView()
+                            .padding(.top, 120)
+
+                    }
+                } else {
+                    VStack{
+                        Spacer()
+                        Text(R.string.localizable.portfolio_add_images())
+                            .font(.subheadline)
+                            .foregroundColor(Color(R.color.gray3.name))
+                            .multilineTextAlignment(.center)
+                            .padding(36)
+                            .padding(.top, 120)
+                    }
+                }
+            }
+        }
+    }
 }
 
 struct PortfolioAddImagesView_Previews: PreviewProvider {
@@ -130,14 +200,18 @@ struct PortfolioAddImagesView_Previews: PreviewProvider {
 
 
 private class MockViewModel: PortfolioViewModelType, ObservableObject {
+    var smallImagesPortfolio: [String] = []
+    var portfolioImages: [UIImage] = []
+    func getPortfolioImages(imagesPath: [String]) async throws {}
+    func addPortfolioImages(selectedImagesData: [Data]) async throws {}
+    var typeAuthor: String = "photo"
     var selectedAvatar: PhotosPickerItem?
-    var avatarImageID: UUID = UUID()
+    var avatarAuthorID = UUID()
     var avatarURL: URL?
     func avatarPathToURL(path: String) async throws -> URL {
         URL(string: "")!
     }
     
-    func addAvatar(selectImage: PhotosPickerItem?) async throws {}
     var sexAuthorList: [String] = ["Select", "Male", "Female"]
     var dbModel: DBPortfolioModel?
     var styleOfPhotography: [String] = ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food", "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate", "Sports", "Wedding", "Wildlife"]
@@ -152,6 +226,4 @@ private class MockViewModel: PortfolioViewModelType, ObservableObject {
     var descriptionAuthor: String  = "Swift, SwiftUI, the Swift logo, Swift Playgrounds, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright © 1994 Miramax Films. Hacking with Swift is ©2023 Hudson Heavy Industries."
     func updatePreview() {}
     func getAuthorPortfolio() async throws {}
-    func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws {}
-    
 }

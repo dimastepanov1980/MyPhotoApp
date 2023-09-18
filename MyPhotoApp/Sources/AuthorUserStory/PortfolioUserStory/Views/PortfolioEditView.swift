@@ -8,47 +8,18 @@
 import SwiftUI
 import PhotosUI
 
-struct PortfolioEditView<ViewModel: PortfolioViewModelType> : View {
-    
+struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @State var isTapped = false
-    @State var showStyleList: Bool = false
-    @State var showScheduleView: Bool = false
-    @State private var avatarImageID = UUID()
+
+    @State private var isTapped = false
+    @State private var showStyleList: Bool = false
+    @State private var showScheduleView: Bool = false
     @State private var isAvatarUploadInProgress = false
+    @State private var loadingImage = false
+    @State private var selectedAvatar: PhotosPickerItem?
     
-    
-    @Binding var selectedAvatar: PhotosPickerItem?
-    @Binding var nameAuthor: String
-    @Binding var avatarURL: URL?
-    @Binding var familynameAuthor: String
-    @Binding var ageAuthor: String
-    @Binding var locationAuthor: String
-    @Binding var styleAuthor: [String]
-    @Binding var avatarAuthor: String
-    @Binding var descriptionAuthor: String
-    
-    init(with viewModel : ViewModel,
-         selectedAvatar: Binding<PhotosPickerItem?>,
-         nameAuthor: Binding<String>,
-         avatarURL: Binding<URL?>,
-         familynameAuthor: Binding<String>,
-         ageAuthor: Binding<String>,
-         locationAuthor: Binding<String>,
-         styleAuthor: Binding<[String]>,
-         avatarAuthor: Binding<String>,
-         descriptionAuthor: Binding<String>
-    ) {
+    init(with viewModel : ViewModel) {
         self.viewModel = viewModel
-        self._nameAuthor = nameAuthor
-        self._avatarURL = avatarURL
-        self._selectedAvatar = selectedAvatar
-        self._familynameAuthor = familynameAuthor
-        self._ageAuthor = ageAuthor
-        self._locationAuthor = locationAuthor
-        self._styleAuthor = styleAuthor
-        self._avatarAuthor = avatarAuthor
-        self._descriptionAuthor = descriptionAuthor
     }
     
     var body: some View {
@@ -56,17 +27,17 @@ struct PortfolioEditView<ViewModel: PortfolioViewModelType> : View {
             ScrollView(showsIndicators: false){
                 VStack(spacing: 24){
                     avatarImageSection
-                    CustomTextField(nameTextField: R.string.localizable.portfolio_first_name(), text: $nameAuthor)
-                    CustomTextField(nameTextField: R.string.localizable.portfolio_last_name(), text: $familynameAuthor)
-                    CustomTextField(nameTextField: R.string.localizable.portfolio_age(), text: $ageAuthor)
+                    CustomTextField(nameTextField: R.string.localizable.portfolio_first_name(), text: $viewModel.nameAuthor)
+                    CustomTextField(nameTextField: R.string.localizable.portfolio_last_name(), text: $viewModel.familynameAuthor)
+                    CustomTextField(nameTextField: R.string.localizable.portfolio_age(), text: $viewModel.ageAuthor)
                     sexSection
                     locationSection
                     photoStyleSection
                         .onTapGesture {
                             showStyleList.toggle()
                         }
-                        .navigationDestination(isPresented: $showStyleList) {
-                            PhotographyStylesView(photographyStyles: viewModel.styleOfPhotography, styleSelected: $viewModel.styleAuthor, showStyleList: $showStyleList)
+                        .sheet(isPresented: $showStyleList) {
+                            PhotographyStylesView(styleSelected: $viewModel.styleAuthor)
                         }
                     
                     descriptionSection
@@ -75,55 +46,58 @@ struct PortfolioEditView<ViewModel: PortfolioViewModelType> : View {
                             showScheduleView.toggle()
                         }
                 }
-                .navigationDestination(isPresented: $showScheduleView) {
+                .sheet(isPresented: $showScheduleView) {
                     PortfolioScheduleView(with: PortfolioScheduleViewModel())
                 }
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(R.string.localizable.save()) {
-                                Task {
-                                    try await viewModel.setAuthorPortfolio(portfolio: DBPortfolioModel(id: UUID().uuidString,
-                                                                           author: DBAuthor(id: UUID().uuidString,
-                                                                                            rateAuthor: 0.0,
-                                                                                            likedAuthor: true,
-                                                                                            nameAuthor: nameAuthor,
-                                                                                            familynameAuthor: familynameAuthor,
-                                                                                            sexAuthor: viewModel.sexAuthor,
-                                                                                            ageAuthor: ageAuthor,
-                                                                                            location:  viewModel.locationAuthor,
-                                                                                            styleAuthor: styleAuthor,
-                                                                                            imagesCover: [],
-                                                                                            priceAuthor: ""),
-                                                                           avatarAuthor: avatarAuthor,
-                                                                           smallImagesPortfolio: [],
-                                                                           largeImagesPortfolio: [],
-                                                                           descriptionAuthor: descriptionAuthor,
-                                                                           reviews: [DBReviews](),
-                                                                           schedule: [DbSchedule](),
-                                                                           bookingDays: nil))
-                                }
+                            Task {
+                                try await viewModel.setAuthorPortfolio(portfolio:
+                                DBPortfolioModel(id: UUID().uuidString,
+                                                 author: DBAuthor(rateAuthor: 0.0,
+                                                                  likedAuthor: true,
+                                                                  typeAuthor: viewModel.typeAuthor,
+                                                                  nameAuthor: viewModel.nameAuthor,
+                                                                  familynameAuthor: viewModel.familynameAuthor,
+                                                                  sexAuthor: viewModel.sexAuthor,
+                                                                  ageAuthor: viewModel.ageAuthor,
+                                                                  location: viewModel.locationAuthor,
+                                                                  regionAuthor: viewModel.regionAuthor,
+                                                                  styleAuthor: viewModel.styleAuthor,
+                                                                  imagesCover: []),
+                                                 avatarAuthor: viewModel.avatarAuthor,
+                                                 smallImagesPortfolio: [],
+                                                 largeImagesPortfolio: [],
+                                                 descriptionAuthor: viewModel.descriptionAuthor,
+//                                                 reviews: [DBReviews](),
+                                                 schedule: [DbSchedule]()
+//                                                 bookingDays: nil
+                                                ))
+                            }
                         }
                         .foregroundColor(Color(R.color.gray2.name))
                         .padding()
-                                        }
+                    }
                 }
                 .padding(.bottom, 64)
             }
         }
     }
+    
     private var avatarImageSection: some View {
-        PhotosPicker(selection: $viewModel.selectedAvatar,
+        PhotosPicker(selection: $selectedAvatar,
                      matching: .any(of: [.images, .not(.videos)]),
                      preferredItemEncoding: .automatic,
                      photoLibrary: .shared()) {
-            AsyncImage(url: viewModel.avatarURL) { image in
+            AsyncImage(url: URL(string: viewModel.avatarAuthor)) { image in
                 image
                     .resizable()
                     .scaledToFill()
-                    
             } placeholder: {
                 ZStack{
                     ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
                     Color.gray.opacity(0.2)
                 }
             }
@@ -131,41 +105,49 @@ struct PortfolioEditView<ViewModel: PortfolioViewModelType> : View {
                 Circle()
             }
             .frame(width: 110, height: 110)
-            .id(viewModel.avatarImageID) // Use this ID to trigger a refresh when needed
+            .id(viewModel.avatarAuthorID)
         }
-                     .onChange(of: viewModel.selectedAvatar, perform: { avatar in
-                         // Check if an avatar upload is already in progress
-                         guard !isAvatarUploadInProgress else {
-                             return
-                         }
-                         
-                         isAvatarUploadInProgress = true
-                         
-                         Task {
-                             print(viewModel.avatarImageID.uuidString)
-                             do {
-                                 try await viewModel.addAvatar(selectImage: avatar)
-                                 
-                                 // After the Task is completed, trigger a refresh of the AsyncImage
-                                 self.viewModel.avatarImageID = UUID()
-                                 print(viewModel.avatarImageID.uuidString)
-                                 
-                             } catch {
-                                 // Handle any errors that may occur during avatar upload
-                                 print("Error uploading avatar: \(error)")
-                             }
-                             
-                             isAvatarUploadInProgress = false
-                         }
-                     })
+         .onChange(of: selectedAvatar, perform: { avatar in
+             guard !isAvatarUploadInProgress else {
+                 return
+             }
+             isAvatarUploadInProgress = true
+             Task {
+                 do {
+                     withAnimation {
+                         loadingImage = true
+                     }
+                     try await viewModel.addAvatar(selectImage: avatar)
+                     viewModel.avatarAuthorID = UUID()
+                     loadingImage = false
+                 } catch {
+                     print("Error uploading avatar: \(error)")
+                 }
+                 
+                 isAvatarUploadInProgress = false
+             }
+         })
+         .overlay{
+             // Show a ProgressView while waiting for the photo to load
+             if loadingImage {
+                 ProgressView()
+                     .progressViewStyle(CircularProgressViewStyle())
+                     .frame(width: 110, height: 110)
+                 
+                     .background(Color.white.opacity(0.7))
+                     .clipShape(Circle())
+                     .animation(.default, value: loadingImage)
+             }
+         }
     }
-    private var locationSection: some View {
+
+   private var locationSection: some View {
         VStack(alignment: .leading) {
             CustomTextField(nameTextField: R.string.localizable.portfolio_location(), text: $viewModel.locationAuthor)
             ForEach(viewModel.locationResult) { result in
                 if viewModel.locationAuthor != result.location {
                     VStack(alignment: .leading) {
-                        Text(result.location)
+                        Text("\(result.location)")
                             .font(.subheadline)
                             .foregroundColor(Color(R.color.gray4.name))
                             .padding(.leading, 36)
@@ -173,6 +155,7 @@ struct PortfolioEditView<ViewModel: PortfolioViewModelType> : View {
                     .onTapGesture {
                         withAnimation {
                             viewModel.locationAuthor = result.location
+                            viewModel.regionAuthor = result.regionCode
                         }
                     }
                 }
@@ -180,11 +163,11 @@ struct PortfolioEditView<ViewModel: PortfolioViewModelType> : View {
         }
     }
 
-    private var sexSection: some View {
+   private var sexSection: some View {
         HStack{
             Text(R.string.localizable.portfolio_gender())
                 .font(.callout)
-                .foregroundColor(Color(R.color.gray4.name))
+                .foregroundColor(Color(R.color.gray2.name))
             Spacer()
             Picker(R.string.localizable.portfolio_genre(), selection: $viewModel.sexAuthor) {
                 ForEach(viewModel.sexAuthorList, id: \.self) {
@@ -200,6 +183,7 @@ struct PortfolioEditView<ViewModel: PortfolioViewModelType> : View {
                 .stroke(Color(R.color.gray5.name), lineWidth: 1))
         .padding(.horizontal)
     }
+    
     private var descriptionSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(R.string.localizable.portfolio_about())
@@ -207,7 +191,7 @@ struct PortfolioEditView<ViewModel: PortfolioViewModelType> : View {
                 .foregroundColor(Color(R.color.gray4.name))
                 .padding(.horizontal)
             
-            TextEditor(text: $descriptionAuthor)
+            TextEditor(text: $viewModel.descriptionAuthor)
                 .font(.callout)
                 .foregroundColor(Color(R.color.gray2.name))
                 .padding(.horizontal)
@@ -215,8 +199,8 @@ struct PortfolioEditView<ViewModel: PortfolioViewModelType> : View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 21)
                         .stroke(Color(R.color.gray5.name), lineWidth: 1))
-
-        }.padding(.horizontal)    }
+        }.padding(.horizontal)
+    }
     private var photoStyleSection: some View {
         HStack{
             Text(viewModel.styleAuthor.joined(separator: ", "))
@@ -290,26 +274,29 @@ struct PortfolioEditView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     
     static var previews: some View {
-        PortfolioEditView(with: viewModel, selectedAvatar: .constant(viewModel.selectedAvatar),
-                          nameAuthor: .constant(viewModel.nameAuthor),
-                          avatarURL: .constant(viewModel.avatarURL),
-                          familynameAuthor: .constant(viewModel.familynameAuthor),
-                          ageAuthor: .constant(viewModel.ageAuthor),
-                          locationAuthor: .constant(viewModel.locationAuthor),
-                          styleAuthor: .constant(viewModel.styleAuthor),
-                          avatarAuthor: .constant(viewModel.avatarAuthor),
-                          descriptionAuthor: .constant(viewModel.descriptionAuthor))
+        PortfolioEditView(with: PortfolioEditViewModel(
+            locationAuthor: viewModel.locationAuthor,
+            typeAuthor: .constant(viewModel.typeAuthor),
+            nameAuthor: .constant(viewModel.nameAuthor),
+            avatarAuthorID: .constant(UUID()),
+            avatarURL: .constant(viewModel.avatarURL),
+            familynameAuthor: .constant(viewModel.familynameAuthor),
+            sexAuthor: .constant("Select"),
+            ageAuthor: .constant(viewModel.ageAuthor),
+            styleAuthor: .constant(viewModel.styleAuthor),
+            avatarAuthor: .constant(viewModel.avatarAuthor),
+            descriptionAuthor: .constant(viewModel.descriptionAuthor)))
     }
 }
 
-private class MockViewModel: PortfolioViewModelType, ObservableObject {
+private class MockViewModel: ObservableObject {
     var avatarImageID: UUID = UUID()
     var selectedAvatar: PhotosPickerItem?
     var avatarURL: URL?
     func avatarPathToURL(path: String) async throws -> URL {
         URL(string: "")!
     }
-    
+    var typeAuthor = "photo"
     func addAvatar(selectImage: PhotosPickerItem?) async throws {}
     var sexAuthorList: [String] = ["Select", "Male", "Female"]
     var dbModel: DBPortfolioModel?

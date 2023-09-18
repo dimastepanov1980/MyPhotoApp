@@ -46,11 +46,17 @@
 "status_completed" = "Completed";
 "status_canceled" = "Canceled";
 
-// MARK: - CustomTabs
+// MARK: - AuthorTabs
 "tabs_feature" = "Feature";
 "tabs_edit" = "Edit";
 "tabs_portfolio" = "Portfolio";
 "tabs_profile" = "Profile";
+
+// MARK: - CustomerTabs
+"custoer_tabs_home" = "Home";
+"custoer_tabs_message" = "Message";
+"custoer_tabs_liked" = "Liked";
+"custoer_tabs_profile" = "Profile";
 
 //MARK: - Setting screen
 "app_version" = "App version:";
@@ -87,6 +93,7 @@
 "portfolio_genre_description" = "Select four genres";
 "portfolio_about" = "About your self";
 "portfolio_schedule" = "Add schedule";
+"portfolio_add_images" = "Please select image for Portfolio\nby tapping on plus icon on toolbar";
 
 //MARK: - Style of  Photography
 

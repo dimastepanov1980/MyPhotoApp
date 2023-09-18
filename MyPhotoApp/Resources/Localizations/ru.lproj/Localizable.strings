@@ -46,11 +46,17 @@
 "status_completed" = "Завершенный";
 "status_canceled" = "Отмененный";
 
-// MARK: - CustomTabs
+// MARK: - AuthorTabs
 "tabs_feature" = "Новые";
 "tabs_edit" = "В работе";
 "tabs_portfolio" = "Портфолио";
 "tabs_profile" = "Профиль";
+
+// MARK: - CustomerTabs
+"custoer_tabs_home" = "Домой";
+"custoer_tabs_message" = "Сообщения";
+"custoer_tabs_liked" = "Избранное";
+"custoer_tabs_profile" = "Профиль";
 
 //MARK: - Setting screen
 "app_version" = "Версия программы:";
@@ -86,6 +92,7 @@
 "portfolio_genre_description" = "Выберите четыре жанра";
 "portfolio_about" = "О себе";
 "portfolio_schedule" = "Добавить расписание";
+"portfolio_add_images" = "Пожалуйста, выберите изображение для портфолио,\nнажав значок плюса на сверху";
 
 //MARK: - Style of  Photography
 

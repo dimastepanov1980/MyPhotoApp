@@ -14,7 +14,7 @@ struct AuthorPortfolioModel {
     let smallImagesPortfolio: [String]
     let largeImagesPortfolio: [String]
     let descriptionAuthor: String
-    let reviews: [DBReviews]
+//    let reviews: [DBReviews]
     let appointmen: [DbSchedule]
     
     init(portfolio: DBPortfolioModel) {
@@ -24,34 +24,34 @@ struct AuthorPortfolioModel {
         self.smallImagesPortfolio = portfolio.smallImagesPortfolio ?? []
         self.largeImagesPortfolio = portfolio.largeImagesPortfolio ?? []
         self.descriptionAuthor = portfolio.descriptionAuthor ?? ""
-        self.reviews = portfolio.reviews ?? []
+//        self.reviews = portfolio.reviews ?? []
         self.appointmen = portfolio.schedule ?? []
     }
 }
 
 struct AuthorModel {
-    let id: String
     let rateAuthor: Double
     let likedAuthor: Bool
+    let typeAuthor: String
     let nameAuthor: String
     let familynameAuthor: String
     let sexAuthor: String
     let location: String
+    let regionAuthor: String
     let styleAuthor: [String]
     let imagesCover: [String]
-    let priceAuthor: String
     
     init(author: DBAuthor) {
-        self.id = author.id
         self.rateAuthor = author.rateAuthor
         self.likedAuthor = author.likedAuthor
+        self.typeAuthor = author.typeAuthor
         self.nameAuthor = author.nameAuthor
         self.familynameAuthor = author.familynameAuthor
         self.sexAuthor = author.sexAuthor
         self.location = author.location
+        self.regionAuthor = author.regionAuthor
         self.styleAuthor = author.styleAuthor
         self.imagesCover = author.imagesCover
-        self.priceAuthor = author.priceAuthor
     }
 }
 

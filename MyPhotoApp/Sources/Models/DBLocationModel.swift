@@ -11,8 +11,10 @@ import MapKit
 struct DBLocationModel: Identifiable {
     var id = UUID()
     var location: String
+    var regionCode: String
     
     init(mapItem: MKMapItem) {
         self.location = mapItem.placemark.title ?? ""
+        self.regionCode = mapItem.placemark.countryCode ?? ""
     }
 }

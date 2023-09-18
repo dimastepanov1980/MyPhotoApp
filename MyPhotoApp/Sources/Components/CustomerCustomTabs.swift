@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CustomerCustomTabs: View {
-    @Binding var showAddOrderView: Bool
     @Binding var index: Int
     
     var body: some View {
@@ -22,10 +21,10 @@ struct CustomerCustomTabs: View {
                     .ignoresSafeArea(.all)
                 
                 HStack(alignment: .center, spacing: 45) {
-                    tabButton(index: 0, icon: "camera.fill", name: R.string.localizable.tabs_feature())
-                    tabButton(index: 1, icon: "paintbrush.fill", name: R.string.localizable.tabs_edit())
-                    tabButton(index: 2, icon: "photo.on.rectangle.angled", name: R.string.localizable.tabs_portfolio())
-                    tabButton(index: 3, icon: "person.fill", name: R.string.localizable.tabs_profile())
+                    tabButton(index: 0, icon: "camera.fill", name: R.string.localizable.custoer_tabs_home())
+                    tabButton(index: 1, icon: "message.fill", name: R.string.localizable.custoer_tabs_message())
+                    tabButton(index: 2, icon: "heart.fill", name: R.string.localizable.custoer_tabs_liked())
+                    tabButton(index: 3, icon: "person.fill", name: R.string.localizable.custoer_tabs_profile())
                 }.offset(y: -10)
             }
         }
@@ -54,7 +53,7 @@ struct CustomerCustomTabs: View {
 
 struct CustomerCustomTabs_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerCustomTabs(showAddOrderView: .constant(true), index: .constant(0))
+        CustomerCustomTabs(index: .constant(0))
     }
 }
 

@@ -8,21 +8,23 @@
 import SwiftUI
 
 struct PhotographyStylesView: View {
-    var photographyStyles: [String]
+    @State var styleOfPhotography =  ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food",
+                                      "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate",
+                                      "Sports", "Wedding", "Wildlife"]
     @Binding var styleSelected: [String]
-    @Binding var showStyleList: Bool
+//    @Binding var showStyleList: Bool
 
-    init(photographyStyles: [String], styleSelected: Binding<[String]>, showStyleList: Binding<Bool>) {
-        self.photographyStyles = photographyStyles
+    init(/*photographyStyles: [String],*/styleSelected: Binding<[String]>/*, showStyleList: Binding<Bool>*/) {
+//        self.photographyStyles = photographyStyles
         self._styleSelected = styleSelected
-        self._showStyleList = showStyleList
+//        self._showStyleList = showStyleList
     }
     
     var body: some View {
         
         NavigationView {
             List {
-                ForEach(self.photographyStyles, id: \.self) { item in
+                ForEach(self.styleOfPhotography, id: \.self) { item in
                     MultipleSelectionRow(title: item, isSelected: self.styleSelected.contains(item)) {
                         if self.styleSelected.contains(item) {
                             self.styleSelected.removeAll(where: { $0 == item })
@@ -110,7 +112,7 @@ struct MultipleSelectionRow: View {
 
 struct PhotoGenresView_Previews: PreviewProvider {
     static var previews: some View {
-        PhotographyStylesView(photographyStyles: ["Aerial", "Sports"], styleSelected: .constant(["Sports", "Aerial"]), showStyleList: .constant(false))
+        PhotographyStylesView(/*photographyStyles: ["Aerial", "Sports"],*/ styleSelected: .constant(["Sports", "Aerial"])/*, showStyleList: .constant(false)*/)
     }
 }
 

@@ -10,6 +10,7 @@ import Combine
 
 @MainActor
 final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, ObservableObject {
+    @Published var imagesURLs: [URL]? = nil
     @Published var portfolio: [AuthorPortfolioModel]
     @Published var selectedItem: AuthorPortfolioModel? = nil
     @Published var showDetailScreen: Bool = false
@@ -18,17 +19,18 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             self.portfolio = [] // Initialize with an empty array initially
             Task {
                 do {
-                    let dbPortfolio = try await getAllPortfolioInLocation(location: "Thailand")
+                    let dbPortfolio = try await getAllPortfolioCurrentLocation()
                     self.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
+                    print(portfolio)
                 } catch {
-                    print(error.localizedDescription)
+                    print(String(describing: error))
                 }
             }
         }
     
-    func getAllPortfolioInLocation(location: String) async throws -> [DBPortfolioModel] {
+    func getAllPortfolioCurrentLocation() async throws -> [DBPortfolioModel] {
         do {
-            let portfolio = try await UserManager.shared.getAllPortfolio(location: location)
+            let portfolio = try await UserManager.shared.getAllPortfolio()
             return portfolio
         } catch {
             throw error
@@ -45,5 +47,11 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
         return currency
     }
 
+    func imagePathToURL(imagePath: [String]) async throws {
+        for path in imagePath {
+           let imageURL = try await StorageManager.shared.getImageURL(path: path)
+            imagesURLs?.append(imageURL)
+        }
+    }
 
 }

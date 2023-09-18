@@ -35,7 +35,6 @@ struct AuthorHubPageView: View {
             AuthorCustomTabs(showAddOrderView: $showAddOrderView, index: self.$index)
         }
         .edgesIgnoringSafeArea(.bottom)
-        
         .fullScreenCover(isPresented: $showAddOrderView) {
             NavigationStack {
                 AuthorAddOrderView(with: AuthorAddOrderViewModel(order: UserOrdersModel(order: OrderModel(orderId: "", name: "", instagramLink: "", price: "", location: "", description: "", date: Date(), duration: "", imageUrl: [], status: ""))), showAddOrderView: $showAddOrderView, mode: .new)

@@ -491,7 +491,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 95 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 100 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -629,6 +629,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let forgotPss = Rswift.StringResource(key: "forgotPss", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Home
+      ///
+      /// Locales: en, ru
+      static let custoer_tabs_home = Rswift.StringResource(key: "custoer_tabs_home", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: In progress
       ///
       /// Locales: en, ru
@@ -645,6 +649,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let portfolio_last_name = Rswift.StringResource(key: "portfolio_last_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Liked
+      ///
+      /// Locales: en, ru
+      static let custoer_tabs_liked = Rswift.StringResource(key: "custoer_tabs_liked", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Location
       ///
       /// Locales: en, ru
@@ -673,6 +681,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let gender_male = Rswift.StringResource(key: "gender_male", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Message
+      ///
+      /// Locales: en, ru
+      static let custoer_tabs_message = Rswift.StringResource(key: "custoer_tabs_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Message
       ///
       /// Locales: en, ru
@@ -705,6 +717,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let place_order = Rswift.StringResource(key: "place_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please select image for Portfolio by tapping on plus icon on toolbar
+      ///
+      /// Locales: en, ru
+      static let portfolio_add_images = Rswift.StringResource(key: "portfolio_add_images", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Portfolio
       ///
       /// Locales: en, ru
@@ -733,6 +749,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let style_photography_product = Rswift.StringResource(key: "style_photography_product", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static let custoer_tabs_profile = Rswift.StringResource(key: "custoer_tabs_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Profile
       ///
       /// Locales: en, ru
@@ -1384,6 +1404,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("forgotPss", bundle: bundle, comment: "")
       }
 
+      /// en translation: Home
+      ///
+      /// Locales: en, ru
+      static func custoer_tabs_home(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("custoer_tabs_home", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "custoer_tabs_home"
+        }
+
+        return NSLocalizedString("custoer_tabs_home", bundle: bundle, comment: "")
+      }
+
       /// en translation: In progress
       ///
       /// Locales: en, ru
@@ -1442,6 +1477,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("portfolio_last_name", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Liked
+      ///
+      /// Locales: en, ru
+      static func custoer_tabs_liked(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("custoer_tabs_liked", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "custoer_tabs_liked"
+        }
+
+        return NSLocalizedString("custoer_tabs_liked", bundle: bundle, comment: "")
       }
 
       /// en translation: Location
@@ -1547,6 +1597,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("gender_male", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Message
+      ///
+      /// Locales: en, ru
+      static func custoer_tabs_message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("custoer_tabs_message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "custoer_tabs_message"
+        }
+
+        return NSLocalizedString("custoer_tabs_message", bundle: bundle, comment: "")
       }
 
       /// en translation: Message
@@ -1669,6 +1734,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("place_order", bundle: bundle, comment: "")
       }
 
+      /// en translation: Please select image for Portfolio by tapping on plus icon on toolbar
+      ///
+      /// Locales: en, ru
+      static func portfolio_add_images(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_add_images", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_add_images"
+        }
+
+        return NSLocalizedString("portfolio_add_images", bundle: bundle, comment: "")
+      }
+
       /// en translation: Portfolio
       ///
       /// Locales: en, ru
@@ -1772,6 +1852,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("style_photography_product", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static func custoer_tabs_profile(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("custoer_tabs_profile", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "custoer_tabs_profile"
+        }
+
+        return NSLocalizedString("custoer_tabs_profile", bundle: bundle, comment: "")
       }
 
       /// en translation: Profile
