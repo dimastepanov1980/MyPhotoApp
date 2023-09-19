@@ -9,8 +9,8 @@ import Foundation
 import Combine
 import MapKit
 
-@MainActor
-final class SearchLocationViewModel: ObservableObject {
+//@MainActor
+/* final class SearchLocationViewModel: ObservableObject {
     
     private var cancellable: AnyCancellable?
     
@@ -34,4 +34,4 @@ final class SearchLocationViewModel: ObservableObject {
     private func searchForCity(text: String) {
         service.searchLocation(searchText: text)
     }
-}
+} */

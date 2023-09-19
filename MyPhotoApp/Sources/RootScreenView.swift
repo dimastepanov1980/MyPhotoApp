@@ -11,12 +11,13 @@ struct RootScreenView: View {
     @State private var showSignInView: Bool = false
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
+    @State private var showCostomerZone: Bool = false
     var body: some View {
         Group {
-            if !showSignInView {
-                CustomerPageHubView()
+            if showCostomerZone {
+                CustomerPageHubView(showCostomerZone: $showCostomerZone)
             } else {
-                AuthorHubPageView(showSignInView: $showSignInView)
+                AuthorHubPageView(showSignInView: $showSignInView, showCostomerZone: $showCostomerZone)
             }
         }
         .onAppear{

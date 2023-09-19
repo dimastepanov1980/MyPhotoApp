@@ -13,14 +13,18 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @Binding var showSignInView: Bool
     @Binding var isShowActionSheet: Bool
+    @Binding var showCostomerZone: Bool
     var height = UIScreen.main.bounds.size.height
-
+    
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
-         isShowActionSheet: Binding<Bool>) {
+         isShowActionSheet: Binding<Bool>,
+         showCostomerZone: Binding<Bool>) {
+        
         self.viewModel = viewModel
         self._showSignInView = showSignInView
         self._isShowActionSheet = isShowActionSheet
+        self._showCostomerZone = showCostomerZone
     }
     
     var body: some View {
@@ -29,38 +33,51 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .center) {
-                    Image(R.image.image_logo.name)
-                        .padding(.top, height / 12)
-                    Text("\(R.string.localizable.app_version()) \(viewModel.appVersion)")
-                        .font(.caption)
-                        .foregroundColor(Color(R.color.gray3.name))
-                        .padding(.bottom, 36)
-                    Spacer()
-                    if let user = viewModel.user {
-                        if let email = user.email {
-                            Text(R.string.localizable.your_login())
-                            Text("\(email)")
-                                .font(.body)
-                                .foregroundColor(Color(R.color.gray1.name))
-                                .padding(.bottom)
-                        }
+                Image(R.image.image_logo.name)
+                    .padding(.top, height / 12)
+                Text("\(R.string.localizable.app_version()) \(viewModel.appVersion)")
+                    .font(.caption)
+                    .foregroundColor(Color(R.color.gray3.name))
+                    .padding(.bottom, 36)
+                Spacer()
+                if let user = viewModel.user {
+                    if let email = user.email {
+                        Text(R.string.localizable.your_login())
+                        Text("\(email)")
+                            .font(.body)
+                            .foregroundColor(Color(R.color.gray1.name))
+                            .padding(.bottom)
                     }
-                    Spacer()
-                    Link(destination: URL(string: "http://takeaphoto.app")!) {
-                        VStack {
-                            Text(R.string.localizable.contact_with_us())
+                }
+                Spacer()
+                Link(destination: URL(string: "http://takeaphoto.app")!) {
+                    VStack {
+                        Text(R.string.localizable.contact_with_us())
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray1.name))
                             .padding(8)
-                        }
                     }
-                    
-                    Text(R.string.localizable.notes())
+                }
+                
+                Text(R.string.localizable.notes())
                     .font(.caption)
                     .foregroundColor(Color(R.color.gray3.name))
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 32)
-                    
+                VStack{
+                    Button {
+                        showCostomerZone.toggle()
+                    } label: {
+                        ZStack {
+                            Text("Show Customer Zone")
+                                .font(.headline)
+                                .foregroundColor(Color(R.color.gray6.name))
+                                .padding(8)
+                                .padding(.horizontal, 16)
+                                .background(Color(R.color.gray1.name))
+                                .cornerRadius(20)
+                        }
+                    }
                     Button {
                         Task {
                             do {
@@ -81,18 +98,37 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                                 .cornerRadius(20)
                         }
                     }
-                Button {
-                    isShowActionSheet.toggle()
-                } label: {
-                    Text(R.string.localizable.delete_user())
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray5.name))
-                }.padding(.top, 16)
-                
-
-                    Spacer()
+                    Button {
+                        isShowActionSheet.toggle()
+                    } label: {
+                        Text(R.string.localizable.delete_user())
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray5.name))
+                    }
                 }
-                .padding(.top, 64)
+                .padding(.top, 16)
+                
+                
+                /*
+                 
+                 Button {
+                     showCostomerZone.toggle()
+                 } label: {
+                     ZStack {
+                         Text(R.string.localizable.signOutAccBtt())
+                             .font(.headline)
+                             .foregroundColor(Color(R.color.gray6.name))
+                             .padding(8)
+                             .padding(.horizontal, 16)
+                             .background(Color(R.color.gray1.name))
+                             .cornerRadius(20)
+                     }
+                 }
+                 */
+                
+                Spacer()
+            }
+            .padding(.top, 64)
         }
         .fullScreenCover(isPresented: $isShowActionSheet) {
             NavigationView {
@@ -108,7 +144,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
 struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
-        SettingScreenView(with: viewModel, showSignInView: .constant(false), isShowActionSheet: .constant(false))
+        SettingScreenView(with: viewModel, showSignInView: .constant(false), isShowActionSheet: .constant(false), showCostomerZone: .constant(false))
     }
 }
 

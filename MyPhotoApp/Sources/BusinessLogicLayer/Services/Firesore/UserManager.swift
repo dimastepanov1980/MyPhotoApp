@@ -180,20 +180,15 @@ final class UserManager {
     
     
     // MARK: - New Queri portfolio
+    func getPortfolioLocation(location: String) async throws -> [DBPortfolioModel]{
+        try await portfolioCollection.whereField("author.location", isEqualTo: location).getDocuments(as: DBPortfolioModel.self)
+    }
     
-//    func getPortfolioQueries(location: String) async throws {
-//        let userDocs = try await portfolioCollection.getDocuments()
-//      print("Hello")
-//        for document in userDocs.documents {
-//            
-//              // Access parent document data (which would be a user document)
-//            let parentData = document.reference.collection("portfolio")
-//            print(parentData.description)
-//          }
-//        
-//    }
-
     
+    func matchesLocation(_ location: String, searchString: String) -> Bool {
+        let options: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
+        return location.range(of: searchString, options: options) != nil
+    }
 }
 
 extension Query {

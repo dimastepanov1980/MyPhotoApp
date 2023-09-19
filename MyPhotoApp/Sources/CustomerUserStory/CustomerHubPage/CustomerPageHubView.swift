@@ -10,6 +10,8 @@ import SwiftUI
 struct CustomerPageHubView: View {
     @State var index = 0
     @State private var showAddOrderView: Bool = false
+    @Binding var showCostomerZone: Bool
+
     var body: some View {
         VStack{
             ZStack(alignment: .bottom) {
@@ -20,7 +22,16 @@ struct CustomerPageHubView: View {
                 } else if self.index == 2 {
                     Color.green
                 } else if self.index == 3 {
-                    Color.blue
+                    ZStack{
+                        Color.gray
+
+                        Button {
+                            showCostomerZone.toggle()
+                        } label: {
+                            Text("Show Author Zone")
+                        }
+
+                    }
                 }
             }
             .padding(.bottom, -40)
@@ -32,6 +43,6 @@ struct CustomerPageHubView: View {
 
 struct CustomerPageHubView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerPageHubView()
+        CustomerPageHubView(showCostomerZone: .constant(false))
     }
 }

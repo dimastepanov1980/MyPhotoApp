@@ -32,6 +32,8 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
         }
     }
     @Published var regionAuthor: String = ""
+    @Published var identifier: String = ""
+    
     @Binding var typeAuthor: String
     @Binding var nameAuthor: String
     @Binding var avatarAuthorID: UUID
@@ -44,6 +46,7 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
     @Binding var descriptionAuthor: String
     
     init(locationAuthor: String,
+         identifier: String,
          typeAuthor: Binding<String>,
          nameAuthor: Binding<String>,
          avatarAuthorID: Binding<UUID>,
@@ -56,6 +59,7 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
          descriptionAuthor: Binding<String>) {
         
         self.locationAuthor = locationAuthor
+        self.identifier = identifier
         self._typeAuthor = typeAuthor
         self._nameAuthor = nameAuthor
         self._avatarAuthorID = avatarAuthorID
@@ -73,6 +77,8 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
     }
 
     private func searchForCity(text: String) {
+//        guard let locale = NSLocale.current.language.languageCode?.identifier else { return }
+//        print(locale)
         service.searchLocation(searchText: text)
     }
 

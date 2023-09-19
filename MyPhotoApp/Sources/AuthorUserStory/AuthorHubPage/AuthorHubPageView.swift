@@ -10,6 +10,8 @@ import SwiftUI
 struct AuthorHubPageView: View {
     @State var index = 0
     @Binding var showSignInView: Bool
+    @Binding var showCostomerZone: Bool
+    
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
     @State private var isShowActionSheet: Bool = false
@@ -27,7 +29,7 @@ struct AuthorHubPageView: View {
                     } else if self.index == 2 {
                         PortfolioView(with: PortfolioViewModel())
                 } else if self.index == 3 {
-                    SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView, isShowActionSheet: $isShowActionSheet)
+                    SettingScreenView(with: SettingScreenViewModel(), showSignInView: $showSignInView, isShowActionSheet: $isShowActionSheet, showCostomerZone: $showCostomerZone)
                 }
             }
             .padding(.bottom, -40)
@@ -47,7 +49,7 @@ struct AuthorHubPageView: View {
 
 struct AuthorHubPageView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthorHubPageView(showSignInView: .constant(false))
+        AuthorHubPageView(showSignInView: .constant(false), showCostomerZone: .constant(false))
     }
 }
 

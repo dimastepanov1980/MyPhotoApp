@@ -39,6 +39,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                     
                                 }
                             }
+                            .padding(.bottom)
                 }
                 
             }

@@ -25,6 +25,7 @@ protocol PortfolioViewModelType: ObservableObject {
     var avatarAuthorID: UUID { get set }
 // MARK: - SearchLocation property
     var locationAuthor: String { get set }
+    var identifier: String { get set }
     var smallImagesPortfolio: [String] { get }
     var portfolioImages: [UIImage] { get set }
     

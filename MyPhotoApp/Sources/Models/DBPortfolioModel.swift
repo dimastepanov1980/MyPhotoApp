@@ -14,7 +14,6 @@ struct DBPortfolioModel: Codable {
     let smallImagesPortfolio: [String]?
     let largeImagesPortfolio: [String]?
     let descriptionAuthor: String?
-    
 //    let reviews: [DBReviews]?
     let schedule: [DbSchedule]?
 //    let bookingDays: [BookinDate]?
@@ -116,6 +115,7 @@ struct DBAuthor: Codable {
     let ageAuthor: String
     let location: String
     let regionAuthor: String
+    let identifier: String
     let styleAuthor: [String]
     let imagesCover: [String]
     
@@ -130,11 +130,12 @@ struct DBAuthor: Codable {
         self.ageAuthor = try container.decode(String.self, forKey: .ageAuthor)
         self.location = try container.decode(String.self, forKey: .location)
         self.regionAuthor = try container.decode(String.self, forKey: .regionAuthor)
+        self.identifier = try container.decode(String.self, forKey: .identifier)
         self.styleAuthor = try container.decode([String].self, forKey: .styleAuthor)
         self.imagesCover = try container.decode([String].self, forKey: .imagesCover)
     }
 
-    init(rateAuthor: Double, likedAuthor: Bool, typeAuthor: String, nameAuthor: String, familynameAuthor: String, sexAuthor: String, ageAuthor: String, location: String, regionAuthor: String, styleAuthor: [String], imagesCover: [String]) {
+    init(rateAuthor: Double, likedAuthor: Bool, typeAuthor: String, nameAuthor: String, familynameAuthor: String, sexAuthor: String, ageAuthor: String, location: String, identifier: String, regionAuthor: String, styleAuthor: [String], imagesCover: [String]) {
         self.rateAuthor = rateAuthor
         self.likedAuthor = likedAuthor
         self.typeAuthor = typeAuthor
@@ -143,6 +144,7 @@ struct DBAuthor: Codable {
         self.sexAuthor = sexAuthor
         self.ageAuthor = ageAuthor
         self.location = location
+        self.identifier = identifier
         self.regionAuthor = regionAuthor
         self.styleAuthor = styleAuthor
         self.imagesCover = imagesCover
@@ -157,6 +159,7 @@ struct DBAuthor: Codable {
         case sexAuthor = "sex_author"
         case ageAuthor = "age_author"
         case location = "location"
+        case identifier = "identifier"
         case regionAuthor = "region_author"
         case styleAuthor = "style_author"
         case imagesCover = "images_cover"
@@ -171,6 +174,7 @@ struct DBAuthor: Codable {
         try container.encode(self.sexAuthor, forKey: .sexAuthor)
         try container.encode(self.ageAuthor, forKey: .ageAuthor)
         try container.encode(self.location, forKey: .location)
+        try container.encode(self.identifier, forKey: .identifier)
         try container.encode(self.regionAuthor, forKey: .regionAuthor)
         try container.encode(self.styleAuthor, forKey: .styleAuthor)
         try container.encode(self.imagesCover, forKey: .imagesCover)

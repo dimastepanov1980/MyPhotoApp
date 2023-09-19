@@ -76,6 +76,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
         }
         .navigationDestination(isPresented: $showPortfolioEditView) {
             PortfolioEditView(with: PortfolioEditViewModel(locationAuthor: viewModel.locationAuthor,
+                                                           identifier: viewModel.identifier,
                                                            typeAuthor: $viewModel.typeAuthor,
                                                            nameAuthor: $viewModel.nameAuthor,
                                                            avatarAuthorID: $viewModel.avatarAuthorID,
@@ -200,6 +201,7 @@ struct PortfolioAddImagesView_Previews: PreviewProvider {
 
 
 private class MockViewModel: PortfolioViewModelType, ObservableObject {
+    var identifier: String = ""
     var smallImagesPortfolio: [String] = []
     var portfolioImages: [UIImage] = []
     func getPortfolioImages(imagesPath: [String]) async throws {}

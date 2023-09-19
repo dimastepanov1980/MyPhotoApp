@@ -144,6 +144,7 @@ private class MockViewModel: ObservableObject {
                                                                    sexAuthor: "Male",
                                                                    ageAuthor: "25",
                                                                    location: "Maoi",
+                                                                   identifier: "",
                                                                    regionAuthor: "UA",
                                                                    styleAuthor: ["Fashion", "Love Story"],
                                                                    imagesCover: ["", ""]),

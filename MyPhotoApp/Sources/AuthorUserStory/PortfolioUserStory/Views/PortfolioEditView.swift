@@ -63,6 +63,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                                   sexAuthor: viewModel.sexAuthor,
                                                                   ageAuthor: viewModel.ageAuthor,
                                                                   location: viewModel.locationAuthor,
+                                                                  identifier: viewModel.identifier,
                                                                   regionAuthor: viewModel.regionAuthor,
                                                                   styleAuthor: viewModel.styleAuthor,
                                                                   imagesCover: []),
@@ -146,8 +147,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
             CustomTextField(nameTextField: R.string.localizable.portfolio_location(), text: $viewModel.locationAuthor)
             ForEach(viewModel.locationResult) { result in
                 if viewModel.locationAuthor != result.location {
-                    VStack(alignment: .leading) {
-                        Text("\(result.location)")
+                    List {
+                        Text("\(result.location) and \(result.city)")
                             .font(.subheadline)
                             .foregroundColor(Color(R.color.gray4.name))
                             .padding(.leading, 36)
@@ -155,6 +156,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     .onTapGesture {
                         withAnimation {
                             viewModel.locationAuthor = result.location
+                            viewModel.identifier = result.identifier
                             viewModel.regionAuthor = result.regionCode
                         }
                     }
@@ -163,7 +165,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
         }
     }
 
-   private var sexSection: some View {
+    private var sexSection: some View {
         HStack{
             Text(R.string.localizable.portfolio_gender())
                 .font(.callout)
@@ -183,7 +185,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                 .stroke(Color(R.color.gray5.name), lineWidth: 1))
         .padding(.horizontal)
     }
-    
     private var descriptionSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(R.string.localizable.portfolio_about())
@@ -276,6 +277,7 @@ struct PortfolioEditView_Previews: PreviewProvider {
     static var previews: some View {
         PortfolioEditView(with: PortfolioEditViewModel(
             locationAuthor: viewModel.locationAuthor,
+            identifier: viewModel.identifier,
             typeAuthor: .constant(viewModel.typeAuthor),
             nameAuthor: .constant(viewModel.nameAuthor),
             avatarAuthorID: .constant(UUID()),
@@ -289,7 +291,10 @@ struct PortfolioEditView_Previews: PreviewProvider {
     }
 }
 
-private class MockViewModel: ObservableObject {
+private class MockViewModel: ObservableObject, PortfolioEditViewModelType {
+    var regionAuthor: String = ""
+    var identifier: String = ""
+    var avatarAuthorID: UUID = UUID()
     var avatarImageID: UUID = UUID()
     var selectedAvatar: PhotosPickerItem?
     var avatarURL: URL?

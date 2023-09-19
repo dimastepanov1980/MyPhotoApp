@@ -19,7 +19,7 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             self.portfolio = [] // Initialize with an empty array initially
             Task {
                 do {
-                    let dbPortfolio = try await getAllPortfolioCurrentLocation()
+                    let dbPortfolio = try await getPortfolioForLocation(location: "Odesa, Odesa Oblast, Ukraine")
                     self.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
                     print(portfolio)
                 } catch {
@@ -28,9 +28,9 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             }
         }
     
-    func getAllPortfolioCurrentLocation() async throws -> [DBPortfolioModel] {
+    func getPortfolioForLocation(location: String) async throws -> [DBPortfolioModel] {
         do {
-            let portfolio = try await UserManager.shared.getAllPortfolio()
+            let portfolio = try await UserManager.shared.getPortfolioLocation(location: location)
             return portfolio
         } catch {
             throw error
