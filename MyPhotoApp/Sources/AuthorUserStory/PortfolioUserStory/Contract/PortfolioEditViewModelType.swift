@@ -29,7 +29,7 @@ protocol PortfolioEditViewModelType: ObservableObject {
     var avatarAuthorID: UUID { get set }
 
     var locationResult: [DBLocationModel] { get set }
-    
+    var service: SearchLocationManaget { get set }
 
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws
     func addAvatar(selectImage: PhotosPickerItem?) async throws

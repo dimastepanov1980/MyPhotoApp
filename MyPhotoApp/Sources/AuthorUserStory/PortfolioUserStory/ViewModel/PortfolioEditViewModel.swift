@@ -15,8 +15,8 @@ import PhotosUI
 final class PortfolioEditViewModel: PortfolioEditViewModelType {
  
     
-    var service = SearchLocationManaget()
-    private var cancellable: AnyCancellable?
+    @Published var service = SearchLocationManaget()
+//    private var cancellable: AnyCancellable?
     
     @State var sexAuthorList = ["Select", "Male", "Female"]
     
@@ -28,7 +28,7 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
     @Published var locationResult = [DBLocationModel]()
     @Published var locationAuthor: String {
         didSet {
-            searchForCity(text: locationAuthor)
+//            searchForCity(text: locationAuthor)
         }
     }
     @Published var regionAuthor: String = ""
@@ -71,16 +71,16 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
         self._avatarAuthor = avatarAuthor
         self._descriptionAuthor = descriptionAuthor
         
-        cancellable = service.searchLocationPublisher.sink { mapItems in
-            self.locationResult = mapItems.map({ DBLocationModel(mapItem: $0) })
-        }
+//        cancellable = service.searchLocationPublisher.sink { mapItems in
+//            self.locationResult = mapItems.map({ DBLocationModel(mapItem: $0) })
+//        }
     }
 
-    private func searchForCity(text: String) {
-//        guard let locale = NSLocale.current.language.languageCode?.identifier else { return }
-//        print(locale)
-        service.searchLocation(searchText: text)
-    }
+//    private func searchForCity(text: String) {
+////        guard let locale = NSLocale.current.language.languageCode?.identifier else { return }
+////        print(locale)
+//        service.searchLocation(searchText: text)
+//    }
 
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()

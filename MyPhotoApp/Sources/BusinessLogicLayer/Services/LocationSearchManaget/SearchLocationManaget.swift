@@ -10,7 +10,6 @@ import MapKit
 import Combine
 
 @MainActor
-/*
 class SearchLocationManaget: NSObject, ObservableObject {
     
     enum LocationStatus: Equatable {
@@ -62,9 +61,7 @@ extension SearchLocationManaget: MKLocalSearchCompleterDelegate {
         self.status = .error(error.localizedDescription)
     }
 }
-
- */
-
+/*
 final class SearchLocationManaget {
 
     static let shared = SearchLocationManaget()
@@ -90,3 +87,4 @@ final class SearchLocationManaget {
         }
     }
 }
+*/
