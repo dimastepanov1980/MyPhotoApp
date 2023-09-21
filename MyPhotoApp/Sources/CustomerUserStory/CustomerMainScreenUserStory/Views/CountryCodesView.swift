@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+
+/*
 struct CountryCodesView: View {
     var body: some View {
         List(NSLocale.isoCountryCodes, id: \.self) { countryCode in
@@ -19,15 +21,14 @@ struct CountryCodesView: View {
         }
     }
 }
-
 func countryFlag(_ countryCode: String) -> String {
   String(String.UnicodeScalarView(countryCode.unicodeScalars.compactMap {
     UnicodeScalar(127397 + $0.value)
   }))
 }
-
 struct CountryCodesView_Previews: PreviewProvider {
     static var previews: some View {
         CountryCodesView()
     }
 }
+*/

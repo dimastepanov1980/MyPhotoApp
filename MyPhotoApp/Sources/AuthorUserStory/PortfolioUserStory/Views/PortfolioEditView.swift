@@ -63,7 +63,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                                   sexAuthor: viewModel.sexAuthor,
                                                                   ageAuthor: viewModel.ageAuthor,
                                                                   location: viewModel.locationAuthor,
-                                                                  identifier: viewModel.identifier,
+                                                                  latitude: viewModel.latitude,
+                                                                  longitude: viewModel.longitude,
                                                                   regionAuthor: viewModel.regionAuthor,
                                                                   styleAuthor: viewModel.styleAuthor,
                                                                   imagesCover: []),
@@ -143,25 +144,33 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     }
 
    private var locationSection: some View {
-        VStack(alignment: .leading) {
-            CustomTextField(nameTextField: R.string.localizable.portfolio_location(), text: $viewModel.locationAuthor)
-            ForEach(viewModel.locationResult) { result in
-                if viewModel.locationAuthor != result.location {
-                    List {
-                        Text("\(result.location) and \(result.city)")
-                            .font(.subheadline)
-                            .foregroundColor(Color(R.color.gray4.name))
-                            .padding(.leading, 36)
-                    }
-                    .onTapGesture {
-                        withAnimation {
-                            viewModel.locationAuthor = result.location
-                            viewModel.identifier = result.identifier
-                            viewModel.regionAuthor = result.regionCode
-                        }
-                    }
-                }
-            }
+       VStack(alignment: .leading) {
+           CustomTextField(nameTextField: R.string.localizable.portfolio_location(), text: $viewModel.locationAuthor)
+           ForEach(viewModel.locationResult) { result in
+               if viewModel.locationAuthor != result.location {
+               VStack(alignment: .leading){
+                   Text(result.city)
+                       .font(.subheadline)
+                       .foregroundColor(Color(R.color.gray2.name))
+                       .padding(.leading, 32)
+                   Text(result.location)
+                       .font(.footnote)
+                       .foregroundColor(Color(R.color.gray4.name))
+                       .padding(.leading, 32)
+                   Divider()
+                       .padding(.horizontal, 32)
+               }
+                       .onTapGesture {
+                           withAnimation {
+                               viewModel.locationAuthor = result.location
+                               viewModel.latitude = result.latitude
+                               viewModel.longitude = result.longitude
+
+                               viewModel.regionAuthor = result.regionCode
+                           }
+                       }
+               }
+           }
         }
     }
 
@@ -277,7 +286,6 @@ struct PortfolioEditView_Previews: PreviewProvider {
     static var previews: some View {
         PortfolioEditView(with: PortfolioEditViewModel(
             locationAuthor: viewModel.locationAuthor,
-            identifier: viewModel.identifier,
             typeAuthor: .constant(viewModel.typeAuthor),
             nameAuthor: .constant(viewModel.nameAuthor),
             avatarAuthorID: .constant(UUID()),
@@ -292,8 +300,9 @@ struct PortfolioEditView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: ObservableObject, PortfolioEditViewModelType {
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
     var regionAuthor: String = ""
-    var identifier: String = ""
     var avatarAuthorID: UUID = UUID()
     var avatarImageID: UUID = UUID()
     var selectedAvatar: PhotosPickerItem?

@@ -160,11 +160,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                         Text(R.string.localizable.price_start())
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
-//                      TODO: - change price property form Schedule
-
-//                        Text("\(author.priceAuthor)\(viewModel.currencySymbol(for: author.location))")
-//                            .font(.headline.bold())
-//                            .foregroundColor(Color(R.color.gray2.name))
                     }
                 }
             }
@@ -427,7 +422,8 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
                                                                                     sexAuthor: "Male",
                                                                                     ageAuthor: "25",
                                                                                     location: "Maoi",
-                                                                                    identifier: "",
+                                                                                    latitude: 0.0,
+                                                                                    longitude: 0.0,
                                                                                     regionAuthor: "UA",
                                                                                     styleAuthor: ["Fashion", "Love Story"],
                                                                                     imagesCover: ["", ""]),

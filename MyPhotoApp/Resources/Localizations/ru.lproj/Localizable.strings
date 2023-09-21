@@ -53,10 +53,10 @@
 "tabs_profile" = "Профиль";
 
 // MARK: - CustomerTabs
-"custoer_tabs_home" = "Домой";
-"custoer_tabs_message" = "Сообщения";
-"custoer_tabs_liked" = "Избранное";
-"custoer_tabs_profile" = "Профиль";
+"customer_tabs_home" = "Домой";
+"customer_tabs_message" = "Сообщения";
+"customer_tabs_liked" = "Избранное";
+"customer_tabs_profile" = "Профиль";
 
 //MARK: - Setting screen
 "app_version" = "Версия программы:";
@@ -130,3 +130,6 @@
 "schedule_price" = "Цена";
 "schedule_price_per_slot" = "Цена за один интервал";
 "schedule_holidays" = "Включая выходные";
+
+//MARK: - Customer Main screen
+"customer_search_bar" = "Поиск фотографа";

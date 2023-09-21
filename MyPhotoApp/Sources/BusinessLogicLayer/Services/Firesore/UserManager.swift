@@ -183,7 +183,46 @@ final class UserManager {
     func getPortfolioLocation(location: String) async throws -> [DBPortfolioModel]{
         try await portfolioCollection.whereField("author.location", isEqualTo: location).getDocuments(as: DBPortfolioModel.self)
     }
+    /*
+    func getPortfolioCoordinateRange(longitude: Double, latitude: Double) async throws -> [DBPortfolioModel] {
+        
+        let returnedLongitude = try await portfolioCollection
+            .whereField("author.longitude", isGreaterThan: longitude - 0.01 * longitude)
+            .whereField("author.longitude", isLessThan: longitude + 0.01 * longitude)
+            .getDocuments(as: DBPortfolioModel.self)
+        
+        let returnedLatitude = try await portfolioCollection
+            .whereField("author.latitude", isGreaterThan: latitude - 0.01 * latitude)
+            .whereField("author.latitude", isLessThan: latitude + 0.01 * latitude)
+            .getDocuments(as: DBPortfolioModel.self)
+        
+        return returnedLongitude
+
+    }
+    */
     
+    func getPortfolioCoordinateRange(longitude: Double, latitude: Double) async throws -> [DBPortfolioModel] {
+        // Query based on longitude range
+        let longitudeQuerySnapshot = try await portfolioCollection
+            .whereField("author.longitude", isGreaterThan: longitude - 0.01 * longitude)
+            .whereField("author.longitude", isLessThan: longitude + 0.01 * longitude)
+            .getDocuments(as: DBPortfolioModel.self)
+
+        // Query based on latitude range
+        let latitudeQuerySnapshot = try await portfolioCollection
+            .whereField("author.latitude", isGreaterThan: latitude - 0.01 * latitude)
+            .whereField("author.latitude", isLessThan: latitude + 0.01 * latitude)
+            .getDocuments(as: DBPortfolioModel.self)
+
+        // Convert query results to sets for easy comparison
+        let longitudeSet = Set(longitudeQuerySnapshot)
+        let latitudeSet = Set(latitudeQuerySnapshot)
+
+        // Find the common portfolios based on both longitude and latitude
+        let commonPortfolios = longitudeSet.intersection(latitudeSet)
+
+        return Array(commonPortfolios)
+    }
     
     func matchesLocation(_ location: String, searchString: String) -> Bool {
         let options: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive]

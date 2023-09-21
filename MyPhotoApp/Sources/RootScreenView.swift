@@ -14,7 +14,7 @@ struct RootScreenView: View {
     @State private var showCostomerZone: Bool = false
     var body: some View {
         Group {
-            if showCostomerZone {
+            if !showCostomerZone {
                 CustomerPageHubView(showCostomerZone: $showCostomerZone)
             } else {
                 AuthorHubPageView(showSignInView: $showSignInView, showCostomerZone: $showCostomerZone)

@@ -13,12 +13,7 @@ import MapKit
 
 @MainActor
 final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, ObservableObject {
-    @Published var orders: [UserOrdersModel]
-    @Published var weatherByDate: [Date: [Weather?]] = [:]
-    @Published var weatherForCurrentDay: String? = nil
-    @Published var selectedDay: Date = Date()
-    @Published var today: Date = Date()
-    @Published var modified = false
+    
     var location = LocationViewModel()
     private var cancellables = Set<AnyCancellable>()
     private var listenerRegistration: ListenerRegistration?
@@ -71,7 +66,12 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             return formattedOrderDate == formattedToday
         }
     }
-    
+    @Published var orders: [UserOrdersModel]
+    @Published var weatherByDate: [Date: [Weather?]] = [:]
+    @Published var weatherForCurrentDay: String? = nil
+    @Published var selectedDay: Date = Date()
+    @Published var today: Date = Date()
+    @Published var modified = false
     init(orders: [UserOrdersModel] = []) {
         self.orders = orders
         

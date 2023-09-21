@@ -15,6 +15,7 @@
 		5F1BCA9B2AB006BA00223146 /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BCA9A2AB006BA00223146 /* PortfolioView.swift */; };
 		5F1BCA9D2AB1C63300223146 /* PortfolioEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BCA9C2AB1C63300223146 /* PortfolioEditViewModel.swift */; };
 		5F1BCA9F2AB1C64E00223146 /* PortfolioEditViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BCA9E2AB1C64E00223146 /* PortfolioEditViewModelType.swift */; };
+		5F1BCAA32ABADBBE00223146 /* CustomerSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BCAA22ABADBBE00223146 /* CustomerSearchBar.swift */; };
 		5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E072A9744FF0014AD9B /* CustomerPageHubView.swift */; };
 		5F214E0E2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E0D2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift */; };
 		5F214E102A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E0F2A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift */; };
@@ -110,6 +111,7 @@
 		5F1BCA9A2AB006BA00223146 /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		5F1BCA9C2AB1C63300223146 /* PortfolioEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditViewModel.swift; sourceTree = "<group>"; };
 		5F1BCA9E2AB1C64E00223146 /* PortfolioEditViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditViewModelType.swift; sourceTree = "<group>"; };
+		5F1BCAA22ABADBBE00223146 /* CustomerSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchBar.swift; sourceTree = "<group>"; };
 		5F214E072A9744FF0014AD9B /* CustomerPageHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerPageHubView.swift; sourceTree = "<group>"; };
 		5F214E0D2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenViewModelType.swift; sourceTree = "<group>"; };
 		5F214E0F2A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenViewModel.swift; sourceTree = "<group>"; };
@@ -310,7 +312,7 @@
 		5F39095F2A8F5F98006E539A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5FFC5AB42A91A50B006E10E9 /* Cells */,
+				5FFC5AB42A91A50B006E10E9 /* Items */,
 				5FFC5AB22A919E4E006E10E9 /* CustomerMainScreenView.swift */,
 				5F9F32412A947765004D48B7 /* StickyHeader.swift */,
 				5F9F32452A96006D004D48B7 /* CountryCodesView.swift */,
@@ -452,6 +454,7 @@
 		5F9F32492A9735E0004D48B7 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				5F1BCAA22ABADBBE00223146 /* CustomerSearchBar.swift */,
 				5FBA26972A1536A400E972FB /* CustomTextField.swift */,
 				5FBA269E2A162D6700E972FB /* CustomSecureTextField.swift */,
 				5FE5AAE12AA1DEFE0033F51B /* CustomTextEdit.swift */,
@@ -817,12 +820,12 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		5FFC5AB42A91A50B006E10E9 /* Cells */ = {
+		5FFC5AB42A91A50B006E10E9 /* Items */ = {
 			isa = PBXGroup;
 			children = (
 				5FFC5AB52A91A536006E10E9 /* CustomerMainCellView.swift */,
 			);
-			path = Cells;
+			path = Items;
 			sourceTree = "<group>";
 		};
 		C282337F8450236C633B7DF3 /* Pods */ = {
@@ -1037,6 +1040,7 @@
 				5FE606452A8880CB00E33205 /* ReAuthorizationScreenViewModel.swift in Sources */,
 				5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */,
 				5F0F8D862A31E28B00AF4EED /* UserOrdersModel.swift in Sources */,
+				5F1BCAA32ABADBBE00223146 /* CustomerSearchBar.swift in Sources */,
 				5F9F32482A96F065004D48B7 /* AuthorCustomTabs.swift in Sources */,
 				5F4A1B422A9EF73F00EC67B2 /* SearchLocationView.swift in Sources */,
 				5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */,

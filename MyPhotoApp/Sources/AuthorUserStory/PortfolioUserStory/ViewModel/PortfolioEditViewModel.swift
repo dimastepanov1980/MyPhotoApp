@@ -15,7 +15,7 @@ import PhotosUI
 final class PortfolioEditViewModel: PortfolioEditViewModelType {
  
     
-    var service = SearchLocationManaget()
+    var service: SearchLocationManager
     private var cancellable: AnyCancellable?
     
     @State var sexAuthorList = ["Select", "Male", "Female"]
@@ -25,14 +25,15 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
      https://youtu.be/ETS4jI0EaY4?si=yXOyKAvdDYnJZ6M4
      */
     
-    @Published var locationResult = [DBLocationModel]()
+    @Published var locationResult: [DBLocationModel] = []
     @Published var locationAuthor: String {
         didSet {
             searchForCity(text: locationAuthor)
         }
     }
     @Published var regionAuthor: String = ""
-    @Published var identifier: String = ""
+    @Published var latitude: Double = 0.0
+    @Published var longitude: Double = 0.0
     
     @Binding var typeAuthor: String
     @Binding var nameAuthor: String
@@ -46,7 +47,6 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
     @Binding var descriptionAuthor: String
     
     init(locationAuthor: String,
-         identifier: String,
          typeAuthor: Binding<String>,
          nameAuthor: Binding<String>,
          avatarAuthorID: Binding<UUID>,
@@ -59,7 +59,6 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
          descriptionAuthor: Binding<String>) {
         
         self.locationAuthor = locationAuthor
-        self.identifier = identifier
         self._typeAuthor = typeAuthor
         self._nameAuthor = nameAuthor
         self._avatarAuthorID = avatarAuthorID
@@ -71,14 +70,18 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
         self._avatarAuthor = avatarAuthor
         self._descriptionAuthor = descriptionAuthor
         
+        // New York
+//        let center = CLLocationCoordinate2D(latitude: 40.730610, longitude: -73.935242)
+        let all = CLLocationCoordinate2D()
+
+        service = SearchLocationManager(in: all)
+        
         cancellable = service.searchLocationPublisher.sink { mapItems in
             self.locationResult = mapItems.map({ DBLocationModel(mapItem: $0) })
         }
     }
 
     private func searchForCity(text: String) {
-//        guard let locale = NSLocale.current.language.languageCode?.identifier else { return }
-//        print(locale)
         service.searchLocation(searchText: text)
     }
 

@@ -12,13 +12,16 @@ struct DBLocationModel: Identifiable {
     var id = UUID()
     var city: String
     var location: String
+    var latitude: Double
+    var longitude: Double
     var regionCode: String
-    var identifier: String
+
     
     init(mapItem: MKMapItem) {
-        self.city = mapItem.placemark.locality ?? ""
+        self.city = mapItem.name ?? ""
         self.location = mapItem.placemark.title ?? ""
+        self.latitude = mapItem.placemark.location?.coordinate.latitude ?? 0.0
+        self.longitude = mapItem.placemark.location?.coordinate.longitude ?? 0.0
         self.regionCode = mapItem.placemark.countryCode ?? ""
-        self.identifier = mapItem.placemark.region?.identifier ?? "" // Получаю координаты
     }
 }

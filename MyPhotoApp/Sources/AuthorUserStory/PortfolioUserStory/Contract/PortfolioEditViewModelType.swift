@@ -16,7 +16,8 @@ protocol PortfolioEditViewModelType: ObservableObject {
     
     var locationAuthor: String { get set }
     var regionAuthor: String { get set }
-    var identifier: String { get set }
+    var latitude: Double { get set }
+    var longitude: Double { get set }
     var nameAuthor: String { get set }
     var familynameAuthor: String { get set }
     var sexAuthor: String { get set }

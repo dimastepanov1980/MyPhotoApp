@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DBPortfolioModel: Codable {
+struct DBPortfolioModel: Codable, Hashable {
     let id: String
     let author: DBAuthor?
     let avatarAuthor: String?
@@ -39,9 +39,7 @@ struct DBPortfolioModel: Codable {
 //         reviews: [DBReviews]?,
          schedule: [DbSchedule]?
 //         bookingDays: [BookinDate]?
-    )
-    {
-        self.id = id
+    ){   self.id = id
         self.author = author
         self.avatarAuthor = avatarAuthor
         self.smallImagesPortfolio = smallImagesPortfolio
@@ -52,6 +50,15 @@ struct DBPortfolioModel: Codable {
 //        self.bookingDays = bookingDays
     }
 
+    func hash(into hasher: inout Hasher) {
+           // Use properties that uniquely identify a portfolio to generate the hash value
+           hasher.combine(self.id) // Replace with an actual unique identifier property
+       }
+
+       static func == (lhs: DBPortfolioModel, rhs: DBPortfolioModel) -> Bool {
+           // Implement equality based on properties that make a portfolio equal
+           return lhs.id == rhs.id // Replace with actual comparison logic
+       }
     
     enum CodingKeys: String, CodingKey {
         case id = "author_id"
@@ -115,7 +122,8 @@ struct DBAuthor: Codable {
     let ageAuthor: String
     let location: String
     let regionAuthor: String
-    let identifier: String
+    var latitude: Double
+    var longitude: Double
     let styleAuthor: [String]
     let imagesCover: [String]
     
@@ -130,12 +138,13 @@ struct DBAuthor: Codable {
         self.ageAuthor = try container.decode(String.self, forKey: .ageAuthor)
         self.location = try container.decode(String.self, forKey: .location)
         self.regionAuthor = try container.decode(String.self, forKey: .regionAuthor)
-        self.identifier = try container.decode(String.self, forKey: .identifier)
+        self.latitude = try container.decode(Double.self, forKey: .latitude)
+        self.longitude = try container.decode(Double.self, forKey: .longitude)
         self.styleAuthor = try container.decode([String].self, forKey: .styleAuthor)
         self.imagesCover = try container.decode([String].self, forKey: .imagesCover)
     }
 
-    init(rateAuthor: Double, likedAuthor: Bool, typeAuthor: String, nameAuthor: String, familynameAuthor: String, sexAuthor: String, ageAuthor: String, location: String, identifier: String, regionAuthor: String, styleAuthor: [String], imagesCover: [String]) {
+    init(rateAuthor: Double, likedAuthor: Bool, typeAuthor: String, nameAuthor: String, familynameAuthor: String, sexAuthor: String, ageAuthor: String, location: String, latitude: Double, longitude: Double, regionAuthor: String, styleAuthor: [String], imagesCover: [String]) {
         self.rateAuthor = rateAuthor
         self.likedAuthor = likedAuthor
         self.typeAuthor = typeAuthor
@@ -144,7 +153,8 @@ struct DBAuthor: Codable {
         self.sexAuthor = sexAuthor
         self.ageAuthor = ageAuthor
         self.location = location
-        self.identifier = identifier
+        self.latitude = latitude
+        self.longitude = longitude
         self.regionAuthor = regionAuthor
         self.styleAuthor = styleAuthor
         self.imagesCover = imagesCover
@@ -159,7 +169,8 @@ struct DBAuthor: Codable {
         case sexAuthor = "sex_author"
         case ageAuthor = "age_author"
         case location = "location"
-        case identifier = "identifier"
+        case latitude = "latitude"
+        case longitude = "longitude"
         case regionAuthor = "region_author"
         case styleAuthor = "style_author"
         case imagesCover = "images_cover"
@@ -174,7 +185,8 @@ struct DBAuthor: Codable {
         try container.encode(self.sexAuthor, forKey: .sexAuthor)
         try container.encode(self.ageAuthor, forKey: .ageAuthor)
         try container.encode(self.location, forKey: .location)
-        try container.encode(self.identifier, forKey: .identifier)
+        try container.encode(self.latitude, forKey: .latitude)
+        try container.encode(self.longitude, forKey: .longitude)
         try container.encode(self.regionAuthor, forKey: .regionAuthor)
         try container.encode(self.styleAuthor, forKey: .styleAuthor)
         try container.encode(self.imagesCover, forKey: .imagesCover)

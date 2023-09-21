@@ -76,7 +76,6 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
         }
         .navigationDestination(isPresented: $showPortfolioEditView) {
             PortfolioEditView(with: PortfolioEditViewModel(locationAuthor: viewModel.locationAuthor,
-                                                           identifier: viewModel.identifier,
                                                            typeAuthor: $viewModel.typeAuthor,
                                                            nameAuthor: $viewModel.nameAuthor,
                                                            avatarAuthorID: $viewModel.avatarAuthorID,

@@ -53,10 +53,10 @@
 "tabs_profile" = "Profile";
 
 // MARK: - CustomerTabs
-"custoer_tabs_home" = "Home";
-"custoer_tabs_message" = "Message";
-"custoer_tabs_liked" = "Liked";
-"custoer_tabs_profile" = "Profile";
+"customer_tabs_home" = "Home";
+"customer_tabs_message" = "Message";
+"customer_tabs_liked" = "Liked";
+"customer_tabs_profile" = "Profile";
 
 //MARK: - Setting screen
 "app_version" = "App version:";
@@ -95,7 +95,7 @@
 "portfolio_schedule" = "Add schedule";
 "portfolio_add_images" = "Please select image for Portfolio\nby tapping on plus icon on toolbar";
 
-//MARK: - Style of  Photography
+//MARK: - Style of Photography
 
 "style_photography_aerial" = "Aerial";
 "style_photography_architecture" = "Architecture";
@@ -132,3 +132,6 @@
 "schedule_price" = "Price";
 "schedule_price_per_slot" = "Price per Time slot";
 "schedule_holidays" = "Including weekends";
+
+//MARK: - Customer Main screen
+"customer_search_bar" = "Search photographer";
