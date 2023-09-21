@@ -10,7 +10,7 @@ import CoreLocation
 import Combine
 
 @MainActor
-class LocationViewModel: NSObject, ObservableObject {
+class LocationService: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
     private var cancellables: Set<AnyCancellable> = []
     
@@ -32,7 +32,7 @@ class LocationViewModel: NSObject, ObservableObject {
     }
 }
 
-extension LocationViewModel: CLLocationManagerDelegate {
+extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         self.location = location

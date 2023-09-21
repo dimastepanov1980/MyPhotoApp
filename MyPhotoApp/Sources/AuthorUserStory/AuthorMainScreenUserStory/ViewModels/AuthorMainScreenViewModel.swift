@@ -14,7 +14,7 @@ import MapKit
 @MainActor
 final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, ObservableObject {
     
-    var location = LocationViewModel()
+    var location = LocationService()
     private var cancellables = Set<AnyCancellable>()
     private var listenerRegistration: ListenerRegistration?
 
@@ -104,6 +104,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     func fetchWeather(with location: CLLocation) {
         let longitude = location.coordinate.longitude.description
         let latitude = location.coordinate.latitude.description
+        print(longitude, latitude)
         let today = Date()
         let calendar = Calendar.current
         var weatherByDate: [Date: [Weather?]] = [:]

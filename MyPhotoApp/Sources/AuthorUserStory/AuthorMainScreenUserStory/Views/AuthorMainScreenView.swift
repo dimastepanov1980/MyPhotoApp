@@ -241,7 +241,7 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
     var filteredOrdersForToday: [UserOrdersModel] = []
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] = [:]
     var vm = AuthorMainScreenViewModel()
-    var location = LocationViewModel()
+    var location = LocationService()
     
     @Published var weatherByDate = [Date : [Weather?]]()
     @Published var weatherForCurrentDay: String? = nil

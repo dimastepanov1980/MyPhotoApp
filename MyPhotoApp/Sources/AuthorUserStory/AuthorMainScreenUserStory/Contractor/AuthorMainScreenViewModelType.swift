@@ -20,7 +20,7 @@ protocol AuthorMainScreenViewModelType: ObservableObject {
     var filteredUpcomingOrders: [Date : [UserOrdersModel]] { get }
     var filteredOtherOrders: [Date : [UserOrdersModel]] { get }
     var filteredOrdersForToday: [UserOrdersModel] { get }
-    var location: LocationViewModel { get set }
+    var location: LocationService { get set }
 //    var objectWillChange: ObservableObjectPublisher { get }
     
     func formattedDate(date: Date, format: String) -> String
