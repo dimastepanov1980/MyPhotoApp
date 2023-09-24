@@ -411,12 +411,16 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.image` struct is generated, and contains static references to 8 images.
+  /// This `R.image` struct is generated, and contains static references to 10 images.
   struct image {
     /// Image `ic_duration`.
     static let ic_duration = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_duration")
     /// Image `ic_edit`.
     static let ic_edit = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_edit")
+    /// Image `ic_female`.
+    static let ic_female = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_female")
+    /// Image `ic_filter`.
+    static let ic_filter = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_filter")
     /// Image `ic_instagram`.
     static let ic_instagram = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_instagram")
     /// Image `ic_time`.
@@ -441,6 +445,20 @@ struct R: Rswift.Validatable {
     /// `UIImage(named: "ic_edit", bundle: ..., traitCollection: ...)`
     static func ic_edit(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.ic_edit, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_female", bundle: ..., traitCollection: ...)`
+    static func ic_female(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_female, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_filter", bundle: ..., traitCollection: ...)`
+    static func ic_filter(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_filter, compatibleWith: traitCollection)
     }
     #endif
 
@@ -491,7 +509,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 101 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 103 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -613,6 +631,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let gender_female = Rswift.StringResource(key: "gender_female", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Female only
+      ///
+      /// Locales: en, ru
+      static let gender_specify_gender = Rswift.StringResource(key: "gender_specify_gender", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Firs Name
       ///
       /// Locales: en, ru
@@ -781,6 +803,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule = Rswift.StringResource(key: "schedule", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Search
+      ///
+      /// Locales: en, ru
+      static let customer_search = Rswift.StringResource(key: "customer_search", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Search photographer
       ///
       /// Locales: en, ru
@@ -1346,6 +1372,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("gender_female", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Female only
+      ///
+      /// Locales: en, ru
+      static func gender_specify_gender(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("gender_specify_gender", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "gender_specify_gender"
+        }
+
+        return NSLocalizedString("gender_specify_gender", bundle: bundle, comment: "")
       }
 
       /// en translation: Firs Name
@@ -1976,6 +2017,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("schedule", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Search
+      ///
+      /// Locales: en, ru
+      static func customer_search(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_search", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_search"
+        }
+
+        return NSLocalizedString("customer_search", bundle: bundle, comment: "")
       }
 
       /// en translation: Search photographer

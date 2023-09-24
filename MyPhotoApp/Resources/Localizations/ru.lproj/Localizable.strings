@@ -114,6 +114,7 @@
 "style_photography_wildlife" = "Дикая природа";
 
 //MARK: - Gender
+"gender_specify_gender" = "Только девушку";
 "gender_select" = "Выберите";
 "gender_male" = "Мужской";
 "gender_female" = "Женский";
@@ -133,3 +134,4 @@
 
 //MARK: - Customer Main screen
 "customer_search_bar" = "Поиск фотографа";
+"customer_search" = "Найти";

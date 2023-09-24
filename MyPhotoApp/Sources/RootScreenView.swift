@@ -16,6 +16,7 @@ struct RootScreenView: View {
         Group {
             if !showCostomerZone {
                 CustomerPageHubView(showCostomerZone: $showCostomerZone)
+                 
             } else {
                 AuthorHubPageView(showSignInView: $showSignInView, showCostomerZone: $showCostomerZone)
             }

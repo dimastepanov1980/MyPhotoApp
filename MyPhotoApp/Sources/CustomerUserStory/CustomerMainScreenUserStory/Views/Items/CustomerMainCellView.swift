@@ -20,13 +20,13 @@ struct CustomerMainCellView: View {
             }
             
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(height: 270)
+            .frame(height: 300)
             .mask {
                 RoundedRectangle(cornerRadius: 16)
-                    .frame(height: 270)
+                    .frame(height: 300)
                 
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 12)
             .overlay(alignment: .bottomTrailing) {
                 VStack {
                     Text("\(currentStep + 1) / \(items.smallImagesPortfolio.count)")
@@ -45,7 +45,7 @@ struct CustomerMainCellView: View {
                 VStack(alignment: .leading){
                     if let author = items.author {
                         Text("\(author.nameAuthor) \(author.familynameAuthor)")
-                            .font(.title2.bold())
+                            .font(.headline.bold())
                             .foregroundColor(Color(R.color.gray1.name))
                         Text("\(author.location)")
                             .font(.callout)
@@ -53,7 +53,7 @@ struct CustomerMainCellView: View {
                         
                     }
                 }
-                .padding(.leading, 36)
+                .padding(.leading, 24)
                     Spacer()
                 if let author = items.author, !calculateMinPrice(prices: items.appointmen).isEmpty {
                     VStack(alignment: .trailing){
@@ -84,7 +84,10 @@ struct CustomerMainCellView: View {
                         .frame(minWidth: 0, maxWidth: .infinity)
                 } else {
                     // Placeholder view for when the image is being loaded
-                    ProgressView()
+                    ZStack{
+                        ProgressView()
+                        Color.gray.opacity(0.2)
+                    }
                 }
             }
             .onAppear {

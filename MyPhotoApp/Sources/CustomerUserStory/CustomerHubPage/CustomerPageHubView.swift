@@ -10,13 +10,14 @@ import SwiftUI
 struct CustomerPageHubView: View {
     @State var index = 0
     @State private var showAddOrderView: Bool = false
+    @State var filterShow: Bool = true
     @Binding var showCostomerZone: Bool
 
     var body: some View {
         VStack{
             ZStack(alignment: .bottom) {
                 if self.index == 0 {
-                    CustomerMainScreenView(with: CustomerMainScreenViewModel())
+                    CustomerMainScreenView(with: CustomerMainScreenViewModel(), filterShow: $filterShow)
                 } else if self.index == 1 {
                     Color.red
                 } else if self.index == 2 {
@@ -35,8 +36,11 @@ struct CustomerPageHubView: View {
                 }
             }
             .padding(.bottom, -40)
-            
-            CustomerCustomTabs(index: $index)
+            if filterShow {
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                    CustomerCustomTabs(index: $index)
+                }
+                }
         }.edgesIgnoringSafeArea(.bottom)
     }
 }

@@ -7,107 +7,254 @@
 
 import SwiftUI
 
-
 struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
+    
+    @Namespace var filterspace: Namespace.ID
+    @Binding var filterShow: Bool
+    @State var onlyFemale: Bool = false
+    @State var chooseDate: Date = Date()
+    
     @State var showDetailView = false
-    init(with viewModel: ViewModel) {
+    init(with viewModel: ViewModel,
+         filterShow: Binding<Bool>) {
         self.viewModel = viewModel
+        self._filterShow = filterShow
     }
     
     var body: some View {
         NavigationStack {
-            ZStack(alignment: .top){
-            ScrollView{
-                    VStack{
-                        ForEach(viewModel.portfolio, id: \.id) { item in
-                            CustomerMainCellView(items: item)
-                                .onTapGesture {
-                                    viewModel.selectedItem = item
-                                    showDetailView.toggle()
-                                }
-                                .fullScreenCover(isPresented: $showDetailView) {
-                                    if let selectedItem = viewModel.selectedItem {
-                                        CustomerDetailScreenView(with: CustomerDetailScreenViewModel(items: selectedItem), showDetailView: $showDetailView)
+            if filterShow {
+                ZStack {
+                    ScrollView{
+                        VStack{
+                            ForEach(viewModel.portfolio, id: \.id) { item in
+                                CustomerMainCellView(items: item)
+                                    .onTapGesture {
+                                        viewModel.selectedItem = item
+                                        showDetailView.toggle()
                                     }
-                                }
-                                .onAppear{
-                                    Task{
-                                        do{
-                                            try await viewModel.imagePathToURL(imagePath: item.smallImagesPortfolio)
-                                        }catch{
-                                            throw error
+                                    .fullScreenCover(isPresented: $showDetailView) {
+                                        if let selectedItem = viewModel.selectedItem {
+                                            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(items: selectedItem), showDetailView: $showDetailView)
                                         }
-                                        
                                     }
+                                    .onAppear{
+                                        Task{
+                                            do{
+                                                try await viewModel.imagePathToURL(imagePath: item.smallImagesPortfolio)
+                                            }catch{
+                                                throw error
+                                            }
+                                            
+                                        }
+                                    }
+                                    .padding(.bottom)
+                            }
+                            
+                        }
+                        .padding(.vertical, 64)
+                        .frame(maxWidth: .infinity)
+                    }
+                    VStack{
+                        HStack {
+                        seatchLocation
+                            .padding(.leading)
+                            .matchedGeometryEffect(id: "search", in: filterspace)
+                            .onTapGesture {
+                                withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                                    filterShow.toggle()
                                 }
-                                .padding(.bottom)
+                            }
+                            
+                        Button {
+                            //
+                        } label: {
+                            Image(R.image.ic_filter.name)
+                                .padding(.trailing)
+                        }
+                        }
+                        .background(Color.white)
+                        Spacer()
+                       Group {
+                            CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
+                                withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                                    filterShow.toggle()
+                                }
+                                
+                            }
+                            .matchedGeometryEffect(id: "CustomButtonXl", in: filterspace)
+                            .offset(y: 200)
                         }
                     }
                 }
-                ScrollView{
-                    VStack{
-                        ForEach(viewModel.locationResult) { result in
-                            if viewModel.locationAuthor != result.location {
-                                VStack(alignment: .leading){
-                                    Text(result.city)
-                                        .font(.subheadline)
-                                        .foregroundColor(Color(R.color.gray2.name))
-                                        .padding(.leading, 32)
-                                    Text(result.location)
-                                        .font(.footnote)
-                                        .foregroundColor(Color(R.color.gray4.name))
-                                        .padding(.leading, 32)
-                                    Divider()
-                                        .padding(.horizontal, 32)
+
+               
+            } else {
+                ZStack {
+                    ScrollView {
+                            VStack(spacing: 20){
+                                searchSection
+                                    .matchedGeometryEffect(id: "search", in: filterspace)
+                                dateSection
+                                onlyFemaleSection
+                                Spacer()
+                            }
+                            .padding(.top)
+                            .matchedGeometryEffect(id: "overlay", in: filterspace)
+                            .padding(.horizontal)
+                            .background(Color.white)
+                        .frame(maxWidth: .infinity)
+                    }
+                    VStack {
+                        Spacer()
+                        CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
+                            withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+//                                Task {
+//                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude)
+//                                    viewModel.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
+//                                    print(viewModel.portfolio)
+//                                }
+                                filterShow.toggle()
+                                print("chek new location \(viewModel.longitude); \(viewModel.latitude)")
+
+                            }
+                            
+                        }.matchedGeometryEffect(id: "CustomButtonXl", in: filterspace)
+                        .offset(y: -80)
+                    }
+                    ScrollView{
+                        VStack{
+                            ForEach(viewModel.locationResult) { result in
+                                if viewModel.locationAuthor != result.location {
+                                    VStack(alignment: .leading){
+                                        Text(result.city)
+                                            .font(.subheadline)
+                                            .foregroundColor(Color(R.color.gray2.name))
+                                            .padding(.leading, 32)
+                                        Text(result.location)
+                                            .font(.footnote)
+                                            .foregroundColor(Color(R.color.gray4.name))
+                                            .padding(.leading, 32)
+                                        Divider()
+                                            .padding(.horizontal, 32)
+                                        
+                                    }
                                     
-                                }
-                                
-                                .onTapGesture {
-                                    withAnimation {
-                                        viewModel.locationAuthor = result.location
-                                        viewModel.latitude = result.latitude
-                                        viewModel.longitude = result.longitude
-                                        viewModel.regionAuthor = result.regionCode
-                                        Task {
-                                            do {
-                                                let dbPortfolio = try await viewModel.getPortfolio(longitude: result.longitude, latitude:  result.latitude)
-                                                viewModel.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
-                                                print(result.longitude, result.latitude)
-                                                print(viewModel.portfolio)
-                                            } catch {
-                                                print(String(describing: error))
-                                            }
+                                    .onTapGesture {
+                                        withAnimation {
+                                            self.viewModel.locationAuthor = result.location
+                                            self.viewModel.latitude = result.latitude
+                                            self.viewModel.longitude = result.longitude
+                                            self.viewModel.regionAuthor = result.regionCode
+                                            print("set new location \(viewModel.longitude); \(viewModel.latitude)")
+
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-                    .background(Color.white)
+                        .background(Color.white)
+                    }.offset(y: 60)
                 }
             }
-            .safeAreaInset(edge: .top, content: {
-                VStack{
-                    seatchLocation
-                } .background(Color.white)
-            })
         }
-
     }
     
     private var seatchLocation: some View {
-        VStack(alignment: .leading) {
+        VStack {
             CustomerSearchBar(nameTextField: R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
          }
      }
+  /*  private var locationRsult: some View {
+        ScrollView{
+            VStack{
+                ForEach(viewModel.locationResult) { result in
+                    if viewModel.locationAuthor != result.location {
+                        VStack(alignment: .leading){
+                            Text(result.city)
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray2.name))
+                                .padding(.leading, 32)
+                            Text(result.location)
+                                .font(.footnote)
+                                .foregroundColor(Color(R.color.gray4.name))
+                                .padding(.leading, 32)
+                            Divider()
+                                .padding(.horizontal, 32)
+                            
+                        }
+                        .onTapGesture {
+                            withAnimation {
+                                viewModel.locationAuthor = result.location
+                                viewModel.latitude = result.latitude
+                                viewModel.longitude = result.longitude
+                                viewModel.regionAuthor = result.regionCode
+                                Task {
+                                    do {
+                                        let dbPortfolio = try await viewModel.getPortfolio(longitude: result.longitude, latitude:  result.latitude)
+                                        viewModel.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
+                                        print(result.longitude, result.latitude)
+                                        print(viewModel.portfolio)
+                                    } catch {
+                                        print(String(describing: error))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .background(Color.white)
+        }
+     } */
+    private var searchSection: some View {
+        VStack {
+            CustomerSearchBar(nameTextField: R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
+        }
+        .shadow(color: Color(.sRGBLinear, white: 0.3, opacity: 0.2),radius: 5)
+
+
+     }
+    private var dateSection: some View {
+        VStack {
+            DatePicker("Chose Date", selection: $chooseDate, displayedComponents: [.date])
+            .datePickerStyle(.graphical)
+        }
+            .background(Color.white)
+            .cornerRadius(20, corners: .allCorners)
+            .shadow(color: Color(.sRGBLinear, white: 0.3, opacity: 0.2),radius: 5)
+
+     }
+    private var onlyFemaleSection: some View {
+            Toggle(isOn: $onlyFemale) {
+                HStack {
+                    Image(R.image.ic_female.name)
+                        .foregroundColor(Color(R.color.gray3.name))
+
+                    Text(R.string.localizable.gender_specify_gender())
+                        .font(.callout)
+                        .foregroundColor(Color(R.color.gray4.name))
+                }.padding(.leading)
+            }
+            .tint(Color(R.color.gray2.name))
+        .padding(8)
+        .background(Color.white)
+        .cornerRadius(20, corners: .allCorners)
+        .shadow(color: Color(.sRGBLinear, white: 0.3, opacity: 0.2),radius: 5)
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.gray.opacity(0.05), lineWidth: 1)
+        )
+
+    }
 
 }
 struct CustomerMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
     static var previews: some View {
-            CustomerMainScreenView(with: mockModel)
+        CustomerMainScreenView(with: mockModel, filterShow: .constant(true))
     }
 }
 

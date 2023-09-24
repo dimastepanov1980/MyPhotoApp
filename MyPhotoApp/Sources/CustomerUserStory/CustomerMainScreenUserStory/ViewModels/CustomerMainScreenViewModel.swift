@@ -59,7 +59,6 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             }
         }
     }
-    
     func getPortfolio(longitude: Double , latitude: Double) async throws -> [DBPortfolioModel] {
         do {
             let portfolio = try await UserManager.shared.getPortfolioCoordinateRange(longitude: longitude, latitude: latitude)

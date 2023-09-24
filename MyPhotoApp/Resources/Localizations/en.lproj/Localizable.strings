@@ -115,6 +115,7 @@
 "style_photography_wildlife" = "Wildlife";
 
 //MARK: - Gender
+"gender_specify_gender" = "Female only";
 "gender_select" = "Select";
 "gender_male" = "Male";
 "gender_female" = "Female";
@@ -135,3 +136,5 @@
 
 //MARK: - Customer Main screen
 "customer_search_bar" = "Search photographer";
+"customer_search" = "Search";
+
