@@ -22,5 +22,6 @@ protocol CustomerMainScreenViewModelType: ObservableObject {
     func stringToURL(imageString: String) -> URL?
     func currencySymbol(for regionCode: String) -> String
     func imagePathToURL(imagePath: [String]) async throws
-    func getPortfolio(longitude: Double , latitude: Double) async throws -> [DBPortfolioModel]
+    func getPortfolio(longitude: Double , latitude: Double) async throws -> [AuthorPortfolioModel]
+    func getCurrentLocation()
 }

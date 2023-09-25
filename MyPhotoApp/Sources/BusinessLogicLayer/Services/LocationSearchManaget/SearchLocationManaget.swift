@@ -22,10 +22,11 @@ final class SearchLocationManager: NSObject, CLLocationManagerDelegate {
     init(in center: CLLocationCoordinate2D, radius: CLLocationDistance = .infinity) {
         self.center = center
         self.radius = radius
-        super.init()
-        self.locationManager.delegate = self
-        self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
+       
+//        super.init()
+//        self.locationManager.delegate = self
+//        self.locationManager.requestWhenInUseAuthorization()
+//        self.locationManager.startUpdatingLocation()
     }
     
     public func searchLocation(searchText: String) {
@@ -61,6 +62,7 @@ final class SearchLocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func requestCurrentLocation() {
+        self.locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }

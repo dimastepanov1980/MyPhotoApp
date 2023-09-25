@@ -135,3 +135,4 @@
 //MARK: - Customer Main screen
 "customer_search_bar" = "Поиск фотографа";
 "customer_search" = "Найти";
+"customer_search_no_result" = "К сожалению фотографов не найдено";

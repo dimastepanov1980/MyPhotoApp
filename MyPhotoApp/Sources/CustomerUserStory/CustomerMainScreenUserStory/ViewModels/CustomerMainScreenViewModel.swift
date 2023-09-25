@@ -16,10 +16,11 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
 
     var searchService: SearchLocationManager
     private var cancellable: AnyCancellable?
-    private var hasHandledLocationResult = false
     
     @Published var imagesURLs: [URL]? = nil
     @Published var portfolio: [AuthorPortfolioModel] = []
+    private var portfolioCache: [String: [AuthorPortfolioModel]] = [:]
+
     @Published var selectedItem: AuthorPortfolioModel? = nil
     @Published var showDetailScreen: Bool = false
     @Published var locationResult: [DBLocationModel] = []
@@ -35,34 +36,35 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
     init() {
         searchService = SearchLocationManager(in: CLLocationCoordinate2D())
         cancellable = searchService.searchLocationPublisher.sink { [weak self] mapItems in
-            guard !(self?.hasHandledLocationResult ?? true) else { return }
             self?.locationResult = mapItems.map({ DBLocationModel(mapItem: $0) })
         }
-        
-        getPortfolioForCurrentLocation()
     }
     
-    private func getPortfolioForCurrentLocation() {
-        searchService.requestCurrentLocation()
-               if let currentLocation = searchService.getCurrentLocation() {
-                   self.latitude = currentLocation.latitude
-                   self.longitude = currentLocation.longitude
-                   print(latitude, longitude)
-               }
-        Task{
-            do {
-                let dbPortfolio = try await getPortfolio(longitude: longitude, latitude: latitude)
-                self.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
-                print("dbPortfolio: \(dbPortfolio)")
-            } catch {
-                print(String(describing: error))
-            }
+    func getCurrentLocation() {
+        //        searchService.requestCurrentLocation()
+        if let currentLocation = searchService.getCurrentLocation() {
+            self.latitude = currentLocation.latitude
+            self.longitude = currentLocation.longitude
+            print("New latitude \(self.latitude)")
+
+
         }
     }
-    func getPortfolio(longitude: Double , latitude: Double) async throws -> [DBPortfolioModel] {
+
+    func getPortfolio(longitude: Double, latitude: Double) async throws -> [AuthorPortfolioModel] {
+//        let coordinatesKey = "\(longitude)-\(latitude)"
         do {
-            let portfolio = try await UserManager.shared.getPortfolioCoordinateRange(longitude: longitude, latitude: latitude)
-            return portfolio
+            let dbPortfolio = try await UserManager.shared.getPortfolioCoordinateRange(longitude: longitude, latitude: latitude)
+//            self.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
+//            portfolioCache[coordinatesKey] = self.portfolio
+//                if let cachedPortfolio = portfolioCache[coordinatesKey] {
+//                       self.portfolio = cachedPortfolio
+//                   }
+//            print(portfolio)
+//
+//            print(portfolioCache)
+
+            return dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
         } catch {
             throw error
         }

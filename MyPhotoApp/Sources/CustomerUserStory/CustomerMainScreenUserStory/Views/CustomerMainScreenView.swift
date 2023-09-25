@@ -9,17 +9,25 @@ import SwiftUI
 
 struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
+    @Binding var portfolio: [AuthorPortfolioModel]
+
     
     @Namespace var filterspace: Namespace.ID
     @Binding var filterShow: Bool
     @State var onlyFemale: Bool = false
     @State var chooseDate: Date = Date()
-    
+    @Binding var requestLocation: Bool
     @State var showDetailView = false
+    @State var showAlertRequest = false
+
     init(with viewModel: ViewModel,
-         filterShow: Binding<Bool>) {
+         filterShow: Binding<Bool>,
+         requestLocation: Binding<Bool>,
+         portfolio: Binding<[AuthorPortfolioModel]>) {
         self.viewModel = viewModel
         self._filterShow = filterShow
+        self._requestLocation = requestLocation
+        self._portfolio = portfolio
     }
     
     var body: some View {
@@ -28,7 +36,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                 ZStack {
                     ScrollView{
                         VStack{
-                            ForEach(viewModel.portfolio, id: \.id) { item in
+                            ForEach(portfolio, id: \.id) { item in
                                 CustomerMainCellView(items: item)
                                     .onTapGesture {
                                         viewModel.selectedItem = item
@@ -88,11 +96,10 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                         }
                     }
                 }
-
-               
+                
             } else {
                 ZStack {
-                    ScrollView {
+//                    ScrollView {
                             VStack(spacing: 20){
                                 searchSection
                                     .matchedGeometryEffect(id: "search", in: filterspace)
@@ -104,17 +111,21 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                             .matchedGeometryEffect(id: "overlay", in: filterspace)
                             .padding(.horizontal)
                             .background(Color.white)
-                        .frame(maxWidth: .infinity)
-                    }
+//                    }
                     VStack {
                         Spacer()
                         CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
                             withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-//                                Task {
-//                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude)
-//                                    viewModel.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
-//                                    print(viewModel.portfolio)
-//                                }
+                                Task {
+                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude)
+                                    if !dbPortfolio.isEmpty{
+                                        portfolio = dbPortfolio.map { $0 }
+                                        print("chek new location inside Task \(viewModel.longitude); \(viewModel.latitude)")
+                                        print("Print portfolio in Task \(viewModel.portfolio)")
+                                    } else {
+                                        showAlertRequest.toggle()
+                                    }
+                                }
                                 filterShow.toggle()
                                 print("chek new location \(viewModel.longitude); \(viewModel.latitude)")
 
@@ -158,6 +169,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                     }.offset(y: 60)
                 }
             }
+        }.alert(R.string.localizable.customer_search_no_result(), isPresented: $showAlertRequest) {
         }
     }
     
@@ -166,7 +178,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
             CustomerSearchBar(nameTextField: R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
          }
      }
-  /*  private var locationRsult: some View {
+    private var locationRsult: some View {
         ScrollView{
             VStack{
                 ForEach(viewModel.locationResult) { result in
@@ -192,8 +204,8 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                 viewModel.regionAuthor = result.regionCode
                                 Task {
                                     do {
-                                        let dbPortfolio = try await viewModel.getPortfolio(longitude: result.longitude, latitude:  result.latitude)
-                                        viewModel.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
+                                        let dbPortfolio = try await viewModel.getPortfolio(longitude: result.longitude, latitude: result.latitude)
+                                        viewModel.portfolio = dbPortfolio.map { $0 }
                                         print(result.longitude, result.latitude)
                                         print(viewModel.portfolio)
                                     } catch {
@@ -207,7 +219,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
             }
             .background(Color.white)
         }
-     } */
+     }
     private var searchSection: some View {
         VStack {
             CustomerSearchBar(nameTextField: R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
@@ -254,15 +266,15 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
     static var previews: some View {
-        CustomerMainScreenView(with: mockModel, filterShow: .constant(true))
+        CustomerMainScreenView(with: mockModel, filterShow: .constant(true), requestLocation: .constant(false), portfolio: .constant([]))
     }
 }
 
 private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
-    func getPortfolio(longitude: Double, latitude: Double) async throws -> [DBPortfolioModel] {
+    func getPortfolio(longitude: Double, latitude: Double) async throws -> [AuthorPortfolioModel] {
         []
     }
-    
+    func getCurrentLocation() {}
     var locationResult: [DBLocationModel] = []
     var locationAuthor: String = ""
     var regionAuthor: String = ""

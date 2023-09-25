@@ -9,7 +9,13 @@ import SwiftUI
 
 struct CustomerPageHubView: View {
     @State var index = 0
+    @State var portfolio: [AuthorPortfolioModel] = []
+    @StateObject private var viewModel = CustomerMainScreenViewModel()
+
+
+    
     @State private var showAddOrderView: Bool = false
+    @State private var requestLocation: Bool = false
     @State var filterShow: Bool = true
     @Binding var showCostomerZone: Bool
 
@@ -17,7 +23,7 @@ struct CustomerPageHubView: View {
         VStack{
             ZStack(alignment: .bottom) {
                 if self.index == 0 {
-                    CustomerMainScreenView(with: CustomerMainScreenViewModel(), filterShow: $filterShow)
+                    CustomerMainScreenView(with: CustomerMainScreenViewModel(), filterShow: $filterShow, requestLocation: $requestLocation, portfolio: $portfolio)
                 } else if self.index == 1 {
                     Color.red
                 } else if self.index == 2 {
@@ -31,7 +37,6 @@ struct CustomerPageHubView: View {
                         } label: {
                             Text("Show Author Zone")
                         }
-
                     }
                 }
             }
@@ -42,6 +47,18 @@ struct CustomerPageHubView: View {
                 }
                 }
         }.edgesIgnoringSafeArea(.bottom)
+            .onAppear {
+                viewModel.getCurrentLocation()
+                Task {
+                    do {
+                        portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude)
+                        print("portfolio \(portfolio)")
+                        print("viewModel.portfolio \(viewModel.portfolio)")
+                    } catch {
+                        throw error
+                    }
+                }
+            }
     }
 }
 
