@@ -183,23 +183,35 @@ final class UserManager {
     func getPortfolioLocation(location: String) async throws -> [DBPortfolioModel]{
         try await portfolioCollection.whereField("author.location", isEqualTo: location).getDocuments(as: DBPortfolioModel.self)
     }
-    /*
-    func getPortfolioCoordinateRange(longitude: Double, latitude: Double) async throws -> [DBPortfolioModel] {
-        
-        let returnedLongitude = try await portfolioCollection
+    
+    func getPortfolioForCoordinateAndDate(longitude: Double, latitude: Double, startEventDate: Date) async throws -> [DBPortfolioModel] {
+        // Query based on longitude range
+        let longitudeQuerySnapshot = try await portfolioCollection
             .whereField("author.longitude", isGreaterThan: longitude - 0.01 * longitude)
             .whereField("author.longitude", isLessThan: longitude + 0.01 * longitude)
             .getDocuments(as: DBPortfolioModel.self)
-        
-        let returnedLatitude = try await portfolioCollection
+
+        // Query based on latitude range
+        let latitudeQuerySnapshot = try await portfolioCollection
             .whereField("author.latitude", isGreaterThan: latitude - 0.01 * latitude)
             .whereField("author.latitude", isLessThan: latitude + 0.01 * latitude)
             .getDocuments(as: DBPortfolioModel.self)
-        
-        return returnedLongitude
 
+        // Combine the queries
+        let commonPortfolios = Set(longitudeQuerySnapshot).intersection(Set(latitudeQuerySnapshot))
+
+        // Filter portfolios where the startDate is greater than or equal to the provided startDate
+        let filteredPortfolios = commonPortfolios.filter { portfolio in
+            guard let schedule = portfolio.schedule else { return false }
+        
+            print(commonPortfolios)
+            print(startEventDate)
+            return schedule.contains { $0.startDate <= startEventDate }
+        }
+
+        return Array(filteredPortfolios)
     }
-    */
+    
     
     func getPortfolioCoordinateRange(longitude: Double, latitude: Double) async throws -> [DBPortfolioModel] {
         // Query based on longitude range

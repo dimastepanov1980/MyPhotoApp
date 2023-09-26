@@ -42,7 +42,6 @@
 		5F9F32462A96006D004D48B7 /* CountryCodesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F32452A96006D004D48B7 /* CountryCodesView.swift */; };
 		5F9F32482A96F065004D48B7 /* AuthorCustomTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F32472A96F065004D48B7 /* AuthorCustomTabs.swift */; };
 		5F9F324B2A973604004D48B7 /* CustomerCustomTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F324A2A973604004D48B7 /* CustomerCustomTabs.swift */; };
-		5F9F834D2ABDD5300075FEEB /* SearchCustomerMainScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F834C2ABDD5300075FEEB /* SearchCustomerMainScreenView.swift */; };
 		5FA0EB712A73A6D70024AB71 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5FA0EB732A73A6D70024AB71 /* Localizable.strings */; };
 		5FA0EB762A7952200024AB71 /* SettingScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA0EB752A7952200024AB71 /* SettingScreenViewModel.swift */; };
 		5FA0EB782A79523E0024AB71 /* SettingScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA0EB772A79523E0024AB71 /* SettingScreenViewModelType.swift */; };
@@ -138,7 +137,6 @@
 		5F9F32452A96006D004D48B7 /* CountryCodesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodesView.swift; sourceTree = "<group>"; };
 		5F9F32472A96F065004D48B7 /* AuthorCustomTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorCustomTabs.swift; sourceTree = "<group>"; tabWidth = 5; usesTabs = 0; };
 		5F9F324A2A973604004D48B7 /* CustomerCustomTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCustomTabs.swift; sourceTree = "<group>"; };
-		5F9F834C2ABDD5300075FEEB /* SearchCustomerMainScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCustomerMainScreenView.swift; sourceTree = "<group>"; };
 		5FA0EB722A73A6D70024AB71 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FA0EB742A73A7050024AB71 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5FA0EB752A7952200024AB71 /* SettingScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingScreenViewModel.swift; sourceTree = "<group>"; };
@@ -826,7 +824,6 @@
 			isa = PBXGroup;
 			children = (
 				5FFC5AB52A91A536006E10E9 /* CustomerMainCellView.swift */,
-				5F9F834C2ABDD5300075FEEB /* SearchCustomerMainScreenView.swift */,
 			);
 			path = Items;
 			sourceTree = "<group>";
@@ -1030,7 +1027,6 @@
 				5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */,
 				5F4A1B332A9B154F00EC67B2 /* SizeReader.swift in Sources */,
 				5FBA269F2A162D6700E972FB /* CustomSecureTextField.swift in Sources */,
-				5F9F834D2ABDD5300075FEEB /* SearchCustomerMainScreenView.swift in Sources */,
 				5FF58F302A2380C9009AF970 /* RootScreenView.swift in Sources */,
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */,

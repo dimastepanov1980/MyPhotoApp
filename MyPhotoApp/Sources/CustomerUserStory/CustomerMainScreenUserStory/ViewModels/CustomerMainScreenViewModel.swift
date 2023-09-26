@@ -32,6 +32,8 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
     @Published var regionAuthor: String = ""
     @Published var latitude: Double = 0.0
     @Published var longitude: Double = 0.0
+    @Published var chosenDate: Date = Date()
+
     
     init() {
         searchService = SearchLocationManager(in: CLLocationCoordinate2D())
@@ -41,30 +43,17 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
     }
     
     func getCurrentLocation() {
-        //        searchService.requestCurrentLocation()
         if let currentLocation = searchService.getCurrentLocation() {
             self.latitude = currentLocation.latitude
             self.longitude = currentLocation.longitude
             print("New latitude \(self.latitude)")
-
-
         }
     }
 
-    func getPortfolio(longitude: Double, latitude: Double) async throws -> [AuthorPortfolioModel] {
-//        let coordinatesKey = "\(longitude)-\(latitude)"
+    func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
         do {
-            let dbPortfolio = try await UserManager.shared.getPortfolioCoordinateRange(longitude: longitude, latitude: latitude)
-//            self.portfolio = dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
-//            portfolioCache[coordinatesKey] = self.portfolio
-//                if let cachedPortfolio = portfolioCache[coordinatesKey] {
-//                       self.portfolio = cachedPortfolio
-//                   }
-//            print(portfolio)
-//
-//            print(portfolioCache)
-
-            return dbPortfolio.map { AuthorPortfolioModel(portfolio: $0) }
+            print("selected date in fuction \(date)")
+            return try await UserManager.shared.getPortfolioForCoordinateAndDate(longitude: longitude, latitude: latitude, startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0) }
         } catch {
             throw error
         }

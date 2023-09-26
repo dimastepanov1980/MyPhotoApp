@@ -18,10 +18,11 @@ protocol CustomerMainScreenViewModelType: ObservableObject {
     var regionAuthor: String { get set }
     var latitude: Double { get set }
     var longitude: Double { get set }
+    var chosenDate: Date { get set }
     
     func stringToURL(imageString: String) -> URL?
     func currencySymbol(for regionCode: String) -> String
     func imagePathToURL(imagePath: [String]) async throws
-    func getPortfolio(longitude: Double , latitude: Double) async throws -> [AuthorPortfolioModel]
+    func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel]
     func getCurrentLocation()
 }

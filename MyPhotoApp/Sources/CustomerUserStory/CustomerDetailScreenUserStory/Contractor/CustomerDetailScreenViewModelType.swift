@@ -14,11 +14,13 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     var selectedTime: [String] { get set }
     var timeslotSelectedDay: [DBTimeSlot] { get set }
     var today: Date { get set }
+    var appointments: [AppointmenModel] { get set }
     func formattedDate(date: Date, format: String) -> String
     func stringToURL(imageString: String) -> URL?
     func currencySymbol(for regionCode: String) -> String
     func sortedDate(array: [String]) -> [String]
     func isTodayDay(date: Date) -> Bool
-    func isToday(date: Date) -> Bool 
+    func isToday(date: Date) -> Bool
+    func createAppointments(schedule: [DbSchedule], startMyTripDate: Date)
 
 }

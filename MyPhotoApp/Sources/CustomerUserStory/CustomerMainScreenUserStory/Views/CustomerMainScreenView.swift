@@ -15,7 +15,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
     @Namespace var filterspace: Namespace.ID
     @Binding var filterShow: Bool
     @State var onlyFemale: Bool = false
-    @State var chooseDate: Date = Date()
+    @State var selectDate: Date = Date()
     @Binding var requestLocation: Bool
     @State var showDetailView = false
     @State var showAlertRequest = false
@@ -44,7 +44,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                     }
                                     .fullScreenCover(isPresented: $showDetailView) {
                                         if let selectedItem = viewModel.selectedItem {
-                                            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(items: selectedItem), showDetailView: $showDetailView)
+                                            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(items: selectedItem, startMyTrip: viewModel.chosenDate), showDetailView: $showDetailView)
                                         }
                                     }
                                     .onAppear{
@@ -117,7 +117,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                         CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
                             withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
                                 Task {
-                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude)
+                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.chosenDate)
                                     if !dbPortfolio.isEmpty{
                                         portfolio = dbPortfolio.map { $0 }
                                         print("chek new location inside Task \(viewModel.longitude); \(viewModel.latitude)")
@@ -204,7 +204,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                 viewModel.regionAuthor = result.regionCode
                                 Task {
                                     do {
-                                        let dbPortfolio = try await viewModel.getPortfolio(longitude: result.longitude, latitude: result.latitude)
+                                        let dbPortfolio = try await viewModel.getPortfolio(longitude: result.longitude, latitude: result.latitude, date: viewModel.chosenDate)
                                         viewModel.portfolio = dbPortfolio.map { $0 }
                                         print(result.longitude, result.latitude)
                                         print(viewModel.portfolio)
@@ -230,8 +230,12 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
      }
     private var dateSection: some View {
         VStack {
-            DatePicker("Chose Date", selection: $chooseDate, displayedComponents: [.date])
+            DatePicker("Chose Date", selection: $selectDate, displayedComponents: [.date])
             .datePickerStyle(.graphical)
+            .onChange(of: selectDate) { newDate in
+                self.viewModel.chosenDate = newDate
+                print("Selected date changed to: \( self.viewModel.chosenDate)")
+                 }
         }
             .background(Color.white)
             .cornerRadius(20, corners: .allCorners)
@@ -271,12 +275,14 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
-    func getPortfolio(longitude: Double, latitude: Double) async throws -> [AuthorPortfolioModel] {
+
+    func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
         []
     }
     func getCurrentLocation() {}
     var locationResult: [DBLocationModel] = []
     var locationAuthor: String = ""
+    var chosenDate: Date = Date()
     var regionAuthor: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0

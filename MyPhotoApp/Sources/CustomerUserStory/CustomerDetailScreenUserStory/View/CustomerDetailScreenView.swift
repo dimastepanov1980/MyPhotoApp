@@ -191,7 +191,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     }
     private var timeSlotSection: some View {
         VStack(alignment: .leading, spacing: 6){
-            /*
+            
             Group {
                 Divider()
                 Text(R.string.localizable.select_date())
@@ -202,15 +202,15 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .bottom, spacing: 8 ) {
-                    ForEach(viewModel.items.appointmen, id: \.id) { date in
+                    ForEach(viewModel.appointments, id: \.date) { date in
                         VStack{
                             VStack(alignment: .center, spacing: 2) {
-                                Text("\(viewModel.formattedDate(date: date.data, format: "dd"))")
+                                Text("\(viewModel.formattedDate(date: date.date, format: "dd"))")
                                     .font(.body.bold())
-                                    .foregroundColor(viewModel.isToday(date: date.data) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
-                                Text("\(viewModel.formattedDate(date: date.data, format: "MMM"))")
+                                    .foregroundColor(viewModel.isToday(date: date.date) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
+                                Text("\(viewModel.formattedDate(date: date.date, format: "MMM"))")
                                     .font(.footnote)
-                                    .foregroundColor(viewModel.isToday(date: date.data) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
+                                    .foregroundColor(viewModel.isToday(date: date.date) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
                             }
                             .padding(.vertical, 20)
                             .frame(width: 45)
@@ -223,7 +223,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                             )
                             .background(
                                 ZStack {
-                                    if viewModel.isToday(date: date.data) {
+                                    if viewModel.isToday(date: date.date) {
                                         Capsule()
                                             .fill(Color(R.color.gray2.name))
                                     }
@@ -232,9 +232,9 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                             .containerShape(Capsule())
                             .onTapGesture {
                                 withAnimation {
-                                    viewModel.selectedDay = date.data
-                                    viewModel.selectedTime = []
-                                    viewModel.timeslotSelectedDay = date.timeSlot
+                                    viewModel.selectedDay = date.date
+//                                    viewModel.selectedTime = []
+//                                    viewModel.timeslotSelectedDay = date.timeSlot
                                 }
                             }
                         
@@ -261,7 +261,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
               }
             }
             .padding(.horizontal, 24)
-             */
         }
     }
     private func tagTime(time: String, available: Bool) -> some View{
@@ -348,7 +347,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     private func totalCost(price: String?, timeSlot: [String]) -> String {
         String(describing: (Int(price ?? "0") ?? 0) * timeSlot.count)
     }
-    
     private struct AsyncImageView: View {
         let imagePath: String
         @State private var imageURL: URL?
@@ -412,6 +410,9 @@ struct CustomerDetailScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
+    func createAppointments(schedule: [DbSchedule], startMyTripDate: Date) {}
+
+    @Published var appointments: [AppointmenModel] = []
     @Published var items: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
                                                 DBPortfolioModel(id: UUID().uuidString,
                                                                  author:   DBAuthor(rateAuthor: 0.0,
@@ -432,7 +433,6 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
                                                                  largeImagesPortfolio: [],
                                                                  descriptionAuthor: "",
                                                                  schedule: []))
-
     @Published var selectedTime: [String] = []
     @Published var selectedDay: Date? = Date()
     @Published var today: Date = Date()

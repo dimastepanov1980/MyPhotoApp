@@ -56,8 +56,8 @@ struct AuthorModel {
 }
 
 struct AppointmenModel {
-    let data: Date
-    let timeSlot: [DBTimeSlot]
+    let date: Date
+    let timeSlot: [TimeSlotModel]
 }
 
 struct TimeSlotModel {
