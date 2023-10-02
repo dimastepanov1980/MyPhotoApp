@@ -32,7 +32,7 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
     @Published var regionAuthor: String = ""
     @Published var latitude: Double = 0.0
     @Published var longitude: Double = 0.0
-    @Published var chosenDate: Date = Date()
+    @Published var selectedDate: Date = Date()
 
     
     init() {
@@ -47,12 +47,13 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             self.latitude = currentLocation.latitude
             self.longitude = currentLocation.longitude
             print("New latitude \(self.latitude)")
+            print("New longitude \(self.longitude)")
         }
     }
 
     func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
         do {
-            print("selected date in fuction \(date)")
+            print("Selected date in function getPortfolio \(date)")
             return try await UserManager.shared.getPortfolioForCoordinateAndDate(longitude: longitude, latitude: latitude, startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0) }
         } catch {
             throw error

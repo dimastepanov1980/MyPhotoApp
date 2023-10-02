@@ -44,7 +44,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                     }
                                     .fullScreenCover(isPresented: $showDetailView) {
                                         if let selectedItem = viewModel.selectedItem {
-                                            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(items: selectedItem, startMyTrip: viewModel.chosenDate), showDetailView: $showDetailView)
+                                            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(items: selectedItem, startMyTrip: selectDate), showDetailView: $showDetailView)
                                         }
                                     }
                                     .onAppear{
@@ -117,7 +117,8 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                         CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
                             withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
                                 Task {
-                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.chosenDate)
+                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: selectDate)
+                                    
                                     if !dbPortfolio.isEmpty{
                                         portfolio = dbPortfolio.map { $0 }
                                         print("chek new location inside Task \(viewModel.longitude); \(viewModel.latitude)")
@@ -204,7 +205,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                 viewModel.regionAuthor = result.regionCode
                                 Task {
                                     do {
-                                        let dbPortfolio = try await viewModel.getPortfolio(longitude: result.longitude, latitude: result.latitude, date: viewModel.chosenDate)
+                                        let dbPortfolio = try await viewModel.getPortfolio(longitude: result.longitude, latitude: result.latitude, date: viewModel.selectedDate)
                                         viewModel.portfolio = dbPortfolio.map { $0 }
                                         print(result.longitude, result.latitude)
                                         print(viewModel.portfolio)
@@ -233,8 +234,8 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
             DatePicker("Chose Date", selection: $selectDate, displayedComponents: [.date])
             .datePickerStyle(.graphical)
             .onChange(of: selectDate) { newDate in
-                self.viewModel.chosenDate = newDate
-                print("Selected date changed to: \( self.viewModel.chosenDate)")
+                self.viewModel.selectedDate = newDate
+                print("Selected date changed to: \( self.viewModel.selectedDate)")
                  }
         }
             .background(Color.white)
@@ -282,7 +283,7 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
     func getCurrentLocation() {}
     var locationResult: [DBLocationModel] = []
     var locationAuthor: String = ""
-    var chosenDate: Date = Date()
+    var selectedDate: Date = Date()
     var regionAuthor: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0

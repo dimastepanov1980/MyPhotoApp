@@ -18,7 +18,7 @@ protocol CustomerMainScreenViewModelType: ObservableObject {
     var regionAuthor: String { get set }
     var latitude: Double { get set }
     var longitude: Double { get set }
-    var chosenDate: Date { get set }
+    var selectedDate: Date { get set }
     
     func stringToURL(imageString: String) -> URL?
     func currencySymbol(for regionCode: String) -> String

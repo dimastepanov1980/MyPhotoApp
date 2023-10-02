@@ -51,7 +51,7 @@ struct CustomerPageHubView: View {
                 viewModel.getCurrentLocation()
                 Task {
                     do {
-                        portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.chosenDate)
+                        portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
                         print("portfolio \(portfolio)")
                         print("viewModel.portfolio \(viewModel.portfolio)")
                     } catch {

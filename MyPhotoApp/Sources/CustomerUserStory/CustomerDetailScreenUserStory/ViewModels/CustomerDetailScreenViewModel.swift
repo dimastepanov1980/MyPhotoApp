@@ -14,15 +14,17 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var selectedDay: Date? = nil
     @Published var selectedTime: [String] = []
     @Published var today: Date = Date()
-    @Published var timeslotSelectedDay: [DBTimeSlot] = []
-    @Published var appointments: [AppointmenModel] = []
+    @Published var timeslotSelectedDay: [TimeSlotModel] = []
+    @Published var appointments: [AppointmentModel] = []
     
     var startMyTrip: Date
-
+    
     init(items: AuthorPortfolioModel,
          startMyTrip: Date) {
         self.items = items
         self.startMyTrip = startMyTrip
+        
+        
         createAppointments(schedule: items.appointmen, startMyTripDate: self.startMyTrip)
 
     }
@@ -35,20 +37,62 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     }
     
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date) {
-        let endMyTripDate = setEndMyTripDate(startMyTrip: startMyTripDate, endMyTrip: 10)
-        var appointments: [AppointmenModel] = []
+        var appointments: [AppointmentModel] = []
         let calendar = Calendar.current
         
+        var dateFormatter: DateFormatter {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyyMMdd"
+            return dateFormatter
+        }
+        
+        var timeFormatter: DateFormatter {
+            let timeFormatter = DateFormatter()
+            timeFormatter.dateFormat = "HH:mm"
+            return timeFormatter
+        }
+        
         var currentDate = startMyTripDate
-
+        let endMyTripDate = setEndMyTripDate(startMyTrip: startMyTripDate, endMyTrip: 13)
+        
         while currentDate <= endMyTripDate {
-            let timeSlots: [TimeSlotModel] = []
-            let appointmentModel = AppointmenModel(date: currentDate, timeSlot: timeSlots)
-            appointments.append(appointmentModel)
+            var timeSlots: [TimeSlotModel] = []
+            
+            for scheduleItem in schedule {
+                if currentDate >= scheduleItem.startDate && currentDate <= scheduleItem.endDate {
+                    let startTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.startDate)
+                    let endTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.endDate)
+                    guard let startHour = startTimeComponents.hour, let startMinute = startTimeComponents.minute,
+                          let endHour = endTimeComponents.hour, let endMinute = endTimeComponents.minute else {
+                        continue
+                    }
+                    
+                    var currentTime = calendar.date(bySettingHour: startHour, minute: startMinute, second: 0, of: currentDate)!
+                    
+                    while currentTime <= calendar.date(bySettingHour: endHour, minute: endMinute, second: 0, of: currentDate)! {
+                        let timeSlot = TimeSlotModel(time: timeFormatter.string(from: currentTime), available: true)
+                        timeSlots.append(timeSlot)
+                        currentTime = calendar.date(byAdding: .minute, value: 30, to: currentTime)!
+                    }
+                }
+            }
+            
+            if !timeSlots.isEmpty {
+                let appointmentModel = AppointmentModel(date: currentDate, timeSlot: timeSlots)
+                appointments.append(appointmentModel)
+            }
+            
             currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
         }
+        
+        // Print appointments
+        for appointment in appointments {
+            print("Date: \(dateFormatter.string(from: appointment.date)), Time Slots: \(appointment.timeSlot)")
+        }
+        
         self.appointments = appointments
     }
+
     
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()

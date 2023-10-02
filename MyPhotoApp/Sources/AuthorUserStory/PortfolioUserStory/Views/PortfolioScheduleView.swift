@@ -24,7 +24,7 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                 }
                 Button(action: {
                     // Add a new schedule when the button is tapped
-                    viewModel.schedules.append(Schedule(id: UUID(), holidays: false, startDate: Date(), endDate: Date(), timeIntervalSelected: "1", price: ""))
+                    viewModel.schedules.append(Schedule(id: UUID(), holidays: false, startDate: Date(), endDate: Date(), timeIntervalSelected: "1", price: "", timeZone: TimeZone.current.identifier))
                 }) {
                     Text(R.string.localizable.schedule_add())
                         .foregroundColor(Color(R.color.gray1.name))
@@ -50,6 +50,7 @@ struct AddScheduleSection: View {
     @Binding var schedule: Schedule
     var onDelete: () -> Void
     var interval: [String] = ["1/2", "1", "2", "3", "6", "8", "12"]
+    @State var selectDate: Date = Date()
 
     var body: some View {
         Section {
@@ -57,7 +58,6 @@ struct AddScheduleSection: View {
                 .foregroundColor(Color(R.color.gray3.name))
                 .tint(Color(R.color.gray1.name))
             DatePicker(R.string.localizable.schedule_start(), selection: $schedule.startDate, displayedComponents: [.hourAndMinute, .date])
-                .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
                 .foregroundColor(Color(R.color.gray3.name))
             DatePicker(R.string.localizable.schedule_end(), selection: $schedule.endDate, displayedComponents: [.hourAndMinute, .date])
                 .foregroundColor(Color(R.color.gray3.name))

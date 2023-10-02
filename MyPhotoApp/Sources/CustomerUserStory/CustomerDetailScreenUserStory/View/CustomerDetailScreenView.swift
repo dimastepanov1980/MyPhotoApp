@@ -202,15 +202,15 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .bottom, spacing: 8 ) {
-                    ForEach(viewModel.appointments, id: \.date) { date in
+                    ForEach(viewModel.appointments, id: \.date) { appointment in
                         VStack{
                             VStack(alignment: .center, spacing: 2) {
-                                Text("\(viewModel.formattedDate(date: date.date, format: "dd"))")
+                                Text("\(viewModel.formattedDate(date: appointment.date, format: "dd"))")
                                     .font(.body.bold())
-                                    .foregroundColor(viewModel.isToday(date: date.date) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
-                                Text("\(viewModel.formattedDate(date: date.date, format: "MMM"))")
+                                    .foregroundColor(viewModel.isToday(date: appointment.date) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
+                                Text("\(viewModel.formattedDate(date: appointment.date, format: "MMM"))")
                                     .font(.footnote)
-                                    .foregroundColor(viewModel.isToday(date: date.date) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
+                                    .foregroundColor(viewModel.isToday(date: appointment.date) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
                             }
                             .padding(.vertical, 20)
                             .frame(width: 45)
@@ -223,7 +223,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                             )
                             .background(
                                 ZStack {
-                                    if viewModel.isToday(date: date.date) {
+                                    if viewModel.isToday(date: appointment.date) {
                                         Capsule()
                                             .fill(Color(R.color.gray2.name))
                                     }
@@ -232,9 +232,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                             .containerShape(Capsule())
                             .onTapGesture {
                                 withAnimation {
-                                    viewModel.selectedDay = date.date
-//                                    viewModel.selectedTime = []
-//                                    viewModel.timeslotSelectedDay = date.timeSlot
+                                    viewModel.selectedDay = appointment.date
+                                    viewModel.selectedTime = []
+                                    viewModel.timeslotSelectedDay = appointment.timeSlot
+                                    print(viewModel.timeslotSelectedDay)
                                 }
                             }
                         
@@ -247,6 +248,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             
             Group {
             Divider()
+                
             if viewModel.selectedDay != nil {
             Text(R.string.localizable.select_time())
                 .font(.caption2)
@@ -412,7 +414,7 @@ struct CustomerDetailScreenView_Previews: PreviewProvider {
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date) {}
 
-    @Published var appointments: [AppointmenModel] = []
+    @Published var appointments: [AppointmentModel] = []
     @Published var items: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
                                                 DBPortfolioModel(id: UUID().uuidString,
                                                                  author:   DBAuthor(rateAuthor: 0.0,
@@ -436,7 +438,7 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
     @Published var selectedTime: [String] = []
     @Published var selectedDay: Date? = Date()
     @Published var today: Date = Date()
-    @Published var timeslotSelectedDay: [DBTimeSlot] = []
+    @Published var timeslotSelectedDay: [TimeSlotModel] = []
     
     func sortedDate(array: [String]) -> [String] {
         []

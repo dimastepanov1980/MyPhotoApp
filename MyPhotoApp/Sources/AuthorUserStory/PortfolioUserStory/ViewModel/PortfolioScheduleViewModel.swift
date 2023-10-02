@@ -42,6 +42,8 @@ final class PortfolioScheduleViewModel: PortfolioScheduleViewModelType {
             try await UserManager.shared.removeUserSchedule(userId: authDateResult.uid)
             for schedule in schedules {
                 print("each:\(schedule)")
+                print("timeZone: \(schedule.timeZone)")
+                
                 try? await UserManager.shared.setUserSchedule(userId: authDateResult.uid, schedules: schedule)
             }
         }

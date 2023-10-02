@@ -55,15 +55,20 @@ struct AuthorModel {
     }
 }
 
-struct AppointmenModel {
+struct AppointmentModel {
     let date: Date
     let timeSlot: [TimeSlotModel]
 }
 
-struct TimeSlotModel {
+struct TimeSlotModel: Hashable {
     let time: String
     let available: Bool
     
+    init(time: String, available: Bool) {
+        self.time = time
+        self.available = available
+    }
+
     init(dbTimeSlot: DBTimeSlot) {
         self.time = dbTimeSlot.time
         self.available = dbTimeSlot.available

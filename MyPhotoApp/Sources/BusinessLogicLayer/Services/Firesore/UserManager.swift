@@ -180,10 +180,11 @@ final class UserManager {
     
     
     // MARK: - New Queri portfolio
+   /*
     func getPortfolioLocation(location: String) async throws -> [DBPortfolioModel]{
         try await portfolioCollection.whereField("author.location", isEqualTo: location).getDocuments(as: DBPortfolioModel.self)
     }
-    
+*/
     func getPortfolioForCoordinateAndDate(longitude: Double, latitude: Double, startEventDate: Date) async throws -> [DBPortfolioModel] {
         // Query based on longitude range
         let longitudeQuerySnapshot = try await portfolioCollection
@@ -203,17 +204,14 @@ final class UserManager {
         // Filter portfolios where the startDate is greater than or equal to the provided startDate
         let filteredPortfolios = commonPortfolios.filter { portfolio in
             guard let schedule = portfolio.schedule else { return false }
-        
-            print(commonPortfolios)
-            print(startEventDate)
             return schedule.contains { $0.startDate <= startEventDate }
         }
-
+        print(Array(filteredPortfolios))
         return Array(filteredPortfolios)
     }
     
-    
-    func getPortfolioCoordinateRange(longitude: Double, latitude: Double) async throws -> [DBPortfolioModel] {
+ /*
+    func getPortfolioForCoordinateAndDate(longitude: Double, latitude: Double, startEventDate: Date) async throws -> [DBPortfolioModel] {
         // Query based on longitude range
         let longitudeQuerySnapshot = try await portfolioCollection
             .whereField("author.longitude", isGreaterThan: longitude - 0.01 * longitude)
@@ -232,10 +230,10 @@ final class UserManager {
 
         // Find the common portfolios based on both longitude and latitude
         let commonPortfolios = longitudeSet.intersection(latitudeSet)
-
+     print(Array(commonPortfolios))
         return Array(commonPortfolios)
     }
-    
+*/
     func matchesLocation(_ location: String, searchString: String) -> Bool {
         let options: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
         return location.range(of: searchString, options: options) != nil

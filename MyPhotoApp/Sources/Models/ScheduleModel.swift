@@ -14,14 +14,16 @@ struct Schedule: Codable {
     var endDate: Date
     var timeIntervalSelected: String
     var price: String
+    var timeZone: String
     
-    init(id: UUID, holidays: Bool, startDate: Date, endDate: Date, timeIntervalSelected: String, price: String) {
+    init(id: UUID, holidays: Bool, startDate: Date, endDate: Date, timeIntervalSelected: String, price: String, timeZone: String) {
         self.id = id
         self.holidays = holidays
         self.startDate = startDate
         self.endDate = endDate
         self.timeIntervalSelected = timeIntervalSelected
         self.price = price
+        self.timeZone = timeZone
     }
     
     init(dbSchdul: DbSchedule) {
@@ -31,6 +33,7 @@ struct Schedule: Codable {
         self.endDate = dbSchdul.endDate
         self.timeIntervalSelected = dbSchdul.timeIntervalSelected
         self.price = dbSchdul.price
+        self.timeZone = dbSchdul.timeZone
     }
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -40,6 +43,7 @@ struct Schedule: Codable {
         self.endDate = try container.decode(Date.self, forKey: .endDate)
         self.timeIntervalSelected = try container.decode(String.self, forKey: .timeIntervalSelected)
         self.price = try container.decode(String.self, forKey: .price)
+        self.timeZone = try container.decode(String.self, forKey: .timeZone)
     }
     enum CodingKeys: String, CodingKey {
         case id = "id_schedule"
@@ -48,6 +52,7 @@ struct Schedule: Codable {
         case endDate = "end_date"
         case timeIntervalSelected = "time_interval"
         case price = "price"
+        case timeZone = "time_zone"
     }
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -57,5 +62,6 @@ struct Schedule: Codable {
         try container.encode(self.endDate, forKey: .endDate)
         try container.encode(self.timeIntervalSelected, forKey: .timeIntervalSelected)
         try container.encode(self.price, forKey: .price)
+        try container.encode(self.timeZone, forKey: .timeZone)
     }
 }

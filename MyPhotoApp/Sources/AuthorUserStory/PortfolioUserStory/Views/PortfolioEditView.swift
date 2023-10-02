@@ -48,6 +48,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                 }
                 .sheet(isPresented: $showScheduleView) {
                     PortfolioScheduleView(with: PortfolioScheduleViewModel())
+                        .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
+
                 }
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing) {
