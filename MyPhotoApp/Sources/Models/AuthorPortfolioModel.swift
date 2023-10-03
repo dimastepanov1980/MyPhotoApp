@@ -58,6 +58,7 @@ struct AuthorModel {
 struct AppointmentModel {
     let date: Date
     let timeSlot: [TimeSlotModel]
+    let price: String
 }
 
 struct TimeSlotModel: Hashable {

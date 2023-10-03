@@ -156,5 +156,6 @@ private class MockViewModel: ObservableObject {
                                                                    smallImagesPortfolio: ["String","String"],
                                                                    largeImagesPortfolio: ["String"],
                                                                    descriptionAuthor: "",
-                                                                   schedule: []))
+                                                                   schedule: [],
+                                                                   bookingDays: []))
 }

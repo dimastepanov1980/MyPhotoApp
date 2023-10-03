@@ -14,6 +14,7 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     var selectedTime: [String] { get set }
     var timeslotSelectedDay: [TimeSlotModel] { get set }
     var today: Date { get set }
+    var priceForDay: String { get set }
     var appointments: [AppointmentModel] { get set }
     func formattedDate(date: Date, format: String) -> String
     func stringToURL(imageString: String) -> URL?

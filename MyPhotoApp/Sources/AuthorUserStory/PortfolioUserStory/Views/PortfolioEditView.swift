@@ -75,9 +75,10 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                  largeImagesPortfolio: [],
                                                  descriptionAuthor: viewModel.descriptionAuthor,
 //                                                 reviews: [DBReviews](),
-                                                 schedule: [DbSchedule]()
-//                                                 bookingDays: nil
+                                                 schedule: [DbSchedule](),
+                                                 bookingDays: []
                                                 ))
+                                showScheduleView.toggle()
                             }
                         }
                         .foregroundColor(Color(R.color.gray2.name))

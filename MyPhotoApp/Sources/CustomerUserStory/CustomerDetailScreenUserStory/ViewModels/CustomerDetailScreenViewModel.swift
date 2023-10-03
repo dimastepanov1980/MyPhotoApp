@@ -13,6 +13,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var items: AuthorPortfolioModel
     @Published var selectedDay: Date? = nil
     @Published var selectedTime: [String] = []
+    @Published var priceForDay: String = ""
     @Published var today: Date = Date()
     @Published var timeslotSelectedDay: [TimeSlotModel] = []
     @Published var appointments: [AppointmentModel] = []
@@ -57,6 +58,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         
         while currentDate <= endMyTripDate {
             var timeSlots: [TimeSlotModel] = []
+            var priceForCurrentDay = ""
             
             for scheduleItem in schedule {
                 if currentDate >= scheduleItem.startDate && currentDate <= scheduleItem.endDate {
@@ -74,11 +76,12 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
                         timeSlots.append(timeSlot)
                         currentTime = calendar.date(byAdding: .minute, value: 30, to: currentTime)!
                     }
+                    priceForCurrentDay = scheduleItem.price
                 }
             }
             
             if !timeSlots.isEmpty {
-                let appointmentModel = AppointmentModel(date: currentDate, timeSlot: timeSlots)
+                let appointmentModel = AppointmentModel(date: currentDate, timeSlot: timeSlots, price: priceForCurrentDay)
                 appointments.append(appointmentModel)
             }
             
@@ -92,7 +95,6 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         
         self.appointments = appointments
     }
-
     
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()

@@ -94,10 +94,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                            } else {
                                
 //                      TODO: - change price property form Schedule
-                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: "change price form Schedule", timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.location))", iconName: "") {
+                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.location))", iconName: "") {
                                    showOrderConfirm.toggle()
                                }.fullScreenCover(isPresented: $showOrderConfirm) {
-                                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: "change price form Schedule", timeSlot: viewModel.selectedTime), orderDescription: $orderDescription), showOrderConfirm: $showOrderConfirm)
+                                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime), orderDescription: $orderDescription), showOrderConfirm: $showOrderConfirm)
                                    
                                }
                            }
@@ -235,7 +235,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                     viewModel.selectedDay = appointment.date
                                     viewModel.selectedTime = []
                                     viewModel.timeslotSelectedDay = appointment.timeSlot
-                                    print(viewModel.timeslotSelectedDay)
+                                    viewModel.priceForDay = appointment.price
                                 }
                             }
                         
@@ -412,6 +412,8 @@ struct CustomerDetailScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
+    var priceForDay: String = ""
+    
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date) {}
 
     @Published var appointments: [AppointmentModel] = []
@@ -434,7 +436,8 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
                                                                  smallImagesPortfolio: [],
                                                                  largeImagesPortfolio: [],
                                                                  descriptionAuthor: "",
-                                                                 schedule: []))
+                                                                 schedule: [],
+                                                                 bookingDays: []))
     @Published var selectedTime: [String] = []
     @Published var selectedDay: Date? = Date()
     @Published var today: Date = Date()

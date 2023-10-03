@@ -16,7 +16,7 @@ struct DBPortfolioModel: Codable, Hashable {
     let descriptionAuthor: String?
 //    let reviews: [DBReviews]?
     let schedule: [DbSchedule]?
-//    let bookingDays: [BookinDate]?
+    let bookingDays: [BookingDay]?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -28,7 +28,7 @@ struct DBPortfolioModel: Codable, Hashable {
         self.descriptionAuthor = try container.decodeIfPresent(String.self, forKey: .descriptionAuthor)
 //        self.reviews = try container.decodeIfPresent([DBReviews].self, forKey: .reviews)
         self.schedule = try container.decodeIfPresent([DbSchedule].self, forKey: .schedule)
-//        self.bookingDays = try container.decodeIfPresent([BookinDate].self, forKey: .bookingDays)
+        self.bookingDays = try container.decodeIfPresent([BookingDay].self, forKey: .bookingDays)
     }
     
     init(id: String, author: DBAuthor?,
@@ -37,8 +37,8 @@ struct DBPortfolioModel: Codable, Hashable {
          largeImagesPortfolio: [String]?,
          descriptionAuthor: String?,
 //         reviews: [DBReviews]?,
-         schedule: [DbSchedule]?
-//         bookingDays: [BookinDate]?
+         schedule: [DbSchedule]?,
+         bookingDays: [BookingDay]?
     ){   self.id = id
         self.author = author
         self.avatarAuthor = avatarAuthor
@@ -47,7 +47,7 @@ struct DBPortfolioModel: Codable, Hashable {
         self.descriptionAuthor = descriptionAuthor
 //        self.reviews = reviews
         self.schedule = schedule
-//        self.bookingDays = bookingDays
+        self.bookingDays = bookingDays
     }
 
     func hash(into hasher: inout Hasher) {
@@ -81,32 +81,32 @@ struct DBPortfolioModel: Codable, Hashable {
         try container.encodeIfPresent(self.descriptionAuthor, forKey: .descriptionAuthor)
 //        try container.encodeIfPresent(self.reviews, forKey: .reviews)
         try container.encodeIfPresent(self.schedule, forKey: .schedule)
-//        try container.encodeIfPresent(self.bookingDays, forKey: .bookingDays)
+        try container.encodeIfPresent(self.bookingDays, forKey: .bookingDays)
     }
 }
 
-struct BookinDate: Codable {
-    let dateStart: Date
-    let dateEnd: Date
+struct BookingDay: Codable {
+    let date: Date
+    let time: String
     let dayOff: Bool
     let orderId: String
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.dateStart = try container.decode(Date.self, forKey: .dateStart)
-        self.dateEnd = try container.decode(Date.self, forKey: .dateEnd)
+        self.date = try container.decode(Date.self, forKey: .date)
+        self.time = try container.decode(String.self, forKey: .time)
         self.dayOff = try container.decode(Bool.self, forKey: .dayOff)
         self.orderId = try container.decode(String.self, forKey: .orderId)
     }
     enum CodingKeys: String, CodingKey {
-        case dateStart = "date_start"
-        case dateEnd = "date_end"
+        case date = "date"
+        case time = "time"
         case dayOff = "day_off"
         case orderId = "order_id"
     }
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.dateStart, forKey: .dateStart)
-        try container.encode(self.dateEnd, forKey: .dateEnd)
+        try container.encode(self.date, forKey: .date)
+        try container.encode(self.time, forKey: .time)
         try container.encode(self.dayOff, forKey: .dayOff)
         try container.encode(self.orderId, forKey: .orderId)
     }
