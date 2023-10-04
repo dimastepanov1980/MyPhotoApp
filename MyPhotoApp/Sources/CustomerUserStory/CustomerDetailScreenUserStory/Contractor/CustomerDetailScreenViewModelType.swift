@@ -16,6 +16,8 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     var today: Date { get set }
     var priceForDay: String { get set }
     var appointments: [AppointmentModel] { get set }
+    var minPrice: String { get set }
+    
     func formattedDate(date: Date, format: String) -> String
     func stringToURL(imageString: String) -> URL?
     func currencySymbol(for regionCode: String) -> String

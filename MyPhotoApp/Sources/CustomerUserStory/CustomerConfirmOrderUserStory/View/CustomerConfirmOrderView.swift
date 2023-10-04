@@ -29,6 +29,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                     Spacer()
                 }.padding(.top, 80)
             }
+            .padding(.horizontal, 24)
             .safeAreaInset(edge: .bottom) {
                 CustomButtonXl(titleText: "Place Order", iconName: "") {
                     //
@@ -46,7 +47,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 }
             
             Spacer()
-        }.padding(.horizontal, 24)
+        }
     }
     
     var authorSection: some View {
@@ -54,7 +55,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
             Text(R.string.localizable.photographer())
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
-            Text(viewModel.authorName)
+            Text("\(viewModel.authorName) \(viewModel.familynameAuthor)")
                 .font(.title2.bold())
                 .foregroundColor(Color(R.color.gray2.name))
         }
@@ -65,7 +66,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
             Text(R.string.localizable.location())
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
-            Text("\(viewModel.location), \(viewModel.location)")
+            Text("\(viewModel.location)")
                 .font(.body)
                 .foregroundColor(Color(R.color.gray2.name))
         }
@@ -110,7 +111,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
             Text(R.string.localizable.total_price())
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
-            Text(viewModel.orderPrice)
+            Text("\(viewModel.orderPrice)\(viewModel.currencySymbol(for: viewModel.regionAuthor))")
                 .font(.body)
                 .foregroundColor(Color(R.color.gray2.name))
         }
@@ -167,6 +168,8 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject {
+    var regionAuthor: String = ""
+    func currencySymbol(for regionCode: String) -> String { "" }
     @Published var orderPrice: String = "5500"
     @Published var authorName: String = "Iryna"
     @Published var familynameAuthor: String = "Tondaeva"

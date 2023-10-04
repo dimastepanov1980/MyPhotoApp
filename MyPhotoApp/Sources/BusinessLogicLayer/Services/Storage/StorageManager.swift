@@ -31,6 +31,14 @@ final class StorageManager {
         try await UserManager.shared.deleteImagesUrlLinks(userId: userId, path: newImagesArray, orderId: order.id)
         try await imageStringPath.delete()
     }
+
+    func deletePortfolioImage(path: String, userId: String) async throws {
+        let imagePath = storage.storage.reference(withPath: path)
+        try await UserManager.shared.deletePortfolioImage(userId: userId, path: path)
+        try await imagePath.delete()
+    }
+
+    
     func getImageURL(path: String)  async throws -> URL {
        try await storage.child(path).downloadURL()
     }

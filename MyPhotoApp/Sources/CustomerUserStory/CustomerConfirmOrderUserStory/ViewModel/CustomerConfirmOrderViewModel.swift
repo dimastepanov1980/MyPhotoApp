@@ -18,9 +18,10 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     @Published var orderTime: [String]
     @Published var orderDuration: String
     @Published var orderPrice: String
+    @Published var regionAuthor: String
     @Binding var orderDescription: String
     
-    init(author: AuthorPortfolioModel, orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String, orderDescription: Binding<String>) {
+    init(author: AuthorPortfolioModel, orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String, regionAuthor: String, orderDescription: Binding<String>) {
         self.authorName = author.author?.nameAuthor ?? ""
         self.familynameAuthor = author.author?.familynameAuthor ?? ""
         self.location = author.author?.location ?? ""
@@ -28,6 +29,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         self.orderTime = orderTime
         self.orderDuration = orderDuration
         self.orderPrice = orderPrice
+        self.regionAuthor = regionAuthor
         self._orderDescription = orderDescription
     }
     
@@ -39,5 +41,11 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     
     func sortedDate(array: [String]) -> [String] {
         array.sorted(by: { $0 < $1 })
+    }
+    
+    func currencySymbol(for regionCode: String) -> String {
+        let locale = Locale(identifier: Locale.identifier(fromComponents: [NSLocale.Key.countryCode.rawValue: regionCode]))
+        guard let currency = locale.currencySymbol else { return "$" }
+        return currency
     }
 }

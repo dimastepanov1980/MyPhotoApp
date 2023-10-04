@@ -10,6 +10,7 @@ import PhotosUI
 
 struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @State private var isTapped = false
     @State private var showStyleList: Bool = false
@@ -17,6 +18,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @State private var isAvatarUploadInProgress = false
     @State private var loadingImage = false
     @State private var selectedAvatar: PhotosPickerItem?
+    
     
     init(with viewModel : ViewModel) {
         self.viewModel = viewModel
@@ -47,7 +49,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                         }
                 }
                 .sheet(isPresented: $showScheduleView) {
-                    PortfolioScheduleView(with: PortfolioScheduleViewModel())
+                    PortfolioScheduleView(with: PortfolioScheduleViewModel(), showScheduleView: $showScheduleView)
                         .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
 
                 }
@@ -78,7 +80,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                  schedule: [DbSchedule](),
                                                  bookingDays: []
                                                 ))
-                                showScheduleView.toggle()
+                                self.presentationMode.wrappedValue.dismiss()
                             }
                         }
                         .foregroundColor(Color(R.color.gray2.name))
@@ -145,8 +147,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
              }
          }
     }
-
-   private var locationSection: some View {
+    private var locationSection: some View {
        VStack(alignment: .leading) {
            CustomTextField(nameTextField: R.string.localizable.portfolio_location(), text: $viewModel.locationAuthor)
            ForEach(viewModel.locationResult) { result in
@@ -176,7 +177,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
            }
         }
     }
-
     private var sexSection: some View {
         HStack{
             Text(R.string.localizable.portfolio_gender())
@@ -298,7 +298,10 @@ struct PortfolioEditView_Previews: PreviewProvider {
             ageAuthor: .constant(viewModel.ageAuthor),
             styleAuthor: .constant(viewModel.styleAuthor),
             avatarAuthor: .constant(viewModel.avatarAuthor),
-            descriptionAuthor: .constant(viewModel.descriptionAuthor)))
+            descriptionAuthor: .constant(viewModel.descriptionAuthor),
+            longitude: .constant(0.0),
+            latitude: .constant(0.0),
+            regionAuthor: .constant("TH")))
     }
 }
 

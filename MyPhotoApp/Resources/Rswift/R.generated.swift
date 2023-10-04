@@ -509,7 +509,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 104 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 105 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -583,6 +583,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_delete = Rswift.StringResource(key: "schedule_delete", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Delete image
+      ///
+      /// Locales: en, ru
+      static let portfolio_delete_image = Rswift.StringResource(key: "portfolio_delete_image", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Deleting account will delete all your information in this App. Are you sure you want to continue?
       ///
       /// Locales: en, ru
@@ -1196,6 +1200,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("schedule_delete", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Delete image
+      ///
+      /// Locales: en, ru
+      static func portfolio_delete_image(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_delete_image", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_delete_image"
+        }
+
+        return NSLocalizedString("portfolio_delete_image", bundle: bundle, comment: "")
       }
 
       /// en translation: Deleting account will delete all your information in this App. Are you sure you want to continue?

@@ -18,9 +18,12 @@ protocol CustomerConfirmOrderViewModelType: ObservableObject {
     var orderDuration: String { get }
     var orderDescription: String { get set }
     var orderPrice: String { get }
+    var regionAuthor: String { get }
 
     
     func formattedDate(date: Date, format: String) -> String
-    func sortedDate(array: [String]) -> [String] 
+    func sortedDate(array: [String]) -> [String]
+    func currencySymbol(for regionCode: String) -> String
+
 }
 

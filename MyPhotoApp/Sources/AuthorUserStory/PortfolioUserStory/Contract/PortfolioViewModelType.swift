@@ -25,12 +25,16 @@ protocol PortfolioViewModelType: ObservableObject {
     var avatarAuthorID: UUID { get set }
 // MARK: - SearchLocation property
     var locationAuthor: String { get set }
+    var latitude: Double { get set }
+    var longitude: Double { get set }
+    var regionAuthor: String { get set }
     var identifier: String { get set }
     var smallImagesPortfolio: [String] { get }
-    var portfolioImages: [UIImage] { get set }
+    var portfolioImages: [String : UIImage?] { get set }
     
     func updatePreview()
     func getAuthorPortfolio() async throws
-    func addPortfolioImages(selectedImagesData: [Data]) async throws
+    func addPortfolioImages(selectedImages: [PhotosPickerItem]) async throws
+    func deletePortfolioImage(pathKey: String) async throws
     func getPortfolioImages(imagesPath: [String]) async throws
 }

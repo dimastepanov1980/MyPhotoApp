@@ -1,5 +1,5 @@
 //
-//  LoginView.swift
+//  AuthenticationScreenView.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/17/23.

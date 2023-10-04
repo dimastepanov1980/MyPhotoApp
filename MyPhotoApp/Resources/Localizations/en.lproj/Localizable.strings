@@ -94,6 +94,7 @@
 "portfolio_about" = "About your self";
 "portfolio_schedule" = "Add schedule";
 "portfolio_add_images" = "Please select image for Portfolio\nby tapping on plus icon on toolbar";
+"portfolio_delete_image" = "Delete image";
 
 //MARK: - Style of Photography
 

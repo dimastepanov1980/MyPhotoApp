@@ -90,7 +90,7 @@ final class UserManager {
         try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
     }
     func deleteImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
-        try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : path])
+        try await userOrderDocument(userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : path])
     }
     func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
         try await userOrderCollection(userId: userId).getDocuments(as: UserOrdersModel.self)
@@ -133,10 +133,10 @@ final class UserManager {
     //MARK: - Portfolio
     
     private let portfolioCollection = Firestore.firestore().collection("portfolio")
+    
     private func portfolioUserDocument(userId: String) -> DocumentReference {
         portfolioCollection.document(userId)
     }
-
     func setUserPortfolio(userId: String, portfolio: DBPortfolioModel) async throws {
         guard let authorData = try? encoder.encode(portfolio.author) else {
             throw URLError(.badURL)
@@ -174,17 +174,13 @@ final class UserManager {
     func addPortfolioImagesUrl(userId: String, path: [String]) async throws {
         try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion(path)])
     }
+    func deletePortfolioImage(userId: String, path: String) async throws {
+        let arrayRemoveValue = FieldValue.arrayRemove([path])
+          try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue: arrayRemoveValue])
+    }
     func getAllPortfolio() async throws -> [DBPortfolioModel] {
         try await portfolioCollection.getDocuments(as: DBPortfolioModel.self)
     }
-    
-    
-    // MARK: - New Queri portfolio
-   /*
-    func getPortfolioLocation(location: String) async throws -> [DBPortfolioModel]{
-        try await portfolioCollection.whereField("author.location", isEqualTo: location).getDocuments(as: DBPortfolioModel.self)
-    }
-*/
     func getPortfolioForCoordinateAndDate(longitude: Double, latitude: Double, startEventDate: Date) async throws -> [DBPortfolioModel] {
         // Query based on longitude range
         let longitudeQuerySnapshot = try await portfolioCollection
@@ -209,31 +205,6 @@ final class UserManager {
         print(Array(filteredPortfolios))
         return Array(filteredPortfolios)
     }
-    
- /*
-    func getPortfolioForCoordinateAndDate(longitude: Double, latitude: Double, startEventDate: Date) async throws -> [DBPortfolioModel] {
-        // Query based on longitude range
-        let longitudeQuerySnapshot = try await portfolioCollection
-            .whereField("author.longitude", isGreaterThan: longitude - 0.01 * longitude)
-            .whereField("author.longitude", isLessThan: longitude + 0.01 * longitude)
-            .getDocuments(as: DBPortfolioModel.self)
-
-        // Query based on latitude range
-        let latitudeQuerySnapshot = try await portfolioCollection
-            .whereField("author.latitude", isGreaterThan: latitude - 0.01 * latitude)
-            .whereField("author.latitude", isLessThan: latitude + 0.01 * latitude)
-            .getDocuments(as: DBPortfolioModel.self)
-
-        // Convert query results to sets for easy comparison
-        let longitudeSet = Set(longitudeQuerySnapshot)
-        let latitudeSet = Set(latitudeQuerySnapshot)
-
-        // Find the common portfolios based on both longitude and latitude
-        let commonPortfolios = longitudeSet.intersection(latitudeSet)
-     print(Array(commonPortfolios))
-        return Array(commonPortfolios)
-    }
-*/
     func matchesLocation(_ location: String, searchString: String) -> Bool {
         let options: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
         return location.range(of: searchString, options: options) != nil

@@ -11,6 +11,7 @@ import PhotosUI
 
 @MainActor
 final class PortfolioViewModel: PortfolioViewModelType {
+    
     @Published var dbModel: DBPortfolioModel?
     @Published var avatarURL: URL?
     @Published var locationAuthor: String = ""
@@ -24,13 +25,15 @@ final class PortfolioViewModel: PortfolioViewModelType {
     @Published var descriptionAuthor: String = ""
     @Published var avatarAuthorID = UUID()
     @Published var typeAuthor: String = ""
+    @Published var latitude: Double = 0.0
+    @Published var longitude: Double = 0.0
+    @Published var regionAuthor = ""
     @Published var smallImagesPortfolio: [String] = []
-    @Published var portfolioImages: [UIImage] = []
+    @Published var portfolioImages: [String: UIImage?] = [:]
     
     init(dbModel: DBPortfolioModel? = nil) {
         self.dbModel = dbModel
     }
-
     
     func updatePreview(){
         if let dbModel = dbModel {
@@ -43,6 +46,9 @@ final class PortfolioViewModel: PortfolioViewModelType {
             styleAuthor = dbModel.author?.styleAuthor ?? []
             descriptionAuthor = dbModel.descriptionAuthor ?? ""
             smallImagesPortfolio = dbModel.smallImagesPortfolio ?? []
+            latitude = dbModel.author?.latitude ?? 0.0
+            longitude = dbModel.author?.longitude ?? 0.0
+            regionAuthor = dbModel.author?.regionAuthor ?? ""
         }
     }
     func getAuthorPortfolio() async throws {
@@ -56,42 +62,53 @@ final class PortfolioViewModel: PortfolioViewModelType {
             throw error
         }
     }
-    
     func getPortfolioImages(imagesPath: [String]) async throws {
-        var portfolioImages: [UIImage] = []
+        var portfolioImages: [String: UIImage?] = [:]
+        let semaphore = DispatchSemaphore(value: 1)  // Semaphore for synchronization
         
-        await withTaskGroup(of: UIImage?.self) { taskGroup in
+        await withTaskGroup(of: (String, UIImage?).self) { taskGroup in
             for imagePath in imagesPath {
                 taskGroup.addTask {
                     do {
                         let image = try await StorageManager.shared.getReferenceImage(path: imagePath)
-                        return image
+                        return (imagePath, image)
                     } catch {
                         // Handle any errors that occur during image fetching
                         print("Error fetching image: \(error)")
-                        return nil
+                        return (imagePath, nil)
                     }
                 }
             }
             
-            for await image in taskGroup {
+            for await (imagePath, image) in taskGroup {
                 if let image = image {
-                    portfolioImages.append(image)
+                    portfolioImages[imagePath] = image  // Assign the image to the dictionary
                 }
+                semaphore.signal()  // Release access
             }
         }
-        
-        self.portfolioImages = portfolioImages.compactMap { $0 }
+        // Now portfolioImages has all the fetched images
+        self.portfolioImages = portfolioImages
     }
-    
-    func addPortfolioImages(selectedImagesData: [Data]) async throws {
-            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-            var selectedImages: [String] = []
-            for data in selectedImagesData {
+    func addPortfolioImages(selectedImages: [PhotosPickerItem]) async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        var selectedImagesPath: [String] = []
+
+        for image in selectedImages {
+            if let data = try? await image.loadTransferable(type: Data.self), let image = UIImage(data: data){
                 let (path, _) = try await StorageManager.shared.uploadPortfolioImageDataToFairbase(data: data, userId: authDateResult.uid)
-                selectedImages.append(path)
+                selectedImagesPath.append(path)
+
+                self.portfolioImages[path] = image
             }
-            try await UserManager.shared.addPortfolioImagesUrl(userId: authDateResult.uid, path: selectedImages)
+        }
+            try await UserManager.shared.addPortfolioImagesUrl(userId: authDateResult.uid, path: selectedImagesPath)
     }
-    
+    func deletePortfolioImage(pathKey: String) async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        self.portfolioImages.removeValue(forKey: pathKey)
+        try await UserManager.shared.deletePortfolioImage(userId: authDateResult.uid, path: pathKey)
+
+    }
+
 }

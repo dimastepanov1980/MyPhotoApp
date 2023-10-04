@@ -14,6 +14,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var selectedDay: Date? = nil
     @Published var selectedTime: [String] = []
     @Published var priceForDay: String = ""
+    @Published var minPrice: String = ""
     @Published var today: Date = Date()
     @Published var timeslotSelectedDay: [TimeSlotModel] = []
     @Published var appointments: [AppointmentModel] = []
@@ -25,10 +26,21 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         self.items = items
         self.startMyTrip = startMyTrip
         
-        
         createAppointments(schedule: items.appointmen, startMyTripDate: self.startMyTrip)
-
+        getMinPrice()
     }
+    
+    private func getMinPrice(){
+        var arrayPrices: [Int] = []
+      
+        for item in items.appointmen {
+            if let price = Int(item.price) {
+                arrayPrices.append(price)
+            }
+        }
+        guard let minPrice = arrayPrices.min() else { return }
+        self.minPrice = String(minPrice)
+      }
     
     private func setEndMyTripDate(startMyTrip: Date, endMyTrip: Int) -> Date{
         let today = startMyTrip

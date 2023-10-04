@@ -31,9 +31,6 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
             searchForCity(text: locationAuthor)
         }
     }
-    @Published var regionAuthor: String = ""
-    @Published var latitude: Double = 0.0
-    @Published var longitude: Double = 0.0
     
     @Binding var typeAuthor: String
     @Binding var nameAuthor: String
@@ -45,6 +42,9 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
     @Binding var styleAuthor: [String]
     @Binding var avatarAuthor: String
     @Binding var descriptionAuthor: String
+    @Binding var longitude: Double
+    @Binding var latitude: Double
+    @Binding var regionAuthor: String
     
     init(locationAuthor: String,
          typeAuthor: Binding<String>,
@@ -56,7 +56,10 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
          ageAuthor: Binding<String>,
          styleAuthor: Binding<[String]>,
          avatarAuthor: Binding<String>,
-         descriptionAuthor: Binding<String>) {
+         descriptionAuthor: Binding<String>,
+         longitude: Binding<Double>,
+         latitude: Binding<Double>,
+         regionAuthor: Binding<String>) {
         
         self.locationAuthor = locationAuthor
         self._typeAuthor = typeAuthor
@@ -69,6 +72,9 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
         self._styleAuthor = styleAuthor
         self._avatarAuthor = avatarAuthor
         self._descriptionAuthor = descriptionAuthor
+        self._longitude = longitude
+        self._latitude = latitude
+        self._regionAuthor = regionAuthor
         
         // New York
 //        let center = CLLocationCoordinate2D(latitude: 40.730610, longitude: -73.935242)

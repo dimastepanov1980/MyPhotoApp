@@ -11,6 +11,7 @@ import PhotosUI
 struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State var showPortfolioEditView: Bool = false
+    @State private var showingOptions = false
     @State private var selectPortfolioImages: [PhotosPickerItem] = []
     @State private var selectPortfolioImagesData: [Data]? = []
     @State private var columns = [ GridItem(.flexible(), spacing: 0),
@@ -41,27 +42,21 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                  preferredItemEncoding: .automatic,
                                  photoLibrary: .shared()) {
                         Image(systemName: "plus.app")
-                    }.onChange(of: selectPortfolioImages, perform: { images in
-                                     Task {
-                                         do {
-                                             print("uploading images:")
-                                             selectPortfolioImages = []
-                                             for image in images {
-                                                 if let data = try? await image.loadTransferable(type: Data.self), let image = UIImage(data: data){
-                                                     viewModel.portfolioImages.append(image)
-                                                     selectPortfolioImagesData?.append(data)
+                    }
+                                 .onChange(of: selectPortfolioImages, perform: { images in
+                                                  Task {
+                                                      do {
+                                                          print("uploading images:")
+                                                          selectPortfolioImages = []
+                                                          try await viewModel.addPortfolioImages(selectedImages: images)
+                                                          viewModel.avatarAuthorID = UUID()
+                                                      } catch {
+                                                          print("Error uploading images: \(error)")
+                                                          throw error
+                                                      }
                                                  }
-                                             }
-                                             if let selectPortfolioImagesData = selectPortfolioImagesData {
-                                                 try await viewModel.addPortfolioImages(selectedImagesData: selectPortfolioImagesData)
-                                             }
-                                             viewModel.avatarAuthorID = UUID()
-                                         } catch {
-                                             print("Error uploading images: \(error)")
-                                             throw error
-                                         }
-                                    }
-                                 })
+                                              })
+
                     .disabled( viewModel.smallImagesPortfolio.count > 10 )
                     
                     Button {
@@ -85,7 +80,10 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                                            ageAuthor: $viewModel.ageAuthor,
                                                            styleAuthor: $viewModel.styleAuthor,
                                                            avatarAuthor: $viewModel.avatarAuthor,
-                                                           descriptionAuthor: $viewModel.descriptionAuthor))
+                                                           descriptionAuthor: $viewModel.descriptionAuthor,
+                                                           longitude: $viewModel.longitude,
+                                                           latitude: $viewModel.latitude,
+                                                           regionAuthor: $viewModel.regionAuthor))
         }
         .onAppear{
             Task {
@@ -95,6 +93,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
             }
         }
     }
+    
     private var authorSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack{
@@ -155,22 +154,42 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
             if viewModel.portfolioImages.count > 0 {
                 ScrollView{
                     LazyVGrid(columns: columns, spacing: 0){
-                        ForEach(viewModel.portfolioImages, id: \.self){ image in
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: imageGallerySize, height: imageGallerySize)
-                                .border(Color.white)
-                                .clipped()
+                        ForEach(viewModel.portfolioImages.sorted(by: { $0.0 < $1.0 }), id: \.key) { key, image in
+                            if let image = image {
+                                ZStack(alignment: .topTrailing) {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: imageGallerySize, height: imageGallerySize)
+                                        .border(Color.white)
+                                        .clipped()
+                                    
+                                        .contextMenu {
+                                               Button {
+                                                   Task{
+                                                       do {
+                                                           try await viewModel.deletePortfolioImage(pathKey: key)
+                                                           print(key)
+                                                       } catch  {
+                                                           print(error.localizedDescription)
+                                                       }
+                                                   }
+                                                   print("Deleting Image \(key)")
+                                               } label: {
+                                                   Label(R.string.localizable.portfolio_delete_image(), systemImage: "trash")
+                                               }
+                                           }
+                                }
+                            }
                         }
                     }
+
                 }
             } else {
                 if viewModel.smallImagesPortfolio.count > 0 {
                     VStack{
                         ProgressView()
                             .padding(.top, 120)
-
                     }
                 } else {
                     VStack{
@@ -186,6 +205,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
             }
         }
     }
+    
 }
 
 struct PortfolioAddImagesView_Previews: PreviewProvider {
@@ -198,13 +218,16 @@ struct PortfolioAddImagesView_Previews: PreviewProvider {
     }
 }
 
-
 private class MockViewModel: PortfolioViewModelType, ObservableObject {
+    func deletePortfolioImage(pathKey: String) async throws {}
+    func addPortfolioImages(selectedImages: [PhotosPickerItem]) async throws {}
+    var portfolioImages: [String : UIImage?] = [:]
+    var regionAuthor: String = ""
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
     var identifier: String = ""
     var smallImagesPortfolio: [String] = []
-    var portfolioImages: [UIImage] = []
     func getPortfolioImages(imagesPath: [String]) async throws {}
-    func addPortfolioImages(selectedImagesData: [Data]) async throws {}
     var typeAuthor: String = "photo"
     var selectedAvatar: PhotosPickerItem?
     var avatarAuthorID = UUID()

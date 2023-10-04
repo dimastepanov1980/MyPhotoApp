@@ -9,9 +9,12 @@ import SwiftUI
 
 struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
+    @Binding var showScheduleView: Bool
     
-    init(with viewModel : ViewModel) {
+    init(with viewModel : ViewModel,
+         showScheduleView: Binding<Bool>) {
         self.viewModel = viewModel
+        self._showScheduleView = showScheduleView
     }
     var body: some View {
         NavigationStack {
@@ -35,6 +38,7 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                     Button(R.string.localizable.save()) {
                         Task {
                             try await viewModel.setSchedule(schedules: viewModel.schedules)
+                            showScheduleView.toggle()
                         }
                     }
                     .foregroundColor(Color(R.color.gray2.name))
@@ -93,7 +97,7 @@ struct PortfolioScheduleView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
 
     static var previews: some View {
-        PortfolioScheduleView(with: viewModel)
+        PortfolioScheduleView(with: viewModel, showScheduleView: .constant(false))
     }
 }
 

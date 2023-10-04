@@ -50,66 +50,67 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 }
             }
            .safeAreaInset(edge: .bottom) {
-               VStack{
-                   HStack(spacing: 16){
-                       if let selectedDay = viewModel.selectedDay {
-                           HStack(spacing: 2) {
-                               Image(systemName: "calendar")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray1.name))
+                   VStack{
+                       HStack(spacing: 16){
+                           if let selectedDay = viewModel.selectedDay {
+                               HStack(spacing: 2) {
+                                   Image(systemName: "calendar")
+                                       .font(.subheadline)
+                                       .foregroundColor(Color(R.color.gray1.name))
+                                   
+                                   Text(viewModel.formattedDate(date: selectedDay, format: "dd MMMM"))
+                                       .font(.subheadline)
+                                       .foregroundColor(Color(R.color.gray3.name))
+                               }
+                           }
+                           if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
                                
-                               Text(viewModel.formattedDate(date: selectedDay, format: "dd MMMM"))
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray3.name))
+                               HStack(spacing: 2) {
+                                   Image(systemName: "clock")
+                                       .font(.subheadline)
+                                       .foregroundColor(Color(R.color.gray1.name))
+                                   Text(time)
+                                       .font(.subheadline)
+                                       .foregroundColor(Color(R.color.gray3.name))
+                               }
+                               
+                               
+                               HStack(spacing: 2){
+                                   Image(systemName: "timer")
+                                       .font(.subheadline)
+                                       .foregroundColor(Color(R.color.gray1.name))
+                                   Text("\(viewModel.selectedTime.count)")
+                                       .font(.subheadline)
+                                       .foregroundColor(Color(R.color.gray3.name))
+                               }
                            }
                        }
-                       if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
-                           
-                           HStack(spacing: 2) {
-                               Image(systemName: "clock")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray1.name))
-                               Text(time)
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray3.name))
-                           }
-                           
-                           
-                           HStack(spacing: 2){
-                               Image(systemName: "timer")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray1.name))
-                               Text("\(viewModel.selectedTime.count)")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray3.name))
-                           }
-                       }
-                   }
-                   if let author = viewModel.items.author {
-                       if viewModel.selectedDay != nil {
-                           if viewModel.selectedTime.isEmpty {
-                               CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
-                                   // Action
+                       if let author = viewModel.items.author {
+                           if viewModel.selectedDay != nil {
+                               if viewModel.selectedTime.isEmpty {
+                                   CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
+                                       // Action
+                                   }
+                               } else {
+                                   
+    //                      TODO: - change price property form Schedule
+                                   CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
+                                       showOrderConfirm.toggle()
+                                       
+                                   }.fullScreenCover(isPresented: $showOrderConfirm) {
+                                       CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime), regionAuthor: viewModel.items.author?.regionAuthor ?? "", orderDescription: $orderDescription), showOrderConfirm: $showOrderConfirm)
+                                       
+                                   }
                                }
                            } else {
-                               
-//                      TODO: - change price property form Schedule
-                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.location))", iconName: "") {
-                                   showOrderConfirm.toggle()
-                               }.fullScreenCover(isPresented: $showOrderConfirm) {
-                                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime), orderDescription: $orderDescription), showOrderConfirm: $showOrderConfirm)
-                                   
+                               CustomButtonXl(titleText: "\(R.string.localizable.select_date()) ", iconName: "") {
+                                   // Action
                                }
                            }
-                       } else {
-                           CustomButtonXl(titleText: "\(R.string.localizable.select_date()) ", iconName: "") {
-                               // Action
-                           }
                        }
-                   }
-               }.padding(.top, 4)
+                   }.padding(.top, 4)
                    .background(Color(R.color.gray7.name))
-                    }
+           }
            .background(Color(R.color.gray7.name))
     }
     
@@ -157,6 +158,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                     .padding(12)
                     Spacer()
                     VStack(alignment: .trailing){
+                        Text("\(viewModel.minPrice) \(viewModel.currencySymbol(for: viewModel.items.author?.regionAuthor ?? "$"))")
+                            .font(.headline)
+                            .foregroundColor(Color(R.color.gray2.name))
+                        
                         Text(R.string.localizable.price_start())
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
@@ -412,6 +417,8 @@ struct CustomerDetailScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
+    var minPrice: String = ""
+    
     var priceForDay: String = ""
     
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date) {}

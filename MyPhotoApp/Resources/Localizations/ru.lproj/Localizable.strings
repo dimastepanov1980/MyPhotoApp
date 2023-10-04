@@ -93,6 +93,7 @@
 "portfolio_about" = "О себе";
 "portfolio_schedule" = "Добавить расписание";
 "portfolio_add_images" = "Пожалуйста, выберите изображение для портфолио,\nнажав значок плюса на сверху";
+"portfolio_delete_image" = "Удалить изображение";
 
 //MARK: - Style of  Photography
 
