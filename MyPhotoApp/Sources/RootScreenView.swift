@@ -8,24 +8,48 @@
 import SwiftUI
 
 struct RootScreenView: View {
-    @State private var showSignInView: Bool = false
+    @State private var showAuthenticationView: Bool = true
+    @State private var userIsCustomer: Bool = true
+
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
-    @State private var showCostomerZone: Bool = false
     var body: some View {
-        Group {
-            if !showCostomerZone {
-                CustomerPageHubView(showCostomerZone: $showCostomerZone)
-                 
+        ZStack {
+            
+            if !showAuthenticationView {
+                if !userIsCustomer {
+                    AuthorHubPageView(showAuthenticationView: $showAuthenticationView)
+                } else {
+                    CustomerPageHubView(showAuthenticationView: $showAuthenticationView)
+                }
             } else {
-                AuthorHubPageView(showSignInView: $showSignInView, showCostomerZone: $showCostomerZone)
+                Color.red
             }
         }
-        .onAppear{
-            let authUser = try? AuthNetworkService.shared.getAuthenticationUser()
-            self.showSignInView = authUser == nil
-        }.sheet(isPresented: $showSignInView, content: {
-            AuthenticationScreenView(with: AuthenticationScreenViewModel(), showSignInView: $showSignInView)
+        .onAppear {
+            Task {
+                do {
+                    let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+                    let user = try await UserManager.shared.getUser(userId: userDataResult.uid)
+                    print("Get User Info \(user)")
+                    if user.userType == "customer" {
+                        self.userIsCustomer = true
+                        self.showAuthenticationView = false
+                        print("user is customer, it is customer - \(userIsCustomer): \(user)")
+                        
+                    } else {
+                        self.userIsCustomer = false
+                        self.showAuthenticationView = false
+                        print("user is author, it is customer  - \(userIsCustomer): \(user) ")
+                    }
+                } catch {
+                    print("Error: \(error)")
+                    self.showAuthenticationView = true
+                }
+            }
+        }
+        .sheet(isPresented: $showAuthenticationView, content: {
+            AuthenticationScreenView(with: AuthenticationScreenViewModel(), showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer)
 
         })
     }

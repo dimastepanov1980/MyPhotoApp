@@ -76,7 +76,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                  smallImagesPortfolio: [],
                                                  largeImagesPortfolio: [],
                                                  descriptionAuthor: viewModel.descriptionAuthor,
-//                                                 reviews: [DBReviews](),
                                                  schedule: [DbSchedule](),
                                                  bookingDays: []
                                                 ))

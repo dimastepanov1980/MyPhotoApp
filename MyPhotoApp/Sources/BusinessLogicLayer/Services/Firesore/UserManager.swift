@@ -24,30 +24,43 @@ final class UserManager {
     }()
     private var listenerRegistration: ListenerRegistration?
 
-    //MARK: - Author Section
-    private let userCollection = Firestore.firestore().collection("users")
+    //MARK: - Customer Section
+    private let customerCollection = Firestore.firestore().collection("customer")
     
-    private func userDocument(userId: String) -> DocumentReference {
-        userCollection.document(userId)
+    private func customerDocument(customerId: String) -> DocumentReference {
+        customerCollection.document(customerId)
     }
-    private func userOrderCollection(userId: String) -> CollectionReference {
-        userDocument(userId: userId).collection("orders")
+    
+    func createNewCustomer(user: DBUserModel) async throws {
+        try customerDocument(customerId: user.userId).setData(from: user, merge: false)
+    }
+    
+    //MARK: - Author Section
+    private let authorCollection = Firestore.firestore().collection("users")
+    
+    private func authorDocument(authorId: String) -> DocumentReference {
+        authorCollection.document(authorId)
+    }
+    private func authorOrderCollection(authorId: String) -> CollectionReference {
+        authorDocument(authorId: authorId).collection("orders")
     }
     private func userOrderDocument(userId: String, orderId: String) -> DocumentReference {
-        userOrderCollection(userId: userId).document(orderId)
+        authorOrderCollection(authorId: userId).document(orderId)
     }
     
-    //MARK: - User
-    func createNewUser(user: DBUserModel) async throws {
-        try userDocument(userId: user.userId).setData(from: user, merge: false)
+    func createNewAuthor(author: DBUserModel) async throws {
+        try authorDocument(authorId: author.userId).setData(from: author, merge: false)
     }
     func getUser(userId: String) async throws -> DBUserModel {
-        try await userDocument(userId: userId).getDocument(as: DBUserModel.self)
+        guard let user = try? await authorDocument(authorId: userId).getDocument(as: DBUserModel.self) else {
+           return try await customerDocument(customerId: userId).getDocument(as: DBUserModel.self)
+        }
+        return user
     }
     
     //MARK: - Orders
     func addNewOrder(userId: String, order: UserOrdersModel) async throws {
-        let document = userOrderCollection(userId: userId).document()
+        let document = authorOrderCollection(authorId: userId).document()
         let documentId = document.documentID
         
         let data: [String : Any] = [
@@ -93,11 +106,11 @@ final class UserManager {
         try await userOrderDocument(userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : path])
     }
     func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
-        try await userOrderCollection(userId: userId).getDocuments(as: UserOrdersModel.self)
+        try await authorOrderCollection(authorId: userId).getDocuments(as: UserOrdersModel.self)
     }
     func addListenerRegistration(userId: String, completion: @escaping ([UserOrdersModel]) -> Void) -> ListenerRegistration {
         // Assuming you have a reference to your Firestore collection
-        let query = userOrderCollection(userId: userId)
+        let query = authorOrderCollection(authorId: userId)
         
         // Set up the snapshot listener
         let listenerRegistration = query.addSnapshotListener { querySnapshot, error in

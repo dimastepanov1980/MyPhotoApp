@@ -10,19 +10,22 @@ import SwiftUI
 
 @MainActor
 protocol AuthenticationScreenViewModelType: ObservableObject {
-    var signInEmail: String { get }
-    var signInPassword: String { get }
-    var errorMessage: String { get set }
+    var custmerEmail: String { get }
+    var custmerPassword: String { get }
+    var custmerErrorMessage: String { get set }
 
-    func setSignInEmail(_ signInEmail: String)
-    func setSignInPassword(_ signInPassword: String)
-    func registrationUser() async throws
+    func setCustmerEmail(_ custmerEmail: String)
+    func setCustmerPassword(_ custmerPassword: String)
+    func authenticationCustomer() async throws
+    
+    var authorEmail: String { get }
+    var authorPassword: String { get }
+    var authorErrorMessage: String { get set }
+    func authenticationAuthor() async throws
 
-    var signUpEmail: String { get }
-    var signUpPassword: String { get }
 
-    func setSignUpEmail(_ signUpEmail: String)
-    func setSignUpPassword(_ signUpPassword: String)
-    func loginUser() async throws
+    func setAuthorEmail(_ authorEmail: String)
+    func setAuthorPassword(_ authorPassword: String)
+    
     func resetPassword() async throws
 }

@@ -50,7 +50,7 @@ struct CustomButtonXl: View {
 
 struct ButtonXlView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomButtonXl(titleText: R.string.localizable.createAccBtt(),
+        CustomButtonXl(titleText: R.string.localizable.customer_login(),
                      iconName: "camera.aperture") {
             //
         }

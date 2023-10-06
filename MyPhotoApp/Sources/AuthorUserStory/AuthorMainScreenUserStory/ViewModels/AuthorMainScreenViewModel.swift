@@ -153,6 +153,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     }
     func subscribe() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        print("subscribe: \(authDateResult)")
         listenerRegistration = UserManager.shared.addListenerRegistration(userId: authDateResult.uid, completion: { orders in
             self.orders = orders
         })

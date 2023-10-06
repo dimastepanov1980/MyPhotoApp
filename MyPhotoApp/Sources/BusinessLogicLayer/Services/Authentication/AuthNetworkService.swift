@@ -16,15 +16,15 @@ final class AuthNetworkService {
     private init() {}
     
     @discardableResult
-    func createUser(email: String, password: String) async throws -> AuthDataResultModel {
+    func createUser(email: String, password: String) async throws -> UserDataModel {
         let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
-        return AuthDataResultModel(user: authDataResult.user)
+        return UserDataModel(user: authDataResult.user)
     }
     
     @discardableResult
-    func signInUser(email: String, password: String) async throws -> AuthDataResultModel {
+    func signInUser(email: String, password: String) async throws -> UserDataModel {
         let authDataResult = try await Auth.auth().signIn(withEmail: email, password: password)
-        return AuthDataResultModel(user: authDataResult.user)
+        return UserDataModel(user: authDataResult.user)
     }
     func deleteUser(password: String) async throws {
         guard let user = Auth.auth().currentUser else {
@@ -36,11 +36,11 @@ final class AuthNetworkService {
         try await user.delete()
     }
     
-    func getAuthenticationUser() throws -> AuthDataResultModel {
+    func getAuthenticationUser() throws -> UserDataModel {
        guard let user = Auth.auth().currentUser else {
            throw URLError(.badServerResponse)
         }
-        return AuthDataResultModel(user: user)
+        return UserDataModel(user: user)
     }
     
     func resetPassword(email: String) async throws {

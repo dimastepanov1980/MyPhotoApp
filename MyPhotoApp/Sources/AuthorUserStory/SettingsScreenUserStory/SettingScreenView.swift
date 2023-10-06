@@ -11,20 +11,17 @@ import Combine
 struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
-    @Binding var showSignInView: Bool
+    @Binding var showAuthenticationView: Bool
     @Binding var isShowActionSheet: Bool
-    @Binding var showCostomerZone: Bool
     var height = UIScreen.main.bounds.size.height
     
     init(with viewModel: ViewModel,
-         showSignInView: Binding<Bool>,
-         isShowActionSheet: Binding<Bool>,
-         showCostomerZone: Binding<Bool>) {
+         showAuthenticationView: Binding<Bool>,
+         isShowActionSheet: Binding<Bool>) {
         
         self.viewModel = viewModel
-        self._showSignInView = showSignInView
+        self._showAuthenticationView = showAuthenticationView
         self._isShowActionSheet = isShowActionSheet
-        self._showCostomerZone = showCostomerZone
     }
     
     var body: some View {
@@ -65,24 +62,12 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 32)
                 VStack{
-                    Button {
-                        showCostomerZone.toggle()
-                    } label: {
-                        ZStack {
-                            Text("Show Customer Zone")
-                                .font(.headline)
-                                .foregroundColor(Color(R.color.gray6.name))
-                                .padding(8)
-                                .padding(.horizontal, 16)
-                                .background(Color(R.color.gray1.name))
-                                .cornerRadius(20)
-                        }
-                    }
+
                     Button {
                         Task {
                             do {
                                 try viewModel.LogOut()
-                                showSignInView = true
+                                showAuthenticationView = true
                             } catch {
                                 print(error.localizedDescription)
                             }
@@ -112,7 +97,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                 /*
                  
                  Button {
-                     showCostomerZone.toggle()
+                     showCustomerZone.toggle()
                  } label: {
                      ZStack {
                          Text(R.string.localizable.signOutAccBtt())
@@ -132,7 +117,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
         }
         .fullScreenCover(isPresented: $isShowActionSheet) {
             NavigationView {
-                ReAuthenticationScreenView(with: ReAuthenticationScreenViewModel(), isShowActionSheet: $isShowActionSheet, showSignInView: $showSignInView)
+                ReAuthenticationScreenView(with: ReAuthenticationScreenViewModel(), isShowActionSheet: $isShowActionSheet, showAuthenticationView: $showAuthenticationView)
             }
         }
         .task {
@@ -144,7 +129,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
 struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
-        SettingScreenView(with: viewModel, showSignInView: .constant(false), isShowActionSheet: .constant(false), showCostomerZone: .constant(false))
+        SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), isShowActionSheet: .constant(false))
     }
 }
 

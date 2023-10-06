@@ -7,10 +7,12 @@
 // MARK: - Common
 "registration" = "Sign Up";
 "logIn" = "Sign In";
+"author" = "I'm Author";
+"customer" = "I'm Customer";
 "email" = "Email address";
 "password" = "Password";
-"createAccBtt" = "Create account";
-"signInAccBtt" = "Sign In";
+"customer_login" = "Find a photographer";
+"author_login" = "Find clients";
 "signOutAccBtt" = "Log Out";
 "forgotPss" = "Forgot password?";
 "totalPrice" = "Total price";

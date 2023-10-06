@@ -10,16 +10,19 @@ import SwiftUI
 struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-    @Binding var showSignInView: Bool
+    @Binding var showAuthenticationView: Bool
+    @Binding var userIsCustomer: Bool
     @State var index : Int = 1
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
     var width = UIScreen.main.bounds.size.width
     var height = UIScreen.main.bounds.size.height
     
     init(with viewModel: ViewModel,
-         showSignInView: Binding<Bool> ) {
+         showAuthenticationView: Binding<Bool>,
+         userIsCustomer: Binding<Bool>) {
         self.viewModel = viewModel
-        self._showSignInView = showSignInView
+        self._showAuthenticationView = showAuthenticationView
+        self._userIsCustomer = userIsCustomer
     }
     
     var body: some View {
@@ -32,44 +35,47 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                     .padding(.top, height / 9)
                 
                 HStack(alignment: .top, spacing: 0) {
-                    RegistrationTab(
+                    CustomerTab(
                         email: Binding<String>(
-                            get: { viewModel.signInEmail },
-                            set: { viewModel.setSignInEmail($0) }),
+                            get: { viewModel.custmerEmail },
+                            set: { viewModel.setCustmerEmail($0) }),
                         password: Binding<String>(
-                            get: { viewModel.signInPassword },
-                            set: { viewModel.setSignInPassword($0) }),
-                        errorMassage: viewModel.errorMessage) {
-                            if !viewModel.signInEmail.isEmpty && !viewModel.signInPassword.isEmpty {
+                            get: { viewModel.custmerPassword },
+                            set: { viewModel.setCustmerPassword($0) }),
+                        errorMassage: viewModel.custmerErrorMessage) {
+                            if !viewModel.custmerEmail.isEmpty && !viewModel.custmerPassword.isEmpty {
+                                self.userIsCustomer = true
+
                                 Task {
                                     do {
-                                        try await viewModel.registrationUser()
-                                        showSignInView = false
+                                        try await viewModel.authenticationCustomer()
+                                        self.showAuthenticationView = false
                                         return
                                     } catch {
-                                        self.viewModel.errorMessage = error.localizedDescription
+                                        self.viewModel.custmerErrorMessage = error.localizedDescription
                                     }
                                 }
                             }
                         }
                         .frame(width: width)
                     
-                    LoginTab(
+                    AuthoTab(
                         email: Binding<String>(
-                            get: { viewModel.signUpEmail },
-                            set: { viewModel.setSignUpEmail($0) }),
+                            get: { viewModel.authorEmail },
+                            set: { viewModel.setAuthorEmail($0) }),
                         password: Binding<String>(
-                            get: { viewModel.signUpPassword },
-                            set: { viewModel.setSignUpPassword($0) }),
-                        errorMassage: viewModel.errorMessage) {
-                            if !viewModel.signUpEmail.isEmpty && !viewModel.signUpPassword.isEmpty {
+                            get: { viewModel.authorPassword },
+                            set: { viewModel.setAuthorPassword($0) }),
+                        errorMassage: viewModel.authorErrorMessage) {
+                            if !viewModel.authorEmail.isEmpty && !viewModel.authorPassword.isEmpty {
+                                self.userIsCustomer = false
                                 Task {
                                     do {
-                                        try await viewModel.loginUser()
-                                        showSignInView = false
+                                        try await viewModel.authenticationAuthor()
+                                        self.showAuthenticationView = false
                                         return
                                     } catch {
-                                        self.viewModel.errorMessage = error.localizedDescription
+                                        self.viewModel.authorErrorMessage = error.localizedDescription
                                     }
                                 }
                             }
@@ -81,7 +87,6 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                 .offset(x: index == 1 ? width / 2 : -width / 2)
             }
             Spacer()
-            if index == 2 {
                 Button {
                     Task {
                         try await viewModel.resetPassword()
@@ -91,7 +96,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray3.name))
                 }.padding(.bottom, 80)
-            }
+            
         }
     }
     
@@ -107,7 +112,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                         self.index = 1
                         self.offset = 0
                     } label: {
-                        Text(R.string.localizable.registration())
+                        Text(R.string.localizable.customer())
                             .foregroundColor(Color(R.color.gray1.name))
                             .font(.body)
                             .fontWeight(.bold)
@@ -122,7 +127,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                         self.index = 2
                         self.offset = -self.width
                     } label: {
-                        Text(R.string.localizable.logIn())
+                        Text(R.string.localizable.author())
                             .foregroundColor(Color(R.color.gray1.name))
                             .font(.body)
                             .fontWeight(.bold)
@@ -134,7 +139,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
             }
         }
     }
-    private struct RegistrationTab: View {
+    private struct CustomerTab: View {
         @Binding var email: String
         @Binding var password: String
         let errorMassage: String
@@ -158,7 +163,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                 
                 
                 Spacer()
-                CustomButtonXl(titleText: R.string.localizable.createAccBtt(),
+                CustomButtonXl(titleText: R.string.localizable.customer_login(),
                          iconName: "camera.aperture") {
                     Task {
                         try await action()
@@ -167,7 +172,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
             }
         }
     }
-    private struct LoginTab: View {
+    private struct AuthoTab: View {
         @Binding var email: String
         @Binding var password: String
         let errorMassage: String
@@ -197,7 +202,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                     .padding(.horizontal)
              
                 Spacer()
-                CustomButtonXl(titleText: R.string.localizable.signInAccBtt(),
+                CustomButtonXl(titleText: R.string.localizable.author_login(),
                          iconName: "camera.aperture") {
                     Task {
                         try await action()
@@ -209,41 +214,38 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
     
 }
 
+
+
 struct AuthenticationScreenView_Previews: PreviewProvider {
     private static let modelMock = MockViewModel()
     
     static var previews: some View {
         NavigationStack {
-            AuthenticationScreenView(with: modelMock, showSignInView: .constant(false))
+            AuthenticationScreenView(with: modelMock, showAuthenticationView: .constant(false), userIsCustomer: .constant(false))
         }
     }
 }
 private class MockViewModel: AuthenticationScreenViewModelType, ObservableObject {
-    var errorMessage = ""
-    var signInEmail = ""
-    var signInPassword = ""
-    var signUpEmail = ""
-    var signUpPassword = ""
+    func authenticationCustomer() async throws {}
+    var custmerErrorMessage = ""
+    var authorErrorMessage = ""
+    var custmerEmail = ""
+    var custmerPassword = ""
+    var authorEmail = ""
+    var authorPassword = ""
     
-    func setSignInEmail(_ signInEmail: String) {
-        self.signInEmail = signInEmail
+    func setCustmerEmail(_ signInEmail: String) {
+        self.custmerEmail = signInEmail
     }
-    func setSignInPassword(_ signInPassword: String) {
-        self.signInPassword = signInPassword
+    func setCustmerPassword(_ signInPassword: String) {
+        self.custmerPassword = signInPassword
     }
-    func registrationUser() async throws {
-        //
+    func authenticationAuthor() async throws {}
+    func resetPassword() async throws {}
+    func setAuthorEmail(_ signUpEmail: String) {
+        self.authorEmail = signUpEmail
     }
-    func resetPassword() async throws {
-        //
-    }
-    func setSignUpEmail(_ signUpEmail: String) {
-        self.signUpEmail = signUpEmail
-    }
-    func setSignUpPassword(_ signUpPassword: String) {
-        self.signUpPassword = signUpPassword
-    }
-    func loginUser() {
-        //
+    func setAuthorPassword(_ signUpPassword: String) {
+        self.authorPassword = signUpPassword
     }
 }

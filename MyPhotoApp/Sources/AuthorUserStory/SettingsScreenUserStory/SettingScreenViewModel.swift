@@ -24,7 +24,10 @@ final class SettingScreenViewModel: SettingScreenViewModelType {
     }
     func loadCurrentUser() async throws {
         let autDataResult = try AuthNetworkService.shared.getAuthenticationUser()
-        self.user = try await UserManager.shared.getUser(userId: autDataResult.uid)
+        print("loadCurrentUser: \(autDataResult)")
+        let getUser = try await UserManager.shared.getUser(userId: autDataResult.uid)
+        print("loadCurrentUser: \(getUser.userType)")
+        self.user = getUser
     }
 
 }

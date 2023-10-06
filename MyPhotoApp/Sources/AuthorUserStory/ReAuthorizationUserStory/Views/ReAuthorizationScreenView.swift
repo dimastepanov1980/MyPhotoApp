@@ -10,13 +10,15 @@ import SwiftUI
 struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
     @ObservedObject private var viewModel: ViewModel
     @Binding var isShowActionSheet: Bool
-    @Binding var showSignInView: Bool
+    @Binding var showAuthenticationView: Bool
+    @State private var userIsCustomer: Bool = false
+
     init(with viewModel: ViewModel,
          isShowActionSheet: Binding<Bool>,
-         showSignInView: Binding<Bool>) {
+         showAuthenticationView: Binding<Bool>) {
         self.viewModel = viewModel
         self._isShowActionSheet = isShowActionSheet
-        self._showSignInView = showSignInView
+        self._showAuthenticationView = showAuthenticationView
     }
     
     var body: some View {
@@ -46,7 +48,7 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                             do {
                                 try await viewModel.deleteUser(password: viewModel.reSignInPassword)
                                 isShowActionSheet.toggle()
-                                showSignInView.toggle()
+                                showAuthenticationView.toggle()
                             } catch {
                                 self.viewModel.errorMessage = error.localizedDescription
                             }
@@ -65,9 +67,9 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                     }
                 }
             }
-        }      .fullScreenCover(isPresented: $showSignInView) {
+        }      .fullScreenCover(isPresented: $showAuthenticationView) {
             NavigationStack {
-                AuthenticationScreenView(with: AuthenticationScreenViewModel(), showSignInView: $showSignInView)
+                AuthenticationScreenView(with: AuthenticationScreenViewModel(), showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer)
             }
         }
     }
@@ -77,7 +79,7 @@ struct ReAuthenticationScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
         NavigationView {
-            ReAuthenticationScreenView(with: viewModel, isShowActionSheet: .constant(false), showSignInView: .constant(true))
+            ReAuthenticationScreenView(with: viewModel, isShowActionSheet: .constant(false), showAuthenticationView: .constant(true))
         }
     }
 }

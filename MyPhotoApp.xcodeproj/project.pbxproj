@@ -47,7 +47,7 @@
 		5FA0EB782A79523E0024AB71 /* SettingScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA0EB772A79523E0024AB71 /* SettingScreenViewModelType.swift */; };
 		5FA15D982A175727007A1AC6 /* AuthenticationScreenContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D972A175727007A1AC6 /* AuthenticationScreenContract.swift */; };
 		5FA15D9D2A175A91007A1AC6 /* AuthenticationScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D9C2A175A91007A1AC6 /* AuthenticationScreenViewModel.swift */; };
-		5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D9F2A176A21007A1AC6 /* AuthModel.swift */; };
+		5FA15DA02A176A21007A1AC6 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D9F2A176A21007A1AC6 /* UserDataModel.swift */; };
 		5FA15DA42A184BDC007A1AC6 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DA32A184BDC007A1AC6 /* OrderModel.swift */; };
 		5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DA92A1851E8007A1AC6 /* DetailOrderViewModelType.swift */; };
 		5FA15DAC2A185305007A1AC6 /* DetailOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */; };
@@ -143,7 +143,7 @@
 		5FA0EB772A79523E0024AB71 /* SettingScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingScreenViewModelType.swift; sourceTree = "<group>"; };
 		5FA15D972A175727007A1AC6 /* AuthenticationScreenContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationScreenContract.swift; sourceTree = "<group>"; };
 		5FA15D9C2A175A91007A1AC6 /* AuthenticationScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationScreenViewModel.swift; sourceTree = "<group>"; };
-		5FA15D9F2A176A21007A1AC6 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
+		5FA15D9F2A176A21007A1AC6 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
 		5FA15DA32A184BDC007A1AC6 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 		5FA15DA92A1851E8007A1AC6 /* DetailOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderViewModelType.swift; sourceTree = "<group>"; };
 		5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderViewModel.swift; sourceTree = "<group>"; };
@@ -493,7 +493,7 @@
 		5FA15D9E2A176A06007A1AC6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5FA15D9F2A176A21007A1AC6 /* AuthModel.swift */,
+				5FA15D9F2A176A21007A1AC6 /* UserDataModel.swift */,
 				5FA15DA32A184BDC007A1AC6 /* OrderModel.swift */,
 				5F0F8D852A31E28B00AF4EED /* UserOrdersModel.swift */,
 				5F0F8D832A31E22A00AF4EED /* DBUserModel.swift */,
@@ -1057,7 +1057,7 @@
 				5FE606432A887E1200E33205 /* ReAuthorizationScreenView.swift in Sources */,
 				5FEB71782AACA92000DCC07E /* PortfolioScheduleViewModel.swift in Sources */,
 				5FE5AAE82AA357500033F51B /* PhotographyStylesView.swift in Sources */,
-				5FA15DA02A176A21007A1AC6 /* AuthModel.swift in Sources */,
+				5FA15DA02A176A21007A1AC6 /* UserDataModel.swift in Sources */,
 				5F4A1B392A9C591B00EC67B2 /* CustomerConfirmOrderViewModelType.swift in Sources */,
 				5F1BCA9F2AB1C64E00223146 /* PortfolioEditViewModelType.swift in Sources */,
 				5F1BCA9D2AB1C63300223146 /* PortfolioEditViewModel.swift in Sources */,

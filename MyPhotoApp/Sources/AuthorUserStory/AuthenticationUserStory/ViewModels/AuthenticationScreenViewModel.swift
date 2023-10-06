@@ -10,46 +10,60 @@ import Foundation
 @MainActor
 final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
     
-    @Published var signInEmail = ""
-    @Published var signInPassword = ""
-    @Published var signUpEmail = ""
-    @Published var signUpPassword = ""
-    @Published var errorMessage = ""
+    @Published var custmerEmail = ""
+    @Published var custmerPassword = ""
+    @Published var authorEmail = ""
+    @Published var authorPassword = ""
+    @Published var custmerErrorMessage = ""
+    @Published var authorErrorMessage = ""
     
-    func setSignInEmail(_ signInEmail: String) {
-        self.signInEmail = signInEmail
+    func setCustmerEmail(_ custmerEmail: String) {
+        self.custmerEmail = custmerEmail
     }
-    func setSignInPassword(_ signInPassword: String) {
-        self.signInPassword = signInPassword
+    func setCustmerPassword(_ custmerPassword: String) {
+        self.custmerPassword = custmerPassword
     }
-    func registrationUser() async throws {
-        guard !signInEmail.isEmpty, !signInPassword.isEmpty else {
-            print("No found Email or Password in Sign In")
+    func authenticationCustomer() async throws {
+        guard !custmerEmail.isEmpty, !custmerPassword.isEmpty else {
+            print("No found Email or Password")
             return
         }
-        let authDataResult = try await AuthNetworkService.shared.createUser(email: signInEmail, password: signInPassword)
-        let user = DBUserModel(auth: authDataResult) 
-        try await UserManager.shared.createNewUser(user: user)
+        
+        do {
+            try await AuthNetworkService.shared.signInUser(email: custmerEmail, password: custmerPassword)
+        } catch {
+            let authUserResult = try await AuthNetworkService.shared.createUser(email: custmerEmail, password: custmerPassword)
+            let dbUser = DBUserModel(auth: authUserResult, userType: "customer")
+            try await UserManager.shared.createNewCustomer(user: dbUser)
+        }
     }
-    func setSignUpEmail(_ signUpEmail: String) {
-        self.signUpEmail = signUpEmail
+    
+    func setAuthorEmail(_ authorPassword: String) {
+        self.authorEmail = authorPassword
     }
-    func setSignUpPassword(_ signUpPassword: String) {
-        self.signUpPassword = signUpPassword
+    func setAuthorPassword(_ authorPassword: String) {
+        self.authorPassword = authorPassword
     }
-    func loginUser() async throws {
-        guard !signUpEmail.isEmpty, !signUpPassword.isEmpty else {
-            print("No found Email or Password in Login")
+    func authenticationAuthor() async throws {
+        guard !authorEmail.isEmpty, !authorPassword.isEmpty else {
+            print("No found Email or Password")
             return
         }
-        try await AuthNetworkService.shared.signInUser(email: signUpEmail, password: signUpPassword)
+        
+        do {
+            try await AuthNetworkService.shared.signInUser(email: authorEmail, password: authorPassword)
+        } catch {
+            let authUserResult = try await AuthNetworkService.shared.createUser(email: authorEmail, password: authorPassword)
+            let dbUser = DBUserModel(auth: authUserResult, userType: "author")
+            try await UserManager.shared.createNewCustomer(user: dbUser)
+        }
     }
     
     func resetPassword() async throws {
         do {
-            try await AuthNetworkService.shared.resetPassword(email: signUpEmail)
+            try await AuthNetworkService.shared.resetPassword(email: authorEmail)
         } catch {
-            self.errorMessage = error.localizedDescription
+            self.custmerErrorMessage = error.localizedDescription
         }
     }
 }

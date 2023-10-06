@@ -12,12 +12,13 @@ struct CustomerPageHubView: View {
     @State var portfolio: [AuthorPortfolioModel] = []
     @StateObject private var viewModel = CustomerMainScreenViewModel()
 
+    @Binding var showAuthenticationView: Bool
+
 
     
     @State private var showAddOrderView: Bool = false
     @State private var requestLocation: Bool = false
     @State var filterShow: Bool = true
-    @Binding var showCostomerZone: Bool
 
     var body: some View {
         VStack{
@@ -29,15 +30,7 @@ struct CustomerPageHubView: View {
                 } else if self.index == 2 {
                     Color.green
                 } else if self.index == 3 {
-                    ZStack{
-                        Color.gray
-
-                        Button {
-                            showCostomerZone.toggle()
-                        } label: {
-                            Text("Show Author Zone")
-                        }
-                    }
+                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, isShowActionSheet: .constant(false))
                 }
             }
             .padding(.bottom, -40)
@@ -64,6 +57,6 @@ struct CustomerPageHubView: View {
 
 struct CustomerPageHubView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerPageHubView(showCostomerZone: .constant(false))
+        CustomerPageHubView(showAuthenticationView: .constant(false))
     }
 }

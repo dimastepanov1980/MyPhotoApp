@@ -8,9 +8,11 @@
 "registration" = "Зарегистрироваться";
 "logIn" = "Войти";
 "email" = "Введите Email";
+"author" = "Я Автор";
+"customer" = "Я Клиент";
 "password" = "Введите пароль";
-"createAccBtt" = "Создать аккаунт";
-"signInAccBtt" = "Войти";
+"customer_login" = "Найти фотографа";
+"author_login" = "Найти клиентов";
 "signOutAccBtt" = "Выйти";
 "forgotPss" = "Забыли пароль?";
 "totalPrice" = "Стоимсоть";
