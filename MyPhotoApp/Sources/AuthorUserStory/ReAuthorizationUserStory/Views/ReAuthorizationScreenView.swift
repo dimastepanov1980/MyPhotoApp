@@ -69,7 +69,7 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
             }
         }      .fullScreenCover(isPresented: $showAuthenticationView) {
             NavigationStack {
-                AuthenticationScreenView(with: AuthenticationScreenViewModel(), showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer)
+                AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer))
             }
         }
     }

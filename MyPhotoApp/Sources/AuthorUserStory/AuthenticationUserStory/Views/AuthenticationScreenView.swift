@@ -10,19 +10,14 @@ import SwiftUI
 struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-    @Binding var showAuthenticationView: Bool
-    @Binding var userIsCustomer: Bool
+
     @State var index : Int = 1
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
     var width = UIScreen.main.bounds.size.width
     var height = UIScreen.main.bounds.size.height
     
-    init(with viewModel: ViewModel,
-         showAuthenticationView: Binding<Bool>,
-         userIsCustomer: Binding<Bool>) {
+    init(with viewModel: ViewModel) {
         self.viewModel = viewModel
-        self._showAuthenticationView = showAuthenticationView
-        self._userIsCustomer = userIsCustomer
     }
     
     var body: some View {
@@ -44,12 +39,11 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                             set: { viewModel.setCustmerPassword($0) }),
                         errorMassage: viewModel.custmerErrorMessage) {
                             if !viewModel.custmerEmail.isEmpty && !viewModel.custmerPassword.isEmpty {
-                                self.userIsCustomer = true
-
+                                self.viewModel.userIsCustomer = true
                                 Task {
                                     do {
                                         try await viewModel.authenticationCustomer()
-                                        self.showAuthenticationView = false
+                                        self.viewModel.showAuthenticationView = false
                                         return
                                     } catch {
                                         self.viewModel.custmerErrorMessage = error.localizedDescription
@@ -68,11 +62,11 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                             set: { viewModel.setAuthorPassword($0) }),
                         errorMassage: viewModel.authorErrorMessage) {
                             if !viewModel.authorEmail.isEmpty && !viewModel.authorPassword.isEmpty {
-                                self.userIsCustomer = false
+                                self.viewModel.userIsCustomer = false
                                 Task {
                                     do {
                                         try await viewModel.authenticationAuthor()
-                                        self.showAuthenticationView = false
+                                        self.viewModel.showAuthenticationView = false
                                         return
                                     } catch {
                                         self.viewModel.authorErrorMessage = error.localizedDescription
@@ -97,6 +91,18 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                         .foregroundColor(Color(R.color.gray3.name))
                 }.padding(.bottom, 80)
             
+        }
+        .onAppear {
+            Task {
+                do {
+                    self.viewModel.userIsCustomer = try await viewModel.getUserType()
+                        self.viewModel.showAuthenticationView = false
+                        print("user is customer, it is customer - \(viewModel.userIsCustomer)")
+                } catch {
+                    print("Error: \(error)")
+                    self.viewModel.showAuthenticationView = true
+                }
+            }
         }
     }
     
@@ -221,11 +227,18 @@ struct AuthenticationScreenView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationStack {
-            AuthenticationScreenView(with: modelMock, showAuthenticationView: .constant(false), userIsCustomer: .constant(false))
+            AuthenticationScreenView(with: modelMock)
         }
     }
 }
 private class MockViewModel: AuthenticationScreenViewModelType, ObservableObject {
+    func getUserType() async throws -> Bool {
+        true
+    }
+    
+    var showAuthenticationView: Bool = false
+    var userIsCustomer: Bool = false
+    
     func authenticationCustomer() async throws {}
     var custmerErrorMessage = ""
     var authorErrorMessage = ""

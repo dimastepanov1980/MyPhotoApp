@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
+
 
 @MainActor
 final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
@@ -16,6 +18,14 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
     @Published var authorPassword = ""
     @Published var custmerErrorMessage = ""
     @Published var authorErrorMessage = ""
+    @Binding var showAuthenticationView: Bool
+    @Binding var userIsCustomer: Bool
+    
+    init(showAuthenticationView: Binding<Bool>,
+         userIsCustomer: Binding<Bool>) {
+        self._showAuthenticationView = showAuthenticationView
+        self._userIsCustomer = userIsCustomer
+    }
     
     func setCustmerEmail(_ custmerEmail: String) {
         self.custmerEmail = custmerEmail
@@ -31,6 +41,7 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
         
         do {
             try await AuthNetworkService.shared.signInUser(email: custmerEmail, password: custmerPassword)
+            self.userIsCustomer = try await getUserType()
         } catch {
             let authUserResult = try await AuthNetworkService.shared.createUser(email: custmerEmail, password: custmerPassword)
             let dbUser = DBUserModel(auth: authUserResult, userType: "customer")
@@ -38,6 +49,12 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
         }
     }
     
+    func getUserType() async throws -> Bool {
+        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+        let user = try await UserManager.shared.getUser(userId: userDataResult.uid)
+        
+        return user.userType == "customer"
+    }
     func setAuthorEmail(_ authorPassword: String) {
         self.authorEmail = authorPassword
     }
@@ -52,6 +69,7 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
         
         do {
             try await AuthNetworkService.shared.signInUser(email: authorEmail, password: authorPassword)
+            self.userIsCustomer = try await getUserType()
         } catch {
             let authUserResult = try await AuthNetworkService.shared.createUser(email: authorEmail, password: authorPassword)
             let dbUser = DBUserModel(auth: authUserResult, userType: "author")

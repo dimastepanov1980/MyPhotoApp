@@ -22,34 +22,11 @@ struct RootScreenView: View {
                 } else {
                     CustomerPageHubView(showAuthenticationView: $showAuthenticationView)
                 }
-            } else {
-                Color.red
             }
         }
-        .onAppear {
-            Task {
-                do {
-                    let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
-                    let user = try await UserManager.shared.getUser(userId: userDataResult.uid)
-                    print("Get User Info \(user)")
-                    if user.userType == "customer" {
-                        self.userIsCustomer = true
-                        self.showAuthenticationView = false
-                        print("user is customer, it is customer - \(userIsCustomer): \(user)")
-                        
-                    } else {
-                        self.userIsCustomer = false
-                        self.showAuthenticationView = false
-                        print("user is author, it is customer  - \(userIsCustomer): \(user) ")
-                    }
-                } catch {
-                    print("Error: \(error)")
-                    self.showAuthenticationView = true
-                }
-            }
-        }
+        
         .sheet(isPresented: $showAuthenticationView, content: {
-            AuthenticationScreenView(with: AuthenticationScreenViewModel(), showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer)
+            AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer))
 
         })
     }
