@@ -11,33 +11,40 @@ struct DbOrderModel: Codable {
 
     let orderId: String
     let orderCreateDate: Date
-    let orderStatus: String?
-
-    
-    let location: String?
-    let name: String?
-    let instagramLink: String?
     let orderPrice: String?
+    let orderStatus: String?
+    let orderShootingDate: Date
+    let orderShootingTime: [String]?
+    let orderShootingDuration: String?
+    let orderSamplePhotos: [String]?
+    let orderMessages: [DbMessage]?
+    
+    let authorLocation: String?
+    let authorName: String?
+    let authorSecondName: String?
+    let instagramLink: String?
     let description: String?
-    let date: Date
-    let duration: String?
-    let imageUrl: [String]?
+
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.orderId = try container.decode(String.self, forKey: .orderId)
         self.orderCreateDate = try container.decode(Date.self, forKey: .orderCreateDate)
         self.orderPrice = try container.decodeIfPresent(String.self, forKey: .orderPrice)
+        self.orderStatus = try container.decodeIfPresent(String.self, forKey: .orderStatus)
+        self.orderShootingDate = try container.decode(Date.self, forKey: .orderShootingDate)
+        self.orderShootingTime = try container.decodeIfPresent([String].self, forKey: .orderShootingTime)
+        self.orderShootingDuration = try container.decodeIfPresent(String.self, forKey: .orderShootingDuration)
+        self.orderMessages = try container.decodeIfPresent([DbMessage].self, forKey: .orderMessages)
+
 
         
-        self.location = try container.decodeIfPresent(String.self, forKey: .location)
-        self.name = try container.decodeIfPresent(String.self, forKey: .name)
+        self.authorLocation = try container.decodeIfPresent(String.self, forKey: .authorLocation)
+        self.authorName = try container.decodeIfPresent(String.self, forKey: .authorName)
+        self.authorSecondName = try container.decodeIfPresent(String.self, forKey: .authorSecondName)
         self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
         self.description = try container.decodeIfPresent(String.self, forKey: .description)
-        self.date = try container.decode(Date.self, forKey: .date)
-        self.duration = try container.decodeIfPresent(String.self, forKey: .duration)
-        self.imageUrl = try container.decodeIfPresent([String].self, forKey: .imageUrl)
-        self.orderStatus = try container.decodeIfPresent(String.self, forKey: .orderStatus)
+        self.orderSamplePhotos = try container.decodeIfPresent([String].self, forKey: .orderSamplePhotos)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -45,15 +52,19 @@ struct DbOrderModel: Codable {
         case orderCreateDate = "order_create_date"
         case orderPrice = "order_price"
         case orderStatus = "order_status"
+        case orderShootingDate = "order_shooting_date"
+        case orderShootingTime = "order_shooting_time"
+        case orderShootingDuration = "order_shooting_duration"
+        case orderSamplePhotos = "order_sample_photos"
+        case orderMessages = "order_messages"
 
-        case location = "location"
-        case name = "name"
+
+        case authorLocation = "author_location"
+        case authorName = "author_name"
+        case authorSecondName = "author_second_name"
         case instagramLink = "instagram_link"
      
         case description = "description"
-        case date = "date"
-        case duration = "duration"
-        case imageUrl = "image_url"
     }
 
     func encode(to encoder: Encoder) throws {
@@ -62,15 +73,18 @@ struct DbOrderModel: Codable {
         try container.encode(self.orderCreateDate, forKey: .orderCreateDate)
         try container.encodeIfPresent(self.orderPrice, forKey: .orderPrice)
         try container.encodeIfPresent(self.orderStatus, forKey: .orderStatus)
+        try container.encodeIfPresent(self.orderShootingDate, forKey: .orderShootingDate)
+        try container.encodeIfPresent(self.orderShootingTime, forKey: .orderShootingTime)
+        try container.encodeIfPresent(self.orderShootingDuration, forKey: .orderShootingDuration)
+        try container.encodeIfPresent(self.orderSamplePhotos, forKey: .orderSamplePhotos)
+        try container.encodeIfPresent(self.orderMessages, forKey: .orderMessages)
 
-        
-        try container.encodeIfPresent(self.location, forKey: .location)
-        try container.encodeIfPresent(self.name, forKey: .name)
+        try container.encodeIfPresent(self.authorLocation, forKey: .authorLocation)
+        try container.encodeIfPresent(self.authorName, forKey: .authorName)
+        try container.encodeIfPresent(self.authorSecondName, forKey: .authorSecondName)
         try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
         try container.encodeIfPresent(self.description, forKey: .description)
-        try container.encodeIfPresent(self.date, forKey: .date)
-        try container.encodeIfPresent(self.duration, forKey: .duration)
-        try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)
+
 
     }
   
@@ -78,14 +92,28 @@ struct DbOrderModel: Codable {
         self.orderId = order.orderId
         self.orderCreateDate = order.orderCreateDate
         self.orderStatus = order.orderStatus
+        self.orderShootingDate = order.orderShootingDate
+        self.orderShootingTime = order.orderShootingTime
+        self.orderShootingDuration = order.orderShootingDuration
+        
 
-        self.location = order.location
-        self.name = order.name
+        self.authorLocation = order.authorLocation
+        self.authorName = order.authorName
+        self.authorSecondName = order.authorSecondName
         self.instagramLink = order.instagramLink
         self.orderPrice = order.orderPrice
         self.description = order.description
-        self.date = order.date
-        self.duration = order.duration
-        self.imageUrl = order.imageUrl
+    
+        self.orderSamplePhotos = order.orderSamplePhotos
+        self.orderMessages = order.orderMessages
     }
+    
+}
+
+
+struct DbMessage: Codable {
+    let dateCreate: Date
+    let message: String?
+    let isViewed: Bool
+    let imageURL: String?
 }

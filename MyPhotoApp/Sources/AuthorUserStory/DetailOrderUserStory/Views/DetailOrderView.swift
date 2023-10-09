@@ -60,14 +60,14 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         }
                     }) {
                         HStack {
-                            Text(viewModel.order.name ?? "")
+                            Text(viewModel.order.authorName ?? "")
                             Image(R.image.ic_instagram.name)
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
                     }.foregroundColor(Color(R.color.gray2.name))
                 } else {
-                    Text(viewModel.order.name ?? "")
+                    Text(viewModel.order.authorName ?? "")
                 }
             }
         }
@@ -103,15 +103,18 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         self.viewModel.status = status
             let userOrders = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
                                           orderCreateDate: Date(),
-                                          orderPrice: viewModel.order.orderPrice,
-                                                                  orderStatus: viewModel.returnedStatus(status: viewModel.status),
-                                                                  name: viewModel.order.name,
-                                                                  instagramLink: viewModel.order.instagramLink,
-                                                                  location: viewModel.order.location,
-                                                                  description: viewModel.order.description,
-                                                                  date: viewModel.order.date,
-                                                                  duration: viewModel.order.duration ?? "",
-                                                                  imageUrl: viewModel.order.imageUrl ?? [] ))
+                          orderPrice: viewModel.order.orderPrice,
+                                                  orderStatus: viewModel.returnedStatus(status: viewModel.status),
+                                                  authorName: viewModel.order.authorName,
+                                                  authorSecondName: viewModel.order.authorSecondName,
+                                                  instagramLink: viewModel.order.instagramLink,
+                                                  authorLocation: viewModel.order.authorLocation,
+                                                  description: viewModel.order.description,
+                                                  orderShootingDate: viewModel.order.orderShootingDate,
+                                                  orderShootingTime: [],
+                                                  orderShootingDuration: viewModel.order.orderShootingDuration ?? "",
+                                                  orderSamplePhotos: viewModel.order.orderSamplePhotos ?? [],
+                                                  orderMessages: nil))
 
                         try await viewModel.updateStatus(orderModel: userOrders)
                     }
@@ -122,7 +125,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     private var infoSection: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text(viewModel.formattedDate(date: viewModel.order.date, format: "dd MMMM"))
+                Text(viewModel.formattedDate(date: viewModel.order.orderShootingDate, format: "dd MMMM"))
                     .font(.title2.bold())
                     .foregroundColor(Color(R.color.gray1.name))
                 
@@ -131,7 +134,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 32)
             }
-            if let location = viewModel.order.location {
+            if let location = viewModel.order.authorLocation {
                 Text(location)
                     .font(.headline)
                     .foregroundColor(Color(R.color.gray2.name))
@@ -143,7 +146,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
                 
-                Text(viewModel.order.date.formatted(.dateTime.hour(.conversationalDefaultDigits(amPM: .omitted)).minute()))
+                Text(viewModel.order.orderShootingDate.formatted(.dateTime.hour(.conversationalDefaultDigits(amPM: .omitted)).minute()))
                     .font(.subheadline)
                     .foregroundColor(Color(R.color.gray3.name))
                     .padding(.trailing, 16)
@@ -154,7 +157,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
                 
-                if let duration = viewModel.order.duration {
+                if let duration = viewModel.order.orderShootingDuration {
                     Text("\(duration)\(R.string.localizable.order_hour())")
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray3.name))
@@ -236,7 +239,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         Button {
                             Task{
                                 if let url = selectedImageURL {
-                                    try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: url, imagesArray: viewModel.order.imageUrl ?? [])
+                                    try? await viewModel.removeURLSelectedImage(order: viewModel.order, path: url, imagesArray: viewModel.order.orderSamplePhotos ?? [])
                                 }
                             }
                         } label: {
@@ -304,7 +307,7 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
                                              location: "KataNoy",
                                              description: "Нет возможности делать промоакции.",
                                              date: Date(),
-                                             duration: "1.5",
+                                             orderShootingDuration: "1.5",
                                              imageUrl: [],
                                              status: "Upcoming")
 

@@ -11,6 +11,7 @@ import SwiftUI
 @MainActor
 protocol AuthorAddOrderViewModelType: ObservableObject {
     var name: String { get set }
+    var secondName: String { get set }
     var instagramLink: String { get set }
     var price: String { get set }
     var location: String { get set }

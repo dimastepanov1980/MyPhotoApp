@@ -24,7 +24,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
         
         for order in orders {
-            let date = Calendar.current.startOfDay(for: order.date) // Get the order date without time
+            let date = Calendar.current.startOfDay(for: order.orderShootingDate) // Get the order date without time
             
             if date < currentDate {
                 let orderDate = Calendar.current.startOfDay(for: date)
@@ -42,7 +42,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         let currentDate = Calendar.current.startOfDay(for: Date())
         
         for order in orders {
-            let date = Calendar.current.startOfDay(for: order.date)
+            let date = Calendar.current.startOfDay(for: order.orderShootingDate)
             
             if date > currentDate {
                 let orderDate = Calendar.current.startOfDay(for: date)
@@ -61,7 +61,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         dateFormatter.dateFormat = "dd.MM.YYYY"
         
         return orders.filter { order in
-            let formattedOrderDate = dateFormatter.string(from: order.date)
+            let formattedOrderDate = dateFormatter.string(from: order.orderShootingDate)
             let formattedToday = dateFormatter.string(from: today)
             return formattedOrderDate == formattedToday
         }

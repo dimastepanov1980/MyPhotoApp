@@ -14,7 +14,7 @@ struct AuthorHCellMainScreenView: View {
 
     var body: some View {
             VStack(alignment: .leading, spacing: 8) {
-                if let location = items.location {
+                if let location = items.authorLocation {
                     Text(location)
                         .lineLimit(1)
                         .font(.title2.bold())
@@ -30,7 +30,7 @@ struct AuthorHCellMainScreenView: View {
                                 .frame(width: 16)
                                 .foregroundColor(Color(R.color.gray2.name))
                             
-                            Text(items.date.displayHours)
+                            Text(items.orderShootingDate.displayHours)
                                 .font(.footnote)
                                 .foregroundColor(Color(R.color.gray3.name))
                         }
@@ -41,7 +41,7 @@ struct AuthorHCellMainScreenView: View {
                                 .frame(width: 16)
                                 .foregroundColor(Color(R.color.gray2.name))
 
-                            if let duration = items.duration {
+                            if let duration = items.orderShootingDuration {
                                 
                                 Text("\(duration)\(R.string.localizable.order_hour())")
                                     .font(.footnote)
@@ -94,13 +94,16 @@ private class MockViewModelHCell: ObservableObject {
                                                                      orderCreateDate: Date(),
                                                                      orderPrice: "5500",
                                                                      orderStatus: "Upcoming",
-                                                                     name: "Katy Igor",
+                                                                     authorName: "Katy",
+                                                                     authorSecondName: "Ivanova",
                                                                      instagramLink: nil,
-                                                                     location: "Kata",
+                                                                     authorLocation: "Kata",
                                                                      description: "Some Text",
-                                                                     date: Date(),
-                                                                     duration: "2",
-                                                                     imageUrl: []))
+                                                                     orderShootingDate: Date(),
+                                                                     orderShootingTime: [],
+                                                                     orderShootingDuration: "2",
+                                                                     orderSamplePhotos: [],
+                                                                     orderMessages: nil))
         
     
 }

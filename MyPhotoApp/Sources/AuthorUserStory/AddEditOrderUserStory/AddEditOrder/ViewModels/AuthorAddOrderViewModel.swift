@@ -12,6 +12,7 @@ import SwiftUI
 final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     @Published var status: String = ""
     @Published var name: String = ""
+    @Published var secondName: String = ""
     @Published var instagramLink: String = ""
     @Published var price: String = ""
     @Published var location: String = ""
@@ -28,14 +29,14 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     }
     
     func updatePreview() {
-        name = order.name ?? ""
+        name = order.authorName ?? ""
         instagramLink = order.instagramLink ?? ""
         price = order.orderPrice ?? ""
-        location = order.location ?? ""
+        location = order.authorLocation ?? ""
         description = order.description ?? ""
-        duration = order.duration ?? ""
-        imageUrl = order.imageUrl ?? []
-        date = order.date
+        duration = order.orderShootingDuration ?? ""
+        imageUrl = order.orderSamplePhotos ?? []
+        date = order.orderShootingDate
         status = order.orderStatus ?? ""
     }
     func addOrder(order: DbOrderModel) async throws {

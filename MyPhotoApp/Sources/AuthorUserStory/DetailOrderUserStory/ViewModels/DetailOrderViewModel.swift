@@ -41,7 +41,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         self.order = order
         updateStatus()
         Task {
-           try? await fetchImageURL(imageUrlArray: order.imageUrl ?? [])
+           try? await fetchImageURL(imageUrlArray: order.orderSamplePhotos ?? [])
         }
     }
     private func updateStatus() {

@@ -132,8 +132,8 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                         
                         HStack(spacing: 2) {
                             ForEach(viewModel.filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
-                                ForEach(viewModel.filteredUpcomingOrders[date]!, id: \.date) { index in
-                                    if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: index.date, format: "dd, MM, YYYY") {
+                                ForEach(viewModel.filteredUpcomingOrders[date]!, id: \.orderShootingDate) { index in
+                                    if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: index.orderShootingDate, format: "dd, MM, YYYY") {
                                         Circle()
                                             .fill(Color.gray)
                                             .frame(height: 6)
@@ -141,8 +141,8 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                                 }
                             }
                             
-                            ForEach(viewModel.filteredOrdersForToday, id: \.date) { item in
-                                if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: item.date, format: "dd, MM, YYYY") {
+                            ForEach(viewModel.filteredOrdersForToday, id: \.orderShootingDate) { item in
+                                if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: item.orderShootingDate, format: "dd, MM, YYYY") {
                                     Circle()
                                         .fill(Color.red)
                                         .frame(height: 6)
@@ -253,13 +253,16 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
                                                           orderCreateDate: Date(),
                                                          orderPrice: "5500",
                                                          orderStatus: "Upcoming",
-                                                         name: "Katy Igor",
+                                                         authorName: "Katya",
+                                                         authorSecondName: "Ivanova",
                                                          instagramLink: nil,
-                                                         location: "Kata",
+                                                         authorLocation: "Kata",
                                                          description: "Some Text",
-                                                         date: Date(),
-                                                         duration: "2",
-                                                         imageUrl: []))]
+                                                         orderShootingDate: Date(),
+                                                         orderShootingTime: [],
+                                                         orderShootingDuration: "2",
+                                                         orderSamplePhotos: [],
+                                                         orderMessages: nil))]
     
     init() {}
     

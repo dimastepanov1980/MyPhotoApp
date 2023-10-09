@@ -97,27 +97,28 @@ final class UserManager {
         
         let data: [String : Any] = [
             DbOrderModel.CodingKeys.orderId.rawValue : documentId,
-            DbOrderModel.CodingKeys.location.rawValue : order.location ?? "",
-            DbOrderModel.CodingKeys.name.rawValue : order.name ?? "",
+            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
+            DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
             DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "0",
             DbOrderModel.CodingKeys.description.rawValue : order.description  ?? "",
-            DbOrderModel.CodingKeys.date.rawValue : order.date,
-            DbOrderModel.CodingKeys.duration.rawValue : order.duration ?? "",
-            DbOrderModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? [""],
+            DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
+            DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
+            DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
+            DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? [""],
             DbOrderModel.CodingKeys.orderStatus.rawValue : "upcoming" //R.string.localizable.status_upcoming()
         ]
         try await document.setData(data, merge: false)
     }
     func updateOrder(userId: String, order: DbOrderModel, orderId: String) async throws {
         let data: [String : Any] = [
-            DbOrderModel.CodingKeys.location.rawValue : order.location ?? "",
-            DbOrderModel.CodingKeys.name.rawValue : order.name ?? "",
+            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
+            DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
             DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
             DbOrderModel.CodingKeys.description.rawValue : order.description  ?? "",
-            DbOrderModel.CodingKeys.date.rawValue : order.date,
-            DbOrderModel.CodingKeys.duration.rawValue : order.duration ?? "",
+            DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
+            DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
             DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus ??  "upcoming"//R.string.localizable.status_upcoming()
         ]
         try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
@@ -132,10 +133,10 @@ final class UserManager {
         try await userOrderDocument(userId: userId, orderId: order.orderId).delete()
     }
     func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
-        try await userOrderDocument (userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
+        try await userOrderDocument (userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayUnion(path)])
     }
     func deleteImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
-        try await userOrderDocument(userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.imageUrl.rawValue : path])
+        try await userOrderDocument(userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : path])
     }
     func getAllOrders(userId: String) async throws -> [DbOrderModel] {
         try await authorOrderCollection(authorId: userId).getDocuments(as: DbOrderModel.self)

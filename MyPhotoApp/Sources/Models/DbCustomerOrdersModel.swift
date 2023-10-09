@@ -14,8 +14,6 @@ struct DbCustomerOrdersModel: Codable {
     let orderCreateDate: Date
     let orderPrice: String?
     let orderStatus: String?
-    
-    
     let orderShootingDate: Date
     let orderShootingTime: [String]?
     let orderShootingDuration: String?
@@ -105,12 +103,6 @@ struct DbCustomerOrdersModel: Codable {
     }
 }
 
-struct DbMessage: Codable {
-    let dateCreate: Date
-    let message: String?
-    let isViewed: Bool
-    let imageURL: String?
-}
 
 struct ContactInfo: Codable {
     let instagramLink: String?

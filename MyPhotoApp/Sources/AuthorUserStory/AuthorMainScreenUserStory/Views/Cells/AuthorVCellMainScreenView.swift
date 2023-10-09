@@ -15,7 +15,7 @@ struct AuthorVCellMainScreenView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                if let location = items.location {
+                if let location = items.authorLocation {
                     Text(location)
                         .lineLimit(1)
                         .font(.title2.bold())
@@ -40,7 +40,7 @@ struct AuthorVCellMainScreenView: View {
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
                 
-                Text(items.date.formatted(Date.FormatStyle().hour().minute()))
+                Text(items.orderShootingDate.formatted(Date.FormatStyle().hour().minute()))
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray2.name))
                     .padding(.trailing)
@@ -50,7 +50,7 @@ struct AuthorVCellMainScreenView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
-                if let duration = items.duration {
+                if let duration = items.orderShootingDuration {
                     Text("\(duration)\(R.string.localizable.order_hour())")
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray2.name))
@@ -67,7 +67,7 @@ struct AuthorVCellMainScreenView: View {
                     .overlay(Circle().stroke(Color(R.color.gray6.name), lineWidth: 1).shadow(radius: 10))
                 */
                 Spacer()
-                if let name = items.name {
+                if let name = items.authorName {
                     Text(name)
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray3.name))
@@ -93,11 +93,14 @@ private class MockViewModelVCell: ObservableObject {
                                                             orderCreateDate: Date(),
                                                                  orderPrice: "5500",
                                                                  orderStatus: "Завершенный",
-                                                                 name: "Katy Igor",
+                                                                 authorName: "Katy",
+                                                                 authorSecondName: "Ivanova",
                                                                  instagramLink: nil,
-                                                                 location: "Kata",
+                                                                 authorLocation: "Kata",
                                                                  description: "Some Text",
-                                                                 date: Date(),
-                                                                 duration: "2",
-                                                                 imageUrl: []))
+                                                                 orderShootingDate: Date(),
+                                                                 orderShootingTime: [],
+                                                                 orderShootingDuration: "2",
+                                                                 orderSamplePhotos: [],
+                                                                 orderMessages: nil))
 }

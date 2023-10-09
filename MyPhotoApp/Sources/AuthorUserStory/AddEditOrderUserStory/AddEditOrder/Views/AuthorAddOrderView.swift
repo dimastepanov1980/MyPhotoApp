@@ -42,13 +42,16 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                                                                       orderCreateDate: Date(),
                                                                       orderPrice: viewModel.price,
                                                                       orderStatus: viewModel.status,
-                                                                      name: viewModel.name,
+                                                                      authorName: viewModel.name,
+                                                                      authorSecondName: viewModel.secondName,
                                                                       instagramLink: viewModel.instagramLink,
-                                                                      location: viewModel.location,
+                                                                      authorLocation: viewModel.location,
                                                                       description: viewModel.description,
-                                                                      date: viewModel.date,
-                                                                      duration: viewModel.duration,
-                                                                      imageUrl: viewModel.imageUrl))
+                                                                      orderShootingDate: viewModel.date,
+                                                                      orderShootingTime: [],
+                                                                      orderShootingDuration: viewModel.duration,
+                                                                      orderSamplePhotos: viewModel.imageUrl,
+                                                                      orderMessages: nil))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }
@@ -106,6 +109,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
 //    }
 //}
 private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
+    var secondName: String = ""
     var avaibleStatus = [""]
     var status: String = ""
     var name: String = ""
@@ -124,14 +128,14 @@ private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
     }
 
     func updatePreview() {
-        name = order.name ?? ""
+        name = order.authorName ?? ""
         instagramLink = order.instagramLink ?? ""
         price = order.orderPrice ?? ""
-        location = order.location ?? ""
+        location = order.authorLocation ?? ""
         description = order.description ?? ""
-        duration = order.duration ?? ""
-        imageUrl = order.imageUrl ?? []
-        date = order.date
+        duration = order.orderShootingDuration ?? ""
+        imageUrl = order.orderSamplePhotos ?? []
+        date = order.orderShootingDate
         status = order.orderStatus ?? ""
     }
     
