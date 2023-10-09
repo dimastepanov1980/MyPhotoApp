@@ -31,8 +31,8 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
             }
             .padding(.horizontal, 24)
             .safeAreaInset(edge: .bottom) {
-                CustomButtonXl(titleText: "Place Order", iconName: "") {
-                    //
+                CustomButtonXl(titleText: R.string.localizable.place_order(), iconName: "camera.on.rectangle") {
+                    print(viewModel)
                 }
             }
                 .overlay(alignment: .topTrailing) {
@@ -43,6 +43,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                         Image(systemName: "xmark.circle.fill")
                             .font(.largeTitle)
                             .foregroundColor(Color(R.color.gray3.name).opacity(0.5))
+                            .padding(.trailing)
                     }
                 }
             
@@ -50,7 +51,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
         }
     }
     
-    var authorSection: some View {
+    private var authorSection: some View {
         VStack(alignment: .leading) {
             Text(R.string.localizable.photographer())
                 .font(.caption2)
@@ -60,8 +61,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 .foregroundColor(Color(R.color.gray2.name))
         }
     }
-    
-    var locationSection: some View {
+    private var locationSection: some View {
         VStack(alignment: .leading) {
             Text(R.string.localizable.location())
                 .font(.caption2)
@@ -71,7 +71,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 .foregroundColor(Color(R.color.gray2.name))
         }
     }
-    var dateSection: some View {
+    private var dateSection: some View {
         VStack(alignment: .leading) {
             Text(R.string.localizable.date_detail())
                 .font(.caption2)
@@ -106,7 +106,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
             }
         }
     }
-    var priceSection: some View {
+    private var priceSection: some View {
         VStack(alignment: .leading) {
             Text(R.string.localizable.total_price())
                 .font(.caption2)
@@ -116,7 +116,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 .foregroundColor(Color(R.color.gray2.name))
         }
     }
-    var messageSection: some View {
+    private var messageSection: some View {
         VStack(alignment: .leading) {
             Text(R.string.localizable.message())
                 .font(.caption2)
@@ -138,7 +138,6 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 }
         }
     }
-
 
 }
 
@@ -168,6 +167,8 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject {
+//    var itemOrder: CustomerOrdersModel? = nil
+    
     var regionAuthor: String = ""
     func currencySymbol(for regionCode: String) -> String { "" }
     @Published var orderPrice: String = "5500"

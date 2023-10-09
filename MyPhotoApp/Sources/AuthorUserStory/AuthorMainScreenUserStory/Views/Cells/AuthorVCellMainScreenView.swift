@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AuthorVCellMainScreenView: View {
-    let items: UserOrdersModel
+    let items: DbOrderModel
     let statusColor: Color
     var status: String?
     
@@ -88,8 +88,9 @@ struct AuthorVCellMainScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModelVCell: ObservableObject {
-    let mocData: UserOrdersModel = UserOrdersModel(order:
-                                                    OrderModel(orderId: UUID().uuidString,
+    let mocData: DbOrderModel = DbOrderModel(order:
+                                                AuthorOrderModel(orderId: UUID().uuidString,
+                                                            orderCreateDate: Date(),
                                                                name: "Katy Igor",
                                                                instagramLink: nil,
                                                                price: "5500",

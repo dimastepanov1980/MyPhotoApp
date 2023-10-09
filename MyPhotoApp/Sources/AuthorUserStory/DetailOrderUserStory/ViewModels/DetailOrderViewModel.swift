@@ -14,7 +14,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     @Published var selectedItems: [PhotosPickerItem] = []
     @Published var setImage: [Data] = []
     @Published var selectImages: [UIImage] = []
-    @Published var order: UserOrdersModel
+    @Published var order: DbOrderModel
     @Published var avaibleStatus: [String] = [R.string.localizable.status_upcoming(),
                                               R.string.localizable.status_inProgress(),
                                               R.string.localizable.status_completed(),
@@ -37,7 +37,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         }
     }
     
-    init(order: UserOrdersModel) {
+    init(order: DbOrderModel) {
         self.order = order
         updateStatus()
         Task {
@@ -82,9 +82,9 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         }
             imageURLs = imageURL
     }
-    func updateStatus(orderModel: UserOrdersModel) async throws {
+    func updateStatus(orderModel: DbOrderModel) async throws {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        try? await UserManager.shared.updateOrder(userId: authDateResult.uid, order: orderModel, orderId: order.id)
+        try? await UserManager.shared.updateOrder(userId: authDateResult.uid, order: orderModel, orderId: order.orderId)
     }
     func addReferenceUIImages(selectedItems: [PhotosPickerItem]) async throws {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
@@ -94,19 +94,18 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
                 guard let data = try? await item.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) else {
                     throw URLError(.backgroundSessionWasDisconnected)
                 }
-                let (path, _) = try await StorageManager.shared.uploadImageToFairbase(image: uiImage, userId: authDateResult.uid , orderId: order.id)
+                let (path, _) = try await StorageManager.shared.uploadImageToFairbase(image: uiImage, userId: authDateResult.uid , orderId: order.orderId)
                 selectedImages.append(path)
                 
                 try Task.checkCancellation()
             }
-            try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.id)
+            try await UserManager.shared.addToImagesUrlLinks(userId: authDateResult.uid, path: selectedImages, orderId: order.orderId)
 
     }
-    func removeURLSelectedImage(order: UserOrdersModel, path: URL, imagesArray: [String]) async throws {
+    func removeURLSelectedImage(order: DbOrderModel, path: URL, imagesArray: [String]) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try? await StorageManager.shared.removeImages(pathURL: path, order: order, userId: authDateResult.uid, imagesArray: imagesArray)
     }
-    
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format

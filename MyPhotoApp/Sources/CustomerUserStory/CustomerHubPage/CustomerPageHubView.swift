@@ -18,13 +18,13 @@ struct CustomerPageHubView: View {
     
     @State private var showAddOrderView: Bool = false
     @State private var requestLocation: Bool = false
-    @State var filterShow: Bool = true
+    @State var serchPageShow: Bool = true
 
     var body: some View {
         VStack{
             ZStack(alignment: .bottom) {
                 if self.index == 0 {
-                    CustomerMainScreenView(with: CustomerMainScreenViewModel(), filterShow: $filterShow, requestLocation: $requestLocation, portfolio: $portfolio)
+                    CustomerMainScreenView(with: CustomerMainScreenViewModel(), serchPageShow: $serchPageShow, requestLocation: $requestLocation, portfolio: $portfolio)
                 } else if self.index == 1 {
                     Color.red
                 } else if self.index == 2 {
@@ -34,7 +34,7 @@ struct CustomerPageHubView: View {
                 }
             }
             .padding(.bottom, -40)
-            if filterShow {
+            if serchPageShow {
                 withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
                     CustomerCustomTabs(index: $index)
                 }

@@ -38,7 +38,8 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
             }
             
             CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_AddOrder() : R.string.localizable.order_SaveOrder(), iconName: "") {
-                let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
+                let userOrders = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
+                                                                      orderCreateDate: Date(),
                                                                    name: viewModel.name,
                                                                    instagramLink: viewModel.instagramLink,
                                                                    price: viewModel.price,
@@ -116,8 +117,8 @@ private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
     var duration: String = ""
     var imageUrl: [String]  = []
     
-    var order: UserOrdersModel
-    init(order: UserOrdersModel) {
+    var order: DbOrderModel
+    init(order: DbOrderModel) {
         self.order = order
         updatePreview()
     }
@@ -134,10 +135,10 @@ private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
         status = order.status ?? ""
     }
     
-    func addOrder(order: UserOrdersModel) async throws {
+    func addOrder(order: DbOrderModel) async throws {
         //
     }
-    func updateOrder(orderModel: UserOrdersModel) async throws {
+    func updateOrder(orderModel: DbOrderModel) async throws {
         //
     }
 }

@@ -18,8 +18,8 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     private var cancellables = Set<AnyCancellable>()
     private var listenerRegistration: ListenerRegistration?
 
-    var filteredOtherOrders: [Date : [UserOrdersModel]]  {
-        var filteredOrders = [Date : [UserOrdersModel]]()
+    var filteredOtherOrders: [Date : [DbOrderModel]]  {
+        var filteredOrders = [Date : [DbOrderModel]]()
         
         let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
         
@@ -37,8 +37,8 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         }
         return filteredOrders
     }
-    var filteredUpcomingOrders: [Date : [UserOrdersModel]] {
-        var filteredOrders = [Date : [UserOrdersModel]]()
+    var filteredUpcomingOrders: [Date : [DbOrderModel]] {
+        var filteredOrders = [Date : [DbOrderModel]]()
         let currentDate = Calendar.current.startOfDay(for: Date())
         
         for order in orders {
@@ -55,7 +55,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         }
         return filteredOrders
     }
-    var filteredOrdersForToday: [UserOrdersModel] {
+    var filteredOrdersForToday: [DbOrderModel] {
         let today = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.YYYY"
@@ -66,13 +66,13 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             return formattedOrderDate == formattedToday
         }
     }
-    @Published var orders: [UserOrdersModel]
+    @Published var orders: [DbOrderModel]
     @Published var weatherByDate: [Date: [Weather?]] = [:]
     @Published var weatherForCurrentDay: String? = nil
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
     @Published var modified = false
-    init(orders: [UserOrdersModel] = []) {
+    init(orders: [DbOrderModel] = []) {
         self.orders = orders
         
         location.$location
@@ -159,7 +159,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         })
     }
 
-    func deleteOrder(order: UserOrdersModel) async throws {
+    func deleteOrder(order: DbOrderModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
     }

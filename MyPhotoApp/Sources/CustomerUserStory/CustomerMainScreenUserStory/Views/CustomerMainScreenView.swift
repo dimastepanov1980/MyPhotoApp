@@ -13,7 +13,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
 
     
     @Namespace var filterspace: Namespace.ID
-    @Binding var filterShow: Bool
+    @Binding var serchPageShow: Bool
     @State var onlyFemale: Bool = false
     @State var selectDate: Date = Date()
     @Binding var requestLocation: Bool
@@ -21,18 +21,18 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
     @State var showAlertRequest = false
 
     init(with viewModel: ViewModel,
-         filterShow: Binding<Bool>,
+         serchPageShow: Binding<Bool>,
          requestLocation: Binding<Bool>,
          portfolio: Binding<[AuthorPortfolioModel]>) {
         self.viewModel = viewModel
-        self._filterShow = filterShow
+        self._serchPageShow = serchPageShow
         self._requestLocation = requestLocation
         self._portfolio = portfolio
     }
     
     var body: some View {
         NavigationStack {
-            if filterShow {
+            if serchPageShow {
                 ZStack {
                     ScrollView{
                         VStack{
@@ -71,7 +71,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                             .matchedGeometryEffect(id: "search", in: filterspace)
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                                    filterShow.toggle()
+                                    serchPageShow.toggle()
                                 }
                             }
                             
@@ -87,7 +87,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                        Group {
                             CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
                                 withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                                    filterShow.toggle()
+                                    serchPageShow.toggle()
                                 }
                                 
                             }
@@ -127,7 +127,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                         showAlertRequest.toggle()
                                     }
                                 }
-                                filterShow.toggle()
+                                serchPageShow.toggle()
                                 print("chek new location \(viewModel.longitude); \(viewModel.latitude)")
 
                             }
@@ -271,7 +271,7 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
     static var previews: some View {
-        CustomerMainScreenView(with: mockModel, filterShow: .constant(true), requestLocation: .constant(false), portfolio: .constant([]))
+        CustomerMainScreenView(with: mockModel, serchPageShow: .constant(true), requestLocation: .constant(false), portfolio: .constant([]))
     }
 }
 

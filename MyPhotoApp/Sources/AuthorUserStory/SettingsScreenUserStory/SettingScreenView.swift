@@ -135,7 +135,7 @@ struct SettingScreenView_Previews: PreviewProvider {
 
 private class MockViewModel: SettingScreenViewModelType, ObservableObject {
     var appVersion: String = "1.2"
-    var orders: [UserOrdersModel]?
+    var orders: [DbOrderModel]?
     var user: DBUserModel? = nil
     func loadCurrentUser() throws {}
     func LogOut() throws {}

@@ -10,6 +10,7 @@ import SwiftUI
 
 @MainActor
 final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
+//    @Published var itemOrder: CustomerOrdersModel?
     
     @Published var authorName: String
     @Published var familynameAuthor: String
@@ -31,6 +32,31 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         self.orderPrice = orderPrice
         self.regionAuthor = regionAuthor
         self._orderDescription = orderDescription
+    }
+    
+    func createNewOrder() async throws {
+        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+        let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
+
+//        let orderData: CustomerOrdersModel = CustomerOrdersModel(orderId: UUID().uuidString,
+//                                                                 orderCreateDate: Date(),
+//                                                                 orderPrice: orderPrice,
+//                                                                 orderStatus: "upcoming",
+//                                                                 orderShootingDate: orderDate,
+//                                                                 orderShootingTime: orderTime,
+//                                                                 orderShootingDuration: orderDuration,
+//                                                                 orderShootingPlace: nil,
+//                                                                 orderSamplePhotos: nil,
+//                                                                 orderMessages: nil,
+//                                                                 customerId: userDataResult.uid,
+//                                                                 customerName: customer,
+//                                                                 customerSecondName: <#T##String?#>,
+//                                                                 customerDescription: <#T##String?#>,
+//                                                                 customerContactInfo: <#T##ContactInfo?#>,
+//                                                                 authorId: <#T##String#>,
+//                                                                 authorName: <#T##String#>,
+//                                                                 authorSecondName: <#T##String#>,
+//                                                                 authorLocation: <#T##String?#>)
     }
     
     func formattedDate(date: Date, format: String) -> String {

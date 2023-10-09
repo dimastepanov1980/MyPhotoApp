@@ -21,8 +21,8 @@ protocol AuthorAddOrderViewModelType: ObservableObject {
 //    var order: UserOrdersModel { get set }
     var status: String { get set }
     
-    func addOrder(order: UserOrdersModel) async throws
-    func updateOrder(orderModel: UserOrdersModel) async throws
+    func addOrder(order: DbOrderModel) async throws
+    func updateOrder(orderModel: DbOrderModel) async throws
     func updatePreview()
 }
 

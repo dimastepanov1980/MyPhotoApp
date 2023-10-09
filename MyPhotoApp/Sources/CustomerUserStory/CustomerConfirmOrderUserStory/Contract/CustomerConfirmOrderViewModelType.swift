@@ -10,6 +10,8 @@ import SwiftUI
 
 @MainActor
 protocol CustomerConfirmOrderViewModelType: ObservableObject {
+   // var itemOrder: CustomerOrdersModel? { get set }
+    
     var authorName: String { get }
     var familynameAuthor: String { get }
     var location: String { get }

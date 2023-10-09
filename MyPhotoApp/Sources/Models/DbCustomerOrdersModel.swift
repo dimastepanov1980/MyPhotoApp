@@ -10,12 +10,12 @@ import Foundation
 struct DbCustomerOrdersModel: Codable {
     
 // MARK: - Order information
-    let orderId: String
+    let orderId: String //
     let orderCreateDate: Date
     let orderPrice: String?
     let orderStatus: String?
     let orderShootingDate: Date
-    let orderShootingTime: String?
+    let orderShootingTime: [String]?
     let orderShootingDuration: String?
     let orderShootingPlace: String?
     let orderSamplePhotos: [String]?
@@ -41,7 +41,7 @@ struct DbCustomerOrdersModel: Codable {
         self.orderPrice = try container.decodeIfPresent(String.self, forKey: .orderPrice)
         self.orderStatus = try container.decodeIfPresent(String.self, forKey: .orderStatus)
         self.orderShootingDate = try container.decode(Date.self, forKey: .orderShootingDate)
-        self.orderShootingTime = try container.decodeIfPresent(String.self, forKey: .orderShootingTime)
+        self.orderShootingTime = try container.decodeIfPresent([String].self, forKey: .orderShootingTime)
         self.orderShootingDuration = try container.decodeIfPresent(String.self, forKey: .orderShootingDuration)
         self.orderShootingPlace = try container.decodeIfPresent(String.self, forKey: .orderShootingPlace)
         self.orderSamplePhotos = try container.decodeIfPresent([String].self, forKey: .orderSamplePhotos)
@@ -115,3 +115,4 @@ struct ContactInfo: Codable {
     let phone: String?
     let email: String?
 }
+

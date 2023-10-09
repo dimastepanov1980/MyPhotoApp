@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 final class SettingScreenViewModel: SettingScreenViewModelType {
     
-    @Published private(set) var orders: [UserOrdersModel]? = nil
+    @Published private(set) var orders: [DbOrderModel]? = nil
     @Published private(set) var user: DBUserModel? = nil
     internal var appVersion: String {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {

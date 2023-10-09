@@ -82,6 +82,7 @@
 "total_price" = "Total price";
 "date_detail" = "Date, Time, Duration";
 "location" = "Location";
+"place_order" = "Place Order";
 
 //MARK: - Add Portfolio
 "portfolio" = "Portfolio";

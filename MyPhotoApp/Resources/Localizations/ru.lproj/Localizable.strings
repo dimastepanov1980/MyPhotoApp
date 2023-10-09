@@ -81,6 +81,8 @@
 "total_price" = "Стоимость";
 "date_detail" = "Дата, время, продолжительность";
 "location" = "Местоположение";
+"place_order" = "Разместить заказ";
+
 
 //MARK: - Add Portfolio
 "portfolio" = "Портфолио";

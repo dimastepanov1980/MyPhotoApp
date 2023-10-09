@@ -91,7 +91,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     }
     var horizontalCards: some View {
         LazyHStack {
-            ForEach(viewModel.filteredOrdersForToday, id: \.id) { order in
+            ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                     .navigationBarBackButtonHidden(true)) {
                         AuthorHCellMainScreenView(items: order)
@@ -191,7 +191,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                         .id(viewModel.formattedDate(date: date, format: "dd MMMM YYYY" ))
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray3.name))) {
-                            ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.id) { order in
+                            ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.orderId) { order in
                                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                                     .navigationBarBackButtonHidden(true)) {
                                         AuthorVCellMainScreenView(items: order, statusColor: viewModel.orderStausColor(order: order.status), status: viewModel.orderStausName (status: order.status))
@@ -237,9 +237,9 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
     func orderStausName(status: String?) -> String {
         "Upcoming"
     }
-    var filteredOtherOrders: [Date : [UserOrdersModel]] = [:]
-    var filteredOrdersForToday: [UserOrdersModel] = []
-    var filteredUpcomingOrders: [Date : [UserOrdersModel]] = [:]
+    var filteredOtherOrders: [Date : [DbOrderModel]] = [:]
+    var filteredOrdersForToday: [DbOrderModel] = []
+    var filteredUpcomingOrders: [Date : [DbOrderModel]] = [:]
     var vm = AuthorMainScreenViewModel()
     var location = LocationService()
     
@@ -248,16 +248,18 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
     @Published var weaterId: String = ""
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
-    @Published var orders: [UserOrdersModel] = [UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
-                                                                                  name: "Katy Igor",
-                                                                                  instagramLink: nil,
-                                                                                  price: "5500",
-                                                                                  location: "Kata",
-                                                                                  description: "Some Text",
-                                                                                  date: Date(),
-                                                                                  duration: "2",
-                                                                                  imageUrl: [],
-                                                                                  status: "Upcoming"))]
+    @Published var orders: [DbOrderModel] = [DbOrderModel(order:
+                                        AuthorOrderModel(orderId: UUID().uuidString,
+                                                          orderCreateDate: Date(),
+                                                          name: "Katy Igor",
+                                                          instagramLink: nil,
+                                                          price: "5500",
+                                                          location: "Kata",
+                                                          description: "Some Text",
+                                                          date: Date(),
+                                                          duration: "2",
+                                                          imageUrl: [],
+                                                          status: "Upcoming"))]
     
     init() {}
     
@@ -277,7 +279,7 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
     func isTodayDay(date: Date) -> Bool {
         return true
     }
-    func deleteOrder(order: UserOrdersModel) async throws {
+    func deleteOrder(order: DbOrderModel) async throws {
         //
     }
 }

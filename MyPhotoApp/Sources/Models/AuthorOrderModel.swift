@@ -7,8 +7,12 @@
 
 import Foundation
 
+
 struct AuthorOrderModel {
     let orderId: String
+    let orderCreateDate: Date
+
+    
     let name: String?
     let instagramLink: String?
     let price: String?
@@ -19,3 +23,4 @@ struct AuthorOrderModel {
     let imageUrl: [String]
     let status: String
 }
+

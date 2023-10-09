@@ -101,17 +101,18 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 Button(status) {
                     Task {
                         self.viewModel.status = status
-                        let userOrders = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
-                                                                           name: viewModel.order.name,
-                                                                           instagramLink: viewModel.order.instagramLink,
-                                                                           price: viewModel.order.price,
-                                                                           location: viewModel.order.location,
-                                                                           description: viewModel.order.description,
-                                                                           date: viewModel.order.date,
-                                                                           duration: viewModel.order.duration ?? "",
-                                                                           imageUrl: viewModel.order.imageUrl ?? [],
-                                                                           status: viewModel.returnedStatus(status: viewModel.status) ))
-                        
+            let userOrders = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
+                                          orderCreateDate: Date(),
+                                          name: viewModel.order.name,
+                                          instagramLink: viewModel.order.instagramLink,
+                                          price: viewModel.order.price,
+                                          location: viewModel.order.location,
+                                          description: viewModel.order.description,
+                                          date: viewModel.order.date,
+                                          duration: viewModel.order.duration ?? "",
+                                          imageUrl: viewModel.order.imageUrl ?? [],
+                                          status: viewModel.returnedStatus(status: viewModel.status) ))
+
                         try await viewModel.updateStatus(orderModel: userOrders)
                     }
                 }

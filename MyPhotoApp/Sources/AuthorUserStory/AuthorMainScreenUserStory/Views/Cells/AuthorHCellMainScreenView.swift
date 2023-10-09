@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftUI
 
 struct AuthorHCellMainScreenView: View {
-    let items: UserOrdersModel
+    let items: DbOrderModel
 
     var body: some View {
             VStack(alignment: .leading, spacing: 8) {
@@ -90,7 +90,8 @@ struct AuthorHCellMainScreenView_Previews: PreviewProvider {
 
 
 private class MockViewModelHCell: ObservableObject {
-    let mocData: UserOrdersModel = UserOrdersModel(order: OrderModel(orderId: UUID().uuidString,
+    let mocData: DbOrderModel = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
+                                                                     orderCreateDate: Date(),
                                                                         name: "Katy Igor",
                                                                      instagramLink: nil,
                                                                      price: "5500",

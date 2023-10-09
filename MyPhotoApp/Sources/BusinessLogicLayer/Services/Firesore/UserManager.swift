@@ -26,13 +26,15 @@ final class UserManager {
 
     //MARK: - Customer Section
     private let customerCollection = Firestore.firestore().collection("customer")
-    
     private func customerDocument(customerId: String) -> DocumentReference {
         customerCollection.document(customerId)
     }
     
     func createNewCustomer(user: DBUserModel) async throws {
         try customerDocument(customerId: user.userId).setData(from: user, merge: false)
+    }
+    private func customerOrderCollection(authorId: String) -> CollectionReference {
+        customerDocument(customerId: authorId).collection("orders")
     }
     
     //MARK: - Author Section
@@ -58,57 +60,87 @@ final class UserManager {
         return user
     }
     
-    //MARK: - Orders
-    func addNewOrder(userId: String, order: UserOrdersModel) async throws {
+ /*   //MARK: - Customer Orders
+    func addNewCustomerOrder(userId: String, order: CustomerOrdersModel) async throws {
         let document = authorOrderCollection(authorId: userId).document()
         let documentId = document.documentID
         
         let data: [String : Any] = [
-            UserOrdersModel.CodingKeys.id.rawValue : documentId,
-            UserOrdersModel.CodingKeys.location.rawValue : order.location ?? "",
-            UserOrdersModel.CodingKeys.name.rawValue : order.name ?? "",
-            UserOrdersModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
-            UserOrdersModel.CodingKeys.price.rawValue : order.price ?? "0",
-            UserOrdersModel.CodingKeys.description.rawValue : order.description  ?? "",
-            UserOrdersModel.CodingKeys.date.rawValue : order.date,
-            UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? "",
-            UserOrdersModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? [""],
-            UserOrdersModel.CodingKeys.status.rawValue : R.string.localizable.status_upcoming()
+            CustomerOrdersModel.CodingKeys.orderId.rawValue : documentId,
+            CustomerOrdersModel.CodingKeys.orderCreateDate.rawValue : Data(),
+            CustomerOrdersModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
+            CustomerOrdersModel.CodingKeys.orderStatus.rawValue : "upcoming",
+            CustomerOrdersModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
+            CustomerOrdersModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? "",
+            CustomerOrdersModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
+            CustomerOrdersModel.CodingKeys.orderShootingPlace.rawValue : order.orderShootingPlace ?? "",
+            CustomerOrdersModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? "",
+            CustomerOrdersModel.CodingKeys.orderMessages.rawValue : order.orderMessages ?? [],
+            CustomerOrdersModel.CodingKeys.customerId.rawValue : order.customerId,
+            CustomerOrdersModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
+            CustomerOrdersModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
+            CustomerOrdersModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
+            CustomerOrdersModel.CodingKeys.customerContactInfo.rawValue : order.customerContactInfo ?? "",
+            CustomerOrdersModel.CodingKeys.authorId.rawValue : order.authorId,
+            CustomerOrdersModel.CodingKeys.authorName.rawValue : order.authorName,
+            CustomerOrdersModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName,
+            CustomerOrdersModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? ""
+                ]
+        try await document.setData(data, merge: false)
+    }
+*/
+    
+    //MARK: - Author Orders
+    func addNewOrder(userId: String, order: DbOrderModel) async throws {
+        let document = authorOrderCollection(authorId: userId).document()
+        let documentId = document.documentID
+        
+        let data: [String : Any] = [
+            DbOrderModel.CodingKeys.orderId.rawValue : documentId,
+            DbOrderModel.CodingKeys.location.rawValue : order.location ?? "",
+            DbOrderModel.CodingKeys.name.rawValue : order.name ?? "",
+            DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
+            DbOrderModel.CodingKeys.price.rawValue : order.price ?? "0",
+            DbOrderModel.CodingKeys.description.rawValue : order.description  ?? "",
+            DbOrderModel.CodingKeys.date.rawValue : order.date,
+            DbOrderModel.CodingKeys.duration.rawValue : order.duration ?? "",
+            DbOrderModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? [""],
+            DbOrderModel.CodingKeys.status.rawValue : "upcoming" //R.string.localizable.status_upcoming()
         ]
         try await document.setData(data, merge: false)
     }
-    func updateOrder(userId: String, order: UserOrdersModel, orderId: String) async throws {
+    func updateOrder(userId: String, order: DbOrderModel, orderId: String) async throws {
         let data: [String : Any] = [
-            UserOrdersModel.CodingKeys.location.rawValue : order.location ?? "",
-            UserOrdersModel.CodingKeys.name.rawValue : order.name ?? "",
-            UserOrdersModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
-            UserOrdersModel.CodingKeys.price.rawValue : order.price ?? "",
-            UserOrdersModel.CodingKeys.description.rawValue : order.description  ?? "",
-            UserOrdersModel.CodingKeys.date.rawValue : order.date,
-            UserOrdersModel.CodingKeys.duration.rawValue : order.duration ?? "",
-            UserOrdersModel.CodingKeys.status.rawValue : order.status ?? R.string.localizable.status_upcoming()
+            DbOrderModel.CodingKeys.location.rawValue : order.location ?? "",
+            DbOrderModel.CodingKeys.name.rawValue : order.name ?? "",
+            DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
+            DbOrderModel.CodingKeys.price.rawValue : order.price ?? "",
+            DbOrderModel.CodingKeys.description.rawValue : order.description  ?? "",
+            DbOrderModel.CodingKeys.date.rawValue : order.date,
+            DbOrderModel.CodingKeys.duration.rawValue : order.duration ?? "",
+            DbOrderModel.CodingKeys.status.rawValue : order.status ??  "upcoming"//R.string.localizable.status_upcoming()
         ]
         try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
     }
-    func updateStatus(userId: String, order: UserOrdersModel, orderId: String) async throws {
+    func updateStatus(userId: String, order: DbOrderModel, orderId: String) async throws {
         let data: [String : Any] = [
-            UserOrdersModel.CodingKeys.status.rawValue : order.status ?? R.string.localizable.status_upcoming()
+            DbOrderModel.CodingKeys.status.rawValue : order.status ?? R.string.localizable.status_upcoming()
         ]
         try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
     }
-    func removeOrder(userId: String, order: UserOrdersModel) async throws {
-        try await userOrderDocument(userId: userId, orderId: order.id).delete()
+    func removeOrder(userId: String, order: DbOrderModel) async throws {
+        try await userOrderDocument(userId: userId, orderId: order.orderId).delete()
     }
     func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
-        try await userOrderDocument (userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
+        try await userOrderDocument (userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.imageUrl.rawValue : FieldValue.arrayUnion(path)])
     }
     func deleteImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
-        try await userOrderDocument(userId: userId, orderId: orderId).updateData([UserOrdersModel.CodingKeys.imageUrl.rawValue : path])
+        try await userOrderDocument(userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.imageUrl.rawValue : path])
     }
-    func getAllOrders(userId: String) async throws -> [UserOrdersModel] {
-        try await authorOrderCollection(authorId: userId).getDocuments(as: UserOrdersModel.self)
+    func getAllOrders(userId: String) async throws -> [DbOrderModel] {
+        try await authorOrderCollection(authorId: userId).getDocuments(as: DbOrderModel.self)
     }
-    func addListenerRegistration(userId: String, completion: @escaping ([UserOrdersModel]) -> Void) -> ListenerRegistration {
+    func addListenerRegistration(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
         // Assuming you have a reference to your Firestore collection
         let query = authorOrderCollection(authorId: userId)
         
@@ -125,7 +157,7 @@ final class UserManager {
             }
             
             let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
-                try? queryDocumentSnapshot.data(as: UserOrdersModel.self)
+                try? queryDocumentSnapshot.data(as: DbOrderModel.self)
             }
             // Do something with the orders array (e.g., update UI, process data, etc.)
             completion(orders)
@@ -139,8 +171,8 @@ final class UserManager {
             listenerRegistration = nil
         }
     }
-    func getCurrentOrders(userId: String, order: UserOrdersModel) async throws -> UserOrdersModel {
-        try await userOrderDocument(userId: userId, orderId: order.id).getDocument(as: UserOrdersModel.self)
+    func getCurrentOrders(userId: String, order: DbOrderModel) async throws -> DbOrderModel {
+        try await userOrderDocument(userId: userId, orderId: order.orderId).getDocument(as: DbOrderModel.self)
     }
     
     //MARK: - Portfolio

@@ -20,9 +20,9 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     @Published var duration: String = ""
     @Published var imageUrl: [String] = []
     
-    @Published var order: UserOrdersModel
+    @Published var order: DbOrderModel
 
-    init(order: UserOrdersModel) {
+    init(order: DbOrderModel) {
         self.order = order
         updatePreview()
     }
@@ -38,12 +38,12 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
         date = order.date
         status = order.status ?? ""
     }
-    func addOrder(order: UserOrdersModel) async throws {
+    func addOrder(order: DbOrderModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try? await UserManager.shared.addNewOrder(userId: authDateResult.uid, order: order)
     }
-    func updateOrder(orderModel: UserOrdersModel) async throws {
+    func updateOrder(orderModel: DbOrderModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        try? await UserManager.shared.updateOrder(userId: authDateResult.uid, order: orderModel, orderId: order.id)
+        try? await UserManager.shared.updateOrder(userId: authDateResult.uid, order: orderModel, orderId: order.orderId)
     }
 }
