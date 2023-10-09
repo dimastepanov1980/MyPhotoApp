@@ -104,14 +104,14 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             let userOrders = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
                                           orderCreateDate: Date(),
                                           orderPrice: viewModel.order.orderPrice,
-                                          name: viewModel.order.name,
-                                          instagramLink: viewModel.order.instagramLink,
-                                          location: viewModel.order.location,
-                                          description: viewModel.order.description,
-                                          date: viewModel.order.date,
-                                          duration: viewModel.order.duration ?? "",
-                                          imageUrl: viewModel.order.imageUrl ?? [],
-                                          orderStatus: viewModel.returnedStatus(status: viewModel.status) ))
+                                                                  orderStatus: viewModel.returnedStatus(status: viewModel.status),
+                                                                  name: viewModel.order.name,
+                                                                  instagramLink: viewModel.order.instagramLink,
+                                                                  location: viewModel.order.location,
+                                                                  description: viewModel.order.description,
+                                                                  date: viewModel.order.date,
+                                                                  duration: viewModel.order.duration ?? "",
+                                                                  imageUrl: viewModel.order.imageUrl ?? [] ))
 
                         try await viewModel.updateStatus(orderModel: userOrders)
                     }

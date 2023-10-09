@@ -14,6 +14,8 @@ struct DbCustomerOrdersModel: Codable {
     let orderCreateDate: Date
     let orderPrice: String?
     let orderStatus: String?
+    
+    
     let orderShootingDate: Date
     let orderShootingTime: [String]?
     let orderShootingDuration: String?

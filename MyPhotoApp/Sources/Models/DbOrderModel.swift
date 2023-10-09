@@ -11,7 +11,8 @@ struct DbOrderModel: Codable {
 
     let orderId: String
     let orderCreateDate: Date
-    
+    let orderStatus: String?
+
     
     let location: String?
     let name: String?
@@ -21,7 +22,6 @@ struct DbOrderModel: Codable {
     let date: Date
     let duration: String?
     let imageUrl: [String]?
-    let orderStatus: String?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -44,6 +44,7 @@ struct DbOrderModel: Codable {
         case orderId = "order_id"
         case orderCreateDate = "order_create_date"
         case orderPrice = "order_price"
+        case orderStatus = "order_status"
 
         case location = "location"
         case name = "name"
@@ -53,7 +54,6 @@ struct DbOrderModel: Codable {
         case date = "date"
         case duration = "duration"
         case imageUrl = "image_url"
-        case orderStatus = "order_status"
     }
 
     func encode(to encoder: Encoder) throws {
@@ -61,6 +61,7 @@ struct DbOrderModel: Codable {
         try container.encode(self.orderId, forKey: .orderId)
         try container.encode(self.orderCreateDate, forKey: .orderCreateDate)
         try container.encodeIfPresent(self.orderPrice, forKey: .orderPrice)
+        try container.encodeIfPresent(self.orderStatus, forKey: .orderStatus)
 
         
         try container.encodeIfPresent(self.location, forKey: .location)
@@ -70,13 +71,14 @@ struct DbOrderModel: Codable {
         try container.encodeIfPresent(self.date, forKey: .date)
         try container.encodeIfPresent(self.duration, forKey: .duration)
         try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)
-        try container.encodeIfPresent(self.orderStatus, forKey: .orderStatus)
 
     }
   
     init(order: AuthorOrderModel) {
         self.orderId = order.orderId
         self.orderCreateDate = order.orderCreateDate
+        self.orderStatus = order.orderStatus
+
         self.location = order.location
         self.name = order.name
         self.instagramLink = order.instagramLink
@@ -85,6 +87,5 @@ struct DbOrderModel: Codable {
         self.date = order.date
         self.duration = order.duration
         self.imageUrl = order.imageUrl
-        self.orderStatus = order.orderStatus
     }
 }

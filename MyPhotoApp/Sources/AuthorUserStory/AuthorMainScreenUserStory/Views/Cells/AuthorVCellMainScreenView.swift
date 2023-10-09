@@ -92,12 +92,12 @@ private class MockViewModelVCell: ObservableObject {
                                                 AuthorOrderModel(orderId: UUID().uuidString,
                                                             orderCreateDate: Date(),
                                                                  orderPrice: "5500",
+                                                                 orderStatus: "Завершенный",
                                                                  name: "Katy Igor",
                                                                  instagramLink: nil,
-                                                               location: "Kata",
-                                                               description: "Some Text",
-                                                               date: Date(),
-                                                               duration: "2",
-                                                               imageUrl: [],
-                                                               orderStatus: "Завершенный"))
+                                                                 location: "Kata",
+                                                                 description: "Some Text",
+                                                                 date: Date(),
+                                                                 duration: "2",
+                                                                 imageUrl: []))
 }

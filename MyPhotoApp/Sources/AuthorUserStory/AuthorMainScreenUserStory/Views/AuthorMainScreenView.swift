@@ -252,14 +252,14 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
                                         AuthorOrderModel(orderId: UUID().uuidString,
                                                           orderCreateDate: Date(),
                                                          orderPrice: "5500",
+                                                         orderStatus: "Upcoming",
                                                          name: "Katy Igor",
                                                          instagramLink: nil,
-                                                          location: "Kata",
-                                                          description: "Some Text",
-                                                          date: Date(),
-                                                          duration: "2",
-                                                          imageUrl: [],
-                                                          orderStatus: "Upcoming"))]
+                                                         location: "Kata",
+                                                         description: "Some Text",
+                                                         date: Date(),
+                                                         duration: "2",
+                                                         imageUrl: []))]
     
     init() {}
     

@@ -41,14 +41,14 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                 let userOrders = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
                                                                       orderCreateDate: Date(),
                                                                       orderPrice: viewModel.price,
-                                                                   name: viewModel.name,
-                                                                   instagramLink: viewModel.instagramLink,
-                                                                   location: viewModel.location,
-                                                                   description: viewModel.description,
-                                                                   date: viewModel.date,
-                                                                   duration: viewModel.duration,
-                                                                   imageUrl: viewModel.imageUrl,
-                                                                   orderStatus: viewModel.status))
+                                                                      orderStatus: viewModel.status,
+                                                                      name: viewModel.name,
+                                                                      instagramLink: viewModel.instagramLink,
+                                                                      location: viewModel.location,
+                                                                      description: viewModel.description,
+                                                                      date: viewModel.date,
+                                                                      duration: viewModel.duration,
+                                                                      imageUrl: viewModel.imageUrl))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }

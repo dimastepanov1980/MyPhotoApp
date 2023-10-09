@@ -93,14 +93,14 @@ private class MockViewModelHCell: ObservableObject {
     let mocData: DbOrderModel = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
                                                                      orderCreateDate: Date(),
                                                                      orderPrice: "5500",
+                                                                     orderStatus: "Upcoming",
                                                                      name: "Katy Igor",
                                                                      instagramLink: nil,
                                                                      location: "Kata",
                                                                      description: "Some Text",
                                                                      date: Date(),
                                                                      duration: "2",
-                                                                     imageUrl: [],
-                                                                     orderStatus: "Upcoming"))
+                                                                     imageUrl: []))
         
     
 }

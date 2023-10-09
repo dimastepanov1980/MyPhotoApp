@@ -12,6 +12,7 @@ struct AuthorOrderModel {
     let orderId: String
     let orderCreateDate: Date
     let orderPrice: String?
+    let orderStatus: String
 
     
     let name: String?
@@ -21,6 +22,5 @@ struct AuthorOrderModel {
     let date: Date
     let duration: String
     let imageUrl: [String]
-    let orderStatus: String
 }
 
