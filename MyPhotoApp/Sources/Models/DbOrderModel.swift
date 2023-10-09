@@ -7,9 +7,12 @@
 
 import Foundation
 
-struct UserOrdersModel: Codable {
+struct DbOrderModel: Codable {
 
-    let id: String
+    let orderId: String
+    let orderCreateDate: Date
+    
+    
     let location: String?
     let name: String?
     let instagramLink: String?
@@ -22,7 +25,10 @@ struct UserOrdersModel: Codable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
+        self.orderId = try container.decode(String.self, forKey: .orderId)
+        self.orderCreateDate = try container.decode(Date.self, forKey: .orderCreateDate)
+
+        
         self.location = try container.decodeIfPresent(String.self, forKey: .location)
         self.name = try container.decodeIfPresent(String.self, forKey: .name)
         self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
@@ -35,7 +41,10 @@ struct UserOrdersModel: Codable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case id = "id"
+        case orderId = "order_id"
+        case orderCreateDate = "order_create_date"
+
+        
         case location = "location"
         case name = "name"
         case instagramLink = "instagram_link"
@@ -49,7 +58,10 @@ struct UserOrdersModel: Codable {
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.id, forKey: .id)
+        try container.encode(self.orderId, forKey: .orderId)
+        try container.encode(self.orderCreateDate, forKey: .orderCreateDate)
+        
+        
         try container.encodeIfPresent(self.location, forKey: .location)
         try container.encodeIfPresent(self.name, forKey: .name)
         try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
@@ -62,8 +74,9 @@ struct UserOrdersModel: Codable {
 
     }
   
-    init(order: OrderModel) {
-        self.id = order.orderId
+    init(order: AuthorOrderModel) {
+        self.orderId = order.orderId
+        self.orderCreateDate = order.orderCreateDate
         self.location = order.location
         self.name = order.name
         self.instagramLink = order.instagramLink

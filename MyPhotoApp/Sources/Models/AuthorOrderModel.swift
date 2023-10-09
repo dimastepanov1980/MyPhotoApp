@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OrderModel {
+struct AuthorOrderModel {
     let orderId: String
     let name: String?
     let instagramLink: String?
