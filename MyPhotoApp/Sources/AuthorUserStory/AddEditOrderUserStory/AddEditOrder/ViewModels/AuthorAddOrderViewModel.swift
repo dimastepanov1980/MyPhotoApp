@@ -36,7 +36,7 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
         duration = order.duration ?? ""
         imageUrl = order.imageUrl ?? []
         date = order.date
-        status = order.status ?? ""
+        status = order.orderStatus ?? ""
     }
     func addOrder(order: DbOrderModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()

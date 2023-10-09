@@ -45,7 +45,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         }
     }
     private func updateStatus() {
-        switch order.status {
+        switch order.orderStatus {
         case "Upcoming":
             status = R.string.localizable.status_upcoming()
         case "In progress":

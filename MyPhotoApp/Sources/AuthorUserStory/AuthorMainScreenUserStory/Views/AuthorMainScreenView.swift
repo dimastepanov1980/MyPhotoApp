@@ -194,7 +194,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                             ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.orderId) { order in
                                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
                                     .navigationBarBackButtonHidden(true)) {
-                                        AuthorVCellMainScreenView(items: order, statusColor: viewModel.orderStausColor(order: order.status), status: viewModel.orderStausName (status: order.status))
+                                        AuthorVCellMainScreenView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus), status: viewModel.orderStausName (status: order.orderStatus))
                                             .contextMenu {
                                                 Button(R.string.localizable.order_Delete()) {
                                                     Task{
@@ -259,7 +259,7 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
                                                           date: Date(),
                                                           duration: "2",
                                                           imageUrl: [],
-                                                          status: "Upcoming"))]
+                                                          orderStatus: "Upcoming"))]
     
     init() {}
     

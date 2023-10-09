@@ -48,7 +48,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                                                                    date: viewModel.date,
                                                                    duration: viewModel.duration,
                                                                    imageUrl: viewModel.imageUrl,
-                                                                   status: viewModel.status))
+                                                                   orderStatus: viewModel.status))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }
@@ -132,7 +132,7 @@ private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
         duration = order.duration ?? ""
         imageUrl = order.imageUrl ?? []
         date = order.date
-        status = order.status ?? ""
+        status = order.orderStatus ?? ""
     }
     
     func addOrder(order: DbOrderModel) async throws {

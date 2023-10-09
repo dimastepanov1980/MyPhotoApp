@@ -100,7 +100,7 @@ private class MockViewModelHCell: ObservableObject {
                                                                      date: Date(),
                                                                      duration: "2",
                                                                      imageUrl: [],
-                                                                     status: "Upcoming"))
+                                                                     orderStatus: "Upcoming"))
         
     
 }

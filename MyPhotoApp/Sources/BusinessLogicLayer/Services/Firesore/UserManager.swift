@@ -105,7 +105,7 @@ final class UserManager {
             DbOrderModel.CodingKeys.date.rawValue : order.date,
             DbOrderModel.CodingKeys.duration.rawValue : order.duration ?? "",
             DbOrderModel.CodingKeys.imageUrl.rawValue : order.imageUrl ?? [""],
-            DbOrderModel.CodingKeys.status.rawValue : "upcoming" //R.string.localizable.status_upcoming()
+            DbOrderModel.CodingKeys.orderStatus.rawValue : "upcoming" //R.string.localizable.status_upcoming()
         ]
         try await document.setData(data, merge: false)
     }
@@ -118,13 +118,13 @@ final class UserManager {
             DbOrderModel.CodingKeys.description.rawValue : order.description  ?? "",
             DbOrderModel.CodingKeys.date.rawValue : order.date,
             DbOrderModel.CodingKeys.duration.rawValue : order.duration ?? "",
-            DbOrderModel.CodingKeys.status.rawValue : order.status ??  "upcoming"//R.string.localizable.status_upcoming()
+            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus ??  "upcoming"//R.string.localizable.status_upcoming()
         ]
         try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
     }
     func updateStatus(userId: String, order: DbOrderModel, orderId: String) async throws {
         let data: [String : Any] = [
-            DbOrderModel.CodingKeys.status.rawValue : order.status ?? R.string.localizable.status_upcoming()
+            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus ?? R.string.localizable.status_upcoming()
         ]
         try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
     }

@@ -21,7 +21,7 @@ struct DbOrderModel: Codable {
     let date: Date
     let duration: String?
     let imageUrl: [String]?
-    let status: String?
+    let orderStatus: String?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -37,7 +37,7 @@ struct DbOrderModel: Codable {
         self.date = try container.decode(Date.self, forKey: .date)
         self.duration = try container.decodeIfPresent(String.self, forKey: .duration)
         self.imageUrl = try container.decodeIfPresent([String].self, forKey: .imageUrl)
-        self.status = try container.decodeIfPresent(String.self, forKey: .status)
+        self.orderStatus = try container.decodeIfPresent(String.self, forKey: .orderStatus)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -53,7 +53,7 @@ struct DbOrderModel: Codable {
         case date = "date"
         case duration = "duration"
         case imageUrl = "image_url"
-        case status = "status"
+        case orderStatus = "order_status"
     }
 
     func encode(to encoder: Encoder) throws {
@@ -70,7 +70,7 @@ struct DbOrderModel: Codable {
         try container.encodeIfPresent(self.date, forKey: .date)
         try container.encodeIfPresent(self.duration, forKey: .duration)
         try container.encodeIfPresent(self.imageUrl, forKey: .imageUrl)
-        try container.encodeIfPresent(self.status, forKey: .status)
+        try container.encodeIfPresent(self.orderStatus, forKey: .orderStatus)
 
     }
   
@@ -85,6 +85,6 @@ struct DbOrderModel: Codable {
         self.date = order.date
         self.duration = order.duration
         self.imageUrl = order.imageUrl
-        self.status = order.status
+        self.orderStatus = order.orderStatus
     }
 }

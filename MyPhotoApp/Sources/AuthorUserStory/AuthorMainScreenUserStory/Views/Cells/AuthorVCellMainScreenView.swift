@@ -99,5 +99,5 @@ private class MockViewModelVCell: ObservableObject {
                                                                date: Date(),
                                                                duration: "2",
                                                                imageUrl: [],
-                                                               status: "Завершенный"))
+                                                               orderStatus: "Завершенный"))
 }
