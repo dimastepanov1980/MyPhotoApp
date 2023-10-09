@@ -11,11 +11,11 @@ import Foundation
 struct AuthorOrderModel {
     let orderId: String
     let orderCreateDate: Date
+    let orderPrice: String?
 
     
     let name: String?
     let instagramLink: String?
-    let price: String?
     let location: String?
     let description: String?
     let date: Date

@@ -92,9 +92,9 @@ struct AuthorHCellMainScreenView_Previews: PreviewProvider {
 private class MockViewModelHCell: ObservableObject {
     let mocData: DbOrderModel = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
                                                                      orderCreateDate: Date(),
-                                                                        name: "Katy Igor",
+                                                                     orderPrice: "5500",
+                                                                     name: "Katy Igor",
                                                                      instagramLink: nil,
-                                                                     price: "5500",
                                                                      location: "Kata",
                                                                      description: "Some Text",
                                                                      date: Date(),

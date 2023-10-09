@@ -40,9 +40,9 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
             CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_AddOrder() : R.string.localizable.order_SaveOrder(), iconName: "") {
                 let userOrders = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
                                                                       orderCreateDate: Date(),
+                                                                      orderPrice: viewModel.price,
                                                                    name: viewModel.name,
                                                                    instagramLink: viewModel.instagramLink,
-                                                                   price: viewModel.price,
                                                                    location: viewModel.location,
                                                                    description: viewModel.description,
                                                                    date: viewModel.date,
@@ -126,7 +126,7 @@ private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
     func updatePreview() {
         name = order.name ?? ""
         instagramLink = order.instagramLink ?? ""
-        price = order.price ?? ""
+        price = order.orderPrice ?? ""
         location = order.location ?? ""
         description = order.description ?? ""
         duration = order.duration ?? ""

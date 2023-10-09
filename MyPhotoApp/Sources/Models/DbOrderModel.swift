@@ -16,7 +16,7 @@ struct DbOrderModel: Codable {
     let location: String?
     let name: String?
     let instagramLink: String?
-    let price: String?
+    let orderPrice: String?
     let description: String?
     let date: Date
     let duration: String?
@@ -27,12 +27,12 @@ struct DbOrderModel: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.orderId = try container.decode(String.self, forKey: .orderId)
         self.orderCreateDate = try container.decode(Date.self, forKey: .orderCreateDate)
+        self.orderPrice = try container.decodeIfPresent(String.self, forKey: .orderPrice)
 
         
         self.location = try container.decodeIfPresent(String.self, forKey: .location)
         self.name = try container.decodeIfPresent(String.self, forKey: .name)
         self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
-        self.price = try container.decodeIfPresent(String.self, forKey: .price)
         self.description = try container.decodeIfPresent(String.self, forKey: .description)
         self.date = try container.decode(Date.self, forKey: .date)
         self.duration = try container.decodeIfPresent(String.self, forKey: .duration)
@@ -43,12 +43,12 @@ struct DbOrderModel: Codable {
     enum CodingKeys: String, CodingKey {
         case orderId = "order_id"
         case orderCreateDate = "order_create_date"
+        case orderPrice = "order_price"
 
-        
         case location = "location"
         case name = "name"
         case instagramLink = "instagram_link"
-        case price = "price"
+     
         case description = "description"
         case date = "date"
         case duration = "duration"
@@ -60,12 +60,12 @@ struct DbOrderModel: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.orderId, forKey: .orderId)
         try container.encode(self.orderCreateDate, forKey: .orderCreateDate)
-        
+        try container.encodeIfPresent(self.orderPrice, forKey: .orderPrice)
+
         
         try container.encodeIfPresent(self.location, forKey: .location)
         try container.encodeIfPresent(self.name, forKey: .name)
         try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
-        try container.encodeIfPresent(self.price, forKey: .price)
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.date, forKey: .date)
         try container.encodeIfPresent(self.duration, forKey: .duration)
@@ -80,7 +80,7 @@ struct DbOrderModel: Codable {
         self.location = order.location
         self.name = order.name
         self.instagramLink = order.instagramLink
-        self.price = order.price
+        self.orderPrice = order.orderPrice
         self.description = order.description
         self.date = order.date
         self.duration = order.duration

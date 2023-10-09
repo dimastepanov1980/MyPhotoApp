@@ -103,9 +103,9 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         self.viewModel.status = status
             let userOrders = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString,
                                           orderCreateDate: Date(),
+                                          orderPrice: viewModel.order.orderPrice,
                                           name: viewModel.order.name,
                                           instagramLink: viewModel.order.instagramLink,
-                                          price: viewModel.order.price,
                                           location: viewModel.order.location,
                                           description: viewModel.order.description,
                                           date: viewModel.order.date,
@@ -178,7 +178,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         .cornerRadius(15)
                 }
             }
-            if let price = viewModel.order.price, !price.isEmpty {
+            if let price = viewModel.order.orderPrice, !price.isEmpty {
                     Text(R.string.localizable.totalPrice())
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray2.name))

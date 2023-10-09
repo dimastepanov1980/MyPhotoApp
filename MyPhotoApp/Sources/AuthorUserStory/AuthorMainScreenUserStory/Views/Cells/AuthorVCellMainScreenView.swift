@@ -91,9 +91,9 @@ private class MockViewModelVCell: ObservableObject {
     let mocData: DbOrderModel = DbOrderModel(order:
                                                 AuthorOrderModel(orderId: UUID().uuidString,
                                                             orderCreateDate: Date(),
-                                                               name: "Katy Igor",
-                                                               instagramLink: nil,
-                                                               price: "5500",
+                                                                 orderPrice: "5500",
+                                                                 name: "Katy Igor",
+                                                                 instagramLink: nil,
                                                                location: "Kata",
                                                                description: "Some Text",
                                                                date: Date(),
