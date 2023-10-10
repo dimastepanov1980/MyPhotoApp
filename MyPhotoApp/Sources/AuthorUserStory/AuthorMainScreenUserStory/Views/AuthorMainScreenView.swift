@@ -262,7 +262,7 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
                                                                   authorName: "",
                                                                   authorSecondName: "",
                                                                   authorLocation: "",
-                                                                  description: "",
+                                                                  customerDescription: "",
                                                                   instagramLink: nil))]
     
     init() {}

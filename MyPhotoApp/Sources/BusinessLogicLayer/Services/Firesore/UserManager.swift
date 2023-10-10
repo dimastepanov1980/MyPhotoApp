@@ -101,7 +101,7 @@ final class UserManager {
             DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
             DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "0",
-            DbOrderModel.CodingKeys.description.rawValue : order.description  ?? "",
+            DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription  ?? "",
             DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
             DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
@@ -116,7 +116,7 @@ final class UserManager {
             DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
             DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-            DbOrderModel.CodingKeys.description.rawValue : order.description  ?? "",
+            DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription  ?? "",
             DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
             DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus ??  "upcoming"//R.string.localizable.status_upcoming()

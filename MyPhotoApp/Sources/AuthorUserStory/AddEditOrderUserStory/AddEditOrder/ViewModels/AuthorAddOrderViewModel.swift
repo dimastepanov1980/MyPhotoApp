@@ -33,7 +33,7 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
         instagramLink = order.instagramLink ?? ""
         price = order.orderPrice ?? ""
         location = order.authorLocation ?? ""
-        description = order.description ?? ""
+        description = order.customerDescription ?? ""
         duration = order.orderShootingDuration ?? ""
         imageUrl = order.orderSamplePhotos ?? []
         date = order.orderShootingDate

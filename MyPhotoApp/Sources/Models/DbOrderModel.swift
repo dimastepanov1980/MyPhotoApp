@@ -26,7 +26,7 @@ struct DbOrderModel: Codable {
 
     
     let instagramLink: String?
-    let description: String?
+    let customerDescription: String?
 
     
     init(from decoder: Decoder) throws {
@@ -48,7 +48,7 @@ struct DbOrderModel: Codable {
         
         
         self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
-        self.description = try container.decodeIfPresent(String.self, forKey: .description)
+        self.customerDescription = try container.decodeIfPresent(String.self, forKey: .customerDescription)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -69,7 +69,7 @@ struct DbOrderModel: Codable {
         case authorSecondName = "author_second_name"
         case instagramLink = "instagram_link"
      
-        case description = "description"
+        case customerDescription = "customer_description"
     }
 
     func encode(to encoder: Encoder) throws {
@@ -90,7 +90,7 @@ struct DbOrderModel: Codable {
         try container.encodeIfPresent(self.authorLocation, forKey: .authorLocation)
 
         try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
-        try container.encodeIfPresent(self.description, forKey: .description)
+        try container.encodeIfPresent(self.customerDescription, forKey: .customerDescription)
 
 
     }
@@ -110,7 +110,7 @@ struct DbOrderModel: Codable {
         
         self.instagramLink = order.instagramLink
         self.orderPrice = order.orderPrice
-        self.description = order.description
+        self.customerDescription = order.customerDescription
     
         self.orderSamplePhotos = order.orderSamplePhotos
         self.orderMessages = order.orderMessages

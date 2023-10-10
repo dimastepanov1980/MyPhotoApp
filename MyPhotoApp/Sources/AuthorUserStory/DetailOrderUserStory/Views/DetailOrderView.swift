@@ -114,7 +114,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                                   authorName: viewModel.order.authorName,
                                                                   authorSecondName: viewModel.order.authorSecondName,
                                                                   authorLocation: viewModel.order.authorLocation ?? "",
-                                                                  description: viewModel.order.description,
+                                                                  customerDescription: viewModel.order.customerDescription,
                                                                   instagramLink: nil))
 
                         try await viewModel.updateStatus(orderModel: userOrders)
@@ -194,7 +194,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     private var desctriptionSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if let description = viewModel.order.description {
+            if let description = viewModel.order.customerDescription {
                 Text(description)
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray2.name))

@@ -24,7 +24,7 @@ struct AuthorOrderModel {
     let authorSecondName: String?
     let authorLocation: String?
     
-    let description: String?
+    let customerDescription: String?
     let instagramLink: String?
     
 }

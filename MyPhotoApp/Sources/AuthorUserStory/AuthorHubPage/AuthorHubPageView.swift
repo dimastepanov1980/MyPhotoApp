@@ -37,7 +37,7 @@ struct AuthorHubPageView: View {
         .edgesIgnoringSafeArea(.bottom)
         .fullScreenCover(isPresented: $showAddOrderView) {
             NavigationStack {
-                AuthorAddOrderView(with: AuthorAddOrderViewModel(order: DbOrderModel(order: AuthorOrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "", orderStatus: "", orderShootingDate: Date(), orderShootingTime: [], orderShootingDuration: "", orderSamplePhotos: [], orderMessages: nil, authorId: nil, authorName: "", authorSecondName: "", authorLocation: "", description: "", instagramLink: nil))), showAddOrderView: $showAddOrderView, mode: .new)
+                AuthorAddOrderView(with: AuthorAddOrderViewModel(order: DbOrderModel(order: AuthorOrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "", orderStatus: "", orderShootingDate: Date(), orderShootingTime: [], orderShootingDuration: "", orderSamplePhotos: [], orderMessages: nil, authorId: nil, authorName: "", authorSecondName: "", authorLocation: "", customerDescription: "", instagramLink: nil))), showAddOrderView: $showAddOrderView, mode: .new)
             }
         }
 
