@@ -93,14 +93,15 @@ private class MockViewModelVCell: ObservableObject {
                                                             orderCreateDate: Date(),
                                                                  orderPrice: "5500",
                                                                  orderStatus: "Завершенный",
-                                                                 authorName: "Katy",
-                                                                 authorSecondName: "Ivanova",
-                                                                 instagramLink: nil,
-                                                                 authorLocation: "Kata",
-                                                                 description: "Some Text",
                                                                  orderShootingDate: Date(),
                                                                  orderShootingTime: [],
                                                                  orderShootingDuration: "2",
                                                                  orderSamplePhotos: [],
-                                                                 orderMessages: nil))
+                                                                 orderMessages: [],
+                                                                 authorId: "",
+                                                                 authorName: "",
+                                                                 authorSecondName: "",
+                                                                 authorLocation: "",
+                                                                 description: "",
+                                                                 instagramLink: ""))
 }

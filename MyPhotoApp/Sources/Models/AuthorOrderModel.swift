@@ -13,20 +13,19 @@ struct AuthorOrderModel {
     let orderCreateDate: Date
     let orderPrice: String?
     let orderStatus: String
-
-    
-    let authorName: String?
-    let authorSecondName: String?
-    let instagramLink: String?
-    let authorLocation: String?
-    let description: String?
-    
-    
     let orderShootingDate: Date
     let orderShootingTime: [String]?
     let orderShootingDuration: String
     let orderSamplePhotos: [String]
     let orderMessages: [DbMessage]?
-
+    
+    let authorId: String?
+    let authorName: String?
+    let authorSecondName: String?
+    let authorLocation: String?
+    
+    let description: String?
+    let instagramLink: String?
+    
 }
 

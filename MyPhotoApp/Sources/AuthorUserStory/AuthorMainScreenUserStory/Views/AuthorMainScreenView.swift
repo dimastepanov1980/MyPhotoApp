@@ -248,21 +248,22 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
     @Published var weaterId: String = ""
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
-    @Published var orders: [DbOrderModel] = [DbOrderModel(order:
-                                        AuthorOrderModel(orderId: UUID().uuidString,
-                                                          orderCreateDate: Date(),
-                                                         orderPrice: "5500",
-                                                         orderStatus: "Upcoming",
-                                                         authorName: "Katya",
-                                                         authorSecondName: "Ivanova",
-                                                         instagramLink: nil,
-                                                         authorLocation: "Kata",
-                                                         description: "Some Text",
-                                                         orderShootingDate: Date(),
-                                                         orderShootingTime: [],
-                                                         orderShootingDuration: "2",
-                                                         orderSamplePhotos: [],
-                                                         orderMessages: nil))]
+    @Published var orders: [DbOrderModel] = [DbOrderModel(order: AuthorOrderModel(orderId:
+                                                                UUID().uuidString,
+                                                                orderCreateDate: Date(),
+                                                                  orderPrice: "5500",
+                                                                  orderStatus: "Upcoming",
+                                                                  orderShootingDate: Date(),
+                                                                  orderShootingTime: [""],
+                                                                  orderShootingDuration: "1",
+                                                                  orderSamplePhotos: [],
+                                                                  orderMessages: [],
+                                                                  authorId: "",
+                                                                  authorName: "",
+                                                                  authorSecondName: "",
+                                                                  authorLocation: "",
+                                                                  description: "",
+                                                                  instagramLink: nil))]
     
     init() {}
     

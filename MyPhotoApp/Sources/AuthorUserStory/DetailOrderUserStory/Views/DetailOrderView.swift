@@ -105,16 +105,17 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                           orderCreateDate: Date(),
                           orderPrice: viewModel.order.orderPrice,
                                                   orderStatus: viewModel.returnedStatus(status: viewModel.status),
-                                                  authorName: viewModel.order.authorName,
-                                                  authorSecondName: viewModel.order.authorSecondName,
-                                                  instagramLink: viewModel.order.instagramLink,
-                                                  authorLocation: viewModel.order.authorLocation,
-                                                  description: viewModel.order.description,
-                                                  orderShootingDate: viewModel.order.orderShootingDate,
-                                                  orderShootingTime: [],
-                                                  orderShootingDuration: viewModel.order.orderShootingDuration ?? "",
-                                                  orderSamplePhotos: viewModel.order.orderSamplePhotos ?? [],
-                                                  orderMessages: nil))
+                                                                  orderShootingDate: viewModel.order.orderShootingDate,
+                                                                  orderShootingTime: viewModel.order.orderShootingTime,
+                                                                  orderShootingDuration: viewModel.order.orderShootingDuration ?? "",
+                                                                  orderSamplePhotos: viewModel.order.orderSamplePhotos ?? [],
+                                                                  orderMessages: viewModel.order.orderMessages,
+                                                                  authorId: "",
+                                                                  authorName: viewModel.order.authorName,
+                                                                  authorSecondName: viewModel.order.authorSecondName,
+                                                                  authorLocation: viewModel.order.authorLocation ?? "",
+                                                                  description: viewModel.order.description,
+                                                                  instagramLink: nil))
 
                         try await viewModel.updateStatus(orderModel: userOrders)
                     }
