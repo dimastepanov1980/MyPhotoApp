@@ -31,6 +31,7 @@ struct DbOrderModel: Codable {
     let customerName: String?
     let customerSecondName: String?
     let customerDescription: String?
+    let customerContactInfo: DbContactInfo?
 
     
     init(from decoder: Decoder) throws {
@@ -57,6 +58,7 @@ struct DbOrderModel: Codable {
         self.customerName = try container.decodeIfPresent(String.self, forKey: .customerName)
         self.customerSecondName = try container.decodeIfPresent(String.self, forKey: .customerSecondName)
         self.customerDescription = try container.decodeIfPresent(String.self, forKey: .customerDescription)
+        self.customerContactInfo = try container.decodeIfPresent(DbContactInfo.self, forKey: .customerContactInfo)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -78,6 +80,7 @@ struct DbOrderModel: Codable {
         case customerName = "customer_name"
         case customerSecondName = "customer_second_name"
         case customerDescription = "customer_description"
+        case customerContactInfo = "customer_contact_info"
         
         case instagramLink = "instagram_link"
         
@@ -104,6 +107,7 @@ struct DbOrderModel: Codable {
         try container.encodeIfPresent(self.customerName, forKey: .customerName)
         try container.encodeIfPresent(self.customerSecondName, forKey: .customerSecondName)
         try container.encodeIfPresent(self.customerDescription, forKey: .customerDescription)
+        try container.encodeIfPresent(self.customerContactInfo, forKey: .customerContactInfo)
         
         try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
     }
@@ -128,13 +132,18 @@ struct DbOrderModel: Codable {
         self.customerName = order.customerName
         self.customerSecondName = order.customerSecondName
         self.customerDescription = order.customerDescription
-    
+        self.customerContactInfo = order.customerContactInfo
         self.orderSamplePhotos = order.orderSamplePhotos
         self.orderMessages = order.orderMessages
     }
     
 }
 
+struct DbContactInfo: Codable {
+    let instagramLink: String?
+    let phone: String?
+    let email: String?
+}
 
 struct DbMessage: Codable {
     let dateCreate: Date

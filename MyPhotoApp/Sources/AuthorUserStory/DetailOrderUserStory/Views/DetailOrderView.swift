@@ -118,6 +118,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                                   customerName: nil,
                                                                   customerSecondName: nil,
                                                                   customerDescription: viewModel.order.customerDescription,
+                                                                  customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil),
                                                                   instagramLink: nil))
 
                         try await viewModel.updateStatus(orderModel: userOrders)

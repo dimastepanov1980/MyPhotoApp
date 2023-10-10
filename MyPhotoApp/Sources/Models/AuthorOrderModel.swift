@@ -28,9 +28,9 @@ struct AuthorOrderModel {
     let customerName: String?
     let customerSecondName: String?
     let customerDescription: String?
-    
-    
+    let customerContactInfo: DbContactInfo?
+
     let instagramLink: String?
-    
 }
+
 
