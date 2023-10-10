@@ -114,6 +114,9 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                                   authorName: viewModel.order.authorName,
                                                                   authorSecondName: viewModel.order.authorSecondName,
                                                                   authorLocation: viewModel.order.authorLocation ?? "",
+                                                                  customerId: nil,
+                                                                  customerName: nil,
+                                                                  customerSecondName: nil,
                                                                   customerDescription: viewModel.order.customerDescription,
                                                                   instagramLink: nil))
 

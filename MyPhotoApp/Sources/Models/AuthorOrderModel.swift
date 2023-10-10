@@ -24,7 +24,12 @@ struct AuthorOrderModel {
     let authorSecondName: String?
     let authorLocation: String?
     
+    let customerId: String?
+    let customerName: String?
+    let customerSecondName: String?
     let customerDescription: String?
+    
+    
     let instagramLink: String?
     
 }

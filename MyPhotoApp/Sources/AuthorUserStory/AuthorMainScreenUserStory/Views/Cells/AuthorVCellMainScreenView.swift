@@ -102,6 +102,9 @@ private class MockViewModelVCell: ObservableObject {
                                                                  authorName: "",
                                                                  authorSecondName: "",
                                                                  authorLocation: "",
+                                                                 customerId: nil,
+                                                                 customerName: nil,
+                                                                 customerSecondName: nil,
                                                                  customerDescription: "",
                                                                  instagramLink: ""))
 }

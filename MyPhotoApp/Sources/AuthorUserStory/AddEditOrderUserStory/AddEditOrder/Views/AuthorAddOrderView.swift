@@ -38,7 +38,9 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
             }
             
             CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_AddOrder() : R.string.localizable.order_SaveOrder(), iconName: "") {
-                let userOrders = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString, orderCreateDate: Date(), orderPrice: viewModel.price, orderStatus: viewModel.status, orderShootingDate: viewModel.date, orderShootingTime: [], orderShootingDuration: viewModel.duration, orderSamplePhotos: viewModel.imageUrl, orderMessages: nil, authorId: nil, authorName: nil, authorSecondName: nil, authorLocation: viewModel.location, customerDescription: viewModel.description, instagramLink: viewModel.instagramLink))
+                let userOrders = DbOrderModel(order: AuthorOrderModel(orderId: UUID().uuidString, orderCreateDate: Date(), orderPrice: viewModel.price, orderStatus: viewModel.status, orderShootingDate: viewModel.date, orderShootingTime: [], orderShootingDuration: viewModel.duration, orderSamplePhotos: viewModel.imageUrl, orderMessages: nil, authorId: nil, authorName: nil, authorSecondName: nil, authorLocation: viewModel.location,  customerId: nil,
+                                                                      customerName: nil,
+                                                                      customerSecondName: nil, customerDescription: viewModel.description, instagramLink: viewModel.instagramLink))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }

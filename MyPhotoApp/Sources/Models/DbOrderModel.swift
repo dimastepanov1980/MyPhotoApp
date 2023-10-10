@@ -26,6 +26,10 @@ struct DbOrderModel: Codable {
 
     
     let instagramLink: String?
+    
+    let customerId: String?
+    let customerName: String?
+    let customerSecondName: String?
     let customerDescription: String?
 
     
@@ -48,6 +52,10 @@ struct DbOrderModel: Codable {
         
         
         self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
+        
+        self.customerId = try container.decodeIfPresent(String.self, forKey: .customerId)
+        self.customerName = try container.decodeIfPresent(String.self, forKey: .customerName)
+        self.customerSecondName = try container.decodeIfPresent(String.self, forKey: .customerSecondName)
         self.customerDescription = try container.decodeIfPresent(String.self, forKey: .customerDescription)
     }
 
@@ -61,15 +69,18 @@ struct DbOrderModel: Codable {
         case orderShootingDuration = "order_shooting_duration"
         case orderSamplePhotos = "order_sample_photos"
         case orderMessages = "order_messages"
-
-
         case authorId = "author_id"
         case authorLocation = "author_location"
         case authorName = "author_name"
         case authorSecondName = "author_second_name"
-        case instagramLink = "instagram_link"
-     
+        
+        case customerId = "customer_id"
+        case customerName = "customer_name"
+        case customerSecondName = "customer_second_name"
         case customerDescription = "customer_description"
+        
+        case instagramLink = "instagram_link"
+        
     }
 
     func encode(to encoder: Encoder) throws {
@@ -89,10 +100,12 @@ struct DbOrderModel: Codable {
         try container.encodeIfPresent(self.authorSecondName, forKey: .authorSecondName)
         try container.encodeIfPresent(self.authorLocation, forKey: .authorLocation)
 
-        try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
+        try container.encodeIfPresent(self.customerId, forKey: .customerId)
+        try container.encodeIfPresent(self.customerName, forKey: .customerName)
+        try container.encodeIfPresent(self.customerSecondName, forKey: .customerSecondName)
         try container.encodeIfPresent(self.customerDescription, forKey: .customerDescription)
-
-
+        
+        try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
     }
   
     init(order: AuthorOrderModel) {
@@ -110,6 +123,10 @@ struct DbOrderModel: Codable {
         
         self.instagramLink = order.instagramLink
         self.orderPrice = order.orderPrice
+        
+        self.customerId = order.customerId
+        self.customerName = order.customerName
+        self.customerSecondName = order.customerSecondName
         self.customerDescription = order.customerDescription
     
         self.orderSamplePhotos = order.orderSamplePhotos
