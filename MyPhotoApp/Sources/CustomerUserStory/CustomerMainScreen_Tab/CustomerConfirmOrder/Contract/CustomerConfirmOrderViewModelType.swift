@@ -1,0 +1,32 @@
+//
+//  CustomerConfirmOrderViewModelType.swift
+//  MyPhotoApp
+//
+//  Created by Dima Stepanov on 8/28/23.
+//
+
+import Foundation
+import SwiftUI
+
+@MainActor
+protocol CustomerConfirmOrderViewModelType: ObservableObject {
+    var order: OrderModel? { get set }
+    
+    var authorName: String { get }
+    var authorSecondName: String { get }
+    var location: String { get }
+    var orderDate: Date { get }
+    var orderTime: [String] { get }
+    var orderDuration: String { get }
+    var orderDescription: String { get set }
+    var orderPrice: String { get }
+    var regionAuthor: String { get }
+
+    
+    func formattedDate(date: Date, format: String) -> String
+    func sortedDate(array: [String]) -> [String]
+    func currencySymbol(for regionCode: String) -> String
+    func createNewOrder() async throws
+
+}
+

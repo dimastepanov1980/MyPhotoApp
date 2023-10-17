@@ -77,12 +77,12 @@
 //MARK: - Customer Order
 "default_message" = "Write your contacts and additional information";
 "place_order" = "Place Order";
+"customer_order_add_sample" = "Add sample photos";
 "photographer" = "Photographer";
 "message" = "Message";
 "total_price" = "Total price";
 "date_detail" = "Date, Time, Duration";
 "location" = "Location";
-"place_order" = "Place Order";
 
 //MARK: - Add Portfolio
 "portfolio" = "Portfolio";

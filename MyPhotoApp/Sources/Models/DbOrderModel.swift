@@ -8,7 +8,6 @@
 import Foundation
 
 struct DbOrderModel: Codable {
-
     let orderId: String
     let orderCreateDate: Date
     let orderPrice: String?
@@ -24,14 +23,13 @@ struct DbOrderModel: Codable {
     let authorSecondName: String?
     let authorLocation: String?
 
-    
     let instagramLink: String?
     
     let customerId: String?
     let customerName: String?
     let customerSecondName: String?
     let customerDescription: String?
-    let customerContactInfo: DbContactInfo?
+    let customerContactInfo: DbContactInfo
 
     
     init(from decoder: Decoder) throws {
@@ -58,7 +56,7 @@ struct DbOrderModel: Codable {
         self.customerName = try container.decodeIfPresent(String.self, forKey: .customerName)
         self.customerSecondName = try container.decodeIfPresent(String.self, forKey: .customerSecondName)
         self.customerDescription = try container.decodeIfPresent(String.self, forKey: .customerDescription)
-        self.customerContactInfo = try container.decodeIfPresent(DbContactInfo.self, forKey: .customerContactInfo)
+        self.customerContactInfo = try container.decode(DbContactInfo.self, forKey: .customerContactInfo)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -112,7 +110,7 @@ struct DbOrderModel: Codable {
         try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
     }
   
-    init(order: AuthorOrderModel) {
+    init(order: OrderModel) {
         self.orderId = order.orderId
         self.orderCreateDate = order.orderCreateDate
         self.orderStatus = order.orderStatus
@@ -143,6 +141,30 @@ struct DbContactInfo: Codable {
     let instagramLink: String?
     let phone: String?
     let email: String?
+    
+    init(instagramLink: String?, phone: String?, email: String?) {
+        self.instagramLink = instagramLink
+        self.phone = phone
+        self.email = email
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
+        self.phone = try container.decodeIfPresent(String.self, forKey: .phone)
+        self.email = try container.decodeIfPresent(String.self, forKey: .email)
+    }
+    enum CodingKeys: String, CodingKey {
+        case instagramLink = "instagram_link"
+        case phone = "phone"
+        case email = "email"
+    }
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
+        try container.encodeIfPresent(self.phone, forKey: .phone)
+        try container.encodeIfPresent(self.email, forKey: .email)
+    }
 }
 
 struct DbMessage: Codable {

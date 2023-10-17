@@ -26,7 +26,8 @@ struct CustomerPageHubView: View {
                 if self.index == 0 {
                     CustomerMainScreenView(with: CustomerMainScreenViewModel(), serchPageShow: $serchPageShow, requestLocation: $requestLocation, portfolio: $portfolio)
                 } else if self.index == 1 {
-                    Color.red
+                    CustomerOrdersView(with: CustomerOrdersViewModel())
+                  
                 } else if self.index == 2 {
                     Color.green
                 } else if self.index == 3 {

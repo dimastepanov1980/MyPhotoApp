@@ -509,7 +509,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 107 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 108 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -527,6 +527,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_add = Rswift.StringResource(key: "schedule_add", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add sample photos
+      ///
+      /// Locales: en, ru
+      static let customer_order_add_sample = Rswift.StringResource(key: "customer_order_add_sample", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add schedule
       ///
       /// Locales: en, ru
@@ -998,6 +1002,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("schedule_add", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add sample photos
+      ///
+      /// Locales: en, ru
+      static func customer_order_add_sample(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_order_add_sample", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_order_add_sample"
+        }
+
+        return NSLocalizedString("customer_order_add_sample", bundle: bundle, comment: "")
       }
 
       /// en translation: Add schedule
