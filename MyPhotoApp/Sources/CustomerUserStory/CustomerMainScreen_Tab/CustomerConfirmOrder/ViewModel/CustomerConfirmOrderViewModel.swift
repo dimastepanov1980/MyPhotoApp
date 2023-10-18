@@ -10,20 +10,19 @@ import SwiftUI
 
 @MainActor
 final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
-    @Published var order: OrderModel?
     
-    @Published var authorId: String
-    @Published var authorName: String
-    @Published var authorSecondName: String
-    @Published var location: String
-    @Published var orderDate: Date
-    @Published var orderTime: [String]
-    @Published var orderDuration: String
-    @Published var orderPrice: String
-    @Published var regionAuthor: String
-    @Binding var orderDescription: String
+    var authorId: String
+    var authorName: String
+    var authorSecondName: String
+    var location: String
+    var orderDate: Date
+    var orderTime: [String]
+    var orderDuration: String
+    var orderPrice: String
+    var regionAuthor: String
+    var orderDescription: String?
     
-    init(author: AuthorPortfolioModel, orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String, regionAuthor: String, orderDescription: Binding<String>) {
+    init(author: AuthorPortfolioModel, orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String) {
         self.authorId = author.id
         self.authorName = author.author?.nameAuthor ?? ""
         self.authorSecondName = author.author?.familynameAuthor ?? ""
@@ -32,8 +31,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         self.orderTime = orderTime
         self.orderDuration = orderDuration
         self.orderPrice = orderPrice
-        self.regionAuthor = regionAuthor
-        self._orderDescription = orderDescription
+        self.regionAuthor = author.author?.regionAuthor ?? ""
     }
     
     func createNewOrder() async throws {
@@ -53,6 +51,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                authorName: authorName,
                                                authorSecondName: authorSecondName,
                                                authorLocation: location,
+                                               authorRegion: regionAuthor,
                                                customerId: customer.userId,
                                                customerName: customer.firstName,
                                                customerSecondName: customer.secondName,

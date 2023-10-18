@@ -83,6 +83,7 @@ final class UserManager {
             DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
             DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
             DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
+            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
 
             DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             
@@ -120,7 +121,7 @@ final class UserManager {
             DbOrderModel.CodingKeys.orderId.rawValue : documentId,
             DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),
             DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-            DbOrderModel.CodingKeys.orderStatus.rawValue : "upcoming", //R.string.localizable.status_upcoming()
+            DbOrderModel.CodingKeys.orderStatus.rawValue : "upcoming",
             DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
             DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
@@ -131,6 +132,7 @@ final class UserManager {
             DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
             DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
             DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
+            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
 
             DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             
@@ -161,6 +163,7 @@ final class UserManager {
             DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
             DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
             DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
+            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
 
             DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             

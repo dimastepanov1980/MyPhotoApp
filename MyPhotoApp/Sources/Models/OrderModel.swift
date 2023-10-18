@@ -23,6 +23,7 @@ struct OrderModel {
     var authorName: String?
     var authorSecondName: String?
     var authorLocation: String?
+    var authorRegion: String?
     
     var customerId: String?
     var customerName: String?

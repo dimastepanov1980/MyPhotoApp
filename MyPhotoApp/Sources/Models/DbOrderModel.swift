@@ -22,6 +22,7 @@ struct DbOrderModel: Codable {
     let authorName: String?
     let authorSecondName: String?
     let authorLocation: String?
+    let authorRegion: String?
 
     let instagramLink: String?
     
@@ -46,6 +47,7 @@ struct DbOrderModel: Codable {
 
         self.authorId = try container.decodeIfPresent(String.self, forKey: .authorId)
         self.authorLocation = try container.decodeIfPresent(String.self, forKey: .authorLocation)
+        self.authorRegion = try container.decodeIfPresent(String.self, forKey: .authorRegion)
         self.authorName = try container.decodeIfPresent(String.self, forKey: .authorName)
         self.authorSecondName = try container.decodeIfPresent(String.self, forKey: .authorSecondName)
         
@@ -71,6 +73,7 @@ struct DbOrderModel: Codable {
         case orderMessages = "order_messages"
         case authorId = "author_id"
         case authorLocation = "author_location"
+        case authorRegion = "author_region"
         case authorName = "author_name"
         case authorSecondName = "author_second_name"
         
@@ -100,6 +103,7 @@ struct DbOrderModel: Codable {
         try container.encodeIfPresent(self.authorName, forKey: .authorName)
         try container.encodeIfPresent(self.authorSecondName, forKey: .authorSecondName)
         try container.encodeIfPresent(self.authorLocation, forKey: .authorLocation)
+        try container.encodeIfPresent(self.authorRegion, forKey: .authorRegion)
 
         try container.encodeIfPresent(self.customerId, forKey: .customerId)
         try container.encodeIfPresent(self.customerName, forKey: .customerName)
@@ -133,6 +137,7 @@ struct DbOrderModel: Codable {
         self.customerContactInfo = order.customerContactInfo
         self.orderSamplePhotos = order.orderSamplePhotos
         self.orderMessages = order.orderMessages
+        self.authorRegion = order.authorRegion
     }
     
 }

@@ -99,7 +99,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                        showOrderConfirm.toggle()
                                        
                                    }.fullScreenCover(isPresented: $showOrderConfirm) {
-                                       CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime), regionAuthor: viewModel.items.author?.regionAuthor ?? "", orderDescription: $orderDescription), showOrderConfirm: $showOrderConfirm)
+                                       CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)), showOrderConfirm: $showOrderConfirm)
                                        
                                    }
                                }

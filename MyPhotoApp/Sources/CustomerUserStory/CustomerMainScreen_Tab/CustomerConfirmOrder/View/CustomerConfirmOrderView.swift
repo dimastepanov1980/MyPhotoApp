@@ -32,8 +32,10 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
             .padding(.horizontal, 24)
             .safeAreaInset(edge: .bottom) {
                 CustomButtonXl(titleText: R.string.localizable.place_order(), iconName: "camera.on.rectangle") {
+                    self.viewModel.orderDescription = orderDescription
                     Task{
                         try await viewModel.createNewOrder()
+                        showOrderConfirm.toggle()
                     }
                 }
             }
@@ -155,20 +157,20 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject {
-    func createNewOrder() async throws {}
     
-    var order: OrderModel? = nil
-    var regionAuthor: String = ""
+    
+    func createNewOrder() async throws {}
     func currencySymbol(for regionCode: String) -> String { "" }
-    @Published var orderPrice: String = "5500"
-    @Published var authorName: String = "Iryna"
-    @Published var authorSecondName: String = "Tondaeva"
-    @Published var location: String = "Thailand"
-    @Published var orderDate: Date = Date()
-    @Published var orderTime: [String] = ["08:00", "09:00"]
-    @Published var orderDuration: String = "2"
-    @State var orderDescription: String = ""
-  
+    
+    var orderPrice: String = "5500"
+    var authorName: String = "Iryna"
+    var authorSecondName: String = "Tondaeva"
+    var location: String = "Thailand"
+    var orderDate: Date = Date()
+    var orderTime: [String] = ["08:00", "09:00"]
+    var orderDuration: String = "2"
+    var orderDescription: String? = ""
+    var regionAuthor: String = ""
     
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()

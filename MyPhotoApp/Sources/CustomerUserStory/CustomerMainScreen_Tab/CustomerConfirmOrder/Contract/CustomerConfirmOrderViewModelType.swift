@@ -9,16 +9,14 @@ import Foundation
 import SwiftUI
 
 @MainActor
-protocol CustomerConfirmOrderViewModelType: ObservableObject {
-    var order: OrderModel? { get set }
-    
+protocol CustomerConfirmOrderViewModelType: ObservableObject {    
     var authorName: String { get }
     var authorSecondName: String { get }
     var location: String { get }
     var orderDate: Date { get }
     var orderTime: [String] { get }
     var orderDuration: String { get }
-    var orderDescription: String { get set }
+    var orderDescription: String? { get set }
     var orderPrice: String { get }
     var regionAuthor: String { get }
 

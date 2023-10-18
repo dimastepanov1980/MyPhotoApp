@@ -101,7 +101,7 @@ struct CustomerDetailOrderView<ViewModel: CustomerDetailOrderViewModelType>: Vie
             Text(R.string.localizable.total_price())
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
-            Text("\(viewModel.order.orderPrice ?? "")\(viewModel.currencySymbol(for: viewModel.order.authorLocation ?? ""))")
+            Text("\(viewModel.order.orderPrice ?? "")\(viewModel.currencySymbol(for: viewModel.order.authorRegion ?? ""))")
                 .font(.body)
                 .foregroundColor(Color(R.color.gray2.name))
         }
