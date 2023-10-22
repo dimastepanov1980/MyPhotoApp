@@ -24,7 +24,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     }
     var body: some View {
         VStack {
-            NavigationView {
+            NavigationStack {
                 ScrollView {
                     orderFiels()
                     Spacer()
@@ -36,7 +36,6 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                     //
                 }
             }
-            
             CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_AddOrder() : R.string.localizable.order_SaveOrder(), iconName: "") {
                 let userOrders = DbOrderModel(order: OrderModel(orderId: UUID().uuidString, orderCreateDate: Date(), orderPrice: viewModel.price, orderStatus: viewModel.status, orderShootingDate: viewModel.date, orderShootingTime: [], orderShootingDuration: viewModel.duration, orderSamplePhotos: viewModel.imageUrl, orderMessages: nil, authorId: nil, authorName: nil, authorSecondName: nil, authorLocation: viewModel.location,  customerId: nil,
                                                                       customerName: nil,
@@ -53,9 +52,10 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                 Button {
                     showAddOrderView.toggle()
                 } label: {
-                    
                     Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.white, Color(R.color.gray3.name))
                         .font(.title2)
+                        .padding(.trailing)
                 }
             }
         }
@@ -89,16 +89,20 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     }
 }
 
-//struct AuthorAddOrderView_Previews: PreviewProvider {
-//    private static let mockModel = MockViewModel(order: updatePreview())
-//
-//    static var previews: some View {
-//        NavigationView {
-//            AuthorAddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
-//        }
-//    }
-//}
+struct AuthorAddOrderView_Previews: PreviewProvider {
+    private static let mockModel = MockViewModel()
+
+    static var previews: some View {
+        NavigationView {
+            AuthorAddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
+        }
+    }
+}
 private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
+    func updatePreview() {
+        
+    }
+    
     var secondName: String = ""
     var avaibleStatus = [""]
     var status: String = ""
@@ -111,23 +115,8 @@ private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
     var duration: String = ""
     var imageUrl: [String]  = []
     
-    var order: DbOrderModel
-    init(order: DbOrderModel) {
-        self.order = order
-        updatePreview()
-    }
-
-    func updatePreview() {
-        name = order.authorName ?? ""
-        instagramLink = order.instagramLink ?? ""
-        price = order.orderPrice ?? ""
-        location = order.authorLocation ?? ""
-        description = order.customerDescription ?? ""
-        duration = order.orderShootingDuration ?? ""
-        imageUrl = order.orderSamplePhotos ?? []
-        date = order.orderShootingDate
-        status = order.orderStatus ?? ""
-    }
+    var order: DbOrderModel = DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Upcoming", orderShootingDate: Date(), orderShootingTime: ["11:00"], orderShootingDuration: "2", orderSamplePhotos: [], orderMessages: [], authorId: "", authorName: "Dimas", authorSecondName: "Tester", authorLocation: "Phuket", authorRegion: "TH", customerId: "", customerName: "Client", customerSecondName: "FamiltName", customerDescription: "SuperPUPER", customerContactInfo: DbContactInfo(instagramLink: "NEW ONE", phone: "222 22 22", email: "TEST@TEST.COM"), instagramLink: ""))
+ 
     
     func addOrder(order: DbOrderModel) async throws {
         //

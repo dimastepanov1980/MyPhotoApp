@@ -61,6 +61,19 @@
 "customer_tabs_profile" = "Профиль";
 
 //MARK: - Setting screen
+
+"settings_name_screen" = "Настройка";
+"settings_section_profile" = "Профиль";
+"settings_section_profile_about" = "Расскажи о себе";
+"settings_section_profile_email" = "Почта";
+"settings_section_profile_phone" = "Телефон";
+"settings_section_profile_instagram" = "Instagram";
+"settings_section_notification" = "Уведомления";
+"settings_section_localization" = "Локализация";
+"settings_section_privacy" = "Конфиденциальность";
+"settings_section_information" = "Информация";
+"settings_section_logout" = "Выход";
+
 "app_version" = "Версия программы:";
 "contact_with_us" = "Свяжитесь с Нами:\nwww.takeaphoto.app";
 "notes" = "Когда нашим приложением будут пользоваться более чем 100 фотографов, мы начнем развивать сервис «Портфолио».";

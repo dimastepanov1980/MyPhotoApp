@@ -61,6 +61,19 @@
 "customer_tabs_profile" = "Profile";
 
 //MARK: - Setting screen
+"settings_name_screen" = "Settings";
+"settings_section_profile" = "Profile";
+"settings_section_profile_about" = "Tell about yourself";
+"settings_section_profile_email" = "Email";
+"settings_section_profile_phone" = "Phone";
+"settings_section_profile_instagram" = "Instagram";
+
+"settings_section_notification" = "Notification";
+"settings_section_localization" = "Localization";
+"settings_section_privacy" = "Privacy";
+"settings_section_information" = "Information";
+"settings_section_logOut" = "LogOut";
+
 "app_version" = "App version:";
 "contact_with_us" = "Contact with us:\nwww.takeaphoto.app";
 "notes" = "When more than 100 photographers use our application,\nwe will start developing the «Portfolio» service.";

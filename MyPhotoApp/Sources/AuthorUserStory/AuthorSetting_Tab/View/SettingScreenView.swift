@@ -8,134 +8,108 @@
 import SwiftUI
 import Combine
 
-struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
+
+struct NotificationView: View {
     
+    var body: some View {
+        Text("NotificationView")
+    }
+}
+
+
+struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
+
+
+
     @ObservedObject var viewModel: ViewModel
     @Binding var showAuthenticationView: Bool
-    @Binding var isShowActionSheet: Bool
-    var height = UIScreen.main.bounds.size.height
-    
+    @Binding var reAuthenticationScreenSheet: Bool
+//.
     init(with viewModel: ViewModel,
          showAuthenticationView: Binding<Bool>,
-         isShowActionSheet: Binding<Bool>) {
+         reAuthenticationScreenSheet: Binding<Bool>) {
         
         self.viewModel = viewModel
         self._showAuthenticationView = showAuthenticationView
-        self._isShowActionSheet = isShowActionSheet
+        self._reAuthenticationScreenSheet = reAuthenticationScreenSheet
     }
     
     var body: some View {
-        ZStack{
-            Color(R.color.gray7.name)
-                .ignoresSafeArea()
-            
-            VStack(alignment: .center) {
-                Image(R.image.image_logo.name)
-                    .padding(.top, height / 12)
-                Text("\(R.string.localizable.app_version()) \(viewModel.appVersion)")
-                    .font(.caption)
-                    .foregroundColor(Color(R.color.gray3.name))
-                    .padding(.bottom, 36)
-                Spacer()
-                if let user = viewModel.user {
-                    if let email = user.email {
-                        Text(R.string.localizable.your_login())
-                        Text("\(email)")
-                            .font(.body)
-                            .foregroundColor(Color(R.color.gray1.name))
-                            .padding(.bottom)
+        NavigationStack{
+            VStack{
+                List(viewModel.settingsMenu, id: \.self) { item in
+                    NavigationLink {
+                        viewForSettingItem(item)
+                    } label: {
+                        HStack{
+                            Image(systemName: item.imageItem)
+                                .font(.title2)
+                                .foregroundColor(Color(R.color.gray2.name))
+                            Text(item.nameItem)
+                                .font(.callout)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
                     }
                 }
-                Spacer()
-                Link(destination: URL(string: "http://takeaphoto.app")!) {
-                    VStack {
-                        Text(R.string.localizable.contact_with_us())
-                            .font(.footnote)
-                            .foregroundColor(Color(R.color.gray1.name))
-                            .padding(8)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Text(R.string.localizable.settings_name_screen())
+                            .font(.title.bold())
+                            .padding()
                     }
                 }
-                
-                Text(R.string.localizable.notes())
-                    .font(.caption)
-                    .foregroundColor(Color(R.color.gray3.name))
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, 32)
-                VStack{
+            }
+        }
+         
+            .environment(\.defaultMinListRowHeight, 60)
+            .scrollContentBackground(.hidden)
+        
+    }
+   
 
-                    Button {
-                        Task {
-                            do {
-                                try viewModel.LogOut()
-                                showAuthenticationView = true
-                            } catch {
-                                print(error.localizedDescription)
-                            }
-                        }
-                    } label: {
-                        ZStack {
-                            Text(R.string.localizable.signOutAccBtt())
-                                .font(.headline)
-                                .foregroundColor(Color(R.color.gray6.name))
-                                .padding(8)
-                                .padding(.horizontal, 16)
-                                .background(Color(R.color.gray1.name))
-                                .cornerRadius(20)
-                        }
-                    }
-                    Button {
-                        isShowActionSheet.toggle()
-                    } label: {
-                        Text(R.string.localizable.delete_user())
-                            .font(.footnote)
-                            .foregroundColor(Color(R.color.gray5.name))
-                    }
-                }
-                .padding(.top, 16)
-                
-                
-                /*
-                 
-                 Button {
-                     showCustomerZone.toggle()
-                 } label: {
-                     ZStack {
-                         Text(R.string.localizable.signOutAccBtt())
-                             .font(.headline)
-                             .foregroundColor(Color(R.color.gray6.name))
-                             .padding(8)
-                             .padding(.horizontal, 16)
-                             .background(Color(R.color.gray1.name))
-                             .cornerRadius(20)
-                     }
-                 }
-                 */
-                
-                Spacer()
-            }
-            .padding(.top, 64)
-        }
-        .fullScreenCover(isPresented: $isShowActionSheet) {
-            NavigationView {
-                ReAuthenticationScreenView(with: ReAuthenticationScreenViewModel(), isShowActionSheet: $isShowActionSheet, showAuthenticationView: $showAuthenticationView)
-            }
-        }
-        .task {
-            try? await viewModel.loadCurrentUser()
+    
+    @ViewBuilder
+    private func viewForSettingItem(_ item: SettingItem) -> some View {
+
+        switch item.nameItem {
+        case R.string.localizable.settings_section_profile():
+                ProfileScreenView(with: ProfileScreenViewModel(avatarAuthorID: UUID(), dateOfBirthday: Date(), avatarAuthor: "", descriptionAuthor: ""))
+        case R.string.localizable.settings_section_notification():
+            NotificationScreenView()
+        case R.string.localizable.settings_section_privacy():
+            PrivacyScreenView()
+        case R.string.localizable.settings_section_information():
+            InformationScreenView()
+        case R.string.localizable.settings_section_localization():
+            LocalizationScreenView()
+        case R.string.localizable.settings_section_logOut():
+            LogOutScreenView(with: LogOutScreenViewModel(), showAuthenticationView: $showAuthenticationView, reAuthenticationScreenSheet: $reAuthenticationScreenSheet)
+
+        default:
+            Text("Unknown View")
         }
     }
+    
 }
 
 struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
-        SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), isShowActionSheet: .constant(false))
+            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), reAuthenticationScreenSheet: .constant(false))
     }
 }
 
 private class MockViewModel: SettingScreenViewModelType, ObservableObject {
+    var settingsMenu: [SettingItem] = [
+        .init(imageItem: "person.circle", nameItem: R.string.localizable.settings_section_profile()),
+//        .init(imageItem: "bell.circle", nameItem: R.string.localizable.settings_section_notification()),
+//        .init(imageItem: "lock.circle", nameItem: R.string.localizable.settings_section_privacy()),
+      .init(imageItem: "info.circle", nameItem: R.string.localizable.settings_section_information()),
+//      .init(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
+        .init(imageItem: "rectangle.portrait.and.arrow.forward", nameItem: R.string.localizable.settings_section_logOut())
+]
+    
     var appVersion: String = "1.2"
-    var orders: [DbOrderModel]?
     var user: DBUserModel? = nil
     func loadCurrentUser() throws {}
     func LogOut() throws {}

@@ -9,9 +9,11 @@ import Foundation
 
 @MainActor
 protocol SettingScreenViewModelType: ObservableObject {
+    var settingsMenu: [SettingItem] { get }
     var user: DBUserModel? { get }
-    var orders: [DbOrderModel]? { get }
     var appVersion: String { get }
+    
     func LogOut() throws
-    func loadCurrentUser() async throws
 }
+
+

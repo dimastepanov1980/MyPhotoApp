@@ -33,7 +33,8 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                         .foregroundColor(Color(R.color.gray1.name))
 
                 }
-            }                .toolbar{
+            }
+            .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(R.string.localizable.save()) {
                         Task {

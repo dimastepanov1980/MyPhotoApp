@@ -35,6 +35,19 @@ final class UserManager {
     func createNewCustomer(user: DBUserModel) async throws {
         try customerDocument(customerId: user.userId).setData(from: user, merge: false)
     }
+    func updateProfileData(userId: String, profile: DBUserModel) async throws {
+       
+        let data: [String : Any] = [
+            DBUserModel.CodingKeys.firstName.rawValue : profile.firstName ?? "",
+            DBUserModel.CodingKeys.secondName.rawValue : profile.secondName ?? "",
+            DBUserModel.CodingKeys.instagramLink.rawValue : profile.instagramLink ?? "",
+            DBUserModel.CodingKeys.phone.rawValue : profile.phone ?? ""
+        ]
+        
+        try? await customerDocument(customerId: userId).updateData(data)
+        try? await authorDocument(authorId: userId).updateData(data)
+    }
+
     
     //MARK: - Author Section
     private let authorCollection = Firestore.firestore().collection("users")
@@ -95,13 +108,11 @@ final class UserManager {
         ]
         try await customerOrder.setData(orderData, merge: false)
     }
-    
     func getAuthorOrders(authorID: String) async throws -> [DbOrderModel] {
             try await orderCollection
                 .whereField("author_id", isEqualTo: authorID)
                 .getDocuments(as: DbOrderModel.self)
     }
-    
     func getCustomerOrders(customerID: String) async throws -> [DbOrderModel] {
             try await orderCollection
                 .whereField("customer_id", isEqualTo: customerID)
@@ -195,6 +206,7 @@ final class UserManager {
     func getAllOrders(userId: String) async throws -> [DbOrderModel] {
         try await authorOrderCollection(authorId: userId).getDocuments(as: DbOrderModel.self)
     }
+    //MARK: - Not used
     func addListenerRegistration(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
         // Assuming you have a reference to your Firestore collection
         let query = authorOrderCollection(authorId: userId)
@@ -220,16 +232,9 @@ final class UserManager {
         
         return listenerRegistration
     }
-    func unsubscribe() {
-        if listenerRegistration != nil {
-            listenerRegistration?.remove()
-            listenerRegistration = nil
-        }
-    }
     func getCurrentOrders(userId: String, order: DbOrderModel) async throws -> DbOrderModel {
         try await userOrderDocument(userId: userId, orderId: order.orderId).getDocument(as: DbOrderModel.self)
     }
-    
     //MARK: - Portfolio
     
     private let portfolioCollection = Firestore.firestore().collection("portfolio")
@@ -242,14 +247,23 @@ final class UserManager {
             throw URLError(.badURL)
         }
         let portfolioDoc = portfolioUserDocument(userId: userId)
+        let authorDoc = authorDocument(authorId: userId)
         let portfolioId = portfolioDoc.documentID
 
-        let dict: [String : Any] = [
+        let portfolioData: [String : Any] = [
             DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
             DBPortfolioModel.CodingKeys.author.rawValue : authorData,
             DBPortfolioModel.CodingKeys.descriptionAuthor.rawValue : portfolio.descriptionAuthor ?? ""
         ]
-        try await portfolioDoc.setData(dict, merge: true)
+        
+        let authorInfo: [String : Any] = [
+            DBUserModel.CodingKeys.firstName.rawValue : portfolio.author?.nameAuthor ?? "",
+            DBUserModel.CodingKeys.secondName.rawValue : portfolio.author?.familynameAuthor ?? ""
+        ]
+        
+        try await portfolioDoc.setData(portfolioData, merge: true)
+        try await authorDoc.updateData(authorInfo)
+
     }
     func getUserPortfolio(userId: String) async throws -> DBPortfolioModel {
         try await portfolioUserDocument(userId: userId).getDocument(as: DBPortfolioModel.self)

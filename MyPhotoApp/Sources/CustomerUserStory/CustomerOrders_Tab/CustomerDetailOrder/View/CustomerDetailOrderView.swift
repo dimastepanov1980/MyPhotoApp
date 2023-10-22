@@ -13,6 +13,11 @@ struct CustomerDetailOrderView<ViewModel: CustomerDetailOrderViewModelType>: Vie
     @ObservedObject private var viewModel: ViewModel
     @State private var selectedPhotos: [PhotosPickerItem] = []
     @Binding var showDetailOrderView: Bool
+    
+    @State private var columns = [ GridItem(.flexible(), spacing: 0),
+                                   GridItem(.flexible(), spacing: 0)]
+    @State private var imageGallerySize = UIScreen.main.bounds.width / 2
+
 
     init(with viewModel: ViewModel,
          showDetailOrderView: Binding<Bool> ) {
@@ -29,6 +34,7 @@ struct CustomerDetailOrderView<ViewModel: CustomerDetailOrderViewModelType>: Vie
                     dateSection
                     priceSection
                     messageSection
+//                    imageSection
                 }
                 .frame(maxWidth: .infinity, alignment: .topLeading)
                 .padding(.top, 80)
@@ -37,7 +43,7 @@ struct CustomerDetailOrderView<ViewModel: CustomerDetailOrderViewModelType>: Vie
            
             
             Spacer()
-            addPhotoButton
+//            addPhotoButton
         }
     }
     
@@ -119,7 +125,65 @@ struct CustomerDetailOrderView<ViewModel: CustomerDetailOrderViewModelType>: Vie
               
         }
     }
-    
+    /*
+     // TODO: Сделать добавление Изображений из Portfolio
+     
+    private var imageSection: some View {
+        VStack{
+            if viewModel.portfolioImages.count > 0 {
+                ScrollView{
+                    LazyVGrid(columns: columns, spacing: 0){
+                        ForEach(viewModel.portfolioImages.sorted(by: { $0.0 < $1.0 }), id: \.key) { key, image in
+                            if let image = image {
+                                ZStack(alignment: .topTrailing) {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: imageGallerySize, height: imageGallerySize)
+                                        .border(Color.white)
+                                        .clipped()
+                                    
+                                        .contextMenu {
+                                               Button {
+                                                   Task{
+                                                       do {
+                                                           try await viewModel.deletePortfolioImage(pathKey: key)
+                                                           print(key)
+                                                       } catch  {
+                                                           print(error.localizedDescription)
+                                                       }
+                                                   }
+                                                   print("Deleting Image \(key)")
+                                               } label: {
+                                                   Label(R.string.localizable.portfolio_delete_image(), systemImage: "trash")
+                                               }
+                                           }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            } else {
+                if viewModel.smallImagesPortfolio.count > 0 {
+                    VStack{
+                        ProgressView()
+                            .padding(.top, 120)
+                    }
+                } else {
+                    VStack{
+                        Spacer()
+                        Text(R.string.localizable.portfolio_add_images())
+                            .font(.subheadline)
+                            .foregroundColor(Color(R.color.gray3.name))
+                            .multilineTextAlignment(.center)
+                            .padding(36)
+                            .padding(.top, 120)
+                    }
+                }
+            }
+        }
+    }
     private var addPhotoButton: some View {
         PhotosPicker(selection: $selectedPhotos,
                      maxSelectionCount: 10,
@@ -142,7 +206,7 @@ struct CustomerDetailOrderView<ViewModel: CustomerDetailOrderViewModelType>: Vie
             .padding(16)
         }
     }
-
+     */
      
 }
 
@@ -159,7 +223,9 @@ private class MockViewModel: CustomerDetailOrderViewModelType, ObservableObject 
     func currencySymbol(for regionCode: String) -> String {
         "$"
     }
-    
+    var portfolioImages: [String: UIImage?] = [:]
+    var smallImagesPortfolio: [String] = []
+
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
@@ -168,6 +234,9 @@ private class MockViewModel: CustomerDetailOrderViewModelType, ObservableObject 
     func sortedDate(array: [String]) -> [String] {
         array.sorted(by: { $0 < $1 })
     }
+    func getPortfolioImages(imagesPath: [String]) async throws {}
+    func addPortfolioImages(selectedImages: [PhotosPickerItem]) async throws {}
+    func deletePortfolioImage(pathKey: String) async throws {}
     
     var order: DbOrderModel = DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Umpcoming", orderShootingDate: Date(), orderShootingTime: ["11:30"], orderShootingDuration: "2", orderSamplePhotos: [""], orderMessages: nil, authorId: "", authorName: "Author", authorSecondName: "SecondName", authorLocation: "Phuket, Thailand", customerId: "", customerName: "customerName", customerSecondName: "customerSecondName", customerDescription: "Customer Description and Bla bla bla", customerContactInfo: DbContactInfo(instagramLink: "", phone: "", email: ""), instagramLink: ""))
     

@@ -45,8 +45,8 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                         showOrderConfirm.toggle()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.white, Color(R.color.gray3.name))
                             .font(.largeTitle)
-                            .foregroundColor(Color(R.color.gray3.name).opacity(0.5))
                             .padding(.trailing)
                     }
                 }

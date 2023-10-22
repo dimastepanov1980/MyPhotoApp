@@ -36,8 +36,8 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                        showDetailView.toggle()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.white, Color(R.color.gray3.name))
                             .font(.largeTitle)
-                            .foregroundColor(Color(R.color.gray3.name).opacity(0.5))
                     }
                     .padding(.top, 48)
                     .padding(.trailing, 36)

@@ -150,6 +150,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
         @Binding var password: String
         let errorMassage: String
         private let action: () async throws -> Void
+        
         init(email: Binding<String>, password: Binding<String>, errorMassage: String, action: @escaping () async throws -> Void) {
             self._email = email
             self._password = password

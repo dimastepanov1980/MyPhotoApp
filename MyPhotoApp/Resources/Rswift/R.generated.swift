@@ -509,7 +509,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 108 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 119 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -611,6 +611,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let order_EditOrder = Rswift.StringResource(key: "order_EditOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Email
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile_email = Rswift.StringResource(key: "settings_section_profile_email", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Email address
       ///
       /// Locales: en, ru
@@ -683,6 +687,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_holidays = Rswift.StringResource(key: "schedule_holidays", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Information
+      ///
+      /// Locales: en, ru
+      static let settings_section_information = Rswift.StringResource(key: "settings_section_information", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Instagram
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile_instagram = Rswift.StringResource(key: "settings_section_profile_instagram", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Instagram Link
       ///
       /// Locales: en, ru
@@ -695,6 +707,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let customer_tabs_liked = Rswift.StringResource(key: "customer_tabs_liked", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Localization
+      ///
+      /// Locales: en, ru
+      static let settings_section_localization = Rswift.StringResource(key: "settings_section_localization", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Location
       ///
       /// Locales: en, ru
@@ -711,6 +727,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let signOutAccBtt = Rswift.StringResource(key: "signOutAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: LogOut
+      ///
+      /// Locales: en
+      static let settings_section_logOut = Rswift.StringResource(key: "settings_section_logOut", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Love Story
       ///
       /// Locales: en, ru
@@ -735,6 +755,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let order_NewOrder = Rswift.StringResource(key: "order_NewOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Notification
+      ///
+      /// Locales: en, ru
+      static let settings_section_notification = Rswift.StringResource(key: "settings_section_notification", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Order for today
       ///
       /// Locales: en, ru
@@ -751,6 +775,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let style_photography_pet = Rswift.StringResource(key: "style_photography_pet", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Phone
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile_phone = Rswift.StringResource(key: "settings_section_profile_phone", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Photographer
       ///
       /// Locales: en, ru
@@ -787,6 +815,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_price_per_slot = Rswift.StringResource(key: "schedule_price_per_slot", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Privacy
+      ///
+      /// Locales: en, ru
+      static let settings_section_privacy = Rswift.StringResource(key: "settings_section_privacy", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Product
       ///
       /// Locales: en, ru
@@ -795,6 +827,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let customer_tabs_profile = Rswift.StringResource(key: "customer_tabs_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile = Rswift.StringResource(key: "settings_section_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Profile
       ///
       /// Locales: en, ru
@@ -859,6 +895,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_set = Rswift.StringResource(key: "schedule_set", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Settings
+      ///
+      /// Locales: en, ru
+      static let settings_name_screen = Rswift.StringResource(key: "settings_name_screen", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Sign In
       ///
       /// Locales: en, ru
@@ -887,6 +927,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let takeAPhoto = Rswift.StringResource(key: "takeAPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Tell about yourself
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile_about = Rswift.StringResource(key: "settings_section_profile_about", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Time interval /Hr
       ///
       /// Locales: en, ru
@@ -1319,6 +1363,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("order_EditOrder", bundle: bundle, comment: "")
       }
 
+      /// en translation: Email
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile_email(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile_email", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile_email"
+        }
+
+        return NSLocalizedString("settings_section_profile_email", bundle: bundle, comment: "")
+      }
+
       /// en translation: Email address
       ///
       /// Locales: en, ru
@@ -1589,6 +1648,36 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("schedule_holidays", bundle: bundle, comment: "")
       }
 
+      /// en translation: Information
+      ///
+      /// Locales: en, ru
+      static func settings_section_information(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_information", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_information"
+        }
+
+        return NSLocalizedString("settings_section_information", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Instagram
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile_instagram(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile_instagram", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile_instagram"
+        }
+
+        return NSLocalizedString("settings_section_profile_instagram", bundle: bundle, comment: "")
+      }
+
       /// en translation: Instagram Link
       ///
       /// Locales: en, ru
@@ -1632,6 +1721,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("customer_tabs_liked", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Localization
+      ///
+      /// Locales: en, ru
+      static func settings_section_localization(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_localization", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_localization"
+        }
+
+        return NSLocalizedString("settings_section_localization", bundle: bundle, comment: "")
       }
 
       /// en translation: Location
@@ -1692,6 +1796,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("signOutAccBtt", bundle: bundle, comment: "")
+      }
+
+      /// en translation: LogOut
+      ///
+      /// Locales: en
+      static func settings_section_logOut(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_logOut", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_logOut"
+        }
+
+        return NSLocalizedString("settings_section_logOut", bundle: bundle, comment: "")
       }
 
       /// en translation: Love Story
@@ -1784,6 +1903,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("order_NewOrder", bundle: bundle, comment: "")
       }
 
+      /// en translation: Notification
+      ///
+      /// Locales: en, ru
+      static func settings_section_notification(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_notification", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_notification"
+        }
+
+        return NSLocalizedString("settings_section_notification", bundle: bundle, comment: "")
+      }
+
       /// en translation: Order for today
       ///
       /// Locales: en, ru
@@ -1842,6 +1976,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("style_photography_pet", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Phone
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile_phone(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile_phone", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile_phone"
+        }
+
+        return NSLocalizedString("settings_section_profile_phone", bundle: bundle, comment: "")
       }
 
       /// en translation: Photographer
@@ -1979,6 +2128,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("schedule_price_per_slot", bundle: bundle, comment: "")
       }
 
+      /// en translation: Privacy
+      ///
+      /// Locales: en, ru
+      static func settings_section_privacy(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_privacy", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_privacy"
+        }
+
+        return NSLocalizedString("settings_section_privacy", bundle: bundle, comment: "")
+      }
+
       /// en translation: Product
       ///
       /// Locales: en, ru
@@ -2007,6 +2171,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("customer_tabs_profile", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile"
+        }
+
+        return NSLocalizedString("settings_section_profile", bundle: bundle, comment: "")
       }
 
       /// en translation: Profile
@@ -2249,6 +2428,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("schedule_set", bundle: bundle, comment: "")
       }
 
+      /// en translation: Settings
+      ///
+      /// Locales: en, ru
+      static func settings_name_screen(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_name_screen", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_name_screen"
+        }
+
+        return NSLocalizedString("settings_name_screen", bundle: bundle, comment: "")
+      }
+
       /// en translation: Sign In
       ///
       /// Locales: en, ru
@@ -2352,6 +2546,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("takeAPhoto", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Tell about yourself
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile_about(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile_about", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile_about"
+        }
+
+        return NSLocalizedString("settings_section_profile_about", bundle: bundle, comment: "")
       }
 
       /// en translation: Time interval /Hr
