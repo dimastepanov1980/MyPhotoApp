@@ -56,7 +56,7 @@
 
 // MARK: - CustomerTabs
 "customer_tabs_home" = "Home";
-"customer_tabs_message" = "Message";
+"customer_tabs_message" = "Orders";
 "customer_tabs_liked" = "Liked";
 "customer_tabs_profile" = "Profile";
 
@@ -72,7 +72,7 @@
 "settings_section_localization" = "Localization";
 "settings_section_privacy" = "Privacy";
 "settings_section_information" = "Information";
-"settings_section_logOut" = "LogOut";
+"settings_section_logout" = "LogOut";
 
 "app_version" = "App version:";
 "contact_with_us" = "Contact with us:\nwww.takeaphoto.app";

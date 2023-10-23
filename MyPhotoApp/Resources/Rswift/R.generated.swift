@@ -729,8 +729,8 @@ struct R: Rswift.Validatable {
       static let signOutAccBtt = Rswift.StringResource(key: "signOutAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: LogOut
       ///
-      /// Locales: en
-      static let settings_section_logOut = Rswift.StringResource(key: "settings_section_logOut", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// Locales: en, ru
+      static let settings_section_logout = Rswift.StringResource(key: "settings_section_logout", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Love Story
       ///
       /// Locales: en, ru
@@ -743,10 +743,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let gender_male = Rswift.StringResource(key: "gender_male", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Message
-      ///
-      /// Locales: en, ru
-      static let customer_tabs_message = Rswift.StringResource(key: "customer_tabs_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Message
       ///
       /// Locales: en, ru
@@ -763,6 +759,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let today = Rswift.StringResource(key: "today", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Orders
+      ///
+      /// Locales: en, ru
+      static let customer_tabs_message = Rswift.StringResource(key: "customer_tabs_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Password
       ///
       /// Locales: en, ru
@@ -1800,17 +1800,17 @@ struct R: Rswift.Validatable {
 
       /// en translation: LogOut
       ///
-      /// Locales: en
-      static func settings_section_logOut(preferredLanguages: [String]? = nil) -> String {
+      /// Locales: en, ru
+      static func settings_section_logout(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("settings_section_logOut", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("settings_section_logout", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "settings_section_logOut"
+          return "settings_section_logout"
         }
 
-        return NSLocalizedString("settings_section_logOut", bundle: bundle, comment: "")
+        return NSLocalizedString("settings_section_logout", bundle: bundle, comment: "")
       }
 
       /// en translation: Love Story
@@ -1856,21 +1856,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("gender_male", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Message
-      ///
-      /// Locales: en, ru
-      static func customer_tabs_message(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("customer_tabs_message", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "customer_tabs_message"
-        }
-
-        return NSLocalizedString("customer_tabs_message", bundle: bundle, comment: "")
       }
 
       /// en translation: Message
@@ -1931,6 +1916,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("today", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Orders
+      ///
+      /// Locales: en, ru
+      static func customer_tabs_message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_tabs_message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_tabs_message"
+        }
+
+        return NSLocalizedString("customer_tabs_message", bundle: bundle, comment: "")
       }
 
       /// en translation: Password

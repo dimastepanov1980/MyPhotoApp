@@ -30,7 +30,7 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     
     func updatePreview() {
         name = order.authorName ?? ""
-        instagramLink = order.instagramLink ?? ""
+        instagramLink = order.customerContactInfo.instagramLink ?? ""
         price = order.orderPrice ?? ""
         location = order.authorLocation ?? ""
         description = order.customerDescription ?? ""

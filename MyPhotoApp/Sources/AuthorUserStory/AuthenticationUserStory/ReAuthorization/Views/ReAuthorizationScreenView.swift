@@ -31,11 +31,13 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                         .foregroundColor(Color(R.color.orange.name))
                         .multilineTextAlignment(.center)
                         .padding(.bottom, 64)
+                        .padding(.horizontal, 16)
                     CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $viewModel.reSignInPassword)
                     Text(R.string.localizable.delete_user_password())
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray4.name))
                         .multilineTextAlignment(.center)
+                        .padding()
                     Text(viewModel.errorMessage)
                         .font(.footnote)
                         .foregroundColor(Color(R.color.red.name))
@@ -63,7 +65,8 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                             .font(.title2)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.black.opacity(0.7))
+                        
                     }
                 }
             }
@@ -79,7 +82,7 @@ struct ReAuthenticationScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
         NavigationView {
-            ReAuthenticationScreenView(with: viewModel, isShowActionSheet: .constant(false), showAuthenticationView: .constant(true))
+            ReAuthenticationScreenView(with: viewModel, isShowActionSheet: .constant(false), showAuthenticationView: .constant(false))
         }
     }
 }

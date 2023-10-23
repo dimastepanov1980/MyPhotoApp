@@ -23,9 +23,6 @@ struct DbOrderModel: Codable {
     let authorSecondName: String?
     let authorLocation: String?
     let authorRegion: String?
-
-    let instagramLink: String?
-    
     let customerId: String?
     let customerName: String?
     let customerSecondName: String?
@@ -50,9 +47,6 @@ struct DbOrderModel: Codable {
         self.authorRegion = try container.decodeIfPresent(String.self, forKey: .authorRegion)
         self.authorName = try container.decodeIfPresent(String.self, forKey: .authorName)
         self.authorSecondName = try container.decodeIfPresent(String.self, forKey: .authorSecondName)
-        
-        
-        self.instagramLink = try container.decodeIfPresent(String.self, forKey: .instagramLink)
         
         self.customerId = try container.decodeIfPresent(String.self, forKey: .customerId)
         self.customerName = try container.decodeIfPresent(String.self, forKey: .customerName)
@@ -83,8 +77,6 @@ struct DbOrderModel: Codable {
         case customerDescription = "customer_description"
         case customerContactInfo = "customer_contact_info"
         
-        case instagramLink = "instagram_link"
-        
     }
 
     func encode(to encoder: Encoder) throws {
@@ -110,9 +102,7 @@ struct DbOrderModel: Codable {
         try container.encodeIfPresent(self.customerSecondName, forKey: .customerSecondName)
         try container.encodeIfPresent(self.customerDescription, forKey: .customerDescription)
         try container.encodeIfPresent(self.customerContactInfo, forKey: .customerContactInfo)
-        
-        try container.encodeIfPresent(self.instagramLink, forKey: .instagramLink)
-    }
+        }
   
     init(order: OrderModel) {
         self.orderId = order.orderId
@@ -126,8 +116,6 @@ struct DbOrderModel: Codable {
         self.authorName = order.authorName
         self.authorSecondName = order.authorSecondName
         self.authorLocation = order.authorLocation
-        
-        self.instagramLink = order.instagramLink
         self.orderPrice = order.orderPrice
         
         self.customerId = order.customerId

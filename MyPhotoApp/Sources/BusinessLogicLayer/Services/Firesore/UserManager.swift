@@ -97,8 +97,6 @@ final class UserManager {
             DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
             DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
             DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
-
-            DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             
             DbOrderModel.CodingKeys.customerId.rawValue : order.customerId ?? "",
             DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
@@ -144,8 +142,6 @@ final class UserManager {
             DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
             DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
             DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
-
-            DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             
             DbOrderModel.CodingKeys.customerId.rawValue : order.customerId ?? "",
             DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
@@ -175,8 +171,6 @@ final class UserManager {
             DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
             DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
             DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
-
-            DbOrderModel.CodingKeys.instagramLink.rawValue : order.instagramLink ?? "",
             
             DbOrderModel.CodingKeys.customerId.rawValue : order.customerId ?? "",
             DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",

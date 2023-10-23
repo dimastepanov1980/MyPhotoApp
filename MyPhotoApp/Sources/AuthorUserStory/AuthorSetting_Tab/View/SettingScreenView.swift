@@ -60,7 +60,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                 }
             }
         }
-         
+            .tint(.black)
             .environment(\.defaultMinListRowHeight, 60)
             .scrollContentBackground(.hidden)
         
@@ -82,7 +82,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
             InformationScreenView()
         case R.string.localizable.settings_section_localization():
             LocalizationScreenView()
-        case R.string.localizable.settings_section_logOut():
+        case R.string.localizable.settings_section_logout():
             LogOutScreenView(with: LogOutScreenViewModel(), showAuthenticationView: $showAuthenticationView, reAuthenticationScreenSheet: $reAuthenticationScreenSheet)
 
         default:
@@ -106,7 +106,7 @@ private class MockViewModel: SettingScreenViewModelType, ObservableObject {
 //        .init(imageItem: "lock.circle", nameItem: R.string.localizable.settings_section_privacy()),
       .init(imageItem: "info.circle", nameItem: R.string.localizable.settings_section_information()),
 //      .init(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
-        .init(imageItem: "rectangle.portrait.and.arrow.forward", nameItem: R.string.localizable.settings_section_logOut())
+        .init(imageItem: "rectangle.portrait.and.arrow.forward", nameItem: R.string.localizable.settings_section_logout())
 ]
     
     var appVersion: String = "1.2"

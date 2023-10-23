@@ -8,8 +8,8 @@
 "registration" = "Зарегистрироваться";
 "logIn" = "Войти";
 "email" = "Введите Email";
-"author" = "Я Автор";
-"customer" = "Я Клиент";
+"author" = "Я автор";
+"customer" = "Я клиент";
 "password" = "Введите пароль";
 "customer_login" = "Найти фотографа";
 "author_login" = "Найти клиентов";
@@ -49,14 +49,14 @@
 "status_canceled" = "Отмененный";
 
 // MARK: - AuthorTabs
-"tabs_feature" = "Новые";
-"tabs_edit" = "В работе";
-"tabs_portfolio" = "Портфолио";
-"tabs_profile" = "Профиль";
+"tabs_feature" = "Новые заказы";
+"tabs_edit" = "Заказ в работе";
+"tabs_portfolio" = "Мои работы";
+"tabs_profile" = "Мой профиль";
 
 // MARK: - CustomerTabs
 "customer_tabs_home" = "Домой";
-"customer_tabs_message" = "Сообщения";
+"customer_tabs_message" = "Заказы";
 "customer_tabs_liked" = "Избранное";
 "customer_tabs_profile" = "Профиль";
 

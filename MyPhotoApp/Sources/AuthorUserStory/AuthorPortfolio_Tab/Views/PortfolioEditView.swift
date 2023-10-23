@@ -165,11 +165,15 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                }
                        .onTapGesture {
                            withAnimation {
+                               print("before \(viewModel.locationAuthor)")
+
                                viewModel.locationAuthor = result.location
                                viewModel.latitude = result.latitude
                                viewModel.longitude = result.longitude
 
                                viewModel.regionAuthor = result.regionCode
+                               print("after \(viewModel.locationAuthor)")
+                               print("result.location \(result.location)")
                            }
                        }
                }
