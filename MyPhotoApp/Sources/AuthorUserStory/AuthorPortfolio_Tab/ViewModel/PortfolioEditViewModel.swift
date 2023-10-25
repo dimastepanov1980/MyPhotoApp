@@ -19,19 +19,12 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
     private var cancellable: AnyCancellable?
     
     @State var sexAuthorList = ["Select", "Male", "Female"]
-    
-    /*
-     на 6 минуте переделать sexAuthorList
-     https://youtu.be/ETS4jI0EaY4?si=yXOyKAvdDYnJZ6M4
-     */
-    
-    @Published var locationResult: [DBLocationModel] = []
+    @Published var locationResult: [DBLocationModel]
     @Published var locationAuthor: String {
-        didSet {
-            searchForCity(text: locationAuthor)
+        didSet{
+            searchLocation(text: locationAuthor)
         }
     }
-    
     @Binding var typeAuthor: String
     @Binding var nameAuthor: String
     @Binding var avatarAuthorID: UUID
@@ -81,13 +74,17 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
         let all = CLLocationCoordinate2D()
 
         service = SearchLocationManager(in: all)
+        self.locationResult = []
         
         cancellable = service.searchLocationPublisher.sink { mapItems in
-            self.locationResult = mapItems.map({ DBLocationModel(mapItem: $0) })
+            Task{
+                self.locationResult = mapItems.map({ DBLocationModel(mapItem: $0) })
+                print("location Result on init: \(self.locationResult)")
+            }
         }
     }
 
-    private func searchForCity(text: String) {
+    func searchLocation(text: String) {
         service.searchLocation(searchText: text)
     }
 

@@ -17,8 +17,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @State private var showScheduleView: Bool = false
     @State private var isAvatarUploadInProgress = false
     @State private var loadingImage = false
+    @State private var locationAuthor = ""
     @State private var selectedAvatar: PhotosPickerItem?
-    
     
     init(with viewModel : ViewModel) {
         self.viewModel = viewModel
@@ -29,9 +29,11 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
             ScrollView(showsIndicators: false){
                 VStack(spacing: 24){
                     avatarImageSection
-                    CustomTextField(nameTextField: R.string.localizable.portfolio_first_name(), text: $viewModel.nameAuthor)
-                    CustomTextField(nameTextField: R.string.localizable.portfolio_last_name(), text: $viewModel.familynameAuthor)
-                    CustomTextField(nameTextField: R.string.localizable.portfolio_age(), text: $viewModel.ageAuthor)
+                    textField(fieldName: R.string.localizable.portfolio_first_name(), propertyName: $viewModel.nameAuthor)
+                    
+                    textField(fieldName: R.string.localizable.portfolio_last_name(), propertyName: $viewModel.familynameAuthor)
+                    
+                    textField(fieldName: R.string.localizable.portfolio_age(), propertyName: $viewModel.ageAuthor)
                     sexSection
                     locationSection
                     photoStyleSection
@@ -66,7 +68,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                                   familynameAuthor: viewModel.familynameAuthor,
                                                                   sexAuthor: viewModel.sexAuthor,
                                                                   ageAuthor: viewModel.ageAuthor,
-                                                                  location: viewModel.locationAuthor,
+                                                                  location: locationAuthor,
                                                                   latitude: viewModel.latitude,
                                                                   longitude: viewModel.longitude,
                                                                   regionAuthor: viewModel.regionAuthor,
@@ -87,6 +89,9 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     }
                 }
                 .padding(.bottom, 64)
+                .onAppear{
+                    locationAuthor = viewModel.locationAuthor
+                }
             }
         }
     }
@@ -147,38 +152,44 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
          }
     }
     private var locationSection: some View {
-       VStack(alignment: .leading) {
-           CustomTextField(nameTextField: R.string.localizable.portfolio_location(), text: $viewModel.locationAuthor)
-           ForEach(viewModel.locationResult) { result in
-               if viewModel.locationAuthor != result.location {
-               VStack(alignment: .leading){
-                   Text(result.city)
-                       .font(.subheadline)
-                       .foregroundColor(Color(R.color.gray2.name))
-                       .padding(.leading, 32)
-                   Text(result.location)
-                       .font(.footnote)
-                       .foregroundColor(Color(R.color.gray4.name))
-                       .padding(.leading, 32)
-                   Divider()
-                       .padding(.horizontal, 32)
-               }
-                       .onTapGesture {
-                           withAnimation {
-                               print("before \(viewModel.locationAuthor)")
-
-                               viewModel.locationAuthor = result.location
-                               viewModel.latitude = result.latitude
-                               viewModel.longitude = result.longitude
-
-                               viewModel.regionAuthor = result.regionCode
-                               print("after \(viewModel.locationAuthor)")
-                               print("result.location \(result.location)")
-                           }
-                       }
-               }
-           }
+        VStack(alignment: .leading, spacing: 4) {
+            textField(fieldName: R.string.localizable.portfolio_location(), propertyName: $locationAuthor)
+            
+            ForEach(viewModel.locationResult) { result in
+                if locationAuthor != result.location {
+                    VStack(alignment: .leading){
+                        Text(result.city)
+                            .font(.subheadline)
+                            .foregroundColor(Color(R.color.gray2.name))
+                            .padding(.leading, 32)
+                        Text(result.location)
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray4.name))
+                            .padding(.leading, 32)
+                        Divider()
+                            .padding(.horizontal, 32)
+                    }
+                    .onTapGesture {
+                        print("before \(locationAuthor)")
+                        
+                        self.locationAuthor = result.location
+                        viewModel.latitude = result.latitude
+                        viewModel.longitude = result.longitude
+                        
+                        viewModel.regionAuthor = result.regionCode
+                        print("after \(locationAuthor)")
+                        print("result.location \(result.location)")
+                        
+                    }
+                }
+            }
+            .onChange(of: locationAuthor, perform: { newLocation in
+                viewModel.searchLocation(text: newLocation )
+                print("location Result on view: \(viewModel.locationResult)")
+                
+            })
         }
+        .padding(.horizontal)
     }
     private var sexSection: some View {
         HStack{
@@ -283,6 +294,24 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
         }
         return ""
     }
+    private func textField(fieldName: String, propertyName: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 4){
+            Text(fieldName)
+                .font(.caption)
+                .foregroundColor(Color(R.color.gray4.name))
+                .padding(.horizontal)
+            
+            TextEditor(text: propertyName)
+                .font(.callout)
+                .foregroundColor(Color(R.color.gray2.name))
+                .padding(.horizontal)
+                .frame(height: 36)
+                .padding(.vertical, 2)
+                .overlay{
+                    RoundedRectangle(cornerRadius: 22)
+                        .stroke(Color(R.color.gray5.name), lineWidth: 1)}
+        }
+    }
 
 }
 
@@ -324,18 +353,18 @@ private class MockViewModel: ObservableObject, PortfolioEditViewModelType {
     var sexAuthorList: [String] = ["Select", "Male", "Female"]
     var dbModel: DBPortfolioModel?
     var styleOfPhotography: [String] = ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food", "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate", "Sports", "Wedding", "Wildlife"]    
-    var locationAuthor: String = ""
+    var locationAuthor: String = "Hamburg"
     var locationResult: [DBLocationModel] = []
     var avatarAuthor: String = "https://images.unsplash.com/photo-1558612937-4ecf7ae1e375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyZXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
     var nameAuthor: String = ""
     var familynameAuthor: String = ""
     var ageAuthor: String = ""
     var sexAuthor: String = ""
-    var location: String = ""
+    var location: String = "Hamburg"
     var styleAuthor: [String]  = []
     var descriptionAuthor: String  = ""
     func updatePreview() {}
     func getAuthorPortfolio() async throws {}
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws {}
-
+    func searchLocation(text: String){}
 }

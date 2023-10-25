@@ -24,15 +24,20 @@ final class SearchLocationManager: NSObject, CLLocationManagerDelegate {
         self.radius = radius
     }
     
-    public func searchLocation(searchText: String) {
+    func searchLocation(searchText: String) {
         // Invalidate the previous timer, if any
         searchTimer?.invalidate()
-        
+
         // Start a new timer
         searchTimer = Timer.scheduledTimer(withTimeInterval: searchDelay, repeats: false) { [weak self] _ in
-            self?.requestLocation(resultType: [.pointOfInterest, .address], searchText: searchText)
+            guard let self = self else { return }
+            
+            Task {
+                await self.requestLocation(resultType: [.pointOfInterest, .address], searchText: searchText)
+            }
         }
     }
+
     
     func updateLocation(_ coordinate: CLLocationCoordinate2D) {
         currentCoordinate = coordinate
@@ -65,12 +70,14 @@ final class SearchLocationManager: NSObject, CLLocationManagerDelegate {
     func getCurrentLocation() -> CLLocationCoordinate2D? {
         return locationManager.location?.coordinate
     }
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        updateLocation(location.coordinate)
+        Task{
+            await updateLocation(location.coordinate)
+        }
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location manager failed with error: \(error.localizedDescription)")
     }
 }

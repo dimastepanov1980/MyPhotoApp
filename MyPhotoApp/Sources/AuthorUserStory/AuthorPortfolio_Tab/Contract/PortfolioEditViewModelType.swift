@@ -35,4 +35,5 @@ protocol PortfolioEditViewModelType: ObservableObject {
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws
     func addAvatar(selectImage: PhotosPickerItem?) async throws
     func avatarPathToURL(path: String) async throws -> URL
+    func searchLocation(text: String) 
 }
