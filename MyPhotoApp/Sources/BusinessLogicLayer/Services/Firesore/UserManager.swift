@@ -72,7 +72,7 @@ final class UserManager {
         return user
     }
     
-    //MARK: - Orders
+    //MARK: - NEW Query Orders
     func addNewOrder(userId: String, order: DbOrderModel) async throws {
         let customerOrder = orderCollection.document()
         let orderId = customerOrder.documentID
@@ -85,7 +85,7 @@ final class UserManager {
             DbOrderModel.CodingKeys.orderId.rawValue : orderId,
             DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),
             DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-            DbOrderModel.CodingKeys.orderStatus.rawValue : "upcoming", //R.string.localizable.status_upcoming()
+            DbOrderModel.CodingKeys.orderStatus.rawValue : "Upcoming", //R.string.localizable.status_upcoming()
             DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
             DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
@@ -116,9 +116,20 @@ final class UserManager {
                 .whereField("customer_id", isEqualTo: customerID)
                 .getDocuments(as: DbOrderModel.self)
     }
+    func addSampleImageUrl(path: [String], orderId: String) async throws {
+        try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayUnion(path)])
+    }
+    func updateStatus(order: DbOrderModel, orderId: String) async throws {
+        let orderData: [String : Any] = [
+            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus as Any
+        ]
+        print("orderData: \(orderData)")
+        print("orderId: \(orderId)")
+        print("orderCollection: \(orderCollection.path)")
+        try await orderCollection.document(orderId).updateData(orderData)
+    }
 
-
-    //MARK: - Orders
+    //MARK: - OLD Orders
     func addNewAuthorOrder(userId: String, order: DbOrderModel) async throws {
         let document = authorOrderCollection(authorId: userId).document()
         let documentId = document.documentID
@@ -130,7 +141,7 @@ final class UserManager {
             DbOrderModel.CodingKeys.orderId.rawValue : documentId,
             DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),
             DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-            DbOrderModel.CodingKeys.orderStatus.rawValue : "upcoming",
+            DbOrderModel.CodingKeys.orderStatus.rawValue : "Upcoming",
             DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
             DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
@@ -159,7 +170,7 @@ final class UserManager {
         
         let data: [String : Any] = [
             DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus ?? "upcoming", //R.string.localizable.status_upcoming()
+            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus ?? "Upcoming", //R.string.localizable.status_upcoming()
             DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
             DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
@@ -180,14 +191,10 @@ final class UserManager {
       
         ]
         
-        try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
+        try await userOrderDocument(userId: userId, orderId: orderId).updateData(data)
     }
-    func updateStatus(userId: String, order: DbOrderModel, orderId: String) async throws {
-        let data: [String : Any] = [
-            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus ?? R.string.localizable.status_upcoming()
-        ]
-        try await userOrderDocument (userId: userId, orderId: orderId).updateData(data)
-    }
+
+
     func removeOrder(userId: String, order: DbOrderModel) async throws {
         try await userOrderDocument(userId: userId, orderId: order.orderId).delete()
     }

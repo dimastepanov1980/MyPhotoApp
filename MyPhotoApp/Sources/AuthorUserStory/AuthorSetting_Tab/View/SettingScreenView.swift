@@ -8,23 +8,11 @@
 import SwiftUI
 import Combine
 
-
-struct NotificationView: View {
-    
-    var body: some View {
-        Text("NotificationView")
-    }
-}
-
-
 struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
-
-
-
     @ObservedObject var viewModel: ViewModel
     @Binding var showAuthenticationView: Bool
     @Binding var reAuthenticationScreenSheet: Bool
-//.
+
     init(with viewModel: ViewModel,
          showAuthenticationView: Binding<Bool>,
          reAuthenticationScreenSheet: Binding<Bool>) {

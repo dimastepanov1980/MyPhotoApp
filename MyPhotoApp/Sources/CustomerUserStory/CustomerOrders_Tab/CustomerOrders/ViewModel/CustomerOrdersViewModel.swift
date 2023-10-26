@@ -10,12 +10,10 @@ import Foundation
 @MainActor
 
 final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObject {
-    @Published var selectedOrder: DbOrderModel? = nil
     @Published var orders: [DbOrderModel]
     
     init(orders: [DbOrderModel] = []) {
         self.orders = orders
-        
         Task {
             try await getOrders()
         }

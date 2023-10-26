@@ -92,7 +92,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     var horizontalCards: some View {
         LazyHStack {
             ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author)
                     .navigationBarBackButtonHidden(true)) {
                         AuthorHCellMainScreenView(items: order)
                             .contextMenu {
@@ -192,15 +192,20 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray3.name))) {
                             ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.orderId) { order in
-                                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView)
+                                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author)
                                     .navigationBarBackButtonHidden(true)) {
-                                        AuthorVCellMainScreenView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus), status: viewModel.orderStausName (status: order.orderStatus))
+                                        AuthorVCellMainScreenView(items: order,
+                                          statusColor: viewModel.orderStausColor(order: order.orderStatus),
+                                          status: viewModel.orderStausName (status: order.orderStatus))
                                             .contextMenu {
                                                 Button(R.string.localizable.order_Delete()) {
                                                     Task{
                                                         try? await viewModel.deleteOrder(order: order)
                                                     }
                                                 }
+                                            }
+                                            .onAppear{
+                                                print(order.orderStatus)
                                             }
                                     }
                             }
@@ -266,8 +271,7 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
                                                                   customerName: nil,
                                                                   customerSecondName: nil,
                                                                   customerDescription: "",
-                                                                                  customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil),
-                                                                  instagramLink: nil))]
+                                                                                  customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))]
     
     init() {}
     

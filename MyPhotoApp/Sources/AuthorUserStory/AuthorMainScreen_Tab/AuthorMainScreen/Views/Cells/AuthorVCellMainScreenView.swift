@@ -14,10 +14,9 @@ struct AuthorVCellMainScreenView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                if let location = items.authorLocation {
-                    Text(location)
-                        .lineLimit(1)
+            HStack(alignment: .top) {
+                if let customerName = items.customerName, let customerSecondName = items.customerSecondName {
+                    Text("\(customerName) \(customerSecondName)")
                         .font(.title2.bold())
                         .foregroundColor(Color(R.color.gray1.name))
                 }
@@ -34,6 +33,17 @@ struct AuthorVCellMainScreenView: View {
                 }
             }
             HStack(alignment: .top, spacing: 4) {
+                Image(systemName: "calendar")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 16)
+                    .foregroundColor(Color(R.color.gray2.name))
+                
+                Text(items.orderShootingDate.formatted(Date.FormatStyle().day().month()))
+                    .font(.footnote)
+                    .foregroundColor(Color(R.color.gray2.name))
+                    .padding(.trailing)
+                
                 Image(systemName: "clock")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -59,8 +69,8 @@ struct AuthorVCellMainScreenView: View {
             }
             HStack(alignment: .bottom) {
                 Spacer()
-                if let name = items.authorName, let secondName = items.authorSecondName  {
-                    Text("\(name) \(secondName)")
+                if let location = items.authorLocation  {
+                    Text(location)
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray3.name))
                 }
@@ -95,9 +105,8 @@ private class MockViewModelVCell: ObservableObject {
                                                                  authorSecondName: "SecondName",
                                                                  authorLocation: "Author Location",
                                                                  customerId: nil,
-                                                                 customerName: nil,
-                                                                 customerSecondName: nil,
-                                                                 customerDescription: "",
-                                                                 customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil),
-                                                                 instagramLink: ""))
+                                                                 customerName: "customerName",
+                                                                 customerSecondName: "customerSecondName",
+                                                                 customerDescription: "customerDescription",
+                                                                 customerContactInfo: DbContactInfo(instagramLink: "instagramLink", phone: "555-55-55", email: "email@test.com")))
 }

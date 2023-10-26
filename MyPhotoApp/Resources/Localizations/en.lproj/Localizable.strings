@@ -90,8 +90,9 @@
 //MARK: - Customer Order
 "default_message" = "Write your contacts and additional information";
 "place_order" = "Place Order";
-"customer_order_add_sample" = "Add sample photos";
+"customer_order_add_sample" = "If you want to add sample photos,\nclick the plus icon in the toolbar";  
 "photographer" = "Photographer";
+"customer" = "Customer";
 "message" = "Message";
 "total_price" = "Total price";
 "date_detail" = "Date, Time, Duration";

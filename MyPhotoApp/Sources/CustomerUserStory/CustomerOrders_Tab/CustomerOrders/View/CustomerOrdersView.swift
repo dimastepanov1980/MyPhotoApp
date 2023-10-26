@@ -19,31 +19,12 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
         
         ScrollView{
             ForEach(viewModel.orders, id: \.orderId) { order in
-                CustomerOrderCellView(items: order, statusColor: .blue)
-                    .onTapGesture {
-                        viewModel.selectedOrder = order
-                        showDetailView.toggle()
-                    }
-
-                    .fullScreenCover(isPresented: $showDetailView) {
-                        if let selectedOrder = viewModel.selectedOrder {
-                            CustomerDetailOrderView(with: CustomerDetailOrderViewModel(order: selectedOrder), showDetailOrderView: $showDetailView)
-                                .overlay(alignment: .topTrailing) {
-                                    Button {
-                                        showDetailView.toggle()
-                                    } label: {
-                                        Image(systemName: "xmark.circle.fill")
-                                            .foregroundStyle(.white, Color(R.color.gray3.name))
-                                            .font(.largeTitle)
-                                    }
-                                    .padding(.trailing, 24)
-                                }
-                        }
-                    }
-          
-           
-                
-                
+                NavigationLink {
+                    DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: .constant(false), detailOrderType: .customer)
+                        .navigationBarBackButtonHidden(true)
+                } label: {
+                    CustomerOrderCellView(items: order, statusColor: .blue)
+                }
             }
         }.padding(.horizontal)
     }
@@ -58,9 +39,8 @@ struct CustomerOrdersView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerOrdersViewModelType, ObservableObject {
-    var selectedOrder: DbOrderModel? = nil
     
-    var orders: [DbOrderModel] = [DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Umpcoming", orderShootingDate: Date(), orderShootingTime: ["11:30"], orderShootingDuration: "2", orderSamplePhotos: [""], orderMessages: nil, authorId: "", authorName: "Author", authorSecondName: "SecondName", authorLocation: "Phuket, Thailand", customerId: "", customerName: "customerName", customerSecondName: "customerSecondName", customerDescription: "Customer Description and Bla bla bla", customerContactInfo: DbContactInfo(instagramLink: "", phone: "", email: ""), instagramLink: ""))]
+    var orders: [DbOrderModel] = [DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Umpcoming", orderShootingDate: Date(), orderShootingTime: ["11:30"], orderShootingDuration: "2", orderSamplePhotos: [""], orderMessages: nil, authorId: "", authorName: "Author", authorSecondName: "SecondName", authorLocation: "Phuket, Thailand", customerId: "", customerName: "customerName", customerSecondName: "customerSecondName", customerDescription: "Customer Description and Bla bla bla", customerContactInfo: DbContactInfo(instagramLink: "", phone: "", email: "")))]
     
     func getOrders() async throws {}
     

@@ -30,8 +30,6 @@ struct OrderModel {
     var customerSecondName: String?
     var customerDescription: String?
     var customerContactInfo: DbContactInfo
-
-    var instagramLink: String?
 }
 
 

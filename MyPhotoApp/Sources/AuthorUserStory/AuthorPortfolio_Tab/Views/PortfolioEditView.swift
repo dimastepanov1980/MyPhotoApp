@@ -189,7 +189,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                 
             })
         }
-        .padding(.horizontal)
     }
     private var sexSection: some View {
         HStack{
@@ -311,6 +310,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     RoundedRectangle(cornerRadius: 22)
                         .stroke(Color(R.color.gray5.name), lineWidth: 1)}
         }
+        .padding(.horizontal)
+
     }
 
 }

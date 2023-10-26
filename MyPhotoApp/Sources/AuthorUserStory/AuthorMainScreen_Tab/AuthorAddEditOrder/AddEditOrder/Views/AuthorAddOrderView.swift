@@ -40,7 +40,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                 let userOrders = DbOrderModel(order: OrderModel(orderId: UUID().uuidString, orderCreateDate: Date(), orderPrice: viewModel.price, orderStatus: viewModel.status, orderShootingDate: viewModel.date, orderShootingTime: [], orderShootingDuration: viewModel.duration, orderSamplePhotos: viewModel.imageUrl, orderMessages: nil, authorId: nil, authorName: nil, authorSecondName: nil, authorLocation: viewModel.location,  customerId: nil,
                                                                       customerName: nil,
                                                                       customerSecondName: nil, customerDescription: viewModel.description,
-                                                                      customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil), instagramLink: viewModel.instagramLink))
+                                                                      customerContactInfo: DbContactInfo(instagramLink: viewModel.instagramLink, phone: nil, email: nil)))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }
@@ -115,7 +115,7 @@ private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
     var duration: String = ""
     var imageUrl: [String]  = []
     
-    var order: DbOrderModel = DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Upcoming", orderShootingDate: Date(), orderShootingTime: ["11:00"], orderShootingDuration: "2", orderSamplePhotos: [], orderMessages: [], authorId: "", authorName: "Dimas", authorSecondName: "Tester", authorLocation: "Phuket", authorRegion: "TH", customerId: "", customerName: "Client", customerSecondName: "FamiltName", customerDescription: "SuperPUPER", customerContactInfo: DbContactInfo(instagramLink: "NEW ONE", phone: "222 22 22", email: "TEST@TEST.COM"), instagramLink: ""))
+    var order: DbOrderModel = DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Upcoming", orderShootingDate: Date(), orderShootingTime: ["11:00"], orderShootingDuration: "2", orderSamplePhotos: [], orderMessages: [], authorId: "", authorName: "Dimas", authorSecondName: "Tester", authorLocation: "Phuket", authorRegion: "TH", customerId: "", customerName: "Client", customerSecondName: "FamiltName", customerDescription: "SuperPUPER", customerContactInfo: DbContactInfo(instagramLink: "NEW ONE", phone: "222 22 22", email: "TEST@TEST.COM")))
  
     
     func addOrder(order: DbOrderModel) async throws {

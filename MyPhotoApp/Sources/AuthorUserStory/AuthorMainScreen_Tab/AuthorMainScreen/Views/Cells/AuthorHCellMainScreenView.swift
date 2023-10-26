@@ -51,14 +51,6 @@ struct AuthorHCellMainScreenView: View {
                             
                     }
                     Spacer()
-                    /*
-                    Image(R.image.image0.name)
-                        .resizable()
-                        .clipShape(Circle())
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 36)
-                        .overlay(Circle().stroke(Color(R.color.gray6.name), lineWidth: 1).shadow(radius: 10))
-                       */
                         
                 }
             } .padding(.vertical, 12)
@@ -107,8 +99,7 @@ private class MockViewModelHCell: ObservableObject {
                                                                      customerName: nil,
                                                                      customerSecondName: nil,
                                                                      customerDescription: "",
-                                                                     customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil),
-                                                                     instagramLink: nil))
+                                                                     customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
         
     
 }

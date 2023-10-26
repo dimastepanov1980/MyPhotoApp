@@ -11,8 +11,6 @@ import SwiftUI
 @MainActor
 protocol CustomerOrdersViewModelType: ObservableObject {
     var orders: [DbOrderModel] { get }
-    var selectedOrder: DbOrderModel? { get set }
-
 
     func getOrders() async throws
 }

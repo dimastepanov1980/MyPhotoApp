@@ -20,8 +20,7 @@ final class StorageManager {
         storage.child("users").child(userId)
     }
     func getReferenceImageData(path: String) async throws -> Data {
-        let data = try await storage.child(path).data(maxSize: 3 * 1024 * 1024)
-        return data
+        try await storage.child(path).data(maxSize: 3 * 1024 * 1024)
     }
     func removeImages(pathURL: URL, order: DbOrderModel, userId: String, imagesArray: [String]) async throws {
         let imageStringPath = storage.storage.reference(forURL:"\(pathURL)")
@@ -97,6 +96,26 @@ final class StorageManager {
         }
         return ("", "")
     }
+    
+    func uploadSampleImageDataToFirebase(data: Data, userId: String) async throws -> (path: String, name: String) {
+        if let image = UIImage(data: data) {
+            guard let resizeImage = resizeImage(image: image, targetSize: CGSize(width: 800, height: 800)),
+                  let jpegData = resizeImage.jpegData(compressionQuality: 0.8) else {
+                throw URLError(.backgroundSessionWasDisconnected)
+            }
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            let path = "\(UUID().uuidString).jpg"
+            let returnedMetadata = try await userReferenceImage(userId: userId).child("sample").child(path).putDataAsync(jpegData, metadata: metadata)
+            
+            guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
+                throw URLError(.badServerResponse)
+            }
+            return (returnedPath, returnedName)
+        }
+        return ("", "")
+    }
+    
     func uploadAvatarImageToFairbase(data: Data, userId: String) async throws -> (path: String, name: String) {
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"

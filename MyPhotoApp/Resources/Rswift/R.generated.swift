@@ -527,10 +527,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_add = Rswift.StringResource(key: "schedule_add", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Add sample photos
-      ///
-      /// Locales: en, ru
-      static let customer_order_add_sample = Rswift.StringResource(key: "customer_order_add_sample", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add schedule
       ///
       /// Locales: en, ru
@@ -567,6 +563,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let contact_with_us = Rswift.StringResource(key: "contact_with_us", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Customer
+      ///
+      /// Locales: en, ru
+      static let customer = Rswift.StringResource(key: "customer", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Date, Time, Duration
       ///
       /// Locales: en, ru
@@ -675,10 +675,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let author = Rswift.StringResource(key: "author", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: I'm Customer
+      /// en translation: If you want to add sample photos, click the plus icon in the toolbar
       ///
       /// Locales: en, ru
-      static let customer = Rswift.StringResource(key: "customer", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let customer_order_add_sample = Rswift.StringResource(key: "customer_order_add_sample", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: In progress
       ///
       /// Locales: en, ru
@@ -1048,21 +1048,6 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("schedule_add", bundle: bundle, comment: "")
       }
 
-      /// en translation: Add sample photos
-      ///
-      /// Locales: en, ru
-      static func customer_order_add_sample(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("customer_order_add_sample", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "customer_order_add_sample"
-        }
-
-        return NSLocalizedString("customer_order_add_sample", bundle: bundle, comment: "")
-      }
-
       /// en translation: Add schedule
       ///
       /// Locales: en, ru
@@ -1196,6 +1181,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("contact_with_us", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Customer
+      ///
+      /// Locales: en, ru
+      static func customer(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer"
+        }
+
+        return NSLocalizedString("customer", bundle: bundle, comment: "")
       }
 
       /// en translation: Date, Time, Duration
@@ -1603,19 +1603,19 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("author", bundle: bundle, comment: "")
       }
 
-      /// en translation: I'm Customer
+      /// en translation: If you want to add sample photos, click the plus icon in the toolbar
       ///
       /// Locales: en, ru
-      static func customer(preferredLanguages: [String]? = nil) -> String {
+      static func customer_order_add_sample(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("customer", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("customer_order_add_sample", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "customer"
+          return "customer_order_add_sample"
         }
 
-        return NSLocalizedString("customer", bundle: bundle, comment: "")
+        return NSLocalizedString("customer_order_add_sample", bundle: bundle, comment: "")
       }
 
       /// en translation: In progress

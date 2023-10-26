@@ -56,8 +56,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                customerName: customer.firstName,
                                                customerSecondName: customer.secondName,
                                                customerDescription: orderDescription,
-                                               customerContactInfo: DbContactInfo(instagramLink: customer.instagramLink, phone: customer.phone, email: customer.email),
-                                               instagramLink: nil)
+                                               customerContactInfo: DbContactInfo(instagramLink: customer.instagramLink, phone: customer.phone, email: customer.email))
         print(orderData)
         try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
     }
