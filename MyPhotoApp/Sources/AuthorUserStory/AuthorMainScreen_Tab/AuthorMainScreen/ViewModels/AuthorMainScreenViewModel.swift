@@ -84,8 +84,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
                   .store(in: &cancellables)
         
         Task {
-//            try await subscribe()
-            try await getOrders()
+            try await subscribe()
             try await fetchLocation()
         }
     }
@@ -154,21 +153,12 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     }
     func subscribe() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        print("subscribe: \(authDateResult)")
-        listenerRegistration = UserManager.shared.addListenerRegistration(userId: authDateResult.uid, completion: { orders in
+        print("subscribe to Author: \(authDateResult)")
+        listenerRegistration = UserManager.shared.subscribeAuthorOrders(userId: authDateResult.uid, completion: { orders in
             self.orders = orders
         })
     }
-    func getOrders() async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        do {
-            let orders = try await UserManager.shared.getAuthorOrders(authorID: authDateResult.uid)
-            self.orders = orders
-        } catch {
-            throw error
-        }
-        
-    }
+
     func deleteOrder(order: DbOrderModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)

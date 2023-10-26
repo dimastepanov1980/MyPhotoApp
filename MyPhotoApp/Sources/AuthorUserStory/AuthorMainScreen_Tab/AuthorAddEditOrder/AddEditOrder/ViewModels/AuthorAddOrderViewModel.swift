@@ -44,7 +44,6 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
         try? await UserManager.shared.addNewAuthorOrder(userId: authDateResult.uid, order: order)
     }
     func updateOrder(orderModel: DbOrderModel) async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        try? await UserManager.shared.updateOrder(userId: authDateResult.uid, order: orderModel, orderId: order.orderId)
+        try? await UserManager.shared.updateOrder(order: orderModel, orderId: order.orderId)
     }
 }

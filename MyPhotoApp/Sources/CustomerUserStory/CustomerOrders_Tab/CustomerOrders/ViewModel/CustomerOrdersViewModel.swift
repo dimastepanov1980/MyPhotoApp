@@ -6,23 +6,27 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 @MainActor
 
 final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObject {
     @Published var orders: [DbOrderModel]
-    
+    private var listenerRegistration: ListenerRegistration?
+
     init(orders: [DbOrderModel] = []) {
         self.orders = orders
         Task {
-            try await getOrders()
+            try await subscribe()
         }
     }
     
-    func getOrders() async throws {
-                let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
-                self.orders = try await UserManager.shared.getCustomerOrders(customerID: userDataResult.uid)
-                print(orders)
+    func subscribe() async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        print("subscribe to Customer: \(authDateResult)")
+        listenerRegistration = UserManager.shared.subscribeCustomerOrder(userId: authDateResult.uid, completion: { orders in
+            self.orders = orders
+        })
     }
     
 }

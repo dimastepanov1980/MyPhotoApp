@@ -12,5 +12,5 @@ import SwiftUI
 protocol CustomerOrdersViewModelType: ObservableObject {
     var orders: [DbOrderModel] { get }
 
-    func getOrders() async throws
+    func subscribe() async throws
 }

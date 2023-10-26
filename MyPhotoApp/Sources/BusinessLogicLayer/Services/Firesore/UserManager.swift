@@ -106,16 +106,57 @@ final class UserManager {
         ]
         try await customerOrder.setData(orderData, merge: false)
     }
-    func getAuthorOrders(authorID: String) async throws -> [DbOrderModel] {
-            try await orderCollection
-                .whereField("author_id", isEqualTo: authorID)
-                .getDocuments(as: DbOrderModel.self)
+    func subscribeAuthorOrders(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
+        // Assuming you have a reference to your Firestore collection
+        let query = orderCollection.whereField("author_id", isEqualTo: userId)
+        
+        // Set up the snapshot listener
+        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error fetching documents: \(error)")
+                return
+            }
+            
+            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
+                print("No documents")
+                return
+            }
+            
+            let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                try? queryDocumentSnapshot.data(as: DbOrderModel.self)
+            }
+            // Do something with the orders array (e.g., update UI, process data, etc.)
+            completion(orders)
+        }
+        
+        return listenerRegistration
     }
-    func getCustomerOrders(customerID: String) async throws -> [DbOrderModel] {
-            try await orderCollection
-                .whereField("customer_id", isEqualTo: customerID)
-                .getDocuments(as: DbOrderModel.self)
+    func subscribeCustomerOrder(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
+        // Assuming you have a reference to your Firestore collection
+        let query = orderCollection.whereField("customer_id", isEqualTo: userId)
+        
+        // Set up the snapshot listener
+        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error fetching documents: \(error)")
+                return
+            }
+            
+            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
+                print("No documents")
+                return
+            }
+            
+            let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                try? queryDocumentSnapshot.data(as: DbOrderModel.self)
+            }
+            // Do something with the orders array (e.g., update UI, process data, etc.)
+            completion(orders)
+        }
+        
+        return listenerRegistration
     }
+
     func addSampleImageUrl(path: [String], orderId: String) async throws {
         try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayUnion(path)])
     }
@@ -123,9 +164,16 @@ final class UserManager {
         let orderData: [String : Any] = [
             DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus as Any
         ]
-        print("orderData: \(orderData)")
-        print("orderId: \(orderId)")
-        print("orderCollection: \(orderCollection.path)")
+        try await orderCollection.document(orderId).updateData(orderData)
+    }
+    func updateOrder(order: DbOrderModel, orderId: String) async throws {
+        guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
+            throw URLError(.badURL)
+        }
+        let orderData: [String : Any] = [
+            DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
+            DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
+        ]
         try await orderCollection.document(orderId).updateData(orderData)
     }
 
@@ -194,7 +242,6 @@ final class UserManager {
         try await userOrderDocument(userId: userId, orderId: orderId).updateData(data)
     }
 
-
     func removeOrder(userId: String, order: DbOrderModel) async throws {
         try await userOrderDocument(userId: userId, orderId: order.orderId).delete()
     }
@@ -203,38 +250,6 @@ final class UserManager {
     }
     func deleteImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
         try await userOrderDocument(userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : path])
-    }
-    func getAllOrders(userId: String) async throws -> [DbOrderModel] {
-        try await authorOrderCollection(authorId: userId).getDocuments(as: DbOrderModel.self)
-    }
-    //MARK: - Not used
-    func addListenerRegistration(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
-        // Assuming you have a reference to your Firestore collection
-        let query = authorOrderCollection(authorId: userId)
-        
-        // Set up the snapshot listener
-        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
-            if let error = error {
-                print("Error fetching documents: \(error)")
-                return
-            }
-            
-            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
-                print("No documents")
-                return
-            }
-            
-            let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
-                try? queryDocumentSnapshot.data(as: DbOrderModel.self)
-            }
-            // Do something with the orders array (e.g., update UI, process data, etc.)
-            completion(orders)
-        }
-        
-        return listenerRegistration
-    }
-    func getCurrentOrders(userId: String, order: DbOrderModel) async throws -> DbOrderModel {
-        try await userOrderDocument(userId: userId, orderId: order.orderId).getDocument(as: DbOrderModel.self)
     }
     //MARK: - Portfolio
     
