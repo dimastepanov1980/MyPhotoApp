@@ -48,10 +48,9 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                 }
             }
         }
-            .tint(.black)
-            .environment(\.defaultMinListRowHeight, 60)
-            .scrollContentBackground(.hidden)
-        
+        .environment(\.defaultMinListRowHeight, 60)
+        .scrollContentBackground(.hidden)
+        .tint(.black)
     }
    
 

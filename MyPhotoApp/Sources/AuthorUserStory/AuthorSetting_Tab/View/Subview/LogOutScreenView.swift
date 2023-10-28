@@ -15,6 +15,15 @@ struct LogOutScreenView<ViewModel: LogOutScreenViewModelType>: View {
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
+       var btnBack : some View { Button(action: {
+           self.presentationMode.wrappedValue.dismiss()
+           }) {
+                    Image(systemName: "chevron.left.circle.fill")// set image here
+                       .font(.title)
+                       .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+           }
+       }
+    
     init(with viewModel: ViewModel,
          showAuthenticationView: Binding<Bool>,
          reAuthenticationScreenSheet: Binding<Bool>) {
@@ -58,6 +67,8 @@ struct LogOutScreenView<ViewModel: LogOutScreenViewModelType>: View {
             }
              
         }
+         .navigationBarBackButtonHidden(true)
+         .navigationBarItems(leading: btnBack)
         .padding(.top, 16)
         .padding(.top, 64)
         .fullScreenCover(isPresented: $reAuthenticationScreenSheet) {

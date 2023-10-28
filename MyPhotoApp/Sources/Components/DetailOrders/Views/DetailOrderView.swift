@@ -109,12 +109,11 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         self.presentationMode.wrappedValue.dismiss()
                         
                     } label: {
-                        Image(systemName: "chevron.backward.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 36)
+                        Image(systemName: "chevron.left.circle.fill")// set image here
+                           .font(.title)
+                           .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
                     }
-                    .foregroundColor(Color(R.color.gray2.name))
+                    
                 }
             }
             .onAppear{

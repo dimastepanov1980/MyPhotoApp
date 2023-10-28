@@ -19,7 +19,15 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @State private var loadingImage = false
     @State private var locationAuthor = ""
     @State private var selectedAvatar: PhotosPickerItem?
-    
+
+       var btnBack : some View { Button(action: {
+           self.presentationMode.wrappedValue.dismiss()
+           }) {
+                    Image(systemName: "chevron.left.circle.fill")// set image here
+                       .font(.title)
+                       .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+           }
+       }
     init(with viewModel : ViewModel) {
         self.viewModel = viewModel
     }
@@ -94,8 +102,12 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                 .onAppear{
                     locationAuthor = viewModel.locationAuthor
                 }
+                .navigationBarBackButtonHidden(true)
+                .navigationBarItems(leading: btnBack)
             }
         }
+        
+        
     }
     
     private var avatarImageSection: some View {

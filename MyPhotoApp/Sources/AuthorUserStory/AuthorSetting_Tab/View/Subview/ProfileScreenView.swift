@@ -17,6 +17,15 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
     @State private var loadingImage = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
+       var btnBack : some View { Button(action: {
+           self.presentationMode.wrappedValue.dismiss()
+           }) {
+                    Image(systemName: "chevron.left.circle.fill")// set image here
+                       .font(.title)
+                       .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+           }
+       }
+
     
     init(with viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -34,6 +43,8 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                 
                 Spacer()
             }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: btnBack)
             .confirmationDialog("Log Out", isPresented: $logoutConfirmation) {
                 Button("Confirm") {
                     logoutConfirmation = false

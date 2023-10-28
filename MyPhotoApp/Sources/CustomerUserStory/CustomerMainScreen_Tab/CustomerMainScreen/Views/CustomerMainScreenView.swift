@@ -64,6 +64,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                         .padding(.vertical, 64)
                         .frame(maxWidth: .infinity)
                     }
+                    .scrollIndicators(.hidden)
                     VStack{
                         HStack {
                         seatchLocation
@@ -99,7 +100,6 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                 
             } else {
                 ZStack {
-//                    ScrollView {
                             VStack(spacing: 20){
                                 searchSection
                                     .matchedGeometryEffect(id: "search", in: filterspace)
@@ -111,7 +111,6 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                             .matchedGeometryEffect(id: "overlay", in: filterspace)
                             .padding(.horizontal)
                             .background(Color.white)
-//                    }
                     VStack {
                         Spacer()
                         CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
