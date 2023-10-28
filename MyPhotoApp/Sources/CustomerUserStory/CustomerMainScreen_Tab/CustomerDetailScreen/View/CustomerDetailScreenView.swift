@@ -99,8 +99,14 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                        showOrderConfirm.toggle()
                                        
                                    }.fullScreenCover(isPresented: $showOrderConfirm) {
-                                       CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(author: viewModel.items, orderDate: viewModel.selectedDay ?? Date(), orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)), showOrderConfirm: $showOrderConfirm)
                                        
+                                       CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
+                                        author: viewModel.items,
+                                        orderDate: viewModel.selectedDay ?? Date(),
+                                        orderTime: viewModel.selectedTime,
+                                        orderDuration: String(viewModel.selectedTime.count),
+                                        orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
+                                        showOrderConfirm: $showOrderConfirm)
                                    }
                                }
                            } else {
@@ -418,6 +424,8 @@ struct CustomerDetailScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
+    var customer: DBUserModel? = nil
+    
     var minPrice: String = ""
     
     var priceForDay: String = ""

@@ -27,7 +27,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     var body: some View {
         NavigationStack{
             ScrollView(showsIndicators: false){
-                VStack(spacing: 24){
+                VStack(spacing: 12){
                     avatarImageSection
                     textField(fieldName: R.string.localizable.portfolio_first_name(), propertyName: $viewModel.nameAuthor)
                     
@@ -35,6 +35,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     
                     textField(fieldName: R.string.localizable.portfolio_age(), propertyName: $viewModel.ageAuthor)
                     sexSection
+                        .padding(.top, 8)
                     locationSection
                     photoStyleSection
                         .onTapGesture {
@@ -43,6 +44,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                         .sheet(isPresented: $showStyleList) {
                             PhotographyStylesView(styleSelected: $viewModel.styleAuthor)
                         }
+                        .padding(.top, 8)
                     
                     descriptionSection
                     addSchedule

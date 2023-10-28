@@ -11,6 +11,7 @@ import SwiftUI
 @MainActor
 final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var items: AuthorPortfolioModel
+    @Published var customer: DBUserModel?
     @Published var selectedDay: Date? = nil
     @Published var selectedTime: [String] = []
     @Published var priceForDay: String = ""
@@ -48,7 +49,6 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         guard let endMyTripDate = calendar.date(byAdding: .day, value: endMyTrip, to: today) else { return Date()}
         return endMyTripDate
     }
-    
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date) {
         var appointments: [AppointmentModel] = []
         let calendar = Calendar.current
@@ -107,7 +107,6 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         
         self.appointments = appointments
     }
-    
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format

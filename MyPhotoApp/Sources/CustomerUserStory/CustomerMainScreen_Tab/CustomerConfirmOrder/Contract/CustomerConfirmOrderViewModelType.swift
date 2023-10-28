@@ -9,7 +9,14 @@ import Foundation
 import SwiftUI
 
 @MainActor
-protocol CustomerConfirmOrderViewModelType: ObservableObject {    
+protocol CustomerConfirmOrderViewModelType: ObservableObject {
+    var user: DBUserModel? { get }
+    var customerFirstName: String { get }
+    var customerSecondName: String { get }
+    var customerInstagramLink: String { get set }
+    var customerPhone: String { get set }
+    var customerEmail: String { get set }
+    
     var authorName: String { get }
     var authorSecondName: String { get }
     var location: String { get }
@@ -25,6 +32,7 @@ protocol CustomerConfirmOrderViewModelType: ObservableObject {
     func sortedDate(array: [String]) -> [String]
     func currencySymbol(for regionCode: String) -> String
     func createNewOrder() async throws
+    func getCustomerData() async throws
 
 }
 

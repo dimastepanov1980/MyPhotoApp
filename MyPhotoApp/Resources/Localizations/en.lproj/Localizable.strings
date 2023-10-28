@@ -28,7 +28,8 @@
 "order_not_found" = "You don't have orders";
 
 // MARK: - New Order
-"order_ClientName" = "Client Name";
+"order_firstName" = "First Name";
+"order_secondName" = "Second Name";
 "order_Location" = "Location";
 "order_Price" = "Price";
 "order_InstagramLink" = "Instagram Link";
@@ -40,6 +41,7 @@
 "order_EditOrder" = "Edit Order";
 "order_NewOrder" = "New Order";
 "order_Delete" = "Delete Order";
+"order_shooting_details" = "Shooting details";
 "order_hour" = "h";
 
 // MARK: - order Status
@@ -95,6 +97,9 @@
 "customer" = "Customer";
 "message" = "Message";
 "total_price" = "Total price";
+"contact_information" = "Contact information";
+"tap_to_open" = "Tap to open";
+"copied" = "Copied successfully!";
 "date_detail" = "Date, Time, Duration";
 "location" = "Location";
 

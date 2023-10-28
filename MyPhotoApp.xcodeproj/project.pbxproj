@@ -71,9 +71,6 @@
 		5FC419002ADD3CC90017AF56 /* CustomerOrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC418FF2ADD3CC90017AF56 /* CustomerOrdersView.swift */; };
 		5FC419022ADD62D30017AF56 /* CustomerOrdersViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419012ADD62D30017AF56 /* CustomerOrdersViewModelType.swift */; };
 		5FC419042ADD63870017AF56 /* CustomerOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419032ADD63870017AF56 /* CustomerOrdersViewModel.swift */; };
-		5FC4190B2ADE691E0017AF56 /* CustomerDetailOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4190A2ADE691E0017AF56 /* CustomerDetailOrderViewModelType.swift */; };
-		5FC4190D2ADE693D0017AF56 /* CustomerDetailOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4190C2ADE693D0017AF56 /* CustomerDetailOrderViewModel.swift */; };
-		5FC4190F2ADE6AA40017AF56 /* CustomerDetailOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4190E2ADE6AA40017AF56 /* CustomerDetailOrderView.swift */; };
 		5FC419112AE167390017AF56 /* ProfileScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419102AE167390017AF56 /* ProfileScreenView.swift */; };
 		5FC419132AE167710017AF56 /* NotificationScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419122AE167710017AF56 /* NotificationScreenView.swift */; };
 		5FC419152AE167D70017AF56 /* PrivacyScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419142AE167D70017AF56 /* PrivacyScreenView.swift */; };
@@ -184,9 +181,6 @@
 		5FC418FF2ADD3CC90017AF56 /* CustomerOrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrdersView.swift; sourceTree = "<group>"; };
 		5FC419012ADD62D30017AF56 /* CustomerOrdersViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrdersViewModelType.swift; sourceTree = "<group>"; };
 		5FC419032ADD63870017AF56 /* CustomerOrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrdersViewModel.swift; sourceTree = "<group>"; };
-		5FC4190A2ADE691E0017AF56 /* CustomerDetailOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailOrderViewModelType.swift; sourceTree = "<group>"; };
-		5FC4190C2ADE693D0017AF56 /* CustomerDetailOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailOrderViewModel.swift; sourceTree = "<group>"; };
-		5FC4190E2ADE6AA40017AF56 /* CustomerDetailOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailOrderView.swift; sourceTree = "<group>"; };
 		5FC419102AE167390017AF56 /* ProfileScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenView.swift; sourceTree = "<group>"; };
 		5FC419122AE167710017AF56 /* NotificationScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScreenView.swift; sourceTree = "<group>"; };
 		5FC419142AE167D70017AF56 /* PrivacyScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyScreenView.swift; sourceTree = "<group>"; };
@@ -309,7 +303,6 @@
 			isa = PBXGroup;
 			children = (
 				5FA3C3462A5BDC07003EA4F8 /* AuthorHubPage */,
-				5FBA26992A15370A00E972FB /* AuthenticationUserStory */,
 				5FF546682A1B56F300208455 /* AuthorMainScreen_Tab */,
 				5FB717462A223F3000EC7BF6 /* AuthorSetting_Tab */,
 				5FA767E22A6975FB00861F7D /* AuthorPortfolio_Tab */,
@@ -654,6 +647,7 @@
 			isa = PBXGroup;
 			children = (
 				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
+				5FBA26992A15370A00E972FB /* AuthenticationUserStory */,
 				5F39095D2A8F52B6006E539A /* CustomerUserStory */,
 				5F39095C2A8F52A0006E539A /* AuthorUserStory */,
 				5F9F32492A9735E0004D48B7 /* Components */,
@@ -708,7 +702,6 @@
 		5FC418F32ADD20D00017AF56 /* CustomerOrders_Tab */ = {
 			isa = PBXGroup;
 			children = (
-				5FC419062ADE68B60017AF56 /* CustomerDetailOrder */,
 				5FC419052ADE68970017AF56 /* CustomerOrders */,
 			);
 			path = CustomerOrders_Tab;
@@ -804,40 +797,6 @@
 				5FC418FA2ADD2FDF0017AF56 /* View */,
 			);
 			path = CustomerOrders;
-			sourceTree = "<group>";
-		};
-		5FC419062ADE68B60017AF56 /* CustomerDetailOrder */ = {
-			isa = PBXGroup;
-			children = (
-				5FC419092ADE68D10017AF56 /* View */,
-				5FC419082ADE68CF0017AF56 /* ViewModel */,
-				5FC419072ADE68CC0017AF56 /* Contractor */,
-			);
-			path = CustomerDetailOrder;
-			sourceTree = "<group>";
-		};
-		5FC419072ADE68CC0017AF56 /* Contractor */ = {
-			isa = PBXGroup;
-			children = (
-				5FC4190A2ADE691E0017AF56 /* CustomerDetailOrderViewModelType.swift */,
-			);
-			path = Contractor;
-			sourceTree = "<group>";
-		};
-		5FC419082ADE68CF0017AF56 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				5FC4190C2ADE693D0017AF56 /* CustomerDetailOrderViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		5FC419092ADE68D10017AF56 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				5FC4190E2ADE6AA40017AF56 /* CustomerDetailOrderView.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		5FC419202AE2189B0017AF56 /* Subview */ = {
@@ -1221,7 +1180,6 @@
 				5F4A1B2F2A9B151200EC67B2 /* FlexibleView.swift in Sources */,
 				5FE5AAE42AA2B8AC0033F51B /* DBLocationModel.swift in Sources */,
 				5FE606472A8880D800E33205 /* ReAuthorizationScreenContract.swift in Sources */,
-				5FC4190D2ADE693D0017AF56 /* CustomerDetailOrderViewModel.swift in Sources */,
 				5F3909632A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift in Sources */,
 				5FF546742A1B57E500208455 /* AuthorHCellMainScreenView.swift in Sources */,
 				5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */,
@@ -1236,7 +1194,6 @@
 				5FC4191B2AE168100017AF56 /* LogOutScreenView.swift in Sources */,
 				5FA3C3482A5BDC23003EA4F8 /* AuthorHubPageView.swift in Sources */,
 				5F3909652A8F6D1C006E539A /* DBPortfolioModel.swift in Sources */,
-				5FC4190F2ADE6AA40017AF56 /* CustomerDetailOrderView.swift in Sources */,
 				5FF546712A1B577300208455 /* AuthorMainScreenView.swift in Sources */,
 				5F9F324B2A973604004D48B7 /* CustomerCustomTabs.swift in Sources */,
 				5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */,
@@ -1253,7 +1210,6 @@
 				5F214E102A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift in Sources */,
 				5FA767E42A69762900861F7D /* PortfolioEditView.swift in Sources */,
 				5FC4192F2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift in Sources */,
-				5FC4190B2ADE691E0017AF56 /* CustomerDetailOrderViewModelType.swift in Sources */,
 				5FE606452A8880CB00E33205 /* ReAuthorizationScreenViewModel.swift in Sources */,
 				5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */,
 				5F0F8D862A31E28B00AF4EED /* DbOrderModel.swift in Sources */,

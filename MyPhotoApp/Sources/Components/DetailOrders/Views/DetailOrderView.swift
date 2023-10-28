@@ -8,21 +8,24 @@
 import SwiftUI
 import PhotosUI
 import Firebase
+import UniformTypeIdentifiers
 
 struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
+    var detailOrderType: DetailOrder
+
     @State private var showingOptions = false
     @State private var randomHeights: [CGFloat] = []
     @State private var selectImages: [PhotosPickerItem] = []
     @Binding var showEditOrderView: Bool
     @State var showActionSheet: Bool = false
+    @State var isCopied: Bool = false
     @State private var selectedImageURL: URL?
     @State private var columns = [ GridItem(.flexible(), spacing: 0),
                                    GridItem(.flexible(), spacing: 0),
                                    GridItem(.flexible(), spacing: 0)]
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
-    var detailOrderType: DetailOrder
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -36,17 +39,33 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     
     var body: some View {
             ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    nameSection
-                    locationSection
-                    dateSection
-                    priceSection
-                    messageSection
+                ZStack(alignment: .center){
+                    if isCopied {
+                    // Shows up only when copy is done
+                        Text(R.string.localizable.copied())
+                            .foregroundColor(.white)
+                            .bold()
+                            .font(.footnote)
+                            .padding(12)
+                            .background(Color(R.color.gray2.name).opacity(0.8).cornerRadius(21))
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 24) {
+                        nameSection
+                        locationSection
+                        dateSection
+                        priceSection
+                        if detailOrderType == .author {
+                            contactSection
+                        }
+                        messageSection
+                        imageSection
+                    }
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .padding(.horizontal)
+                    .padding(.top, 32)
+                    
                 }
-                .frame(maxWidth: .infinity, alignment: .topLeading)
-                .padding(.horizontal)
-                .padding(.top, 32)
-                imageSection
 
             }
 
@@ -239,6 +258,79 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 .foregroundColor(Color(R.color.gray2.name))
         }
     }
+    private var contactSection: some View {
+        VStack(alignment: .leading) {
+            Text(R.string.localizable.contact_information())
+                .font(.caption2)
+                .foregroundColor(Color(R.color.gray4.name))
+            VStack(alignment: .leading, spacing: 10){
+               
+                    if let instagramLink = viewModel.order.customerContactInfo.instagramLink {
+                        HStack{
+                            Image("image_instagram")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 22, height: 22)
+                                .foregroundColor(Color(R.color.gray2.name))
+                            Text(R.string.localizable.tap_to_open())
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
+                        .onTapGesture {
+                            guard let instagram = URL(string:instagramLink) else { return }
+                            UIApplication.shared.open(instagram)
+                        }
+                    }
+                    if let phone = viewModel.order.customerContactInfo.phone {
+                        HStack{
+                            Image(systemName: "phone.circle")
+                                .font(.title3)
+                                .foregroundColor(Color(R.color.gray2.name))
+                            Text(phone)
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
+                        .onTapGesture {
+                            let clipboard = UIPasteboard.general
+                            clipboard.setValue(phone, forPasteboardType: UTType.plainText.identifier)
+                            withAnimation {
+                                isCopied = true
+                            }
+                            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 3) {
+                                withAnimation {
+                                    isCopied = false
+                                }
+                            }
+                        }
+                        
+                    }
+                    if let email = viewModel.order.customerContactInfo.email {
+                        HStack{
+                            Image(systemName: "envelope")
+                                .font(.title3)
+                                .foregroundColor(Color(R.color.gray2.name))
+                            Text(email)
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
+                        .onTapGesture {
+                            let clipboard = UIPasteboard.general
+                            clipboard.setValue(email, forPasteboardType: UTType.plainText.identifier)
+                            withAnimation {
+                                isCopied = true
+                            }
+                            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 3) {
+                                withAnimation {
+                                    isCopied = false
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        
+    }
     private var imageSection: some View {
         VStack(alignment: .center){
             if viewModel.referenceImages.count > 0 {
@@ -339,9 +431,9 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
                                                              customerSecondName: "customerSecondName",
                                                              customerDescription: "Customer Description and Bla bla bla sdfsdf sdfsdf",
                                                              customerContactInfo:
-                                                                DbContactInfo(instagramLink: "",
-                                                                              phone: "",
-                                                                              email: "")))
+                                                                DbContactInfo(instagramLink: "https://instagram.com/fitnessbymaddy_?igshid=MzRlODBiNWFlZA==",
+                                                                              phone: "+7 999 99 99",
+                                                                              email: "email@email.com")))
     
     var avaibleStatus: [String] = []
     

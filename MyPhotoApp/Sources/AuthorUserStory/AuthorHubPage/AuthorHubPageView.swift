@@ -38,7 +38,8 @@ struct AuthorHubPageView: View {
             .fullScreenCover(isPresented: $showAddOrderView) {
                 NavigationStack {
                     AuthorAddOrderView(with: AuthorAddOrderViewModel(order: DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "", orderStatus: "", orderShootingDate: Date(), orderShootingTime: [], orderShootingDuration: "", orderSamplePhotos: [], orderMessages: nil, authorId: nil, authorName: "", authorSecondName: "", authorLocation: "",   customerId: nil, customerName: nil, customerSecondName: nil, customerDescription: "",   customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))), showAddOrderView: $showAddOrderView, mode: .new)
-                }
+                }                        .onAppear { UIDatePicker.appearance().minuteInterval = 15 }
+
             }
     }
 }

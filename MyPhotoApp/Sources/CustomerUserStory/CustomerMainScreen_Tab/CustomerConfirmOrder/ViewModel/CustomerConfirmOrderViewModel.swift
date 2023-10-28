@@ -11,18 +11,26 @@ import SwiftUI
 @MainActor
 final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     
-    var authorId: String
-    var authorName: String
-    var authorSecondName: String
-    var location: String
-    var orderDate: Date
-    var orderTime: [String]
-    var orderDuration: String
-    var orderPrice: String
-    var regionAuthor: String
-    var orderDescription: String?
+    @Published var user: DBUserModel?
+    @Published var customerFirstName: String
+    @Published var customerSecondName: String
     
-    init(author: AuthorPortfolioModel, orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String) {
+    @Published var customerInstagramLink: String
+    @Published var customerPhone: String
+    @Published var customerEmail: String
+    
+    @Published var authorId: String
+    @Published var authorName: String
+    @Published var authorSecondName: String
+    @Published var location: String
+    @Published var orderDate: Date
+    @Published var orderTime: [String]
+    @Published var orderDuration: String
+    @Published var orderPrice: String
+    @Published var regionAuthor: String
+    @Published var orderDescription: String?
+    
+    init(user: DBUserModel? = nil, author: AuthorPortfolioModel, orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String) {
         self.authorId = author.id
         self.authorName = author.author?.nameAuthor ?? ""
         self.authorSecondName = author.author?.familynameAuthor ?? ""
@@ -32,8 +40,26 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         self.orderDuration = orderDuration
         self.orderPrice = orderPrice
         self.regionAuthor = author.author?.regionAuthor ?? ""
+        
+        self.customerFirstName = user?.firstName ?? ""
+        self.customerSecondName = user?.secondName ?? ""
+        self.customerInstagramLink = user?.instagramLink ?? ""
+        self.customerPhone = user?.phone ?? ""
+        self.customerEmail = user?.email ?? ""
+        
+        Task{
+         try await getCustomerData()
+        }
     }
-    
+    func getCustomerData() async throws{
+        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+        let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
+        self.customerFirstName = customer.firstName ?? ""
+        self.customerSecondName = customer.secondName ?? ""
+        self.customerInstagramLink = customer.instagramLink ?? ""
+        self.customerEmail = customer.email ?? ""
+        self.customerPhone = customer.phone ?? ""
+    }
     func createNewOrder() async throws {
         let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
         let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
@@ -53,10 +79,10 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                authorLocation: location,
                                                authorRegion: regionAuthor,
                                                customerId: customer.userId,
-                                               customerName: customer.firstName,
-                                               customerSecondName: customer.secondName,
+                                               customerName: customerFirstName,
+                                               customerSecondName: customerSecondName,
                                                customerDescription: orderDescription,
-                                               customerContactInfo: DbContactInfo(instagramLink: customer.instagramLink, phone: customer.phone, email: customer.email))
+                                               customerContactInfo: DbContactInfo(instagramLink: customerInstagramLink, phone: customerPhone, email: customerEmail))
         print(orderData)
         try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
     }

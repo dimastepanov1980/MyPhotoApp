@@ -35,15 +35,10 @@ final class PortfolioScheduleViewModel: PortfolioScheduleViewModelType {
     func setSchedule(schedules: [Schedule]) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         if schedules.isEmpty  {
-            print("array is isEmpty")
             try await UserManager.shared.removeUserSchedule(userId: authDateResult.uid)
         } else {
-            print("Total array \(schedules.count):\(schedules)")
             try await UserManager.shared.removeUserSchedule(userId: authDateResult.uid)
             for schedule in schedules {
-                print("each:\(schedule)")
-                print("timeZone: \(schedule.timeZone)")
-                
                 try? await UserManager.shared.setUserSchedule(userId: authDateResult.uid, schedules: schedule)
             }
         }

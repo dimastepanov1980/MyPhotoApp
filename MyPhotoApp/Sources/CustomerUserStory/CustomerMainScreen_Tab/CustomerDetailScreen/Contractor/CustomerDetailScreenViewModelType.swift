@@ -10,6 +10,7 @@ import Foundation
 @MainActor
 protocol CustomerDetailScreenViewModelType: ObservableObject {
     var items: AuthorPortfolioModel { get set }
+    var customer: DBUserModel? { get }
     var selectedDay: Date? { get set }
     var selectedTime: [String] { get set }
     var timeslotSelectedDay: [TimeSlotModel] { get set }

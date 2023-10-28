@@ -13,7 +13,11 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     @Published var status: String = ""
     @Published var name: String = ""
     @Published var secondName: String = ""
+    
     @Published var instagramLink: String = ""
+    @Published var phone: String = ""
+    @Published var email: String = ""
+    
     @Published var price: String = ""
     @Published var location: String = ""
     @Published var description: String = ""
@@ -29,8 +33,13 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     }
     
     func updatePreview() {
-        name = order.authorName ?? ""
+        name = order.customerName ?? ""
+        secondName = order.customerSecondName ?? ""
+        
         instagramLink = order.customerContactInfo.instagramLink ?? ""
+        phone = order.customerContactInfo.phone ?? ""
+        email = order.customerContactInfo.email ?? ""
+        
         price = order.orderPrice ?? ""
         location = order.authorLocation ?? ""
         description = order.customerDescription ?? ""

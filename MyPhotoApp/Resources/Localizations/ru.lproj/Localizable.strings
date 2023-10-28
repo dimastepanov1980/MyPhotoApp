@@ -40,6 +40,8 @@
 "order_EditOrder" = "Редактировать";
 "order_NewOrder" = "Создать";
 "order_Delete" = "Удалить";
+"order_shooting_details" = "Детали съемки";
+
 "order_hour" = "ч";
 
 // MARK: - order Status
@@ -93,6 +95,9 @@
 "customer" = "Клиент";
 "message" = "Сообщение";
 "total_price" = "Стоимость";
+"contact_information" = "Контакты";
+"tap_to_open" = "Нажмите, чтобы открыть";
+"copied" = "Скопировано!";
 "date_detail" = "Дата, время, продолжительность";
 "location" = "Местоположение";
 "customer_order_add_sample" = "Если вы хотите добавить образцы фотографий,\nщелкните значок плюса на панели инструментов";
