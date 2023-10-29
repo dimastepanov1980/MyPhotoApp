@@ -23,7 +23,6 @@ struct CustomerCustomTabs: View {
                 HStack(alignment: .center, spacing: 85) {
                     tabButton(index: 0, icon: "camera.fill", name: R.string.localizable.customer_tabs_home())
                     tabButton(index: 1, icon: "message.fill", name: R.string.localizable.customer_tabs_message())
-//                    tabButton(index: 2, icon: "heart.fill", name: R.string.localizable.customer_tabs_liked())
                     tabButton(index: 3, icon: "person.fill", name: R.string.localizable.customer_tabs_profile())
                 }.offset(y: -10)
             }

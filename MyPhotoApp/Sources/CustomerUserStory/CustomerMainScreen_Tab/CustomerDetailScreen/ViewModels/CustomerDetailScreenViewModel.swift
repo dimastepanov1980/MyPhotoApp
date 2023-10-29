@@ -52,19 +52,16 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date) {
         var appointments: [AppointmentModel] = []
         let calendar = Calendar.current
-        
         var dateFormatter: DateFormatter {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyyMMdd"
             return dateFormatter
         }
-        
         var timeFormatter: DateFormatter {
             let timeFormatter = DateFormatter()
             timeFormatter.dateFormat = "HH:mm"
             return timeFormatter
         }
-        
         var currentDate = startMyTripDate
         let endMyTripDate = setEndMyTripDate(startMyTrip: startMyTripDate, endMyTrip: 13)
         
@@ -86,7 +83,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
                     while currentTime <= calendar.date(bySettingHour: endHour, minute: endMinute, second: 0, of: currentDate)! {
                         let timeSlot = TimeSlotModel(time: timeFormatter.string(from: currentTime), available: true)
                         timeSlots.append(timeSlot)
-                        currentTime = calendar.date(byAdding: .minute, value: 30, to: currentTime)!
+                        currentTime = calendar.date(byAdding: .minute, value: Int(scheduleItem.timeIntervalSelected) ?? 60, to: currentTime)!
                     }
                     priceForCurrentDay = scheduleItem.price
                 }

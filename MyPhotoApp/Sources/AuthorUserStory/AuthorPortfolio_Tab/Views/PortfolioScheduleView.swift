@@ -54,7 +54,7 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
 struct AddScheduleSection: View {
     @Binding var schedule: Schedule
     var onDelete: () -> Void
-    var interval: [String] = ["1/2", "1", "2", "3", "6", "8", "12"]
+    var interval: [String] = ["30", "60", "120", "180", "360", "480", "720"]
     @State var selectDate: Date = Date()
 
     var body: some View {

@@ -165,13 +165,14 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                     .padding(12)
                     Spacer()
                     VStack(alignment: .trailing){
+                        Text(R.string.localizable.price_start())
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray4.name))
+                        
                         Text("\(viewModel.minPrice) \(viewModel.currencySymbol(for: viewModel.items.author?.regionAuthor ?? "$"))")
                             .font(.headline)
                             .foregroundColor(Color(R.color.gray2.name))
                         
-                        Text(R.string.localizable.price_start())
-                            .font(.footnote)
-                            .foregroundColor(Color(R.color.gray4.name))
                     }
                 }
             }
