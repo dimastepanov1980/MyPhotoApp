@@ -10,7 +10,7 @@ import PhotosUI
 
 struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) private var dismiss
 
     @State private var isTapped = false
     @State private var showStyleList: Bool = false
@@ -20,14 +20,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @State private var locationAuthor = ""
     @State private var selectedAvatar: PhotosPickerItem?
 
-       var btnBack : some View { Button(action: {
-           self.presentationMode.wrappedValue.dismiss()
-           }) {
-                    Image(systemName: "chevron.left.circle.fill")// set image here
-                       .font(.title)
-                       .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
-           }
-       }
     init(with viewModel : ViewModel) {
         self.viewModel = viewModel
     }
@@ -91,7 +83,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                  schedule: [DbSchedule](),
                                                  bookingDays: []
                                                 ))
-                                self.presentationMode.wrappedValue.dismiss()
+                                dismiss()
                             }
                         }
                         .foregroundColor(Color(R.color.gray2.name))
@@ -103,7 +95,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     locationAuthor = viewModel.locationAuthor
                 }
                 .navigationBarBackButtonHidden(true)
-                .navigationBarItems(leading: btnBack)
+                .navigationBarItems(leading: customBackButton)
             }
         }
         
@@ -327,7 +319,15 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
         .padding(.horizontal)
 
     }
-
+    private var customBackButton : some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "chevron.left.circle.fill")// set image here
+               .font(.title)
+               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+        }
+    }
 }
 
 struct PortfolioEditView_Previews: PreviewProvider {
@@ -339,7 +339,6 @@ struct PortfolioEditView_Previews: PreviewProvider {
             typeAuthor: .constant(viewModel.typeAuthor),
             nameAuthor: .constant(viewModel.nameAuthor),
             avatarAuthorID: .constant(UUID()),
-            avatarURL: .constant(viewModel.avatarURL),
             familynameAuthor: .constant(viewModel.familynameAuthor),
             sexAuthor: .constant("Select"),
             ageAuthor: .constant(viewModel.ageAuthor),
