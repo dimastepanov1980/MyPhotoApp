@@ -17,7 +17,6 @@ struct CustomerPageHubView: View {
 
     
     @State private var showAddOrderView: Bool = false
-    @State private var reAuthenticationScreenSheet: Bool = false
     @State private var requestLocation: Bool = false
     @State var serchPageShow: Bool = true
 
@@ -33,7 +32,7 @@ struct CustomerPageHubView: View {
                     } else if self.index == 2 {
                         Color.green
                     } else if self.index == 3 {
-                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, reAuthenticationScreenSheet: $reAuthenticationScreenSheet)
+                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
                     }
                 }
                 .padding(.bottom, -40)

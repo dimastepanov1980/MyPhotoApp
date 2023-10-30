@@ -82,6 +82,8 @@
 "your_login" = "Ваш логин:";
 "version_not_available" = "Версия программы не доступна";
 
+"Setup_your_profile" = "Пожалуйста, настройте ваш профиль";
+
 //MARK: - Customer Zone
 "price_start" = "цена от";
 "select_date" = "Выберите дату";

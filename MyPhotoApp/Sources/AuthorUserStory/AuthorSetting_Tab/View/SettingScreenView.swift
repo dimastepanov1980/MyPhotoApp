@@ -11,15 +11,12 @@ import Combine
 struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @Binding var showAuthenticationView: Bool
-    @Binding var reAuthenticationScreenSheet: Bool
 
     init(with viewModel: ViewModel,
-         showAuthenticationView: Binding<Bool>,
-         reAuthenticationScreenSheet: Binding<Bool>) {
+         showAuthenticationView: Binding<Bool>) {
         
         self.viewModel = viewModel
         self._showAuthenticationView = showAuthenticationView
-        self._reAuthenticationScreenSheet = reAuthenticationScreenSheet
     }
     
     var body: some View {
@@ -60,7 +57,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
 
         switch item.nameItem {
         case R.string.localizable.settings_section_profile():
-                ProfileScreenView(with: ProfileScreenViewModel(avatarAuthorID: UUID(), dateOfBirthday: Date(), avatarAuthor: "", descriptionAuthor: ""))
+            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: .constant(true)))
         case R.string.localizable.settings_section_notification():
             NotificationScreenView()
         case R.string.localizable.settings_section_privacy():
@@ -70,7 +67,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
         case R.string.localizable.settings_section_localization():
             LocalizationScreenView()
         case R.string.localizable.settings_section_logout():
-            LogOutScreenView(with: LogOutScreenViewModel(), showAuthenticationView: $showAuthenticationView, reAuthenticationScreenSheet: $reAuthenticationScreenSheet)
+            LogOutScreenView(with: LogOutScreenViewModel(), showAuthenticationView: $showAuthenticationView)
 
         default:
             Text("Unknown View")
@@ -82,7 +79,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
 struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
-            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), reAuthenticationScreenSheet: .constant(false))
+            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false))
     }
 }
 

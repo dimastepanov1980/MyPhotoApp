@@ -258,6 +258,7 @@ final class UserManager {
     private func portfolioUserDocument(userId: String) -> DocumentReference {
         portfolioCollection.document(userId)
     }
+    
     func setUserPortfolio(userId: String, portfolio: DBPortfolioModel) async throws {
         guard let authorData = try? encoder.encode(portfolio.author) else {
             throw URLError(.badURL)
@@ -265,7 +266,17 @@ final class UserManager {
         let portfolioDoc = portfolioUserDocument(userId: userId)
         let authorDoc = authorDocument(authorId: userId)
         let portfolioId = portfolioDoc.documentID
-
+/*
+ let id: String
+ let author: DBAuthor?
+ let avatarAuthor: String?
+ let smallImagesPortfolio: [String]?
+ let largeImagesPortfolio: [String]?
+ let descriptionAuthor: String?
+//    let reviews: [DBReviews]?
+ let schedule: [DbSchedule]?
+ let bookingDays: [BookingDay]?
+ */
         let portfolioData: [String : Any] = [
             DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
             DBPortfolioModel.CodingKeys.author.rawValue : authorData,
@@ -274,7 +285,8 @@ final class UserManager {
         
         let authorInfo: [String : Any] = [
             DBUserModel.CodingKeys.firstName.rawValue : portfolio.author?.nameAuthor ?? "",
-            DBUserModel.CodingKeys.secondName.rawValue : portfolio.author?.familynameAuthor ?? ""
+            DBUserModel.CodingKeys.secondName.rawValue : portfolio.author?.familynameAuthor ?? "",
+            DBUserModel.CodingKeys.setPortfolio.rawValue : true
         ]
         
         try await portfolioDoc.setData(portfolioData, merge: true)

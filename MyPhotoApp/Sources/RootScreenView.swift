@@ -24,7 +24,7 @@ struct RootScreenView: View {
                 }
             }
         }
-        
+
         .sheet(isPresented: $showAuthenticationView, content: {
             AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer))
 

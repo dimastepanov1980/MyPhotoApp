@@ -518,7 +518,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 124 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 126 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -808,6 +808,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let portfolio_add_images = Rswift.StringResource(key: "portfolio_add_images", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please set up your portfolio
+      ///
+      /// Locales: en
+      static let setup_your_portfolio = Rswift.StringResource(key: "setup_your_portfolio", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// en translation: Please set up your profile
+      ///
+      /// Locales: en
+      static let setup_your_profile = Rswift.StringResource(key: "setup_your_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Portfolio
       ///
       /// Locales: en, ru
@@ -2095,6 +2103,36 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("portfolio_add_images", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please set up your portfolio
+      ///
+      /// Locales: en
+      static func setup_your_portfolio(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("setup_your_portfolio", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "setup_your_portfolio"
+        }
+
+        return NSLocalizedString("setup_your_portfolio", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please set up your profile
+      ///
+      /// Locales: en
+      static func setup_your_profile(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("setup_your_profile", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "setup_your_profile"
+        }
+
+        return NSLocalizedString("setup_your_profile", bundle: bundle, comment: "")
       }
 
       /// en translation: Portfolio

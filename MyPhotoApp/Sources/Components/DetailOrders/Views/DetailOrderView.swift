@@ -27,8 +27,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                    GridItem(.flexible(), spacing: 0)]
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+    @Environment(\.dismiss) private var dismiss
+
     init(with viewModel: ViewModel,
          showEditOrderView: Binding<Bool>,
          detailOrderType: DetailOrder) {
@@ -106,7 +106,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        self.presentationMode.wrappedValue.dismiss()
+                        dismiss()
                         
                     } label: {
                         Image(systemName: "chevron.left.circle.fill")// set image here

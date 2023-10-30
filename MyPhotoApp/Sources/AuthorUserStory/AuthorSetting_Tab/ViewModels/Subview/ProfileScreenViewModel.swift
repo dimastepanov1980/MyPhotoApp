@@ -13,28 +13,26 @@ final class ProfileScreenViewModel: ProfileScreenViewModelType {
     
     @Published var user: DBUserModel?
     @Published var avatarURL: URL?
-    @Published var avatarID: UUID
-    @Published var avatarCustomer: String
-    @Published var dateOfBirthday: Date
+    @Published var avatarID: UUID?
+    @Published var avatarCustomer: String?
+    @Published var dateOfBirthday: Date?
     @Published var nameCustomer: String
     @Published var secondNameCustomer: String
-    @Published var descriptionCustomer: String
+    @Published var descriptionCustomer: String?
     @Published var instagramLink: String
     @Published var phone: String
     @Published var email: String
+    @Binding var profileIsShow: Bool
 
     
-    init(user: DBUserModel? = nil, avatarURL: URL? = nil, avatarAuthorID: UUID, dateOfBirthday: Date, avatarAuthor: String, descriptionAuthor: String) {
+    init(user: DBUserModel? = nil, avatarURL: URL? = nil, profileIsShow: Binding<Bool>) {
         self.avatarURL = avatarURL
-        self.avatarID = avatarAuthorID
-        self.dateOfBirthday = dateOfBirthday
-        self.avatarCustomer = avatarAuthor
-        self.descriptionCustomer = descriptionAuthor
         self.nameCustomer = user?.firstName ?? ""
         self.secondNameCustomer = user?.secondName ?? ""
         self.instagramLink = user?.instagramLink ?? ""
         self.phone = user?.phone ?? ""
         self.email = user?.email ?? ""
+        self._profileIsShow = profileIsShow
         
         Task{
             let user = try await loadCurrentUser()

@@ -16,16 +16,8 @@ struct InformationScreenView: View {
                    return R.string.localizable.version_not_available()
                }
     }
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) private var dismiss
 
-       var btnBack : some View { Button(action: {
-           self.presentationMode.wrappedValue.dismiss()
-           }) {
-                    Image(systemName: "chevron.left.circle.fill")// set image here
-                       .font(.title)
-                       .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
-           }
-       }
     var body: some View {
         VStack(alignment: .center) {
             Image(R.image.image_logo.name)
@@ -52,8 +44,19 @@ struct InformationScreenView: View {
             Spacer()
         }
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: btnBack)
+        .navigationBarItems(leading: customBackButton)
     }
+    
+    private var customBackButton : some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "chevron.left.circle.fill")// set image here
+               .font(.title)
+               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+        }
+    }
+
 }
 
 struct InformationScreenView_Previews: PreviewProvider {

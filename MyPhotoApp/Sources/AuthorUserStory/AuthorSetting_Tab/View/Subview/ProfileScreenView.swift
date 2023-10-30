@@ -15,18 +15,8 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
     @State private var selectedAvatar: PhotosPickerItem?
     @State private var isAvatarUploadInProgress = false
     @State private var loadingImage = false
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) private var dismiss
 
-       var btnBack : some View { Button(action: {
-           self.presentationMode.wrappedValue.dismiss()
-           }) {
-                    Image(systemName: "chevron.left.circle.fill")// set image here
-                       .font(.title)
-                       .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
-           }
-       }
-
-    
     init(with viewModel: ViewModel) {
         self.viewModel = viewModel
     }
@@ -36,15 +26,13 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                 avatarImageSection
                 CustomTextField(nameTextField: R.string.localizable.portfolio_first_name(), text: $viewModel.nameCustomer)
                 CustomTextField(nameTextField: R.string.localizable.portfolio_last_name(), text: $viewModel.secondNameCustomer)
-                CustomTextField(nameTextField: R.string.localizable.settings_section_profile_email(), text: $viewModel.email)
-                    .disabled(true)
                 CustomTextField(nameTextField: R.string.localizable.settings_section_profile_phone(), text: $viewModel.phone)
                 CustomTextField(nameTextField: R.string.localizable.settings_section_profile_instagram(), text: $viewModel.instagramLink)
                 
                 Spacer()
             }
             .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: btnBack)
+            .navigationBarItems(leading: customBackButton)
             .confirmationDialog("Log Out", isPresented: $logoutConfirmation) {
                 Button("Confirm") {
                     logoutConfirmation = false
@@ -53,8 +41,7 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                     logoutConfirmation = false
                 }
             }
-        
-        .toolbar{
+            .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(R.string.localizable.save()) {
                     Task {
@@ -65,17 +52,18 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                                                                phone: viewModel.phone,
                                                                email: viewModel.email,
                                                                dateCreate: nil,
-                                                               userType: nil)
+                                                               userType: nil,
+                                                               setPortfolio: false)
 
                         try await viewModel.updateCurrentUser(profile: profile)
-                        self.presentationMode.wrappedValue.dismiss()
+                        self.viewModel.profileIsShow = true
+                        dismiss()
                     }
                 }
                 .foregroundColor(Color(R.color.gray2.name))
                 .padding()
             }
         }
-
     }
     
     private var avatarImageSection: some View {
@@ -83,7 +71,7 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                      matching: .any(of: [.images, .not(.videos)]),
                      preferredItemEncoding: .automatic,
                      photoLibrary: .shared()) {
-            AsyncImage(url: URL(string: viewModel.avatarCustomer)) { image in
+            AsyncImage(url: URL(string: viewModel.avatarCustomer ?? "")) { image in
                 image
                     .resizable()
                     .scaledToFill()
@@ -133,7 +121,16 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
              }
          }
     }
-
+    private var customBackButton : some View {
+        Button {
+            self.viewModel.profileIsShow = true
+            dismiss()
+        } label: {
+            Image(systemName: "chevron.left.circle.fill")// set image here
+               .font(.title)
+               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+        }
+    }
 }
 
 struct ProfileScreenView_Previews: PreviewProvider {
@@ -147,16 +144,16 @@ struct ProfileScreenView_Previews: PreviewProvider {
 
 
 private class MockViewModel: ProfileScreenViewModelType, ObservableObject {
- 
+    var profileIsShow: Bool = true
     var user: DBUserModel? = nil
     var instagramLink: String = ""
     var phone: String = ""
     var email: String = ""
     var avatarURL: URL? = nil
-    var avatarID: UUID = UUID()
-    var dateOfBirthday: Date = Date()
-    var avatarCustomer: String = ""
-    var descriptionCustomer: String = ""
+    var avatarID: UUID? = UUID()
+    var dateOfBirthday: Date? = Date()
+    var avatarCustomer: String? = ""
+    var descriptionCustomer: String? = ""
     var nameCustomer: String = ""
     var secondNameCustomer: String = ""
     
@@ -168,7 +165,7 @@ private class MockViewModel: ProfileScreenViewModelType, ObservableObject {
     func loadCurrentUser() async throws -> DBUserModel {
         let autDataResult = try AuthNetworkService.shared.getAuthenticationUser()
 
-        return DBUserModel(auth: autDataResult, userType: "", firstName: "", secondName: "", instagramLink: "", phone: "")
+        return DBUserModel(auth: autDataResult, userType: "", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false)
     }
     
 }

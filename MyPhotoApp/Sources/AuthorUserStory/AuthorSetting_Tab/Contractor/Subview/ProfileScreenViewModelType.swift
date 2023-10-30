@@ -15,18 +15,18 @@ protocol ProfileScreenViewModelType: ObservableObject {
     var user: DBUserModel? { get set }
     
     var avatarURL: URL? { get set }
-    var avatarID: UUID { get set }
-    var avatarCustomer: String { get set }
+    var avatarID: UUID? { get set }
+    var avatarCustomer: String? { get set }
 
     var nameCustomer: String { get set }
     var secondNameCustomer: String { get set }
-    var descriptionCustomer: String { get set }
-    var dateOfBirthday: Date { get set }
+    var descriptionCustomer: String? { get set }
+    var dateOfBirthday: Date? { get set }
     
     var instagramLink: String { get set }
     var phone: String { get set }
     var email: String { get set }
-
+    var profileIsShow: Bool { get set }
     
     func addAvatar(selectImage: PhotosPickerItem?) async throws
     func avatarPathToURL(path: String) async throws -> URL

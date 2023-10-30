@@ -81,7 +81,8 @@
 "notes" = "When more than 100 photographers use our application,\nwe will start developing the «Portfolio» service.";
 "your_login" = "Your Login:";
 "version_not_available" = "Version not available";
-
+"setup_your_profile" = "Please set up your profile";
+"setup_your_portfolio" = "Please set up your portfolio";
 
 //MARK: - Customer Zone -
 "price_start" = "start from";
