@@ -13,6 +13,8 @@ import MapKit
 @MainActor
 protocol AuthorMainScreenViewModelType: ObservableObject {
     var orders: [DbOrderModel] { get }
+    var userProfileIsSet: Bool { get set }
+    
     var weatherByDate: [Date: [Weather?]] { get }
     var selectedDay: Date { get set }
     var today: Date { get set }

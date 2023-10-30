@@ -15,8 +15,10 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     @Binding var showSignInView: Bool
     @Binding var showEditOrderView: Bool
     @State var showActionSheet: Bool = false
+
     @State private var shouldScroll = false
     var statusOrder: StatusOrder
+
     
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
@@ -29,30 +31,32 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     }
     
     var body: some View {
-        VStack {
-            ScrollViewReader { data in
-                ScrollView(.vertical, showsIndicators: false) {
-                    LazyVStack(pinnedViews: [.sectionHeaders]) {
-                        Section {
-                            ScrollView(.vertical) {
-                                verticalCards()
-                                    .padding(.bottom)
-                                    .padding(.top, statusOrder == .Upcoming ? 0 : 32)
+        NavigationStack{
+            VStack {
+                ScrollViewReader { data in
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVStack(pinnedViews: [.sectionHeaders]) {
+                            Section {
+                                ScrollView(.vertical) {
+                                    verticalCards()
+                                        .padding(.bottom)
+                                        .padding(.top, statusOrder == .Upcoming ? 0 : 32)
+                                }
+                            } header: {
+                                if statusOrder == .Upcoming {
+                                    headerSection(scroll: data)
+                                        .padding(.top, 64)
+                                }
                             }
-                        } header: {
-                            if statusOrder == .Upcoming {
-                                headerSection(scroll: data)
-                                    .padding(.top, 64)
-                            }
+                            .background(Color(R.color.gray7.name))
                         }
-                        .background(Color(R.color.gray7.name))
-                    }
-                }.padding(.vertical, 32)
+                    }.padding(.vertical, 32)
+                }
             }
-            
+         
+            .background(Color(R.color.gray7.name))
+            .ignoresSafeArea()
         }
-        .background(Color(R.color.gray7.name))
-        .ignoresSafeArea()
     }
     func headerSection(scroll: ScrollViewProxy) -> some View {
         VStack() {
@@ -204,9 +208,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                                                     }
                                                 }
                                             }
-                                            .onAppear{
-                                                print(order.orderStatus)
-                                            }
                                     }
                             }
                         }
@@ -232,20 +233,12 @@ struct AuthorMainScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
-    func fetchWeather(with location: CLLocation) {
-    }
+    var userProfileIsSet: Bool = true
     
-    func getIconForWeatherCode(weatherCode: String) -> String {
-        return ""
-    }
-    
-    func orderStausName(status: String?) -> String {
-        "Upcoming"
-    }
     var filteredOtherOrders: [Date : [DbOrderModel]] = [:]
     var filteredOrdersForToday: [DbOrderModel] = []
     var filteredUpcomingOrders: [Date : [DbOrderModel]] = [:]
-    var vm = AuthorMainScreenViewModel()
+    var vm = AuthorMainScreenViewModel(userProfileIsSet: .constant(true), userPortfolioIsSet: .constant(false))
     var location = LocationService()
     
     @Published var weatherByDate = [Date : [Weather?]]()
@@ -274,7 +267,16 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
                                                                                   customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))]
     
     init() {}
+    func fetchWeather(with location: CLLocation) {
+    }
     
+    func getIconForWeatherCode(weatherCode: String) -> String {
+        return ""
+    }
+    
+    func orderStausName(status: String?) -> String {
+        "Upcoming"
+    }
     func fetchWeather() async throws {
         //
     }

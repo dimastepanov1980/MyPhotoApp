@@ -17,7 +17,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     var location = LocationService()
     private var cancellables = Set<AnyCancellable>()
     private var listenerRegistration: ListenerRegistration?
-
+    @Published private var user: DBUserModel?
     var filteredOtherOrders: [Date : [DbOrderModel]]  {
         var filteredOrders = [Date : [DbOrderModel]]()
         
@@ -66,14 +66,22 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             return formattedOrderDate == formattedToday
         }
     }
+    @Binding var userProfileIsSet: Bool
+    @Binding var userPortfolioIsSet: Bool
+    
     @Published var orders: [DbOrderModel]
     @Published var weatherByDate: [Date: [Weather?]] = [:]
     @Published var weatherForCurrentDay: String? = nil
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
     @Published var modified = false
-    init(orders: [DbOrderModel] = []) {
+    
+    init(orders: [DbOrderModel] = [],
+         userProfileIsSet: Binding<Bool>,
+         userPortfolioIsSet: Binding<Bool>) {
         self.orders = orders
+        self._userProfileIsSet = userProfileIsSet
+        self._userPortfolioIsSet = userPortfolioIsSet
         
         location.$location
                   .receive(on: DispatchQueue.main) // Ensure updates are received on the main thread
@@ -85,6 +93,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         
         Task {
             try await subscribe()
+            try await checkProfileAndPortfolio()
             try await fetchLocation()
         }
     }
@@ -92,15 +101,6 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     func fetchLocation() async throws {
         try await location.requestLocation()
     }
-    
-    private func handleNewLocation(_ location: CLLocation?) {
-        guard let location = location else {
-            print("Location is nil.")
-            return
-        }
-        fetchWeather(with: location)
-    }
-    
     func fetchWeather(with location: CLLocation) {
         let longitude = location.coordinate.longitude.description
         let latitude = location.coordinate.latitude.description
@@ -153,12 +153,39 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     }
     func subscribe() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+        self.user = try await UserManager.shared.getUser(userId: authDateResult.uid)
+       
         print("subscribe to Author: \(authDateResult)")
         listenerRegistration = UserManager.shared.subscribeAuthorOrders(userId: authDateResult.uid, completion: { orders in
             self.orders = orders
         })
     }
+    func checkProfileAndPortfolio() async throws {
+        if user?.avatarUser?.isEmpty ?? true {
+            self.userProfileIsSet = true
+            print("Set up your avatarUser")
+        }
 
+        if user?.firstName?.isEmpty ?? true {
+            self.userProfileIsSet = true
+            print("Set up your firstName")
+        }
+
+        if user?.secondName?.isEmpty ?? true {
+            self.userProfileIsSet = true
+            print("Set up your secondName")
+        }
+
+        if (user?.phone?.isEmpty ?? true) && (user?.instagramLink?.isEmpty ?? true) {
+            self.userProfileIsSet = true
+            print("Set up your contacts")
+        }
+
+        if user?.setPortfolio == false {
+            self.userPortfolioIsSet = true
+            print("Set up your portfolio")
+        }
+    }
     func deleteOrder(order: DbOrderModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
@@ -221,6 +248,15 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             return "icloud.slash"
         }
     }
+    
+    private func handleNewLocation(_ location: CLLocation?) {
+        guard let location = location else {
+            print("Location is nil.")
+            return
+        }
+        fetchWeather(with: location)
+    }
+
 }
 
 enum StatusOrder {
