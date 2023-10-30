@@ -15,8 +15,8 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     @Binding var showSignInView: Bool
     @Binding var showEditOrderView: Bool
     @State var showActionSheet: Bool = false
-
     @State private var shouldScroll = false
+    
     var statusOrder: StatusOrder
 
     
@@ -58,6 +58,23 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
             .ignoresSafeArea()
         }
     }
+    var horizontalCards: some View {
+        LazyHStack {
+            ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author)
+                    .navigationBarBackButtonHidden(true)) {
+                        AuthorHCellMainScreenView(items: order)
+                            .contextMenu {
+                                Button(R.string.localizable.order_Delete()) {
+                                    Task {
+                                        try? await viewModel.deleteOrder(order: order)
+                                    }
+                                }
+                            }
+                    }
+            }
+        }.padding(.horizontal)
+    }
     func headerSection(scroll: ScrollViewProxy) -> some View {
         VStack() {
             HStack {
@@ -92,23 +109,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                 calendarSection(value: scroll)
             }
         }
-    }
-    var horizontalCards: some View {
-        LazyHStack {
-            ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author)
-                    .navigationBarBackButtonHidden(true)) {
-                        AuthorHCellMainScreenView(items: order)
-                            .contextMenu {
-                                Button(R.string.localizable.order_Delete()) {
-                                    Task {
-                                        try? await viewModel.deleteOrder(order: order)
-                                    }
-                                }
-                            }
-                    }
-            }
-        }.padding(.horizontal)
     }
     func calendarSection(value: ScrollViewProxy) -> some View {
         HStack(alignment: .bottom, spacing: 8 ) {

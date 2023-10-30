@@ -9,21 +9,22 @@ import SwiftUI
 
 struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
     @ObservedObject private var viewModel: ViewModel
-    @Binding var isShowActionSheet: Bool
+    @Binding var showReAuthenticationView: Bool
     @Binding var showAuthenticationView: Bool
     @State private var userIsCustomer: Bool = false
+    @Environment(\.dismiss) private var dismiss
 
     init(with viewModel: ViewModel,
-         isShowActionSheet: Binding<Bool>,
+         showReAuthenticationView: Binding<Bool>,
          showAuthenticationView: Binding<Bool>) {
         self.viewModel = viewModel
-        self._isShowActionSheet = isShowActionSheet
+        self._showReAuthenticationView = showReAuthenticationView
         self._showAuthenticationView = showAuthenticationView
     }
     
     var body: some View {
         ZStack{
-            NavigationView {
+            NavigationStack {
                 VStack {
                     Spacer()
                     Text(R.string.localizable.delete_user_allert())
@@ -49,7 +50,8 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                         Task {
                             do {
                                 try await viewModel.deleteUser(password: viewModel.reSignInPassword)
-                                isShowActionSheet.toggle()
+                                dismiss()
+                                showReAuthenticationView = false
                                 showAuthenticationView.toggle()
                             } catch {
                                 self.viewModel.errorMessage = error.localizedDescription
@@ -61,18 +63,14 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        isShowActionSheet.toggle()
+                        dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .font(.title2)
-                            .foregroundColor(.black.opacity(0.7))
+                            .foregroundStyle(.white, Color(R.color.gray2.name).opacity(0.6))
+                            .font(.largeTitle)
                         
                     }
                 }
-            }
-        }      .fullScreenCover(isPresented: $showAuthenticationView) {
-            NavigationStack {
-                AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer))
             }
         }
     }
@@ -82,7 +80,7 @@ struct ReAuthenticationScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
         NavigationView {
-            ReAuthenticationScreenView(with: viewModel, isShowActionSheet: .constant(false), showAuthenticationView: .constant(false))
+            ReAuthenticationScreenView(with: viewModel, showReAuthenticationView: .constant(false), showAuthenticationView: .constant(false))
         }
     }
 }

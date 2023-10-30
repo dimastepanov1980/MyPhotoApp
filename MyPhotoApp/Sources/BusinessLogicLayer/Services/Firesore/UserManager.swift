@@ -266,17 +266,6 @@ final class UserManager {
         let portfolioDoc = portfolioUserDocument(userId: userId)
         let authorDoc = authorDocument(authorId: userId)
         let portfolioId = portfolioDoc.documentID
-/*
- let id: String
- let author: DBAuthor?
- let avatarAuthor: String?
- let smallImagesPortfolio: [String]?
- let largeImagesPortfolio: [String]?
- let descriptionAuthor: String?
-//    let reviews: [DBReviews]?
- let schedule: [DbSchedule]?
- let bookingDays: [BookingDay]?
- */
         let portfolioData: [String : Any] = [
             DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
             DBPortfolioModel.CodingKeys.author.rawValue : authorData,
@@ -310,8 +299,14 @@ final class UserManager {
     func getUserSchedule(userId: String) async throws -> DBPortfolioModel {
         try await portfolioUserDocument(userId: userId).getDocument(as: DBPortfolioModel.self)
     }
-    func addAvatarUrl(userId: String, path: String) async throws {
+    func addAvatarToPortfolio(userId: String, path: String) async throws {
         try await portfolioUserDocument(userId: userId).setData([DBPortfolioModel.CodingKeys.avatarAuthor.rawValue : path], mergeFields: [DBPortfolioModel.CodingKeys.avatarAuthor.rawValue])
+    }
+    func addAvatarToAuthorProfile(userId: String, path: String) async throws {
+        try await authorDocument(authorId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
+    }
+    func addAvatarToCustomerProfile(userId: String, path: String) async throws {
+        try await customerDocument(customerId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
     }
     func addPortfolioImagesUrl(userId: String, path: [String]) async throws {
         try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion(path)])

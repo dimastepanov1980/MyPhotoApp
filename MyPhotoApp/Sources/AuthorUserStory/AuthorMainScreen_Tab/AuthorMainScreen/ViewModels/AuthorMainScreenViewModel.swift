@@ -161,6 +161,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         })
     }
     func checkProfileAndPortfolio() async throws {
+        
         if user?.avatarUser?.isEmpty ?? true {
             self.userProfileIsSet = true
             print("Set up your avatarUser")
@@ -176,9 +177,13 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             print("Set up your secondName")
         }
 
-        if (user?.phone?.isEmpty ?? true) && (user?.instagramLink?.isEmpty ?? true) {
+        if (user?.phone?.isEmpty ?? true) {
             self.userProfileIsSet = true
-            print("Set up your contacts")
+            print("Set up your contacts - Phone")
+        }
+        if (user?.instagramLink?.isEmpty ?? true) {
+            self.userProfileIsSet = true
+            print("Set up your contacts - instagram Link")
         }
 
         if user?.setPortfolio == false {

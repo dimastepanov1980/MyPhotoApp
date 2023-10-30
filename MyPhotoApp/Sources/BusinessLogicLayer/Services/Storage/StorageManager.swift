@@ -96,7 +96,27 @@ final class StorageManager {
         }
         return ("", "")
     }
-    
+    func uploadAvatarImageToFairbase(data: Data, userId: String) async throws -> (path: String, name: String) {
+        
+        if let image = UIImage(data: data) {
+            guard let resizeImage = resizeImage(image: image, targetSize: CGSize(width: 150, height: 150)),
+                  let jpegData = resizeImage.jpegData(compressionQuality: 0.8) else {
+                throw URLError(.backgroundSessionWasDisconnected)
+            }
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            let path = "\(userId)_avatar.jpg"
+            let returnedMetadata = try await userReferenceImage(userId: userId).child("portfolio").child(path).putDataAsync(jpegData, metadata: metadata)
+            
+            guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
+                throw URLError(.badServerResponse)
+            }
+            return (returnedPath, returnedName)
+        }
+        return ("", "")
+
+    }
+
     func uploadSampleImageDataToFirebase(data: Data, userId: String) async throws -> (path: String, name: String) {
         if let image = UIImage(data: data) {
             guard let resizeImage = resizeImage(image: image, targetSize: CGSize(width: 800, height: 800)),
@@ -114,18 +134,6 @@ final class StorageManager {
             return (returnedPath, returnedName)
         }
         return ("", "")
-    }
-    
-    func uploadAvatarImageToFairbase(data: Data, userId: String) async throws -> (path: String, name: String) {
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        let path = "\(userId)_avatar.jpg"
-        let returnedMetadata = try await userReferenceImage(userId: userId).child("portfolio").child(path).putDataAsync(data, metadata: metadata)
-        
-        guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
-            throw URLError(.badServerResponse)
-        }
-        return (returnedPath, returnedName)
     }
     func uploadAvatarToFairbase(image: UIImage, userId: String) async throws -> (path: String, name: String) {
         guard let resizeImage = resizeImage(image: image, targetSize: CGSize(width: 240, height: 240)),

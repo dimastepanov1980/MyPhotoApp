@@ -13,7 +13,6 @@ import PhotosUI
 final class PortfolioViewModel: PortfolioViewModelType {
     
     @Published var dbModel: DBPortfolioModel?
-    @Published var avatarURL: URL?
     @Published var locationAuthor: String = ""
     @Published var identifier: String = ""
     @Published var avatarAuthor: String = ""
@@ -23,13 +22,13 @@ final class PortfolioViewModel: PortfolioViewModelType {
     @Published var sexAuthor: String = ""
     @Published var styleAuthor: [String] = []
     @Published var descriptionAuthor: String = ""
-    @Published var avatarAuthorID = UUID()
     @Published var typeAuthor: String = ""
     @Published var latitude: Double = 0.0
     @Published var longitude: Double = 0.0
     @Published var regionAuthor = ""
     @Published var smallImagesPortfolio: [String] = []
     @Published var portfolioImages: [String: UIImage?] = [:]
+    @Published var avatarImage: UIImage? = nil
     
     init(dbModel: DBPortfolioModel? = nil) {
         self.dbModel = dbModel
@@ -55,7 +54,6 @@ final class PortfolioViewModel: PortfolioViewModelType {
         do {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
             let portfolio = try await UserManager.shared.getUserPortfolio(userId: authDateResult.uid)
-            print(portfolio)
             self.dbModel = portfolio
         } catch {
             print(error.localizedDescription)
@@ -73,7 +71,6 @@ final class PortfolioViewModel: PortfolioViewModelType {
                         let image = try await StorageManager.shared.getReferenceImage(path: imagePath)
                         return (imagePath, image)
                     } catch {
-                        // Handle any errors that occur during image fetching
                         print("Error fetching image: \(error)")
                         return (imagePath, nil)
                     }
@@ -82,13 +79,15 @@ final class PortfolioViewModel: PortfolioViewModelType {
             
             for await (imagePath, image) in taskGroup {
                 if let image = image {
-                    portfolioImages[imagePath] = image  // Assign the image to the dictionary
+                    portfolioImages[imagePath] = image
                 }
-                semaphore.signal()  // Release access
+                semaphore.signal()
             }
         }
-        // Now portfolioImages has all the fetched images
         self.portfolioImages = portfolioImages
+    }
+    func getAvatarImage(imagePath: String) async throws {
+        self.avatarImage = try await StorageManager.shared.getReferenceImage(path: imagePath)
     }
     func addPortfolioImages(selectedImages: [PhotosPickerItem]) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()

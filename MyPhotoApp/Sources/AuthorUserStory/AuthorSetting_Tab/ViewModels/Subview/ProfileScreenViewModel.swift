@@ -12,9 +12,8 @@ import PhotosUI
 final class ProfileScreenViewModel: ProfileScreenViewModelType {
     
     @Published var user: DBUserModel?
-    @Published var avatarURL: URL?
-    @Published var avatarID: UUID?
-    @Published var avatarCustomer: String?
+    @Published var avatarProfile: String?
+    @Published var avatarImage: UIImage? = nil
     @Published var dateOfBirthday: Date?
     @Published var nameCustomer: String
     @Published var secondNameCustomer: String
@@ -25,13 +24,13 @@ final class ProfileScreenViewModel: ProfileScreenViewModelType {
     @Binding var profileIsShow: Bool
 
     
-    init(user: DBUserModel? = nil, avatarURL: URL? = nil, profileIsShow: Binding<Bool>) {
-        self.avatarURL = avatarURL
+    init(user: DBUserModel? = nil,  profileIsShow: Binding<Bool>) {
         self.nameCustomer = user?.firstName ?? ""
         self.secondNameCustomer = user?.secondName ?? ""
         self.instagramLink = user?.instagramLink ?? ""
         self.phone = user?.phone ?? ""
         self.email = user?.email ?? ""
+        self.avatarProfile = user?.avatarUser ?? ""
         self._profileIsShow = profileIsShow
         
         Task{
@@ -40,24 +39,39 @@ final class ProfileScreenViewModel: ProfileScreenViewModelType {
             self.nameCustomer = user.firstName ?? ""
             self.secondNameCustomer = user.secondName ?? ""
             self.instagramLink =  user.instagramLink ?? ""
+            self.avatarProfile = user.avatarUser ?? ""
             self.phone =  user.phone ?? ""
             self.email =  user.email ?? ""
         }
     }
     
+//    func addAvatar(selectImage: PhotosPickerItem?) async throws {
+//        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+//
+//        guard let data = try? await selectImage?.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) else {
+//            throw URLError(.backgroundSessionWasDisconnected)
+//        }
+//        let (patch, _) = try await StorageManager.shared.uploadAvatarToFairbase(image: uiImage, userId: authDateResult.uid)
+//        let avatarURL = try await avatarPathToURL(path: patch)
+//        try await UserManager.shared.addAvatarUrl(userId: authDateResult.uid, path: avatarURL.absoluteString)
+//    }
+    
     func addAvatar(selectImage: PhotosPickerItem?) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         
-        guard let data = try? await selectImage?.loadTransferable(type: Data.self), let uiImage = UIImage(data: data) else {
+        guard let data = try? await selectImage?.loadTransferable(type: Data.self), let image = UIImage(data: data) else {
             throw URLError(.backgroundSessionWasDisconnected)
         }
-        let (patch, _) = try await StorageManager.shared.uploadAvatarToFairbase(image: uiImage, userId: authDateResult.uid)
-        let avatarURL = try await avatarPathToURL(path: patch)
-        try await UserManager.shared.addAvatarUrl(userId: authDateResult.uid, path: avatarURL.absoluteString)
+        let (path, _) = try await StorageManager.shared.uploadAvatarImageToFairbase(data: data, userId: authDateResult.uid)
+        
+        if user?.userType == "author"{
+            try await UserManager.shared.addAvatarToAuthorProfile(userId: authDateResult.uid, path: path)
+        } else {
+            try await UserManager.shared.addAvatarToCustomerProfile(userId: authDateResult.uid, path: path)
+        }
+        self.avatarImage = image
     }
-    func avatarPathToURL(path: String) async throws -> URL {
-        try await StorageManager.shared.getImageURL(path: path)
-    }
+
     func loadCurrentUser() async throws -> DBUserModel {
         let autDataResult = try AuthNetworkService.shared.getAuthenticationUser()
         return try await UserManager.shared.getUser(userId: autDataResult.uid)
@@ -65,5 +79,9 @@ final class ProfileScreenViewModel: ProfileScreenViewModelType {
     func updateCurrentUser(profile: DBUserModel) async throws {
         let autDataResult = try AuthNetworkService.shared.getAuthenticationUser()
         try await UserManager.shared.updateProfileData(userId: autDataResult.uid, profile: profile)
+    }
+    func getAvatarImage(imagePath: String) async throws {
+        self.avatarImage = try await StorageManager.shared.getReferenceImage(path: imagePath)
+        print("getAvatarImage: \(imagePath)")
     }
 }

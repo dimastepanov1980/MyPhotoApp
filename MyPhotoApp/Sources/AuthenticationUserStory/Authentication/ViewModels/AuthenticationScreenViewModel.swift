@@ -44,7 +44,7 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
             self.userIsCustomer = try await getUserType()
         } catch {
             let authUserResult = try await AuthNetworkService.shared.createUser(email: custmerEmail, password: custmerPassword)
-            let dbUser = DBUserModel(auth: authUserResult, userType: "customer", firstName: "", secondName: "", instagramLink: "", phone: "")
+            let dbUser = DBUserModel(auth: authUserResult, userType: "customer", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false)
             try await UserManager.shared.createNewCustomer(user: dbUser)
         }
     }
@@ -72,8 +72,8 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
             self.userIsCustomer = try await getUserType()
         } catch {
             let authUserResult = try await AuthNetworkService.shared.createUser(email: authorEmail, password: authorPassword)
-            let dbUser = DBUserModel(auth: authUserResult, userType: "author", firstName: "", secondName: "", instagramLink: "", phone: "")
-            try await UserManager.shared.createNewCustomer(user: dbUser)
+            let dbUser = DBUserModel(auth: authUserResult, userType: "author", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false)
+            try await UserManager.shared.createNewAuthor(author: dbUser)
         }
     }
     

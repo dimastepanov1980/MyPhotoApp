@@ -71,22 +71,25 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                      matching: .any(of: [.images, .not(.videos)]),
                      preferredItemEncoding: .automatic,
                      photoLibrary: .shared()) {
-            AsyncImage(url: URL(string: viewModel.avatarCustomer ?? "")) { image in
-                image
+            if let avatarImage = viewModel.avatarImage {
+                
+                Image(uiImage: avatarImage)
                     .resizable()
                     .scaledToFill()
-            } placeholder: {
+                    .mask {
+                        Circle()
+                    }
+                    .frame(width: 110, height: 110)
+            } else {
                 ZStack{
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                    Color.gray.opacity(0.2)
+                   ProgressView()
+                   Color.gray.opacity(0.2)
+               }
+                .mask {
+                   Circle()
                 }
+                .frame(width: 110, height: 110)
             }
-            .mask {
-                Circle()
-            }
-            .frame(width: 110, height: 110)
-            .id(viewModel.avatarID)
         }
          .onChange(of: selectedAvatar, perform: { avatar in
              guard !isAvatarUploadInProgress else {
@@ -99,7 +102,6 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                          loadingImage = true
                      }
                      try await viewModel.addAvatar(selectImage: avatar)
-                     viewModel.avatarID = UUID()
                      loadingImage = false
                  } catch {
                      print("Error uploading avatar: \(error)")
@@ -118,6 +120,12 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                      .background(Color.white.opacity(0.7))
                      .clipShape(Circle())
                      .animation(.default, value: loadingImage)
+             }
+         }
+         .onAppear{
+             Task{
+                 print("hello:\(viewModel.avatarProfile)")
+                 try await viewModel.getAvatarImage(imagePath: viewModel.avatarProfile ?? "")
              }
          }
     }
@@ -144,13 +152,13 @@ struct ProfileScreenView_Previews: PreviewProvider {
 
 
 private class MockViewModel: ProfileScreenViewModelType, ObservableObject {
+    var avatarProfile: String? = nil
+    var avatarImage: UIImage? = nil
     var profileIsShow: Bool = true
     var user: DBUserModel? = nil
     var instagramLink: String = ""
     var phone: String = ""
     var email: String = ""
-    var avatarURL: URL? = nil
-    var avatarID: UUID? = UUID()
     var dateOfBirthday: Date? = Date()
     var avatarCustomer: String? = ""
     var descriptionCustomer: String? = ""
@@ -159,9 +167,7 @@ private class MockViewModel: ProfileScreenViewModelType, ObservableObject {
     
     func updateCurrentUser(profile: DBUserModel) async throws {}
     func addAvatar(selectImage: PhotosPickerItem?) async throws {}
-    func avatarPathToURL(path: String) async throws -> URL {
-        return URL(string: "")!
-    }
+    func getAvatarImage(imagePath: String) async throws {}
     func loadCurrentUser() async throws -> DBUserModel {
         let autDataResult = try AuthNetworkService.shared.getAuthenticationUser()
 

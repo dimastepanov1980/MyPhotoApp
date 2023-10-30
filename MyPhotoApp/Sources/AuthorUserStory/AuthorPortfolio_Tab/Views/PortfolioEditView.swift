@@ -107,23 +107,31 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                      matching: .any(of: [.images, .not(.videos)]),
                      preferredItemEncoding: .automatic,
                      photoLibrary: .shared()) {
-            AsyncImage(url: URL(string: viewModel.avatarAuthor)) { image in
-                image
+            if let avatarImage = viewModel.avatarImage {
+                
+                Image(uiImage: avatarImage)
                     .resizable()
                     .scaledToFill()
-            } placeholder: {
+                    .mask {
+                        Circle()
+                    }
+                    .frame(width: 68, height: 68)
+            } else {
                 ZStack{
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle())
-                    Color.gray.opacity(0.2)
+                   ProgressView()
+                   Color.gray.opacity(0.2)
+               }
+                .mask {
+                   Circle()
                 }
+               .frame(width: 68, height: 68)
             }
-            .mask {
-                Circle()
-            }
-            .frame(width: 110, height: 110)
-            .id(viewModel.avatarAuthorID)
         }
+                     .onAppear{
+                         Task{
+                             try await viewModel.getAvatarImage(imagePath: viewModel.avatarAuthor)
+                         }
+                     }
          .onChange(of: selectedAvatar, perform: { avatar in
              guard !isAvatarUploadInProgress else {
                  return
@@ -135,7 +143,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                          loadingImage = true
                      }
                      try await viewModel.addAvatar(selectImage: avatar)
-                     viewModel.avatarAuthorID = UUID()
                      loadingImage = false
                  } catch {
                      print("Error uploading avatar: \(error)")
@@ -338,7 +345,6 @@ struct PortfolioEditView_Previews: PreviewProvider {
             locationAuthor: viewModel.locationAuthor,
             typeAuthor: .constant(viewModel.typeAuthor),
             nameAuthor: .constant(viewModel.nameAuthor),
-            avatarAuthorID: .constant(UUID()),
             familynameAuthor: .constant(viewModel.familynameAuthor),
             sexAuthor: .constant("Select"),
             ageAuthor: .constant(viewModel.ageAuthor),
@@ -352,6 +358,10 @@ struct PortfolioEditView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: ObservableObject, PortfolioEditViewModelType {
+    var avatarImage: UIImage? = nil
+    
+    func getAvatarImage(imagePath: String) async throws {}
+    
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var regionAuthor: String = ""
@@ -369,7 +379,7 @@ private class MockViewModel: ObservableObject, PortfolioEditViewModelType {
     var styleOfPhotography: [String] = ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food", "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate", "Sports", "Wedding", "Wildlife"]    
     var locationAuthor: String = "Hamburg"
     var locationResult: [DBLocationModel] = []
-    var avatarAuthor: String = "https://images.unsplash.com/photo-1558612937-4ecf7ae1e375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyZXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+    var avatarAuthor: String = ""
     var nameAuthor: String = ""
     var familynameAuthor: String = ""
     var ageAuthor: String = ""

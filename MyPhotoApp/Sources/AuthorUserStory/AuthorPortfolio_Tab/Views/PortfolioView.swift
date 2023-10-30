@@ -49,7 +49,6 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                                           print("uploading images:")
                                                           selectPortfolioImages = []
                                                           try await viewModel.addPortfolioImages(selectedImages: images)
-                                                          viewModel.avatarAuthorID = UUID()
                                                       } catch {
                                                           print("Error uploading images: \(error)")
                                                           throw error
@@ -57,7 +56,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                                  }
                                               })
 
-                    .disabled( viewModel.smallImagesPortfolio.count > 10 )
+                    .disabled( viewModel.smallImagesPortfolio.count > 60 )
                     
                     Button {
                         showPortfolioEditView.toggle()
@@ -73,8 +72,6 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
             PortfolioEditView(with: PortfolioEditViewModel(locationAuthor: viewModel.locationAuthor,
                                                            typeAuthor: $viewModel.typeAuthor,
                                                            nameAuthor: $viewModel.nameAuthor,
-                                                           avatarAuthorID: $viewModel.avatarAuthorID,
-                                                           avatarURL: $viewModel.avatarURL,
                                                            familynameAuthor: $viewModel.familynameAuthor,
                                                            sexAuthor: $viewModel.sexAuthor,
                                                            ageAuthor: $viewModel.ageAuthor,
@@ -89,6 +86,9 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
             Task {
                 try await viewModel.getAuthorPortfolio()
                 viewModel.updatePreview()
+
+                try await viewModel.getAvatarImage(imagePath: viewModel.avatarAuthor)
+                
                 try await viewModel.getPortfolioImages(imagesPath: viewModel.smallImagesPortfolio)
             }
         }
@@ -97,22 +97,25 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     private var authorSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack{
-                AsyncImage(url: URL(string: viewModel.avatarAuthor)){ image in
-                    image
+                if let avatarImage = viewModel.avatarImage {
+                    
+                    Image(uiImage: avatarImage)
                         .resizable()
                         .scaledToFill()
-                } placeholder: {
+                        .mask {
+                            Circle()
+                        }
+                        .frame(width: 68, height: 68)
+                } else {
                     ZStack{
-                        ProgressView()
-                        Color.gray.opacity(0.2)
-                        
+                       ProgressView()
+                       Color.gray.opacity(0.2)
+                   }
+                    .mask {
+                       Circle()
                     }
-                }.mask {
-                    Circle()
+                   .frame(width: 68, height: 68)
                 }
-                .frame(width: 68, height: 68)
-                .id(viewModel.avatarAuthorID)
-                
                 
                 VStack(alignment: .leading){
                     Text("\(viewModel.nameAuthor) \(viewModel.familynameAuthor)")
@@ -163,7 +166,6 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                         .frame(width: imageGallerySize, height: imageGallerySize)
                                         .border(Color.white)
                                         .clipped()
-                                    
                                         .contextMenu {
                                                Button {
                                                    Task{
@@ -192,8 +194,8 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                             .padding(.top, 120)
                     }
                 } else {
-                    VStack{
-                        Spacer()
+                    HStack{
+                       
                         Text(R.string.localizable.portfolio_add_images())
                             .font(.subheadline)
                             .foregroundColor(Color(R.color.gray3.name))
@@ -208,7 +210,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     
 }
 
-struct PortfolioAddImagesView_Previews: PreviewProvider {
+struct PortfolioView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     
     static var previews: some View {
@@ -219,6 +221,8 @@ struct PortfolioAddImagesView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: PortfolioViewModelType, ObservableObject {
+    var avatarImage: UIImage? = nil
+    func getAvatarImage(imagePath: String) async throws {}
     func deletePortfolioImage(pathKey: String) async throws {}
     func addPortfolioImages(selectedImages: [PhotosPickerItem]) async throws {}
     var portfolioImages: [String : UIImage?] = [:]
@@ -229,12 +233,8 @@ private class MockViewModel: PortfolioViewModelType, ObservableObject {
     var smallImagesPortfolio: [String] = []
     func getPortfolioImages(imagesPath: [String]) async throws {}
     var typeAuthor: String = "photo"
-    var selectedAvatar: PhotosPickerItem?
+    var selectAvatar: PhotosPickerItem?
     var avatarAuthorID = UUID()
-    var avatarURL: URL?
-    func avatarPathToURL(path: String) async throws -> URL {
-        URL(string: "")!
-    }
     
     var sexAuthorList: [String] = ["Select", "Male", "Female"]
     var dbModel: DBPortfolioModel?

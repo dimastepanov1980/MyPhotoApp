@@ -13,10 +13,9 @@ import SwiftUI
 protocol ProfileScreenViewModelType: ObservableObject {
     
     var user: DBUserModel? { get set }
-    
-    var avatarURL: URL? { get set }
-    var avatarID: UUID? { get set }
-    var avatarCustomer: String? { get set }
+
+    var avatarProfile: String? { get set }
+    var avatarImage: UIImage? { get set }
 
     var nameCustomer: String { get set }
     var secondNameCustomer: String { get set }
@@ -28,8 +27,9 @@ protocol ProfileScreenViewModelType: ObservableObject {
     var email: String { get set }
     var profileIsShow: Bool { get set }
     
+    
     func addAvatar(selectImage: PhotosPickerItem?) async throws
-    func avatarPathToURL(path: String) async throws -> URL
+    func getAvatarImage(imagePath: String) async throws
     func loadCurrentUser() async throws -> DBUserModel
     func updateCurrentUser(profile: DBUserModel) async throws
 
