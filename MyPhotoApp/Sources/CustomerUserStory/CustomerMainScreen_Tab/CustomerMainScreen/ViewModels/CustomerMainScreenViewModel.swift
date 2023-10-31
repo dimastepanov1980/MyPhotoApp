@@ -33,12 +33,19 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
     @Published var latitude: Double = 0.0
     @Published var longitude: Double = 0.0
     @Published var selectedDate: Date = Date()
+    
+    @Binding var userProfileIsSet: Bool
 
     
-    init() {
+    init(userProfileIsSet: Binding<Bool>) {
+        self._userProfileIsSet = userProfileIsSet
+        
         searchService = SearchLocationManager(in: CLLocationCoordinate2D())
         cancellable = searchService.searchLocationPublisher.sink { [weak self] mapItems in
             self?.locationResult = mapItems.map({ DBLocationModel(mapItem: $0) })
+        }
+        Task{
+            try await checkProfileAndPortfolio()
         }
     }
     
@@ -50,7 +57,50 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             print("New longitude \(self.longitude)")
         }
     }
+    func checkProfileAndPortfolio() async throws {
+        do {
+            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+            let user = try await UserManager.shared.getUser(userId: authDateResult.uid)
+            
+            if user.avatarUser?.isEmpty ?? true {
+                self.userProfileIsSet = true
+                print("Set up your avatarUser")
+            } else {
+                print("Avatar User is Set")
+            }
 
+            if user.firstName?.isEmpty ?? true {
+                self.userProfileIsSet = true
+                print("Set up your firstName")
+            } else {
+                print("first Name User is Set")
+            }
+
+            if user.secondName?.isEmpty ?? true {
+                self.userProfileIsSet = true
+                print("Set up your secondName")
+            } else {
+                print("second Name User is Set")
+            }
+
+            if (user.phone?.isEmpty ?? true) {
+                self.userProfileIsSet = true
+                print("Set up your contacts - Phone")
+            } else {
+                print("Phone User is Set")
+            }
+            if (user.instagramLink?.isEmpty ?? true) {
+                self.userProfileIsSet = true
+                print("Set up your contacts - instagram Link")
+            } else {
+                print("instagram User is Set")
+            }
+            
+        } catch {
+            throw error
+        }
+        
+    }
     func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
         do {
             print("Selected date in function getPortfolio \(date)")

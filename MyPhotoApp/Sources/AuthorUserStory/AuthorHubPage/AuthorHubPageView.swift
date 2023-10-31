@@ -13,10 +13,10 @@ struct AuthorHubPageView: View {
     
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
+    
     @State private var profileIsShow: Bool = false
     @State private var userProfileIsSet: Bool = false
     @State private var showProfile: Bool = false
-    @State private var showSheetDelay: Bool = false
     
     @State private var portfolioIsShow: Bool = false
     @State private var userPortfolioIsSet: Bool = false
@@ -41,12 +41,7 @@ struct AuthorHubPageView: View {
                 .padding(.bottom, -40)
                 AuthorCustomTabs(showAddOrderView: $showAddOrderView, index: self.$index)
             }
-            .onAppear{
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                    showSheetDelay = true
-                       }
-            }
-            .sheet(isPresented: !profileIsShow && showSheetDelay ? $userProfileIsSet : .constant(false) ) {
+            .sheet(isPresented: !profileIsShow ? $userProfileIsSet : .constant(false) ) {
                 CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
                         self.showProfile = true
                         self.userProfileIsSet = false
