@@ -84,11 +84,19 @@
 "setup_your_profile" = "Please set up your profile";
 "setup_your_portfolio" = "Please set up your portfolio";
 
+"warning_add_avatar" = "Add avatar";
+"warning_add_name" = "Add Name";
+"warning_add_secondname" = "Add Secondname";
+"warning_add_phone" = "Add phone number";
+"warning_add_instagram" = "Add instagram link";
+
 //MARK: - Customer Zone -
 "price_start" = "start from";
 "select_date" = "Select date";
 "select_time" = "Select time";
 "reservation_button" = "Reservation for";
+"select_date_no_dates" = "We are very sorry,\nbut there are no available dates\nfor the selected period.";
+
 
 //MARK: - Customer Order
 "default_message" = "Write your contacts and additional information";

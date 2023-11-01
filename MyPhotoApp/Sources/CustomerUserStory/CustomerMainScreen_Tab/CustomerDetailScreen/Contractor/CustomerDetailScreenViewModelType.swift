@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 protocol CustomerDetailScreenViewModelType: ObservableObject {
@@ -18,6 +19,7 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     var priceForDay: String { get set }
     var appointments: [AppointmentModel] { get set }
     var minPrice: String { get set }
+    var avatarImage: UIImage? { get set }
     
     func formattedDate(date: Date, format: String) -> String
     func stringToURL(imageString: String) -> URL?
@@ -26,5 +28,6 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     func isTodayDay(date: Date) -> Bool
     func isToday(date: Date) -> Bool
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date)
+    func getAvatarImage(imagePath: String) async throws
 
 }

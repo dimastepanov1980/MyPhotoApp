@@ -518,12 +518,16 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 126 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 132 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
       /// Locales: en, ru
       static let portfolio_about = Rswift.StringResource(key: "portfolio_about", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add Name
+      ///
+      /// Locales: en, ru
+      static let warning_add_name = Rswift.StringResource(key: "warning_add_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add Order
       ///
       /// Locales: en, ru
@@ -536,6 +540,22 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_add = Rswift.StringResource(key: "schedule_add", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add Secondname
+      ///
+      /// Locales: en, ru
+      static let warning_add_secondname = Rswift.StringResource(key: "warning_add_secondname", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add avatar
+      ///
+      /// Locales: en, ru
+      static let warning_add_avatar = Rswift.StringResource(key: "warning_add_avatar", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add instagram link
+      ///
+      /// Locales: en, ru
+      static let warning_add_instagram = Rswift.StringResource(key: "warning_add_instagram", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add phone number
+      ///
+      /// Locales: en, ru
+      static let warning_add_phone = Rswift.StringResource(key: "warning_add_phone", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add schedule
       ///
       /// Locales: en, ru
@@ -988,6 +1008,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let version_not_available = Rswift.StringResource(key: "version_not_available", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: We are very sorry, but there are no available dates for the selected period.
+      ///
+      /// Locales: en, ru
+      static let select_date_no_dates = Rswift.StringResource(key: "select_date_no_dates", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Wedding
       ///
       /// Locales: en, ru
@@ -1040,6 +1064,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("portfolio_about", bundle: bundle, comment: "")
       }
 
+      /// en translation: Add Name
+      ///
+      /// Locales: en, ru
+      static func warning_add_name(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_name", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_name"
+        }
+
+        return NSLocalizedString("warning_add_name", bundle: bundle, comment: "")
+      }
+
       /// en translation: Add Order
       ///
       /// Locales: en, ru
@@ -1083,6 +1122,66 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("schedule_add", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add Secondname
+      ///
+      /// Locales: en, ru
+      static func warning_add_secondname(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_secondname", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_secondname"
+        }
+
+        return NSLocalizedString("warning_add_secondname", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add avatar
+      ///
+      /// Locales: en, ru
+      static func warning_add_avatar(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_avatar", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_avatar"
+        }
+
+        return NSLocalizedString("warning_add_avatar", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add instagram link
+      ///
+      /// Locales: en, ru
+      static func warning_add_instagram(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_instagram", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_instagram"
+        }
+
+        return NSLocalizedString("warning_add_instagram", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add phone number
+      ///
+      /// Locales: en, ru
+      static func warning_add_phone(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_phone", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_phone"
+        }
+
+        return NSLocalizedString("warning_add_phone", bundle: bundle, comment: "")
       }
 
       /// en translation: Add schedule
@@ -2778,6 +2877,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("version_not_available", bundle: bundle, comment: "")
+      }
+
+      /// en translation: We are very sorry, but there are no available dates for the selected period.
+      ///
+      /// Locales: en, ru
+      static func select_date_no_dates(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("select_date_no_dates", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "select_date_no_dates"
+        }
+
+        return NSLocalizedString("select_date_no_dates", bundle: bundle, comment: "")
       }
 
       /// en translation: Wedding

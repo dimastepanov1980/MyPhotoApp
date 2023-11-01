@@ -275,7 +275,7 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
-
+    var userProfileIsSet: Bool = true
     func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
         []
     }

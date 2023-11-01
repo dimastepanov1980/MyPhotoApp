@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomerPageHubView: View {
     @State var index = 0
     @State var portfolio: [AuthorPortfolioModel] = []
-    @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: .constant(false))
+    @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: . constant(false))
 
     @Binding var showAuthenticationView: Bool
 

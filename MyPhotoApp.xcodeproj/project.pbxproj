@@ -51,6 +51,9 @@
 		5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DA92A1851E8007A1AC6 /* DetailOrderViewModelType.swift */; };
 		5FA15DAC2A185305007A1AC6 /* DetailOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */; };
 		5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAD2A186BED007A1AC6 /* DetailOrderView.swift */; };
+		5FA1ECA12AF0AFC10092A74D /* PortfolioDetailScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1ECA02AF0AFC10092A74D /* PortfolioDetailScreenViewModelType.swift */; };
+		5FA1ECA32AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1ECA22AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift */; };
+		5FA1ECA52AF0B01D0092A74D /* PortfolioDetailScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1ECA42AF0B01D0092A74D /* PortfolioDetailScreenView.swift */; };
 		5FA3C3482A5BDC23003EA4F8 /* AuthorHubPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA3C3472A5BDC23003EA4F8 /* AuthorHubPageView.swift */; };
 		5FA767E42A69762900861F7D /* PortfolioEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA767E32A69762900861F7D /* PortfolioEditView.swift */; };
 		5FA767E72A6BE67E00861F7D /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 5FA767E62A6BE67E00861F7D /* GoogleMobileAds */; };
@@ -82,6 +85,7 @@
 		5FC419242AE243480017AF56 /* DBAuthorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419232AE243480017AF56 /* DBAuthorModel.swift */; };
 		5FC4192D2AE3B9990017AF56 /* LogOutScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4192C2AE3B9990017AF56 /* LogOutScreenViewModelType.swift */; };
 		5FC4192F2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4192E2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift */; };
+		5FDB47E02AF0C68D004ABE8F /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB47DF2AF0C68D004ABE8F /* ImageDetailView.swift */; };
 		5FE461122A3D9E4B001CD607 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */; };
 		5FE5AADB2AA1AFBB0033F51B /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AADA2AA1AFBB0033F51B /* PortfolioViewModel.swift */; };
 		5FE5AADE2AA1DC660033F51B /* PublicFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AADD2AA1DC660033F51B /* PublicFunction.swift */; };
@@ -160,6 +164,9 @@
 		5FA15DA92A1851E8007A1AC6 /* DetailOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderViewModelType.swift; sourceTree = "<group>"; };
 		5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderViewModel.swift; sourceTree = "<group>"; };
 		5FA15DAD2A186BED007A1AC6 /* DetailOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderView.swift; sourceTree = "<group>"; };
+		5FA1ECA02AF0AFC10092A74D /* PortfolioDetailScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDetailScreenViewModelType.swift; sourceTree = "<group>"; };
+		5FA1ECA22AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDetailScreenViewModel.swift; sourceTree = "<group>"; };
+		5FA1ECA42AF0B01D0092A74D /* PortfolioDetailScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDetailScreenView.swift; sourceTree = "<group>"; };
 		5FA3C3472A5BDC23003EA4F8 /* AuthorHubPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorHubPageView.swift; sourceTree = "<group>"; };
 		5FA722502A1F145F003EB084 /* MyPhotoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyPhotoApp.entitlements; sourceTree = "<group>"; };
 		5FA767E32A69762900861F7D /* PortfolioEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditView.swift; sourceTree = "<group>"; };
@@ -192,6 +199,7 @@
 		5FC419232AE243480017AF56 /* DBAuthorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBAuthorModel.swift; sourceTree = "<group>"; };
 		5FC4192C2AE3B9990017AF56 /* LogOutScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutScreenViewModelType.swift; sourceTree = "<group>"; };
 		5FC4192E2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutScreenViewModel.swift; sourceTree = "<group>"; };
+		5FDB47DF2AF0C68D004ABE8F /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		5FE5AADA2AA1AFBB0033F51B /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModel.swift; sourceTree = "<group>"; };
 		5FE5AADD2AA1DC660033F51B /* PublicFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicFunction.swift; sourceTree = "<group>"; };
 		5FE5AAE12AA1DEFE0033F51B /* CustomTextEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEdit.swift; sourceTree = "<group>"; };
@@ -323,6 +331,7 @@
 		5F39095E2A8F5F7C006E539A /* CustomerMainScreen_Tab */ = {
 			isa = PBXGroup;
 			children = (
+				5FA1EC9C2AF0AF340092A74D /* PortfolioDetailScreen */,
 				5FC418F42ADD21080017AF56 /* CustomerMainScreen */,
 				5F214E092A997D490014AD9B /* CustomerDetailScreen */,
 				5F4A1B342A9C58B100EC67B2 /* CustomerConfirmOrder */,
@@ -552,6 +561,41 @@
 				5FBDF84A2A64FD2300C1108D /* ImageFullScreenView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		5FA1EC9C2AF0AF340092A74D /* PortfolioDetailScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5FA1EC9F2AF0AF770092A74D /* Contract */,
+				5FA1EC9E2AF0AF6D0092A74D /* ViewModel */,
+				5FA1EC9D2AF0AF660092A74D /* View */,
+			);
+			path = PortfolioDetailScreen;
+			sourceTree = "<group>";
+		};
+		5FA1EC9D2AF0AF660092A74D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5FA1ECA42AF0B01D0092A74D /* PortfolioDetailScreenView.swift */,
+				5FDB47DF2AF0C68D004ABE8F /* ImageDetailView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5FA1EC9E2AF0AF6D0092A74D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5FA1ECA22AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5FA1EC9F2AF0AF770092A74D /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				5FA1ECA02AF0AFC10092A74D /* PortfolioDetailScreenViewModelType.swift */,
+			);
+			path = Contract;
 			sourceTree = "<group>";
 		};
 		5FA3C3462A5BDC07003EA4F8 /* AuthorHubPage */ = {
@@ -1200,6 +1244,7 @@
 				5F4A1B332A9B154F00EC67B2 /* SizeReader.swift in Sources */,
 				5FBA269F2A162D6700E972FB /* CustomSecureTextField.swift in Sources */,
 				5FF58F302A2380C9009AF970 /* RootScreenView.swift in Sources */,
+				5FA1ECA52AF0B01D0092A74D /* PortfolioDetailScreenView.swift in Sources */,
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */,
 				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
@@ -1221,6 +1266,7 @@
 				5FF58F3D2A2704CA009AF970 /* AuthorAddOrderView.swift in Sources */,
 				5FEB717A2AACA93100DCC07E /* PortfolioScheduleViewModelType.swift in Sources */,
 				5FC4191F2AE2188F0017AF56 /* ProfileScreenViewModelType.swift in Sources */,
+				5FDB47E02AF0C68D004ABE8F /* ImageDetailView.swift in Sources */,
 				5FA0EB782A79523E0024AB71 /* SettingScreenViewModelType.swift in Sources */,
 				5FE5AAEA2AA46C160033F51B /* PortfolioScheduleView.swift in Sources */,
 				5FC419172AE167EE0017AF56 /* InformationScreenView.swift in Sources */,
@@ -1240,6 +1286,7 @@
 				5F9F32462A96006D004D48B7 /* CountryCodesView.swift in Sources */,
 				5FBA269D2A1600D800E972FB /* CustomButtonXl.swift in Sources */,
 				5FF58F372A24D647009AF970 /* UserManager.swift in Sources */,
+				5FA1ECA12AF0AFC10092A74D /* PortfolioDetailScreenViewModelType.swift in Sources */,
 				5FBA269B2A15375E00E972FB /* AuthenticationScreenView.swift in Sources */,
 				5F4A1B402A9EF21F00EC67B2 /* SearchLocationManaget.swift in Sources */,
 				5FF546782A1B937A00208455 /* AuthorVCellMainScreenView.swift in Sources */,
@@ -1250,6 +1297,7 @@
 				5F4A1B312A9B153100EC67B2 /* _FlexibleView.swift in Sources */,
 				5FF5466D2A1B573B00208455 /* AuthorMainScreenViewModelType.swift in Sources */,
 				5FA15DA42A184BDC007A1AC6 /* OrderModel.swift in Sources */,
+				5FA1ECA32AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift in Sources */,
 				5FE5AADB2AA1AFBB0033F51B /* PortfolioViewModel.swift in Sources */,
 				5FA15DAC2A185305007A1AC6 /* DetailOrderViewModel.swift in Sources */,
 				5FA15D9D2A175A91007A1AC6 /* AuthenticationScreenViewModel.swift in Sources */,

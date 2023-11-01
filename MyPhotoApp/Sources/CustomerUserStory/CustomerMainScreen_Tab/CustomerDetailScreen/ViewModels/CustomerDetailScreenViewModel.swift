@@ -19,7 +19,8 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var today: Date = Date()
     @Published var timeslotSelectedDay: [TimeSlotModel] = []
     @Published var appointments: [AppointmentModel] = []
-    
+    @Published var avatarImage: UIImage? = nil
+
     var startMyTrip: Date
     
     init(items: AuthorPortfolioModel,
@@ -29,6 +30,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         
         createAppointments(schedule: items.appointmen, startMyTripDate: self.startMyTrip)
         getMinPrice()
+
     }
     
     private func getMinPrice(){
@@ -128,6 +130,9 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     func isToday(date: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(selectedDay ?? Date(), inSameDayAs: date)
+    }
+    func getAvatarImage(imagePath: String) async throws {
+        self.avatarImage = try await StorageManager.shared.getReferenceImage(path: imagePath)
     }
 
 }

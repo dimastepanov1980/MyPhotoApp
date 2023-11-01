@@ -81,14 +81,20 @@
 "notes" = "Когда нашим приложением будут пользоваться более чем 100 фотографов, мы начнем развивать сервис «Портфолио»";
 "your_login" = "Ваш логин:";
 "version_not_available" = "Версия программы не доступна";
-
 "Setup_your_profile" = "Пожалуйста, настройте ваш профиль";
+
+"warning_add_avatar" = "Добавьте аватар";
+"warning_add_name" = "Добавьте Имя";
+"warning_add_secondname" = "Добавьте Фамилию";
+"warning_add_phone" = "Добавьте телефон";
+"warning_add_instagram" = "Добавьте Инстаграм";
 
 //MARK: - Customer Zone
 "price_start" = "цена от";
 "select_date" = "Выберите дату";
 "select_time" = "Выберите время";
 "reservation_button" = "Забронировать за";
+"select_date_no_dates" = "Нам очень жаль,\nно свободных дат\nна выбранный период нет.";
 
 //MARK: - Customer Order
 "default_message" = "Напишите как с вами связаться и дополнительную информацию";

@@ -64,34 +64,34 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             
             if user.avatarUser?.isEmpty ?? true {
                 self.userProfileIsSet = true
-                print("Set up your avatarUser")
+                print(R.string.localizable.warning_add_avatar())
             } else {
                 print("Avatar User is Set")
             }
 
             if user.firstName?.isEmpty ?? true {
                 self.userProfileIsSet = true
-                print("Set up your firstName")
+                print(R.string.localizable.warning_add_name())
             } else {
                 print("first Name User is Set")
             }
 
             if user.secondName?.isEmpty ?? true {
                 self.userProfileIsSet = true
-                print("Set up your secondName")
+                print(R.string.localizable.warning_add_secondname())
             } else {
                 print("second Name User is Set")
             }
 
             if (user.phone?.isEmpty ?? true) {
                 self.userProfileIsSet = true
-                print("Set up your contacts - Phone")
+                print(R.string.localizable.warning_add_phone())
             } else {
                 print("Phone User is Set")
             }
             if (user.instagramLink?.isEmpty ?? true) {
                 self.userProfileIsSet = true
-                print("Set up your contacts - instagram Link")
+                print(R.string.localizable.warning_add_instagram())
             } else {
                 print("instagram User is Set")
             }
@@ -103,8 +103,14 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
     }
     func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
         do {
-            print("Selected date in function getPortfolio \(date)")
-            return try await UserManager.shared.getPortfolioForCoordinateAndDate(longitude: longitude, latitude: latitude, startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0) }
+            let portfolio = try await UserManager.shared.getPortfolioForCoordinateAndDate(longitude: longitude, latitude: latitude, startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0)
+            }
+            if portfolio.isEmpty {
+                return try await UserManager.shared.getAllPortfolio(startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0) }
+            }
+            
+            return portfolio
+            
         } catch {
             throw error
         }
