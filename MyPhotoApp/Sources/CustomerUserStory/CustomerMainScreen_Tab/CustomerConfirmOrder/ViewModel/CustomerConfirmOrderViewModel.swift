@@ -22,6 +22,8 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     @Published var authorId: String
     @Published var authorName: String
     @Published var authorSecondName: String
+    @Published var authorBookingDays: [BookingDay]
+
     @Published var location: String
     @Published var orderDate: Date
     @Published var orderTime: [String]
@@ -43,6 +45,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         
         self.customerFirstName = user?.firstName ?? ""
         self.customerSecondName = user?.secondName ?? ""
+        self.authorBookingDays = author.bookingDays ?? []
         self.customerInstagramLink = user?.instagramLink ?? ""
         self.customerPhone = user?.phone ?? ""
         self.customerEmail = user?.email ?? ""
@@ -63,7 +66,6 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     func createNewOrder() async throws {
         let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
         let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
-
         let orderData: OrderModel = OrderModel(orderId: UUID().uuidString,
                                                orderCreateDate: Date(),
                                                orderPrice: orderPrice,
@@ -83,8 +85,16 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                customerSecondName: customerSecondName,
                                                customerDescription: orderDescription,
                                                customerContactInfo: DbContactInfo(instagramLink: customerInstagramLink, phone: customerPhone, email: customerEmail))
+        
+        let bookingTime: BookingDay = BookingDay(date: orderDate,
+                                                 time: orderTime,
+                                                 dayOff: false)
         print(orderData)
+        print(bookingTime)
+        print(authorBookingDays)
         try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
+        try await UserManager.shared.setBookingDays(userId: authorId, bookingDays: bookingTime)
+        
     }
     
     func formattedDate(date: Date, format: String) -> String {

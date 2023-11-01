@@ -176,6 +176,17 @@ final class UserManager {
         ]
         try await orderCollection.document(orderId).updateData(orderData)
     }
+    
+    func setBookingDays(userId: String, bookingDays: BookingDay) async throws {
+        guard let bookingDays = try? encoder.encode(bookingDays) else {
+            throw URLError(.badURL)
+        }
+        
+        let orderBookingTime: [String : Any] = [DBPortfolioModel.CodingKeys.bookingDays.rawValue : bookingDays]
+        
+        try await portfolioUserDocument(userId: userId).updateData(orderBookingTime)
+    }
+
 
     //MARK: - OLD Orders
     func addNewAuthorOrder(userId: String, order: DbOrderModel) async throws {
@@ -315,33 +326,81 @@ final class UserManager {
         let arrayRemoveValue = FieldValue.arrayRemove([path])
           try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue: arrayRemoveValue])
     }
-    func getAllPortfolio() async throws -> [DBPortfolioModel] {
-        try await portfolioCollection.getDocuments(as: DBPortfolioModel.self)
-    }
-    func getPortfolioForCoordinateAndDate(longitude: Double, latitude: Double, startEventDate: Date) async throws -> [DBPortfolioModel] {
-        // Query based on longitude range
-        let longitudeQuerySnapshot = try await portfolioCollection
-            .whereField("author.longitude", isGreaterThan: longitude - 0.01 * longitude)
-            .whereField("author.longitude", isLessThan: longitude + 0.01 * longitude)
-            .getDocuments(as: DBPortfolioModel.self)
+    func getAllPortfolio(startEventDate: Date) async throws -> [DBPortfolioModel] {
+        print("get all portoflio")
 
-        // Query based on latitude range
-        let latitudeQuerySnapshot = try await portfolioCollection
-            .whereField("author.latitude", isGreaterThan: latitude - 0.01 * latitude)
-            .whereField("author.latitude", isLessThan: latitude + 0.01 * latitude)
-            .getDocuments(as: DBPortfolioModel.self)
-
-        // Combine the queries
-        let commonPortfolios = Set(longitudeQuerySnapshot).intersection(Set(latitudeQuerySnapshot))
-
-        // Filter portfolios where the startDate is greater than or equal to the provided startDate
-        let filteredPortfolios = commonPortfolios.filter { portfolio in
+       let portfolios = try await portfolioCollection.getDocuments(as: DBPortfolioModel.self)
+        
+        let filteredPortfolios = portfolios.filter { portfolio in
             guard let schedule = portfolio.schedule else { return false }
             return schedule.contains { $0.startDate <= startEventDate }
         }
-        print(Array(filteredPortfolios))
         return Array(filteredPortfolios)
     }
+    func getPortfolioForCoordinateAndDate(longitude: Double, latitude: Double, startEventDate: Date) async throws -> [DBPortfolioModel] {
+        // Query based on longitude range
+        do {
+            var longitudeQuerySnapshot = try await portfolioCollection
+                .whereField("author.longitude", isGreaterThan: longitude - 0.01 * longitude)
+                .whereField("author.longitude", isLessThan: longitude + 0.01 * longitude)
+                .getDocuments(as: DBPortfolioModel.self)
+            
+            if longitudeQuerySnapshot.isEmpty {
+                print("get longitude 0.03 portoflio")
+                 longitudeQuerySnapshot = try await portfolioCollection
+                    .whereField("author.longitude", isGreaterThan: longitude - 0.03 * longitude)
+                    .whereField("author.longitude", isLessThan: longitude + 0.03 * longitude)
+                    .getDocuments(as: DBPortfolioModel.self)
+            }
+            
+            if longitudeQuerySnapshot.isEmpty {
+                print("get longitude 0.1 portoflio")
+                 longitudeQuerySnapshot = try await portfolioCollection
+                    .whereField("author.longitude", isGreaterThan: longitude - 0.1 * longitude)
+                    .whereField("author.longitude", isLessThan: longitude + 0.1 * longitude)
+                    .getDocuments(as: DBPortfolioModel.self)
+            }
+
+            // Query based on latitude range
+            var latitudeQuerySnapshot = try await portfolioCollection
+                .whereField("author.latitude", isGreaterThan: latitude - 0.01 * latitude)
+                .whereField("author.latitude", isLessThan: latitude + 0.01 * latitude)
+                .getDocuments(as: DBPortfolioModel.self)
+            
+            if latitudeQuerySnapshot.isEmpty {
+                print("get latitude 0.03 portoflio")
+                latitudeQuerySnapshot = try await portfolioCollection
+                    .whereField("author.latitude", isGreaterThan: latitude - 0.03 * latitude)
+                    .whereField("author.latitude", isLessThan: latitude + 0.03 * latitude)
+                    .getDocuments(as: DBPortfolioModel.self)
+            }
+            
+            if latitudeQuerySnapshot.isEmpty {
+                print("get latitude 0.1 portoflio")
+                latitudeQuerySnapshot = try await portfolioCollection
+                    .whereField("author.latitude", isGreaterThan: latitude - 0.1 * latitude)
+                    .whereField("author.latitude", isLessThan: latitude + 0.1 * latitude)
+                    .getDocuments(as: DBPortfolioModel.self)
+            }
+
+            // Combine the queries
+            let commonPortfolios = Set(longitudeQuerySnapshot).intersection(Set(latitudeQuerySnapshot))
+
+            // Filter portfolios where the startDate is greater than or equal to the provided startDate
+            let filteredPortfolios = commonPortfolios.filter { portfolio in
+                guard let schedule = portfolio.schedule else { return false }
+                return schedule.contains { $0.startDate <= startEventDate }
+            }
+            
+            print(Array(filteredPortfolios))
+            return Array(filteredPortfolios)
+        } catch  {
+            print(String(describing: error))
+        }
+        
+        return []
+    }
+    
     func matchesLocation(_ location: String, searchString: String) -> Bool {
         let options: NSString.CompareOptions = [.caseInsensitive, .diacriticInsensitive]
         return location.range(of: searchString, options: options) != nil

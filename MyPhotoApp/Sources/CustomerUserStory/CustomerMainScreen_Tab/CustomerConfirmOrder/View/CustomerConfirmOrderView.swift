@@ -194,15 +194,13 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject {
+    var authorBookingDays: [BookingDay] = []
     var user: DBUserModel? = nil
-    
     var customerFirstName: String = "customerName"
     var customerSecondName: String = "customerSecondName"
     var customerInstagramLink: String = "customerInstagramLink"
     var customerPhone: String = "+7 999 99 99"
     var customerEmail: String = "test@test.com"
-    
-    
     
     func createNewOrder() async throws {}
     func currencySymbol(for regionCode: String) -> String { "" }

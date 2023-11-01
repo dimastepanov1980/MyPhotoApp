@@ -38,8 +38,9 @@ struct DBPortfolioModel: Codable, Hashable {
          descriptionAuthor: String?,
 //         reviews: [DBReviews]?,
          schedule: [DbSchedule]?,
-         bookingDays: [BookingDay]?
-    ){   self.id = id
+         bookingDays: [BookingDay]?) {
+        
+        self.id = id
         self.author = author
         self.avatarAuthor = avatarAuthor
         self.smallImagesPortfolio = smallImagesPortfolio
@@ -85,28 +86,30 @@ struct DBPortfolioModel: Codable, Hashable {
 
 struct BookingDay: Codable {
     let date: Date
-    let time: String
+    let time: [String]
     let dayOff: Bool
-    let orderId: String
+    
+    init(date: Date, time: [String], dayOff: Bool) {
+        self.date = date
+        self.time = time
+        self.dayOff = dayOff
+    }
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.date = try container.decode(Date.self, forKey: .date)
-        self.time = try container.decode(String.self, forKey: .time)
+        self.time = try container.decode([String].self, forKey: .time)
         self.dayOff = try container.decode(Bool.self, forKey: .dayOff)
-        self.orderId = try container.decode(String.self, forKey: .orderId)
     }
     enum CodingKeys: String, CodingKey {
         case date = "date"
         case time = "time"
         case dayOff = "day_off"
-        case orderId = "order_id"
     }
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.date, forKey: .date)
         try container.encode(self.time, forKey: .time)
         try container.encode(self.dayOff, forKey: .dayOff)
-        try container.encode(self.orderId, forKey: .orderId)
     }
 }
 
