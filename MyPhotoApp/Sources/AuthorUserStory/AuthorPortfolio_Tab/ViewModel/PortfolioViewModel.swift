@@ -57,6 +57,7 @@ final class PortfolioViewModel: PortfolioViewModelType {
             self.dbModel = portfolio
         } catch {
             print(error.localizedDescription)
+            print(String(describing: error))
             throw error
         }
     }

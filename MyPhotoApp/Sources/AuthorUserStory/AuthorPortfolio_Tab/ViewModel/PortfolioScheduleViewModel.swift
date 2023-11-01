@@ -52,6 +52,8 @@ final class PortfolioScheduleViewModel: PortfolioScheduleViewModelType {
             return schedule
         } catch {
             print(error.localizedDescription)
+            print(String(describing: error))
+
             throw error
         }
     }
