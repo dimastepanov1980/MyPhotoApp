@@ -315,8 +315,16 @@ final class UserManager {
         let arrayRemoveValue = FieldValue.arrayRemove([path])
           try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue: arrayRemoveValue])
     }
-    func getAllPortfolio() async throws -> [DBPortfolioModel] {
-        try await portfolioCollection.getDocuments(as: DBPortfolioModel.self)
+    func getAllPortfolio(startEventDate: Date) async throws -> [DBPortfolioModel] {
+        print("get all portoflio")
+
+       let portfolios = try await portfolioCollection.getDocuments(as: DBPortfolioModel.self)
+        
+        let filteredPortfolios = portfolios.filter { portfolio in
+            guard let schedule = portfolio.schedule else { return false }
+            return schedule.contains { $0.startDate <= startEventDate }
+        }
+        return Array(filteredPortfolios)
     }
     func getPortfolioForCoordinateAndDate(longitude: Double, latitude: Double, startEventDate: Date) async throws -> [DBPortfolioModel] {
         // Query based on longitude range
