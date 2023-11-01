@@ -112,6 +112,8 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             return portfolio
             
         } catch {
+            print(error.localizedDescription)
+            print(String(describing: error))
             throw error
         }
     }
