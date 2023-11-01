@@ -82,8 +82,15 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
         service.searchLocation(searchText: text)
     }
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        try? await UserManager.shared.setUserPortfolio(userId: authDateResult.uid, portfolio: portfolio)
+        do {
+            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+            try? await UserManager.shared.setUserPortfolio(userId: authDateResult.uid, portfolio: portfolio)
+        } catch {
+            print(error.localizedDescription)
+            print(String(describing: error))
+            throw error
+        }
+       
     }
     func addAvatar(selectImage: PhotosPickerItem?) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()

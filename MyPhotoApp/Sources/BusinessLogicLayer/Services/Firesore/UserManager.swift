@@ -327,8 +327,6 @@ final class UserManager {
           try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue: arrayRemoveValue])
     }
     func getAllPortfolio(startEventDate: Date) async throws -> [DBPortfolioModel] {
-        print("get all portoflio")
-
        let portfolios = try await portfolioCollection.getDocuments(as: DBPortfolioModel.self)
         
         let filteredPortfolios = portfolios.filter { portfolio in

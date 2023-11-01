@@ -27,7 +27,7 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                 }
                 Button(action: {
                     // Add a new schedule when the button is tapped
-                    viewModel.schedules.append(Schedule(id: UUID(), holidays: false, startDate: Date(), endDate: Date(), timeIntervalSelected: "1", price: "", timeZone: TimeZone.current.identifier))
+                    viewModel.schedules.append(Schedule(id: UUID(), holidays: false, startDate: Date(), endDate: Date(), timeIntervalSelected: "60", price: "", timeZone: TimeZone.current.identifier))
                 }) {
                     Text(R.string.localizable.schedule_add())
                         .foregroundColor(Color(R.color.gray1.name))
