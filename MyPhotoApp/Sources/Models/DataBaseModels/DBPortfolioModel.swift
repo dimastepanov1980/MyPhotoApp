@@ -86,7 +86,7 @@ struct DBPortfolioModel: Codable, Hashable {
 
 struct BookingDay: Codable {
     let date: Date
-    let time: [String]
+    var time: [String]
     let dayOff: Bool
     
     init(date: Date, time: [String], dayOff: Bool) {

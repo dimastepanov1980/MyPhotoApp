@@ -49,7 +49,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         self.customerInstagramLink = user?.instagramLink ?? ""
         self.customerPhone = user?.phone ?? ""
         self.customerEmail = user?.email ?? ""
-        
+
         Task{
          try await getCustomerData()
         }
@@ -63,7 +63,9 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         self.customerEmail = customer.email ?? ""
         self.customerPhone = customer.phone ?? ""
     }
-    func createNewOrder() async throws {
+
+     func createNewOrder() async throws {
+        var successBooking: Bool = false
         let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
         let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
         let orderData: OrderModel = OrderModel(orderId: UUID().uuidString,
@@ -85,18 +87,72 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                customerSecondName: customerSecondName,
                                                customerDescription: orderDescription,
                                                customerContactInfo: DbContactInfo(instagramLink: customerInstagramLink, phone: customerPhone, email: customerEmail))
-        
-        let bookingTime: BookingDay = BookingDay(date: orderDate,
-                                                 time: orderTime,
-                                                 dayOff: false)
-        print(orderData)
-        print(bookingTime)
-        print(authorBookingDays)
-        try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
-        try await UserManager.shared.setBookingDays(userId: authorId, bookingDays: bookingTime)
-        
+        var bookingDayToCheck: BookingDay = BookingDay(date: orderDate,
+                                                       time: orderTime,
+                                                       dayOff: false)
+        // Make new request for chek actual booking date
+        var actualBookingDateRequest = try await UserManager.shared.getUserPortfolio(userId: authorId)
+        var existingDayForRemove: BookingDay?
+         
+         
+        if var actualBookingDays = actualBookingDateRequest.bookingDays{
+            let bookingDay = formattedDate(date: bookingDayToCheck.date, format: "dd MMMM YYYY")
+            
+            if actualBookingDays.contains(where: { formattedDate(date: $0.date, format: "dd MMMM YYYY") == bookingDay }) {
+                print("Date is existing!")
+                actualBookingDays = actualBookingDays.map { existingDay in
+                    
+                    if formattedDate(date: existingDay.date, format: "dd MMMM YYYY") == formattedDate(date: bookingDayToCheck.date, format: "dd MMMM YYYY") {
+                        
+                        var updatedDay = existingDay
+                        if bookingDayToCheck.time.allSatisfy({ existingDay.time.contains($0) }) {
+                            print("Error Time is existing: \(existingDay)!!!!!!!!!!!!!!!!!!!!!")
+                            // Return to Detail screen and update time Slot and show error "select time is not aveible now"
+                            self.authorBookingDays = actualBookingDays
+                            successBooking = false
+                            return existingDay
+                        } else {
+                            print("No Time contains neet to Add for existing day new time!!!!!!!!!!!!!!!!!!!!!")
+                            // Add for bookingDays for existing day new timeslot
+                            existingDayForRemove = updatedDay
+                            updatedDay.time += orderTime
+                            print("Existing Day: \(updatedDay) Return new Time for Existing Day: \(orderTime)")
+                            bookingDayToCheck = updatedDay
+                            successBooking = true
+
+                            return updatedDay
+                        }
+                        
+                    }
+
+                    return existingDay
+                    successBooking = true
+
+                }
+                
+            } else {
+                print("No finding existing Days: \(bookingDayToCheck)")
+                successBooking = true
+            }
+        } else {
+            successBooking = true
+        }
+
+         if successBooking {
+             print("Success Booking")
+             print("Updete Date \(bookingDayToCheck)")
+
+//             try await UserManager.shared.removeBookingDays(userId: authorId, removeBookingDays: bookingDayToCheck.date)
+             try await UserManager.shared.setBookingDays(userId: authorId, bookingDay: bookingDayToCheck)
+//             try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
+
+         } else {
+             print("Error Booking")
+         }
+         
     }
-    
+
+
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format

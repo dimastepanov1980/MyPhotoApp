@@ -81,6 +81,7 @@ final class UserManager {
             throw URLError(.badURL)
         }
         
+        
         let orderData: [String : Any] = [
             DbOrderModel.CodingKeys.orderId.rawValue : orderId,
             DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),
@@ -177,16 +178,26 @@ final class UserManager {
         try await orderCollection.document(orderId).updateData(orderData)
     }
     
-    func setBookingDays(userId: String, bookingDays: BookingDay) async throws {
-        guard let bookingDays = try? encoder.encode(bookingDays) else {
+    func setBookingDays(userId: String, bookingDay: BookingDay) async throws {
+        guard let bookingDays = try? encoder.encode(bookingDay) else {
             throw URLError(.badURL)
         }
-        
-        let orderBookingTime: [String : Any] = [DBPortfolioModel.CodingKeys.bookingDays.rawValue : bookingDays]
-        
-        try await portfolioUserDocument(userId: userId).updateData(orderBookingTime)
-    }
+        let removeExistingBookingTime: [String : Any] = ["booking_days" : FieldValue.arrayRemove([["date" : bookingDay.date]])]
 
+        let addNewBookingTime: [String : Any] = [DBPortfolioModel.CodingKeys.bookingDays.rawValue : FieldValue.arrayUnion([bookingDays])]
+        
+        print("remove Existing Booking Time: \(removeExistingBookingTime)")
+        print("add New Booking Time: \(addNewBookingTime)")
+        try await portfolioUserDocument(userId: userId).updateData(removeExistingBookingTime)
+//        try await portfolioUserDocument(userId: userId).updateData(addNewBookingTime)
+    }
+    
+    func removeBookingDays(userId: String, removeBookingDays: Date) async throws {
+        let removeBookingDay: [String : Any] = [DBPortfolioModel.CodingKeys.bookingDays.rawValue : FieldValue.arrayRemove([removeBookingDays])]
+        try await portfolioUserDocument(userId: userId).updateData(removeBookingDay)
+
+// Remove All Aray       try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.bookingDays.rawValue : [] as NSArray])// updateData(orderBookingTime)
+    }
 
     //MARK: - OLD Orders
     func addNewAuthorOrder(userId: String, order: DbOrderModel) async throws {
