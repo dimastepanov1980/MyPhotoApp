@@ -81,7 +81,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                  largeImagesPortfolio: [],
                                                  descriptionAuthor: viewModel.descriptionAuthor,
                                                  schedule: [DbSchedule](),
-                                                 bookingDays: []
+                                                 bookingDays: [:]
                                                 ))
                                 dismiss()
                             }

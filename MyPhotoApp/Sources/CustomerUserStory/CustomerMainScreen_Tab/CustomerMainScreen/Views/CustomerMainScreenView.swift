@@ -313,7 +313,7 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
                                                   largeImagesPortfolio: ["String"],
                                                   descriptionAuthor: "",
                                                      schedule: [],
-                                                     bookingDays: []))]
+                                                     bookingDays: [:]))]
     
     func stringToURL(imageString: String) -> URL? {
         URL(string: "")

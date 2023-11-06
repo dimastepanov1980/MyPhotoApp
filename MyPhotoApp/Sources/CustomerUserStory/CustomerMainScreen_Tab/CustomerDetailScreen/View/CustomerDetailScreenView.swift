@@ -470,7 +470,7 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
                                                                  largeImagesPortfolio: [],
                                                                  descriptionAuthor: "",
                                                                  schedule: [],
-                                                                 bookingDays: []))
+                                                                 bookingDays: [:]))
     @Published var selectedTime: [String] = []
     @Published var selectedDay: Date? = Date()
     @Published var today: Date = Date()

@@ -177,28 +177,21 @@ final class UserManager {
         ]
         try await orderCollection.document(orderId).updateData(orderData)
     }
-    
-    func setBookingDays(userId: String, bookingDay: BookingDay) async throws {
-        guard let bookingDays = try? encoder.encode(bookingDay) else {
-            throw URLError(.badURL)
-        }
-        let removeExistingBookingTime: [String : Any] = ["booking_days" : FieldValue.arrayRemove([["date" : bookingDay.date]])]
+ 
+  // MARK: - Manage Booking Days
+    func addNewBookingDays(userId: String, selectedDay: String, selectedTimes: [String]) async throws {
+        try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : selectedTimes])
+         }
 
-        let addNewBookingTime: [String : Any] = [DBPortfolioModel.CodingKeys.bookingDays.rawValue : FieldValue.arrayUnion([bookingDays])]
-        
-        print("remove Existing Booking Time: \(removeExistingBookingTime)")
-        print("add New Booking Time: \(addNewBookingTime)")
-        try await portfolioUserDocument(userId: userId).updateData(removeExistingBookingTime)
-//        try await portfolioUserDocument(userId: userId).updateData(addNewBookingTime)
+    func addTimeSlotForBookingDay(userId: String, selectedDay: String, selectedTime: String) async throws {
+        try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : FieldValue.arrayUnion([selectedTime])])
     }
     
-    func removeBookingDays(userId: String, removeBookingDays: Date) async throws {
-        let removeBookingDay: [String : Any] = [DBPortfolioModel.CodingKeys.bookingDays.rawValue : FieldValue.arrayRemove([removeBookingDays])]
-        try await portfolioUserDocument(userId: userId).updateData(removeBookingDay)
-
-// Remove All Aray       try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.bookingDays.rawValue : [] as NSArray])// updateData(orderBookingTime)
+    func removeTimeSlotFromBookingDay(userId: String, selectedDay: String, selectedTime: String) async throws {
+        try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : FieldValue.arrayRemove([selectedTime])])
     }
-
+    
+    
     //MARK: - OLD Orders
     func addNewAuthorOrder(userId: String, order: DbOrderModel) async throws {
         let document = authorOrderCollection(authorId: userId).document()
@@ -263,7 +256,6 @@ final class UserManager {
         
         try await userOrderDocument(userId: userId, orderId: orderId).updateData(data)
     }
-
     func removeOrder(userId: String, order: DbOrderModel) async throws {
         try await userOrderDocument(userId: userId, orderId: order.orderId).delete()
     }
@@ -280,7 +272,6 @@ final class UserManager {
     private func portfolioUserDocument(userId: String) -> DocumentReference {
         portfolioCollection.document(userId)
     }
-    
     func setUserPortfolio(userId: String, portfolio: DBPortfolioModel) async throws {
         guard let authorData = try? encoder.encode(portfolio.author) else {
             throw URLError(.badURL)

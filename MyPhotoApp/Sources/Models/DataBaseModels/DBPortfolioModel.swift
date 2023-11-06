@@ -16,7 +16,7 @@ struct DBPortfolioModel: Codable, Hashable {
     let descriptionAuthor: String?
 //    let reviews: [DBReviews]?
     let schedule: [DbSchedule]?
-    let bookingDays: [BookingDay]?
+    let bookingDays: [String : [String]]?
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -28,7 +28,7 @@ struct DBPortfolioModel: Codable, Hashable {
         self.descriptionAuthor = try container.decodeIfPresent(String.self, forKey: .descriptionAuthor)
 //        self.reviews = try container.decodeIfPresent([DBReviews].self, forKey: .reviews)
         self.schedule = try container.decodeIfPresent([DbSchedule].self, forKey: .schedule)
-        self.bookingDays = try container.decodeIfPresent([BookingDay].self, forKey: .bookingDays)
+        self.bookingDays = try container.decodeIfPresent([String : [String]].self, forKey: .bookingDays)
     }
     
     init(id: String, author: DBAuthor?,
@@ -38,7 +38,7 @@ struct DBPortfolioModel: Codable, Hashable {
          descriptionAuthor: String?,
 //         reviews: [DBReviews]?,
          schedule: [DbSchedule]?,
-         bookingDays: [BookingDay]?) {
+         bookingDays: [String : [String]]?) {
         
         self.id = id
         self.author = author
@@ -84,7 +84,7 @@ struct DBPortfolioModel: Codable, Hashable {
     }
 }
 
-struct BookingDay: Codable {
+struct BookingDayOld: Codable {
     let date: Date
     var time: [String]
     let dayOff: Bool
@@ -110,6 +110,18 @@ struct BookingDay: Codable {
         try container.encode(self.date, forKey: .date)
         try container.encode(self.time, forKey: .time)
         try container.encode(self.dayOff, forKey: .dayOff)
+    }
+}
+struct BookingDay: Codable {
+    var dayAndTime: [String : [String]]
+    
+    init(dayAndTime: [String : [String]]) {
+        self.dayAndTime = dayAndTime
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.dayAndTime = try container.decode([String : [String]].self, forKey: .dayAndTime)
     }
 }
 

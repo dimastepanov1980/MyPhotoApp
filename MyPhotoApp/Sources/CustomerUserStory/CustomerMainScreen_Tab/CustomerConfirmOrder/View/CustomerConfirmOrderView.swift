@@ -194,7 +194,7 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject {
-    var authorBookingDays: [BookingDay] = []
+    var authorBookingDays: [String : [String]] = [:]
     var user: DBUserModel? = nil
     var customerFirstName: String = "customerName"
     var customerSecondName: String = "customerSecondName"

@@ -19,7 +19,7 @@ protocol CustomerConfirmOrderViewModelType: ObservableObject {
     
     var authorName: String { get }
     var authorSecondName: String { get }
-    var authorBookingDays: [BookingDay] { get set }
+    var authorBookingDays: [String : [String]] { get set }
     var location: String { get }
     var orderDate: Date { get }
     var orderTime: [String] { get }
