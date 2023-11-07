@@ -49,6 +49,8 @@
 "status_inProgress" = "In progress";
 "status_completed" = "Completed";
 "status_canceled" = "Canceled";
+"status_canceled_warning" = "If the order is cancelled,\nyou will not be able to restore it";
+
 
 // MARK: - AuthorTabs
 "tabs_feature" = "Feature";

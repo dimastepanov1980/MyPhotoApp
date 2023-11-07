@@ -26,7 +26,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
        NavigationStack{
            ScrollView(showsIndicators: false){
                VStack{
-                   ParallaxHeader{
+//                   ParallaxHeader{
                        TabView(selection: $currentStep) {
                            ForEach(viewModel.items.smallImagesPortfolio.indices, id: \.self) { index in
                                NavigationLink {
@@ -49,7 +49,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                            .padding(.top, 48)
                            .padding(.trailing)
                        }
-                   }
+//                   }
                    .tabViewStyle(.page(indexDisplayMode: .never))
                    .frame(height: 350)
                    Spacer()
@@ -287,7 +287,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 data: viewModel.timeslotSelectedDay,
                 spacing: 6,
                 alignment: .leading) { time in
-                    tagTime(time: time.time, available: time.available)
+                    tagTime(time: time)
                 }
               }
                 
@@ -295,38 +295,32 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             .padding(.horizontal, 24)
         }
     }
-    private func tagTime(time: String, available: Bool) -> some View{
+    private func tagTime(time: String) -> some View{
         Group{
             if viewModel.selectedTime.contains(time) {
                 Text(time)
                     .font(.footnote)
-                    .foregroundColor(available ? Color(R.color.gray7.name) : Color(R.color.gray7.name))
+                    .foregroundColor(Color(R.color.gray7.name))
                     .padding(.horizontal, 10)
                     .padding(.vertical, 8)
+                   
                     .background(
                         ZStack {
                             Capsule()
-                                .strokeBorder(!available ? Color(R.color.gray5.name) : .clear, lineWidth: 1)
-                                .frame(width: 50, height: 27)
-                        }
-                    )
-                    .background(
-                        ZStack {
-                            Capsule()
-                                .fill(available ? Color(R.color.gray2.name) : Color(R.color.gray7.name))
+                                .fill(Color(R.color.gray2.name))
                                 .frame(width: 50, height: 27)
                         }
                     )
             } else {
                 Text(time)
                     .font(.footnote)
-                    .foregroundColor(available ? Color(R.color.gray2.name) : Color(R.color.gray5.name))
+                    .foregroundColor(Color(R.color.gray2.name))
                     .padding(.horizontal, 10)
                     .padding(.vertical, 8)
                     .background(
                         ZStack {
                             Capsule()
-                                .strokeBorder(available ? Color(R.color.gray4.name) : Color(R.color.gray5.name), lineWidth: 0.5)
+                                .strokeBorder(Color(R.color.gray4.name), lineWidth: 0.5)
                                 .frame(width: 50, height: 27)
                         }
                     )
@@ -340,12 +334,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             }
         }
         .onTapGesture {
-            if available {
-                if viewModel.selectedTime.contains(time) {
-                    viewModel.selectedTime.removeAll { $0 == time }
-                } else {
-                    viewModel.selectedTime.append(time)
-                }
+            if viewModel.selectedTime.contains(time) {
+                viewModel.selectedTime.removeAll { $0 == time }
+            } else {
+                viewModel.selectedTime.append(time)
             }
         }
     }
@@ -447,7 +439,7 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
     var customer: DBUserModel? = nil
     var minPrice: String = ""
     var priceForDay: String = ""
-    func createAppointments(schedule: [DbSchedule], startMyTripDate: Date) {}
+    func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]]) {}
 
     @Published var appointments: [AppointmentModel] = []
     @Published var items: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
@@ -474,7 +466,7 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
     @Published var selectedTime: [String] = []
     @Published var selectedDay: Date? = Date()
     @Published var today: Date = Date()
-    @Published var timeslotSelectedDay: [TimeSlotModel] = []
+    @Published var timeslotSelectedDay: [String] = []
     
     func sortedDate(array: [String]) -> [String] {
         []

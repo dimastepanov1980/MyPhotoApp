@@ -17,7 +17,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var priceForDay: String = ""
     @Published var minPrice: String = ""
     @Published var today: Date = Date()
-    @Published var timeslotSelectedDay: [TimeSlotModel] = []
+    @Published var timeslotSelectedDay: [String] = []
     @Published var appointments: [AppointmentModel] = []
     @Published var avatarImage: UIImage? = nil
 
@@ -28,7 +28,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         self.items = items
         self.startMyTrip = startMyTrip
         
-        createAppointments(schedule: items.appointmen, startMyTripDate: self.startMyTrip)
+        createAppointments(schedule: items.appointmen, startMyTripDate: self.startMyTrip, bookingDays: items.bookingDays ?? [:] )
         getMinPrice()
 
     }
@@ -51,7 +51,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         guard let endMyTripDate = calendar.date(byAdding: .day, value: endMyTrip, to: today) else { return Date()}
         return endMyTripDate
     }
-    func createAppointments(schedule: [DbSchedule], startMyTripDate: Date) {
+    func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]]) {
         var appointments: [AppointmentModel] = []
         let calendar = Calendar.current
         var dateFormatter: DateFormatter {
@@ -68,7 +68,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         let endMyTripDate = setEndMyTripDate(startMyTrip: startMyTripDate, endMyTrip: 13)
         
         while currentDate <= endMyTripDate {
-            var timeSlots: [TimeSlotModel] = []
+            var timeSlots: [String] = []
             var priceForCurrentDay = ""
             
             for scheduleItem in schedule {
@@ -83,8 +83,18 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
                     var currentTime = calendar.date(bySettingHour: startHour, minute: startMinute, second: 0, of: currentDate)!
                     
                     while currentTime <= calendar.date(bySettingHour: endHour, minute: endMinute, second: 0, of: currentDate)! {
-                        let timeSlot = TimeSlotModel(time: timeFormatter.string(from: currentTime), available: true)
-                        timeSlots.append(timeSlot)
+                        let currentDayString = dateFormatter.string(from: currentTime)
+                        let timeSlot = timeFormatter.string(from: currentTime)
+                        
+                        if let selectedTimeSlot = bookingDays[currentDayString] {
+                            print("Current Day: \(currentDayString) existans Time Slot: \(selectedTimeSlot), Current Time Slot: \(timeSlot)")
+                            if !selectedTimeSlot.contains(where: { $0 == timeSlot }) {
+                                timeSlots.append(timeSlot)
+                            }
+                        } else {
+                            print("Current Day: \(currentDayString) Current Time Slot: \(timeSlot)")
+                            timeSlots.append(timeSlot)
+                        }
                         currentTime = calendar.date(byAdding: .minute, value: Int(scheduleItem.timeIntervalSelected) ?? 60, to: currentTime)!
                     }
                     priceForCurrentDay = scheduleItem.price

@@ -19,8 +19,10 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var randomHeights: [CGFloat] = []
     @State private var selectImages: [PhotosPickerItem] = []
     @Binding var showEditOrderView: Bool
-    @State var showActionSheet: Bool = false
+    @State var showChangeStatusSheet: Bool = false
     @State var isCopied: Bool = false
+    @State var isCanceled: Bool = false
+    @State var statusIsChange: Bool = false
     @State private var selectedImageURL: URL?
     @State private var columns = [ GridItem(.flexible(), spacing: 0),
                                    GridItem(.flexible(), spacing: 0),
@@ -72,7 +74,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack{
-                        
                         PhotosPicker(selection: $selectImages,
                                      maxSelectionCount: 10,
                                      matching: .any(of: [.images, .not(.videos)]),
@@ -129,36 +130,77 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
             }
         }
-        .confirmationDialog("Change Status", isPresented: $showActionSheet) {
+        .confirmationDialog("Change Status", isPresented: $showChangeStatusSheet) {
             ForEach(viewModel.avaibleStatus, id: \.self) { status in
                 Button(status) {
-                    Task {
+                    switch status {
+                    case "Canceled":
+                        isCanceled = true
+                        statusIsChange = false
+                       
+                    default:
+                        statusIsChange = true
                         self.viewModel.status = status
-                        let userOrders = DbOrderModel(order:
-                                OrderModel(orderId: viewModel.order.orderId,
-                                           orderCreateDate: Date(),
-                                           orderPrice: viewModel.order.orderPrice,
-                                           orderStatus: viewModel.returnedStatus(status: viewModel.status),
-                                           orderShootingDate: viewModel.order.orderShootingDate,
-                                           orderShootingTime: viewModel.order.orderShootingTime,
-                                           orderShootingDuration: viewModel.order.orderShootingDuration ?? "",
-                                           orderSamplePhotos: viewModel.order.orderSamplePhotos ?? [],
-                                           orderMessages: viewModel.order.orderMessages,
-                                           authorId: viewModel.order.authorId,
-                                           authorName: viewModel.order.authorName,
-                                           authorSecondName: viewModel.order.authorSecondName,
-                                           authorLocation: viewModel.order.authorLocation ?? "",
-                                           customerId: nil,
-                                           customerName: nil,
-                                           customerSecondName: nil,
-                                           customerDescription: viewModel.order.customerDescription,
-                                           customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
 
-                        try await viewModel.updateStatus(orderModel: userOrders)
                     }
+
                 }
             }
         }
+        .alert( R.string.localizable.status_canceled_warning(),
+                isPresented: $isCanceled
+        ) {
+            HStack{
+                Button("Cancel", role: .cancel) {
+
+                }
+
+                Button("Ok", role: .destructive) {
+                    Task {
+                        do{
+                            if let orderShootingTime = viewModel.order.orderShootingTime {
+                                for time in orderShootingTime {
+                                    try await UserManager.shared.removeTimeSlotFromBookingDay(userId: viewModel.order.authorId ?? "", selectedDay: viewModel.formattedDate(date: viewModel.order.orderShootingDate, format: "YYYYMMdd"), selectedTime: time)
+                                }
+                            }
+                            self.viewModel.status = "Canceled"
+                            self.statusIsChange = true
+                        } catch {
+                            throw error
+                        }
+                     
+                    }
+                }
+               
+            }
+        }
+        .onChange(of: statusIsChange) { _ in
+            Task {
+                let userOrders = DbOrderModel(order:
+                                                OrderModel(orderId: viewModel.order.orderId,
+                                                           orderCreateDate: Date(),
+                                                           orderPrice: viewModel.order.orderPrice,
+                                                           orderStatus: viewModel.returnedStatus(status: viewModel.status),
+                                                           orderShootingDate: viewModel.order.orderShootingDate,
+                                                           orderShootingTime: viewModel.order.orderShootingTime,
+                                                           orderShootingDuration: viewModel.order.orderShootingDuration ?? "",
+                                                           orderSamplePhotos: viewModel.order.orderSamplePhotos ?? [],
+                                                           orderMessages: viewModel.order.orderMessages,
+                                                           authorId: viewModel.order.authorId,
+                                                           authorName: viewModel.order.authorName,
+                                                           authorSecondName: viewModel.order.authorSecondName,
+                                                           authorLocation: viewModel.order.authorLocation ?? "",
+                                                           customerId: nil,
+                                                           customerName: nil,
+                                                           customerSecondName: nil,
+                                                           customerDescription: viewModel.order.customerDescription,
+                                                           customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
+                try await viewModel.updateStatus(orderModel: userOrders)
+                
+                dismiss()
+            }
+        }
+
         
     }
     private var nameSection: some View {
@@ -175,7 +217,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     VStack(alignment: .trailing) {
                         if !viewModel.status.isEmpty {
                             Button {
-                                showActionSheet.toggle()
+                                    showChangeStatusSheet.toggle()
+                                
                             } label: {
                                 Text(viewModel.status)
                                     .font(.caption2)
@@ -185,6 +228,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                     .background(viewModel.statusColor)
                                     .cornerRadius(15)
                             }
+                            .disabled(viewModel.status == "Canceled")
                         }
                     }
                 }
@@ -434,7 +478,7 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
                                                                               phone: "+7 999 99 99",
                                                                               email: "email@email.com")))
     
-    var avaibleStatus: [String] = []
+    var avaibleStatus: [String] = ["Upcoming", "Cancel Order"]
     
     var status: String = "Upcoming"
     

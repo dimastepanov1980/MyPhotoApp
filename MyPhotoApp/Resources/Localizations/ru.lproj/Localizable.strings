@@ -49,6 +49,7 @@
 "status_inProgress" = "В процессе";
 "status_completed" = "Завершенный";
 "status_canceled" = "Отмененный";
+"status_canceled_warning" = "Если заказ будет отменен, вы не сможете его восстановить";
 
 // MARK: - AuthorTabs
 "tabs_feature" = "Новые заказы";

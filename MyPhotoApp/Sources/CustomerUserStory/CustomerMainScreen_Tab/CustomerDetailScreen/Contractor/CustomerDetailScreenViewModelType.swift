@@ -14,7 +14,7 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     var customer: DBUserModel? { get }
     var selectedDay: Date? { get set }
     var selectedTime: [String] { get set }
-    var timeslotSelectedDay: [TimeSlotModel] { get set }
+    var timeslotSelectedDay: [String] { get set }
     var today: Date { get set }
     var priceForDay: String { get set }
     var appointments: [AppointmentModel] { get set }
@@ -27,7 +27,7 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     func sortedDate(array: [String]) -> [String]
     func isTodayDay(date: Date) -> Bool
     func isToday(date: Date) -> Bool
-    func createAppointments(schedule: [DbSchedule], startMyTripDate: Date)
+    func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]])
     func getAvatarImage(imagePath: String) async throws
 
 }

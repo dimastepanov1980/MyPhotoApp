@@ -518,7 +518,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 132 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 133 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -712,6 +712,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let author = Rswift.StringResource(key: "author", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: If the order is cancelled, you will not be able to restore it
+      ///
+      /// Locales: en, ru
+      static let status_canceled_warning = Rswift.StringResource(key: "status_canceled_warning", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: If you want to add sample photos, click the plus icon in the toolbar
       ///
       /// Locales: en, ru
@@ -1767,6 +1771,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("author", bundle: bundle, comment: "")
+      }
+
+      /// en translation: If the order is cancelled, you will not be able to restore it
+      ///
+      /// Locales: en, ru
+      static func status_canceled_warning(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_canceled_warning", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_canceled_warning"
+        }
+
+        return NSLocalizedString("status_canceled_warning", bundle: bundle, comment: "")
       }
 
       /// en translation: If you want to add sample photos, click the plus icon in the toolbar

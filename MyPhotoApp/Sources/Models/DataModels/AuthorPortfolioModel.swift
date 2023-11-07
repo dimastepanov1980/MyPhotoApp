@@ -60,7 +60,7 @@ struct AuthorModel {
 
 struct AppointmentModel {
     let date: Date
-    let timeSlot: [TimeSlotModel]
+    let timeSlot: [String]
     let price: String
 }
 
