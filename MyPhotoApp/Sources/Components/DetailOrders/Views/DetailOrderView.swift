@@ -213,12 +213,12 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .font(.title2.bold())
                     .foregroundColor(Color(R.color.gray2.name))
                 Spacer()
-                if detailOrderType == .author {
+              
                     VStack(alignment: .trailing) {
                         if !viewModel.status.isEmpty {
                             Button {
                                     showChangeStatusSheet.toggle()
-                                
+                            
                             } label: {
                                 Text(viewModel.status)
                                     .font(.caption2)
@@ -228,10 +228,10 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                     .background(viewModel.statusColor)
                                     .cornerRadius(15)
                             }
-                            .disabled(viewModel.status == "Canceled")
+                            .disabled(viewModel.status == "Canceled" || detailOrderType == .customer )
                         }
                     }
-                }
+             
             }
         }
     }
