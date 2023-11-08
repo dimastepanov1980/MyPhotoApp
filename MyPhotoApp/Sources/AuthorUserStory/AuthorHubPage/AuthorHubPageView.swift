@@ -26,7 +26,9 @@ struct AuthorHubPageView: View {
             VStack{
                 ZStack {
                     if self.index == 0 {
+                        
                         AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView, showEditOrderView: $showEditOrderView, statusOrder: .Upcoming )
+                        
                     } else if self.index == 1 {
                         
                         AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView,

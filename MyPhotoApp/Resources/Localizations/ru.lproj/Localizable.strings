@@ -26,6 +26,7 @@
 // MARK: - Main Screen
 "today" = "Заказы на сегодня";
 "order_not_found" = "У Вас нет заказов";
+"order_not_found_worning" = "Здесь будут ваши новые заказы.\nСоздайте раздел портфолио,\nчтобы вас можно было найти\nв результатах поиска.";
 
 // MARK: - New Order
 "order_ClientName" = "Имя клиента";
@@ -82,7 +83,8 @@
 "notes" = "Когда нашим приложением будут пользоваться более чем 100 фотографов, мы начнем развивать сервис «Портфолио»";
 "your_login" = "Ваш логин:";
 "version_not_available" = "Версия программы не доступна";
-"Setup_your_profile" = "Пожалуйста, настройте ваш профиль";
+"setup_your_profile" = "Пожалуйста, настройте ваш профиль";
+"setup_your_portfolio" = "Please set up your portfolio";
 
 "warning_add_avatar" = "Добавьте аватар";
 "warning_add_name" = "Добавьте Имя";
@@ -169,3 +171,4 @@
 "customer_search_bar" = "Поиск фотографа";
 "customer_search" = "Найти";
 "customer_search_no_result" = "К сожалению фотографов не найдено";
+"customer_orders_worning" = "На данный момент у вас нет активных заказов";

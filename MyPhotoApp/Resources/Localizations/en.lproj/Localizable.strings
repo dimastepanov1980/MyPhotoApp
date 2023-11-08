@@ -26,6 +26,9 @@
 // MARK: - Main Screen
 "today" = "Order for today";
 "order_not_found" = "You don't have orders";
+"order_not_found_worning" = "Your new orders will be here.\nPlease set up a portfolio section\nso that you can be found in searches";
+
+
 
 // MARK: - New Order
 "order_firstName" = "First Name";
@@ -154,7 +157,6 @@
 "gender_male" = "Male";
 "gender_female" = "Female";
 
-
 //MARK: - Schedule
 "schedule" = "Schedule";
 "schedule_save" = "Save";
@@ -172,4 +174,6 @@
 "customer_search_bar" = "Search photographer";
 "customer_search" = "Search";
 "customer_search_no_result" = "Sorry, no photographers found";
+"customer_orders_worning" = "You currently have no active orders";
+
 

@@ -34,28 +34,42 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
         NavigationStack{
             VStack {
                 ScrollViewReader { data in
-                    ScrollView(.vertical, showsIndicators: false) {
-                        LazyVStack(pinnedViews: [.sectionHeaders]) {
-                            Section {
-                                ScrollView(.vertical) {
-                                    verticalCards()
-                                        .padding(.bottom)
-                                        .padding(.top, statusOrder == .Upcoming ? 0 : 32)
+                    if !viewModel.filteredUpcomingOrders.isEmpty{
+                        ScrollView(.vertical, showsIndicators: false) {
+                            LazyVStack(pinnedViews: [.sectionHeaders]) {
+                                Section {
+                                    ScrollView(.vertical) {
+                                        verticalCards()
+                                            .padding(.bottom)
+                                            .padding(.top, statusOrder == .Upcoming ? 0 : 32)
+                                    }
+                                } header: {
+                                    if statusOrder == .Upcoming {
+                                        headerSection(scroll: data)
+                                            .padding(.top, 64)
+                                    }
                                 }
-                            } header: {
-                                if statusOrder == .Upcoming {
-                                    headerSection(scroll: data)
-                                        .padding(.top, 64)
-                                }
+                                
                             }
-                            .background(Color(R.color.gray7.name))
                         }
-                    }.padding(.vertical, 32)
+                        .padding(.vertical, 32)
+                    } else {
+                        ZStack{
+                            Color(R.color.gray7.name)
+                                .ignoresSafeArea()
+                            
+                            Text(R.string.localizable.order_not_found_worning())
+                                .multilineTextAlignment(.center)
+                                .font(.footnote)
+                                .foregroundColor(Color(R.color.gray3.name))
+                                .padding()
+                        
+                        }
+                    }
                 }
             }
-         
-            .background(Color(R.color.gray7.name))
             .ignoresSafeArea()
+            .background(Color(R.color.gray7.name))
         }
     }
     var horizontalCards: some View {
@@ -199,19 +213,20 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author)
                                     .navigationBarBackButtonHidden(true)) {
                                         AuthorVCellMainScreenView(items: order,
-                                          statusColor: viewModel.orderStausColor(order: order.orderStatus),
-                                          status: viewModel.orderStausName (status: order.orderStatus))
-                                            .contextMenu {
-                                                Button(R.string.localizable.order_Delete()) {
-                                                    Task{
-                                                        try? await viewModel.deleteOrder(order: order)
-                                                    }
+                                                                  statusColor: viewModel.orderStausColor(order: order.orderStatus),
+                                                                  status: viewModel.orderStausName (status: order.orderStatus))
+                                        .contextMenu {
+                                            Button(R.string.localizable.order_Delete()) {
+                                                Task{
+                                                    try? await viewModel.deleteOrder(order: order)
                                                 }
                                             }
+                                        }
                                     }
                             }
                         }
                 }
+            
         }  .padding(.horizontal)
     }
 }

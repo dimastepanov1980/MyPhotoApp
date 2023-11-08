@@ -518,7 +518,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 133 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 135 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -834,12 +834,12 @@ struct R: Rswift.Validatable {
       static let portfolio_add_images = Rswift.StringResource(key: "portfolio_add_images", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Please set up your portfolio
       ///
-      /// Locales: en
-      static let setup_your_portfolio = Rswift.StringResource(key: "setup_your_portfolio", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// Locales: en, ru
+      static let setup_your_portfolio = Rswift.StringResource(key: "setup_your_portfolio", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Please set up your profile
       ///
-      /// Locales: en
-      static let setup_your_profile = Rswift.StringResource(key: "setup_your_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// Locales: en, ru
+      static let setup_your_profile = Rswift.StringResource(key: "setup_your_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Portfolio
       ///
       /// Locales: en, ru
@@ -1032,6 +1032,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let default_message = Rswift.StringResource(key: "default_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: You currently have no active orders
+      ///
+      /// Locales: en, ru
+      static let customer_orders_worning = Rswift.StringResource(key: "customer_orders_worning", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: You don't have orders
       ///
       /// Locales: en, ru
@@ -1044,6 +1048,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let your_login = Rswift.StringResource(key: "your_login", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Your new orders will be here. Please set up a portfolio section so that you can be found in searches
+      ///
+      /// Locales: en, ru
+      static let order_not_found_worning = Rswift.StringResource(key: "order_not_found_worning", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: h
       ///
       /// Locales: en, ru
@@ -2225,7 +2233,7 @@ struct R: Rswift.Validatable {
 
       /// en translation: Please set up your portfolio
       ///
-      /// Locales: en
+      /// Locales: en, ru
       static func setup_your_portfolio(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
           return NSLocalizedString("setup_your_portfolio", bundle: hostingBundle, comment: "")
@@ -2240,7 +2248,7 @@ struct R: Rswift.Validatable {
 
       /// en translation: Please set up your profile
       ///
-      /// Locales: en
+      /// Locales: en, ru
       static func setup_your_profile(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
           return NSLocalizedString("setup_your_profile", bundle: hostingBundle, comment: "")
@@ -2973,6 +2981,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("default_message", bundle: bundle, comment: "")
       }
 
+      /// en translation: You currently have no active orders
+      ///
+      /// Locales: en, ru
+      static func customer_orders_worning(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_orders_worning", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_orders_worning"
+        }
+
+        return NSLocalizedString("customer_orders_worning", bundle: bundle, comment: "")
+      }
+
       /// en translation: You don't have orders
       ///
       /// Locales: en, ru
@@ -3016,6 +3039,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("your_login", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Your new orders will be here. Please set up a portfolio section so that you can be found in searches
+      ///
+      /// Locales: en, ru
+      static func order_not_found_worning(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_not_found_worning", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_not_found_worning"
+        }
+
+        return NSLocalizedString("order_not_found_worning", bundle: bundle, comment: "")
       }
 
       /// en translation: h

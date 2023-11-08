@@ -16,18 +16,32 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     }
     
     var body: some View {
-        
-        ScrollView{
-            ForEach(viewModel.orders, id: \.orderId) { order in
-                NavigationLink {
-                    DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: .constant(false), detailOrderType: .customer)
-                        .navigationBarBackButtonHidden(true)
-                } label: {
-                    CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
-
-                }
+        ZStack(alignment: .center) {
+            if viewModel.orders.isEmpty{
+                Color(R.color.gray7.name)
+                    .ignoresSafeArea()
+                Text(R.string.localizable.customer_orders_worning())
+                    .multilineTextAlignment(.center)
+                    .font(.footnote)
+                    .foregroundColor(Color(R.color.gray3.name))
+                    .padding()
+                
+            } else {
+                ScrollView{
+                    ForEach(viewModel.orders, id: \.orderId) { order in
+                        NavigationLink {
+                            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: .constant(false), detailOrderType: .customer)
+                                .navigationBarBackButtonHidden(true)
+                        } label: {
+                            CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
+                            
+                        }
+                    }
+                }.padding()
             }
-        }.padding(.horizontal)
+        }
+        .background(Color(R.color.gray7.name))
+        
     }
 }
 
