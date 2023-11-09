@@ -33,7 +33,7 @@
 "order_client_secondName" = "Фамилия клиента";
 "order_location" = "Место фотоссесии";
 "order_price" = "Стоимость";
-"order_instagramLink" = "Имя Instagram";
+"order_instagramLink" = "Instagram UserName";
 "order_description" = "Описание";
 "order_duration" = "Продолжительность";
 "order_selectDate" = "Дата фотоссесии";
