@@ -28,5 +28,6 @@ protocol DetailOrderViewModelType: ObservableObject {
     func addReferenceImages(selectedImages: [PhotosPickerItem]) async throws
     func deleteReferenceImages(pathKey: String) async throws
     func getReferenceImages(imagesPath: [String]) async throws
+    func openInstagramProfile(username: String)
 
 }

@@ -33,7 +33,7 @@
 "order_client_secondName" = "Фамилия клиента";
 "order_location" = "Место фотоссесии";
 "order_price" = "Стоимость";
-"order_instagramLink" = "Ссылка на @Instagram";
+"order_instagramLink" = "Имя Instagram";
 "order_description" = "Описание";
 "order_duration" = "Продолжительность";
 "order_selectDate" = "Дата фотоссесии";
@@ -71,7 +71,7 @@
 "settings_section_profile_about" = "Расскажи о себе";
 "settings_section_profile_email" = "Почта";
 "settings_section_profile_phone" = "Телефон";
-"settings_section_profile_instagram" = "Instagram";
+"settings_section_profile_instagram" = "Имя Instagram";
 "settings_section_notification" = "Уведомления";
 "settings_section_localization" = "Локализация";
 "settings_section_privacy" = "Конфиденциальность";
@@ -90,7 +90,7 @@
 "warning_add_name" = "Добавьте Имя";
 "warning_add_secondname" = "Добавьте Фамилию";
 "warning_add_phone" = "Добавьте телефон";
-"warning_add_instagram" = "Добавьте Инстаграм";
+"warning_add_instagram" = "Добавьте Имя Инстаграм";
 
 //MARK: - Customer Zone
 "price_start" = "цена от";

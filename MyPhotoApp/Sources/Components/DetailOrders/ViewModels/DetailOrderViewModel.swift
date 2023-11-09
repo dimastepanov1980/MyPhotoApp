@@ -135,6 +135,10 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         guard let currency = locale.currencySymbol else { return "$" }
         return currency
     }
+    func openInstagramProfile(username: String) {
+        guard let instagramURL = URL(string: "https://instagram.com/\(username)") else { return }
+        UIApplication.shared.open(instagramURL)
+    }
 
 
 }

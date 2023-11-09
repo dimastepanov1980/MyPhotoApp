@@ -35,7 +35,7 @@
 "order_client_secondName" = "Сlient's last name";
 "order_location" = "Location";
 "order_price" = "Price";
-"order_instagramLink" = "@Instagram";
+"order_instagramLink" = "Instagram username";
 "order_description" = "Description";
 "order_duration" = "Duration";
 "order_selectDate" = "Select a date";
@@ -73,7 +73,7 @@
 "settings_section_profile_about" = "Tell about yourself";
 "settings_section_profile_email" = "Email";
 "settings_section_profile_phone" = "Phone";
-"settings_section_profile_instagram" = "Instagram";
+"settings_section_profile_instagram" = "Instagram username";
 
 "settings_section_notification" = "Notification";
 "settings_section_localization" = "Localization";
@@ -93,7 +93,7 @@
 "warning_add_name" = "Add Name";
 "warning_add_secondname" = "Add Secondname";
 "warning_add_phone" = "Add phone number";
-"warning_add_instagram" = "Add instagram link";
+"warning_add_instagram" = "Add Instagram username";
 
 //MARK: - Customer Zone -
 "price_start" = "start from";

@@ -315,13 +315,12 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 22, height: 22)
                                 .foregroundColor(Color(R.color.gray2.name))
-                            Text(R.string.localizable.tap_to_open())
+                            Text(instagramLink)
                                 .font(.subheadline)
                                 .foregroundColor(Color(R.color.gray3.name))
                         }
                         .onTapGesture {
-                            guard let instagram = URL(string:instagramLink) else { return }
-                            UIApplication.shared.open(instagram)
+                            viewModel.openInstagramProfile(username: instagramLink)
                         }
                     }
                     if let phone = viewModel.order.customerContactInfo.phone {
@@ -444,6 +443,8 @@ struct DetailOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: DetailOrderViewModelType, ObservableObject {
+    func openInstagramProfile(username: String) {}
+    
     var smallReferenceImages: [String] = []
     var referenceImages: [String : UIImage?] = [:]
     func addReferenceImages(selectedImages: [PhotosPickerItem]) async throws {}

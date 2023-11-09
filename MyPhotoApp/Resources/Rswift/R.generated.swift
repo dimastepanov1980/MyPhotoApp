@@ -520,14 +520,14 @@ struct R: Rswift.Validatable {
   struct string {
     /// This `R.string.localizable` struct is generated, and contains static references to 139 localization keys.
     struct localizable {
-      /// en translation: @Instagram
-      ///
-      /// Locales: en, ru
-      static let order_instagramLink = Rswift.StringResource(key: "order_instagramLink", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: About your self
       ///
       /// Locales: en, ru
       static let portfolio_about = Rswift.StringResource(key: "portfolio_about", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add Instagram username
+      ///
+      /// Locales: en, ru
+      static let warning_add_instagram = Rswift.StringResource(key: "warning_add_instagram", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add Name
       ///
       /// Locales: en, ru
@@ -552,10 +552,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en
       static let portfolio_add_images_btt = Rswift.StringResource(key: "portfolio_add_images_btt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
-      /// en translation: Add instagram link
-      ///
-      /// Locales: en, ru
-      static let warning_add_instagram = Rswift.StringResource(key: "warning_add_instagram", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add phone number
       ///
       /// Locales: en, ru
@@ -736,7 +732,11 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let settings_section_information = Rswift.StringResource(key: "settings_section_information", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Instagram
+      /// en translation: Instagram username
+      ///
+      /// Locales: en, ru
+      static let order_instagramLink = Rswift.StringResource(key: "order_instagramLink", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Instagram username
       ///
       /// Locales: en, ru
       static let settings_section_profile_instagram = Rswift.StringResource(key: "settings_section_profile_instagram", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
@@ -1077,21 +1077,6 @@ struct R: Rswift.Validatable {
       /// Locales: en, ru
       static let order_client_secondName = Rswift.StringResource(key: "order_client_secondName", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
 
-      /// en translation: @Instagram
-      ///
-      /// Locales: en, ru
-      static func order_instagramLink(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_instagramLink", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_instagramLink"
-        }
-
-        return NSLocalizedString("order_instagramLink", bundle: bundle, comment: "")
-      }
-
       /// en translation: About your self
       ///
       /// Locales: en, ru
@@ -1105,6 +1090,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("portfolio_about", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add Instagram username
+      ///
+      /// Locales: en, ru
+      static func warning_add_instagram(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_instagram", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_instagram"
+        }
+
+        return NSLocalizedString("warning_add_instagram", bundle: bundle, comment: "")
       }
 
       /// en translation: Add Name
@@ -1195,21 +1195,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("portfolio_add_images_btt", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Add instagram link
-      ///
-      /// Locales: en, ru
-      static func warning_add_instagram(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("warning_add_instagram", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "warning_add_instagram"
-        }
-
-        return NSLocalizedString("warning_add_instagram", bundle: bundle, comment: "")
       }
 
       /// en translation: Add phone number
@@ -1887,7 +1872,22 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("settings_section_information", bundle: bundle, comment: "")
       }
 
-      /// en translation: Instagram
+      /// en translation: Instagram username
+      ///
+      /// Locales: en, ru
+      static func order_instagramLink(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_instagramLink", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_instagramLink"
+        }
+
+        return NSLocalizedString("order_instagramLink", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Instagram username
       ///
       /// Locales: en, ru
       static func settings_section_profile_instagram(preferredLanguages: [String]? = nil) -> String {
