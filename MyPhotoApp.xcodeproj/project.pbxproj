@@ -312,8 +312,8 @@
 			children = (
 				5FA3C3462A5BDC07003EA4F8 /* AuthorHubPage */,
 				5FF546682A1B56F300208455 /* AuthorMainScreen_Tab */,
-				5FB717462A223F3000EC7BF6 /* AuthorSetting_Tab */,
 				5FA767E22A6975FB00861F7D /* AuthorPortfolio_Tab */,
+				5FB717462A223F3000EC7BF6 /* AuthorSetting_Tab */,
 			);
 			path = AuthorUserStory;
 			sourceTree = "<group>";
