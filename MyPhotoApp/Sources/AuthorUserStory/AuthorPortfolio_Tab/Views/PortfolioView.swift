@@ -12,6 +12,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State var showPortfolioEditView: Bool = false
     @State private var showingOptions = false
+    @State private var showScheduleView = false
     @State private var selectPortfolioImages: [PhotosPickerItem] = []
     @State private var selectPortfolioImagesData: [Data]? = []
     @State private var columns = [ GridItem(.flexible(), spacing: 0),
@@ -35,35 +36,62 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack(spacing: 20){
-                    if viewModel.dbModel != nil {
+                    
+                    if let portfolio = viewModel.dbModel {
+                        
                         PhotosPicker(selection: $selectPortfolioImages,
                                      maxSelectionCount: 10,
                                      matching: .any(of: [.images, .not(.videos)]),
                                      preferredItemEncoding: .automatic,
                                      photoLibrary: .shared()) {
                             Image(systemName: "plus.app")
+                                .font(.headline)
+                                .fontWeight(.light)
+                                .foregroundColor(Color(R.color.gray2.name))
                         }
-                                     .onChange(of: selectPortfolioImages, perform: { images in
-                                         Task {
-                                             do {
-                                                 print("uploading images:")
-                                                 selectPortfolioImages = []
-                                                 try await viewModel.addPortfolioImages(selectedImages: images)
-                                             } catch {
-                                                 print("Error uploading images: \(error)")
-                                                 throw error
-                                             }
-                                         }
-                                     })
-                                     .disabled( viewModel.smallImagesPortfolio.count > 60 )
+                            .onChange(of: selectPortfolioImages, perform: { images in
+                                Task {
+                                    do {
+                                        print("uploading images:")
+                                        selectPortfolioImages = []
+                                        try await viewModel.addPortfolioImages(selectedImages: images)
+                                    } catch {
+                                        print("Error uploading images: \(error)")
+                                        throw error
+                                    }
+                                }
+                            })
+                            .disabled( viewModel.smallImagesPortfolio.count > 60 )
+                        
+                        if let schedule = portfolio.schedule, schedule.isEmpty {
+                            Button {
+                                showScheduleView.toggle()
+                            } label: {
+                                Image(systemName: "calendar.badge.exclamationmark")
+                                    .font(.headline)
+                                    .fontWeight(.light)
+                                    .foregroundStyle(Color(R.color.upcoming.name), Color(R.color.gray2.name))
+                            }
+                        } else {
+                            Button {
+                                showScheduleView.toggle()
+                            } label: {
+                                Image(systemName: "calendar")
+                                    .font(.headline)
+                                    .fontWeight(.light)
+                                    .foregroundColor(Color(R.color.gray2.name))
+                            }
+                        }
                     }
                     Button {
                         showPortfolioEditView.toggle()
                     } label: {
                         Image(systemName: "pencil.line")
+                            .font(.headline)
+                            .fontWeight(.light)
+                            .foregroundColor(Color(R.color.gray2.name))
                     }
                 }
-                .foregroundColor(Color(R.color.gray2.name))
                 .padding()
             }
         }
@@ -81,6 +109,10 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                                            longitude: $viewModel.longitude,
                                                            latitude: $viewModel.latitude,
                                                            regionAuthor: $viewModel.regionAuthor))
+        }
+        .navigationDestination(isPresented: $showScheduleView) {
+            PortfolioScheduleView(with: PortfolioScheduleViewModel(), showScheduleView: $showScheduleView)
+                .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
         }
         .onAppear{
             Task {

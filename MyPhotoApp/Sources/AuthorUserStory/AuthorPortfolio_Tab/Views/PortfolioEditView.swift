@@ -47,43 +47,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                         .padding(.top, 8)
                     
                     descriptionSection
-                    addSchedule
-                        .onTapGesture {
-                            Task {
-                                do {
-                                    try await viewModel.setAuthorPortfolio(portfolio: DBPortfolioModel(id: UUID().uuidString,
-                                                     author: DBAuthor(rateAuthor: 0.0,
-                                                                      likedAuthor: true,
-                                                                      typeAuthor: viewModel.typeAuthor,
-                                                                      nameAuthor: viewModel.nameAuthor,
-                                                                      familynameAuthor: viewModel.familynameAuthor,
-                                                                      sexAuthor: viewModel.sexAuthor,
-                                                                      ageAuthor: viewModel.ageAuthor,
-                                                                      location: locationAuthor,
-                                                                      latitude: viewModel.latitude,
-                                                                      longitude: viewModel.longitude,
-                                                                      regionAuthor: viewModel.regionAuthor,
-                                                                      styleAuthor: viewModel.styleAuthor,
-                                                                      imagesCover: []),
-                                                     avatarAuthor: viewModel.avatarAuthor,
-                                                     smallImagesPortfolio: [],
-                                                     largeImagesPortfolio: [],
-                                                     descriptionAuthor: viewModel.descriptionAuthor,
-                                                     schedule: [DbSchedule](),
-                                                     bookingDays: [:]
-                                                    ))
-                                    showScheduleView.toggle()
-                                } catch {
-                                    throw error
-                                }
-                                }
-                        }
                 }
-                .sheet(isPresented: $showScheduleView) {
-                    PortfolioScheduleView(with: PortfolioScheduleViewModel(), showScheduleView: $showScheduleView)
-                        .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
 
-                }
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(R.string.localizable.save()) {
@@ -293,26 +258,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                 Spacer()
             }
         })
-        .padding(.horizontal)
-    }
-    private var addSchedule: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 21)
-                .fill(Color(R.color.gray1.name))
-            
-            HStack{
-                Text(R.string.localizable.portfolio_schedule_btn())
-                    .font(.callout)
-                    .foregroundColor(Color(R.color.gray6.name))
-                    .padding(.leading, 24)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.callout)
-                    .foregroundColor(Color(R.color.gray6.name))
-                    .frame(height: 42)
-                    .padding(.trailing, 24)
-            }
-        }
         .padding(.horizontal)
     }
     private func selectGender(gender: String?) -> String {

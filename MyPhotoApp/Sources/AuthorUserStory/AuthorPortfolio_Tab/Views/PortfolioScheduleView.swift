@@ -59,16 +59,17 @@ struct AddScheduleSection: View {
 
     var body: some View {
         Section {
-            Toggle(R.string.localizable.schedule_holidays(), isOn: $schedule.holidays)
-                .foregroundColor(Color(R.color.gray3.name))
-                .tint(Color(R.color.gray1.name))
+//            Toggle(R.string.localizable.schedule_holidays(), isOn: $schedule.holidays)
+//                .foregroundColor(Color(R.color.gray3.name))
+//                .tint(Color(R.color.gray1.name))
             DatePicker(R.string.localizable.schedule_start(), selection: $schedule.startDate, displayedComponents: [.hourAndMinute, .date])
                 .foregroundColor(Color(R.color.gray3.name))
+                .padding(.top, 8)
             DatePicker(R.string.localizable.schedule_end(), selection: $schedule.endDate, displayedComponents: [.hourAndMinute, .date])
                 .foregroundColor(Color(R.color.gray3.name))
             Picker(R.string.localizable.schedule_interval(), selection: $schedule.timeIntervalSelected) {
-                ForEach(interval, id: \.self) { item in
-                    Text(item)
+                ForEach(interval, id: \.self) { time in
+                    Text(timeInterval(intervals: time))
                 }
             }
             .pickerStyle(.menu)
@@ -90,6 +91,26 @@ struct AddScheduleSection: View {
                 Text(R.string.localizable.schedule_delete())
                     .foregroundColor(.red)
             }
+        }
+    }
+    private func timeInterval(intervals: String) -> String {
+        switch intervals {
+        case "30" :
+            return "1/2"
+        case "60" :
+            return "1"
+        case "120" :
+            return "2"
+        case "180" :
+            return "3"
+        case "360" :
+            return "6"
+        case "480" :
+            return "8"
+        case "720" :
+            return "12"
+        default:
+            return "1"
         }
     }
 }

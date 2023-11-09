@@ -26,6 +26,10 @@ struct LogOutScreenView<ViewModel: LogOutScreenViewModelType>: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20){
+                Text(viewModel.emailUser ?? "")
+                    .font(.headline)
+                    .foregroundColor(Color(R.color.gray2.name))
+                
                 Button {
                     Task {
                         do {
@@ -38,7 +42,7 @@ struct LogOutScreenView<ViewModel: LogOutScreenViewModelType>: View {
                     }
                 } label: {
                     ZStack {
-                        Text(R.string.localizable.signOutAccBtt())
+                        Text(viewModel.emailUser != nil ? R.string.localizable.signOutAccBtt() : R.string.localizable.logIn())
                             .font(.headline)
                             .foregroundColor(Color(R.color.gray6.name))
                             .padding(8)
@@ -47,14 +51,15 @@ struct LogOutScreenView<ViewModel: LogOutScreenViewModelType>: View {
                             .cornerRadius(20)
                     }
                 }
-                
-                Button {
-                    reAuthenticationScreenSheet.toggle()
-                    dismiss()
-                } label: {
-                    Text(R.string.localizable.delete_user())
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray3.name))
+                if viewModel.emailUser != nil {
+                    Button {
+                        reAuthenticationScreenSheet.toggle()
+                        dismiss()
+                    } label: {
+                        Text(R.string.localizable.delete_user())
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray3.name))
+                    }
                 }
                 
             }
@@ -90,5 +95,9 @@ struct LogOutScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: LogOutScreenViewModelType, ObservableObject {
+    
+    var emailUser: String?
+    func getUser() async throws {
+    }
     func LogOut() throws {}
 }
