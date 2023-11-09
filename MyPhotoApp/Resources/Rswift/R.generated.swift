@@ -518,8 +518,12 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 135 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 139 localization keys.
     struct localizable {
+      /// en translation: @Instagram
+      ///
+      /// Locales: en, ru
+      static let order_instagramLink = Rswift.StringResource(key: "order_instagramLink", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: About your self
       ///
       /// Locales: en, ru
@@ -531,15 +535,11 @@ struct R: Rswift.Validatable {
       /// en translation: Add Order
       ///
       /// Locales: en, ru
-      static let order_AddOrder = Rswift.StringResource(key: "order_AddOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_add_order = Rswift.StringResource(key: "order_add_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add Photo
       ///
       /// Locales: en, ru
       static let addPhoto = Rswift.StringResource(key: "addPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Add Schedule
-      ///
-      /// Locales: en, ru
-      static let schedule_add = Rswift.StringResource(key: "schedule_add", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add Secondname
       ///
       /// Locales: en, ru
@@ -548,6 +548,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let warning_add_avatar = Rswift.StringResource(key: "warning_add_avatar", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add images
+      ///
+      /// Locales: en
+      static let portfolio_add_images_btt = Rswift.StringResource(key: "portfolio_add_images_btt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Add instagram link
       ///
       /// Locales: en, ru
@@ -556,10 +560,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let warning_add_phone = Rswift.StringResource(key: "warning_add_phone", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Add schedule
+      /// en translation: Add schedules
       ///
       /// Locales: en, ru
-      static let portfolio_schedule = Rswift.StringResource(key: "portfolio_schedule", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let schedule = Rswift.StringResource(key: "schedule", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Aerial
       ///
       /// Locales: en, ru
@@ -580,6 +584,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let status_canceled = Rswift.StringResource(key: "status_canceled", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Client's first name
+      ///
+      /// Locales: en, ru
+      static let order_client_firstName = Rswift.StringResource(key: "order_client_firstName", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Completed
       ///
       /// Locales: en, ru
@@ -611,7 +619,7 @@ struct R: Rswift.Validatable {
       /// en translation: Delete Order
       ///
       /// Locales: en, ru
-      static let order_Delete = Rswift.StringResource(key: "order_Delete", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_delete_order = Rswift.StringResource(key: "order_delete_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Delete Schedule
       ///
       /// Locales: en, ru
@@ -627,7 +635,7 @@ struct R: Rswift.Validatable {
       /// en translation: Description
       ///
       /// Locales: en, ru
-      static let order_Description = Rswift.StringResource(key: "order_Description", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_description = Rswift.StringResource(key: "order_description", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Documentary
       ///
       /// Locales: en, ru
@@ -635,7 +643,7 @@ struct R: Rswift.Validatable {
       /// en translation: Duration
       ///
       /// Locales: en, ru
-      static let order_Duration = Rswift.StringResource(key: "order_Duration", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_duration = Rswift.StringResource(key: "order_duration", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Edit
       ///
       /// Locales: en, ru
@@ -643,7 +651,7 @@ struct R: Rswift.Validatable {
       /// en translation: Edit Order
       ///
       /// Locales: en, ru
-      static let order_EditOrder = Rswift.StringResource(key: "order_EditOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_edit_order = Rswift.StringResource(key: "order_edit_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Email
       ///
       /// Locales: en, ru
@@ -688,10 +696,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let portfolio_first_name = Rswift.StringResource(key: "portfolio_first_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: First Name
-      ///
-      /// Locales: en
-      static let order_firstName = Rswift.StringResource(key: "order_firstName", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Food
       ///
       /// Locales: en, ru
@@ -736,10 +740,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let settings_section_profile_instagram = Rswift.StringResource(key: "settings_section_profile_instagram", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Instagram Link
-      ///
-      /// Locales: en, ru
-      static let order_InstagramLink = Rswift.StringResource(key: "order_InstagramLink", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Last Name
       ///
       /// Locales: en, ru
@@ -759,11 +759,7 @@ struct R: Rswift.Validatable {
       /// en translation: Location
       ///
       /// Locales: en, ru
-      static let order_Location = Rswift.StringResource(key: "order_Location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Location
-      ///
-      /// Locales: en, ru
-      static let portfolio_location = Rswift.StringResource(key: "portfolio_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_location = Rswift.StringResource(key: "order_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Log Out
       ///
       /// Locales: en, ru
@@ -791,7 +787,11 @@ struct R: Rswift.Validatable {
       /// en translation: New Order
       ///
       /// Locales: en, ru
-      static let order_NewOrder = Rswift.StringResource(key: "order_NewOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_new_order = Rswift.StringResource(key: "order_new_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: New Schedule
+      ///
+      /// Locales: en, ru
+      static let schedule_add = Rswift.StringResource(key: "schedule_add", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Notification
       ///
       /// Locales: en, ru
@@ -828,10 +828,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let place_order = Rswift.StringResource(key: "place_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Please select image for Portfolio by tapping on plus icon on toolbar
+      /// en translation: Please add images for Portfolio by tapping on plus icon on toolbar or on button bellow
       ///
       /// Locales: en, ru
       static let portfolio_add_images = Rswift.StringResource(key: "portfolio_add_images", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please set up a schedule so you can be found in searches
+      ///
+      /// Locales: en, ru
+      static let portfolio_schedule = Rswift.StringResource(key: "portfolio_schedule", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Please set up your portfolio
       ///
       /// Locales: en, ru
@@ -840,6 +844,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let setup_your_profile = Rswift.StringResource(key: "setup_your_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please setup your Portfolio by tapping on pencil icon on toolbar or on button bellow
+      ///
+      /// Locales: en, ru
+      static let portfolio_setup_portfolio = Rswift.StringResource(key: "portfolio_setup_portfolio", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Portfolio
       ///
       /// Locales: en, ru
@@ -855,7 +863,7 @@ struct R: Rswift.Validatable {
       /// en translation: Price
       ///
       /// Locales: en, ru
-      static let order_Price = Rswift.StringResource(key: "order_Price", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_price = Rswift.StringResource(key: "order_price", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Price
       ///
       /// Locales: en, ru
@@ -903,11 +911,7 @@ struct R: Rswift.Validatable {
       /// en translation: Save Order
       ///
       /// Locales: en, ru
-      static let order_SaveOrder = Rswift.StringResource(key: "order_SaveOrder", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Schedule
-      ///
-      /// Locales: en, ru
-      static let schedule = Rswift.StringResource(key: "schedule", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_save_order = Rswift.StringResource(key: "order_save_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Search
       ///
       /// Locales: en, ru
@@ -916,26 +920,26 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let customer_search_bar = Rswift.StringResource(key: "customer_search_bar", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Second Name
-      ///
-      /// Locales: en
-      static let order_secondName = Rswift.StringResource(key: "order_secondName", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
       /// en translation: Select
       ///
       /// Locales: en, ru
       static let gender_select = Rswift.StringResource(key: "gender_select", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select 4 genres
+      ///
+      /// Locales: en, ru
+      static let portfolio_genre_description = Rswift.StringResource(key: "portfolio_genre_description", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Select a date
       ///
       /// Locales: en, ru
-      static let order_SelectDate = Rswift.StringResource(key: "order_SelectDate", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      static let order_selectDate = Rswift.StringResource(key: "order_selectDate", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select a location from the list
+      ///
+      /// Locales: en, ru
+      static let portfolio_location = Rswift.StringResource(key: "portfolio_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Select date
       ///
       /// Locales: en, ru
       static let select_date = Rswift.StringResource(key: "select_date", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Select four genres
-      ///
-      /// Locales: en, ru
-      static let portfolio_genre_description = Rswift.StringResource(key: "portfolio_genre_description", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Select time
       ///
       /// Locales: en, ru
@@ -944,14 +948,22 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let portfolio_gender = Rswift.StringResource(key: "portfolio_gender", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Set Schedule
-      ///
-      /// Locales: en, ru
-      static let schedule_set = Rswift.StringResource(key: "schedule_set", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Settings
       ///
       /// Locales: en, ru
       static let settings_name_screen = Rswift.StringResource(key: "settings_name_screen", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Setup Schedule
+      ///
+      /// Locales: en, ru
+      static let schedule_set = Rswift.StringResource(key: "schedule_set", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Setup portfolio
+      ///
+      /// Locales: en, ru
+      static let portfolio_setup_portfolio_btt = Rswift.StringResource(key: "portfolio_setup_portfolio_btt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Setup schedule
+      ///
+      /// Locales: en, ru
+      static let portfolio_schedule_btn = Rswift.StringResource(key: "portfolio_schedule_btn", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Shooting details
       ///
       /// Locales: en, ru
@@ -1060,6 +1072,25 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let price_start = Rswift.StringResource(key: "price_start", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Сlient's last name
+      ///
+      /// Locales: en, ru
+      static let order_client_secondName = Rswift.StringResource(key: "order_client_secondName", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+
+      /// en translation: @Instagram
+      ///
+      /// Locales: en, ru
+      static func order_instagramLink(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_instagramLink", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_instagramLink"
+        }
+
+        return NSLocalizedString("order_instagramLink", bundle: bundle, comment: "")
+      }
 
       /// en translation: About your self
       ///
@@ -1094,16 +1125,16 @@ struct R: Rswift.Validatable {
       /// en translation: Add Order
       ///
       /// Locales: en, ru
-      static func order_AddOrder(preferredLanguages: [String]? = nil) -> String {
+      static func order_add_order(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_AddOrder", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("order_add_order", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_AddOrder"
+          return "order_add_order"
         }
 
-        return NSLocalizedString("order_AddOrder", bundle: bundle, comment: "")
+        return NSLocalizedString("order_add_order", bundle: bundle, comment: "")
       }
 
       /// en translation: Add Photo
@@ -1119,21 +1150,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("addPhoto", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Add Schedule
-      ///
-      /// Locales: en, ru
-      static func schedule_add(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("schedule_add", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "schedule_add"
-        }
-
-        return NSLocalizedString("schedule_add", bundle: bundle, comment: "")
       }
 
       /// en translation: Add Secondname
@@ -1166,6 +1182,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("warning_add_avatar", bundle: bundle, comment: "")
       }
 
+      /// en translation: Add images
+      ///
+      /// Locales: en
+      static func portfolio_add_images_btt(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_add_images_btt", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_add_images_btt"
+        }
+
+        return NSLocalizedString("portfolio_add_images_btt", bundle: bundle, comment: "")
+      }
+
       /// en translation: Add instagram link
       ///
       /// Locales: en, ru
@@ -1196,19 +1227,19 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("warning_add_phone", bundle: bundle, comment: "")
       }
 
-      /// en translation: Add schedule
+      /// en translation: Add schedules
       ///
       /// Locales: en, ru
-      static func portfolio_schedule(preferredLanguages: [String]? = nil) -> String {
+      static func schedule(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("portfolio_schedule", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("schedule", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "portfolio_schedule"
+          return "schedule"
         }
 
-        return NSLocalizedString("portfolio_schedule", bundle: bundle, comment: "")
+        return NSLocalizedString("schedule", bundle: bundle, comment: "")
       }
 
       /// en translation: Aerial
@@ -1284,6 +1315,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("status_canceled", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Client's first name
+      ///
+      /// Locales: en, ru
+      static func order_client_firstName(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_client_firstName", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_client_firstName"
+        }
+
+        return NSLocalizedString("order_client_firstName", bundle: bundle, comment: "")
       }
 
       /// en translation: Completed
@@ -1394,16 +1440,16 @@ struct R: Rswift.Validatable {
       /// en translation: Delete Order
       ///
       /// Locales: en, ru
-      static func order_Delete(preferredLanguages: [String]? = nil) -> String {
+      static func order_delete_order(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_Delete", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("order_delete_order", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_Delete"
+          return "order_delete_order"
         }
 
-        return NSLocalizedString("order_Delete", bundle: bundle, comment: "")
+        return NSLocalizedString("order_delete_order", bundle: bundle, comment: "")
       }
 
       /// en translation: Delete Schedule
@@ -1454,16 +1500,16 @@ struct R: Rswift.Validatable {
       /// en translation: Description
       ///
       /// Locales: en, ru
-      static func order_Description(preferredLanguages: [String]? = nil) -> String {
+      static func order_description(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_Description", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("order_description", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_Description"
+          return "order_description"
         }
 
-        return NSLocalizedString("order_Description", bundle: bundle, comment: "")
+        return NSLocalizedString("order_description", bundle: bundle, comment: "")
       }
 
       /// en translation: Documentary
@@ -1484,16 +1530,16 @@ struct R: Rswift.Validatable {
       /// en translation: Duration
       ///
       /// Locales: en, ru
-      static func order_Duration(preferredLanguages: [String]? = nil) -> String {
+      static func order_duration(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_Duration", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("order_duration", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_Duration"
+          return "order_duration"
         }
 
-        return NSLocalizedString("order_Duration", bundle: bundle, comment: "")
+        return NSLocalizedString("order_duration", bundle: bundle, comment: "")
       }
 
       /// en translation: Edit
@@ -1514,16 +1560,16 @@ struct R: Rswift.Validatable {
       /// en translation: Edit Order
       ///
       /// Locales: en, ru
-      static func order_EditOrder(preferredLanguages: [String]? = nil) -> String {
+      static func order_edit_order(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_EditOrder", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("order_edit_order", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_EditOrder"
+          return "order_edit_order"
         }
 
-        return NSLocalizedString("order_EditOrder", bundle: bundle, comment: "")
+        return NSLocalizedString("order_edit_order", bundle: bundle, comment: "")
       }
 
       /// en translation: Email
@@ -1691,21 +1737,6 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("portfolio_first_name", bundle: bundle, comment: "")
       }
 
-      /// en translation: First Name
-      ///
-      /// Locales: en
-      static func order_firstName(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_firstName", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_firstName"
-        }
-
-        return NSLocalizedString("order_firstName", bundle: bundle, comment: "")
-      }
-
       /// en translation: Food
       ///
       /// Locales: en, ru
@@ -1871,21 +1902,6 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("settings_section_profile_instagram", bundle: bundle, comment: "")
       }
 
-      /// en translation: Instagram Link
-      ///
-      /// Locales: en, ru
-      static func order_InstagramLink(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_InstagramLink", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_InstagramLink"
-        }
-
-        return NSLocalizedString("order_InstagramLink", bundle: bundle, comment: "")
-      }
-
       /// en translation: Last Name
       ///
       /// Locales: en, ru
@@ -1949,31 +1965,16 @@ struct R: Rswift.Validatable {
       /// en translation: Location
       ///
       /// Locales: en, ru
-      static func order_Location(preferredLanguages: [String]? = nil) -> String {
+      static func order_location(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_Location", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("order_location", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_Location"
+          return "order_location"
         }
 
-        return NSLocalizedString("order_Location", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Location
-      ///
-      /// Locales: en, ru
-      static func portfolio_location(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("portfolio_location", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "portfolio_location"
-        }
-
-        return NSLocalizedString("portfolio_location", bundle: bundle, comment: "")
+        return NSLocalizedString("order_location", bundle: bundle, comment: "")
       }
 
       /// en translation: Log Out
@@ -2069,16 +2070,31 @@ struct R: Rswift.Validatable {
       /// en translation: New Order
       ///
       /// Locales: en, ru
-      static func order_NewOrder(preferredLanguages: [String]? = nil) -> String {
+      static func order_new_order(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_NewOrder", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("order_new_order", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_NewOrder"
+          return "order_new_order"
         }
 
-        return NSLocalizedString("order_NewOrder", bundle: bundle, comment: "")
+        return NSLocalizedString("order_new_order", bundle: bundle, comment: "")
+      }
+
+      /// en translation: New Schedule
+      ///
+      /// Locales: en, ru
+      static func schedule_add(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_add", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_add"
+        }
+
+        return NSLocalizedString("schedule_add", bundle: bundle, comment: "")
       }
 
       /// en translation: Notification
@@ -2216,7 +2232,7 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("place_order", bundle: bundle, comment: "")
       }
 
-      /// en translation: Please select image for Portfolio by tapping on plus icon on toolbar
+      /// en translation: Please add images for Portfolio by tapping on plus icon on toolbar or on button bellow
       ///
       /// Locales: en, ru
       static func portfolio_add_images(preferredLanguages: [String]? = nil) -> String {
@@ -2229,6 +2245,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("portfolio_add_images", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please set up a schedule so you can be found in searches
+      ///
+      /// Locales: en, ru
+      static func portfolio_schedule(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_schedule", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_schedule"
+        }
+
+        return NSLocalizedString("portfolio_schedule", bundle: bundle, comment: "")
       }
 
       /// en translation: Please set up your portfolio
@@ -2259,6 +2290,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("setup_your_profile", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please setup your Portfolio by tapping on pencil icon on toolbar or on button bellow
+      ///
+      /// Locales: en, ru
+      static func portfolio_setup_portfolio(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_setup_portfolio", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_setup_portfolio"
+        }
+
+        return NSLocalizedString("portfolio_setup_portfolio", bundle: bundle, comment: "")
       }
 
       /// en translation: Portfolio
@@ -2309,16 +2355,16 @@ struct R: Rswift.Validatable {
       /// en translation: Price
       ///
       /// Locales: en, ru
-      static func order_Price(preferredLanguages: [String]? = nil) -> String {
+      static func order_price(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_Price", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("order_price", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_Price"
+          return "order_price"
         }
 
-        return NSLocalizedString("order_Price", bundle: bundle, comment: "")
+        return NSLocalizedString("order_price", bundle: bundle, comment: "")
       }
 
       /// en translation: Price
@@ -2489,31 +2535,16 @@ struct R: Rswift.Validatable {
       /// en translation: Save Order
       ///
       /// Locales: en, ru
-      static func order_SaveOrder(preferredLanguages: [String]? = nil) -> String {
+      static func order_save_order(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_SaveOrder", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("order_save_order", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_SaveOrder"
+          return "order_save_order"
         }
 
-        return NSLocalizedString("order_SaveOrder", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Schedule
-      ///
-      /// Locales: en, ru
-      static func schedule(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("schedule", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "schedule"
-        }
-
-        return NSLocalizedString("schedule", bundle: bundle, comment: "")
+        return NSLocalizedString("order_save_order", bundle: bundle, comment: "")
       }
 
       /// en translation: Search
@@ -2546,21 +2577,6 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("customer_search_bar", bundle: bundle, comment: "")
       }
 
-      /// en translation: Second Name
-      ///
-      /// Locales: en
-      static func order_secondName(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_secondName", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_secondName"
-        }
-
-        return NSLocalizedString("order_secondName", bundle: bundle, comment: "")
-      }
-
       /// en translation: Select
       ///
       /// Locales: en, ru
@@ -2576,19 +2592,49 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("gender_select", bundle: bundle, comment: "")
       }
 
-      /// en translation: Select a date
+      /// en translation: Select 4 genres
       ///
       /// Locales: en, ru
-      static func order_SelectDate(preferredLanguages: [String]? = nil) -> String {
+      static func portfolio_genre_description(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("order_SelectDate", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("portfolio_genre_description", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "order_SelectDate"
+          return "portfolio_genre_description"
         }
 
-        return NSLocalizedString("order_SelectDate", bundle: bundle, comment: "")
+        return NSLocalizedString("portfolio_genre_description", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select a date
+      ///
+      /// Locales: en, ru
+      static func order_selectDate(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_selectDate", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_selectDate"
+        }
+
+        return NSLocalizedString("order_selectDate", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select a location from the list
+      ///
+      /// Locales: en, ru
+      static func portfolio_location(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_location", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_location"
+        }
+
+        return NSLocalizedString("portfolio_location", bundle: bundle, comment: "")
       }
 
       /// en translation: Select date
@@ -2604,21 +2650,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("select_date", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Select four genres
-      ///
-      /// Locales: en, ru
-      static func portfolio_genre_description(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("portfolio_genre_description", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "portfolio_genre_description"
-        }
-
-        return NSLocalizedString("portfolio_genre_description", bundle: bundle, comment: "")
       }
 
       /// en translation: Select time
@@ -2651,7 +2682,22 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("portfolio_gender", bundle: bundle, comment: "")
       }
 
-      /// en translation: Set Schedule
+      /// en translation: Settings
+      ///
+      /// Locales: en, ru
+      static func settings_name_screen(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_name_screen", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_name_screen"
+        }
+
+        return NSLocalizedString("settings_name_screen", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Setup Schedule
       ///
       /// Locales: en, ru
       static func schedule_set(preferredLanguages: [String]? = nil) -> String {
@@ -2666,19 +2712,34 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("schedule_set", bundle: bundle, comment: "")
       }
 
-      /// en translation: Settings
+      /// en translation: Setup portfolio
       ///
       /// Locales: en, ru
-      static func settings_name_screen(preferredLanguages: [String]? = nil) -> String {
+      static func portfolio_setup_portfolio_btt(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("settings_name_screen", bundle: hostingBundle, comment: "")
+          return NSLocalizedString("portfolio_setup_portfolio_btt", bundle: hostingBundle, comment: "")
         }
 
         guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "settings_name_screen"
+          return "portfolio_setup_portfolio_btt"
         }
 
-        return NSLocalizedString("settings_name_screen", bundle: bundle, comment: "")
+        return NSLocalizedString("portfolio_setup_portfolio_btt", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Setup schedule
+      ///
+      /// Locales: en, ru
+      static func portfolio_schedule_btn(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_schedule_btn", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_schedule_btn"
+        }
+
+        return NSLocalizedString("portfolio_schedule_btn", bundle: bundle, comment: "")
       }
 
       /// en translation: Shooting details
@@ -3084,6 +3145,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("price_start", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Сlient's last name
+      ///
+      /// Locales: en, ru
+      static func order_client_secondName(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_client_secondName", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_client_secondName"
+        }
+
+        return NSLocalizedString("order_client_secondName", bundle: bundle, comment: "")
       }
 
       fileprivate init() {}

@@ -109,6 +109,7 @@ final class UserManager {
     }
     func subscribeAuthorOrders(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
         // Assuming you have a reference to your Firestore collection
+        print("author_id is: \(userId)")
         let query = orderCollection.whereField("author_id", isEqualTo: userId)
         
         // Set up the snapshot listener
@@ -193,6 +194,7 @@ final class UserManager {
     
     
     //MARK: - OLD Orders
+    /*
     func addNewAuthorOrder(userId: String, order: DbOrderModel) async throws {
         let document = authorOrderCollection(authorId: userId).document()
         let documentId = document.documentID
@@ -265,6 +267,7 @@ final class UserManager {
     func deleteImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
         try await userOrderDocument(userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : path])
     }
+     */
     //MARK: - Portfolio
     
     private let portfolioCollection = Firestore.firestore().collection("portfolio")

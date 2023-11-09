@@ -82,11 +82,15 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                     .frame(width: 110, height: 110)
             } else {
                 ZStack{
-                   ProgressView()
-                   Color.gray.opacity(0.2)
-               }
+                    Color(R.color.gray5.name)
+                    Image(systemName: "arrow.triangle.2.circlepath.camera")
+                        .font(.largeTitle)
+                        .fontWeight(.thin)
+                        .foregroundColor(Color(R.color.gray3.name))
+                        
+                }
                 .mask {
-                   Circle()
+                    Circle()
                 }
                 .frame(width: 110, height: 110)
             }

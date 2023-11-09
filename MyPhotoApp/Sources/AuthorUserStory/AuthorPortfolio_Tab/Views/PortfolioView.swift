@@ -34,30 +34,29 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
         }
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
-                HStack{
-                    
-                    PhotosPicker(selection: $selectPortfolioImages,
-                                 maxSelectionCount: 10,
-                                 matching: .any(of: [.images, .not(.videos)]),
-                                 preferredItemEncoding: .automatic,
-                                 photoLibrary: .shared()) {
-                        Image(systemName: "plus.app")
+                HStack(spacing: 20){
+                    if viewModel.dbModel != nil {
+                        PhotosPicker(selection: $selectPortfolioImages,
+                                     maxSelectionCount: 10,
+                                     matching: .any(of: [.images, .not(.videos)]),
+                                     preferredItemEncoding: .automatic,
+                                     photoLibrary: .shared()) {
+                            Image(systemName: "plus.app")
+                        }
+                                     .onChange(of: selectPortfolioImages, perform: { images in
+                                         Task {
+                                             do {
+                                                 print("uploading images:")
+                                                 selectPortfolioImages = []
+                                                 try await viewModel.addPortfolioImages(selectedImages: images)
+                                             } catch {
+                                                 print("Error uploading images: \(error)")
+                                                 throw error
+                                             }
+                                         }
+                                     })
+                                     .disabled( viewModel.smallImagesPortfolio.count > 60 )
                     }
-                                 .onChange(of: selectPortfolioImages, perform: { images in
-                                                  Task {
-                                                      do {
-                                                          print("uploading images:")
-                                                          selectPortfolioImages = []
-                                                          try await viewModel.addPortfolioImages(selectedImages: images)
-                                                      } catch {
-                                                          print("Error uploading images: \(error)")
-                                                          throw error
-                                                      }
-                                                 }
-                                              })
-
-                    .disabled( viewModel.smallImagesPortfolio.count > 60 )
-                    
                     Button {
                         showPortfolioEditView.toggle()
                     } label: {
@@ -76,7 +75,8 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                                            sexAuthor: $viewModel.sexAuthor,
                                                            ageAuthor: $viewModel.ageAuthor,
                                                            styleAuthor: $viewModel.styleAuthor,
-                                                           avatarAuthor: $viewModel.avatarAuthor,
+                                                           avatarAuthor: viewModel.avatarAuthor,
+                                                           avatarImage: viewModel.avatarImage ?? nil,
                                                            descriptionAuthor: $viewModel.descriptionAuthor,
                                                            longitude: $viewModel.longitude,
                                                            latitude: $viewModel.latitude,
@@ -108,13 +108,17 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                         .frame(width: 68, height: 68)
                 } else {
                     ZStack{
-                       ProgressView()
-                       Color.gray.opacity(0.2)
-                   }
-                    .mask {
-                       Circle()
+                        Color(R.color.gray5.name)
+                        Image(systemName: "arrow.triangle.2.circlepath.camera")
+                            .font(.largeTitle)
+                            .fontWeight(.thin)
+                            .foregroundColor(Color(R.color.gray3.name))
+                            
                     }
-                   .frame(width: 68, height: 68)
+                    .mask {
+                        Circle()
+                    }
+                    .frame(width: 68, height: 68)
                 }
                 
                 VStack(alignment: .leading){
@@ -153,61 +157,96 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
         
     }
     private var imageSection: some View {
-        VStack{
-            if viewModel.portfolioImages.count > 0 {
-                ScrollView{
-                    LazyVGrid(columns: columns, spacing: 0){
-                        ForEach(viewModel.portfolioImages.sorted(by: { $0.0 < $1.0 }), id: \.key) { key, image in
-                            if let image = image {
-                                ZStack(alignment: .topTrailing) {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: imageGallerySize, height: imageGallerySize)
-                                        .border(Color.white)
-                                        .clipped()
-                                        .contextMenu {
-                                               Button {
-                                                   Task{
-                                                       do {
-                                                           try await viewModel.deletePortfolioImage(pathKey: key)
-                                                           print(key)
-                                                       } catch  {
-                                                           print(error.localizedDescription)
-                                                       }
-                                                   }
-                                                   print("Deleting Image \(key)")
-                                               } label: {
-                                                   Label(R.string.localizable.portfolio_delete_image(), systemImage: "trash")
-                                               }
-                                           }
+
+            VStack{
+                if viewModel.portfolioImages.count > 0 {
+                    ScrollView{
+                        LazyVGrid(columns: columns, spacing: 0){
+                            ForEach(viewModel.portfolioImages.sorted(by: { $0.0 < $1.0 }), id: \.key) { key, image in
+                                if let image = image {
+                                    ZStack(alignment: .topTrailing) {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: imageGallerySize, height: imageGallerySize)
+                                            .border(Color.white)
+                                            .clipped()
+                                            .contextMenu {
+                                                Button {
+                                                    Task{
+                                                        do {
+                                                            try await viewModel.deletePortfolioImage(pathKey: key)
+                                                            print(key)
+                                                        } catch  {
+                                                            print(error.localizedDescription)
+                                                        }
+                                                    }
+                                                    print("Deleting Image \(key)")
+                                                } label: {
+                                                    Label(R.string.localizable.portfolio_delete_image(), systemImage: "trash")
+                                                }
+                                            }
+                                    }
                                 }
                             }
                         }
                     }
-
-                }
-            } else {
-                if viewModel.smallImagesPortfolio.count > 0 {
-                    VStack{
-                        ProgressView()
-                            .padding(.top, 120)
-                    }
                 } else {
-                    HStack{
-                       
-                        Text(R.string.localizable.portfolio_add_images())
-                            .font(.subheadline)
-                            .foregroundColor(Color(R.color.gray3.name))
-                            .multilineTextAlignment(.center)
-                            .padding(36)
-                            .padding(.top, 120)
+                    if viewModel.smallImagesPortfolio.count > 0 {
+                        VStack{
+                            ProgressView()
+                                .padding(.top, 120)
+                        }
+                    } else {
+                        if viewModel.dbModel == nil {
+                            VStack(spacing: 0){
+                                Text(R.string.localizable.portfolio_setup_portfolio())
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                                    .multilineTextAlignment(.center)
+                                    .padding(36)
+                                    .padding(.top, 120)
+                                Button {
+                                    showPortfolioEditView.toggle()
+                                } label: {
+                                    Text(R.string.localizable.portfolio_setup_portfolio_btt())
+                                        .font(.headline)
+                                        .foregroundColor(Color(R.color.gray6.name))
+                                        .padding(8)
+                                        .padding(.horizontal, 16)
+                                        .background(Color(R.color.gray1.name))
+                                        .cornerRadius(20)
+                                }
+                            }
+                        } else {
+                            VStack{
+                                Text(R.string.localizable.portfolio_add_images())
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                                    .multilineTextAlignment(.center)
+                                    .padding(36)
+                                    .padding(.top, 120)
+                                
+                                PhotosPicker(selection: $selectPortfolioImages,
+                                             maxSelectionCount: 10,
+                                             matching: .any(of: [.images, .not(.videos)]),
+                                             preferredItemEncoding: .automatic,
+                                             photoLibrary: .shared()) {
+                                    Text(R.string.localizable.portfolio_add_images_btt())
+                                        .font(.headline)
+                                        .foregroundColor(Color(R.color.gray6.name))
+                                        .padding(8)
+                                        .padding(.horizontal, 16)
+                                        .background(Color(R.color.gray1.name))
+                                        .cornerRadius(20)
+                                }
+                                
+                            }
+                        }
                     }
                 }
             }
-        }
     }
-    
 }
 
 struct PortfolioView_Previews: PreviewProvider {

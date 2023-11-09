@@ -16,13 +16,13 @@ protocol AuthorAddOrderViewModelType: ObservableObject {
     var phone: String { get set }
     var email: String { get set }
     
+    var authorId: String { get set }
     var price: String { get set }
     var location: String { get set }
     var description: String { get set }
     var date: Date { get set }
     var duration: String { get set }
     var imageUrl: [String] { get set }
-//    var order: UserOrdersModel { get set }
     var status: String { get set }
     
     func addOrder(order: DbOrderModel) async throws

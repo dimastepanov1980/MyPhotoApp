@@ -25,7 +25,7 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
         }
     }
     @Published var avatarImage: UIImage?
-    @Binding var avatarAuthor: String
+    @Published var avatarAuthor: String
 
     @Binding var typeAuthor: String
     @Binding var nameAuthor: String
@@ -45,14 +45,16 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
          sexAuthor: Binding<String>,
          ageAuthor: Binding<String>,
          styleAuthor: Binding<[String]>,
-         avatarAuthor: Binding<String>,
+         avatarAuthor: String,
+         avatarImage: UIImage?,
          descriptionAuthor: Binding<String>,
          longitude: Binding<Double>,
          latitude: Binding<Double>,
          regionAuthor: Binding<String>) {
         
         self.locationAuthor = locationAuthor
-        self._avatarAuthor = avatarAuthor
+        self.avatarAuthor = avatarAuthor
+        self.avatarImage = avatarImage
 
         self._typeAuthor = typeAuthor
         self._nameAuthor = nameAuthor
@@ -100,8 +102,5 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
             let (path, _) = try await StorageManager.shared.uploadPortfolioImageDataToFairbase(data: data, userId: authDateResult.uid)
             try await UserManager.shared.addAvatarToPortfolio(userId: authDateResult.uid, path: path)
             self.avatarImage = image
-    }
-    func getAvatarImage(imagePath: String) async throws {
-        self.avatarImage = try await StorageManager.shared.getReferenceImage(path: imagePath)
     }
 }

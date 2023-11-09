@@ -31,19 +31,19 @@
 
 
 // MARK: - New Order
-"order_firstName" = "First Name";
-"order_secondName" = "Second Name";
-"order_Location" = "Location";
-"order_Price" = "Price";
-"order_InstagramLink" = "Instagram Link";
-"order_Description" = "Description";
-"order_Duration" = "Duration";
-"order_SelectDate" = "Select a date";
-"order_AddOrder" = "Add Order";
-"order_SaveOrder" = "Save Order";
-"order_EditOrder" = "Edit Order";
-"order_NewOrder" = "New Order";
-"order_Delete" = "Delete Order";
+"order_client_firstName" = "Client's first name";
+"order_client_secondName" = "Сlient's last name";
+"order_location" = "Location";
+"order_price" = "Price";
+"order_instagramLink" = "@Instagram";
+"order_description" = "Description";
+"order_duration" = "Duration";
+"order_selectDate" = "Select a date";
+"order_add_order" = "Add Order";
+"order_save_order" = "Save Order";
+"order_edit_order" = "Edit Order";
+"order_new_order" = "New Order";
+"order_delete_order" = "Delete Order";
 "order_shooting_details" = "Shooting details";
 "order_hour" = "h";
 
@@ -124,12 +124,16 @@
 "portfolio_last_name" = "Last Name";
 "portfolio_age" = "Your Age";
 "portfolio_gender" = "Select your gender";
-"portfolio_location" = "Location";
+"portfolio_location" = "Select a location from the list";
 "portfolio_genre" = "Style of photography";
-"portfolio_genre_description" = "Select four genres";
+"portfolio_genre_description" = "Select 4 genres";
 "portfolio_about" = "About your self";
-"portfolio_schedule" = "Add schedule";
-"portfolio_add_images" = "Please select image for Portfolio\nby tapping on plus icon on toolbar";
+"portfolio_schedule" = "Please set up a schedule\nso you can be found in searches";
+"portfolio_schedule_btn" = "Setup schedule";
+"portfolio_add_images" = "Please add images for Portfolio\nby tapping on plus icon on toolbar\nor on button bellow";
+"portfolio_add_images_btt" = "Add images";
+"portfolio_setup_portfolio" = "Please setup your Portfolio\nby tapping on pencil icon on toolbar\nor on button bellow";
+"portfolio_setup_portfolio_btt" = "Setup portfolio";
 "portfolio_delete_image" = "Delete image";
 
 //MARK: - Style of Photography
@@ -158,11 +162,11 @@
 "gender_female" = "Female";
 
 //MARK: - Schedule
-"schedule" = "Schedule";
+"schedule" = "Add schedules";
 "schedule_save" = "Save";
 "schedule_delete" = "Delete Schedule";
-"schedule_set" = "Set Schedule";
-"schedule_add" = "Add Schedule";
+"schedule_set" = "Setup Schedule";
+"schedule_add" = "New Schedule";
 "schedule_start" = "Start Date";
 "schedule_end" = "End Date";
 "schedule_interval" = "Time interval /Hr";

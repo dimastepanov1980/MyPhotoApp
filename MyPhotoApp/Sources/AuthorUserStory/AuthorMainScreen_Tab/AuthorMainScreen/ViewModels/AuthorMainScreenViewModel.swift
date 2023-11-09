@@ -159,6 +159,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         listenerRegistration = UserManager.shared.subscribeAuthorOrders(userId: authDateResult.uid, completion: { orders in
             self.orders = orders
         })
+        print("get orders from subscribe to Author \(authDateResult): \(orders)")
     }
     func checkProfileAndPortfolio() async throws {
         
@@ -191,10 +192,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             print("Set up your portfolio")
         }
     }
-    func deleteOrder(order: DbOrderModel) async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        try await UserManager.shared.removeOrder(userId: authDateResult.uid, order: order)
-    }
+
     func orderStausColor (order: String?) -> Color {
         if let order = order {
             switch order {

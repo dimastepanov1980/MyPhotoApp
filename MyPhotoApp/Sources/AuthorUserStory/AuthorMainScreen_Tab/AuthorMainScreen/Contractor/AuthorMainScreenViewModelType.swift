@@ -27,7 +27,6 @@ protocol AuthorMainScreenViewModelType: ObservableObject {
     func formattedDate(date: Date, format: String) -> String
     func isToday(date: Date) -> Bool
     func isTodayDay(date: Date) -> Bool
-    func deleteOrder(order: DbOrderModel) async throws
     func fetchWeather(with location: CLLocation)
     func orderStausColor (order: String?) -> Color
     func orderStausName (status: String?) -> String

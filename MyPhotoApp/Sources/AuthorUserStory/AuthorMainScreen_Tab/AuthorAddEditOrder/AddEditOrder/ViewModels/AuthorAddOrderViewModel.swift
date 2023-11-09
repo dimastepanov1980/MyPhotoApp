@@ -18,6 +18,7 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     @Published var phone: String = ""
     @Published var email: String = ""
     
+    @Published var authorId: String = ""
     @Published var price: String = ""
     @Published var location: String = ""
     @Published var description: String = ""
@@ -30,6 +31,9 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     init(order: DbOrderModel) {
         self.order = order
         updatePreview()
+        Task{
+            try await getUser()
+        }
     }
     
     func updatePreview() {
@@ -40,6 +44,7 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
         phone = order.customerContactInfo.phone ?? ""
         email = order.customerContactInfo.email ?? ""
         
+        authorId = order.authorId ?? ""
         price = order.orderPrice ?? ""
         location = order.authorLocation ?? ""
         description = order.customerDescription ?? ""
@@ -48,11 +53,19 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
         date = order.orderShootingDate
         status = order.orderStatus ?? ""
     }
+    func getUser() async throws {
+        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+        print(userDataResult.uid)
+        self.authorId = userDataResult.uid
+    }
+    
     func addOrder(order: DbOrderModel) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        try? await UserManager.shared.addNewAuthorOrder(userId: authDateResult.uid, order: order)
+        print("addOrder: \(order)")
+        try? await UserManager.shared.addNewOrder(userId: authDateResult.uid, order: order)
     }
     func updateOrder(orderModel: DbOrderModel) async throws {
+        print("updateOrder: \(updateOrder)")
         try? await UserManager.shared.updateOrder(order: orderModel, orderId: order.orderId)
     }
 }

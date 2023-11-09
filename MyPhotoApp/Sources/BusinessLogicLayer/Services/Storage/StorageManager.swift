@@ -22,14 +22,14 @@ final class StorageManager {
     func getReferenceImageData(path: String) async throws -> Data {
         try await storage.child(path).data(maxSize: 3 * 1024 * 1024)
     }
-    func removeImages(pathURL: URL, order: DbOrderModel, userId: String, imagesArray: [String]) async throws {
-        let imageStringPath = storage.storage.reference(forURL:"\(pathURL)")
-        let elementInArray = imageStringPath.fullPath
-        let newImagesArray = imagesArray.filter { $0 != elementInArray }
-        
-        try await UserManager.shared.deleteImagesUrlLinks(userId: userId, path: newImagesArray, orderId: order.orderId)
-        try await imageStringPath.delete()
-    }
+//    func removeImages(pathURL: URL, order: DbOrderModel, userId: String, imagesArray: [String]) async throws {
+//        let imageStringPath = storage.storage.reference(forURL:"\(pathURL)")
+//        let elementInArray = imageStringPath.fullPath
+//        let newImagesArray = imagesArray.filter { $0 != elementInArray }
+//        
+//        try await UserManager.shared.deleteImagesUrlLinks(userId: userId, path: newImagesArray, orderId: order.orderId)
+//        try await imageStringPath.delete()
+//    }
 
     func deletePortfolioImage(path: String, userId: String) async throws {
         let imagePath = storage.storage.reference(withPath: path)

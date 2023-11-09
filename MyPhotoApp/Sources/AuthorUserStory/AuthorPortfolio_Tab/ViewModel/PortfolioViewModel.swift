@@ -88,6 +88,8 @@ final class PortfolioViewModel: PortfolioViewModelType {
         self.portfolioImages = portfolioImages
     }
     func getAvatarImage(imagePath: String) async throws {
+        print("getAvatarImage imagePath:\(imagePath)")
+
         self.avatarImage = try await StorageManager.shared.getReferenceImage(path: imagePath)
     }
     func addPortfolioImages(selectedImages: [PhotosPickerItem]) async throws {

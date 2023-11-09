@@ -29,20 +29,20 @@
 "order_not_found_worning" = "Здесь будут ваши новые заказы.\nСоздайте раздел портфолио,\nчтобы вас можно было найти\nв результатах поиска.";
 
 // MARK: - New Order
-"order_ClientName" = "Имя клиента";
-"order_Location" = "Место фотоссесии";
-"order_Price" = "Стоимость";
-"order_InstagramLink" = "ссылка на Instagram";
-"order_Description" = "Описание";
-"order_Duration" = "Продолжительность";
-"order_SelectDate" = "Дата фотоссесии";
-"order_AddOrder" = "Добавить заказ";
-"order_SaveOrder" = "Сохранить";
-"order_EditOrder" = "Редактировать";
-"order_NewOrder" = "Создать";
-"order_Delete" = "Удалить";
+"order_client_firstName" = "Имя клиента";
+"order_client_secondName" = "Фамилия клиента";
+"order_location" = "Место фотоссесии";
+"order_price" = "Стоимость";
+"order_instagramLink" = "Ссылка на @Instagram";
+"order_description" = "Описание";
+"order_duration" = "Продолжительность";
+"order_selectDate" = "Дата фотоссесии";
+"order_add_order" = "Добавить заказ";
+"order_save_order" = "Сохранить";
+"order_edit_order" = "Редактировать";
+"order_new_order" = "Создать Заказ";
+"order_delete_order" = "Удалить Заказ";
 "order_shooting_details" = "Детали съемки";
-
 "order_hour" = "ч";
 
 // MARK: - order Status
@@ -121,13 +121,18 @@
 "portfolio_last_name" = "Фамилия";
 "portfolio_age" = "Возраст";
 "portfolio_gender" = "Укажите свой пол";
-"portfolio_location" = "Местоположение";
+"portfolio_location" = "Выберите местоположение из списка";
 "portfolio_genre" = "Стиль фотографии";
-"portfolio_genre_description" = "Выберите четыре жанра";
+"portfolio_genre_description" = "Выберите 4 жанра";
 "portfolio_about" = "О себе";
-"portfolio_schedule" = "Добавить расписание";
-"portfolio_add_images" = "Пожалуйста, выберите изображение для портфолио,\nнажав значок плюса на сверху";
+"portfolio_schedule" = "Пожалуйста, настройте расписание,\nчтобы вас можно было найти в поиске";
+"portfolio_schedule_btn" = "Добавить расписание";
+"portfolio_add_images" = "Пожалуйста, добавьте изображение для портфолио,\nнажав на значок плюса сверху\nили на кнопку";
+"portfolio_setup_add_images_btt" = "Добавить изображения";
 "portfolio_delete_image" = "Удалить изображение";
+"portfolio_setup_portfolio" = "Пожалуйста, настройте свое портфолио,\nнажав на значок карандаша сверху\nили на кнопку";
+"portfolio_setup_portfolio_btt" = "Настроить портфолио";
+
 
 //MARK: - Style of  Photography
 
@@ -155,11 +160,11 @@
 "gender_female" = "Женский";
 
 //MARK: - Schedule
-"schedule" = "Расписание";
+"schedule" = "Добавить расписание";
 "schedule_save" = "Сохранить";
 "schedule_delete" = "Удалить";
-"schedule_add" = "Добавить";
-"schedule_set" = "Настроить расписание";
+"schedule_add" = "Новое расписание";
+"schedule_set" = "Настройте расписание";
 "schedule_start" = "Начало";
 "schedule_end" = "Окончания";
 "schedule_interval" = "Интервал времени /часа";

@@ -34,7 +34,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
         NavigationStack{
             VStack {
                 ScrollViewReader { data in
-                    if !viewModel.filteredUpcomingOrders.isEmpty{
+                    if !viewModel.orders.isEmpty{
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVStack(pinnedViews: [.sectionHeaders]) {
                                 Section {
@@ -78,13 +78,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                 NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author)
                     .navigationBarBackButtonHidden(true)) {
                         AuthorHCellMainScreenView(items: order)
-                            .contextMenu {
-                                Button(R.string.localizable.order_Delete()) {
-                                    Task {
-                                        try? await viewModel.deleteOrder(order: order)
-                                    }
-                                }
-                            }
                     }
             }
         }.padding(.horizontal)
@@ -215,13 +208,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                                         AuthorVCellMainScreenView(items: order,
                                                                   statusColor: viewModel.orderStausColor(order: order.orderStatus),
                                                                   status: viewModel.orderStausName (status: order.orderStatus))
-                                        .contextMenu {
-                                            Button(R.string.localizable.order_Delete()) {
-                                                Task{
-                                                    try? await viewModel.deleteOrder(order: order)
-                                                }
-                                            }
-                                        }
                                     }
                             }
                         }

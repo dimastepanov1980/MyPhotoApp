@@ -49,7 +49,34 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     descriptionSection
                     addSchedule
                         .onTapGesture {
-                            showScheduleView.toggle()
+                            Task {
+                                do {
+                                    try await viewModel.setAuthorPortfolio(portfolio: DBPortfolioModel(id: UUID().uuidString,
+                                                     author: DBAuthor(rateAuthor: 0.0,
+                                                                      likedAuthor: true,
+                                                                      typeAuthor: viewModel.typeAuthor,
+                                                                      nameAuthor: viewModel.nameAuthor,
+                                                                      familynameAuthor: viewModel.familynameAuthor,
+                                                                      sexAuthor: viewModel.sexAuthor,
+                                                                      ageAuthor: viewModel.ageAuthor,
+                                                                      location: locationAuthor,
+                                                                      latitude: viewModel.latitude,
+                                                                      longitude: viewModel.longitude,
+                                                                      regionAuthor: viewModel.regionAuthor,
+                                                                      styleAuthor: viewModel.styleAuthor,
+                                                                      imagesCover: []),
+                                                     avatarAuthor: viewModel.avatarAuthor,
+                                                     smallImagesPortfolio: [],
+                                                     largeImagesPortfolio: [],
+                                                     descriptionAuthor: viewModel.descriptionAuthor,
+                                                     schedule: [DbSchedule](),
+                                                     bookingDays: [:]
+                                                    ))
+                                    showScheduleView.toggle()
+                                } catch {
+                                    throw error
+                                }
+                                }
                         }
                 }
                 .sheet(isPresented: $showScheduleView) {
@@ -61,8 +88,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(R.string.localizable.save()) {
                             Task {
-                                try await viewModel.setAuthorPortfolio(portfolio:
-                                DBPortfolioModel(id: UUID().uuidString,
+                                try await viewModel.setAuthorPortfolio(portfolio: DBPortfolioModel(id: UUID().uuidString,
                                                  author: DBAuthor(rateAuthor: 0.0,
                                                                   likedAuthor: true,
                                                                   typeAuthor: viewModel.typeAuthor,
@@ -102,67 +128,66 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
         
     }
     
-    private var avatarImageSection: some View {
-        PhotosPicker(selection: $selectedAvatar,
-                     matching: .any(of: [.images, .not(.videos)]),
-                     preferredItemEncoding: .automatic,
-                     photoLibrary: .shared()) {
-            if let avatarImage = viewModel.avatarImage {
-                
-                Image(uiImage: avatarImage)
-                    .resizable()
-                    .scaledToFill()
-                    .mask {
-                        Circle()
-                    }
-                    .frame(width: 68, height: 68)
-            } else {
-                ZStack{
-                   ProgressView()
-                   Color.gray.opacity(0.2)
+  private var avatarImageSection: some View {
+           PhotosPicker(selection: $selectedAvatar,
+                        matching: .any(of: [.images, .not(.videos)]),
+                        preferredItemEncoding: .automatic,
+                        photoLibrary: .shared()) {
+               if let avatarImage = viewModel.avatarImage {
+                   Image(uiImage: avatarImage)
+                       .resizable()
+                       .scaledToFill()
+                       .mask {
+                           Circle()
+                       }
+                       .frame(width: 110, height: 110)
+                   
+               } else {
+                   ZStack{
+                       Color(R.color.gray5.name)
+                       Image(systemName: "arrow.triangle.2.circlepath.camera")
+                           .font(.largeTitle)
+                           .fontWeight(.thin)
+                           .foregroundColor(Color(R.color.gray3.name))
+                           
+                   }
+                   .mask {
+                       Circle()
+                   }
+                   .frame(width: 110, height: 110)
                }
-                .mask {
-                   Circle()
-                }
-               .frame(width: 68, height: 68)
-            }
-        }
-                     .onAppear{
-                         Task{
-                             try await viewModel.getAvatarImage(imagePath: viewModel.avatarAuthor)
-                         }
-                     }
-         .onChange(of: selectedAvatar, perform: { avatar in
-             guard !isAvatarUploadInProgress else {
-                 return
-             }
-             isAvatarUploadInProgress = true
-             Task {
-                 do {
-                     withAnimation {
-                         loadingImage = true
-                     }
-                     try await viewModel.addAvatar(selectImage: avatar)
-                     loadingImage = false
-                 } catch {
-                     print("Error uploading avatar: \(error)")
-                 }
-                 
-                 isAvatarUploadInProgress = false
-             }
-         })
-         .overlay{
-             // Show a ProgressView while waiting for the photo to load
-             if loadingImage {
-                 ProgressView()
-                     .progressViewStyle(CircularProgressViewStyle())
-                     .frame(width: 110, height: 110)
-                 
-                     .background(Color.white.opacity(0.7))
-                     .clipShape(Circle())
-                     .animation(.default, value: loadingImage)
-             }
-         }
+           }
+                        .onChange(of: selectedAvatar, perform: { avatar in
+                            guard !isAvatarUploadInProgress else {
+                                return
+                            }
+                            isAvatarUploadInProgress = true
+                            Task {
+                                do {
+                                    withAnimation {
+                                        loadingImage = true
+                                    }
+                                    try await viewModel.addAvatar(selectImage: avatar)
+                                    loadingImage = false
+                                } catch {
+                                    print("Error uploading avatar: \(error)")
+                                }
+                                
+                                isAvatarUploadInProgress = false
+                            }
+                        })
+                        .overlay{
+                            // Show a ProgressView while waiting for the photo to load
+                            if loadingImage {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                    .frame(width: 110, height: 110)
+                                
+                                    .background(Color.white.opacity(0.7))
+                                    .clipShape(Circle())
+                                    .animation(.default, value: loadingImage)
+                            }
+                        }
     }
     private var locationSection: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -276,7 +301,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                 .fill(Color(R.color.gray1.name))
             
             HStack{
-                Text(R.string.localizable.schedule_set())
+                Text(R.string.localizable.portfolio_schedule_btn())
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray6.name))
                     .padding(.leading, 24)
@@ -288,7 +313,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     .padding(.trailing, 24)
             }
         }
-        
         .padding(.horizontal)
     }
     private func selectGender(gender: String?) -> String {
@@ -349,7 +373,8 @@ struct PortfolioEditView_Previews: PreviewProvider {
             sexAuthor: .constant("Select"),
             ageAuthor: .constant(viewModel.ageAuthor),
             styleAuthor: .constant(viewModel.styleAuthor),
-            avatarAuthor: .constant(viewModel.avatarAuthor),
+            avatarAuthor: viewModel.avatarAuthor,
+            avatarImage: nil,
             descriptionAuthor: .constant(viewModel.descriptionAuthor),
             longitude: .constant(0.0),
             latitude: .constant(0.0),
@@ -359,9 +384,6 @@ struct PortfolioEditView_Previews: PreviewProvider {
 
 private class MockViewModel: ObservableObject, PortfolioEditViewModelType {
     var avatarImage: UIImage? = nil
-    
-    func getAvatarImage(imagePath: String) async throws {}
-    
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var regionAuthor: String = ""

@@ -30,34 +30,54 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                         customerSection
                         
                         if mode == .new {
-                            Text("Shooting details")
+                            Text(R.string.localizable.order_shooting_details())
                                 .foregroundStyle(Color(R.color.gray1.name))
                                 .font(.title2.bold())
                                 .padding(.horizontal)
                             datePicker
-                            CustomTextField(nameTextField: R.string.localizable.order_Duration(), text: $viewModel.duration)
+                            CustomTextField(nameTextField: R.string.localizable.order_duration(), text: $viewModel.duration)
                                 .keyboardType (.decimalPad)
                             
-                            CustomTextField(nameTextField: R.string.localizable.order_Location(), text: $viewModel.location)
-                            CustomTextField(nameTextField: R.string.localizable.order_Price(), text: $viewModel.price)
+                            CustomTextField(nameTextField: R.string.localizable.order_location(), text: $viewModel.location)
+                            CustomTextField(nameTextField: R.string.localizable.order_price(), text: $viewModel.price)
                                 .keyboardType (.decimalPad)
                         
                         }
-                        descriptionField(fieldName: R.string.localizable.order_Description(), propertyName: $viewModel.description)
+                        descriptionField(fieldName: R.string.localizable.order_description(), propertyName: $viewModel.description)
 
                         
                     }
                 }
             }
             
-        CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_AddOrder() : R.string.localizable.order_SaveOrder(), iconName: "") {
-                let userOrders = DbOrderModel(order: OrderModel(orderId: UUID().uuidString, orderCreateDate: Date(), orderPrice: viewModel.price, orderStatus: viewModel.status, orderShootingDate: viewModel.date, orderShootingTime: [], orderShootingDuration: viewModel.duration, orderSamplePhotos: viewModel.imageUrl, orderMessages: nil, authorId: nil, authorName: nil, authorSecondName: nil, authorLocation: viewModel.location,  customerId: nil, customerName: nil, customerSecondName: nil, customerDescription: viewModel.description, customerContactInfo: DbContactInfo(instagramLink: viewModel.instagramLink, phone: nil, email: nil)))
+        CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_add_order() : R.string.localizable.order_save_order(), iconName: "") {
+                let userOrders = DbOrderModel(order:
+                                                OrderModel(orderId: UUID().uuidString,
+                                                           orderCreateDate: Date(),
+                                                           orderPrice: viewModel.price,
+                                                           orderStatus: viewModel.status,
+                                                           orderShootingDate: viewModel.date,
+                                                           orderShootingTime: [],
+                                                           orderShootingDuration: viewModel.duration,
+                                                           orderSamplePhotos: viewModel.imageUrl,
+                                                           orderMessages: nil,
+                                                           authorId: viewModel.authorId,
+                                                           authorName: nil,
+                                                           authorSecondName: nil,
+                                                           authorLocation: viewModel.location,
+                                                           customerId: nil,
+                                                           customerName: viewModel.name,
+                                                           customerSecondName: viewModel.secondName,
+                                                           customerDescription: viewModel.description,
+                                                           customerContactInfo: DbContactInfo(instagramLink: viewModel.instagramLink,
+                                                                                              phone: viewModel.phone,
+                                                                                              email: viewModel.email)))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }
             //.disabled(viewModel.modified)
         }
-        .navigationTitle(mode == .new ? R.string.localizable.order_NewOrder() : R.string.localizable.order_EditOrder())
+        .navigationTitle(mode == .new ? R.string.localizable.order_new_order() : R.string.localizable.order_edit_order())
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -73,7 +93,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     }
     private var datePicker: some View{
         VStack{
-            DatePicker(R.string.localizable.order_SelectDate(), selection: $viewModel.date)
+            DatePicker(R.string.localizable.order_selectDate(), selection: $viewModel.date)
                 .datePickerStyle(.compact)
                 .accentColor(Color(R.color.gray2.name))
                 .frame(height: 42)
@@ -88,9 +108,9 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     }
     private var customerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            textField(fieldName: R.string.localizable.order_firstName(), propertyName: $viewModel.name)
-            textField(fieldName: R.string.localizable.order_secondName(), propertyName: $viewModel.secondName)
-            textField(fieldName: R.string.localizable.settings_section_profile_instagram(), propertyName: $viewModel.instagramLink)
+            textField(fieldName: R.string.localizable.order_client_firstName(), propertyName: $viewModel.name)
+            textField(fieldName: R.string.localizable.order_client_secondName(), propertyName: $viewModel.secondName)
+            textField(fieldName: R.string.localizable.order_instagramLink(), propertyName: $viewModel.instagramLink)
                 textField(fieldName: R.string.localizable.settings_section_profile_phone(), propertyName: $viewModel.phone)
                 textField(fieldName: R.string.localizable.settings_section_profile_email(), propertyName: $viewModel.email)
             
@@ -149,6 +169,7 @@ struct AuthorAddOrderView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
+    var authorId: String = ""
     var phone: String = ""
     var email: String = ""
     var secondName: String = ""

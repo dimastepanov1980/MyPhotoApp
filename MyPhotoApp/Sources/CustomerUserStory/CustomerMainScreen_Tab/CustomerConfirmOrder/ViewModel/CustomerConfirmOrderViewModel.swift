@@ -119,12 +119,14 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                 successBooking = true
             }
         } else {
-            print("Error! We are unable to verify the available time slot and date. Please try again later.")
+            print("Success! But We are unable to verify the available time slot and date.")
+            try await UserManager.shared.addNewBookingDays(userId: authorId, selectedDay: stringDayToCheck, selectedTimes: orderTime)
+            successBooking = true
         }
         
         if successBooking {
-             try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
             print("Success! You have booked the selected date and time.")
+             try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
         }
     }
 
