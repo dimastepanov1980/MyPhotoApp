@@ -279,12 +279,14 @@ final class UserManager {
         guard let authorData = try? encoder.encode(portfolio.author) else {
             throw URLError(.badURL)
         }
+        
         let portfolioDoc = portfolioUserDocument(userId: userId)
         let authorDoc = authorDocument(authorId: userId)
         let portfolioId = portfolioDoc.documentID
         let portfolioData: [String : Any] = [
             DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
             DBPortfolioModel.CodingKeys.author.rawValue : authorData,
+            DBPortfolioModel.CodingKeys.schedule.rawValue : [] as NSArray,
             DBPortfolioModel.CodingKeys.descriptionAuthor.rawValue : portfolio.descriptionAuthor ?? ""
         ]
         

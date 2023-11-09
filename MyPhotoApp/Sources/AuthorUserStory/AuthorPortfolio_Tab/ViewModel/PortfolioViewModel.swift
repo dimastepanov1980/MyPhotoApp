@@ -19,7 +19,7 @@ final class PortfolioViewModel: PortfolioViewModelType {
     @Published var nameAuthor: String = ""
     @Published var familynameAuthor: String = ""
     @Published var ageAuthor: String = ""
-    @Published var sexAuthor: String = ""
+    @Published var sexAuthor: String = "Select"
     @Published var styleAuthor: [String] = []
     @Published var descriptionAuthor: String = ""
     @Published var typeAuthor: String = ""
@@ -29,8 +29,11 @@ final class PortfolioViewModel: PortfolioViewModelType {
     @Published var smallImagesPortfolio: [String] = []
     @Published var portfolioImages: [String: UIImage?] = [:]
     @Published var avatarImage: UIImage? = nil
+    @Binding var portfolioIsShow: Bool
     
-    init(dbModel: DBPortfolioModel? = nil) {
+    init(dbModel: DBPortfolioModel? = nil,
+         portfolioIsShow: Binding<Bool>) {
+        self._portfolioIsShow = portfolioIsShow
         self.dbModel = dbModel
     }
     

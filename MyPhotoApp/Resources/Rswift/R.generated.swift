@@ -550,8 +550,8 @@ struct R: Rswift.Validatable {
       static let warning_add_avatar = Rswift.StringResource(key: "warning_add_avatar", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add images
       ///
-      /// Locales: en
-      static let portfolio_add_images_btt = Rswift.StringResource(key: "portfolio_add_images_btt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en"], comment: nil)
+      /// Locales: en, ru
+      static let portfolio_add_images_btt = Rswift.StringResource(key: "portfolio_add_images_btt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add phone number
       ///
       /// Locales: en, ru
@@ -1184,7 +1184,7 @@ struct R: Rswift.Validatable {
 
       /// en translation: Add images
       ///
-      /// Locales: en
+      /// Locales: en, ru
       static func portfolio_add_images_btt(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
           return NSLocalizedString("portfolio_add_images_btt", bundle: hostingBundle, comment: "")

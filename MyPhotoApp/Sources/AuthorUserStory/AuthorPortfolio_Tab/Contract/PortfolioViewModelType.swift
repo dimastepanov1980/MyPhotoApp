@@ -29,6 +29,7 @@ protocol PortfolioViewModelType: ObservableObject {
     var smallImagesPortfolio: [String] { get }
     var portfolioImages: [String : UIImage?] { get set }
     var avatarImage: UIImage? { get set }
+    var portfolioIsShow: Bool { get set }
     
     func updatePreview()
     func getAuthorPortfolio() async throws

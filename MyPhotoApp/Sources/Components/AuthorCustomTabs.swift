@@ -48,7 +48,7 @@ struct AuthorCustomTabs: View {
                     .font(.caption2)
                     .foregroundColor(self.index == index ? Color(R.color.gray2.name) : Color(R.color.gray4.name))
             }
-            .frame(width: 50, height: 50)
+            .frame(width: 65, height: 50)
             
         }
     }
@@ -57,7 +57,7 @@ struct AuthorCustomTabs: View {
             Circle()
                 .foregroundColor(Color(R.color.gray6.name))
                 .frame(width: 80, height: 80)
-                .padding(10)
+                .padding(4)
             
             Button {
                 showAddOrderView.toggle()
@@ -66,7 +66,7 @@ struct AuthorCustomTabs: View {
                     Circle()
                         .foregroundColor(Color(R.color.gray1.name))
                         .frame(width: 80, height: 80)
-                        .padding(10)
+                        .padding(4)
                     
                     Image(systemName: "camera.aperture")
                         .resizable()

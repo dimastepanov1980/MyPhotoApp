@@ -96,6 +96,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
 
                         .disabled( viewModel.smallReferenceImages.count > 20 )
                         
+                        
                         Button {
                             showEditOrderView.toggle()
                         } label: {

@@ -20,7 +20,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                    GridItem(.flexible(), spacing: 0)]
     
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
-    
+
     init(with viewModel : ViewModel) {
         self.viewModel = viewModel
     }
@@ -124,6 +124,8 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                 try await viewModel.getPortfolioImages(imagesPath: viewModel.smallImagesPortfolio)
             }
         }
+//        .navigationBarBackButtonHidden(true)
+//        .navigationBarItems(leading: customBackButton)
     }
     
     private var authorSection: some View {
@@ -239,7 +241,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                     .padding(36)
                                     .padding(.top, 120)
                                 Button {
-                                    showPortfolioEditView.toggle()
+                                    showPortfolioEditView = true
                                 } label: {
                                     Text(R.string.localizable.portfolio_setup_portfolio_btt())
                                         .font(.headline)
@@ -292,6 +294,7 @@ struct PortfolioView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: PortfolioViewModelType, ObservableObject {
+    var portfolioIsShow: Bool = true
     var avatarImage: UIImage? = nil
     func getAvatarImage(imagePath: String) async throws {}
     func deletePortfolioImage(pathKey: String) async throws {}

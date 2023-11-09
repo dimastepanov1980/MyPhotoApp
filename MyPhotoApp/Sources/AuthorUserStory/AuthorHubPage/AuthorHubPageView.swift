@@ -16,11 +16,11 @@ struct AuthorHubPageView: View {
     
     @State private var profileIsShow: Bool = false
     @State private var userProfileIsSet: Bool = false
-    @State private var showProfile: Bool = false
+    @State private var showProfileView: Bool = false
     
     @State private var portfolioIsShow: Bool = false
     @State private var userPortfolioIsSet: Bool = false
-    @State private var showPortfolio: Bool = false
+    @State private var showPortfolioView: Bool = false
 
     var body: some View {
             VStack{
@@ -35,7 +35,7 @@ struct AuthorHubPageView: View {
                                              showEditOrderView: $showEditOrderView,
                                              statusOrder: .InProgress )
                     } else if self.index == 2 {
-                        PortfolioView(with: PortfolioViewModel())
+                        PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
                     } else if self.index == 3 {
                         SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
                     }
@@ -45,24 +45,24 @@ struct AuthorHubPageView: View {
             }
             .sheet(isPresented: !profileIsShow ? $userProfileIsSet : .constant(false) ) {
                 CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
-                        self.showProfile = true
+                        self.showProfileView = true
                         self.userProfileIsSet = false
                     }
                 .presentationDetents([.fraction(0.12)])
             }
-            .sheet(isPresented: profileIsShow && userPortfolioIsSet ? $userPortfolioIsSet : .constant(false) ) {
+            .sheet(isPresented: !portfolioIsShow /*|| profileIsShow && userPortfolioIsSet*/ ? $userPortfolioIsSet : .constant(false) ) {
                 CustomButtonXl(titleText: R.string.localizable.setup_your_portfolio(), iconName: "photo.on.rectangle") {
-                    self.showPortfolio = true
+                    self.showPortfolioView = true
                     self.userPortfolioIsSet = false
                     self.portfolioIsShow = true
                 }
                 .presentationDetents([.fraction(0.12)])
             }
-            .navigationDestination(isPresented: $showProfile) {
+            .navigationDestination(isPresented: $showProfileView) {
                 ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShow))
             }
-            .navigationDestination(isPresented: $showPortfolio) {
-                PortfolioView(with: PortfolioViewModel())
+            .navigationDestination(isPresented: $showPortfolioView) {
+                PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
             }
             .edgesIgnoringSafeArea(.bottom)
             .fullScreenCover(isPresented: $showAddOrderView) {

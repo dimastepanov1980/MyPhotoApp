@@ -10,6 +10,7 @@ import SwiftUI
 struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State var showDetailView = false
+    @State var showEditOrderView = false
     
     init(with viewModel: ViewModel){
         self.viewModel = viewModel
@@ -30,7 +31,7 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
                 ScrollView{
                     ForEach(viewModel.orders, id: \.orderId) { order in
                         NavigationLink {
-                            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: .constant(false), detailOrderType: .customer)
+                            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer)
                                 .navigationBarBackButtonHidden(true)
                         } label: {
                             CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
