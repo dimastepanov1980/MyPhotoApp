@@ -329,6 +329,9 @@ final class UserManager {
     func addPortfolioImagesUrl(userId: String, path: [String]) async throws {
         try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion(path)])
     }
+    func addImageUrlToPortfolio(userId: String, path: String) async throws {
+        try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion([path])])
+    }
     func deletePortfolioImage(userId: String, path: String) async throws {
         let arrayRemoveValue = FieldValue.arrayRemove([path])
           try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue: arrayRemoveValue])

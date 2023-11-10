@@ -65,7 +65,8 @@ final class StorageManager {
             let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
             let fullPathImage = userReferenceImage(userId: userId).child("portfolio").child(name)
-            
+            try await UserManager.shared.addImageUrlToPortfolio(userId: userId, path: fullPathImage.fullPath)
+
             try await fullPathImage.putDataAsync(jpegData, metadata: metadata)
 
         }

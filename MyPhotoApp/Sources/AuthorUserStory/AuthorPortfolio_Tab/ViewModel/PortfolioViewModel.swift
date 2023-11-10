@@ -111,7 +111,6 @@ final class PortfolioViewModel: PortfolioViewModelType {
         }
         do {
             try await StorageManager.shared.newUploadPortfolioImagesToFairbase(imagesPath: newPortfolioPathImages, userId: authDateResult.uid)
-            try await UserManager.shared.addPortfolioImagesUrl(userId: authDateResult.uid, path: selectedImagesPath)
         } catch {
             print("Error uploading images: \(error)")
 
