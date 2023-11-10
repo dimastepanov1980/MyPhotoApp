@@ -135,6 +135,7 @@
 "portfolio_setup_portfolio" = "Please setup your Portfolio\nby tapping on pencil icon on toolbar\nor on button bellow";
 "portfolio_setup_portfolio_btt" = "Setup portfolio";
 "portfolio_delete_image" = "Delete image";
+"portfolio_please_wait" = "Please wait";
 
 //MARK: - Style of Photography
 

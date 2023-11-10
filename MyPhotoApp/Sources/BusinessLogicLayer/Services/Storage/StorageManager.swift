@@ -48,35 +48,27 @@ final class StorageManager {
         }
         return image
     }
-    func uploadURLImageToFairbase(data: Data, userId: String, orderId: String) async throws -> (path: String, name: String) {
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        let path = "\(UUID().uuidString).jpg"
-        let localFile = URL(string: path)!
-        let returnedMetadata = try await userReferenceImage(userId: userId).child(orderId).putFileAsync(from: localFile, metadata: metadata)
-        
-        guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
-            throw URLError(.badServerResponse)
-        }
-        return (returnedPath, returnedName)
+
+    func pathAndDataToImage(userId: String) -> (imageName: String, imagePath: String) {
+        let imageName = "\(UUID().uuidString).jpg"
+        let imagePath = userReferenceImage(userId: userId).child("portfolio").child(imageName)
+        print("Name/Path: \(imageName)/\(imagePath.fullPath)")
+        return (imageName, imagePath.fullPath)
     }
-    func uploadImageToFairbase(data: Data, userId: String, orderId: String) async throws -> (path: String, name: String) {
-        let metadata = StorageMetadata()
-        metadata.contentType = "image/jpeg"
-        let path = "\(UUID().uuidString).jpg"
-        let returnedMetadata = try await userReferenceImage(userId: userId).child(orderId).child(path).putDataAsync(data, metadata: metadata)
-        
-        guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
-            throw URLError(.badServerResponse)
+    
+    func newUploadPortfolioImagesToFairbase(imagesPath: [String: UIImage], userId: String) async throws {
+        for (name, image) in imagesPath {
+            guard let resizeImage = resizeImage(image: image, targetSize: CGSize(width: 800, height: 800)),
+                  let jpegData = resizeImage.jpegData(compressionQuality: 0.8) else {
+                throw URLError(.backgroundSessionWasDisconnected)
+            }
+            let metadata = StorageMetadata()
+            metadata.contentType = "image/jpeg"
+            let fullPathImage = userReferenceImage(userId: userId).child("portfolio").child(name)
+            
+            try await fullPathImage.putDataAsync(jpegData, metadata: metadata)
+
         }
-        return (returnedPath, returnedName)
-    }
-    func uploadImageToFairbase(image: UIImage, userId: String, orderId: String) async throws -> (path: String, name: String) {
-        guard let resizeImage = resizeImage(image: image, targetSize: CGSize(width: 1200, height: 1200)),
-              let jpegData = resizeImage.jpegData(compressionQuality: 0.3) else {
-            throw URLError(.backgroundSessionWasDisconnected)
-        }
-        return try await uploadImageToFairbase(data: jpegData, userId: userId, orderId: orderId)
     }
     func uploadPortfolioImageDataToFairbase(data: Data, userId: String) async throws -> (path: String, name: String) {
         if let image = UIImage(data: data) {
@@ -87,11 +79,13 @@ final class StorageManager {
             let metadata = StorageMetadata()
             metadata.contentType = "image/jpeg"
             let path = "\(UUID().uuidString).jpg"
-            let returnedMetadata = try await userReferenceImage(userId: userId).child("portfolio").child(path).putDataAsync(jpegData, metadata: metadata)
+            let fullPathImage = userReferenceImage(userId: userId).child("portfolio").child(path)
+            let returnedMetadata = try await fullPathImage.putDataAsync(jpegData, metadata: metadata)
             
             guard let returnedPath = returnedMetadata.path, let returnedName = returnedMetadata.name else {
                 throw URLError(.badServerResponse)
             }
+            print("Old Path: \(returnedPath)")
             return (returnedPath, returnedName)
         }
         return ("", "")

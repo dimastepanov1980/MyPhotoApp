@@ -27,11 +27,11 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack(spacing: 24) {
-                authorSection
-                    .padding(.horizontal, 24)
-                imageSection
-            }
+                VStack(spacing: 24) {
+                    authorSection
+                        .padding(.horizontal, 24)
+                    imageSection
+                }
         }
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -191,7 +191,6 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
         
     }
     private var imageSection: some View {
-
             VStack{
                 if viewModel.portfolioImages.count > 0 {
                     ScrollView{
@@ -227,9 +226,10 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                     }
                 } else {
                     if viewModel.smallImagesPortfolio.count > 0 {
-                        VStack{
-                            ProgressView()
-                                .padding(.top, 120)
+                        VStack(alignment: .center){
+                            Spacer()
+                            ProgressView(R.string.localizable.portfolio_please_wait())
+                                .progressViewStyle(.circular)
                         }
                     } else {
                         if viewModel.dbModel == nil {

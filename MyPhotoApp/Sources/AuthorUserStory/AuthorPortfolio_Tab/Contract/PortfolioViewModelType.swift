@@ -12,6 +12,7 @@ import PhotosUI
 
 @MainActor
 protocol PortfolioViewModelType: ObservableObject {
+
     var avatarAuthor: String { get set }
     var nameAuthor: String { get set }
     var typeAuthor: String { get set }

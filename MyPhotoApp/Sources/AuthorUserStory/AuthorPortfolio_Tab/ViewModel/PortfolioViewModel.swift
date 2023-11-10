@@ -11,7 +11,6 @@ import PhotosUI
 
 @MainActor
 final class PortfolioViewModel: PortfolioViewModelType {
-    
     @Published var dbModel: DBPortfolioModel?
     @Published var locationAuthor: String = ""
     @Published var identifier: String = ""
@@ -98,17 +97,28 @@ final class PortfolioViewModel: PortfolioViewModelType {
     func addPortfolioImages(selectedImages: [PhotosPickerItem]) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         var selectedImagesPath: [String] = []
-
+        var newPortfolioPathImages: [String: UIImage] = [:]
+        
         for image in selectedImages {
             if let data = try? await image.loadTransferable(type: Data.self), let image = UIImage(data: data){
-                let (path, _) = try await StorageManager.shared.uploadPortfolioImageDataToFairbase(data: data, userId: authDateResult.uid)
-                selectedImagesPath.append(path)
-
-                self.portfolioImages[path] = image
+                let (imageName, imagePath) = StorageManager.shared.pathAndDataToImage(userId: authDateResult.uid)
+                selectedImagesPath.append(imagePath)
+                newPortfolioPathImages[imageName] = image
             }
         }
+        self.portfolioImages.merge(newPortfolioPathImages) { (_, newImage) in
+            return newImage
+        }
+        do {
+            try await StorageManager.shared.newUploadPortfolioImagesToFairbase(imagesPath: newPortfolioPathImages, userId: authDateResult.uid)
             try await UserManager.shared.addPortfolioImagesUrl(userId: authDateResult.uid, path: selectedImagesPath)
+        } catch {
+            print("Error uploading images: \(error)")
+
+        }
+       
     }
+    
     func deletePortfolioImage(pathKey: String) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         self.portfolioImages.removeValue(forKey: pathKey)

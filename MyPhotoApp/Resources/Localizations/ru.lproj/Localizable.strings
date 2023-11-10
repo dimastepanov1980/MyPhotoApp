@@ -132,6 +132,7 @@
 "portfolio_delete_image" = "Удалить изображение";
 "portfolio_setup_portfolio" = "Пожалуйста, настройте свое портфолио,\nнажав на значок карандаша сверху\nили на кнопку";
 "portfolio_setup_portfolio_btt" = "Настроить портфолио";
+"portfolio_please_wait" = "Загружаем";
 
 
 //MARK: - Style of  Photography

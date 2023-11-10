@@ -518,7 +518,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 139 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 140 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -848,6 +848,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let portfolio_setup_portfolio = Rswift.StringResource(key: "portfolio_setup_portfolio", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please wait
+      ///
+      /// Locales: en, ru
+      static let portfolio_please_wait = Rswift.StringResource(key: "portfolio_please_wait", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Portfolio
       ///
       /// Locales: en, ru
@@ -2305,6 +2309,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("portfolio_setup_portfolio", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please wait
+      ///
+      /// Locales: en, ru
+      static func portfolio_please_wait(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_please_wait", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_please_wait"
+        }
+
+        return NSLocalizedString("portfolio_please_wait", bundle: bundle, comment: "")
       }
 
       /// en translation: Portfolio
