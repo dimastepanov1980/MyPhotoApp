@@ -8,8 +8,8 @@
 "registration" = "Зарегистрироваться";
 "logIn" = "Войти";
 "email" = "Введите Email";
-"author" = "Я автор";
-"customer" = "Я клиент";
+"author" = "Автор";
+"customer" = "Клиент";
 "password" = "Введите пароль";
 "customer_login" = "Найти фотографа";
 "author_login" = "Найти клиентов";
@@ -103,7 +103,6 @@
 "default_message" = "Напишите как с вами связаться и дополнительную информацию";
 "place_order" = "Разместить заказ";
 "photographer" = "Фотограф";
-"customer" = "Клиент";
 "message" = "Сообщение";
 "total_price" = "Стоимость";
 "contact_information" = "Контакты";

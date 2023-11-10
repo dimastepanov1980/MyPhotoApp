@@ -170,14 +170,15 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
             HStack(spacing: 16){
                 ForEach(viewModel.styleAuthor, id: \.self) { genre in
                     HStack{
-                        Image(systemName: "heart.fill")
+                        Image(systemName: imageStyleAuthor(genre: genre))
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .foregroundColor(Color(R.color.gray4.name))
-                            .frame(width: 20, height: 20)
+                            .foregroundColor(Color(R.color.gray2.name))
+                            .frame(width: 15, height: 15)
+                        
                         Text(genre)
                             .font(.caption2)
-                            .foregroundColor(Color(R.color.gray4.name))
+                            .foregroundColor(Color(R.color.gray3.name))
                     }
                 }
             }
@@ -280,6 +281,44 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                     }
                 }
             }
+    }
+    private func imageStyleAuthor(genre: String) -> String {
+        switch genre {
+        case "Aerial":
+            return "paperplane.fill";
+        case "Architecture":
+            return "building.2.fill";
+        case "Documentary":
+            return "film";
+        case "Event":
+            return "balloon.2.fill";
+        case "Fashion":
+            return "mouth";
+        case "Food":
+            return "cup.and.saucer.fill";
+        case "Love Story":
+            return "heart.fill";
+        case "Macro":
+            return "camera.macro";
+        case "People":
+            return "person.fill";
+        case "Pet":
+            return "pawprint.fill";
+        case "Portraits":
+            return "person.crop.circle.fill";
+        case "Product":
+            return "car.fill";
+        case "Real Estate":
+            return "house.fill";
+        case "Sports":
+            return "figure.run";
+        case "Wedding":
+            return "heart";
+        case "Wildlife":
+            return "hare.fill";
+        default:
+            return "camera"
+        }
     }
 }
 
