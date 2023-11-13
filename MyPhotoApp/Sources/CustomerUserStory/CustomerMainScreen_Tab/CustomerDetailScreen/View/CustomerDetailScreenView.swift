@@ -26,7 +26,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
        NavigationStack{
            ScrollView(showsIndicators: false){
                VStack{
-//                   ParallaxHeader{
+                   ParallaxHeader{
                        TabView(selection: $currentStep) {
                            ForEach(viewModel.items.smallImagesPortfolio.indices, id: \.self) { index in
                                NavigationLink {
@@ -49,7 +49,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                            .padding(.top, 48)
                            .padding(.trailing)
                        }
-//                   }
+                   }
                    .tabViewStyle(.page(indexDisplayMode: .never))
                    .frame(height: 350)
                    Spacer()

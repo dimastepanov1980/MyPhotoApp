@@ -90,7 +90,7 @@ final class SearchLocationManager: NSObject, CLLocationManagerDelegate {
     private let radius: CLLocationDistance
     private var currentCoordinate: CLLocationCoordinate2D?
     private var searchTimer: Timer?
-    private let searchDelay: TimeInterval = 0.7 // Adjust the delay time as needed
+    private let searchDelay: TimeInterval = 0.3 // Adjust the delay time as needed
     
     init(in center: CLLocationCoordinate2D,
          radius: CLLocationDistance = .infinity) {
