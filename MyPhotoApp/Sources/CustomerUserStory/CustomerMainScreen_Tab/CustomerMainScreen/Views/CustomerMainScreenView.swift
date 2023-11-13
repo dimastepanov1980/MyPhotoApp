@@ -19,6 +19,8 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
     @Binding var requestLocation: Bool
     @State var showDetailView = false
     @State var showAlertRequest = false
+    @State private var selectLocation: String = ""
+
 
     init(with viewModel: ViewModel,
          serchPageShow: Binding<Bool>,
@@ -49,9 +51,9 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                     }
                                     .onAppear{
                                         Task{
-                                            do{
+                                            do {
                                                 try await viewModel.imagePathToURL(imagePath: item.smallImagesPortfolio)
-                                            }catch{
+                                            } catch {
                                                 throw error
                                             }
                                             
@@ -67,21 +69,13 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                     .scrollIndicators(.hidden)
                     VStack{
                         HStack {
-                        seatchLocation
-                            .padding(.leading)
-                            .matchedGeometryEffect(id: "search", in: filterspace)
-                            .onTapGesture {
-                                withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                                    serchPageShow.toggle()
+                            seatchLocationButton
+                                .matchedGeometryEffect(id: "search", in: filterspace)
+                                .onTapGesture {
+                                    withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                                        serchPageShow.toggle()
+                                    }
                                 }
-                            }
-                            
-                        Button {
-                            //
-                        } label: {
-                            Image(R.image.ic_filter.name)
-                                .padding(.trailing)
-                        }
                         }
                         .background(Color.white)
                         Spacer()
@@ -104,7 +98,6 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                 searchSection
                                     .matchedGeometryEffect(id: "search", in: filterspace)
                                 dateSection
-                                onlyFemaleSection
                                 Spacer()
                             }
                             .padding(.top)
@@ -155,11 +148,10 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                     .onTapGesture {
                                         withAnimation {
                                             self.viewModel.locationAuthor = result.location
+                                            selectLocation = result.location
                                             self.viewModel.latitude = result.latitude
                                             self.viewModel.longitude = result.longitude
                                             self.viewModel.regionAuthor = result.regionCode
-                                            print("set new location \(viewModel.longitude); \(viewModel.latitude)")
-
                                         }
                                     }
                                 }
@@ -169,62 +161,39 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                     }.offset(y: 60)
                 }
             }
-        }.alert(R.string.localizable.customer_search_no_result(), isPresented: $showAlertRequest) {
+        }
+        .alert(R.string.localizable.customer_search_no_result(), isPresented: $showAlertRequest) {
         }
     }
-    
-    private var seatchLocation: some View {
-        VStack {
-            CustomerSearchBar(nameTextField: R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
-         }
-     }
-    private var locationRsult: some View {
-        ScrollView{
-            VStack{
-                ForEach(viewModel.locationResult) { result in
-                    if viewModel.locationAuthor != result.location {
-                        VStack(alignment: .leading){
-                            Text(result.city)
-                                .font(.subheadline)
-                                .foregroundColor(Color(R.color.gray2.name))
-                                .padding(.leading, 32)
-                            Text(result.location)
-                                .font(.footnote)
-                                .foregroundColor(Color(R.color.gray4.name))
-                                .padding(.leading, 32)
-                            Divider()
-                                .padding(.horizontal, 32)
-                            
-                        }
-                        .onTapGesture {
-                            withAnimation {
-                                viewModel.locationAuthor = result.location
-                                viewModel.latitude = result.latitude
-                                viewModel.longitude = result.longitude
-                                viewModel.regionAuthor = result.regionCode
-                                Task {
-                                    do {
-                                        let dbPortfolio = try await viewModel.getPortfolio(longitude: result.longitude, latitude: result.latitude, date: viewModel.selectedDate)
-                                        viewModel.portfolio = dbPortfolio.map { $0 }
-                                        print(result.longitude, result.latitude)
-                                        print(viewModel.portfolio)
-                                    } catch {
-                                        print(String(describing: error))
-                                    }
-                                }
-                            }
-                        }
-                    }
+    private var seatchLocationButton: some View {
+        ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: 21)
+                .fill(Color.white)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 21)
+                        .stroke(Color.gray.opacity(0.15), lineWidth: 1)
+                )
+            
+            HStack {
+                Image(systemName: "magnifyingglass")
+                    .foregroundColor(Color(R.color.gray3.name))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(selectLocation.isEmpty ? R.string.localizable.customer_search_bar() : selectLocation)
+                        .font(.callout)
+                        .foregroundColor(selectLocation.isEmpty ? Color(R.color.gray4.name) : Color(R.color.gray2.name))
                 }
-            }
-            .background(Color.white)
-        }
+                
+            }.padding(.horizontal)
+            
+        }.frame(height: 40)
+            .padding(.horizontal)
+
      }
     private var searchSection: some View {
         VStack {
             CustomerSearchBar(nameTextField: R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
         }
-        .shadow(color: Color(.sRGBLinear, white: 0.3, opacity: 0.2),radius: 5)
+        .shadow(color: Color(.sRGBLinear, white: 0.2, opacity: 0.05),radius: 5)
 
 
      }
@@ -242,28 +211,6 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
             .shadow(color: Color(.sRGBLinear, white: 0.3, opacity: 0.2),radius: 5)
 
      }
-    private var onlyFemaleSection: some View {
-            Toggle(isOn: $onlyFemale) {
-                HStack {
-                    Image(R.image.ic_female.name)
-                        .foregroundColor(Color(R.color.gray3.name))
-
-                    Text(R.string.localizable.gender_specify_gender())
-                        .font(.callout)
-                        .foregroundColor(Color(R.color.gray4.name))
-                }.padding(.leading)
-            }
-            .tint(Color(R.color.gray2.name))
-        .padding(8)
-        .background(Color.white)
-        .cornerRadius(20, corners: .allCorners)
-        .shadow(color: Color(.sRGBLinear, white: 0.3, opacity: 0.2),radius: 5)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(Color.gray.opacity(0.05), lineWidth: 1)
-        )
-
-    }
 
 }
 struct CustomerMainScreenView_Previews: PreviewProvider {

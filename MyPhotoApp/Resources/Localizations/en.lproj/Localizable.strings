@@ -124,7 +124,7 @@
 "portfolio_last_name" = "Last Name";
 "portfolio_age" = "Your Age";
 "portfolio_gender" = "Select your gender";
-"portfolio_location" = "Select a location from the list";
+"portfolio_location" = "Select a city from the list";
 "portfolio_genre" = "Style of photography";
 "portfolio_genre_description" = "Select 4 genres";
 "portfolio_about" = "About your self";

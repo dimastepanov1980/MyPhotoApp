@@ -26,7 +26,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
        NavigationStack{
            ScrollView(showsIndicators: false){
                VStack{
-                   ParallaxHeader{
+//                   ParallaxHeader{
                        TabView(selection: $currentStep) {
                            ForEach(viewModel.items.smallImagesPortfolio.indices, id: \.self) { index in
                                NavigationLink {
@@ -49,7 +49,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                            .padding(.top, 48)
                            .padding(.trailing)
                        }
-                   }
+//                   }
                    .tabViewStyle(.page(indexDisplayMode: .never))
                    .frame(height: 350)
                    Spacer()
@@ -185,11 +185,11 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 HStack(spacing: 16){
                     ForEach(author.styleAuthor, id: \.self) { genre in
                         HStack{
-                            Image(systemName: "heart.fill")
+                            Image(systemName: imageStyleAuthor(genre: genre))
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .foregroundColor(Color(R.color.gray4.name))
-                                .frame(width: 20, height: 20)
+                                .foregroundColor(Color(R.color.gray2.name))
+                                .frame(width: 15, height: 13)
                             Text(genre)
                                 .font(.caption2)
                                 .foregroundColor(Color(R.color.gray4.name))
@@ -372,6 +372,45 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     private func totalCost(price: String?, timeSlot: [String]) -> String {
         String(describing: (Int(price ?? "0") ?? 0) * timeSlot.count)
     }
+    private func imageStyleAuthor(genre: String) -> String {
+        switch genre {
+        case "Aerial":
+            return "paperplane.fill";
+        case "Architecture":
+            return "building.2.fill";
+        case "Documentary":
+            return "film";
+        case "Event":
+            return "balloon.2.fill";
+        case "Fashion":
+            return "mouth";
+        case "Food":
+            return "cup.and.saucer.fill";
+        case "Love Story":
+            return "heart.fill";
+        case "Macro":
+            return "camera.macro";
+        case "People":
+            return "person.fill";
+        case "Pet":
+            return "pawprint.fill";
+        case "Portraits":
+            return "person.crop.circle.fill";
+        case "Product":
+            return "car.fill";
+        case "Real Estate":
+            return "house.fill";
+        case "Sports":
+            return "figure.run";
+        case "Wedding":
+            return "heart";
+        case "Wildlife":
+            return "hare.fill";
+        default:
+            return "camera"
+        }
+    }
+
     private struct AsyncImageView: View {
         let imagePath: String
         @State private var imageURL: URL?

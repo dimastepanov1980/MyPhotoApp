@@ -106,7 +106,9 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             let portfolio = try await UserManager.shared.getPortfolioForCoordinateAndDate(longitude: longitude, latitude: latitude, startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0)
             }
             if portfolio.isEmpty {
-                return try await UserManager.shared.getAllPortfolio(startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0) }
+                let portfolio = try await UserManager.shared.getAllPortfolio(startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0) }
+                
+                return portfolio
             }
             
             return portfolio

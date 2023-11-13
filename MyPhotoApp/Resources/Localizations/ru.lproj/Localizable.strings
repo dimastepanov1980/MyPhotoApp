@@ -120,7 +120,7 @@
 "portfolio_last_name" = "Фамилия";
 "portfolio_age" = "Возраст";
 "portfolio_gender" = "Укажите свой пол";
-"portfolio_location" = "Выберите местоположение из списка";
+"portfolio_location" = "Выберите город из списка";
 "portfolio_genre" = "Стиль фотографии";
 "portfolio_genre_description" = "Выберите 4 жанра";
 "portfolio_about" = "О себе";

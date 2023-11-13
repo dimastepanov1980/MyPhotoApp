@@ -67,10 +67,24 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                             Button {
                                 showScheduleView.toggle()
                             } label: {
-                                Image(systemName: "calendar.badge.exclamationmark")
+                                Image(systemName: "calendar")
                                     .font(.headline)
                                     .fontWeight(.light)
-                                    .foregroundStyle(Color(R.color.upcoming.name), Color(R.color.gray2.name))
+                                    .foregroundStyle(Color(R.color.gray2.name))
+                                    .overlay {
+                                        ZStack{
+                
+                                            Circle()
+                                                .frame(width: 18)
+                                                .foregroundStyle(Color(R.color.red.name))
+                                            
+                                            Text("!")
+                                                .font(.callout)
+                                                .fontWeight(.heavy)
+                                                .foregroundColor(Color(R.color.gray7.name))
+                                               
+                                        } .offset(x: 10, y: 10)
+                                    }
                             }
                         } else {
                             Button {
@@ -124,8 +138,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                 try await viewModel.getPortfolioImages(imagesPath: viewModel.smallImagesPortfolio)
             }
         }
-//        .navigationBarBackButtonHidden(true)
-//        .navigationBarItems(leading: customBackButton)
+
     }
     
     private var authorSection: some View {

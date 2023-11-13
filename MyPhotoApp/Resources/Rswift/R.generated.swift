@@ -941,14 +941,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let portfolio_genre_description = Rswift.StringResource(key: "portfolio_genre_description", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select a city from the list
+      ///
+      /// Locales: en, ru
+      static let portfolio_location = Rswift.StringResource(key: "portfolio_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Select a date
       ///
       /// Locales: en, ru
       static let order_selectDate = Rswift.StringResource(key: "order_selectDate", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Select a location from the list
-      ///
-      /// Locales: en, ru
-      static let portfolio_location = Rswift.StringResource(key: "portfolio_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Select date
       ///
       /// Locales: en, ru
@@ -2635,6 +2635,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("portfolio_genre_description", bundle: bundle, comment: "")
       }
 
+      /// en translation: Select a city from the list
+      ///
+      /// Locales: en, ru
+      static func portfolio_location(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_location", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_location"
+        }
+
+        return NSLocalizedString("portfolio_location", bundle: bundle, comment: "")
+      }
+
       /// en translation: Select a date
       ///
       /// Locales: en, ru
@@ -2648,21 +2663,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("order_selectDate", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Select a location from the list
-      ///
-      /// Locales: en, ru
-      static func portfolio_location(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("portfolio_location", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "portfolio_location"
-        }
-
-        return NSLocalizedString("portfolio_location", bundle: bundle, comment: "")
       }
 
       /// en translation: Select date
