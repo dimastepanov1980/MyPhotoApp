@@ -7,20 +7,15 @@
 
 import SwiftUI
 
-struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: View {
-    @ObservedObject var viewModel: ViewModel
+struct CustomerDetailScreenView: View {
+    @ObservedObject var viewModel: CustomerDetailScreenViewModel = CustomerDetailScreenViewModel()
+    var portfolio: AuthorPortfolioModel
+    var startMyTripDate: Date
     @State private var currentStep = 0
-    @Binding var showDetailView: Bool
     @State var showOrderConfirm: Bool = false
+    @Environment(\.dismiss) private var dismiss
 
     @State var orderDescription: String = R.string.localizable.default_message()
-
-
-    init(with viewModel: ViewModel,
-         showDetailView: Binding<Bool>){
-        self.viewModel = viewModel
-        self._showDetailView = showDetailView
-    }
 
    var body: some View {
        NavigationStack{
@@ -28,26 +23,14 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                VStack{
                    ParallaxHeader{
                        TabView(selection: $currentStep) {
-                           ForEach(viewModel.items.smallImagesPortfolio.indices, id: \.self) { index in
+                           ForEach(portfolio.smallImagesPortfolio.indices, id: \.self) { index in
                                NavigationLink {
-                                   PortfolioDetailScreenView(with: PortfolioDetailScreenViewModel(images: viewModel.items.smallImagesPortfolio))
+                                   PortfolioDetailScreenView(images: portfolio.smallImagesPortfolio)
                                } label: {
-                                   AsyncImageView(imagePath: viewModel.items.smallImagesPortfolio[index])
-                                   
+                                   AsyncImageView(imagePath: portfolio.smallImagesPortfolio[index])
                                }
                                
                            }
-                       }
-                       .overlay(alignment: .topTrailing) {
-                           Button {
-                               showDetailView.toggle()
-                           } label: {
-                               Image(systemName: "xmark.circle.fill")
-                                   .foregroundStyle(.white, Color(R.color.gray2.name).opacity(0.6))
-                                   .font(.largeTitle)
-                           }
-                           .padding(.top, 48)
-                           .padding(.trailing)
                        }
                    }
                    .tabViewStyle(.page(indexDisplayMode: .never))
@@ -56,10 +39,16 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                    bottomSheet
                        .offset(y: -110)
                }
+               .navigationBarBackButtonHidden(true)
+               .navigationBarItems(leading: customBackButton)
            }
+       }
            .onAppear{
+               viewModel.getMinPrice()
+               viewModel.createAppointments(schedule: portfolio.appointmen, startMyTripDate: startMyTripDate, bookingDays: portfolio.bookingDays ?? [:] )
                Task{
-                   try await viewModel.getAvatarImage(imagePath: viewModel.items.avatarAuthor)
+                   try await viewModel.getAvatarImage(imagePath: portfolio.avatarAuthor)
+                 
                }
            }
            .safeAreaInset(edge: .bottom) {
@@ -98,7 +87,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                            }
                        }
                    }
-                   if let author = viewModel.items.author {
+                   if let author = portfolio.author {
                        if viewModel.selectedDay != nil {
                            if viewModel.selectedTime.isEmpty {
                                CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
@@ -113,7 +102,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                }.fullScreenCover(isPresented: $showOrderConfirm) {
                                    
                                    CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
-                                    author: viewModel.items,
+                                    author: portfolio,
                                     orderDate: viewModel.selectedDay ?? Date(),
                                     orderTime: viewModel.selectedTime,
                                     orderDuration: String(viewModel.selectedTime.count),
@@ -131,9 +120,16 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                    .background(Color(R.color.gray7.name))
            }
            .background(Color(R.color.gray7.name))
-       }
     }
-    
+    private var customBackButton : some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "chevron.left.circle.fill")// set image here
+               .font(.title)
+               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+        }
+    }
     private struct ParallaxHeader<Content: View>: View {
         @ViewBuilder var content: () -> Content
         var body: some View {
@@ -151,13 +147,13 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     private var authorSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack{
-                AsyncImageView(imagePath: viewModel.items.avatarAuthor)
+                AsyncImageView(imagePath: portfolio.avatarAuthor)
                      .frame(width: 68, height: 68)
                      .mask {
                           Circle()
                       }
 
-                if let author = viewModel.items.author {
+                if let author = portfolio.author {
                     VStack(alignment: .leading){
                         Text("\(author.nameAuthor) \(author.familynameAuthor)")
                             .font(.title2.bold())
@@ -173,7 +169,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
                         
-                        Text("\(viewModel.minPrice) \(viewModel.currencySymbol(for: viewModel.items.author?.regionAuthor ?? "$"))")
+                        Text("\(viewModel.minPrice) \(viewModel.currencySymbol(for: portfolio.author?.regionAuthor ?? "$"))")
                             .font(.headline)
                             .foregroundColor(Color(R.color.gray2.name))
                         
@@ -181,7 +177,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 }
             }
             
-            if let author = viewModel.items.author {
+            if let author = portfolio.author {
                 HStack(spacing: 16){
                     ForEach(author.styleAuthor, id: \.self) { genre in
                         HStack{
@@ -198,7 +194,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 }
                 Divider()
             }
-                Text(viewModel.items.descriptionAuthor)
+                Text(portfolio.descriptionAuthor)
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray2.name))
                 
@@ -355,7 +351,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             )
         .overlay(alignment: .topTrailing) {
             Group {
-                Text("\(currentStep + 1) / \(viewModel.items.smallImagesPortfolio.count)")
+                Text("\(currentStep + 1) / \(portfolio.smallImagesPortfolio.count)")
                     .font(.caption2)
                     .foregroundColor(Color(R.color.gray7.name))
                     .padding(.horizontal, 6)
@@ -410,7 +406,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             return "camera"
         }
     }
-
     private struct AsyncImageView: View {
         let imagePath: String
         @State private var imageURL: URL?
@@ -469,13 +464,14 @@ private struct RoundedCorner: Shape {
 struct CustomerDetailScreenView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
     static var previews: some View {
-        CustomerDetailScreenView(with: mocItems, showDetailView: .constant(true))
+        CustomerDetailScreenView(portfolio: mocItems.items, startMyTripDate: Date())
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
+    var startMyTrip: Date = Date()
+    func getMinPrice() {}
     var avatarImage: UIImage?
     func getAvatarImage(imagePath: String) async throws {}
-    var customer: DBUserModel? = nil
     var minPrice: String = ""
     var priceForDay: String = ""
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]]) {}

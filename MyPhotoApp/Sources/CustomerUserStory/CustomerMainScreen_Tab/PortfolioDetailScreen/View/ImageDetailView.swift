@@ -9,12 +9,16 @@ import SwiftUI
 
 struct ImageDetailView: View {
     let imagePath: String
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         ZStack {
             Color.black
                 .ignoresSafeArea(.all)
             AsyncImageView(imagePath: imagePath)
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: customBackButton)
     }
     
     private struct AsyncImageView: View {
@@ -57,6 +61,16 @@ struct ImageDetailView: View {
             try await StorageManager.shared.getImageURL(path: imagePath)
         }
     }
+    private var customBackButton : some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "chevron.left.circle.fill")// set image here
+               .font(.title)
+               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+        }
+    }
+
 
 }
 

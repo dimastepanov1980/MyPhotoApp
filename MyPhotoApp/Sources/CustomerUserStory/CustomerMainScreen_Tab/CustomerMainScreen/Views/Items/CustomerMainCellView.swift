@@ -113,7 +113,6 @@ struct CustomerMainCellView: View {
             try await StorageManager.shared.getImageURL(path: imagePath)
         }
     }
-    
     private func currencySymbol(for regionCode: String) -> String {
         let locale = Locale(identifier: Locale.identifier(fromComponents: [NSLocale.Key.countryCode.rawValue: regionCode]))
         guard let currency = locale.currencySymbol else { return "$" }

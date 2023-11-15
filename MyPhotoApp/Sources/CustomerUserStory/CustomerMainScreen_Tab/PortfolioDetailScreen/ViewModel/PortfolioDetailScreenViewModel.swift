@@ -7,13 +7,8 @@
 
 import Foundation
 
-@MainActor
-
 final class PortfolioDetailScreenViewModel: PortfolioDetailScreenViewModelType {
-    @Published var images: [String]
+
     
-    init(images: [String]){
-        self.images = images
-    }
     
 }

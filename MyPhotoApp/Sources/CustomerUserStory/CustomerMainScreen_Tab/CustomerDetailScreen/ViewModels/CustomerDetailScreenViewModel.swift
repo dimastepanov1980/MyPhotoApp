@@ -10,8 +10,6 @@ import SwiftUI
 
 @MainActor
 final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
-    @Published var items: AuthorPortfolioModel
-    @Published var customer: DBUserModel?
     @Published var selectedDay: Date? = nil
     @Published var selectedTime: [String] = []
     @Published var priceForDay: String = ""
@@ -20,29 +18,17 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var timeslotSelectedDay: [String] = []
     @Published var appointments: [AppointmentModel] = []
     @Published var avatarImage: UIImage? = nil
-
-    var startMyTrip: Date
     
-    init(items: AuthorPortfolioModel,
-         startMyTrip: Date) {
-        self.items = items
-        self.startMyTrip = startMyTrip
-        
-        createAppointments(schedule: items.appointmen, startMyTripDate: self.startMyTrip, bookingDays: items.bookingDays ?? [:] )
-        getMinPrice()
-
-    }
-    
-    private func getMinPrice(){
-        var arrayPrices: [Int] = []
-      
-        for item in items.appointmen {
-            if let price = Int(item.price) {
-                arrayPrices.append(price)
-            }
-        }
-        guard let minPrice = arrayPrices.min() else { return }
-        self.minPrice = String(minPrice)
+    func getMinPrice(){
+//        var arrayPrices: [Int] = []
+//
+//        for item in items.appointmen {
+//            if let price = Int(item.price) {
+//                arrayPrices.append(price)
+//            }
+//        }
+//        guard let minPrice = arrayPrices.min() else { return }
+//        self.minPrice = String(minPrice)
       }
     
     private func setEndMyTripDate(startMyTrip: Date, endMyTrip: Int) -> Date{
@@ -115,7 +101,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         }
         
         self.appointments = appointments
-    }
+    } 
     func formattedDate(date: Date, format: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format

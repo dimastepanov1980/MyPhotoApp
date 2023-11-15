@@ -7,46 +7,35 @@
 
 import SwiftUI
 
-struct PortfolioDetailScreenView<ViewModel: PortfolioDetailScreenViewModelType>: View {
-    
-    @ObservedObject var viewModel: ViewModel
-    @State private var columns = [ GridItem(.flexible(), spacing: 0),
-                                   GridItem(.flexible(), spacing: 0)]
-    
-    @State private var imageGallerySize = UIScreen.main.bounds.width / 3
-    
-    init(with viewModel: ViewModel) {
-        self.viewModel = viewModel
-    }
-    
+struct PortfolioDetailScreenView: View {
+    var images: [String]
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
-        NavigationStack{
-            imageSection
-        }
-    }
-    
-    private var imageSection: some View {
         VStack{
                 ScrollView{
-                    LazyVGrid(columns: columns, spacing: 0){
-                        ForEach(viewModel.images.indices, id: \.self) { index in
+                    LazyVGrid(columns: [GridItem(.flexible(), spacing: 0),
+                                        GridItem(.flexible(), spacing: 0)], spacing: 0){
+                        ForEach(images.indices, id: \.self) { index in
                             NavigationLink {
-                                ImageDetailView(imagePath: viewModel.images[index])
+                                ImageDetailView(imagePath: images[index])
                             } label: {
-                                AsyncImageView(imagePath: viewModel.images[index])
+                                AsyncImageView(imagePath: images[index])
                             }
                         }
                     }
 
                 }
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: customBackButton)
     }
     
     private struct AsyncImageView: View {
         let imagePath: String
         @State private var imageURL: URL?
         @State private var image: UIImage? // New state to hold the image
-        
+
         var body: some View {
             Group {
                 if let image = image {
@@ -67,7 +56,7 @@ struct PortfolioDetailScreenView<ViewModel: PortfolioDetailScreenViewModelType>:
                     do {
                         let url = try await imagePathToURL(imagePath: imagePath)
                         imageURL = url
-                        
+
                         // Download the image using the URL
                         let (imageData, _) = try await URLSession.shared.data(from: url)
                         image = UIImage(data: imageData)
@@ -78,10 +67,19 @@ struct PortfolioDetailScreenView<ViewModel: PortfolioDetailScreenViewModelType>:
                 }
             }
         }
-        
+
         private func imagePathToURL(imagePath: String) async throws -> URL {
             // Assume you have a StorageManager.shared.getImageURL method
             try await StorageManager.shared.getImageURL(path: imagePath)
+        }
+    }
+    private var customBackButton : some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "chevron.left.circle.fill")// set image here
+               .font(.title)
+               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
         }
     }
 
@@ -92,7 +90,7 @@ struct PortfolioDetailScreenView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationStack{
-            PortfolioDetailScreenView(with: viewModel)
+            PortfolioDetailScreenView(images: viewModel.images)
         }
     }
 }

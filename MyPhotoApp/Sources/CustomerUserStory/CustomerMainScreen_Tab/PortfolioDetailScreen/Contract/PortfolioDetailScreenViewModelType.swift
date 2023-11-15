@@ -7,9 +7,6 @@
 
 import Foundation
 
-@MainActor
 protocol PortfolioDetailScreenViewModelType: ObservableObject {
-    var images: [String] { get set }
-
     
 }

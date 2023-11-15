@@ -19,6 +19,9 @@
 		5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E072A9744FF0014AD9B /* CustomerPageHubView.swift */; };
 		5F214E0E2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E0D2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift */; };
 		5F214E102A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E0F2A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift */; };
+		5F245A242B0346F300C25CCA /* CustomerSearchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F245A232B0346F300C25CCA /* CustomerSearchScreenView.swift */; };
+		5F245A282B03488900C25CCA /* CustomerSearchScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F245A272B03488900C25CCA /* CustomerSearchScreenViewModel.swift */; };
+		5F245A2A2B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F245A292B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift */; };
 		5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2711882A488FAA00679028 /* WeatherModel.swift */; };
 		5F27118C2A4934AD00679028 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F27118B2A4934AD00679028 /* WeatherManager.swift */; };
 		5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F27118E2A4AB7BD00679028 /* Constants.swift */; };
@@ -132,6 +135,9 @@
 		5F214E072A9744FF0014AD9B /* CustomerPageHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerPageHubView.swift; sourceTree = "<group>"; };
 		5F214E0D2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenViewModelType.swift; sourceTree = "<group>"; };
 		5F214E0F2A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenViewModel.swift; sourceTree = "<group>"; };
+		5F245A232B0346F300C25CCA /* CustomerSearchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchScreenView.swift; sourceTree = "<group>"; };
+		5F245A272B03488900C25CCA /* CustomerSearchScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchScreenViewModel.swift; sourceTree = "<group>"; };
+		5F245A292B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchScreenViewModelType.swift; sourceTree = "<group>"; };
 		5F2711882A488FAA00679028 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		5F27118B2A4934AD00679028 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		5F27118E2A4AB7BD00679028 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -291,6 +297,40 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		5F245A212B0346CD00C25CCA /* CustomerSearchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5F245A262B03486E00C25CCA /* Contract */,
+				5F245A252B03486000C25CCA /* ViewModel */,
+				5F245A222B0346DF00C25CCA /* View */,
+			);
+			path = CustomerSearchScreen;
+			sourceTree = "<group>";
+		};
+		5F245A222B0346DF00C25CCA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5F245A232B0346F300C25CCA /* CustomerSearchScreenView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5F245A252B03486000C25CCA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5F245A272B03488900C25CCA /* CustomerSearchScreenViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5F245A262B03486E00C25CCA /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				5F245A292B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift */,
+			);
+			path = Contract;
+			sourceTree = "<group>";
+		};
 		5F27118A2A49348600679028 /* OpenWeather */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +371,7 @@
 		5F39095E2A8F5F7C006E539A /* CustomerMainScreen_Tab */ = {
 			isa = PBXGroup;
 			children = (
+				5F245A212B0346CD00C25CCA /* CustomerSearchScreen */,
 				5FA1EC9C2AF0AF340092A74D /* PortfolioDetailScreen */,
 				5FC418F42ADD21080017AF56 /* CustomerMainScreen */,
 				5F214E092A997D490014AD9B /* CustomerDetailScreen */,
@@ -1245,6 +1286,7 @@
 				5FBA269F2A162D6700E972FB /* CustomSecureTextField.swift in Sources */,
 				5FF58F302A2380C9009AF970 /* RootScreenView.swift in Sources */,
 				5FA1ECA52AF0B01D0092A74D /* PortfolioDetailScreenView.swift in Sources */,
+				5F245A282B03488900C25CCA /* CustomerSearchScreenViewModel.swift in Sources */,
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */,
 				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
@@ -1260,6 +1302,7 @@
 				5F0F8D862A31E28B00AF4EED /* DbOrderModel.swift in Sources */,
 				5F1BCAA32ABADBBE00223146 /* CustomerSearchBar.swift in Sources */,
 				5F9F32482A96F065004D48B7 /* AuthorCustomTabs.swift in Sources */,
+				5F245A2A2B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift in Sources */,
 				5FC419042ADD63870017AF56 /* CustomerOrdersViewModel.swift in Sources */,
 				5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */,
 				5FC419132AE167710017AF56 /* NotificationScreenView.swift in Sources */,
@@ -1275,6 +1318,7 @@
 				5F1BCA9B2AB006BA00223146 /* PortfolioView.swift in Sources */,
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
 				5FBDF84B2A64FD2300C1108D /* ImageFullScreenView.swift in Sources */,
+				5F245A242B0346F300C25CCA /* CustomerSearchScreenView.swift in Sources */,
 				5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */,
 				5FE606432A887E1200E33205 /* ReAuthorizationScreenView.swift in Sources */,
 				5FEB71782AACA92000DCC07E /* PortfolioScheduleViewModel.swift in Sources */,

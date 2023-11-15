@@ -9,57 +9,44 @@ import SwiftUI
 
 struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
-    @Binding var portfolio: [AuthorPortfolioModel]
+    var portfolio: [AuthorPortfolioModel]
 
     
     @Namespace var filterspace: Namespace.ID
-    @Binding var serchPageShow: Bool
+    @Binding var searchPageShow: Bool
     @State var onlyFemale: Bool = false
     @State var selectDate: Date = Date()
     @Binding var requestLocation: Bool
     @State var showDetailView = false
     @State var showAlertRequest = false
     @State private var selectLocation: String = ""
+    @State private var selectPortfolio: AuthorPortfolioModel? = nil
 
 
     init(with viewModel: ViewModel,
-         serchPageShow: Binding<Bool>,
+         searchPageShow: Binding<Bool>,
          requestLocation: Binding<Bool>,
-         portfolio: Binding<[AuthorPortfolioModel]>) {
+         portfolio: [AuthorPortfolioModel]) {
         self.viewModel = viewModel
-        self._serchPageShow = serchPageShow
+        self._searchPageShow = searchPageShow
         self._requestLocation = requestLocation
-        self._portfolio = portfolio
+        self.portfolio = portfolio
     }
     
     var body: some View {
         NavigationStack {
-            if serchPageShow {
+            if searchPageShow {
                 ZStack {
                     ScrollView{
                         VStack{
-                            ForEach(portfolio, id: \.id) { item in
-                                CustomerMainCellView(items: item)
-                                    .onTapGesture {
-                                        viewModel.selectedItem = item
-                                        showDetailView.toggle()
-                                    }
-                                    .fullScreenCover(isPresented: $showDetailView) {
-                                        if let selectedItem = viewModel.selectedItem {
-                                            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(items: selectedItem, startMyTrip: selectDate), showDetailView: $showDetailView)
-                                        }
-                                    }
-                                    .onAppear{
-                                        Task{
-                                            do {
-                                                try await viewModel.imagePathToURL(imagePath: item.smallImagesPortfolio)
-                                            } catch {
-                                                throw error
-                                            }
-                                            
-                                        }
-                                    }
-                                    .padding(.bottom)
+                            ForEach(portfolio, id: \.id) { portfolio in
+                                NavigationLink {
+                                    CustomerDetailScreenView(portfolio: portfolio, startMyTripDate: selectDate)
+                                    
+                                } label: {
+                                    CustomerMainCellView(items: portfolio)
+
+                                }
                             }
                             
                         }
@@ -73,7 +60,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                 .matchedGeometryEffect(id: "search", in: filterspace)
                                 .onTapGesture {
                                     withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                                        serchPageShow.toggle()
+                                        searchPageShow.toggle()
                                     }
                                 }
                         }
@@ -82,7 +69,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                        Group {
                             CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
                                 withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                                    serchPageShow.toggle()
+                                    searchPageShow.toggle()
                                 }
                                 
                             }
@@ -110,20 +97,21 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                             withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
                                 Task {
                                     let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: selectDate)
-                                    
+                                    print("dbPortfolio new location \(dbPortfolio) Coordinate: \(viewModel.longitude); \(viewModel.latitude)")
+
                                     if !dbPortfolio.isEmpty{
-                                        portfolio = dbPortfolio.map { $0 }
-                                        print("chek new location inside Task \(viewModel.longitude); \(viewModel.latitude)")
-                                        print("Print portfolio in Task \(viewModel.portfolio)")
+//                                        portfolio = dbPortfolio.map { $0 }
+//                                        print("chek new location inside Task \(viewModel.longitude); \(viewModel.latitude)")
+//                                        print("Print portfolio in Task \(viewModel.portfolio)")
                                     } else {
                                         showAlertRequest.toggle()
                                     }
                                 }
-                                serchPageShow.toggle()
+                                searchPageShow.toggle()
                                 print("chek new location \(viewModel.longitude); \(viewModel.latitude)")
 
                             }
-                            
+
                         }.matchedGeometryEffect(id: "CustomButtonXl", in: filterspace)
                         .offset(y: -80)
                     }
@@ -142,9 +130,9 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                             .padding(.leading, 32)
                                         Divider()
                                             .padding(.horizontal, 32)
-                                        
+
                                     }
-                                    
+
                                     .onTapGesture {
                                         withAnimation {
                                             self.viewModel.locationAuthor = result.location
@@ -217,7 +205,7 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
     static var previews: some View {
-        CustomerMainScreenView(with: mockModel, serchPageShow: .constant(true), requestLocation: .constant(false), portfolio: .constant([]))
+        CustomerMainScreenView(with: mockModel, searchPageShow: .constant(true), requestLocation: .constant(false), portfolio: [])
     }
 }
 
