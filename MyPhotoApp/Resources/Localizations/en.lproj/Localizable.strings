@@ -1,0 +1,184 @@
+//  Localizable.strings
+//  MyPhotoApp
+//
+//  Created by Dima Stepanov on 5/17/23.
+  
+ 
+// MARK: - Common
+"registration" = "Sign Up";
+"logIn" = "Sign In";
+"author" = "I'm Author";
+"customer" = "I'm Customer";
+"email" = "Email address";
+"password" = "Password";
+"customer_login" = "Find a photographer";
+"author_login" = "Find clients";
+"signOutAccBtt" = "Log Out";
+"forgotPss" = "Forgot password?";
+"totalPrice" = "Total price";
+"takeAPhoto" = "Take a Photo";
+"addPhoto" = "Add Photo";
+"delete_user" = "Delete Account";
+"delete_user_allert" = "Deleting account will delete all your information in this App. Are you sure you want to continue?";
+"cancel" = "Cancel";
+"delete_user_password" = "For delete account enter your current password";
+
+// MARK: - Main Screen
+"today" = "Order for today";
+"order_not_found" = "You don't have orders";
+"order_not_found_worning" = "Your new orders will be here.\nPlease set up a portfolio section\nso that you can be found in searches";
+
+
+
+// MARK: - New Order
+"order_client_firstName" = "Client's first name";
+"order_client_secondName" = "Сlient's last name";
+"order_location" = "Location";
+"order_price" = "Price";
+"order_instagramLink" = "Instagram username";
+"order_description" = "Description";
+"order_duration" = "Duration";
+"order_selectDate" = "Select a date";
+"order_add_order" = "Add Order";
+"order_save_order" = "Save Order";
+"order_edit_order" = "Edit Order";
+"order_new_order" = "New Order";
+"order_delete_order" = "Delete Order";
+"order_shooting_details" = "Shooting details";
+"order_hour" = "h";
+
+// MARK: - order Status
+"status_upcoming" = "Upcoming";
+"status_inProgress" = "In progress";
+"status_completed" = "Completed";
+"status_canceled" = "Canceled";
+"status_canceled_warning" = "If the order is cancelled,\nyou will not be able to restore it";
+
+
+// MARK: - AuthorTabs
+"tabs_feature" = "Feature";
+"tabs_edit" = "Edit";
+"tabs_portfolio" = "Portfolio";
+"tabs_profile" = "Profile";
+
+// MARK: - CustomerTabs
+"customer_tabs_home" = "Home";
+"customer_tabs_message" = "Orders";
+"customer_tabs_liked" = "Liked";
+"customer_tabs_profile" = "Profile";
+
+//MARK: - Setting screen
+"settings_name_screen" = "Settings";
+"settings_section_profile" = "Profile";
+"settings_section_profile_about" = "Tell about yourself";
+"settings_section_profile_email" = "Email";
+"settings_section_profile_phone" = "Phone";
+"settings_section_profile_instagram" = "Instagram username";
+
+"settings_section_notification" = "Notification";
+"settings_section_localization" = "Localization";
+"settings_section_privacy" = "Privacy";
+"settings_section_information" = "Information";
+"settings_section_logout" = "LogOut";
+
+"app_version" = "App version:";
+"contact_with_us" = "Contact with us:\nwww.takeaphoto.app";
+"notes" = "When more than 100 photographers use our application,\nwe will start developing the «Portfolio» service.";
+"your_login" = "Your Login:";
+"version_not_available" = "Version not available";
+"setup_your_profile" = "Please set up your profile";
+"setup_your_portfolio" = "Please set up your portfolio";
+
+"warning_add_avatar" = "Add avatar";
+"warning_add_name" = "Add Name";
+"warning_add_secondname" = "Add Secondname";
+"warning_add_phone" = "Add phone number";
+"warning_add_instagram" = "Add Instagram username";
+
+//MARK: - Customer Zone -
+"price_start" = "start from";
+"select_date" = "Select date";
+"select_time" = "Select time";
+"reservation_button" = "Reservation for";
+"select_date_no_dates" = "We are very sorry,\nbut there are no available dates\nfor the selected period.";
+
+
+//MARK: - Customer Order
+"default_message" = "Write your contacts and additional information";
+"place_order" = "Place Order";
+"customer_order_add_sample" = "If you want to add sample photos,\nclick the plus icon in the toolbar";  
+"photographer" = "Photographer";
+"customer" = "Customer";
+"message" = "Message";
+"total_price" = "Total price";
+"contact_information" = "Contact information";
+"tap_to_open" = "Tap to open";
+"copied" = "Copied successfully!";
+"date_detail" = "Date, Time, Duration";
+"location" = "Location";
+
+//MARK: - Add Portfolio
+"portfolio" = "Portfolio";
+"save" = "Save";
+"portfolio_first_name" = "Firs Name";
+"portfolio_last_name" = "Last Name";
+"portfolio_age" = "Your Age";
+"portfolio_gender" = "Select your gender";
+"portfolio_location" = "Select a city from the list";
+"portfolio_genre" = "Style of photography";
+"portfolio_genre_description" = "Select 4 genres";
+"portfolio_about" = "About your self";
+"portfolio_schedule" = "Please set up a schedule\nso you can be found in searches";
+"portfolio_schedule_btn" = "Setup schedule";
+"portfolio_add_images" = "Please add images for Portfolio\nby tapping on plus icon on toolbar\nor on button bellow";
+"portfolio_add_images_btt" = "Add images";
+"portfolio_setup_portfolio" = "Please setup your Portfolio\nby tapping on pencil icon on toolbar\nor on button bellow";
+"portfolio_setup_portfolio_btt" = "Setup portfolio";
+"portfolio_delete_image" = "Delete image";
+"portfolio_please_wait" = "Please wait";
+
+//MARK: - Style of Photography
+
+"style_photography_aerial" = "Aerial";
+"style_photography_architecture" = "Architecture";
+"style_photography_documentary" = "Documentary";
+"style_photography_event" = "Event";
+"style_photography_fashion" = "Fashion";
+"style_photography_food" = "Food";
+"style_photography_love Story" = "Love Story";
+"style_photography_macro" = "Macro";
+"style_photography_people" = "People";
+"style_photography_pet" = "Pet";
+"style_photography_portraits" = "Portraits";
+"style_photography_product" = "Product";
+"style_photography_real Estate" = "Real Estate";
+"style_photography_sports" = "Sports";
+"style_photography_wedding" = "Wedding";
+"style_photography_wildlife" = "Wildlife";
+
+//MARK: - Gender
+"gender_specify_gender" = "Female only";
+"gender_select" = "Select";
+"gender_male" = "Male";
+"gender_female" = "Female";
+
+//MARK: - Schedule
+"schedule" = "Add schedules";
+"schedule_save" = "Save";
+"schedule_delete" = "Delete Schedule";
+"schedule_set" = "Setup Schedule";
+"schedule_add" = "New Schedule";
+"schedule_start" = "Start Date";
+"schedule_end" = "End Date";
+"schedule_interval" = "Time interval /Hr";
+"schedule_price" = "Price";
+"schedule_price_per_slot" = "Price per Time slot";
+"schedule_holidays" = "Including weekends";
+
+//MARK: - Customer Main screen
+"customer_search_bar" = "Search photographer";
+"customer_search" = "Search";
+"customer_search_no_result" = "Sorry, no photographers found";
+"customer_orders_worning" = "You currently have no active orders";
+
+

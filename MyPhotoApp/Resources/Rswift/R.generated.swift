@@ -88,10 +88,38 @@ struct R: Rswift.Validatable {
     try intern.validate()
   }
 
-  /// This `R.color` struct is generated, and contains static references to 1 colors.
+  /// This `R.color` struct is generated, and contains static references to 15 colors.
   struct color {
     /// Color `AccentColor`.
     static let accentColor = Rswift.ColorResource(bundle: R.hostingBundle, name: "AccentColor")
+    /// Color `Canceled`.
+    static let canceled = Rswift.ColorResource(bundle: R.hostingBundle, name: "Canceled")
+    /// Color `Color`.
+    static let color = Rswift.ColorResource(bundle: R.hostingBundle, name: "Color")
+    /// Color `Completed`.
+    static let completed = Rswift.ColorResource(bundle: R.hostingBundle, name: "Completed")
+    /// Color `Gray1`.
+    static let gray1 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray1")
+    /// Color `Gray2`.
+    static let gray2 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray2")
+    /// Color `Gray3`.
+    static let gray3 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray3")
+    /// Color `Gray4`.
+    static let gray4 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray4")
+    /// Color `Gray5`.
+    static let gray5 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray5")
+    /// Color `Gray6`.
+    static let gray6 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray6")
+    /// Color `Gray7`.
+    static let gray7 = Rswift.ColorResource(bundle: R.hostingBundle, name: "Gray7")
+    /// Color `InProgress`.
+    static let inProgress = Rswift.ColorResource(bundle: R.hostingBundle, name: "InProgress")
+    /// Color `Orange`.
+    static let orange = Rswift.ColorResource(bundle: R.hostingBundle, name: "Orange")
+    /// Color `Red`.
+    static let red = Rswift.ColorResource(bundle: R.hostingBundle, name: "Red")
+    /// Color `Upcoming`.
+    static let upcoming = Rswift.ColorResource(bundle: R.hostingBundle, name: "Upcoming")
 
     #if os(iOS) || os(tvOS)
     /// `UIColor(named: "AccentColor", bundle: ..., traitCollection: ...)`
@@ -99,6 +127,132 @@ struct R: Rswift.Validatable {
     @available(iOS 11.0, *)
     static func accentColor(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
       return UIKit.UIColor(resource: R.color.accentColor, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Canceled", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func canceled(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.canceled, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Color", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func color(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.color, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Completed", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func completed(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.completed, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray1", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray1(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray1, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray2", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray2(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray2, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray3", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray3(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray3, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray4", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray4(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray4, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray5", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray5(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray5, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray6", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray6(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray6, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Gray7", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func gray7(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.gray7, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "InProgress", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func inProgress(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.inProgress, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Orange", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func orange(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.orange, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Red", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func red(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.red, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIColor(named: "Upcoming", bundle: ..., traitCollection: ...)`
+    @available(tvOS 11.0, *)
+    @available(iOS 11.0, *)
+    static func upcoming(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
+      return UIKit.UIColor(resource: R.color.upcoming, compatibleWith: traitCollection)
     }
     #endif
 
@@ -110,18 +264,261 @@ struct R: Rswift.Validatable {
     }
     #endif
 
+    #if os(watchOS)
+    /// `UIColor(named: "Canceled", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func canceled(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.canceled.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Color", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func color(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.color.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Completed", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func completed(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.completed.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray1", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray1(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray1.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray2", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray2(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray2.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray3", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray3(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray3.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray4", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray4(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray4.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray5", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray5(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray5.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray6", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray6(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray6.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Gray7", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func gray7(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.gray7.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "InProgress", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func inProgress(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.inProgress.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Orange", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func orange(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.orange.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Red", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func red(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.red.name)
+    }
+    #endif
+
+    #if os(watchOS)
+    /// `UIColor(named: "Upcoming", bundle: ..., traitCollection: ...)`
+    @available(watchOSApplicationExtension 4.0, *)
+    static func upcoming(_: Void = ()) -> UIKit.UIColor? {
+      return UIKit.UIColor(named: R.color.upcoming.name)
+    }
+    #endif
+
     fileprivate init() {}
   }
 
-  /// This `R.image` struct is generated, and contains static references to 1 images.
+  /// This `R.entitlements` struct is generated, and contains static references to 4 properties.
+  struct entitlements {
+    static let apsEnvironment = infoPlistString(path: [], key: "aps-environment") ?? "development"
+    static let comAppleDeveloperUbiquityKvstoreIdentifier = infoPlistString(path: [], key: "com.apple.developer.ubiquity-kvstore-identifier") ?? "$(TeamIdentifierPrefix)$(CFBundleIdentifier)"
+
+    struct comAppleDeveloperIcloudContainerIdentifiers {
+      fileprivate init() {}
+    }
+
+    struct keychainAccessGroups {
+      static let appIdentifierPrefixComStepanoviosdevTakeaphoto = infoPlistString(path: ["keychain-access-groups"], key: "$(AppIdentifierPrefix)com.stepanoviosdev.takeaphoto") ?? "$(AppIdentifierPrefix)com.stepanoviosdev.takeaphoto"
+
+      fileprivate init() {}
+    }
+
+    fileprivate init() {}
+  }
+
+  /// This `R.file` struct is generated, and contains static references to 1 files.
+  struct file {
+    /// Resource file `GoogleService-Info.plist`.
+    static let googleServiceInfoPlist = Rswift.FileResource(bundle: R.hostingBundle, name: "GoogleService-Info", pathExtension: "plist")
+
+    /// `bundle.url(forResource: "GoogleService-Info", withExtension: "plist")`
+    static func googleServiceInfoPlist(_: Void = ()) -> Foundation.URL? {
+      let fileResource = R.file.googleServiceInfoPlist
+      return fileResource.bundle.url(forResource: fileResource)
+    }
+
+    fileprivate init() {}
+  }
+
+  /// This `R.image` struct is generated, and contains static references to 12 images.
   struct image {
-    /// Image `My`.
-    static let my = Rswift.ImageResource(bundle: R.hostingBundle, name: "My")
+    /// Image `ic_arial`.
+    static let ic_arial = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_arial")
+    /// Image `ic_duration`.
+    static let ic_duration = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_duration")
+    /// Image `ic_edit`.
+    static let ic_edit = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_edit")
+    /// Image `ic_female`.
+    static let ic_female = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_female")
+    /// Image `ic_filter`.
+    static let ic_filter = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_filter")
+    /// Image `ic_instagram`.
+    static let ic_instagram = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_instagram")
+    /// Image `ic_time`.
+    static let ic_time = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_time")
+    /// Image `ic_weater`.
+    static let ic_weater = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_weater")
+    /// Image `image_instagram`.
+    static let image_instagram = Rswift.ImageResource(bundle: R.hostingBundle, name: "image_instagram")
+    /// Image `image_logo`.
+    static let image_logo = Rswift.ImageResource(bundle: R.hostingBundle, name: "image_logo")
+    /// Image `image_no_portfolio`.
+    static let image_no_portfolio = Rswift.ImageResource(bundle: R.hostingBundle, name: "image_no_portfolio")
+    /// Image `image_pateron`.
+    static let image_pateron = Rswift.ImageResource(bundle: R.hostingBundle, name: "image_pateron")
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "My", bundle: ..., traitCollection: ...)`
-    static func my(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.my, compatibleWith: traitCollection)
+    /// `UIImage(named: "ic_arial", bundle: ..., traitCollection: ...)`
+    static func ic_arial(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_arial, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_duration", bundle: ..., traitCollection: ...)`
+    static func ic_duration(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_duration, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_edit", bundle: ..., traitCollection: ...)`
+    static func ic_edit(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_edit, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_female", bundle: ..., traitCollection: ...)`
+    static func ic_female(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_female, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_filter", bundle: ..., traitCollection: ...)`
+    static func ic_filter(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_filter, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_instagram", bundle: ..., traitCollection: ...)`
+    static func ic_instagram(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_instagram, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_time", bundle: ..., traitCollection: ...)`
+    static func ic_time(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_time, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_weater", bundle: ..., traitCollection: ...)`
+    static func ic_weater(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_weater, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "image_instagram", bundle: ..., traitCollection: ...)`
+    static func image_instagram(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image_instagram, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "image_logo", bundle: ..., traitCollection: ...)`
+    static func image_logo(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image_logo, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "image_no_portfolio", bundle: ..., traitCollection: ...)`
+    static func image_no_portfolio(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image_no_portfolio, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "image_pateron", bundle: ..., traitCollection: ...)`
+    static func image_pateron(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image_pateron, compatibleWith: traitCollection)
     }
     #endif
 
@@ -130,12 +527,767 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 1 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 140 localization keys.
     struct localizable {
-      /// Value: Отмена
-      static let cancel = Rswift.StringResource(key: "cancel", tableName: "Localizable", bundle: R.hostingBundle, locales: [], comment: nil)
+      /// en translation: About your self
+      ///
+      /// Locales: en, ru
+      static let portfolio_about = Rswift.StringResource(key: "portfolio_about", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add Instagram username
+      ///
+      /// Locales: en, ru
+      static let warning_add_instagram = Rswift.StringResource(key: "warning_add_instagram", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add Name
+      ///
+      /// Locales: en, ru
+      static let warning_add_name = Rswift.StringResource(key: "warning_add_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add Order
+      ///
+      /// Locales: en, ru
+      static let order_add_order = Rswift.StringResource(key: "order_add_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add Photo
+      ///
+      /// Locales: en, ru
+      static let addPhoto = Rswift.StringResource(key: "addPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add Secondname
+      ///
+      /// Locales: en, ru
+      static let warning_add_secondname = Rswift.StringResource(key: "warning_add_secondname", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add avatar
+      ///
+      /// Locales: en, ru
+      static let warning_add_avatar = Rswift.StringResource(key: "warning_add_avatar", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add images
+      ///
+      /// Locales: en, ru
+      static let portfolio_add_images_btt = Rswift.StringResource(key: "portfolio_add_images_btt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add phone number
+      ///
+      /// Locales: en, ru
+      static let warning_add_phone = Rswift.StringResource(key: "warning_add_phone", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add schedules
+      ///
+      /// Locales: en, ru
+      static let schedule = Rswift.StringResource(key: "schedule", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Aerial
+      ///
+      /// Locales: en, ru
+      static let style_photography_aerial = Rswift.StringResource(key: "style_photography_aerial", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: App version:
+      ///
+      /// Locales: en, ru
+      static let app_version = Rswift.StringResource(key: "app_version", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Architecture
+      ///
+      /// Locales: en, ru
+      static let style_photography_architecture = Rswift.StringResource(key: "style_photography_architecture", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Cancel
+      ///
+      /// Locales: en, ru
+      static let cancel = Rswift.StringResource(key: "cancel", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Canceled
+      ///
+      /// Locales: en, ru
+      static let status_canceled = Rswift.StringResource(key: "status_canceled", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Client's first name
+      ///
+      /// Locales: en, ru
+      static let order_client_firstName = Rswift.StringResource(key: "order_client_firstName", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Completed
+      ///
+      /// Locales: en, ru
+      static let status_completed = Rswift.StringResource(key: "status_completed", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Contact information
+      ///
+      /// Locales: en, ru
+      static let contact_information = Rswift.StringResource(key: "contact_information", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Contact with us: www.takeaphoto.app
+      ///
+      /// Locales: en, ru
+      static let contact_with_us = Rswift.StringResource(key: "contact_with_us", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Copied successfully!
+      ///
+      /// Locales: en, ru
+      static let copied = Rswift.StringResource(key: "copied", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Customer
+      ///
+      /// Locales: en, ru
+      static let customer = Rswift.StringResource(key: "customer", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Date, Time, Duration
+      ///
+      /// Locales: en, ru
+      static let date_detail = Rswift.StringResource(key: "date_detail", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Delete Account
+      ///
+      /// Locales: en, ru
+      static let delete_user = Rswift.StringResource(key: "delete_user", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Delete Order
+      ///
+      /// Locales: en, ru
+      static let order_delete_order = Rswift.StringResource(key: "order_delete_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Delete Schedule
+      ///
+      /// Locales: en, ru
+      static let schedule_delete = Rswift.StringResource(key: "schedule_delete", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Delete image
+      ///
+      /// Locales: en, ru
+      static let portfolio_delete_image = Rswift.StringResource(key: "portfolio_delete_image", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Deleting account will delete all your information in this App. Are you sure you want to continue?
+      ///
+      /// Locales: en, ru
+      static let delete_user_allert = Rswift.StringResource(key: "delete_user_allert", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Description
+      ///
+      /// Locales: en, ru
+      static let order_description = Rswift.StringResource(key: "order_description", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Documentary
+      ///
+      /// Locales: en, ru
+      static let style_photography_documentary = Rswift.StringResource(key: "style_photography_documentary", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Duration
+      ///
+      /// Locales: en, ru
+      static let order_duration = Rswift.StringResource(key: "order_duration", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Edit
+      ///
+      /// Locales: en, ru
+      static let tabs_edit = Rswift.StringResource(key: "tabs_edit", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Edit Order
+      ///
+      /// Locales: en, ru
+      static let order_edit_order = Rswift.StringResource(key: "order_edit_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Email
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile_email = Rswift.StringResource(key: "settings_section_profile_email", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Email address
+      ///
+      /// Locales: en, ru
+      static let email = Rswift.StringResource(key: "email", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: End Date
+      ///
+      /// Locales: en, ru
+      static let schedule_end = Rswift.StringResource(key: "schedule_end", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Event
+      ///
+      /// Locales: en, ru
+      static let style_photography_event = Rswift.StringResource(key: "style_photography_event", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Fashion
+      ///
+      /// Locales: en, ru
+      static let style_photography_fashion = Rswift.StringResource(key: "style_photography_fashion", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Feature
+      ///
+      /// Locales: en, ru
+      static let tabs_feature = Rswift.StringResource(key: "tabs_feature", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Female
+      ///
+      /// Locales: en, ru
+      static let gender_female = Rswift.StringResource(key: "gender_female", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Female only
+      ///
+      /// Locales: en, ru
+      static let gender_specify_gender = Rswift.StringResource(key: "gender_specify_gender", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Find a photographer
+      ///
+      /// Locales: en, ru
+      static let customer_login = Rswift.StringResource(key: "customer_login", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Find clients
+      ///
+      /// Locales: en, ru
+      static let author_login = Rswift.StringResource(key: "author_login", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Firs Name
+      ///
+      /// Locales: en, ru
+      static let portfolio_first_name = Rswift.StringResource(key: "portfolio_first_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Food
+      ///
+      /// Locales: en, ru
+      static let style_photography_food = Rswift.StringResource(key: "style_photography_food", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: For delete account enter your current password
+      ///
+      /// Locales: en, ru
+      static let delete_user_password = Rswift.StringResource(key: "delete_user_password", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Forgot password?
+      ///
+      /// Locales: en, ru
+      static let forgotPss = Rswift.StringResource(key: "forgotPss", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Home
+      ///
+      /// Locales: en, ru
+      static let customer_tabs_home = Rswift.StringResource(key: "customer_tabs_home", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: I'm Author
+      ///
+      /// Locales: en, ru
+      static let author = Rswift.StringResource(key: "author", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: If the order is cancelled, you will not be able to restore it
+      ///
+      /// Locales: en, ru
+      static let status_canceled_warning = Rswift.StringResource(key: "status_canceled_warning", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: If you want to add sample photos, click the plus icon in the toolbar
+      ///
+      /// Locales: en, ru
+      static let customer_order_add_sample = Rswift.StringResource(key: "customer_order_add_sample", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: In progress
+      ///
+      /// Locales: en, ru
+      static let status_inProgress = Rswift.StringResource(key: "status_inProgress", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Including weekends
+      ///
+      /// Locales: en, ru
+      static let schedule_holidays = Rswift.StringResource(key: "schedule_holidays", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Information
+      ///
+      /// Locales: en, ru
+      static let settings_section_information = Rswift.StringResource(key: "settings_section_information", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Instagram username
+      ///
+      /// Locales: en, ru
+      static let order_instagramLink = Rswift.StringResource(key: "order_instagramLink", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Instagram username
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile_instagram = Rswift.StringResource(key: "settings_section_profile_instagram", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Last Name
+      ///
+      /// Locales: en, ru
+      static let portfolio_last_name = Rswift.StringResource(key: "portfolio_last_name", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Liked
+      ///
+      /// Locales: en, ru
+      static let customer_tabs_liked = Rswift.StringResource(key: "customer_tabs_liked", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Localization
+      ///
+      /// Locales: en, ru
+      static let settings_section_localization = Rswift.StringResource(key: "settings_section_localization", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Location
+      ///
+      /// Locales: en, ru
+      static let location = Rswift.StringResource(key: "location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Location
+      ///
+      /// Locales: en, ru
+      static let order_location = Rswift.StringResource(key: "order_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Log Out
+      ///
+      /// Locales: en, ru
+      static let signOutAccBtt = Rswift.StringResource(key: "signOutAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: LogOut
+      ///
+      /// Locales: en, ru
+      static let settings_section_logout = Rswift.StringResource(key: "settings_section_logout", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Love Story
+      ///
+      /// Locales: en, ru
+      static let style_photography_loveStory = Rswift.StringResource(key: "style_photography_love Story", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Macro
+      ///
+      /// Locales: en, ru
+      static let style_photography_macro = Rswift.StringResource(key: "style_photography_macro", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Male
+      ///
+      /// Locales: en, ru
+      static let gender_male = Rswift.StringResource(key: "gender_male", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Message
+      ///
+      /// Locales: en, ru
+      static let message = Rswift.StringResource(key: "message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: New Order
+      ///
+      /// Locales: en, ru
+      static let order_new_order = Rswift.StringResource(key: "order_new_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: New Schedule
+      ///
+      /// Locales: en, ru
+      static let schedule_add = Rswift.StringResource(key: "schedule_add", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Notification
+      ///
+      /// Locales: en, ru
+      static let settings_section_notification = Rswift.StringResource(key: "settings_section_notification", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Order for today
+      ///
+      /// Locales: en, ru
+      static let today = Rswift.StringResource(key: "today", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Orders
+      ///
+      /// Locales: en, ru
+      static let customer_tabs_message = Rswift.StringResource(key: "customer_tabs_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Password
+      ///
+      /// Locales: en, ru
+      static let password = Rswift.StringResource(key: "password", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: People
+      ///
+      /// Locales: en, ru
+      static let style_photography_people = Rswift.StringResource(key: "style_photography_people", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Pet
+      ///
+      /// Locales: en, ru
+      static let style_photography_pet = Rswift.StringResource(key: "style_photography_pet", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Phone
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile_phone = Rswift.StringResource(key: "settings_section_profile_phone", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Photographer
+      ///
+      /// Locales: en, ru
+      static let photographer = Rswift.StringResource(key: "photographer", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Place Order
+      ///
+      /// Locales: en, ru
+      static let place_order = Rswift.StringResource(key: "place_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please add images for Portfolio by tapping on plus icon on toolbar or on button bellow
+      ///
+      /// Locales: en, ru
+      static let portfolio_add_images = Rswift.StringResource(key: "portfolio_add_images", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please set up a schedule so you can be found in searches
+      ///
+      /// Locales: en, ru
+      static let portfolio_schedule = Rswift.StringResource(key: "portfolio_schedule", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please set up your portfolio
+      ///
+      /// Locales: en, ru
+      static let setup_your_portfolio = Rswift.StringResource(key: "setup_your_portfolio", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please set up your profile
+      ///
+      /// Locales: en, ru
+      static let setup_your_profile = Rswift.StringResource(key: "setup_your_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please setup your Portfolio by tapping on pencil icon on toolbar or on button bellow
+      ///
+      /// Locales: en, ru
+      static let portfolio_setup_portfolio = Rswift.StringResource(key: "portfolio_setup_portfolio", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Please wait
+      ///
+      /// Locales: en, ru
+      static let portfolio_please_wait = Rswift.StringResource(key: "portfolio_please_wait", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Portfolio
+      ///
+      /// Locales: en, ru
+      static let portfolio = Rswift.StringResource(key: "portfolio", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Portfolio
+      ///
+      /// Locales: en, ru
+      static let tabs_portfolio = Rswift.StringResource(key: "tabs_portfolio", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Portraits
+      ///
+      /// Locales: en, ru
+      static let style_photography_portraits = Rswift.StringResource(key: "style_photography_portraits", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Price
+      ///
+      /// Locales: en, ru
+      static let order_price = Rswift.StringResource(key: "order_price", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Price
+      ///
+      /// Locales: en, ru
+      static let schedule_price = Rswift.StringResource(key: "schedule_price", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Price per Time slot
+      ///
+      /// Locales: en, ru
+      static let schedule_price_per_slot = Rswift.StringResource(key: "schedule_price_per_slot", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Privacy
+      ///
+      /// Locales: en, ru
+      static let settings_section_privacy = Rswift.StringResource(key: "settings_section_privacy", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Product
+      ///
+      /// Locales: en, ru
+      static let style_photography_product = Rswift.StringResource(key: "style_photography_product", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static let customer_tabs_profile = Rswift.StringResource(key: "customer_tabs_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile = Rswift.StringResource(key: "settings_section_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static let tabs_profile = Rswift.StringResource(key: "tabs_profile", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Real Estate
+      ///
+      /// Locales: en, ru
+      static let style_photography_realEstate = Rswift.StringResource(key: "style_photography_real Estate", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Reservation for
+      ///
+      /// Locales: en, ru
+      static let reservation_button = Rswift.StringResource(key: "reservation_button", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Save
+      ///
+      /// Locales: en, ru
+      static let save = Rswift.StringResource(key: "save", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Save
+      ///
+      /// Locales: en, ru
+      static let schedule_save = Rswift.StringResource(key: "schedule_save", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Save Order
+      ///
+      /// Locales: en, ru
+      static let order_save_order = Rswift.StringResource(key: "order_save_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Search
+      ///
+      /// Locales: en, ru
+      static let customer_search = Rswift.StringResource(key: "customer_search", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Search photographer
+      ///
+      /// Locales: en, ru
+      static let customer_search_bar = Rswift.StringResource(key: "customer_search_bar", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select
+      ///
+      /// Locales: en, ru
+      static let gender_select = Rswift.StringResource(key: "gender_select", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select 4 genres
+      ///
+      /// Locales: en, ru
+      static let portfolio_genre_description = Rswift.StringResource(key: "portfolio_genre_description", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select a city from the list
+      ///
+      /// Locales: en, ru
+      static let portfolio_location = Rswift.StringResource(key: "portfolio_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select a date
+      ///
+      /// Locales: en, ru
+      static let order_selectDate = Rswift.StringResource(key: "order_selectDate", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select date
+      ///
+      /// Locales: en, ru
+      static let select_date = Rswift.StringResource(key: "select_date", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select time
+      ///
+      /// Locales: en, ru
+      static let select_time = Rswift.StringResource(key: "select_time", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select your gender
+      ///
+      /// Locales: en, ru
+      static let portfolio_gender = Rswift.StringResource(key: "portfolio_gender", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Settings
+      ///
+      /// Locales: en, ru
+      static let settings_name_screen = Rswift.StringResource(key: "settings_name_screen", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Setup Schedule
+      ///
+      /// Locales: en, ru
+      static let schedule_set = Rswift.StringResource(key: "schedule_set", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Setup portfolio
+      ///
+      /// Locales: en, ru
+      static let portfolio_setup_portfolio_btt = Rswift.StringResource(key: "portfolio_setup_portfolio_btt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Setup schedule
+      ///
+      /// Locales: en, ru
+      static let portfolio_schedule_btn = Rswift.StringResource(key: "portfolio_schedule_btn", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Shooting details
+      ///
+      /// Locales: en, ru
+      static let order_shooting_details = Rswift.StringResource(key: "order_shooting_details", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Sign In
+      ///
+      /// Locales: en, ru
+      static let logIn = Rswift.StringResource(key: "logIn", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Sign Up
+      ///
+      /// Locales: en, ru
+      static let registration = Rswift.StringResource(key: "registration", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Sorry, no photographers found
+      ///
+      /// Locales: en, ru
+      static let customer_search_no_result = Rswift.StringResource(key: "customer_search_no_result", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Sports
+      ///
+      /// Locales: en, ru
+      static let style_photography_sports = Rswift.StringResource(key: "style_photography_sports", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Start Date
+      ///
+      /// Locales: en, ru
+      static let schedule_start = Rswift.StringResource(key: "schedule_start", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Style of photography
+      ///
+      /// Locales: en, ru
+      static let portfolio_genre = Rswift.StringResource(key: "portfolio_genre", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Take a Photo
+      ///
+      /// Locales: en, ru
+      static let takeAPhoto = Rswift.StringResource(key: "takeAPhoto", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Tap to open
+      ///
+      /// Locales: en, ru
+      static let tap_to_open = Rswift.StringResource(key: "tap_to_open", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Tell about yourself
+      ///
+      /// Locales: en, ru
+      static let settings_section_profile_about = Rswift.StringResource(key: "settings_section_profile_about", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Time interval /Hr
+      ///
+      /// Locales: en, ru
+      static let schedule_interval = Rswift.StringResource(key: "schedule_interval", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Total price
+      ///
+      /// Locales: en, ru
+      static let totalPrice = Rswift.StringResource(key: "totalPrice", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Total price
+      ///
+      /// Locales: en, ru
+      static let total_price = Rswift.StringResource(key: "total_price", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Upcoming
+      ///
+      /// Locales: en, ru
+      static let status_upcoming = Rswift.StringResource(key: "status_upcoming", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Version not available
+      ///
+      /// Locales: en, ru
+      static let version_not_available = Rswift.StringResource(key: "version_not_available", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: We are very sorry, but there are no available dates for the selected period.
+      ///
+      /// Locales: en, ru
+      static let select_date_no_dates = Rswift.StringResource(key: "select_date_no_dates", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Wedding
+      ///
+      /// Locales: en, ru
+      static let style_photography_wedding = Rswift.StringResource(key: "style_photography_wedding", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: When more than 100 photographers use our application, we will start developing the «Portfolio» service.
+      ///
+      /// Locales: en, ru
+      static let notes = Rswift.StringResource(key: "notes", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Wildlife
+      ///
+      /// Locales: en, ru
+      static let style_photography_wildlife = Rswift.StringResource(key: "style_photography_wildlife", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Write your contacts and additional information
+      ///
+      /// Locales: en, ru
+      static let default_message = Rswift.StringResource(key: "default_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: You currently have no active orders
+      ///
+      /// Locales: en, ru
+      static let customer_orders_worning = Rswift.StringResource(key: "customer_orders_worning", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: You don't have orders
+      ///
+      /// Locales: en, ru
+      static let order_not_found = Rswift.StringResource(key: "order_not_found", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Your Age
+      ///
+      /// Locales: en, ru
+      static let portfolio_age = Rswift.StringResource(key: "portfolio_age", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Your Login:
+      ///
+      /// Locales: en, ru
+      static let your_login = Rswift.StringResource(key: "your_login", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Your new orders will be here. Please set up a portfolio section so that you can be found in searches
+      ///
+      /// Locales: en, ru
+      static let order_not_found_worning = Rswift.StringResource(key: "order_not_found_worning", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: h
+      ///
+      /// Locales: en, ru
+      static let order_hour = Rswift.StringResource(key: "order_hour", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: start from
+      ///
+      /// Locales: en, ru
+      static let price_start = Rswift.StringResource(key: "price_start", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Сlient's last name
+      ///
+      /// Locales: en, ru
+      static let order_client_secondName = Rswift.StringResource(key: "order_client_secondName", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
 
-      /// Value: Отмена
+      /// en translation: About your self
+      ///
+      /// Locales: en, ru
+      static func portfolio_about(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_about", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_about"
+        }
+
+        return NSLocalizedString("portfolio_about", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add Instagram username
+      ///
+      /// Locales: en, ru
+      static func warning_add_instagram(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_instagram", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_instagram"
+        }
+
+        return NSLocalizedString("warning_add_instagram", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add Name
+      ///
+      /// Locales: en, ru
+      static func warning_add_name(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_name", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_name"
+        }
+
+        return NSLocalizedString("warning_add_name", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add Order
+      ///
+      /// Locales: en, ru
+      static func order_add_order(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_add_order", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_add_order"
+        }
+
+        return NSLocalizedString("order_add_order", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add Photo
+      ///
+      /// Locales: en, ru
+      static func addPhoto(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("addPhoto", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "addPhoto"
+        }
+
+        return NSLocalizedString("addPhoto", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add Secondname
+      ///
+      /// Locales: en, ru
+      static func warning_add_secondname(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_secondname", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_secondname"
+        }
+
+        return NSLocalizedString("warning_add_secondname", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add avatar
+      ///
+      /// Locales: en, ru
+      static func warning_add_avatar(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_avatar", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_avatar"
+        }
+
+        return NSLocalizedString("warning_add_avatar", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add images
+      ///
+      /// Locales: en, ru
+      static func portfolio_add_images_btt(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_add_images_btt", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_add_images_btt"
+        }
+
+        return NSLocalizedString("portfolio_add_images_btt", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add phone number
+      ///
+      /// Locales: en, ru
+      static func warning_add_phone(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("warning_add_phone", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "warning_add_phone"
+        }
+
+        return NSLocalizedString("warning_add_phone", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add schedules
+      ///
+      /// Locales: en, ru
+      static func schedule(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule"
+        }
+
+        return NSLocalizedString("schedule", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Aerial
+      ///
+      /// Locales: en, ru
+      static func style_photography_aerial(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_aerial", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_aerial"
+        }
+
+        return NSLocalizedString("style_photography_aerial", bundle: bundle, comment: "")
+      }
+
+      /// en translation: App version:
+      ///
+      /// Locales: en, ru
+      static func app_version(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("app_version", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "app_version"
+        }
+
+        return NSLocalizedString("app_version", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Architecture
+      ///
+      /// Locales: en, ru
+      static func style_photography_architecture(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_architecture", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_architecture"
+        }
+
+        return NSLocalizedString("style_photography_architecture", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Cancel
+      ///
+      /// Locales: en, ru
       static func cancel(preferredLanguages: [String]? = nil) -> String {
         guard let preferredLanguages = preferredLanguages else {
           return NSLocalizedString("cancel", bundle: hostingBundle, comment: "")
@@ -146,6 +1298,1896 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("cancel", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Canceled
+      ///
+      /// Locales: en, ru
+      static func status_canceled(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_canceled", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_canceled"
+        }
+
+        return NSLocalizedString("status_canceled", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Client's first name
+      ///
+      /// Locales: en, ru
+      static func order_client_firstName(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_client_firstName", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_client_firstName"
+        }
+
+        return NSLocalizedString("order_client_firstName", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Completed
+      ///
+      /// Locales: en, ru
+      static func status_completed(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_completed", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_completed"
+        }
+
+        return NSLocalizedString("status_completed", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Contact information
+      ///
+      /// Locales: en, ru
+      static func contact_information(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("contact_information", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "contact_information"
+        }
+
+        return NSLocalizedString("contact_information", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Contact with us: www.takeaphoto.app
+      ///
+      /// Locales: en, ru
+      static func contact_with_us(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("contact_with_us", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "contact_with_us"
+        }
+
+        return NSLocalizedString("contact_with_us", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Copied successfully!
+      ///
+      /// Locales: en, ru
+      static func copied(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("copied", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "copied"
+        }
+
+        return NSLocalizedString("copied", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Customer
+      ///
+      /// Locales: en, ru
+      static func customer(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer"
+        }
+
+        return NSLocalizedString("customer", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Date, Time, Duration
+      ///
+      /// Locales: en, ru
+      static func date_detail(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("date_detail", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "date_detail"
+        }
+
+        return NSLocalizedString("date_detail", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Delete Account
+      ///
+      /// Locales: en, ru
+      static func delete_user(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("delete_user", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "delete_user"
+        }
+
+        return NSLocalizedString("delete_user", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Delete Order
+      ///
+      /// Locales: en, ru
+      static func order_delete_order(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_delete_order", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_delete_order"
+        }
+
+        return NSLocalizedString("order_delete_order", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Delete Schedule
+      ///
+      /// Locales: en, ru
+      static func schedule_delete(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_delete", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_delete"
+        }
+
+        return NSLocalizedString("schedule_delete", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Delete image
+      ///
+      /// Locales: en, ru
+      static func portfolio_delete_image(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_delete_image", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_delete_image"
+        }
+
+        return NSLocalizedString("portfolio_delete_image", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Deleting account will delete all your information in this App. Are you sure you want to continue?
+      ///
+      /// Locales: en, ru
+      static func delete_user_allert(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("delete_user_allert", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "delete_user_allert"
+        }
+
+        return NSLocalizedString("delete_user_allert", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Description
+      ///
+      /// Locales: en, ru
+      static func order_description(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_description", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_description"
+        }
+
+        return NSLocalizedString("order_description", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Documentary
+      ///
+      /// Locales: en, ru
+      static func style_photography_documentary(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_documentary", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_documentary"
+        }
+
+        return NSLocalizedString("style_photography_documentary", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Duration
+      ///
+      /// Locales: en, ru
+      static func order_duration(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_duration", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_duration"
+        }
+
+        return NSLocalizedString("order_duration", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Edit
+      ///
+      /// Locales: en, ru
+      static func tabs_edit(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("tabs_edit", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "tabs_edit"
+        }
+
+        return NSLocalizedString("tabs_edit", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Edit Order
+      ///
+      /// Locales: en, ru
+      static func order_edit_order(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_edit_order", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_edit_order"
+        }
+
+        return NSLocalizedString("order_edit_order", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Email
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile_email(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile_email", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile_email"
+        }
+
+        return NSLocalizedString("settings_section_profile_email", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Email address
+      ///
+      /// Locales: en, ru
+      static func email(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("email", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "email"
+        }
+
+        return NSLocalizedString("email", bundle: bundle, comment: "")
+      }
+
+      /// en translation: End Date
+      ///
+      /// Locales: en, ru
+      static func schedule_end(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_end", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_end"
+        }
+
+        return NSLocalizedString("schedule_end", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Event
+      ///
+      /// Locales: en, ru
+      static func style_photography_event(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_event", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_event"
+        }
+
+        return NSLocalizedString("style_photography_event", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Fashion
+      ///
+      /// Locales: en, ru
+      static func style_photography_fashion(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_fashion", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_fashion"
+        }
+
+        return NSLocalizedString("style_photography_fashion", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Feature
+      ///
+      /// Locales: en, ru
+      static func tabs_feature(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("tabs_feature", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "tabs_feature"
+        }
+
+        return NSLocalizedString("tabs_feature", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Female
+      ///
+      /// Locales: en, ru
+      static func gender_female(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("gender_female", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "gender_female"
+        }
+
+        return NSLocalizedString("gender_female", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Female only
+      ///
+      /// Locales: en, ru
+      static func gender_specify_gender(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("gender_specify_gender", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "gender_specify_gender"
+        }
+
+        return NSLocalizedString("gender_specify_gender", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Find a photographer
+      ///
+      /// Locales: en, ru
+      static func customer_login(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_login", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_login"
+        }
+
+        return NSLocalizedString("customer_login", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Find clients
+      ///
+      /// Locales: en, ru
+      static func author_login(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("author_login", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "author_login"
+        }
+
+        return NSLocalizedString("author_login", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Firs Name
+      ///
+      /// Locales: en, ru
+      static func portfolio_first_name(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_first_name", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_first_name"
+        }
+
+        return NSLocalizedString("portfolio_first_name", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Food
+      ///
+      /// Locales: en, ru
+      static func style_photography_food(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_food", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_food"
+        }
+
+        return NSLocalizedString("style_photography_food", bundle: bundle, comment: "")
+      }
+
+      /// en translation: For delete account enter your current password
+      ///
+      /// Locales: en, ru
+      static func delete_user_password(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("delete_user_password", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "delete_user_password"
+        }
+
+        return NSLocalizedString("delete_user_password", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Forgot password?
+      ///
+      /// Locales: en, ru
+      static func forgotPss(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("forgotPss", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "forgotPss"
+        }
+
+        return NSLocalizedString("forgotPss", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Home
+      ///
+      /// Locales: en, ru
+      static func customer_tabs_home(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_tabs_home", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_tabs_home"
+        }
+
+        return NSLocalizedString("customer_tabs_home", bundle: bundle, comment: "")
+      }
+
+      /// en translation: I'm Author
+      ///
+      /// Locales: en, ru
+      static func author(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("author", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "author"
+        }
+
+        return NSLocalizedString("author", bundle: bundle, comment: "")
+      }
+
+      /// en translation: If the order is cancelled, you will not be able to restore it
+      ///
+      /// Locales: en, ru
+      static func status_canceled_warning(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_canceled_warning", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_canceled_warning"
+        }
+
+        return NSLocalizedString("status_canceled_warning", bundle: bundle, comment: "")
+      }
+
+      /// en translation: If you want to add sample photos, click the plus icon in the toolbar
+      ///
+      /// Locales: en, ru
+      static func customer_order_add_sample(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_order_add_sample", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_order_add_sample"
+        }
+
+        return NSLocalizedString("customer_order_add_sample", bundle: bundle, comment: "")
+      }
+
+      /// en translation: In progress
+      ///
+      /// Locales: en, ru
+      static func status_inProgress(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_inProgress", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_inProgress"
+        }
+
+        return NSLocalizedString("status_inProgress", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Including weekends
+      ///
+      /// Locales: en, ru
+      static func schedule_holidays(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_holidays", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_holidays"
+        }
+
+        return NSLocalizedString("schedule_holidays", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Information
+      ///
+      /// Locales: en, ru
+      static func settings_section_information(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_information", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_information"
+        }
+
+        return NSLocalizedString("settings_section_information", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Instagram username
+      ///
+      /// Locales: en, ru
+      static func order_instagramLink(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_instagramLink", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_instagramLink"
+        }
+
+        return NSLocalizedString("order_instagramLink", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Instagram username
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile_instagram(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile_instagram", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile_instagram"
+        }
+
+        return NSLocalizedString("settings_section_profile_instagram", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Last Name
+      ///
+      /// Locales: en, ru
+      static func portfolio_last_name(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_last_name", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_last_name"
+        }
+
+        return NSLocalizedString("portfolio_last_name", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Liked
+      ///
+      /// Locales: en, ru
+      static func customer_tabs_liked(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_tabs_liked", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_tabs_liked"
+        }
+
+        return NSLocalizedString("customer_tabs_liked", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Localization
+      ///
+      /// Locales: en, ru
+      static func settings_section_localization(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_localization", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_localization"
+        }
+
+        return NSLocalizedString("settings_section_localization", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Location
+      ///
+      /// Locales: en, ru
+      static func location(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("location", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "location"
+        }
+
+        return NSLocalizedString("location", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Location
+      ///
+      /// Locales: en, ru
+      static func order_location(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_location", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_location"
+        }
+
+        return NSLocalizedString("order_location", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Log Out
+      ///
+      /// Locales: en, ru
+      static func signOutAccBtt(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("signOutAccBtt", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "signOutAccBtt"
+        }
+
+        return NSLocalizedString("signOutAccBtt", bundle: bundle, comment: "")
+      }
+
+      /// en translation: LogOut
+      ///
+      /// Locales: en, ru
+      static func settings_section_logout(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_logout", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_logout"
+        }
+
+        return NSLocalizedString("settings_section_logout", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Love Story
+      ///
+      /// Locales: en, ru
+      static func style_photography_loveStory(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_love Story", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_love Story"
+        }
+
+        return NSLocalizedString("style_photography_love Story", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Macro
+      ///
+      /// Locales: en, ru
+      static func style_photography_macro(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_macro", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_macro"
+        }
+
+        return NSLocalizedString("style_photography_macro", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Male
+      ///
+      /// Locales: en, ru
+      static func gender_male(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("gender_male", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "gender_male"
+        }
+
+        return NSLocalizedString("gender_male", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Message
+      ///
+      /// Locales: en, ru
+      static func message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "message"
+        }
+
+        return NSLocalizedString("message", bundle: bundle, comment: "")
+      }
+
+      /// en translation: New Order
+      ///
+      /// Locales: en, ru
+      static func order_new_order(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_new_order", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_new_order"
+        }
+
+        return NSLocalizedString("order_new_order", bundle: bundle, comment: "")
+      }
+
+      /// en translation: New Schedule
+      ///
+      /// Locales: en, ru
+      static func schedule_add(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_add", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_add"
+        }
+
+        return NSLocalizedString("schedule_add", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Notification
+      ///
+      /// Locales: en, ru
+      static func settings_section_notification(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_notification", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_notification"
+        }
+
+        return NSLocalizedString("settings_section_notification", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Order for today
+      ///
+      /// Locales: en, ru
+      static func today(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("today", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "today"
+        }
+
+        return NSLocalizedString("today", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Orders
+      ///
+      /// Locales: en, ru
+      static func customer_tabs_message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_tabs_message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_tabs_message"
+        }
+
+        return NSLocalizedString("customer_tabs_message", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Password
+      ///
+      /// Locales: en, ru
+      static func password(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("password", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "password"
+        }
+
+        return NSLocalizedString("password", bundle: bundle, comment: "")
+      }
+
+      /// en translation: People
+      ///
+      /// Locales: en, ru
+      static func style_photography_people(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_people", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_people"
+        }
+
+        return NSLocalizedString("style_photography_people", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Pet
+      ///
+      /// Locales: en, ru
+      static func style_photography_pet(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_pet", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_pet"
+        }
+
+        return NSLocalizedString("style_photography_pet", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Phone
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile_phone(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile_phone", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile_phone"
+        }
+
+        return NSLocalizedString("settings_section_profile_phone", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Photographer
+      ///
+      /// Locales: en, ru
+      static func photographer(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("photographer", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "photographer"
+        }
+
+        return NSLocalizedString("photographer", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Place Order
+      ///
+      /// Locales: en, ru
+      static func place_order(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("place_order", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "place_order"
+        }
+
+        return NSLocalizedString("place_order", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please add images for Portfolio by tapping on plus icon on toolbar or on button bellow
+      ///
+      /// Locales: en, ru
+      static func portfolio_add_images(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_add_images", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_add_images"
+        }
+
+        return NSLocalizedString("portfolio_add_images", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please set up a schedule so you can be found in searches
+      ///
+      /// Locales: en, ru
+      static func portfolio_schedule(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_schedule", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_schedule"
+        }
+
+        return NSLocalizedString("portfolio_schedule", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please set up your portfolio
+      ///
+      /// Locales: en, ru
+      static func setup_your_portfolio(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("setup_your_portfolio", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "setup_your_portfolio"
+        }
+
+        return NSLocalizedString("setup_your_portfolio", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please set up your profile
+      ///
+      /// Locales: en, ru
+      static func setup_your_profile(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("setup_your_profile", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "setup_your_profile"
+        }
+
+        return NSLocalizedString("setup_your_profile", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please setup your Portfolio by tapping on pencil icon on toolbar or on button bellow
+      ///
+      /// Locales: en, ru
+      static func portfolio_setup_portfolio(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_setup_portfolio", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_setup_portfolio"
+        }
+
+        return NSLocalizedString("portfolio_setup_portfolio", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Please wait
+      ///
+      /// Locales: en, ru
+      static func portfolio_please_wait(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_please_wait", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_please_wait"
+        }
+
+        return NSLocalizedString("portfolio_please_wait", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Portfolio
+      ///
+      /// Locales: en, ru
+      static func portfolio(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio"
+        }
+
+        return NSLocalizedString("portfolio", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Portfolio
+      ///
+      /// Locales: en, ru
+      static func tabs_portfolio(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("tabs_portfolio", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "tabs_portfolio"
+        }
+
+        return NSLocalizedString("tabs_portfolio", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Portraits
+      ///
+      /// Locales: en, ru
+      static func style_photography_portraits(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_portraits", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_portraits"
+        }
+
+        return NSLocalizedString("style_photography_portraits", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Price
+      ///
+      /// Locales: en, ru
+      static func order_price(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_price", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_price"
+        }
+
+        return NSLocalizedString("order_price", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Price
+      ///
+      /// Locales: en, ru
+      static func schedule_price(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_price", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_price"
+        }
+
+        return NSLocalizedString("schedule_price", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Price per Time slot
+      ///
+      /// Locales: en, ru
+      static func schedule_price_per_slot(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_price_per_slot", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_price_per_slot"
+        }
+
+        return NSLocalizedString("schedule_price_per_slot", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Privacy
+      ///
+      /// Locales: en, ru
+      static func settings_section_privacy(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_privacy", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_privacy"
+        }
+
+        return NSLocalizedString("settings_section_privacy", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Product
+      ///
+      /// Locales: en, ru
+      static func style_photography_product(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_product", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_product"
+        }
+
+        return NSLocalizedString("style_photography_product", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static func customer_tabs_profile(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_tabs_profile", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_tabs_profile"
+        }
+
+        return NSLocalizedString("customer_tabs_profile", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile"
+        }
+
+        return NSLocalizedString("settings_section_profile", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Profile
+      ///
+      /// Locales: en, ru
+      static func tabs_profile(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("tabs_profile", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "tabs_profile"
+        }
+
+        return NSLocalizedString("tabs_profile", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Real Estate
+      ///
+      /// Locales: en, ru
+      static func style_photography_realEstate(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_real Estate", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_real Estate"
+        }
+
+        return NSLocalizedString("style_photography_real Estate", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Reservation for
+      ///
+      /// Locales: en, ru
+      static func reservation_button(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("reservation_button", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "reservation_button"
+        }
+
+        return NSLocalizedString("reservation_button", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Save
+      ///
+      /// Locales: en, ru
+      static func save(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("save", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "save"
+        }
+
+        return NSLocalizedString("save", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Save
+      ///
+      /// Locales: en, ru
+      static func schedule_save(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_save", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_save"
+        }
+
+        return NSLocalizedString("schedule_save", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Save Order
+      ///
+      /// Locales: en, ru
+      static func order_save_order(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_save_order", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_save_order"
+        }
+
+        return NSLocalizedString("order_save_order", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Search
+      ///
+      /// Locales: en, ru
+      static func customer_search(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_search", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_search"
+        }
+
+        return NSLocalizedString("customer_search", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Search photographer
+      ///
+      /// Locales: en, ru
+      static func customer_search_bar(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_search_bar", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_search_bar"
+        }
+
+        return NSLocalizedString("customer_search_bar", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select
+      ///
+      /// Locales: en, ru
+      static func gender_select(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("gender_select", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "gender_select"
+        }
+
+        return NSLocalizedString("gender_select", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select 4 genres
+      ///
+      /// Locales: en, ru
+      static func portfolio_genre_description(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_genre_description", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_genre_description"
+        }
+
+        return NSLocalizedString("portfolio_genre_description", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select a city from the list
+      ///
+      /// Locales: en, ru
+      static func portfolio_location(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_location", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_location"
+        }
+
+        return NSLocalizedString("portfolio_location", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select a date
+      ///
+      /// Locales: en, ru
+      static func order_selectDate(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_selectDate", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_selectDate"
+        }
+
+        return NSLocalizedString("order_selectDate", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select date
+      ///
+      /// Locales: en, ru
+      static func select_date(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("select_date", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "select_date"
+        }
+
+        return NSLocalizedString("select_date", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select time
+      ///
+      /// Locales: en, ru
+      static func select_time(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("select_time", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "select_time"
+        }
+
+        return NSLocalizedString("select_time", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select your gender
+      ///
+      /// Locales: en, ru
+      static func portfolio_gender(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_gender", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_gender"
+        }
+
+        return NSLocalizedString("portfolio_gender", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Settings
+      ///
+      /// Locales: en, ru
+      static func settings_name_screen(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_name_screen", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_name_screen"
+        }
+
+        return NSLocalizedString("settings_name_screen", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Setup Schedule
+      ///
+      /// Locales: en, ru
+      static func schedule_set(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_set", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_set"
+        }
+
+        return NSLocalizedString("schedule_set", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Setup portfolio
+      ///
+      /// Locales: en, ru
+      static func portfolio_setup_portfolio_btt(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_setup_portfolio_btt", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_setup_portfolio_btt"
+        }
+
+        return NSLocalizedString("portfolio_setup_portfolio_btt", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Setup schedule
+      ///
+      /// Locales: en, ru
+      static func portfolio_schedule_btn(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_schedule_btn", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_schedule_btn"
+        }
+
+        return NSLocalizedString("portfolio_schedule_btn", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Shooting details
+      ///
+      /// Locales: en, ru
+      static func order_shooting_details(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_shooting_details", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_shooting_details"
+        }
+
+        return NSLocalizedString("order_shooting_details", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Sign In
+      ///
+      /// Locales: en, ru
+      static func logIn(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("logIn", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "logIn"
+        }
+
+        return NSLocalizedString("logIn", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Sign Up
+      ///
+      /// Locales: en, ru
+      static func registration(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("registration", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "registration"
+        }
+
+        return NSLocalizedString("registration", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Sorry, no photographers found
+      ///
+      /// Locales: en, ru
+      static func customer_search_no_result(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_search_no_result", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_search_no_result"
+        }
+
+        return NSLocalizedString("customer_search_no_result", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Sports
+      ///
+      /// Locales: en, ru
+      static func style_photography_sports(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_sports", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_sports"
+        }
+
+        return NSLocalizedString("style_photography_sports", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Start Date
+      ///
+      /// Locales: en, ru
+      static func schedule_start(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_start", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_start"
+        }
+
+        return NSLocalizedString("schedule_start", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Style of photography
+      ///
+      /// Locales: en, ru
+      static func portfolio_genre(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_genre", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_genre"
+        }
+
+        return NSLocalizedString("portfolio_genre", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Take a Photo
+      ///
+      /// Locales: en, ru
+      static func takeAPhoto(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("takeAPhoto", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "takeAPhoto"
+        }
+
+        return NSLocalizedString("takeAPhoto", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Tap to open
+      ///
+      /// Locales: en, ru
+      static func tap_to_open(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("tap_to_open", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "tap_to_open"
+        }
+
+        return NSLocalizedString("tap_to_open", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Tell about yourself
+      ///
+      /// Locales: en, ru
+      static func settings_section_profile_about(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("settings_section_profile_about", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "settings_section_profile_about"
+        }
+
+        return NSLocalizedString("settings_section_profile_about", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Time interval /Hr
+      ///
+      /// Locales: en, ru
+      static func schedule_interval(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("schedule_interval", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "schedule_interval"
+        }
+
+        return NSLocalizedString("schedule_interval", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Total price
+      ///
+      /// Locales: en, ru
+      static func totalPrice(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("totalPrice", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "totalPrice"
+        }
+
+        return NSLocalizedString("totalPrice", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Total price
+      ///
+      /// Locales: en, ru
+      static func total_price(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("total_price", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "total_price"
+        }
+
+        return NSLocalizedString("total_price", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Upcoming
+      ///
+      /// Locales: en, ru
+      static func status_upcoming(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("status_upcoming", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "status_upcoming"
+        }
+
+        return NSLocalizedString("status_upcoming", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Version not available
+      ///
+      /// Locales: en, ru
+      static func version_not_available(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("version_not_available", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "version_not_available"
+        }
+
+        return NSLocalizedString("version_not_available", bundle: bundle, comment: "")
+      }
+
+      /// en translation: We are very sorry, but there are no available dates for the selected period.
+      ///
+      /// Locales: en, ru
+      static func select_date_no_dates(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("select_date_no_dates", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "select_date_no_dates"
+        }
+
+        return NSLocalizedString("select_date_no_dates", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Wedding
+      ///
+      /// Locales: en, ru
+      static func style_photography_wedding(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_wedding", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_wedding"
+        }
+
+        return NSLocalizedString("style_photography_wedding", bundle: bundle, comment: "")
+      }
+
+      /// en translation: When more than 100 photographers use our application, we will start developing the «Portfolio» service.
+      ///
+      /// Locales: en, ru
+      static func notes(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("notes", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "notes"
+        }
+
+        return NSLocalizedString("notes", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Wildlife
+      ///
+      /// Locales: en, ru
+      static func style_photography_wildlife(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("style_photography_wildlife", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "style_photography_wildlife"
+        }
+
+        return NSLocalizedString("style_photography_wildlife", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Write your contacts and additional information
+      ///
+      /// Locales: en, ru
+      static func default_message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("default_message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "default_message"
+        }
+
+        return NSLocalizedString("default_message", bundle: bundle, comment: "")
+      }
+
+      /// en translation: You currently have no active orders
+      ///
+      /// Locales: en, ru
+      static func customer_orders_worning(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_orders_worning", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_orders_worning"
+        }
+
+        return NSLocalizedString("customer_orders_worning", bundle: bundle, comment: "")
+      }
+
+      /// en translation: You don't have orders
+      ///
+      /// Locales: en, ru
+      static func order_not_found(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_not_found", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_not_found"
+        }
+
+        return NSLocalizedString("order_not_found", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Your Age
+      ///
+      /// Locales: en, ru
+      static func portfolio_age(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_age", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_age"
+        }
+
+        return NSLocalizedString("portfolio_age", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Your Login:
+      ///
+      /// Locales: en, ru
+      static func your_login(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("your_login", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "your_login"
+        }
+
+        return NSLocalizedString("your_login", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Your new orders will be here. Please set up a portfolio section so that you can be found in searches
+      ///
+      /// Locales: en, ru
+      static func order_not_found_worning(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_not_found_worning", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_not_found_worning"
+        }
+
+        return NSLocalizedString("order_not_found_worning", bundle: bundle, comment: "")
+      }
+
+      /// en translation: h
+      ///
+      /// Locales: en, ru
+      static func order_hour(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_hour", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_hour"
+        }
+
+        return NSLocalizedString("order_hour", bundle: bundle, comment: "")
+      }
+
+      /// en translation: start from
+      ///
+      /// Locales: en, ru
+      static func price_start(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("price_start", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "price_start"
+        }
+
+        return NSLocalizedString("price_start", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Сlient's last name
+      ///
+      /// Locales: en, ru
+      static func order_client_secondName(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_client_secondName", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_client_secondName"
+        }
+
+        return NSLocalizedString("order_client_secondName", bundle: bundle, comment: "")
       }
 
       fileprivate init() {}
