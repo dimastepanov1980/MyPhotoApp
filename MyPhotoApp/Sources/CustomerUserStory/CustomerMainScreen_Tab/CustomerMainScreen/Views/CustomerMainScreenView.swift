@@ -214,6 +214,7 @@ private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
     func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
         []
     }
+    func fetchLocation() async throws {}
     func getCurrentLocation() {}
     var locationResult: [DBLocationModel] = []
     var locationAuthor: String = ""

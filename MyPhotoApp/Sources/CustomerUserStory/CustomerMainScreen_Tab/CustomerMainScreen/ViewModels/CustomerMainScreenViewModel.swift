@@ -13,7 +13,8 @@ import PhotosUI
 
 @MainActor
 final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, ObservableObject {
-
+    
+    var location = LocationService()
     var searchService: SearchLocationManager
     private var cancellable: AnyCancellable?
     
@@ -56,6 +57,9 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             print("New latitude \(self.latitude)")
             print("New longitude \(self.longitude)")
         }
+    }
+    func fetchLocation() async throws {
+        try await location.requestLocation()
     }
     func checkProfileAndPortfolio() async throws {
         do {

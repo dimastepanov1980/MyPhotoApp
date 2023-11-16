@@ -21,7 +21,7 @@ protocol CustomerMainScreenViewModelType: ObservableObject {
     var selectedDate: Date { get set }
     var userProfileIsSet: Bool { get set }
 
-    
+    func fetchLocation() async throws
     func stringToURL(imageString: String) -> URL?
     func currencySymbol(for regionCode: String) -> String
     func imagePathToURL(imagePath: [String]) async throws
