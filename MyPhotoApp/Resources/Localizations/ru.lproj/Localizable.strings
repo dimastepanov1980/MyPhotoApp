@@ -7,6 +7,7 @@
 // MARK: - Common
 "registration" = "Зарегистрироваться";
 "logIn" = "Войти";
+"logIn_SignUp" = "Войдите или зарегистрируйтесь";
 "email" = "Введите Email";
 "author" = "Автор";
 "customer" = "Клиент";

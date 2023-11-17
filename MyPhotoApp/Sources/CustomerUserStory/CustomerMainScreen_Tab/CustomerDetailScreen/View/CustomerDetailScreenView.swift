@@ -41,10 +41,12 @@ struct CustomerDetailScreenView: View {
                }
                .navigationBarBackButtonHidden(true)
                .navigationBarItems(leading: customBackButton)
+               .toolbarBackground(.hidden, for: .navigationBar)
+
            }
        }
            .onAppear{
-               viewModel.getMinPrice()
+               viewModel.getMinPrice(appointmen: portfolio.appointmen)
                viewModel.createAppointments(schedule: portfolio.appointmen, startMyTripDate: startMyTripDate, bookingDays: portfolio.bookingDays ?? [:] )
                Task{
                    try await viewModel.getAvatarImage(imagePath: portfolio.avatarAuthor)
@@ -469,7 +471,7 @@ struct CustomerDetailScreenView_Previews: PreviewProvider {
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
     var startMyTrip: Date = Date()
-    func getMinPrice() {}
+    func getMinPrice(appointmen: [DbSchedule]) {}
     var avatarImage: UIImage?
     func getAvatarImage(imagePath: String) async throws {}
     var minPrice: String = ""

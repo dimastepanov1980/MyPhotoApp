@@ -25,7 +25,7 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     func sortedDate(array: [String]) -> [String]
     func isTodayDay(date: Date) -> Bool
     func isToday(date: Date) -> Bool
-    func getMinPrice()
+    func getMinPrice(appointmen: [DbSchedule])
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]])
     func getAvatarImage(imagePath: String) async throws
 

@@ -37,6 +37,8 @@ struct CustomTextField: View {
                         .foregroundColor(Color(R.color.gray4.name)),
                     alignment: .leading
                 )
+                .disableAutocorrection(true)
+                .keyboardType(.emailAddress)
                 
             }
         }

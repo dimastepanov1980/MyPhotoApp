@@ -64,24 +64,19 @@ struct CustomerPageHubView: View {
         }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
-            
             Task{
-                try await viewModel.fetchLocation()
-                if portfolio.isEmpty {
-                    viewModel.getCurrentLocation()
-                    Task {
-                        do {
-                            portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-                            print("portfolio \(portfolio)")
-                            print("viewModel.portfolio \(viewModel.portfolio)")
-                        } catch {
-                            print("Error fetching portfolio: \(error)")
-                        }
+                do{
+                    try await viewModel.fetchLocation()
+                    if portfolio.isEmpty {
+                        viewModel.getCurrentLocation()
+                        portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+                        print("portfolio \(portfolio)")
+                        print("viewModel.portfolio \(viewModel.portfolio)")
                     }
+                } catch {
+                    print("Error fetching portfolio: \(error)")
                 }
             }
-            
-
         }
         .onChange(of: viewModel.latitude) { _ in
             Task {

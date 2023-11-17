@@ -19,16 +19,15 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var appointments: [AppointmentModel] = []
     @Published var avatarImage: UIImage? = nil
     
-    func getMinPrice(){
-//        var arrayPrices: [Int] = []
-//
-//        for item in items.appointmen {
-//            if let price = Int(item.price) {
-//                arrayPrices.append(price)
-//            }
-//        }
-//        guard let minPrice = arrayPrices.min() else { return }
-//        self.minPrice = String(minPrice)
+    func getMinPrice(appointmen: [DbSchedule]){
+        var arrayPrices: [Int] = []
+        for price in appointmen {
+            if let price = Int(price.price) {
+                arrayPrices.append(price)
+            }
+        }
+        guard let minPrice = arrayPrices.min() else { return }
+        self.minPrice = String(minPrice)
       }
     
     private func setEndMyTripDate(startMyTrip: Date, endMyTrip: Int) -> Date{

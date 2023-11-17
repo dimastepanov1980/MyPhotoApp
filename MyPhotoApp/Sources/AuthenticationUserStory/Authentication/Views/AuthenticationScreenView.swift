@@ -11,22 +11,31 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
     
     @ObservedObject private var viewModel: ViewModel
 
-    @State var index : Int = 1
+    @State var index: Int = 1
+    @Binding var showAuthenticationView: Bool
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
     var width = UIScreen.main.bounds.size.width
     var height = UIScreen.main.bounds.size.height
     
-    init(with viewModel: ViewModel) {
+    init(with viewModel: ViewModel,
+         showAuthenticationView: Binding<Bool>) {
         self.viewModel = viewModel
+        self._showAuthenticationView = showAuthenticationView
     }
     
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
-                Image(R.image.image_logo.name)
-                    .padding(.top, height / 8)
-                Spacer()
-                TabName(index: self.$index, offset: self.$offsetWidth)
+                VStack{
+                    Image(R.image.ic_logo.name)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 80)
+                        .offset(x: -2)
+                        .padding(.bottom)
+
+                    TabName(index: self.$index, offset: self.$offsetWidth)
+                }
                     .padding(.top, height / 9)
                 
                 HStack(alignment: .top, spacing: 0) {
@@ -79,6 +88,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                 }
                 .padding(.top, 32)
                 .offset(x: index == 1 ? width / 2 : -width / 2)
+                
             }
             Spacer()
                 Button {
@@ -89,8 +99,32 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                     Text(R.string.localizable.forgotPss())
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray3.name))
-                }.padding(.bottom, 80)
+                }
+                .padding(.bottom, 100)
             
+            
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                ZStack{
+                    HStack{
+                        Spacer()
+                        Button {
+                            showAuthenticationView = false
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(.white, Color(R.color.gray3.name))
+                                .font(.title2)
+                                .padding(.trailing)
+                        }
+                    }
+                    Text(R.string.localizable.logIn_SignUp())
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.gray3.name))
+                    
+                }.padding(.top)
+            }
         }
         .onAppear {
             Task {
@@ -176,6 +210,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                         try await action()
                     }
                 }
+                         .padding(.bottom)
             }
         }
     }
@@ -228,7 +263,7 @@ struct AuthenticationScreenView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationStack {
-            AuthenticationScreenView(with: modelMock)
+            AuthenticationScreenView(with: modelMock, showAuthenticationView: .constant(true))
         }
     }
 }

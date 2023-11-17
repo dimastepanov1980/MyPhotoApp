@@ -25,9 +25,15 @@ struct RootScreenView: View {
             }
         }
         .sheet(isPresented: $showAuthenticationView, content: {
-            AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer))
+            NavigationStack{
+                VStack{
+                    AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer), showAuthenticationView: $showAuthenticationView)
+                }
+            }
+           
 
         })
+
     }
 }
 

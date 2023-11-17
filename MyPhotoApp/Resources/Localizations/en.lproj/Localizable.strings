@@ -7,6 +7,7 @@
 // MARK: - Common
 "registration" = "Sign Up";
 "logIn" = "Sign In";
+"logIn_SignUp" = "Log in or Sign up";
 "author" = "I'm Author";
 "customer" = "I'm Customer";
 "email" = "Email address";

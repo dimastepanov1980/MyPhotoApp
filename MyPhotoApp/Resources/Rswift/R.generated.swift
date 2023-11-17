@@ -411,7 +411,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.image` struct is generated, and contains static references to 12 images.
+  /// This `R.image` struct is generated, and contains static references to 13 images.
   struct image {
     /// Image `ic_arial`.
     static let ic_arial = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_arial")
@@ -425,6 +425,8 @@ struct R: Rswift.Validatable {
     static let ic_filter = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_filter")
     /// Image `ic_instagram`.
     static let ic_instagram = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_instagram")
+    /// Image `ic_logo`.
+    static let ic_logo = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_logo")
     /// Image `ic_time`.
     static let ic_time = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_time")
     /// Image `ic_weater`.
@@ -481,6 +483,13 @@ struct R: Rswift.Validatable {
     #endif
 
     #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "ic_logo", bundle: ..., traitCollection: ...)`
+    static func ic_logo(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.ic_logo, compatibleWith: traitCollection)
+    }
+    #endif
+
+    #if os(iOS) || os(tvOS)
     /// `UIImage(named: "ic_time", bundle: ..., traitCollection: ...)`
     static func ic_time(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.ic_time, compatibleWith: traitCollection)
@@ -527,7 +536,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 140 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 141 localization keys.
     struct localizable {
       /// en translation: About your self
       ///
@@ -773,6 +782,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let signOutAccBtt = Rswift.StringResource(key: "signOutAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Log in or Sign up
+      ///
+      /// Locales: en, ru
+      static let logIn_SignUp = Rswift.StringResource(key: "logIn_SignUp", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: LogOut
       ///
       /// Locales: en, ru
@@ -2003,6 +2016,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("signOutAccBtt", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Log in or Sign up
+      ///
+      /// Locales: en, ru
+      static func logIn_SignUp(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("logIn_SignUp", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "logIn_SignUp"
+        }
+
+        return NSLocalizedString("logIn_SignUp", bundle: bundle, comment: "")
       }
 
       /// en translation: LogOut
