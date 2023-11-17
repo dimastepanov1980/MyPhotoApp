@@ -31,6 +31,25 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                 }) {
                     Text(R.string.localizable.schedule_add())
                         .foregroundColor(Color(R.color.gray1.name))
+                    
+                    Text("""
+                                               Add new schedules for one week, one or few months or any long period. For Example: if you want allow bookig for morning 8:00 AM - 10:00 AM and evning 04:00 PM - 06:00 PM make two same schedules with different time:
+                                               
+                                               Start Date: 01 Nov 2023 08:00 AM
+                                               End Date: 31 Dec 2023 10:00 AM
+                                               Time Interval:  1h
+                                               Price: 100 (set price in local curuncy)
+                                               and
+                                               
+                                               Start Date: 01 Nov 2023 04:00 PM
+                                               End Date: 31 Dec 2023 06:00 PM
+                                               Time Interval:  1h
+                                               Price: 100 (set price in local curuncy)
+                                               """)
+                                           .font(.caption)
+                                           .foregroundColor(Color(R.color.gray3.name))
+                                           .multilineTextAlignment(.leading)
+
 
                 }
             }
@@ -39,7 +58,7 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                     Button(R.string.localizable.save()) {
                         Task {
                             try await viewModel.setSchedule(schedules: viewModel.schedules)
-                            showScheduleView.toggle()
+                            showScheduleView = false
                         }
                     }
                     .foregroundColor(Color(R.color.gray2.name))
