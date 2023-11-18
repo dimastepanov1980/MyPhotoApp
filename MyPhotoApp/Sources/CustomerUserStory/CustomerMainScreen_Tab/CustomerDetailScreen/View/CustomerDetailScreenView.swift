@@ -45,11 +45,10 @@ struct CustomerDetailScreenView: View {
                    .navigationBarItems(leading: customBackButton)
                    .toolbarBackground(.hidden, for: .navigationBar)
                    .onChange(of: viewModel.selectedDay) { _ in
-                       if let dataChange = viewModel.selectedDay?.description.last {
                            withAnimation {
                                proxy.scrollTo(timeID)
                            }
-                       }
+
                    }
            }
            
