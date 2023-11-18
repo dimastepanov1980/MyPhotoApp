@@ -13,36 +13,46 @@ struct CustomerDetailScreenView: View {
     var startMyTripDate: Date
     @State private var currentStep = 0
     @State var showOrderConfirm: Bool = false
+    @Namespace var timeID
     @Environment(\.dismiss) private var dismiss
 
     @State var orderDescription: String = R.string.localizable.default_message()
 
    var body: some View {
        NavigationStack{
-           ScrollView(showsIndicators: false){
-               VStack{
-                   ParallaxHeader{
-                       TabView(selection: $currentStep) {
-                           ForEach(portfolio.smallImagesPortfolio.indices, id: \.self) { index in
-                               NavigationLink {
-                                   PortfolioDetailScreenView(images: portfolio.smallImagesPortfolio)
-                               } label: {
-                                   AsyncImageView(imagePath: portfolio.smallImagesPortfolio[index])
+           ScrollViewReader { proxy in
+               ScrollView(showsIndicators: false){
+                   VStack{
+                       ParallaxHeader{
+                           TabView(selection: $currentStep) {
+                               ForEach(portfolio.smallImagesPortfolio.indices, id: \.self) { index in
+                                   NavigationLink {
+                                       PortfolioDetailScreenView(images: portfolio.smallImagesPortfolio)
+                                   } label: {
+                                       AsyncImageView(imagePath: portfolio.smallImagesPortfolio[index])
+                                   }
+                                   
                                }
-                               
+                           }
+                       }
+                       .tabViewStyle(.page(indexDisplayMode: .never))
+                       .frame(height: 350)
+                       Spacer()
+                       bottomSheet
+                           .offset(y: -110)
+                   }
+                   .navigationBarBackButtonHidden(true)
+                   .navigationBarItems(leading: customBackButton)
+                   .toolbarBackground(.hidden, for: .navigationBar)
+                   .onChange(of: viewModel.selectedDay) { _ in
+                       if let dataChange = viewModel.selectedDay?.description.last {
+                           withAnimation {
+                               proxy.scrollTo(timeID)
                            }
                        }
                    }
-                   .tabViewStyle(.page(indexDisplayMode: .never))
-                   .frame(height: 350)
-                   Spacer()
-                   bottomSheet
-                       .offset(y: -110)
-               }
-               .navigationBarBackButtonHidden(true)
-               .navigationBarItems(leading: customBackButton)
-               .toolbarBackground(.hidden, for: .navigationBar)
-
+           }
+           
            }
        }
            .onAppear{
@@ -97,7 +107,6 @@ struct CustomerDetailScreenView: View {
                                }
                            } else {
                                
-                               //                      TODO: - change price property form Schedule
                                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
                                    showOrderConfirm.toggle()
                                    
@@ -196,10 +205,14 @@ struct CustomerDetailScreenView: View {
                 }
                 Divider()
             }
+            if !portfolio.descriptionAuthor.isEmpty {
+                
                 Text(portfolio.descriptionAuthor)
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray2.name))
-                
+            Divider()
+            }
+               
         }
         .padding(.top, 24)
 
@@ -208,7 +221,7 @@ struct CustomerDetailScreenView: View {
         VStack(alignment: .leading, spacing: 6){
             
             Group {
-                Divider()
+                
                 Text(R.string.localizable.select_date())
                     .font(.caption2)
                     .foregroundColor(Color(R.color.gray3.name))
@@ -286,7 +299,9 @@ struct CustomerDetailScreenView: View {
                 spacing: 6,
                 alignment: .leading) { time in
                     tagTime(time: time)
+                       
                 }
+                .id(timeID)
               }
                 
             }
