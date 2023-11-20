@@ -10,9 +10,10 @@ import SwiftUI
 
 @MainActor
 protocol CustomerConfirmOrderViewModelType: ObservableObject {
-    var user: DBUserModel? { get }
-    var customerFirstName: String { get }
-    var customerSecondName: String { get }
+    var showAuthenticationCustomerView: Bool { get set }
+    var user: DBUserModel? { get set }
+    var customerFirstName: String { get set }
+    var customerSecondName: String { get set }
     var customerInstagramLink: String { get set }
     var customerPhone: String { get set }
     var customerEmail: String { get set }

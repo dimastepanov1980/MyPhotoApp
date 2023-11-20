@@ -23,6 +23,7 @@
 "delete_user_allert" = "Deleting account will delete all your information in this App. Are you sure you want to continue?";
 "cancel" = "Cancel";
 "delete_user_password" = "For delete account enter your current password";
+"signup_to_continue" = "Sign up to continue";
 
 // MARK: - Main Screen
 "today" = "Order for today";
@@ -72,6 +73,8 @@
 "settings_name_screen" = "Settings";
 "settings_section_profile" = "Profile";
 "settings_section_profile_about" = "Tell about yourself";
+"settings_section_profile_firstName" = "Name";
+"settings_section_profile_lastName" = "Last name";
 "settings_section_profile_email" = "Email";
 "settings_section_profile_phone" = "Phone";
 "settings_section_profile_instagram" = "Instagram username";
@@ -109,7 +112,7 @@
 "place_order" = "Place Order";
 "customer_order_add_sample" = "If you want to add sample photos,\nclick the plus icon in the toolbar";  
 "photographer" = "Photographer";
-"customer" = "Customer";
+"about_customer" = "About Me";
 "message" = "Message";
 "total_price" = "Total price";
 "contact_information" = "Contact information";

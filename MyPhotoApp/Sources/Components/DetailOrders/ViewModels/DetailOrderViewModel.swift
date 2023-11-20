@@ -142,8 +142,3 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
 
 
 }
-
-enum DetailOrder {
-    case customer
-    case author
-}

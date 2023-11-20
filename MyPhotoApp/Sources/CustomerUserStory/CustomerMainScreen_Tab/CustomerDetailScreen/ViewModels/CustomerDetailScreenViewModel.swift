@@ -29,8 +29,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         guard let minPrice = arrayPrices.min() else { return }
         self.minPrice = String(minPrice)
       }
-    
-    private func setEndMyTripDate(startMyTrip: Date, endMyTrip: Int) -> Date{
+    func setEndMyTripDate(startMyTrip: Date, endMyTrip: Int) -> Date{
         let today = startMyTrip
         let calendar = Calendar.current
         guard let endMyTripDate = calendar.date(byAdding: .day, value: endMyTrip, to: today) else { return Date()}

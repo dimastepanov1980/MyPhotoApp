@@ -11,7 +11,9 @@ import SwiftUI
 @MainActor
 final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     
-    @Published var user: DBUserModel?
+    @Published var showAuthenticationCustomerView: Bool = false
+
+    var user: DBUserModel?
     @Published var customerFirstName: String
     @Published var customerSecondName: String
     
@@ -55,15 +57,23 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         }
     }
     func getCustomerData() async throws{
-        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
-        let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
-        self.customerFirstName = customer.firstName ?? ""
-        self.customerSecondName = customer.secondName ?? ""
-        self.customerInstagramLink = customer.instagramLink ?? ""
-        self.customerEmail = customer.email ?? ""
-        self.customerPhone = customer.phone ?? ""
+        do {
+            let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+            let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
+            self.customerFirstName = customer.firstName ?? ""
+            self.customerSecondName = customer.secondName ?? ""
+            self.customerInstagramLink = customer.instagramLink ?? ""
+            self.customerEmail = customer.email ?? ""
+            self.customerPhone = customer.phone ?? ""
+            self.showAuthenticationCustomerView = false
+            print("User is existing")
+            
+        } catch {
+            self.showAuthenticationCustomerView = true
+            print("need to registration: \(showAuthenticationCustomerView)")
+        }
+ 
     }
-
     func createNewOrder() async throws {
         var successBooking: Bool = false
         let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()

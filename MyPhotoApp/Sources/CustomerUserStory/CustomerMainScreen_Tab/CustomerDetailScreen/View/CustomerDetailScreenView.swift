@@ -109,15 +109,6 @@ struct CustomerDetailScreenView: View {
                                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
                                    showOrderConfirm.toggle()
                                    
-                               }.fullScreenCover(isPresented: $showOrderConfirm) {
-                                   
-                                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
-                                    author: portfolio,
-                                    orderDate: viewModel.selectedDay ?? Date(),
-                                    orderTime: viewModel.selectedTime,
-                                    orderDuration: String(viewModel.selectedTime.count),
-                                    orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
-                                                            showOrderConfirm: $showOrderConfirm)
                                }
                            }
                        } else {
@@ -126,10 +117,23 @@ struct CustomerDetailScreenView: View {
                            }
                        }
                    }
-               }.padding(.top, 4)
-                   .background(Color(R.color.gray7.name))
+               }
+               .padding(.top, 4)
+               .background(Color(R.color.gray7.name))
            }
            .background(Color(R.color.gray7.name))
+           .fullScreenCover(isPresented: $showOrderConfirm) {
+               NavigationStack{
+                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
+                    author: portfolio,
+                    orderDate: viewModel.selectedDay ?? Date(),
+                    orderTime: viewModel.selectedTime,
+                    orderDuration: String(viewModel.selectedTime.count),
+                    orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
+                                            showOrderConfirm: $showOrderConfirm)
+               }
+           }
+       
     }
     private var customBackButton : some View {
         Button {

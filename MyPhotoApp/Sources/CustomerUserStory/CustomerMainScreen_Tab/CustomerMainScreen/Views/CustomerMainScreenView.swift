@@ -9,9 +9,10 @@ import SwiftUI
 
 struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
+    @EnvironmentObject var router: Router<PathToRouter>
+
     var portfolio: [AuthorPortfolioModel]
 
-    
     @Namespace var filterspace: Namespace.ID
     @Binding var searchPageShow: Bool
     @State var onlyFemale: Bool = false

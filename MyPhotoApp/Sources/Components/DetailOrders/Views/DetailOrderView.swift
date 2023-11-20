@@ -13,7 +13,7 @@ import UniformTypeIdentifiers
 struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-    var detailOrderType: DetailOrder
+    var detailOrderType: UserType
 
     @State private var showingOptions = false
     @State private var randomHeights: [CGFloat] = []
@@ -33,7 +33,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
 
     init(with viewModel: ViewModel,
          showEditOrderView: Binding<Bool>,
-         detailOrderType: DetailOrder) {
+         detailOrderType: UserType) {
         self.viewModel = viewModel
         self._showEditOrderView = showEditOrderView
         self.detailOrderType = detailOrderType

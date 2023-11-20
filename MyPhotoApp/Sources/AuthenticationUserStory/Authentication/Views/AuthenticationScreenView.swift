@@ -37,58 +37,56 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                     TabName(index: self.$index, offset: self.$offsetWidth)
                 }
                     .padding(.top, height / 9)
-                
-                HStack(alignment: .top, spacing: 0) {
-                    CustomerTab(
-                        email: Binding<String>(
-                            get: { viewModel.custmerEmail },
-                            set: { viewModel.setCustmerEmail($0) }),
-                        password: Binding<String>(
-                            get: { viewModel.custmerPassword },
-                            set: { viewModel.setCustmerPassword($0) }),
-                        errorMassage: viewModel.custmerErrorMessage) {
-                            if !viewModel.custmerEmail.isEmpty && !viewModel.custmerPassword.isEmpty {
-                                self.viewModel.userIsCustomer = true
-                                Task {
-                                    do {
-                                        try await viewModel.authenticationCustomer()
-                                        self.viewModel.showAuthenticationView = false
-                                        return
-                                    } catch {
-                                        self.viewModel.custmerErrorMessage = error.localizedDescription
+                    HStack(alignment: .top, spacing: 0) {
+                        CustomerTab(
+                            email: Binding<String>(
+                                get: { viewModel.custmerEmail },
+                                set: { viewModel.setCustmerEmail($0) }),
+                            password: Binding<String>(
+                                get: { viewModel.custmerPassword },
+                                set: { viewModel.setCustmerPassword($0) }),
+                            errorMassage: viewModel.custmerErrorMessage) {
+                                if !viewModel.custmerEmail.isEmpty && !viewModel.custmerPassword.isEmpty {
+                                    self.viewModel.userIsCustomer = true
+                                    Task {
+                                        do {
+                                            try await viewModel.authenticationCustomer()
+                                            self.viewModel.showAuthenticationView = false
+                                            return
+                                        } catch {
+                                            self.viewModel.custmerErrorMessage = error.localizedDescription
+                                        }
                                     }
                                 }
                             }
-                        }
-                        .frame(width: width)
-                    
-                    AuthoTab(
-                        email: Binding<String>(
-                            get: { viewModel.authorEmail },
-                            set: { viewModel.setAuthorEmail($0) }),
-                        password: Binding<String>(
-                            get: { viewModel.authorPassword },
-                            set: { viewModel.setAuthorPassword($0) }),
-                        errorMassage: viewModel.authorErrorMessage) {
-                            if !viewModel.authorEmail.isEmpty && !viewModel.authorPassword.isEmpty {
-                                self.viewModel.userIsCustomer = false
-                                Task {
-                                    do {
-                                        try await viewModel.authenticationAuthor()
-                                        self.viewModel.showAuthenticationView = false
-                                        return
-                                    } catch {
-                                        self.viewModel.authorErrorMessage = error.localizedDescription
+                            .frame(width: width)
+                        
+                        AuthoTab(
+                            email: Binding<String>(
+                                get: { viewModel.authorEmail },
+                                set: { viewModel.setAuthorEmail($0) }),
+                            password: Binding<String>(
+                                get: { viewModel.authorPassword },
+                                set: { viewModel.setAuthorPassword($0) }),
+                            errorMassage: viewModel.authorErrorMessage) {
+                                if !viewModel.authorEmail.isEmpty && !viewModel.authorPassword.isEmpty {
+                                    self.viewModel.userIsCustomer = false
+                                    Task {
+                                        do {
+                                            try await viewModel.authenticationAuthor()
+                                            self.viewModel.showAuthenticationView = false
+                                            return
+                                        } catch {
+                                            self.viewModel.authorErrorMessage = error.localizedDescription
+                                        }
                                     }
                                 }
                             }
-                        }
-                        .frame(width: width)
-                    
-                }
-                .padding(.top, 32)
-                .offset(x: index == 1 ? width / 2 : -width / 2)
-                
+                            .frame(width: width)
+                        
+                    }
+                    .padding(.top, 32)
+                    .offset(x: index == 1 ? width / 2 : -width / 2)
             }
             Spacer()
                 Button {
@@ -245,11 +243,12 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
              
                 Spacer()
                 CustomButtonXl(titleText: R.string.localizable.author_login(),
-                         iconName: "camera.aperture") {
+                               iconName: "camera.aperture") {
                     Task {
                         try await action()
                     }
                 }
+                               .padding(.bottom)
             }
         }
     }

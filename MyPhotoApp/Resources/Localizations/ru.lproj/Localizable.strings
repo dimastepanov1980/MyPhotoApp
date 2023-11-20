@@ -23,6 +23,7 @@
 "delete_user_allert" = "Удаление учетной записи приведет к удалению всей вашей информации в этом приложении.\nВы уверены, что хотите продолжить?";
 "cancel" = "Отменить";
 "delete_user_password" =  "Для удаления вашей учетной записи, введите текущий пароль";
+"signup_to_continue" = "Зарегистрируйтесь";
 
 // MARK: - Main Screen
 "today" = "Заказы на сегодня";
@@ -70,6 +71,8 @@
 "settings_name_screen" = "Настройка";
 "settings_section_profile" = "Профиль";
 "settings_section_profile_about" = "Расскажи о себе";
+"settings_section_profile_firstName" = "Имя";
+"settings_section_profile_lastName" = "Фамилия";
 "settings_section_profile_email" = "Почта";
 "settings_section_profile_phone" = "Телефон";
 "settings_section_profile_instagram" = "Имя Instagram";
@@ -109,6 +112,7 @@
 "contact_information" = "Контакты";
 "tap_to_open" = "Нажмите, чтобы открыть";
 "copied" = "Скопировано!";
+"about_customer" = "О себе";
 "date_detail" = "Дата, время, продолжительность";
 "location" = "Местоположение";
 "customer_order_add_sample" = "Если вы хотите добавить образцы фотографий,\nщелкните значок плюса на панели инструментов";

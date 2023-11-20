@@ -49,9 +49,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
         .scrollContentBackground(.hidden)
         .tint(.black)
     }
-   
 
-    
     @ViewBuilder
     private func viewForSettingItem(_ item: SettingItem) -> some View {
 

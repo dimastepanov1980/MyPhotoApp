@@ -18,58 +18,80 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
         self._showOrderConfirm = showOrderConfirm
     }
     var body: some View {
-        HStack(alignment: .top) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    customerSection
-                        .padding(.bottom)
-                    authorSection
-                    locationSection
-                    dateSection
-                    priceSection
-                    messageSection
-                    Spacer()
-                }.padding(.top, 80)
-                
-            }.scrollIndicators(.hidden)
-            .padding(.horizontal, 24)
-            .safeAreaInset(edge: .bottom) {
-                CustomButtonXl(titleText: R.string.localizable.place_order(), iconName: "camera.on.rectangle") {
-                    self.viewModel.orderDescription = orderDescription
-                    Task{
-                        try await viewModel.createNewOrder()
+        NavigationStack{
+            HStack(alignment: .top) {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 12){
+                                authorSection
+                                locationSection
+                                dateSection
+                                priceSection
+                                    .padding(.bottom, 24)
+                            }
+                        customerSection
+                        messageSection
+                        Spacer()
+                    }
+                    .padding(.top)
+                    
+                }
+                .scrollIndicators(.hidden)
+                .padding(.horizontal, 24)
+                .safeAreaInset(edge: .bottom) {
+                    let customerIsFilled = !viewModel.customerFirstName.isEmpty && !viewModel.customerSecondName.isEmpty &&
+                    !viewModel.customerInstagramLink.isEmpty && !viewModel.customerPhone.isEmpty
+                    
+                    CustomButtonXl(titleText: customerIsFilled ? R.string.localizable.place_order() : R.string.localizable.signup_to_continue(), iconName: "camera.on.rectangle") {
+                        self.viewModel.orderDescription = orderDescription
+                        if customerIsFilled {
+                            Task{
+                                try await viewModel.createNewOrder()
+                                showOrderConfirm.toggle()
+                            }
+                        }
+                    }
+                    .disabled(!customerIsFilled)
+                    .opacity(!customerIsFilled ? 0.5 : 1)
+                }
+                .overlay(alignment: .topTrailing) {
+                    
+                    Button {
                         showOrderConfirm.toggle()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.white, Color(R.color.gray3.name))
+                            .font(.largeTitle)
+                            .padding(.trailing)
                     }
                 }
             }
-            .overlay(alignment: .topTrailing) {
-                
-                Button {
-                    showOrderConfirm.toggle()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.white, Color(R.color.gray3.name))
-                        .font(.largeTitle)
-                        .padding(.trailing)
+            .navigationDestination(isPresented: $viewModel.showAuthenticationCustomerView) {
+                NavigationStack{
+                    AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $viewModel.showAuthenticationCustomerView, userIsCustomer: .constant(true)))
+                }
+
+            }
+            .onChange(of: viewModel.showAuthenticationCustomerView) { _ in
+                Task{
+                    try await viewModel.getCustomerData()
                 }
             }
-            Spacer()
         }
     }
     
     private var customerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-                VStack(alignment: .leading) {
-                    Text(R.string.localizable.customer())
-                        .font(.caption2)
-                        .foregroundColor(Color(R.color.gray4.name))
-                    Text("\(viewModel.customerFirstName) \(viewModel.customerSecondName)")
-                        .font(.title2.bold())
-                        .foregroundColor(Color(R.color.gray2.name))
-                }
+            Text(R.string.localizable.about_customer())
+                .font(.title2.bold())
+                .foregroundColor(Color(R.color.gray2.name))
+            
+            textField(fieldName: R.string.localizable.settings_section_profile_firstName(), propertyName: $viewModel.customerFirstName)
+            textField(fieldName: R.string.localizable.settings_section_profile_lastName(), propertyName: $viewModel.customerSecondName)
             textField(fieldName: R.string.localizable.settings_section_profile_instagram(), propertyName: $viewModel.customerInstagramLink)
-                textField(fieldName: R.string.localizable.settings_section_profile_phone(), propertyName: $viewModel.customerPhone)
-                textField(fieldName: R.string.localizable.settings_section_profile_email(), propertyName: $viewModel.customerEmail)
+            textField(fieldName: R.string.localizable.settings_section_profile_phone(), propertyName: $viewModel.customerPhone)
+            textField(fieldName: R.string.localizable.settings_section_profile_email(), propertyName: $viewModel.customerEmail)
+                .disabled(true)
             
             
         }
@@ -194,6 +216,8 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject {
+    var showAuthenticationCustomerView: Bool = false
+    
     var authorBookingDays: [String : [String]] = [:]
     var user: DBUserModel? = nil
     var customerFirstName: String = "customerName"
