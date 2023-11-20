@@ -7,7 +7,32 @@
 
 import Foundation
 
-struct AuthorPortfolioModel {
+struct AuthorPortfolioModel: Hashable {
+    
+    func hash(into hasher: inout Hasher) {
+         // Use properties that uniquely identify an instance to create a hash value
+         hasher.combine(id)
+         hasher.combine(avatarAuthor)
+         hasher.combine(smallImagesPortfolio)
+         hasher.combine(largeImagesPortfolio)
+         hasher.combine(descriptionAuthor)
+         hasher.combine(appointmen)
+         hasher.combine(bookingDays)
+         // Add more properties as needed for a unique hash
+     }
+
+     static func == (lhs: AuthorPortfolioModel, rhs: AuthorPortfolioModel) -> Bool {
+         // Your existing equality implementation
+         return lhs.id == rhs.id &&
+             lhs.avatarAuthor == rhs.avatarAuthor &&
+             lhs.smallImagesPortfolio == rhs.smallImagesPortfolio &&
+             lhs.largeImagesPortfolio == rhs.largeImagesPortfolio &&
+             lhs.descriptionAuthor == rhs.descriptionAuthor &&
+             lhs.appointmen == rhs.appointmen &&
+             lhs.bookingDays == rhs.bookingDays
+         // Add more comparisons as needed
+     }
+    
     let id: String
     let author: DBAuthor?
     let avatarAuthor: String

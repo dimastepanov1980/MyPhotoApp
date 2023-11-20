@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class Router<T: Hashable>: ObservableObject {
     @Published var paths: [T] = []
@@ -32,6 +33,5 @@ final class Router<T: Hashable>: ObservableObject {
 }
 
 enum PathToRouter {
-    case CustomerRootView
     case AuthorRootView
 }

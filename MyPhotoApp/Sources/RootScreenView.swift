@@ -10,17 +10,19 @@ import SwiftUI
 struct RootScreenView: View {
     @State private var showAuthenticationView: Bool = true
     @State private var userIsCustomer: Bool = true
+    @State var path = NavigationPath()
 
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
     var body: some View {
-        ZStack {
-            
-            if !showAuthenticationView {
-                if !userIsCustomer {
-                    AuthorHubPageView(showAuthenticationView: $showAuthenticationView)
-                } else {
-                    CustomerPageHubView(showAuthenticationView: $showAuthenticationView)
+        NavigationStack(path: $path){
+            ZStack {
+                if !showAuthenticationView {
+                    if !userIsCustomer {
+                        AuthorHubPageView(showAuthenticationView: $showAuthenticationView)
+                    } else {
+                        CustomerPageHubView(showAuthenticationView: $showAuthenticationView, path: $path)
+                    }
                 }
             }
         }

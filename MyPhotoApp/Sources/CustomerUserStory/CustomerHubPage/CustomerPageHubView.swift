@@ -13,6 +13,7 @@ struct CustomerPageHubView: View {
     @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: .constant(false))
 
     @Binding var showAuthenticationView: Bool
+    @Binding var path: NavigationPath
 
     @State private var userProfileIsSet: Bool = false
     @State private var profileIsShown: Bool = false
@@ -31,7 +32,7 @@ struct CustomerPageHubView: View {
                                 .ignoresSafeArea(.all)
                             ProgressView("Loading...")
                         } else {
-                            CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation, portfolio: portfolio)
+                            CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation, path: $path, portfolio: portfolio)
                         }
                     }
                 case 1:
@@ -95,6 +96,6 @@ struct CustomerPageHubView: View {
 
 struct CustomerPageHubView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerPageHubView(showAuthenticationView: .constant(false))
+        CustomerPageHubView(showAuthenticationView: .constant(false), path: .constant(NavigationPath()))
     }
 }

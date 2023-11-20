@@ -11,15 +11,14 @@ struct CustomerDetailScreenView: View {
     @ObservedObject var viewModel: CustomerDetailScreenViewModel = CustomerDetailScreenViewModel()
     var portfolio: AuthorPortfolioModel
     var startMyTripDate: Date
+    @Binding var path: NavigationPath
     @State private var currentStep = 0
     @State var showOrderConfirm: Bool = false
     @Namespace var timeID
-    @Environment(\.dismiss) private var dismiss
-
     @State var orderDescription: String = R.string.localizable.default_message()
 
    var body: some View {
-       NavigationStack{
+//       NavigationStack{
            ScrollViewReader { proxy in
                ScrollView(showsIndicators: false){
                    VStack{
@@ -53,7 +52,7 @@ struct CustomerDetailScreenView: View {
            }
            
            }
-       }
+//       }
            .onAppear{
                viewModel.getMinPrice(appointmen: portfolio.appointmen)
                viewModel.createAppointments(schedule: portfolio.appointmen, startMyTripDate: startMyTripDate, bookingDays: portfolio.bookingDays ?? [:] )
@@ -137,11 +136,15 @@ struct CustomerDetailScreenView: View {
     }
     private var customBackButton : some View {
         Button {
-            dismiss()
+            path.removeLast()
+//            dismiss()
         } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
-               .font(.title)
-               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+            HStack{
+                Image(systemName: "chevron.left.circle.fill")// set image here
+                    .font(.title)
+                    .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+           
+            }
         }
     }
     private struct ParallaxHeader<Content: View>: View {
@@ -484,7 +487,7 @@ private struct RoundedCorner: Shape {
 struct CustomerDetailScreenView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
     static var previews: some View {
-        CustomerDetailScreenView(portfolio: mocItems.items, startMyTripDate: Date())
+        CustomerDetailScreenView(portfolio: mocItems.items, startMyTripDate: Date(), path: .constant(NavigationPath()))
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
