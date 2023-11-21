@@ -14,11 +14,12 @@ struct CustomerDetailScreenView: View {
     @Binding var path: NavigationPath
     @State private var currentStep = 0
     @State var showOrderConfirm: Bool = false
+    @State var appointments: [AppointmentModel] = []
+    @State var minPrice: String = ""
     @Namespace var timeID
     @State var orderDescription: String = R.string.localizable.default_message()
 
    var body: some View {
-//       NavigationStack{
            ScrollViewReader { proxy in
                ScrollView(showsIndicators: false){
                    VStack{
@@ -26,7 +27,7 @@ struct CustomerDetailScreenView: View {
                            TabView(selection: $currentStep) {
                                ForEach(portfolio.smallImagesPortfolio.indices, id: \.self) { index in
                                    NavigationLink {
-                                       PortfolioDetailScreenView(images: portfolio.smallImagesPortfolio)
+                                       PortfolioDetailScreenView(images: portfolio.smallImagesPortfolio, path: $path)
                                    } label: {
                                        AsyncImageView(imagePath: portfolio.smallImagesPortfolio[index])
                                    }
@@ -52,14 +53,13 @@ struct CustomerDetailScreenView: View {
            }
            
            }
-//       }
            .onAppear{
-               viewModel.getMinPrice(appointmen: portfolio.appointmen)
-               viewModel.createAppointments(schedule: portfolio.appointmen, startMyTripDate: startMyTripDate, bookingDays: portfolio.bookingDays ?? [:] )
+               getMinPrice(appointmen: portfolio.appointmen)
+               createAppointments(schedule: portfolio.appointmen, startMyTripDate: startMyTripDate, bookingDays: portfolio.bookingDays ?? [:] )
                Task{
                    try await viewModel.getAvatarImage(imagePath: portfolio.avatarAuthor)
-                 
                }
+               print("myPathCount\(path.count)")
            }
            .safeAreaInset(edge: .bottom) {
                VStack{
@@ -121,6 +121,7 @@ struct CustomerDetailScreenView: View {
                .background(Color(R.color.gray7.name))
            }
            .background(Color(R.color.gray7.name))
+
            .fullScreenCover(isPresented: $showOrderConfirm) {
                NavigationStack{
                    CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
@@ -129,7 +130,7 @@ struct CustomerDetailScreenView: View {
                     orderTime: viewModel.selectedTime,
                     orderDuration: String(viewModel.selectedTime.count),
                     orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
-                                            showOrderConfirm: $showOrderConfirm)
+                                            showOrderConfirm: $showOrderConfirm, path: $path)
                }
            }
        
@@ -137,7 +138,6 @@ struct CustomerDetailScreenView: View {
     private var customBackButton : some View {
         Button {
             path.removeLast()
-//            dismiss()
         } label: {
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
@@ -186,7 +186,7 @@ struct CustomerDetailScreenView: View {
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
                         
-                        Text("\(viewModel.minPrice) \(viewModel.currencySymbol(for: portfolio.author?.regionAuthor ?? "$"))")
+                        Text("\(minPrice) \(viewModel.currencySymbol(for: portfolio.author?.regionAuthor ?? "$"))")
                             .font(.headline)
                             .foregroundColor(Color(R.color.gray2.name))
                         
@@ -233,11 +233,11 @@ struct CustomerDetailScreenView: View {
                     .foregroundColor(Color(R.color.gray3.name))
             }
             .padding(.horizontal, 24)
-            if !viewModel.appointments.isEmpty{
+            if !appointments.isEmpty{
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .bottom, spacing: 8 ) {
                     
-                        ForEach(viewModel.appointments, id: \.date) { appointment in
+                        ForEach(appointments, id: \.date) { appointment in
                             VStack{
                                 VStack(alignment: .center, spacing: 2) {
                                     Text("\(viewModel.formattedDate(date: appointment.date, format: "dd"))")
@@ -442,7 +442,10 @@ struct CustomerDetailScreenView: View {
                         .scaledToFill()
                         .frame(minWidth: 0, maxWidth: .infinity)
                 } else {
-                    ProgressView()
+                    ZStack{
+                        Color(R.color.gray5.name)
+                        ProgressView()
+                    }
                 }
             }
             .onAppear {
@@ -468,6 +471,88 @@ struct CustomerDetailScreenView: View {
             try await StorageManager.shared.getImageURL(path: imagePath)
         }
     }
+    private func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]]) {
+        var appointments: [AppointmentModel] = []
+        let calendar = Calendar.current
+        var dateFormatter: DateFormatter {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyyMMdd"
+            return dateFormatter
+        }
+        var timeFormatter: DateFormatter {
+            let timeFormatter = DateFormatter()
+            timeFormatter.dateFormat = "HH:mm"
+            return timeFormatter
+        }
+        var currentDate = startMyTripDate
+        let endMyTripDate = setEndMyTripDate(startMyTrip: startMyTripDate, endMyTrip: 13)
+        
+        while currentDate <= endMyTripDate {
+            var timeSlots: [String] = []
+            var priceForCurrentDay = ""
+            
+            for scheduleItem in schedule {
+                if currentDate >= scheduleItem.startDate && currentDate <= scheduleItem.endDate {
+                    let startTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.startDate)
+                    let endTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.endDate)
+                    guard let startHour = startTimeComponents.hour, let startMinute = startTimeComponents.minute,
+                          let endHour = endTimeComponents.hour, let endMinute = endTimeComponents.minute else {
+                        continue
+                    }
+                    
+                    var currentTime = calendar.date(bySettingHour: startHour, minute: startMinute, second: 0, of: currentDate)!
+                    
+                    while currentTime <= calendar.date(bySettingHour: endHour, minute: endMinute, second: 0, of: currentDate)! {
+                        let currentDayString = dateFormatter.string(from: currentTime)
+                        let timeSlot = timeFormatter.string(from: currentTime)
+                        
+                        if let selectedTimeSlot = bookingDays[currentDayString] {
+                            print("Current Day: \(currentDayString) existans Time Slot: \(selectedTimeSlot), Current Time Slot: \(timeSlot)")
+                            if !selectedTimeSlot.contains(where: { $0 == timeSlot }) {
+                                timeSlots.append(timeSlot)
+                            }
+                        } else {
+                            print("Current Day: \(currentDayString) Current Time Slot: \(timeSlot)")
+                            timeSlots.append(timeSlot)
+                        }
+                        currentTime = calendar.date(byAdding: .minute, value: Int(scheduleItem.timeIntervalSelected) ?? 60, to: currentTime)!
+                    }
+                    priceForCurrentDay = scheduleItem.price
+                }
+            }
+            
+            if !timeSlots.isEmpty {
+                let appointmentModel = AppointmentModel(date: currentDate, timeSlot: timeSlots, price: priceForCurrentDay)
+                appointments.append(appointmentModel)
+            }
+            
+            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
+        }
+        
+        // Print appointments
+        for appointment in appointments {
+            print("Date: \(dateFormatter.string(from: appointment.date)), Time Slots: \(appointment.timeSlot)")
+        }
+        
+        self.appointments = appointments
+    }
+    private func setEndMyTripDate(startMyTrip: Date, endMyTrip: Int) -> Date{
+        let today = startMyTrip
+        let calendar = Calendar.current
+        guard let endMyTripDate = calendar.date(byAdding: .day, value: endMyTrip, to: today) else { return Date()}
+        return endMyTripDate
+    }
+    private func getMinPrice(appointmen: [DbSchedule]){
+        var arrayPrices: [Int] = []
+        for price in appointmen {
+            if let price = Int(price.price) {
+                arrayPrices.append(price)
+            }
+        }
+        guard let minPrice = arrayPrices.min() else { return }
+        self.minPrice = String(minPrice)
+      }
+
 }
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {

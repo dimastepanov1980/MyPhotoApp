@@ -10,20 +10,20 @@ import SwiftUI
 struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
     var portfolio: [AuthorPortfolioModel]
-
+    
     @Namespace var filterspace: Namespace.ID
     @Binding var searchPageShow: Bool
     @Binding var requestLocation: Bool
     @Binding var path: NavigationPath
-
+    
     @State var onlyFemale: Bool = false
     @State var selectDate: Date = Date()
     @State var showDetailView = false
     @State var showAlertRequest = false
     @State private var selectLocation: String = ""
     @State private var selectPortfolio: AuthorPortfolioModel? = nil
-
-
+    
+    
     init(with viewModel: ViewModel,
          searchPageShow: Binding<Bool>,
          requestLocation: Binding<Bool>,
@@ -38,126 +38,121 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
     
     var body: some View {
         NavigationStack(path: $path) {
-                if searchPageShow {
-                    ZStack {
-                        ScrollView{
-                            VStack{
-                                ForEach(portfolio, id: \.id) { portfolio in
-                                    NavigationLink(value: portfolio) {
-                                        CustomerMainCellView(items: portfolio)
-                                    }
-//                                    NavigationLink(portfolio.id, value: portfolio)
-//                                    NavigationLink(destination: {
-//                                        CustomerDetailScreenView(portfolio: portfolio, startMyTripDate: selectDate, path: $path)
-//                                    }, label: {
-//                                        CustomerMainCellView(items: portfolio)
-//                                    })
+            if searchPageShow {
+                ZStack {
+                    ScrollView{
+                        VStack{
+                            ForEach(portfolio, id: \.id) { portfolio in
+                                NavigationLink(value: portfolio) {
+                                    CustomerMainCellView(items: portfolio)
                                 }
-                                
-                            }
-                            .padding(.vertical, 64)
-                            .frame(maxWidth: .infinity)
-                            .navigationDestination(for: AuthorPortfolioModel.self) { portfolio in
-                                CustomerDetailScreenView(portfolio: portfolio, startMyTripDate: selectDate, path: $path)
                             }
                         }
-                        
-                        .scrollIndicators(.hidden)
-                        VStack{
-                            HStack {
-                                seatchLocationButton
-                                    .matchedGeometryEffect(id: "search", in: filterspace)
-                                    .onTapGesture {
-                                        withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                                            searchPageShow.toggle()
-                                        }
-                                    }
-                            }
-                            .background(Color.white)
-                            Spacer()
-                            Group {
-                                CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
+                        .padding(.vertical, 64)
+                        .frame(maxWidth: .infinity)
+                        .navigationDestination(for: AuthorPortfolioModel.self) { portfolio in
+                            CustomerDetailScreenView(portfolio: portfolio, startMyTripDate: selectDate, path: $path)
+                        }
+                    }
+                    .scrollIndicators(.hidden)
+                    VStack{
+                        HStack {
+                            seatchLocationButton
+                                .matchedGeometryEffect(id: "search", in: filterspace)
+                                .onTapGesture {
                                     withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
                                         searchPageShow.toggle()
                                     }
-                                    
                                 }
-                                .matchedGeometryEffect(id: "CustomButtonXl", in: filterspace)
-                                .offset(y: 200)
-                            }
                         }
-                    }
-                } else {
-                    ZStack {
-                        VStack(spacing: 20){
-                            searchSection
-                                .matchedGeometryEffect(id: "search", in: filterspace)
-                            dateSection
-                            Spacer()
-                        }
-                        .padding(.top)
-                        .matchedGeometryEffect(id: "overlay", in: filterspace)
-                        .padding(.horizontal)
                         .background(Color.white)
-                        VStack {
-                            Spacer()
+                        Spacer()
+                        Group {
                             CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
                                 withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                                    Task {
-                                        let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: selectDate)
-                                        print("dbPortfolio new location \(dbPortfolio) Coordinate: \(viewModel.longitude); \(viewModel.latitude)")
-                                        
-                                        if !dbPortfolio.isEmpty{
-                                            //                                        portfolio = dbPortfolio.map { $0 }
-                                            //                                        print("chek new location inside Task \(viewModel.longitude); \(viewModel.latitude)")
-                                            //                                        print("Print portfolio in Task \(viewModel.portfolio)")
-                                        } else {
-                                            showAlertRequest.toggle()
-                                        }
-                                    }
                                     searchPageShow.toggle()
-                                    print("chek new location \(viewModel.longitude); \(viewModel.latitude)")
-                                    
                                 }
                                 
-                            }.matchedGeometryEffect(id: "CustomButtonXl", in: filterspace)
-                                .offset(y: -80)
+                            }
+                            .matchedGeometryEffect(id: "CustomButtonXl", in: filterspace)
+                            .offset(y: 200)
                         }
-                        ScrollView{
-                            VStack{
-                                ForEach(viewModel.locationResult) { result in
-                                    if viewModel.locationAuthor != result.location {
-                                        VStack(alignment: .leading){
-                                            Text(result.city)
-                                                .font(.subheadline)
-                                                .foregroundColor(Color(R.color.gray2.name))
-                                                .padding(.leading, 32)
-                                            Text(result.location)
-                                                .font(.footnote)
-                                                .foregroundColor(Color(R.color.gray4.name))
-                                                .padding(.leading, 32)
-                                            Divider()
-                                                .padding(.horizontal, 32)
-                                            
-                                        }
+                    }
+                }
+            } else {
+                ZStack {
+                    VStack(spacing: 20){
+                        searchSection
+                            .matchedGeometryEffect(id: "search", in: filterspace)
+                        dateSection
+                        Spacer()
+                    }
+                    .padding(.top)
+                    .matchedGeometryEffect(id: "overlay", in: filterspace)
+                    .padding(.horizontal)
+                    .background(Color.white)
+                    VStack {
+                        Spacer()
+                        CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
+                            withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                                Task {
+                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: selectDate)
+                                    print("dbPortfolio new location \(dbPortfolio) Coordinate: \(viewModel.longitude); \(viewModel.latitude)")
+                                    
+                                    if !dbPortfolio.isEmpty{
+                                        //                                        portfolio = dbPortfolio.map { $0 }
+                                        //                                        print("chek new location inside Task \(viewModel.longitude); \(viewModel.latitude)")
+                                        //                                        print("Print portfolio in Task \(viewModel.portfolio)")
+                                    } else {
+                                        showAlertRequest.toggle()
+                                    }
+                                }
+                                searchPageShow.toggle()
+                                print("chek new location \(viewModel.longitude); \(viewModel.latitude)")
+                                
+                            }
+                            
+                        }.matchedGeometryEffect(id: "CustomButtonXl", in: filterspace)
+                            .offset(y: -80)
+                    }
+                    ScrollView{
+                        VStack{
+                            ForEach(viewModel.locationResult) { result in
+                                if viewModel.locationAuthor != result.location {
+                                    VStack(alignment: .leading){
+                                        Text(result.city)
+                                            .font(.subheadline)
+                                            .foregroundColor(Color(R.color.gray2.name))
+                                            .padding(.leading, 32)
+                                        Text(result.location)
+                                            .font(.footnote)
+                                            .foregroundColor(Color(R.color.gray4.name))
+                                            .padding(.leading, 32)
+                                        Divider()
+                                            .padding(.horizontal, 32)
                                         
-                                        .onTapGesture {
-                                            withAnimation {
-                                                self.viewModel.locationAuthor = result.location
-                                                selectLocation = result.location
-                                                self.viewModel.latitude = result.latitude
-                                                self.viewModel.longitude = result.longitude
-                                                self.viewModel.regionAuthor = result.regionCode
-                                            }
+                                    }
+                                    
+                                    .onTapGesture {
+                                        withAnimation {
+                                            self.viewModel.locationAuthor = result.location
+                                            selectLocation = result.location
+                                            self.viewModel.latitude = result.latitude
+                                            self.viewModel.longitude = result.longitude
+                                            self.viewModel.regionAuthor = result.regionCode
                                         }
                                     }
                                 }
                             }
-                            .background(Color.white)
-                        }.offset(y: 60)
-                    }
+                        }
+                        .background(Color.white)
+                    }.offset(y: 60)
                 }
+            }
+        }.onAppear{
+            print("myPathCount\(path.count)")
         }
+        
     }
     private var seatchLocationButton: some View {
         ZStack(alignment: .leading) {

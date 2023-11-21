@@ -11,11 +11,15 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
     @ObservedObject var viewModel: ViewModel
     @State var orderDescription: String = R.string.localizable.default_message()
     @Binding var showOrderConfirm: Bool
+    @Binding var path: NavigationPath
 
     init(with viewModel: ViewModel,
-         showOrderConfirm: Binding<Bool>) {
+         showOrderConfirm: Binding<Bool>,
+         path: Binding<NavigationPath>
+    ) {
         self.viewModel = viewModel
         self._showOrderConfirm = showOrderConfirm
+        self._path = path
     }
     var body: some View {
         NavigationStack{
@@ -65,6 +69,9 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                             .padding(.trailing)
                     }
                 }
+            }
+            .onAppear{
+                print("myPathCount\(path.count)")
             }
             .navigationDestination(isPresented: $viewModel.showAuthenticationCustomerView) {
                 NavigationStack{
@@ -211,7 +218,7 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
 
     static var previews: some View {
-        CustomerConfirmOrderView(with: mocItems, showOrderConfirm: .constant(false))
+        CustomerConfirmOrderView(with: mocItems, showOrderConfirm: .constant(false), path: .constant(NavigationPath()))
     }
 }
 
