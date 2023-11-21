@@ -34,7 +34,10 @@ struct ImageDetailView: View {
                         .scaledToFit()
                        
                 } else {
-                    ProgressView()
+                    ZStack{
+                        Color(R.color.gray5.name)
+                        ProgressView()
+                    }
                 }
             }
             

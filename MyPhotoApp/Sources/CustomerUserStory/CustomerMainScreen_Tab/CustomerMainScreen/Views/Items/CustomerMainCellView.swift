@@ -83,10 +83,9 @@ struct CustomerMainCellView: View {
                         .scaledToFill()
                         .frame(minWidth: 0, maxWidth: .infinity)
                 } else {
-                    // Placeholder view for when the image is being loaded
                     ZStack{
+                        Color(R.color.gray5.name)
                         ProgressView()
-                        Color.gray.opacity(0.2)
                     }
                 }
             }

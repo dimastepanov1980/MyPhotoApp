@@ -50,7 +50,10 @@ struct PortfolioDetailScreenView: View {
                         .frame(maxHeight: 250)
                         .cornerRadius(10)
                 } else {
-                    ProgressView()
+                    ZStack{
+                        Color(R.color.gray5.name)
+                        ProgressView()
+                    }
                 }
             }
             .padding(.all, 2)
@@ -102,8 +105,6 @@ struct PortfolioDetailScreenView_Previews: PreviewProvider {
         }
     }
 }
-
-
 private class MockViewModel: ObservableObject, PortfolioDetailScreenViewModelType {
     @Published var images: [String] = ["String","String","String", "String", "String", "String", "String"]
 }
