@@ -37,7 +37,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
     }
     
     var body: some View {
-        NavigationStack(path: $path) {
+        VStack {
             if searchPageShow {
                 ZStack {
                     ScrollView{
@@ -149,10 +149,10 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                     }.offset(y: 60)
                 }
             }
-        }.onAppear{
+        }
+        .onAppear{
             print("myPathCount\(path.count)")
         }
-        
     }
     private var seatchLocationButton: some View {
         ZStack(alignment: .leading) {

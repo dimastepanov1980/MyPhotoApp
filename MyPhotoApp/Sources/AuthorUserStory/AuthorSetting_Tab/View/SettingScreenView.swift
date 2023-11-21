@@ -20,7 +20,6 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     }
     
     var body: some View {
-        NavigationStack{
             VStack{
                 List(viewModel.settingsMenu, id: \.self) { item in
                     NavigationLink {
@@ -44,7 +43,6 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                     }
                 }
             }
-        }
         .environment(\.defaultMinListRowHeight, 60)
         .scrollContentBackground(.hidden)
         .tint(.black)

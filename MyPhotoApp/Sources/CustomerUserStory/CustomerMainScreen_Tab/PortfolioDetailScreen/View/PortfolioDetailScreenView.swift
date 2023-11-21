@@ -50,10 +50,7 @@ struct PortfolioDetailScreenView: View {
                         .frame(maxHeight: 250)
                         .cornerRadius(10)
                 } else {
-                    ZStack{
-                        Color(R.color.gray5.name)
                         ProgressView()
-                    }
                 }
             }
             .padding(.all, 2)
