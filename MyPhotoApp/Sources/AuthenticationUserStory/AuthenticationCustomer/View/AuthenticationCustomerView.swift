@@ -11,9 +11,13 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
     
     @ObservedObject private var viewModel: ViewModel
     @Environment(\.dismiss) private var dismiss
+    @Binding var path: NavigationPath
 
-    init(with viewModel: ViewModel) {
+    init(with viewModel: ViewModel,
+         path: Binding<NavigationPath>
+    ) {
         self.viewModel = viewModel
+        self._path = path
     }
     
     var body: some View {
@@ -46,7 +50,7 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
     }
     private var customBackButton : some View {
         Button {
-            dismiss()
+            path.removeLast(1)
             viewModel.showAuthenticationCustomerView = false
 
         } label: {
@@ -98,7 +102,7 @@ struct AuthenticationCustomerView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationStack{
-            AuthenticationCustomerView(with: modelMock)
+            AuthenticationCustomerView(with: modelMock, path: .constant(NavigationPath()))
         }
     }
 }

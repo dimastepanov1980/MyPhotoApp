@@ -75,7 +75,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
             }
             .navigationDestination(isPresented: $viewModel.showAuthenticationCustomerView) {
                 NavigationStack{
-                    AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $viewModel.showAuthenticationCustomerView, userIsCustomer: .constant(true)))
+                    AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $viewModel.showAuthenticationCustomerView, userIsCustomer: .constant(true)), path: $path)
                 }
 
             }
