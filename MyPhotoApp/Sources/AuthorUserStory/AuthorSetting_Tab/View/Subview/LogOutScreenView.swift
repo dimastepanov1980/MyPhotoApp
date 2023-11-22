@@ -24,7 +24,6 @@ struct LogOutScreenView<ViewModel: LogOutScreenViewModelType>: View {
     }
 
     var body: some View {
-        NavigationStack {
             VStack(spacing: 20){
                 Text(viewModel.emailUser ?? "")
                     .font(.headline)
@@ -67,7 +66,6 @@ struct LogOutScreenView<ViewModel: LogOutScreenViewModelType>: View {
             .navigationBarItems(leading: customBackButton)
             .padding(.top, 16)
             .padding(.top, 64)
-        }
         .sheet(isPresented: $reAuthenticationScreenSheet) {
             NavigationStack {
                 ReAuthenticationScreenView(with: ReAuthenticationScreenViewModel(), showReAuthenticationView: $reAuthenticationScreenSheet, showAuthenticationView: $showAuthenticationView)

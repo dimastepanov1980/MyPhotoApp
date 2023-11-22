@@ -14,6 +14,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
     var detailOrderType: UserType
+    @Binding var path: NavigationPath
 
     @State private var showingOptions = false
     @State private var randomHeights: [CGFloat] = []
@@ -33,10 +34,12 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
 
     init(with viewModel: ViewModel,
          showEditOrderView: Binding<Bool>,
-         detailOrderType: UserType) {
+         detailOrderType: UserType,
+    path: Binding<NavigationPath>) {
         self.viewModel = viewModel
         self._showEditOrderView = showEditOrderView
         self.detailOrderType = detailOrderType
+        self._path = path
     }
     
     var body: some View {
@@ -70,7 +73,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 }
 
             }
-
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack{
@@ -106,17 +108,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .foregroundColor(Color(R.color.gray2.name))
                     .padding()
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismiss()
-                        
-                    } label: {
-                        Image(systemName: "chevron.left.circle.fill")// set image here
-                           .font(.title)
-                           .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
-                    }
-                    
-                }
             }
             .onAppear{
                 Task {
@@ -124,6 +115,9 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         try await viewModel.getReferenceImages(imagesPath: images)
                     }
                 }
+            }
+            .onAppear{
+                print("DetailOrderView Path Count: \(path.count)")
             }
 
         .fullScreenCover(isPresented: $showEditOrderView) {
@@ -201,6 +195,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 dismiss()
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: customBackButton)
 
         
     }
@@ -431,6 +427,18 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         }
         return 0
     }
+    private var customBackButton : some View {
+        Button {
+            path.removeLast()
+        } label: {
+            HStack{
+                Image(systemName: "chevron.left.circle.fill")// set image here
+                    .font(.title)
+                    .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+           
+            }
+        }
+    }
 }
 
 struct DetailOrderView_Previews: PreviewProvider {
@@ -438,7 +446,7 @@ struct DetailOrderView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            DetailOrderView(with: modelMock, showEditOrderView: .constant(false), detailOrderType: .author)
+            DetailOrderView(with: modelMock, showEditOrderView: .constant(false), detailOrderType: .author, path: .constant(NavigationPath()))
         }
     }
 }

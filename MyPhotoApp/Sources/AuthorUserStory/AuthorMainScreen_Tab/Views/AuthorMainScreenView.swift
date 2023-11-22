@@ -16,18 +16,22 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     @Binding var showEditOrderView: Bool
     @State var showActionSheet: Bool = false
     @State private var shouldScroll = false
-    
+    @Binding var path: NavigationPath
+
     var statusOrder: StatusOrder
 
     
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
          showEditOrderView: Binding<Bool>,
-         statusOrder: StatusOrder) {
+         statusOrder: StatusOrder,
+         path: Binding<NavigationPath>
+    ) {
         self.viewModel = viewModel
         self._showSignInView = showSignInView
         self._showEditOrderView = showEditOrderView
         self.statusOrder = statusOrder
+        self._path = path
     }
     
     var body: some View {
@@ -75,7 +79,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     var horizontalCards: some View {
         LazyHStack {
             ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author)
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
                     .navigationBarBackButtonHidden(true)) {
                         AuthorHCellMainScreenView(items: order)
                     }
@@ -203,7 +207,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray3.name))) {
                             ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.orderId) { order in
-                                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author)
+                                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
                                     .navigationBarBackButtonHidden(true)) {
                                         AuthorVCellMainScreenView(items: order,
                                                                   statusColor: viewModel.orderStausColor(order: order.orderStatus),
@@ -230,7 +234,7 @@ extension Date {
 struct AuthorMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
-        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), statusOrder: .Upcoming)
+        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), statusOrder: .Upcoming, path: .constant(NavigationPath()))
     }
 }
 private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {

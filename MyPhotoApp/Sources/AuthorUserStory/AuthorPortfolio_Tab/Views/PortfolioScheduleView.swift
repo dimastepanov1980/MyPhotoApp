@@ -17,7 +17,6 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
         self._showScheduleView = showScheduleView
     }
     var body: some View {
-        NavigationStack {
             List {
                 ForEach(viewModel.schedules.indices, id: \.self) { index in
                     AddScheduleSection(
@@ -66,7 +65,6 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                 }
             }
             .navigationTitle(R.string.localizable.schedule())
-        }
     }
 }
 

@@ -10,6 +10,7 @@ import SwiftUI
 struct AuthorHubPageView: View {
     @State var index = 0
     @Binding var showAuthenticationView: Bool
+    @Binding var path: NavigationPath
     
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
@@ -27,13 +28,13 @@ struct AuthorHubPageView: View {
                 ZStack {
                     if self.index == 0 {
                         
-                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView, showEditOrderView: $showEditOrderView, statusOrder: .Upcoming )
+                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView, showEditOrderView: $showEditOrderView, statusOrder: .Upcoming, path: $path )
                         
                     } else if self.index == 1 {
                         
                         AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView,
                                              showEditOrderView: $showEditOrderView,
-                                             statusOrder: .InProgress )
+                                             statusOrder: .InProgress, path: $path )
                     } else if self.index == 2 {
                         PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
                     } else if self.index == 3 {
@@ -78,7 +79,7 @@ struct AuthorHubPageView: View {
 
 struct AuthorHubPageView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthorHubPageView(showAuthenticationView: .constant(false))
+        AuthorHubPageView(showAuthenticationView: .constant(false), path: .constant(NavigationPath()))
     }
 }
 

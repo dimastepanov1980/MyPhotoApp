@@ -151,7 +151,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
             }
         }
         .onAppear{
-            print("myPathCount\(path.count)")
+            print("CustomerMainScreenView Path Count: \(path.count)")
         }
     }
     private var seatchLocationButton: some View {

@@ -23,8 +23,6 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
     }
     
     var body: some View {
-        ZStack{
-            NavigationStack {
                 VStack {
                     Spacer()
                     Text(R.string.localizable.delete_user_allert())
@@ -59,7 +57,6 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                         }
                     }.padding(.bottom, 32)
                 }.ignoresSafeArea(.all)
-            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -72,7 +69,6 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                     }
                 }
             }
-        }
     }
 }
 

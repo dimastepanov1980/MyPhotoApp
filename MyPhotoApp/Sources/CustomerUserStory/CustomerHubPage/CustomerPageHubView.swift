@@ -36,7 +36,7 @@ struct CustomerPageHubView: View {
                         }
                     }
                 case 1:
-                    CustomerOrdersView(with: CustomerOrdersViewModel())
+                    CustomerOrdersView(with: CustomerOrdersViewModel(), path: $path)
                 case 2:
                     Color.green
                 case 3:
@@ -81,7 +81,7 @@ struct CustomerPageHubView: View {
             }
         }
         .onAppear{
-            print("myPathCount\(path.count)")
+            print("CustomerPageHubView Path Count: \(path.count)")
         }
         .onChange(of: viewModel.latitude) { _ in
             Task {

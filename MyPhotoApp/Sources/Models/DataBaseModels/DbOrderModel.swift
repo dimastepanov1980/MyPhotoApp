@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct DbOrderModel: Codable {
+struct DbOrderModel: Codable, Hashable {
+
+    
     let orderId: String
     let orderCreateDate: Date
     let orderPrice: String?
@@ -53,6 +55,49 @@ struct DbOrderModel: Codable {
         self.customerSecondName = try container.decodeIfPresent(String.self, forKey: .customerSecondName)
         self.customerDescription = try container.decodeIfPresent(String.self, forKey: .customerDescription)
         self.customerContactInfo = try container.decode(DbContactInfo.self, forKey: .customerContactInfo)
+    }
+    static func == (lhs: DbOrderModel, rhs: DbOrderModel) -> Bool {
+        return lhs.orderId == rhs.orderId &&
+               lhs.orderCreateDate == rhs.orderCreateDate &&
+               lhs.orderPrice == rhs.orderPrice &&
+               lhs.orderStatus == rhs.orderStatus &&
+               lhs.orderShootingDate == rhs.orderShootingDate &&
+               lhs.orderShootingTime == rhs.orderShootingTime &&
+               lhs.orderShootingDuration == rhs.orderShootingDuration &&
+               lhs.orderSamplePhotos == rhs.orderSamplePhotos &&
+               lhs.orderMessages == rhs.orderMessages &&
+               lhs.authorId == rhs.authorId &&
+               lhs.authorName == rhs.authorName &&
+               lhs.authorSecondName == rhs.authorSecondName &&
+               lhs.authorLocation == rhs.authorLocation &&
+               lhs.authorRegion == rhs.authorRegion &&
+               lhs.customerId == rhs.customerId &&
+               lhs.customerName == rhs.customerName &&
+               lhs.customerSecondName == rhs.customerSecondName &&
+               lhs.customerDescription == rhs.customerDescription &&
+               lhs.customerContactInfo == rhs.customerContactInfo
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(orderId)
+        hasher.combine(orderCreateDate)
+        hasher.combine(orderPrice)
+        hasher.combine(orderStatus)
+        hasher.combine(orderShootingDate)
+        hasher.combine(orderShootingTime)
+        hasher.combine(orderShootingDuration)
+        hasher.combine(orderSamplePhotos)
+        hasher.combine(orderMessages)
+        hasher.combine(authorId)
+        hasher.combine(authorName)
+        hasher.combine(authorSecondName)
+        hasher.combine(authorLocation)
+        hasher.combine(authorRegion)
+        hasher.combine(customerId)
+        hasher.combine(customerName)
+        hasher.combine(customerSecondName)
+        hasher.combine(customerDescription)
+        hasher.combine(customerContactInfo)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -130,7 +175,7 @@ struct DbOrderModel: Codable {
     
 }
 
-struct DbContactInfo: Codable {
+struct DbContactInfo: Codable, Equatable, Hashable {
     let instagramLink: String?
     let phone: String?
     let email: String?
@@ -160,7 +205,7 @@ struct DbContactInfo: Codable {
     }
 }
 
-struct DbMessage: Codable {
+struct DbMessage: Codable, Equatable, Hashable {
     let dateCreate: Date
     let message: String?
     let isViewed: Bool

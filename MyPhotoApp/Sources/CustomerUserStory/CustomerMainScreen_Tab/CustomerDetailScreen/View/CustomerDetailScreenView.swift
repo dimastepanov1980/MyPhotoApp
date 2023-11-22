@@ -59,7 +59,7 @@ struct CustomerDetailScreenView: View {
                Task{
                    try await viewModel.getAvatarImage(imagePath: portfolio.avatarAuthor)
                }
-               print("myPathCount\(path.count)")
+               print("CustomerDetailScreenView Path Count: \(path.count)")
            }
            .safeAreaInset(edge: .bottom) {
                VStack{
@@ -121,19 +121,15 @@ struct CustomerDetailScreenView: View {
                .background(Color(R.color.gray7.name))
            }
            .background(Color(R.color.gray7.name))
-
            .fullScreenCover(isPresented: $showOrderConfirm) {
-               NavigationStack{
-                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
-                    author: portfolio,
-                    orderDate: viewModel.selectedDay ?? Date(),
-                    orderTime: viewModel.selectedTime,
-                    orderDuration: String(viewModel.selectedTime.count),
-                    orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
-                                            showOrderConfirm: $showOrderConfirm, path: $path)
-               }
+               CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
+                author: portfolio,
+                orderDate: viewModel.selectedDay ?? Date(),
+                orderTime: viewModel.selectedTime,
+                orderDuration: String(viewModel.selectedTime.count),
+                orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
+                                        showOrderConfirm: $showOrderConfirm, path: $path)
            }
-       
     }
     private var customBackButton : some View {
         Button {

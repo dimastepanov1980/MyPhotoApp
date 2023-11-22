@@ -29,7 +29,7 @@ struct PortfolioDetailScreenView: View {
                 }
         }
         .onAppear{
-            print("myPathCount\(path.count)")
+            print("PortfolioDetailScreenView Path Count: \(path.count)")
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: customBackButton)

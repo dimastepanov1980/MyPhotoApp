@@ -47,10 +47,14 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
         .navigationTitle(R.string.localizable.logIn_SignUp())
         .navigationBarBackButtonHidden()
         .navigationBarItems(leading: customBackButton)
+        .onAppear{
+            print("AuthenticationCustomerView Path Count: \(path.count)")
+        }
     }
+    
     private var customBackButton : some View {
         Button {
-            path.removeLast(1)
+            path.removeLast()
             viewModel.showAuthenticationCustomerView = false
 
         } label: {

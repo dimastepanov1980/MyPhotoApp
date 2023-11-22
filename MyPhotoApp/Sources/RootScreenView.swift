@@ -19,7 +19,7 @@ struct RootScreenView: View {
             ZStack {
                 if !showAuthenticationView {
                     if !userIsCustomer {
-                        AuthorHubPageView(showAuthenticationView: $showAuthenticationView)
+                        AuthorHubPageView(showAuthenticationView: $showAuthenticationView, path: $path)
                     } else {
                         CustomerPageHubView(showAuthenticationView: $showAuthenticationView, path: $path)
                     }
@@ -27,13 +27,7 @@ struct RootScreenView: View {
             }
         }
         .sheet(isPresented: $showAuthenticationView, content: {
-            NavigationStack{
-                VStack{
-                    AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer), showAuthenticationView: $showAuthenticationView)
-                }
-            }
-           
-
+            AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer), showAuthenticationView: $showAuthenticationView)
         })
 
     }

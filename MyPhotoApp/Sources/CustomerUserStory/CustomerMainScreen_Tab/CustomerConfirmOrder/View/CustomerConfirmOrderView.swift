@@ -22,7 +22,6 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
         self._path = path
     }
     var body: some View {
-        NavigationStack{
             HStack(alignment: .top) {
                 ScrollView {
                     VStack(alignment: .leading) {
@@ -51,6 +50,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                         if customerIsFilled {
                             Task{
                                 try await viewModel.createNewOrder()
+                                path.removeLast()
                                 showOrderConfirm.toggle()
                             }
                         }
@@ -70,21 +70,20 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                     }
                 }
             }
-            .onAppear{
-                print("myPathCount\(path.count)")
-            }
             .navigationDestination(isPresented: $viewModel.showAuthenticationCustomerView) {
                 NavigationStack{
                     AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $viewModel.showAuthenticationCustomerView, userIsCustomer: .constant(true)), path: $path)
                 }
 
             }
+            .onAppear{
+                print("CustomerConfirmOrderView Path Count: \(path.count)")
+            }
             .onChange(of: viewModel.showAuthenticationCustomerView) { _ in
                 Task{
                     try await viewModel.getCustomerData()
                 }
             }
-        }
     }
     
     private var customerSection: some View {

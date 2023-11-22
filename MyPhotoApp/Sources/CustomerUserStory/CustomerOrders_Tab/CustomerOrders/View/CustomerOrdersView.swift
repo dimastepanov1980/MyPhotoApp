@@ -11,9 +11,12 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State var showDetailView = false
     @State var showEditOrderView = false
-    
-    init(with viewModel: ViewModel){
+    @Binding var path: NavigationPath
+
+    init(with viewModel: ViewModel,
+         path: Binding<NavigationPath>){
         self.viewModel = viewModel
+        self._path = path
     }
     
     var body: some View {
@@ -30,16 +33,27 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
             } else {
                 ScrollView{
                     ForEach(viewModel.orders, id: \.orderId) { order in
-                        NavigationLink {
-                            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer)
-                                .navigationBarBackButtonHidden(true)
-                        } label: {
+                        NavigationLink(value: order) {
                             CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
-                            
                         }
+                        
+//                        NavigationLink {
+//                            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer)
+//                                .navigationBarBackButtonHidden(true)
+//                        } label: {
+//                            CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
+//
+//                        }
                     }
                 }.padding()
             }
+        }
+        .navigationDestination(for: DbOrderModel.self, destination: { order in
+            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer, path: $path)
+           //                                .navigationBarBackButtonHidden(true)
+        })
+        .onAppear{
+            print("CustomerOrdersView Path count: \(path.count)")
         }
         .background(Color(R.color.gray7.name))
         
@@ -50,7 +64,7 @@ struct CustomerOrdersView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
     static var previews: some View {
-        CustomerOrdersView(with: mockModel)
+        CustomerOrdersView(with: mockModel, path: .constant(NavigationPath()))
     }
 }
 
