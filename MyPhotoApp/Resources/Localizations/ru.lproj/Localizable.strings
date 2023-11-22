@@ -29,6 +29,9 @@
 "today" = "Заказы на сегодня";
 "order_not_found" = "У Вас нет заказов";
 "order_not_found_worning" = "Здесь будут ваши новые заказы.\nСоздайте раздел портфолио,\nчтобы вас можно было найти\nв результатах поиска.";
+"order_created" = "Заказ создан!";
+"order_created_message" = "Спасибо за заказ. \nАвтор свяжется с вами в ближайшее время";
+"order_created_button" = "Потрясающе!";
 
 // MARK: - New Order
 "order_client_firstName" = "Имя клиента";

@@ -35,6 +35,7 @@
 		5F4A1B3D2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B3C2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift */; };
 		5F4A1B402A9EF21F00EC67B2 /* SearchLocationManaget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B3F2A9EF21F00EC67B2 /* SearchLocationManaget.swift */; };
 		5F4A1B492AA086CA00EC67B2 /* PortfolioViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */; };
+		5F53C2FD2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F53C2FC2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift */; };
 		5F69408E2B086D070043D1EA /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69408D2B086D070043D1EA /* UserType.swift */; };
 		5F6940942B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6940932B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift */; };
 		5F6940962B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6940952B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift */; };
@@ -156,6 +157,7 @@
 		5F4A1B3C2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerConfirmOrderView.swift; sourceTree = "<group>"; };
 		5F4A1B3F2A9EF21F00EC67B2 /* SearchLocationManaget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationManaget.swift; sourceTree = "<group>"; };
 		5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModelType.swift; sourceTree = "<group>"; };
+		5F53C2FC2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerStatusOrderScreenView.swift; sourceTree = "<group>"; };
 		5F69408D2B086D070043D1EA /* UserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserType.swift; sourceTree = "<group>"; };
 		5F6940932B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCustomerViewModelType.swift; sourceTree = "<group>"; };
 		5F6940952B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCustomerViewModel.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 		5F39095E2A8F5F7C006E539A /* CustomerMainScreen_Tab */ = {
 			isa = PBXGroup;
 			children = (
+				5F53C2FB2B0DCD200015BD04 /* CustomerStatusOrderScreen */,
 				5F245A212B0346CD00C25CCA /* CustomerSearchScreen */,
 				5FA1EC9C2AF0AF340092A74D /* PortfolioDetailScreen */,
 				5FC418F42ADD21080017AF56 /* CustomerMainScreen */,
@@ -499,6 +502,22 @@
 				5F1BCA9C2AB1C63300223146 /* PortfolioEditViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5F53C2FB2B0DCD200015BD04 /* CustomerStatusOrderScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5F53C2FE2B0DCEB30015BD04 /* View */,
+			);
+			path = CustomerStatusOrderScreen;
+			sourceTree = "<group>";
+		};
+		5F53C2FE2B0DCEB30015BD04 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5F53C2FC2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		5F69408F2B098E4C0043D1EA /* AuthenticationCustomer */ = {
@@ -1309,6 +1328,7 @@
 				5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */,
 				5F4A1B3D2A9C59C900EC67B2 /* CustomerConfirmOrderView.swift in Sources */,
 				5FFC5AB62A91A536006E10E9 /* CustomerMainCellView.swift in Sources */,
+				5F53C2FD2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift in Sources */,
 				5F69409B2B0B230B0043D1EA /* Router.swift in Sources */,
 				5FC419022ADD62D30017AF56 /* CustomerOrdersViewModelType.swift in Sources */,
 				5F4A1B2F2A9B151200EC67B2 /* FlexibleView.swift in Sources */,

@@ -536,7 +536,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 145 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 148 localization keys.
     struct localizable {
       /// en translation: About Me
       ///
@@ -586,6 +586,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let style_photography_aerial = Rswift.StringResource(key: "style_photography_aerial", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Amazing!
+      ///
+      /// Locales: en, ru
+      static let order_created_button = Rswift.StringResource(key: "order_created_button", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: App version:
       ///
       /// Locales: en, ru
@@ -830,6 +834,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let settings_section_notification = Rswift.StringResource(key: "settings_section_notification", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Order Created!
+      ///
+      /// Locales: en, ru
+      static let order_created = Rswift.StringResource(key: "order_created", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Order for today
       ///
       /// Locales: en, ru
@@ -1046,6 +1054,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let settings_section_profile_about = Rswift.StringResource(key: "settings_section_profile_about", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Thank you for order.  The author will contact you shortly
+      ///
+      /// Locales: en, ru
+      static let order_created_message = Rswift.StringResource(key: "order_created_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Time interval /Hr
       ///
       /// Locales: en, ru
@@ -1297,6 +1309,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("style_photography_aerial", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Amazing!
+      ///
+      /// Locales: en, ru
+      static func order_created_button(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_created_button", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_created_button"
+        }
+
+        return NSLocalizedString("order_created_button", bundle: bundle, comment: "")
       }
 
       /// en translation: App version:
@@ -2214,6 +2241,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("settings_section_notification", bundle: bundle, comment: "")
       }
 
+      /// en translation: Order Created!
+      ///
+      /// Locales: en, ru
+      static func order_created(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_created", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_created"
+        }
+
+        return NSLocalizedString("order_created", bundle: bundle, comment: "")
+      }
+
       /// en translation: Order for today
       ///
       /// Locales: en, ru
@@ -3022,6 +3064,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("settings_section_profile_about", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Thank you for order.  The author will contact you shortly
+      ///
+      /// Locales: en, ru
+      static func order_created_message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_created_message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_created_message"
+        }
+
+        return NSLocalizedString("order_created_message", bundle: bundle, comment: "")
       }
 
       /// en translation: Time interval /Hr

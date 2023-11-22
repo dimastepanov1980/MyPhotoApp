@@ -29,8 +29,9 @@
 "today" = "Order for today";
 "order_not_found" = "You don't have orders";
 "order_not_found_worning" = "Your new orders will be here.\nPlease set up a portfolio section\nso that you can be found in searches";
-
-
+"order_created" = "Order Created!";
+"order_created_message" = "Thank you for order. \nThe author will contact you shortly";
+"order_created_button" = "Amazing!";
 
 // MARK: - New Order
 "order_client_firstName" = "Client's first name";
@@ -142,7 +143,6 @@
 "portfolio_please_wait" = "Please wait";
 
 //MARK: - Style of Photography
-
 "style_photography_aerial" = "Aerial";
 "style_photography_architecture" = "Architecture";
 "style_photography_documentary" = "Documentary";

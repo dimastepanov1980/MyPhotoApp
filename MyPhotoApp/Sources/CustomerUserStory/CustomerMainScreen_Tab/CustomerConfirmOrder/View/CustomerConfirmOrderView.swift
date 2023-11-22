@@ -50,8 +50,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                         if customerIsFilled {
                             Task{
                                 try await viewModel.createNewOrder()
-                                path.removeLast()
-                                showOrderConfirm.toggle()
+                                self.viewModel.showAlertOrderStatus = true
                             }
                         }
                     }
@@ -61,7 +60,8 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 .overlay(alignment: .topTrailing) {
                     
                     Button {
-                        showOrderConfirm.toggle()
+                        showOrderConfirm = false
+                        
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.white, Color(R.color.gray3.name))
@@ -71,17 +71,20 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 }
             }
             .navigationDestination(isPresented: $viewModel.showAuthenticationCustomerView) {
-                NavigationStack{
                     AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $viewModel.showAuthenticationCustomerView, userIsCustomer: .constant(true)), path: $path)
-                }
-
-            }
-            .onAppear{
-                print("CustomerConfirmOrderView Path Count: \(path.count)")
             }
             .onChange(of: viewModel.showAuthenticationCustomerView) { _ in
                 Task{
                     try await viewModel.getCustomerData()
+                }
+            }
+            .fullScreenCover(isPresented: $viewModel.showAlertOrderStatus) {
+                CustomerStatusOrderScreenView(title: R.string.localizable.order_created(),
+                                              message: R.string.localizable.order_created_message(),
+                                              buttonTitle: R.string.localizable.order_created_button()) {
+                    path.removeLast()
+                    self.viewModel.showAlertOrderStatus = false
+                    
                 }
             }
     }
@@ -223,6 +226,7 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
 
 private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject {
     var showAuthenticationCustomerView: Bool = false
+    var showAlertOrderStatus: Bool = false
     
     var authorBookingDays: [String : [String]] = [:]
     var user: DBUserModel? = nil

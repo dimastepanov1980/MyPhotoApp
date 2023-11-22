@@ -106,7 +106,7 @@ struct CustomerDetailScreenView: View {
                            } else {
                                
                                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
-                                   showOrderConfirm.toggle()
+                                   showOrderConfirm = true
                                    
                                }
                            }
@@ -122,13 +122,15 @@ struct CustomerDetailScreenView: View {
            }
            .background(Color(R.color.gray7.name))
            .fullScreenCover(isPresented: $showOrderConfirm) {
-               CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
-                author: portfolio,
-                orderDate: viewModel.selectedDay ?? Date(),
-                orderTime: viewModel.selectedTime,
-                orderDuration: String(viewModel.selectedTime.count),
-                orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
-                                        showOrderConfirm: $showOrderConfirm, path: $path)
+               NavigationStack{
+                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
+                    author: portfolio,
+                    orderDate: viewModel.selectedDay ?? Date(),
+                    orderTime: viewModel.selectedTime,
+                    orderDuration: String(viewModel.selectedTime.count),
+                    orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
+                                            showOrderConfirm: $showOrderConfirm, path: $path)
+               }
            }
     }
     private var customBackButton : some View {

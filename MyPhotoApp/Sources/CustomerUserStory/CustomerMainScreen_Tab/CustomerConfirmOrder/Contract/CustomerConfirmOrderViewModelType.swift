@@ -11,6 +11,9 @@ import SwiftUI
 @MainActor
 protocol CustomerConfirmOrderViewModelType: ObservableObject {
     var showAuthenticationCustomerView: Bool { get set }
+    var showAlertOrderStatus: Bool { get set }
+    
+    
     var user: DBUserModel? { get set }
     var customerFirstName: String { get set }
     var customerSecondName: String { get set }

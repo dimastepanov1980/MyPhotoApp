@@ -10,10 +10,11 @@ import SwiftUI
 
 @MainActor
 final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
-    
-    @Published var showAuthenticationCustomerView: Bool = false
-
     var user: DBUserModel?
+
+    @Published var showAlertOrderStatus: Bool = false
+
+    @Published var showAuthenticationCustomerView: Bool = false
     @Published var customerFirstName: String
     @Published var customerSecondName: String
     
@@ -136,7 +137,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         
         if successBooking {
             print("Success! You have booked the selected date and time.")
-             try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
+            try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
         }
     }
 
