@@ -36,6 +36,8 @@
 // MARK: - New Order
 "order_client_firstName" = "Client's first name";
 "order_client_secondName" = "Сlient's last name";
+"order_author" = "Author";
+"order_customer" = "Customer";
 "order_location" = "Location";
 "order_price" = "Price";
 "order_instagramLink" = "Instagram username";

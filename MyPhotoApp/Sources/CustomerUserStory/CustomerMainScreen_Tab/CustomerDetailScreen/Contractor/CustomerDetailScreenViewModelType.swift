@@ -10,6 +10,7 @@ import SwiftUI
 
 @MainActor
 protocol CustomerDetailScreenViewModelType: ObservableObject {
+    var portfolio: AuthorPortfolioModel { get }
     var selectedDay: Date? { get set }
     var selectedTime: [String] { get set }
     var timeslotSelectedDay: [String] { get set }

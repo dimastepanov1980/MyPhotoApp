@@ -55,7 +55,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             .background(Color(R.color.gray2.name).opacity(0.8).cornerRadius(21))
                     }
                     
-                    VStack(alignment: .leading, spacing: 24) {
+                    VStack(alignment: .leading, spacing: 18) {
                         nameSection
                         locationSection
                         dateSection
@@ -71,7 +71,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .padding(.top, 32)
                     
                 }
-
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -202,7 +201,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     private var nameSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(detailOrderType == .customer ? R.string.localizable.photographer() : R.string.localizable.customer() )
+            Text(detailOrderType == .customer ? R.string.localizable.order_author() : R.string.localizable.order_customer() )
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
             HStack{
@@ -215,7 +214,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         if !viewModel.status.isEmpty {
                             Button {
                                     showChangeStatusSheet.toggle()
-                            
                             } label: {
                                 Text(viewModel.status)
                                     .font(.caption2)
@@ -429,7 +427,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     private var customBackButton : some View {
         Button {
-            path.removeLast()
+            dismiss()
         } label: {
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
@@ -480,8 +478,8 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
                                                              authorSecondName: "authorSecondName",
                                                              authorLocation: "Phuket, Thailand",
                                                              customerId: "",
-                                                             customerName: "customerName",
-                                                             customerSecondName: "customerSecondName",
+                                                             customerName: "Name",
+                                                             customerSecondName: "SecondName",
                                                              customerDescription: "Customer Description and Bla bla bla sdfsdf sdfsdf",
                                                              customerContactInfo:
                                                                 DbContactInfo(instagramLink: "https://instagram.com/fitnessbymaddy_?igshid=MzRlODBiNWFlZA==",

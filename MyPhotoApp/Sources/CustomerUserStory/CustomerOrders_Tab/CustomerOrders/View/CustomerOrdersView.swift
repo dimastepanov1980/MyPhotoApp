@@ -36,14 +36,6 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
                         NavigationLink(value: order) {
                             CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
                         }
-                        
-//                        NavigationLink {
-//                            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer)
-//                                .navigationBarBackButtonHidden(true)
-//                        } label: {
-//                            CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
-//
-//                        }
                     }
                 }.padding()
             }

@@ -37,6 +37,8 @@
 "order_client_firstName" = "Имя клиента";
 "order_client_secondName" = "Фамилия клиента";
 "order_location" = "Место фотоссесии";
+"order_author" = "Автор";
+"order_customer" = "Клиент";
 "order_price" = "Стоимость";
 "order_instagramLink" = "Instagram UserName";
 "order_description" = "Описание";

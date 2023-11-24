@@ -9,31 +9,24 @@ import SwiftUI
 
 struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View {
     @ObservedObject var viewModel: ViewModel
-    var portfolio: [AuthorPortfolioModel]
     
     @Namespace var filterspace: Namespace.ID
     @Binding var searchPageShow: Bool
     @Binding var requestLocation: Bool
     @Binding var path: NavigationPath
     
-    @State var onlyFemale: Bool = false
     @State var selectDate: Date = Date()
-    @State var showDetailView = false
-    @State var showAlertRequest = false
-    @State private var selectLocation: String = ""
-    @State private var selectPortfolio: AuthorPortfolioModel? = nil
+    @State var selectLocation: String = ""
     
     
     init(with viewModel: ViewModel,
          searchPageShow: Binding<Bool>,
          requestLocation: Binding<Bool>,
-         path: Binding<NavigationPath>,
-         portfolio: [AuthorPortfolioModel]) {
+         path: Binding<NavigationPath>) {
         self.viewModel = viewModel
         self._searchPageShow = searchPageShow
         self._requestLocation = requestLocation
         self._path = path
-        self.portfolio = portfolio
     }
     
     var body: some View {
@@ -42,7 +35,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                 ZStack {
                     ScrollView{
                         VStack{
-                            ForEach(portfolio, id: \.id) { portfolio in
+                            ForEach(viewModel.portfolio, id: \.id) { portfolio in
                                 NavigationLink(value: portfolio) {
                                     CustomerMainCellView(items: portfolio)
                                 }
@@ -51,13 +44,13 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                         .padding(.vertical, 64)
                         .frame(maxWidth: .infinity)
                         .navigationDestination(for: AuthorPortfolioModel.self) { portfolio in
-                            CustomerDetailScreenView(portfolio: portfolio, startMyTripDate: selectDate, path: $path)
+                            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(portfolio: portfolio), startMyTripDate: selectDate, path: $path)
                         }
                     }
                     .scrollIndicators(.hidden)
                     VStack{
                         HStack {
-                            seatchLocationButton
+                            searchLocationButton
                                 .matchedGeometryEffect(id: "search", in: filterspace)
                                 .onTapGesture {
                                     withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
@@ -95,18 +88,18 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                         Spacer()
                         CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
                             withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                                Task {
-                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: selectDate)
-                                    print("dbPortfolio new location \(dbPortfolio) Coordinate: \(viewModel.longitude); \(viewModel.latitude)")
-                                    
-                                    if !dbPortfolio.isEmpty{
-                                        //                                        portfolio = dbPortfolio.map { $0 }
-                                        //                                        print("chek new location inside Task \(viewModel.longitude); \(viewModel.latitude)")
-                                        //                                        print("Print portfolio in Task \(viewModel.portfolio)")
-                                    } else {
-                                        showAlertRequest.toggle()
-                                    }
-                                }
+//                                Task {
+//                                    let dbPortfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: selectDate)
+//                                    print("dbPortfolio new location \(dbPortfolio) Coordinate: \(viewModel.longitude); \(viewModel.latitude)")
+//
+//                                    if !dbPortfolio.isEmpty{
+//                                        //                                        portfolio = dbPortfolio.map { $0 }
+//                                        //                                        print("chek new location inside Task \(viewModel.longitude); \(viewModel.latitude)")
+//                                        //                                        print("Print portfolio in Task \(viewModel.portfolio)")
+//                                    } else {
+//                                        showAlertRequest.toggle()
+//                                    }
+//                                }
                                 searchPageShow.toggle()
                                 print("chek new location \(viewModel.longitude); \(viewModel.latitude)")
                                 
@@ -154,7 +147,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
             print("CustomerMainScreenView Path Count: \(path.count)")
         }
     }
-    private var seatchLocationButton: some View {
+    private var searchLocationButton: some View {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 21)
                 .fill(Color.white)
@@ -205,7 +198,7 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
     static var previews: some View {
-        CustomerMainScreenView(with: mockModel, searchPageShow: .constant(true), requestLocation: .constant(false), path: .constant(NavigationPath()), portfolio: [])
+        CustomerMainScreenView(with: mockModel, searchPageShow: .constant(true), requestLocation: .constant(false), path: .constant(NavigationPath()))
     }
 }
 

@@ -24,8 +24,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     }
     var body: some View {
         VStack {
-            NavigationStack {
-                ScrollView {
+            ScrollView {
                     VStack(alignment: .leading, spacing: 20){
                         customerSection
                         
@@ -48,7 +47,6 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                         
                     }
                 }
-            }
             
         CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_add_order() : R.string.localizable.order_save_order(), iconName: "") {
                 let userOrders = DbOrderModel(order:
@@ -107,25 +105,33 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
         }
     }
     private var customerSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            textField(fieldName: R.string.localizable.order_client_firstName(), propertyName: $viewModel.name)
-            textField(fieldName: R.string.localizable.order_client_secondName(), propertyName: $viewModel.secondName)
-            textField(fieldName: R.string.localizable.order_instagramLink(), propertyName: $viewModel.instagramLink)
-                textField(fieldName: R.string.localizable.settings_section_profile_phone(), propertyName: $viewModel.phone)
-                textField(fieldName: R.string.localizable.settings_section_profile_email(), propertyName: $viewModel.email)
+        VStack(alignment: .leading, spacing: 20) {
+            CustomTextField(nameTextField: R.string.localizable.order_client_firstName(), text: $viewModel.name)
+            CustomTextField(nameTextField: R.string.localizable.order_client_secondName(), text: $viewModel.secondName)
+            CustomTextField(nameTextField: R.string.localizable.order_instagramLink(), text: $viewModel.instagramLink)
+            CustomTextField(nameTextField: R.string.localizable.settings_section_profile_phone(), text: $viewModel.phone)
+            CustomTextField(nameTextField: R.string.localizable.settings_section_profile_email(), text: $viewModel.email)
+            
+//            textField(fieldName: R.string.localizable.order_client_firstName(), propertyName: $viewModel.name)
+//            textField(fieldName: R.string.localizable.order_client_secondName(), propertyName: $viewModel.secondName)
+//            textField(fieldName: R.string.localizable.order_instagramLink(), propertyName: $viewModel.instagramLink)
+//            textField(fieldName: R.string.localizable.settings_section_profile_phone(), propertyName: $viewModel.phone)
+//            textField(fieldName: R.string.localizable.settings_section_profile_email(), propertyName: $viewModel.email)
             
             
         }
-        .padding(.horizontal)
     }
     private func textField(fieldName: String, propertyName: Binding<String>) -> some View {
+
         VStack(alignment: .leading, spacing: 4){
             Text(fieldName)
                 .font(.caption)
                 .foregroundColor(Color(R.color.gray4.name))
 //                .padding(.horizontal)
             
-            TextEditor(text: propertyName)
+            TextField("", text: propertyName)
+                .disableAutocorrection(true)
+                .textInputAutocapitalization(.never)
                 .font(.callout)
                 .foregroundColor(Color(R.color.gray2.name))
                 .padding(.horizontal)
@@ -133,7 +139,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                 .padding(.vertical, 2)
                 .overlay{
                     RoundedRectangle(cornerRadius: 21)
-                        .stroke(Color(R.color.gray5.name), lineWidth: 1)}
+                    .stroke(Color(R.color.gray5.name), lineWidth: 1)}
         }
 
     }

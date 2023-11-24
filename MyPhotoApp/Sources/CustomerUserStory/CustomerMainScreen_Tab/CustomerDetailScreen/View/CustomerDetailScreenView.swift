@@ -7,17 +7,27 @@
 
 import SwiftUI
 
-struct CustomerDetailScreenView: View {
-    @ObservedObject var viewModel: CustomerDetailScreenViewModel = CustomerDetailScreenViewModel()
-    var portfolio: AuthorPortfolioModel
+struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: View {
+    @ObservedObject var viewModel: ViewModel
+    
     var startMyTripDate: Date
     @Binding var path: NavigationPath
     @State private var currentStep = 0
     @State var showOrderConfirm: Bool = false
-    @State var appointments: [AppointmentModel] = []
+    @State var showPortfolioDetailScreenView: Bool = false
     @State var minPrice: String = ""
     @Namespace var timeID
     @State var orderDescription: String = R.string.localizable.default_message()
+    
+    
+    init(with viewModel: ViewModel,
+         startMyTripDate: Date,
+         path: Binding<NavigationPath>) {
+        self.viewModel = viewModel
+        self.startMyTripDate = startMyTripDate
+        self._path = path
+    }
+
 
    var body: some View {
            ScrollViewReader { proxy in
@@ -25,13 +35,14 @@ struct CustomerDetailScreenView: View {
                    VStack{
                        ParallaxHeader{
                            TabView(selection: $currentStep) {
-                               ForEach(portfolio.smallImagesPortfolio.indices, id: \.self) { index in
-                                   NavigationLink {
-                                       PortfolioDetailScreenView(images: portfolio.smallImagesPortfolio, path: $path)
-                                   } label: {
-                                       AsyncImageView(imagePath: portfolio.smallImagesPortfolio[index])
-                                   }
-                                   
+                               ForEach(viewModel.portfolio.smallImagesPortfolio.indices, id: \.self) { index in
+                                       AsyncImageView(imagePath: viewModel.portfolio.smallImagesPortfolio[index])
+                                       .navigationDestination(isPresented: $showPortfolioDetailScreenView) {
+                                           PortfolioDetailScreenView(images: viewModel.portfolio.smallImagesPortfolio, path: $path)
+                                       }
+                                       .onTapGesture {
+                                           showPortfolioDetailScreenView.toggle()
+                                       }
                                }
                            }
                        }
@@ -52,14 +63,6 @@ struct CustomerDetailScreenView: View {
                    }
            }
            
-           }
-           .onAppear{
-               getMinPrice(appointmen: portfolio.appointmen)
-               createAppointments(schedule: portfolio.appointmen, startMyTripDate: startMyTripDate, bookingDays: portfolio.bookingDays ?? [:] )
-               Task{
-                   try await viewModel.getAvatarImage(imagePath: portfolio.avatarAuthor)
-               }
-               print("CustomerDetailScreenView Path Count: \(path.count)")
            }
            .safeAreaInset(edge: .bottom) {
                VStack{
@@ -97,7 +100,7 @@ struct CustomerDetailScreenView: View {
                            }
                        }
                    }
-                   if let author = portfolio.author {
+                   if let author = viewModel.portfolio.author {
                        if viewModel.selectedDay != nil {
                            if viewModel.selectedTime.isEmpty {
                                CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
@@ -124,7 +127,7 @@ struct CustomerDetailScreenView: View {
            .fullScreenCover(isPresented: $showOrderConfirm) {
                NavigationStack{
                    CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
-                    author: portfolio,
+                    author: viewModel.portfolio,
                     orderDate: viewModel.selectedDay ?? Date(),
                     orderTime: viewModel.selectedTime,
                     orderDuration: String(viewModel.selectedTime.count),
@@ -162,13 +165,13 @@ struct CustomerDetailScreenView: View {
     private var authorSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack{
-                AsyncImageView(imagePath: portfolio.avatarAuthor)
+                AsyncImageView(imagePath: viewModel.portfolio.avatarAuthor)
                      .frame(width: 68, height: 68)
                      .mask {
                           Circle()
                       }
 
-                if let author = portfolio.author {
+                if let author = viewModel.portfolio.author {
                     VStack(alignment: .leading){
                         Text("\(author.nameAuthor) \(author.familynameAuthor)")
                             .font(.title2.bold())
@@ -184,7 +187,7 @@ struct CustomerDetailScreenView: View {
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
                         
-                        Text("\(minPrice) \(viewModel.currencySymbol(for: portfolio.author?.regionAuthor ?? "$"))")
+                        Text("\(minPrice) \(viewModel.currencySymbol(for: viewModel.portfolio.author?.regionAuthor ?? "$"))")
                             .font(.headline)
                             .foregroundColor(Color(R.color.gray2.name))
                         
@@ -192,7 +195,7 @@ struct CustomerDetailScreenView: View {
                 }
             }
             
-            if let author = portfolio.author {
+            if let author = viewModel.portfolio.author {
                 HStack(spacing: 16){
                     ForEach(author.styleAuthor, id: \.self) { genre in
                         HStack{
@@ -209,9 +212,9 @@ struct CustomerDetailScreenView: View {
                 }
                 Divider()
             }
-            if !portfolio.descriptionAuthor.isEmpty {
+            if !viewModel.portfolio.descriptionAuthor.isEmpty {
                 
-                Text(portfolio.descriptionAuthor)
+                Text(viewModel.portfolio.descriptionAuthor)
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray2.name))
             Divider()
@@ -231,11 +234,11 @@ struct CustomerDetailScreenView: View {
                     .foregroundColor(Color(R.color.gray3.name))
             }
             .padding(.horizontal, 24)
-            if !appointments.isEmpty{
+            if !viewModel.appointments.isEmpty{
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .bottom, spacing: 8 ) {
                     
-                        ForEach(appointments, id: \.date) { appointment in
+                    ForEach(viewModel.appointments, id: \.date) { appointment in
                             VStack{
                                 VStack(alignment: .center, spacing: 2) {
                                     Text("\(viewModel.formattedDate(date: appointment.date, format: "dd"))")
@@ -372,7 +375,7 @@ struct CustomerDetailScreenView: View {
             )
         .overlay(alignment: .topTrailing) {
             Group {
-                Text("\(currentStep + 1) / \(portfolio.smallImagesPortfolio.count)")
+                Text("\(currentStep + 1) / \(viewModel.portfolio.smallImagesPortfolio.count)")
                     .font(.caption2)
                     .foregroundColor(Color(R.color.gray7.name))
                     .padding(.horizontal, 6)
@@ -469,87 +472,6 @@ struct CustomerDetailScreenView: View {
             try await StorageManager.shared.getImageURL(path: imagePath)
         }
     }
-    private func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]]) {
-        var appointments: [AppointmentModel] = []
-        let calendar = Calendar.current
-        var dateFormatter: DateFormatter {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyyMMdd"
-            return dateFormatter
-        }
-        var timeFormatter: DateFormatter {
-            let timeFormatter = DateFormatter()
-            timeFormatter.dateFormat = "HH:mm"
-            return timeFormatter
-        }
-        var currentDate = startMyTripDate
-        let endMyTripDate = setEndMyTripDate(startMyTrip: startMyTripDate, endMyTrip: 13)
-        
-        while currentDate <= endMyTripDate {
-            var timeSlots: [String] = []
-            var priceForCurrentDay = ""
-            
-            for scheduleItem in schedule {
-                if currentDate >= scheduleItem.startDate && currentDate <= scheduleItem.endDate {
-                    let startTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.startDate)
-                    let endTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.endDate)
-                    guard let startHour = startTimeComponents.hour, let startMinute = startTimeComponents.minute,
-                          let endHour = endTimeComponents.hour, let endMinute = endTimeComponents.minute else {
-                        continue
-                    }
-                    
-                    var currentTime = calendar.date(bySettingHour: startHour, minute: startMinute, second: 0, of: currentDate)!
-                    
-                    while currentTime <= calendar.date(bySettingHour: endHour, minute: endMinute, second: 0, of: currentDate)! {
-                        let currentDayString = dateFormatter.string(from: currentTime)
-                        let timeSlot = timeFormatter.string(from: currentTime)
-                        
-                        if let selectedTimeSlot = bookingDays[currentDayString] {
-                            print("Current Day: \(currentDayString) existans Time Slot: \(selectedTimeSlot), Current Time Slot: \(timeSlot)")
-                            if !selectedTimeSlot.contains(where: { $0 == timeSlot }) {
-                                timeSlots.append(timeSlot)
-                            }
-                        } else {
-                            print("Current Day: \(currentDayString) Current Time Slot: \(timeSlot)")
-                            timeSlots.append(timeSlot)
-                        }
-                        currentTime = calendar.date(byAdding: .minute, value: Int(scheduleItem.timeIntervalSelected) ?? 60, to: currentTime)!
-                    }
-                    priceForCurrentDay = scheduleItem.price
-                }
-            }
-            
-            if !timeSlots.isEmpty {
-                let appointmentModel = AppointmentModel(date: currentDate, timeSlot: timeSlots, price: priceForCurrentDay)
-                appointments.append(appointmentModel)
-            }
-            
-            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
-        }
-        
-        // Print appointments
-        for appointment in appointments {
-            print("Date: \(dateFormatter.string(from: appointment.date)), Time Slots: \(appointment.timeSlot)")
-        }
-        
-        self.appointments = appointments
-    }
-    private func setEndMyTripDate(startMyTrip: Date, endMyTrip: Int) -> Date{
-        let today = startMyTrip
-        let calendar = Calendar.current
-        guard let endMyTripDate = calendar.date(byAdding: .day, value: endMyTrip, to: today) else { return Date()}
-        return endMyTripDate
-    }
-    private func getMinPrice(appointmen: [DbSchedule]){
-        var arrayPrices: [Int] = []
-        for price in appointmen {
-            if let price = Int(price.price) {
-                arrayPrices.append(price)
-            }
-        }
-        guard let minPrice = arrayPrices.min() else { return }
-        self.minPrice = String(minPrice)
-      }
 
 }
 extension View {
@@ -570,7 +492,7 @@ private struct RoundedCorner: Shape {
 struct CustomerDetailScreenView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
     static var previews: some View {
-        CustomerDetailScreenView(portfolio: mocItems.items, startMyTripDate: Date(), path: .constant(NavigationPath()))
+        CustomerDetailScreenView(with: mocItems, startMyTripDate: Date(), path: .constant(NavigationPath()))
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
@@ -583,7 +505,7 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]]) {}
 
     @Published var appointments: [AppointmentModel] = []
-    @Published var items: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
+    @Published var portfolio: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
                                                 DBPortfolioModel(id: UUID().uuidString,
                                                                  author:   DBAuthor(rateAuthor: 0.0,
                                                                                     likedAuthor: true,

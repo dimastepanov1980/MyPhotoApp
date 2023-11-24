@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CustomerPageHubView: View {
     @State var index = 0
-    @State private var portfolio: [AuthorPortfolioModel] = []
     @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: .constant(false))
 
     @Binding var showAuthenticationView: Bool
@@ -19,7 +18,7 @@ struct CustomerPageHubView: View {
     @State private var profileIsShown: Bool = false
     @State private var showAddOrderView: Bool = false
     @State private var requestLocation: Bool = false
-    @State var searchPageShow: Bool = true
+    @State private var searchPageShow: Bool = true
 
     var body: some View {
         VStack {
@@ -27,12 +26,12 @@ struct CustomerPageHubView: View {
                 switch self.index {
                 case 0:
                     ZStack{
-                        if portfolio.isEmpty {
+                        if viewModel.portfolio.isEmpty {
                             Color(R.color.gray7.name)
                                 .ignoresSafeArea(.all)
                             ProgressView("Loading...")
                         } else {
-                            CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation, path: $path, portfolio: portfolio)
+                            CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation, path: $path)
                         }
                     }
                 case 1:
@@ -68,11 +67,10 @@ struct CustomerPageHubView: View {
             Task{
                 do{
                     try await viewModel.fetchLocation()
-                    if portfolio.isEmpty {
+                    if viewModel.portfolio.isEmpty {
                         viewModel.getCurrentLocation()
-                        portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+                        viewModel.portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
                         
-                        print("portfolio \(portfolio)")
                         print("viewModel.portfolio \(viewModel.portfolio)")
                     }
                 } catch {
@@ -86,8 +84,7 @@ struct CustomerPageHubView: View {
         .onChange(of: viewModel.latitude) { _ in
             Task {
                 do {
-                    portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-                    print("portfolio \(portfolio)")
+                    viewModel.portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
                     print("viewModel portfolio NEW Coordinate \(viewModel.portfolio)")
                 } catch {
                     print("Error fetching portfolio for  NEW Coordinate : \(error)")

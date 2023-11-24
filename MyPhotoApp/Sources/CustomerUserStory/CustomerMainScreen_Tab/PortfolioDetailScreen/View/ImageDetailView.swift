@@ -35,8 +35,8 @@ struct ImageDetailView: View {
                        
                 } else {
                     ZStack{
-                        Color(R.color.gray5.name)
                         ProgressView()
+                            .tint(Color.white)
                     }
                 }
             }

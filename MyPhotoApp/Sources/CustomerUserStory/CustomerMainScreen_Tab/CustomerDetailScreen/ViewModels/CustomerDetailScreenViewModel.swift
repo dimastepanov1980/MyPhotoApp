@@ -10,6 +10,7 @@ import SwiftUI
 
 @MainActor
 final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
+    @Published var portfolio: AuthorPortfolioModel
     @Published var selectedDay: Date? = nil
     @Published var selectedTime: [String] = []
     @Published var priceForDay: String = ""
@@ -18,6 +19,15 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var timeslotSelectedDay: [String] = []
     @Published var appointments: [AppointmentModel] = []
     @Published var avatarImage: UIImage? = nil
+    
+    init(portfolio: AuthorPortfolioModel){
+        self.portfolio = portfolio
+        
+        getMinPrice(appointmen: portfolio.appointmen)
+        createAppointments(schedule: portfolio.appointmen, startMyTripDate: Date(), bookingDays: portfolio.bookingDays ?? [:] )
+        Task{
+            try await getAvatarImage(imagePath: portfolio.avatarAuthor)
+        }    }
     
     func getMinPrice(appointmen: [DbSchedule]){
         var arrayPrices: [Int] = []
