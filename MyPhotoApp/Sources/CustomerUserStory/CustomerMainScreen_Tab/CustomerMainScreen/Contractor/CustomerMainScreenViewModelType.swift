@@ -10,7 +10,6 @@ import Foundation
 @MainActor
 protocol CustomerMainScreenViewModelType: ObservableObject {
     var portfolio: [AuthorPortfolioModel] { get set }
-    var selectedItem: AuthorPortfolioModel? { get set }
     var imagesURLs: [URL]? { get set }
     var showDetailScreen: Bool { get set }
     var locationResult: [DBLocationModel] { get set }

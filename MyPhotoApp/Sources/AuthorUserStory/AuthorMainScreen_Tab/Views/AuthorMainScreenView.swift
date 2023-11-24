@@ -14,9 +14,10 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     @Namespace var animation
     @Binding var showSignInView: Bool
     @Binding var showEditOrderView: Bool
-    @State var showActionSheet: Bool = false
-    @State private var shouldScroll = false
     @Binding var path: NavigationPath
+
+    @State var showActionSheet: Bool = false
+    @State var shouldScroll = false
 
     var statusOrder: StatusOrder
 

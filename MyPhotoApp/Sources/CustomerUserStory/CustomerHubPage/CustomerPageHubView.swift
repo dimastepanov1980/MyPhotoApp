@@ -21,7 +21,6 @@ struct CustomerPageHubView: View {
     @State private var searchPageShow: Bool = true
 
     var body: some View {
-        VStack {
             ZStack(alignment: .bottom) {
                 switch self.index {
                 case 0:
@@ -43,15 +42,14 @@ struct CustomerPageHubView: View {
                 default:
                     EmptyView()
                 }
-            }
-            .padding(.bottom, -40)
-
-            if searchPageShow {
-                withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                    CustomerCustomTabs(index: $index)
+                
+                if searchPageShow {
+                    withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                        CustomerCustomTabs(index: $index)
+                    }
                 }
             }
-        }
+
         .sheet(isPresented: $profileIsShown) {
             CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
                 self.profileIsShown = true
@@ -71,15 +69,12 @@ struct CustomerPageHubView: View {
                         viewModel.getCurrentLocation()
                         viewModel.portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
                         
-                        print("viewModel.portfolio \(viewModel.portfolio)")
+                        print("viewModel.portfolio onAppear \(viewModel.portfolio)")
                     }
                 } catch {
                     print("Error fetching portfolio: \(error)")
                 }
             }
-        }
-        .onAppear{
-            print("CustomerPageHubView Path Count: \(path.count)")
         }
         .onChange(of: viewModel.latitude) { _ in
             Task {

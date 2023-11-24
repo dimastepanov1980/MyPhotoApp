@@ -66,6 +66,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             return formattedOrderDate == formattedToday
         }
     }
+    
     @Binding var userProfileIsSet: Bool
     @Binding var userPortfolioIsSet: Bool
     

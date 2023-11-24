@@ -22,7 +22,6 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
     @Published var portfolio: [AuthorPortfolioModel] = []
     private var portfolioCache: [String: [AuthorPortfolioModel]] = [:]
 
-    @Published var selectedItem: AuthorPortfolioModel? = nil
     @Published var showDetailScreen: Bool = false
     @Published var locationResult: [DBLocationModel] = []
     @Published var locationAuthor: String = "" {
@@ -47,6 +46,7 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
         }
         Task{
             try await checkProfileAndPortfolio()
+            try await fetchLocation()
         }
     }
     
