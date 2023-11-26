@@ -124,15 +124,13 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
            }
            .background(Color(R.color.gray7.name))
            .fullScreenCover(isPresented: $showOrderConfirm) {
-               NavigationStack{
                    CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
                     author: viewModel.portfolio,
-                    orderDate: selectedDay,
-                    orderTime: selectedTime,
-                    orderDuration: String(selectedTime.count),
+                    orderDate: viewModel.selectedDay ?? Date(),
+                    orderTime: viewModel.selectedTime,
+                    orderDuration: String(viewModel.selectedTime.count),
                     orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
                                             showOrderConfirm: $showOrderConfirm, path: $path)
-               }
            }
     }
     private var customBackButton : some View {
@@ -267,10 +265,12 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                 .containerShape(Capsule())
                                 .onTapGesture {
                                     withAnimation {
-                                        viewModel.selectedDay = appointment.date
-                                        viewModel.selectedTime = []
-                                        viewModel.timeslotSelectedDay = appointment.timeSlot
-                                        viewModel.priceForDay = appointment.price
+                                        self.viewModel.selectedDay = appointment.date
+                                        self.viewModel.selectedTime = []
+                                        self.viewModel.timeslotSelectedDay = appointment.timeSlot
+                                        self.viewModel.priceForDay = appointment.price
+                                        
+                                        print("selected Day Time and Price: \(viewModel.selectedDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
                                     }
                                 }
                                 
@@ -354,9 +354,13 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
         }
         .onTapGesture {
             if viewModel.selectedTime.contains(time) {
-                viewModel.selectedTime.removeAll { $0 == time }
+                self.viewModel.selectedTime.removeAll { $0 == time }
+                print("selected Day RemoveTime and Price: \(viewModel.selectedDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
+
             } else {
-                viewModel.selectedTime.append(time)
+                self.viewModel.selectedTime.append(time)
+                print("selected Day AppendTime and Price: \(viewModel.selectedDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
+
             }
         }
     }

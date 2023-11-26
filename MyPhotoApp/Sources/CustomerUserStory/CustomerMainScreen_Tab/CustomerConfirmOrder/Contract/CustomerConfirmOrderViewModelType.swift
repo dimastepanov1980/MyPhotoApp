@@ -10,10 +10,8 @@ import SwiftUI
 
 @MainActor
 protocol CustomerConfirmOrderViewModelType: ObservableObject {
-    var showAuthenticationCustomerView: Bool { get set }
+    
     var showAlertOrderStatus: Bool { get set }
-    
-    
     var user: DBUserModel? { get set }
     var customerFirstName: String { get set }
     var customerSecondName: String { get set }
@@ -32,12 +30,11 @@ protocol CustomerConfirmOrderViewModelType: ObservableObject {
     var orderPrice: String { get }
     var regionAuthor: String { get }
 
-    
     func formattedDate(date: Date, format: String) -> String
     func sortedDate(array: [String]) -> [String]
     func currencySymbol(for regionCode: String) -> String
     func createNewOrder() async throws
-    func getCustomerData() async throws
+    func getCustomerData() async throws -> Bool
 
 }
 

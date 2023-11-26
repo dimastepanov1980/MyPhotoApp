@@ -10,6 +10,8 @@ import SwiftUI
 struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State var orderDescription: String = R.string.localizable.default_message()
+    @State var showAuthenticationCustomerView: Bool = false
+    
     @Binding var showOrderConfirm: Bool
     @Binding var path: NavigationPath
 
@@ -70,12 +72,12 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                     }
                 }
             }
-            .navigationDestination(isPresented: $viewModel.showAuthenticationCustomerView) {
-                    AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $viewModel.showAuthenticationCustomerView, userIsCustomer: .constant(true)), path: $path)
+            .fullScreenCover(isPresented: $showAuthenticationCustomerView) {
+                    AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $showAuthenticationCustomerView, userIsCustomer: .constant(true)), path: $path)
             }
-            .onChange(of: viewModel.showAuthenticationCustomerView) { _ in
+            .onAppear{
                 Task{
-                    try await viewModel.getCustomerData()
+                    self.showAuthenticationCustomerView = try await viewModel.getCustomerData()
                 }
             }
             .fullScreenCover(isPresented: $viewModel.showAlertOrderStatus) {
@@ -238,7 +240,9 @@ private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject
     
     func createNewOrder() async throws {}
     func currencySymbol(for regionCode: String) -> String { "" }
-    func getCustomerData() async throws {}
+    func getCustomerData() async throws -> Bool {
+        true
+    }
     var orderPrice: String = "5500"
     var authorName: String = "Iryna"
     var authorSecondName: String = "Tondaeva"

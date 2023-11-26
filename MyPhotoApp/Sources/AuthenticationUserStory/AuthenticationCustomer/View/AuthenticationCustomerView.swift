@@ -10,7 +10,6 @@ import SwiftUI
 struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-    @Environment(\.dismiss) private var dismiss
     @Binding var path: NavigationPath
 
     init(with viewModel: ViewModel,
@@ -23,30 +22,39 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
     var body: some View {
             VStack {
                 Spacer()
-                        CustomerTab(
-                            email: Binding<String>(
-                                get: { viewModel.custmerEmail },
-                                set: { viewModel.setCustmerEmail($0) }),
-                            password: Binding<String>(
-                                get: { viewModel.custmerPassword },
-                                set: { viewModel.setCustmerPassword($0) }),
-                            errorMassage: viewModel.custmerErrorMessage) {
-                                if !viewModel.custmerEmail.isEmpty && !viewModel.custmerPassword.isEmpty {
-                                    self.viewModel.userIsCustomer = true
-                                    Task {
-                                        do {
-                                            try await viewModel.authenticationCustomer()
-                                        } catch {
-                                            self.viewModel.custmerErrorMessage = error.localizedDescription
-                                        }
-                                    }
+                CustomerTab(
+                    email: Binding<String>(
+                        get: { viewModel.custmerEmail },
+                        set: { viewModel.setCustmerEmail($0) }),
+                    password: Binding<String>(
+                        get: { viewModel.custmerPassword },
+                        set: { viewModel.setCustmerPassword($0) }),
+                    errorMassage: viewModel.custmerErrorMessage) {
+                        if !viewModel.custmerEmail.isEmpty && !viewModel.custmerPassword.isEmpty {
+                            self.viewModel.userIsCustomer = true
+                            Task {
+                                do {
+                                    try await viewModel.authenticationCustomer()
+                                } catch {
+                                    self.viewModel.custmerErrorMessage = error.localizedDescription
                                 }
                             }
+                        }
+                    }
             }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(R.string.localizable.logIn_SignUp())
-        .navigationBarBackButtonHidden()
-        .navigationBarItems(leading: customBackButton)
+            .overlay{
+                    VStack{
+                        HStack{
+                            Spacer()
+                            customBackButton
+                                .padding(.trailing)
+                        }
+                        Spacer()
+
+                    }
+            }
+
+   
         .onAppear{
             print("AuthenticationCustomerView Path Count: \(path.count)")
         }
@@ -58,7 +66,7 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
             viewModel.showAuthenticationCustomerView = false
 
         } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
+            Image(systemName: "xmark.circle.fill")
                .font(.title)
                .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
         }

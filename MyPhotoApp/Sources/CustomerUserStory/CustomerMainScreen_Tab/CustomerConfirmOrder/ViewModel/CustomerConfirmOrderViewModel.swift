@@ -14,7 +14,6 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
 
     @Published var showAlertOrderStatus: Bool = false
 
-    @Published var showAuthenticationCustomerView: Bool = false
     @Published var customerFirstName: String
     @Published var customerSecondName: String
     
@@ -52,12 +51,12 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         self.customerInstagramLink = user?.instagramLink ?? ""
         self.customerPhone = user?.phone ?? ""
         self.customerEmail = user?.email ?? ""
-
+        
         Task{
          try await getCustomerData()
         }
     }
-    func getCustomerData() async throws{
+    func getCustomerData() async throws -> Bool{
         do {
             let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
             let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
@@ -66,12 +65,10 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
             self.customerInstagramLink = customer.instagramLink ?? ""
             self.customerEmail = customer.email ?? ""
             self.customerPhone = customer.phone ?? ""
-            showAuthenticationCustomerView = false
-            print("User is existing")
+            return false
             
         } catch {
-            showAuthenticationCustomerView = true
-            print("need to registration: \(showAuthenticationCustomerView)")
+            return true
         }
  
     }
