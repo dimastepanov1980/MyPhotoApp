@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
+    @State private var selectedDay: Date? = nil
+    @State private var selectedTime: [String] = []
+    @State private var priceForDay: String = ""
     
     var startMyTripDate: Date
     @Binding var path: NavigationPath
@@ -54,7 +57,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                    .navigationBarBackButtonHidden(true)
                    .navigationBarItems(leading: customBackButton)
                    .toolbarBackground(.hidden, for: .navigationBar)
-                   .onChange(of: viewModel.selectedDay) { _ in
+                   .onChange(of: selectedDay) { _ in
                            withAnimation {
                                proxy.scrollTo(timeID)
                            }
@@ -66,7 +69,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
            .safeAreaInset(edge: .bottom) {
                VStack{
                    HStack(spacing: 16){
-                       if let selectedDay = viewModel.selectedDay {
+                       if let selectedDay = selectedDay {
                            HStack(spacing: 2) {
                                Image(systemName: "calendar")
                                    .font(.subheadline)
@@ -77,7 +80,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                    .foregroundColor(Color(R.color.gray3.name))
                            }
                        }
-                       if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
+                       if let time = viewModel.sortedDate(array: selectedTime).first {
                            
                            HStack(spacing: 2) {
                                Image(systemName: "clock")
@@ -93,21 +96,21 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                Image(systemName: "timer")
                                    .font(.subheadline)
                                    .foregroundColor(Color(R.color.gray1.name))
-                               Text("\(viewModel.selectedTime.count)")
+                               Text("\(selectedTime.count)")
                                    .font(.subheadline)
                                    .foregroundColor(Color(R.color.gray3.name))
                            }
                        }
                    }
                    if let author = viewModel.portfolio.author {
-                       if viewModel.selectedDay != nil {
-                           if viewModel.selectedTime.isEmpty {
+                       if selectedDay != nil {
+                           if selectedTime.isEmpty {
                                CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
                                    // Action
                                }
                            } else {
                                
-                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
+                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: priceForDay, timeSlot: selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
                                    showOrderConfirm = true
                                    
                                }
@@ -127,10 +130,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                NavigationStack{
                    CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
                     author: viewModel.portfolio,
-                    orderDate: selectedDay,
+                    orderDate: selectedDay ?? Date(),
                     orderTime: selectedTime,
                     orderDuration: String(selectedTime.count),
-                    orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
+                    orderPrice: totalCost(price: priceForDay, timeSlot: selectedTime)),
                                             showOrderConfirm: $showOrderConfirm, path: $path)
                }
            }
@@ -242,10 +245,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                 VStack(alignment: .center, spacing: 2) {
                                     Text("\(viewModel.formattedDate(date: appointment.date, format: "dd"))")
                                         .font(.body.bold())
-                                        .foregroundColor(viewModel.isToday(date: appointment.date) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
+                                        .foregroundColor(isToday(date: appointment.date) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
                                     Text("\(viewModel.formattedDate(date: appointment.date, format: "MMM"))")
                                         .font(.footnote)
-                                        .foregroundColor(viewModel.isToday(date: appointment.date) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
+                                        .foregroundColor(isToday(date: appointment.date) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
                                 }
                                 .padding(.vertical, 20)
                                 .frame(width: 45)
@@ -258,7 +261,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                 )
                                 .background(
                                     ZStack {
-                                        if viewModel.isToday(date: appointment.date) {
+                                        if isToday(date: appointment.date) {
                                             Capsule()
                                                 .fill(Color(R.color.gray2.name))
                                         }
@@ -267,10 +270,13 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                 .containerShape(Capsule())
                                 .onTapGesture {
                                     withAnimation {
-                                        viewModel.selectedDay = appointment.date
-                                        viewModel.selectedTime = []
-                                        viewModel.timeslotSelectedDay = appointment.timeSlot
-                                        viewModel.priceForDay = appointment.price
+                                        self.selectedDay = appointment.date
+                                        self.selectedTime = []
+                                        self.viewModel.timeslotSelectedDay = appointment.timeSlot
+                                        self.priceForDay = appointment.price
+                                        print("selectedDay: \(self.selectedDay)")
+
+                                    
                                     }
                                 }
                                 
@@ -294,7 +300,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             Group {
-            if viewModel.selectedDay != nil {
+            if selectedDay != nil {
                 Divider()
             Text(R.string.localizable.select_time())
                 .font(.caption2)
@@ -316,7 +322,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     }
     private func tagTime(time: String) -> some View{
         Group{
-            if viewModel.selectedTime.contains(time) {
+            if selectedTime.contains(time) {
                 Text(time)
                     .font(.footnote)
                     .foregroundColor(Color(R.color.gray7.name))
@@ -353,10 +359,14 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             }
         }
         .onTapGesture {
-            if viewModel.selectedTime.contains(time) {
-                viewModel.selectedTime.removeAll { $0 == time }
+            if selectedTime.contains(time) {
+                self.selectedTime.removeAll { $0 == time }
+                print("selectedTime removeAll: \(selectedTime)")
+
             } else {
-                viewModel.selectedTime.append(time)
+                self.selectedTime.append(time)
+                print("selectedTime append: \(selectedTime)")
+
             }
         }
     }
@@ -470,6 +480,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             // Assume you have a StorageManager.shared.getImageURL method
             try await StorageManager.shared.getImageURL(path: imagePath)
         }
+    }
+    private func isToday(date: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDate(selectedDay ?? Date(), inSameDayAs: date)
     }
 
 }

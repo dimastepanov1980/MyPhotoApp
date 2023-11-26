@@ -11,12 +11,11 @@ import SwiftUI
 @MainActor
 final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var portfolio: AuthorPortfolioModel
-    @Published var selectedDay: Date? = nil
-    @Published var selectedTime: [String] = []
+    @Published var timeslotSelectedDay: [String] = []
     @Published var priceForDay: String = ""
     @Published var minPrice: String = ""
     @Published var today: Date = Date()
-    @Published var timeslotSelectedDay: [String] = []
+
     @Published var appointments: [AppointmentModel] = []
     @Published var avatarImage: UIImage? = nil
     
@@ -131,10 +130,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
     }
-    func isToday(date: Date) -> Bool {
-        let calendar = Calendar.current
-        return calendar.isDate(selectedDay ?? Date(), inSameDayAs: date)
-    }
+
     func getAvatarImage(imagePath: String) async throws {
         self.avatarImage = try await StorageManager.shared.getReferenceImage(path: imagePath)
     }
