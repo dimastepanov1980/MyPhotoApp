@@ -95,4 +95,5 @@ struct DBUserModel: Codable {
         try container.encodeIfPresent(self.userType, forKey: .userType)
         try container.encodeIfPresent(self.setPortfolio, forKey: .setPortfolio)
     }
+    
 }

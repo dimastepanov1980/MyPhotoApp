@@ -26,7 +26,6 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     }
     
     var body: some View {
-        NavigationStack{
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
                     authorSection
@@ -34,7 +33,6 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                     imageSection
                 }
             }
-        }
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack(spacing: 20){

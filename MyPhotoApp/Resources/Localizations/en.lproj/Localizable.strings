@@ -136,6 +136,11 @@
 "portfolio_genre_description" = "Select 4 genres";
 "portfolio_about" = "About your self";
 "portfolio_schedule" = "Please set up a schedule\nso you can be found in searches";
+"portfolio_schedule_tips_title" = "Add new schedules for any long period.";
+"portfolio_schedule_tips_body" = "For example, if you want to allow bookings on the same day for the morning time from 8:00 to 10:00 and the evening time from 16:00 to 18:00, create two schedules with different times:";
+"portfolio_schedule_tips_body2" = "Schedule for each day selected period";
+
+
 "portfolio_schedule_btn" = "Setup schedule";
 "portfolio_add_images" = "Please add images for Portfolio\nby tapping on plus icon on toolbar\nor on button bellow";
 "portfolio_add_images_btt" = "Add images";

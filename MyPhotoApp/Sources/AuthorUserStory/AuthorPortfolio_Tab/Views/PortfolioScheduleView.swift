@@ -10,6 +10,9 @@ import SwiftUI
 struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @Binding var showScheduleView: Bool
+    @State var showScheduleTips: Bool = false
+    @State private var scheduleTimeTag: [String] = ["08:00", "09:00", "10:00", "16:00", "17:00", "18:00"]
+    
     
     init(with viewModel : ViewModel,
          showScheduleView: Binding<Bool>) {
@@ -25,31 +28,22 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                     )
                 }
                 Button(action: {
-                    // Add a new schedule when the button is tapped
                     viewModel.schedules.append(Schedule(id: UUID(), holidays: false, startDate: Date(), endDate: Date(), timeIntervalSelected: "60", price: "", timeZone: TimeZone.current.identifier))
                 }) {
-                    Text(R.string.localizable.schedule_add())
-                        .foregroundColor(Color(R.color.gray1.name))
-                    
-                    Text("""
-                                               Add new schedules for one week, one or few months or any long period. For Example: if you want allow bookig for morning 8:00 AM - 10:00 AM and evning 04:00 PM - 06:00 PM make two same schedules with different time:
-                                               
-                                               Start Date: 01 Nov 2023 08:00 AM
-                                               End Date: 31 Dec 2023 10:00 AM
-                                               Time Interval:  1h
-                                               Price: 100 (set price in local curuncy)
-                                               and
-                                               
-                                               Start Date: 01 Nov 2023 04:00 PM
-                                               End Date: 31 Dec 2023 06:00 PM
-                                               Time Interval:  1h
-                                               Price: 100 (set price in local curuncy)
-                                               """)
-                                           .font(.caption)
-                                           .foregroundColor(Color(R.color.gray3.name))
-                                           .multilineTextAlignment(.leading)
+                    HStack {
+                        Text(R.string.localizable.schedule_add())
+                            .foregroundColor(Color(R.color.gray1.name))
+                            .font(.body.bold())
+                        Spacer()
+                        Button {
+                            showScheduleTips = true
+                        } label: {
+                            Image(systemName: "info.circle")
+                                .font(.body)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
 
-
+                    }
                 }
             }
             .toolbar{
@@ -65,7 +59,195 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                 }
             }
             .navigationTitle(R.string.localizable.schedule())
+            .sheet(isPresented: $showScheduleTips) {
+                scheduleTips
+                    .presentationDetents([.fraction(0.8)])
+
+            }
     }
+    private var scheduleTips: some View {
+        
+        VStack(alignment: .leading, spacing: 16){
+            Text(R.string.localizable.portfolio_schedule_tips_title())
+                .font(.title2.bold())
+                .foregroundColor(Color(R.color.gray2.name))
+                .multilineTextAlignment(.leading)
+                
+            
+            Text(R.string.localizable.portfolio_schedule_tips_body())
+                .font(.caption)
+                .foregroundColor(Color(R.color.gray3.name))
+                .multilineTextAlignment(.leading)
+            
+            VStack(alignment: .leading, spacing: 8){
+                Text(R.string.localizable.portfolio_schedule_tips_body2())
+                    .font(.body.bold())
+                    .foregroundColor(Color(R.color.gray2.name))
+                HStack(spacing: 10){
+                    ForEach(scheduleTimeTag, id: \.self) { time in
+                        Text(time)
+                            .padding(2)
+                            .padding(.horizontal, 4)
+                            .background(Color(R.color.gray3.name))
+                            .cornerRadius(16)
+                            .foregroundColor(Color(R.color.gray7.name))
+                            .font(.caption.bold())
+                    }
+                    Spacer()
+                }
+            }
+            .padding()
+            .background(Color(R.color.gray6.name))
+
+            .cornerRadius(16)
+            .padding(.bottom)
+        
+            scheduleCellTips
+
+            Spacer()
+        }
+        .padding(.top, 16)
+        .padding()
+    }
+    
+    private var scheduleCellTips: some View {
+        VStack(spacing: 20){
+            VStack(alignment: .leading, spacing: 6){
+                HStack{
+                    Text(R.string.localizable.schedule_start())
+                        .foregroundColor(Color(R.color.gray2.name))
+                    Spacer()
+                    
+                    Text("01 Jan 2024")
+                        .padding(4)
+                        .background(Color(R.color.gray4.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                    
+                    Text("8:00 AM")
+                        .padding(4)
+                        .background(Color(R.color.gray3.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                }
+                Divider()
+                HStack{
+                    Text(R.string.localizable.schedule_end())
+                        .foregroundColor(Color(R.color.gray2.name))
+                    Spacer()
+                    
+                    Text("31 May 2024")
+                        .padding(4)
+                        .background(Color(R.color.gray4.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                    
+                    Text("10:00 AM")
+                        .padding(4)
+                        .background(Color(R.color.gray3.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                }
+                Divider()
+                HStack{
+                    Text(R.string.localizable.schedule_interval())
+                        .foregroundColor(Color(R.color.gray2.name))
+                    Spacer()
+                    
+                    Text("1")
+                        .padding(4)
+                        .background(Color(R.color.gray4.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                }
+                Divider()
+                HStack{
+                    Text(R.string.localizable.schedule_price())
+                        .foregroundColor(Color(R.color.gray2.name))
+                    Spacer()
+                    
+                    Text("100")
+                        .padding(4)
+                        .background(Color(R.color.gray4.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                }
+            }
+            .padding()
+            .background(Color(R.color.gray6.name))
+            .cornerRadius(12)
+            .font(.caption)
+            .multilineTextAlignment(.leading)
+            
+            VStack(alignment: .leading, spacing: 6){
+                HStack{
+                    Text(R.string.localizable.schedule_start())
+                        .foregroundColor(Color(R.color.gray2.name))
+                    Spacer()
+                    
+                    Text("01 Jan 2024")
+                        .padding(4)
+                        .background(Color(R.color.gray4.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                    
+                    Text("4:00 PM")
+                        .padding(4)
+                        .background(Color(R.color.gray3.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                }
+                Divider()
+                HStack{
+                    Text(R.string.localizable.schedule_end())
+                        .foregroundColor(Color(R.color.gray2.name))
+                    Spacer()
+                    
+                    Text("31 May 2024")
+                        .padding(4)
+                        .background(Color(R.color.gray4.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                    
+                    Text("6:00 PM")
+                        .padding(4)
+                        .background(Color(R.color.gray3.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                }
+                Divider()
+                HStack{
+                    Text(R.string.localizable.schedule_interval())
+                        .foregroundColor(Color(R.color.gray2.name))
+                    Spacer()
+                    
+                    Text("1")
+                        .padding(4)
+                        .background(Color(R.color.gray4.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                }
+                Divider()
+                HStack{
+                    Text(R.string.localizable.schedule_price())
+                        .foregroundColor(Color(R.color.gray2.name))
+                    Spacer()
+                    
+                    Text("100")
+                        .padding(4)
+                        .background(Color(R.color.gray4.name))
+                        .cornerRadius(5)
+                        .foregroundColor(Color(R.color.gray7.name))
+                }
+            }
+            .padding()
+            .background(Color(R.color.gray6.name))
+            .cornerRadius(12)
+            .font(.caption)
+            .multilineTextAlignment(.leading)
+        }
+    }
+
 }
 
 struct AddScheduleSection: View {

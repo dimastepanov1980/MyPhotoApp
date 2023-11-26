@@ -66,11 +66,11 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
             self.customerInstagramLink = customer.instagramLink ?? ""
             self.customerEmail = customer.email ?? ""
             self.customerPhone = customer.phone ?? ""
-            self.showAuthenticationCustomerView = false
+            showAuthenticationCustomerView = false
             print("User is existing")
             
         } catch {
-            self.showAuthenticationCustomerView = true
+            showAuthenticationCustomerView = true
             print("need to registration: \(showAuthenticationCustomerView)")
         }
  

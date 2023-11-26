@@ -15,7 +15,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     @State private var currentStep = 0
     @State var showOrderConfirm: Bool = false
     @State var showPortfolioDetailScreenView: Bool = false
-    @State var minPrice: String = ""
     @Namespace var timeID
     @State var orderDescription: String = R.string.localizable.default_message()
     
@@ -128,9 +127,9 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                NavigationStack{
                    CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
                     author: viewModel.portfolio,
-                    orderDate: viewModel.selectedDay ?? Date(),
-                    orderTime: viewModel.selectedTime,
-                    orderDuration: String(viewModel.selectedTime.count),
+                    orderDate: selectedDay,
+                    orderTime: selectedTime,
+                    orderDuration: String(selectedTime.count),
                     orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
                                             showOrderConfirm: $showOrderConfirm, path: $path)
                }
@@ -187,7 +186,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
                         
-                        Text("\(minPrice) \(viewModel.currencySymbol(for: viewModel.portfolio.author?.regionAuthor ?? "$"))")
+                        Text("\(viewModel.minPrice) \(viewModel.currencySymbol(for: viewModel.portfolio.author?.regionAuthor ?? "$"))")
                             .font(.headline)
                             .foregroundColor(Color(R.color.gray2.name))
                         

@@ -47,7 +47,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     
                     descriptionSection
                 }
-
+                .navigationBarBackButtonHidden(true)
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(R.string.localizable.save()) {
@@ -79,13 +79,14 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                         .foregroundColor(Color(R.color.gray2.name))
                         .padding()
                     }
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        customBackButton
+                    }
                 }
                 .padding(.bottom, 64)
                 .onAppear{
                     locationAuthor = viewModel.locationAuthor
                 }
-                .navigationBarBackButtonHidden(true)
-                .navigationBarItems(leading: customBackButton)
             }
     }
     

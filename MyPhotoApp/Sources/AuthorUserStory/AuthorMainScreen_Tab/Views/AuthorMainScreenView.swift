@@ -36,7 +36,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     }
     
     var body: some View {
-        NavigationStack{
             VStack {
                 ScrollViewReader { data in
                     if !viewModel.orders.isEmpty{
@@ -77,7 +76,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
             }
             .ignoresSafeArea()
             .background(Color(R.color.gray7.name))
-        }
     }
     func headerSection(scroll: ScrollViewProxy) -> some View {
         VStack {

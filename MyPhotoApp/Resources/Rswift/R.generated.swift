@@ -536,7 +536,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 150 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 153 localization keys.
     struct localizable {
       /// en translation: About
       ///
@@ -578,6 +578,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let portfolio_add_images_btt = Rswift.StringResource(key: "portfolio_add_images_btt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Add new schedules for any long period.
+      ///
+      /// Locales: en, ru
+      static let portfolio_schedule_tips_title = Rswift.StringResource(key: "portfolio_schedule_tips_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Add phone number
       ///
       /// Locales: en, ru
@@ -738,6 +742,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let delete_user_password = Rswift.StringResource(key: "delete_user_password", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: For example, if you want to allow bookings on the same day for the morning time from 8:00 to 10:00 and the evening time from 16:00 to 18:00, create two schedules with different times:
+      ///
+      /// Locales: en, ru
+      static let portfolio_schedule_tips_body = Rswift.StringResource(key: "portfolio_schedule_tips_body", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Forgot password?
       ///
       /// Locales: en, ru
@@ -966,6 +974,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let order_save_order = Rswift.StringResource(key: "order_save_order", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Schedule for each day selected period
+      ///
+      /// Locales: en, ru
+      static let portfolio_schedule_tips_body2 = Rswift.StringResource(key: "portfolio_schedule_tips_body2", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Search
       ///
       /// Locales: en, ru
@@ -1287,6 +1299,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("portfolio_add_images_btt", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Add new schedules for any long period.
+      ///
+      /// Locales: en, ru
+      static func portfolio_schedule_tips_title(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_schedule_tips_title", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_schedule_tips_title"
+        }
+
+        return NSLocalizedString("portfolio_schedule_tips_title", bundle: bundle, comment: "")
       }
 
       /// en translation: Add phone number
@@ -1887,6 +1914,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("delete_user_password", bundle: bundle, comment: "")
+      }
+
+      /// en translation: For example, if you want to allow bookings on the same day for the morning time from 8:00 to 10:00 and the evening time from 16:00 to 18:00, create two schedules with different times:
+      ///
+      /// Locales: en, ru
+      static func portfolio_schedule_tips_body(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_schedule_tips_body", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_schedule_tips_body"
+        }
+
+        return NSLocalizedString("portfolio_schedule_tips_body", bundle: bundle, comment: "")
       }
 
       /// en translation: Forgot password?
@@ -2742,6 +2784,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("order_save_order", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Schedule for each day selected period
+      ///
+      /// Locales: en, ru
+      static func portfolio_schedule_tips_body2(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("portfolio_schedule_tips_body2", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "portfolio_schedule_tips_body2"
+        }
+
+        return NSLocalizedString("portfolio_schedule_tips_body2", bundle: bundle, comment: "")
       }
 
       /// en translation: Search

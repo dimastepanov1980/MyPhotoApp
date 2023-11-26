@@ -14,8 +14,8 @@ struct AuthorHCellMainScreenView: View {
 
     var body: some View {
             VStack(alignment: .leading, spacing: 8) {
-                if let location = items.authorLocation {
-                    Text(location)
+                if let customerName = items.customerName, let customerSecondName = items.customerSecondName {
+                    Text("\(customerName) \(customerSecondName)")
                         .lineLimit(1)
                         .font(.title2.bold())
                         .foregroundColor(Color(R.color.gray1.name))
@@ -96,8 +96,8 @@ private class MockViewModelHCell: ObservableObject {
                                                                      authorSecondName: "",
                                                                      authorLocation: "",
                                                                      customerId: nil,
-                                                                     customerName: nil,
-                                                                     customerSecondName: nil,
+                                                                     customerName: "Dima",
+                                                                     customerSecondName: "Stepanov",
                                                                      customerDescription: "",
                                                                      customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
         
