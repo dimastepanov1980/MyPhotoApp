@@ -74,8 +74,14 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                     }
                 }
             }
+            .navigationDestination(for: DbOrderModel.self, destination: { order in
+                DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
+            })
             .ignoresSafeArea()
             .background(Color(R.color.gray7.name))
+            .onAppear{
+                print("AuthorMainScreenView Path Count: \(path.count)")
+            }
     }
     func headerSection(scroll: ScrollViewProxy) -> some View {
         VStack {
@@ -114,12 +120,17 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     }
     
     var horizontalCards: some View {
-        LazyHStack {
+        HStack {
             ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
-                    .navigationBarBackButtonHidden(true)) {
-                        AuthorHCellMainScreenView(items: order)
-                    }
+                NavigationLink(value: order) {
+                    AuthorHCellMainScreenView(items: order)
+                }
+//                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
+//                    .navigationBarBackButtonHidden(true)) {
+//                        AuthorHCellMainScreenView(items: order)
+//
+
+//                    }
             }
         }.padding(.horizontal)
     }
@@ -210,12 +221,17 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray3.name))) {
                             ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.orderId) { order in
-                                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
-                                    .navigationBarBackButtonHidden(true)) {
-                                        AuthorVCellMainScreenView(items: order,
-                                                                  statusColor: viewModel.orderStausColor(order: order.orderStatus),
-                                                                  status: viewModel.orderStausName (status: order.orderStatus))
-                                    }
+                                NavigationLink(value: order) {
+                                    AuthorVCellMainScreenView(items: order,
+                                                              statusColor: viewModel.orderStausColor(order: order.orderStatus),
+                                                              status: viewModel.orderStausName (status: order.orderStatus))
+                                }
+//                                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
+//                                    .navigationBarBackButtonHidden(true)) {
+//                                        AuthorVCellMainScreenView(items: order,
+//                                                                  statusColor: viewModel.orderStausColor(order: order.orderStatus),
+//                                                                  status: viewModel.orderStausName (status: order.orderStatus))
+//                                    }
                             }
                         }
                 }

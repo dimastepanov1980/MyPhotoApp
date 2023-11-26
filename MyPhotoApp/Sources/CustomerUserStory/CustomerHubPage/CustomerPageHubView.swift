@@ -76,6 +76,9 @@ struct CustomerPageHubView: View {
                 }
             }
         }
+        .onAppear{
+            print("CustomerPageHubView Path Count: \(path.count)")
+        }
         .onChange(of: viewModel.latitude) { _ in
             Task {
                 do {

@@ -29,13 +29,12 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                    GridItem(.flexible(), spacing: 0),
                                    GridItem(.flexible(), spacing: 0)]
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
-    
-    @Environment(\.dismiss) private var dismiss
 
     init(with viewModel: ViewModel,
          showEditOrderView: Binding<Bool>,
          detailOrderType: UserType,
-    path: Binding<NavigationPath>) {
+         path: Binding<NavigationPath>) {
+        
         self.viewModel = viewModel
         self._showEditOrderView = showEditOrderView
         self.detailOrderType = detailOrderType
@@ -43,7 +42,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     
     var body: some View {
-            ScrollView {
+        ScrollView(showsIndicators: false) {
                 ZStack(alignment: .center){
                     if isCopied {
                     // Shows up only when copy is done
@@ -124,6 +123,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
             }
         }
+        
         .confirmationDialog("Change Status", isPresented: $showChangeStatusSheet) {
             ForEach(viewModel.avaibleStatus, id: \.self) { status in
                 Button(status) {
@@ -190,8 +190,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                            customerDescription: viewModel.order.customerDescription,
                                                            customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
                 try await viewModel.updateStatus(orderModel: userOrders)
-                
-                dismiss()
+                path.removeLast()
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -427,7 +426,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     private var customBackButton : some View {
         Button {
-            dismiss()
+            path.removeLast()
         } label: {
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
