@@ -85,7 +85,7 @@
 "settings_section_localization" = "Локализация";
 "settings_section_privacy" = "Конфиденциальность";
 "settings_section_information" = "Информация";
-"settings_section_logout" = "Выход";
+"settings_section_logout" = "Авторизация";
 
 "app_version" = "Версия программы:";
 "contact_with_us" = "Свяжитесь с Нами:\nwww.takeaphoto.app";

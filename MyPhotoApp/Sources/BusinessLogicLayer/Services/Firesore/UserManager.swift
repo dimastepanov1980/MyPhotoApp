@@ -286,7 +286,7 @@ final class UserManager {
         let portfolioData: [String : Any] = [
             DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
             DBPortfolioModel.CodingKeys.author.rawValue : authorData,
-            DBPortfolioModel.CodingKeys.schedule.rawValue : [] as NSArray,
+            DBPortfolioModel.CodingKeys.schedule.rawValue : FieldValue.arrayUnion([]),
             DBPortfolioModel.CodingKeys.descriptionAuthor.rawValue : portfolio.descriptionAuthor ?? ""
         ]
         

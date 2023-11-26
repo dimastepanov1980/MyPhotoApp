@@ -26,12 +26,14 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     }
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        NavigationStack{
+            ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
                     authorSection
                         .padding(.horizontal, 24)
                     imageSection
                 }
+            }
         }
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -138,7 +140,6 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                 try await viewModel.getPortfolioImages(imagesPath: viewModel.smallImagesPortfolio)
             }
         }
-
     }
     
     private var authorSection: some View {

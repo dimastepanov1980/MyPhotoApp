@@ -22,9 +22,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     var body: some View {
             VStack{
                 List(viewModel.settingsMenu, id: \.self) { item in
-                    NavigationLink {
-                        viewForSettingItem(item)
-                    } label: {
+                    NavigationLink(value: item) {
                         HStack{
                             Image(systemName: item.imageItem)
                                 .font(.title2)
@@ -41,6 +39,9 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                             .font(.title.bold())
                             .padding()
                     }
+                }
+                .navigationDestination(for: SettingItem.self) { item in
+                    viewForSettingItem(item)
                 }
             }
         .environment(\.defaultMinListRowHeight, 60)
@@ -86,7 +87,7 @@ private class MockViewModel: SettingScreenViewModelType, ObservableObject {
 //        .init(imageItem: "lock.circle", nameItem: R.string.localizable.settings_section_privacy()),
       .init(imageItem: "info.circle", nameItem: R.string.localizable.settings_section_information()),
 //      .init(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
-        .init(imageItem: "rectangle.portrait.and.arrow.forward", nameItem: R.string.localizable.settings_section_logout())
+        .init(imageItem: "person.crop.circle.badge.checkmark", nameItem: R.string.localizable.settings_section_logout())
 ]
     
     var appVersion: String = "1.2"

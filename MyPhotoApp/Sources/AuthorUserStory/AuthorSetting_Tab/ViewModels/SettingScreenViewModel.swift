@@ -16,7 +16,7 @@ final class SettingScreenViewModel: SettingScreenViewModelType {
 //                                       SettingItem(imageItem: "lock.circle", nameItem: R.string.localizable.settings_section_privacy()),
                                        SettingItem(imageItem: "info.circle", nameItem: R.string.localizable.settings_section_information()),
 //                                       SettingItem(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
-                                       SettingItem(imageItem: "rectangle.portrait.and.arrow.forward", nameItem: R.string.localizable.settings_section_logout())
+                                       SettingItem(imageItem: "lock.circle", nameItem: R.string.localizable.settings_section_logout())
     ]
 
 }

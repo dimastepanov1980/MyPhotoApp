@@ -52,12 +52,14 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                                     if statusOrder == .Upcoming {
                                         headerSection(scroll: data)
                                             .padding(.top, 64)
+                                            .padding(.bottom, 4)
+                                            .background(Color(R.color.gray7.name))
+                                            .ignoresSafeArea()
                                     }
                                 }
                                 
                             }
                         }
-                        .padding(.vertical, 32)
                     } else {
                         ZStack{
                             Color(R.color.gray7.name)
@@ -77,18 +79,8 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
             .background(Color(R.color.gray7.name))
         }
     }
-    var horizontalCards: some View {
-        LazyHStack {
-            ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
-                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
-                    .navigationBarBackButtonHidden(true)) {
-                        AuthorHCellMainScreenView(items: order)
-                    }
-            }
-        }.padding(.horizontal)
-    }
     func headerSection(scroll: ScrollViewProxy) -> some View {
-        VStack() {
+        VStack {
             HStack {
                 VStack(alignment: .center, spacing: 0) {
                     Text(R.string.localizable.today())
@@ -121,6 +113,17 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                 calendarSection(value: scroll)
             }
         }
+    }
+    
+    var horizontalCards: some View {
+        LazyHStack {
+            ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
+                NavigationLink(destination: DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
+                    .navigationBarBackButtonHidden(true)) {
+                        AuthorHCellMainScreenView(items: order)
+                    }
+            }
+        }.padding(.horizontal)
     }
     func calendarSection(value: ScrollViewProxy) -> some View {
         HStack(alignment: .bottom, spacing: 8 ) {
@@ -198,8 +201,9 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                 }
             }
         }
-        .padding()
+        .padding(.horizontal)
     }
+    
     func verticalCards() -> some View {
         VStack(alignment: .center) {
                 ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders.keys.sorted() : viewModel.filteredOtherOrders.keys.sorted(), id: \.self) { date in

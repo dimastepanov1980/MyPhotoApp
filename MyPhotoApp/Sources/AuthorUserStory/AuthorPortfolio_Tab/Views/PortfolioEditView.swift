@@ -25,7 +25,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     }
     
     var body: some View {
-        NavigationStack{
             ScrollView(showsIndicators: false){
                 VStack(spacing: 12){
                     avatarImageSection
@@ -88,9 +87,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                 .navigationBarBackButtonHidden(true)
                 .navigationBarItems(leading: customBackButton)
             }
-        }
-        
-        
     }
     
   private var avatarImageSection: some View {

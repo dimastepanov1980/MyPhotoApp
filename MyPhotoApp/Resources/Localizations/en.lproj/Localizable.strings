@@ -85,8 +85,8 @@
 "settings_section_notification" = "Notification";
 "settings_section_localization" = "Localization";
 "settings_section_privacy" = "Privacy";
-"settings_section_information" = "Information";
-"settings_section_logout" = "LogOut";
+"settings_section_information" = "About";
+"settings_section_logout" = "Authorization";
 
 "app_version" = "App version:";
 "contact_with_us" = "Contact with us:\nwww.takeaphoto.app";

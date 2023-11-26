@@ -37,7 +37,8 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
                             CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
                         }
                     }
-                }.padding()
+                }.scrollIndicators(.hidden)
+                .padding()
             }
         }
         .navigationDestination(for: DbOrderModel.self, destination: { order in

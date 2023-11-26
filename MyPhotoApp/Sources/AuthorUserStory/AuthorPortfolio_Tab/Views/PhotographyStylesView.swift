@@ -37,7 +37,7 @@ struct PhotographyStylesView: View {
                 }
             }
             .navigationTitle(R.string.localizable.portfolio_genre_description())
-            .scrollIndicators(ScrollIndicatorVisibility.hidden)
+            .scrollIndicators(.hidden)
             .scrollContentBackground(.hidden)
             .padding(.trailing)
         }
