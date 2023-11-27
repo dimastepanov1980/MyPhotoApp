@@ -80,6 +80,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 }
             }
             .fullScreenCover(isPresented: $viewModel.showOrderStatusAlert) {
+                
                 CustomerStatusOrderScreenView(title: viewModel.titleStatus ?? "",
                                               message: viewModel.messageStatus ?? "",
                                               buttonTitle: viewModel.buttonTitleStatus ?? "") {

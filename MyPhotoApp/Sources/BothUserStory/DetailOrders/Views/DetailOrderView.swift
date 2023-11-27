@@ -70,6 +70,9 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .padding(.top, 32)
                     
                 }
+//                .navigationDestination(for: DbOrderModel.self, destination: { order in
+//                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: order), showAddOrderView: $showEditOrderView, path: $path, mode: .edit)
+//                })
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -96,12 +99,11 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
 
                         .disabled( viewModel.smallReferenceImages.count > 20 )
                         
-                        
-                        Button {
-                            showEditOrderView.toggle()
-                        } label: {
-                            Image(systemName: "pencil.line")
-                        }
+                            Button {
+                                showEditOrderView = true
+                            } label: {
+                                Image(systemName: "pencil.line")
+                            }
                     }
                     .foregroundColor(Color(R.color.gray2.name))
                     .padding()
@@ -117,12 +119,12 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             .onAppear{
                 print("DetailOrderView Path Count: \(path.count)")
             }
-
-        .fullScreenCover(isPresented: $showEditOrderView) {
-            NavigationStack {
-                AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
+        
+            .fullScreenCover(isPresented: $showEditOrderView) {
+                NavigationStack{
+                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, path: $path, mode: .edit)
+                }
             }
-        }
         
         .confirmationDialog("Change Status", isPresented: $showChangeStatusSheet) {
             ForEach(viewModel.avaibleStatus, id: \.self) { status in

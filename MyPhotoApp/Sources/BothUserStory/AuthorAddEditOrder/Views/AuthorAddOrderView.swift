@@ -13,13 +13,17 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
     @Binding var showAddOrderView: Bool
+    @Binding var path: NavigationPath
+
     var mode: Mode
     
     init(with viewModel: ViewModel,
          showAddOrderView: Binding<Bool>,
+         path: Binding<NavigationPath>,
          mode: Mode) {
         self.viewModel = viewModel
         self._showAddOrderView = showAddOrderView
+        self._path = path
         self.mode = mode
     }
     var body: some View {
@@ -72,14 +76,15 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                                                                                               phone: viewModel.phone,
                                                                                               email: viewModel.email)))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
-                    showAddOrderView.toggle()
+                    showAddOrderView = false
+                    path = NavigationPath()
             }
         }
         .navigationTitle(mode == .new ? R.string.localizable.order_new_order() : R.string.localizable.order_edit_order())
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    showAddOrderView.toggle()
+                    showAddOrderView = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.white, Color(R.color.gray3.name))
@@ -115,38 +120,10 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
             CustomTextField(nameTextField: R.string.localizable.settings_section_profile_phone(), text: $viewModel.phone, isDisabled: false)
             CustomTextField(nameTextField: R.string.localizable.settings_section_profile_email(), text: $viewModel.email, isDisabled: mode == .edit)
                 .disabled(mode == .edit)
-            
-//            textField(fieldName: R.string.localizable.order_client_firstName(), propertyName: $viewModel.name)
-//            textField(fieldName: R.string.localizable.order_client_secondName(), propertyName: $viewModel.secondName)
-//            textField(fieldName: R.string.localizable.order_instagramLink(), propertyName: $viewModel.instagramLink)
-//            textField(fieldName: R.string.localizable.settings_section_profile_phone(), propertyName: $viewModel.phone)
-//            textField(fieldName: R.string.localizable.settings_section_profile_email(), propertyName: $viewModel.email)
-            
-            
+
         }
     }
-    private func textField(fieldName: String, propertyName: Binding<String>) -> some View {
 
-        VStack(alignment: .leading, spacing: 4){
-            Text(fieldName)
-                .font(.caption)
-                .foregroundColor(Color(R.color.gray4.name))
-//                .padding(.horizontal)
-            
-            TextField("", text: propertyName)
-                .disableAutocorrection(true)
-                .textInputAutocapitalization(.never)
-                .font(.callout)
-                .foregroundColor(Color(R.color.gray2.name))
-                .padding(.horizontal)
-                .frame(height: 36)
-                .padding(.vertical, 2)
-                .overlay{
-                    RoundedRectangle(cornerRadius: 21)
-                    .stroke(Color(R.color.gray5.name), lineWidth: 1)}
-        }
-
-    }
     private func descriptionField(fieldName: String, propertyName: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 4){
             Text(fieldName)
@@ -174,25 +151,26 @@ struct AuthorAddOrderView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationView {
-            AuthorAddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
+            AuthorAddOrderView(with: mockModel, showAddOrderView: .constant(true), path: .constant(NavigationPath()), mode: .edit)
         }
     }
 }
 private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
-    var authorId: String = ""
-    var phone: String = ""
-    var email: String = ""
-    var secondName: String = ""
-    var avaibleStatus = [""]
-    var status: String = ""
-    var name: String = ""
-    var instagramLink: String = ""
-    var price: String = ""
-    var location: String = ""
-    var description: String = ""
-    var date = Date()
-    var duration: String = ""
-    var imageUrl: [String]  = []
+    @Published var status: String = ""
+    @Published var name: String = ""
+    @Published var secondName: String = ""
+    
+    @Published var instagramLink: String = ""
+    @Published var phone: String = ""
+    @Published var email: String = ""
+    
+    @Published var authorId: String = ""
+    @Published var price: String = ""
+    @Published var location: String = ""
+    @Published var description: String = ""
+    @Published var date: Date = Date()
+    @Published var duration: String = ""
+    @Published var imageUrl: [String] = []
     
     var order: DbOrderModel = DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Upcoming", orderShootingDate: Date(), orderShootingTime: ["11:00"], orderShootingDuration: "2", orderSamplePhotos: [], orderMessages: [], authorId: "", authorName: "Dimas", authorSecondName: "Tester", authorLocation: "Phuket", authorRegion: "TH", customerId: "", customerName: "Client", customerSecondName: "FamiltName", customerDescription: "SuperPUPER", customerContactInfo: DbContactInfo(instagramLink: "NEW ONE", phone: "222 22 22", email: "TEST@TEST.COM")))
  
