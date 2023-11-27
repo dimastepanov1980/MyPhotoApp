@@ -87,7 +87,7 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
         var body: some View {
             VStack(spacing: 0) {
                 Spacer()
-                    CustomTextField(nameTextField: R.string.localizable.email(), text: $email)
+                    CustomTextField(nameTextField: R.string.localizable.email(), text: $email, isDisabled: false)
                         .padding(.bottom, 32)
                     CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
                     Text(errorMassage)

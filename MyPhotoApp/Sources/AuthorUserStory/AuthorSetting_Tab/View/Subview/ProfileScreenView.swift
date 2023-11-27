@@ -28,10 +28,10 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
     var body: some View {
             VStack(spacing: 20){
                 avatarImageSection
-                CustomTextField(nameTextField: R.string.localizable.portfolio_first_name(), text: $viewModel.nameCustomer)
-                CustomTextField(nameTextField: R.string.localizable.portfolio_last_name(), text: $viewModel.secondNameCustomer)
-                CustomTextField(nameTextField: R.string.localizable.settings_section_profile_phone(), text: $viewModel.phone)
-                CustomTextField(nameTextField: R.string.localizable.settings_section_profile_instagram(), text: $viewModel.instagramLink)
+                CustomTextField(nameTextField: R.string.localizable.portfolio_first_name(), text: $viewModel.nameCustomer, isDisabled: false)
+                CustomTextField(nameTextField: R.string.localizable.portfolio_last_name(), text: $viewModel.secondNameCustomer, isDisabled: false)
+                CustomTextField(nameTextField: R.string.localizable.settings_section_profile_phone(), text: $viewModel.phone, isDisabled: false)
+                CustomTextField(nameTextField: R.string.localizable.settings_section_profile_instagram(), text: $viewModel.instagramLink, isDisabled: false)
                 
                 Spacer()
             }

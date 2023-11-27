@@ -363,7 +363,6 @@
 			isa = PBXGroup;
 			children = (
 				5FA3C3462A5BDC07003EA4F8 /* AuthorHubPage */,
-				5FF58F382A27043A009AF970 /* AuthorAddEditOrder */,
 				5FC418F52ADD21C00017AF56 /* AuthorMainScreen_Tab */,
 				5FA767E22A6975FB00861F7D /* AuthorPortfolio_Tab */,
 				5FB717462A223F3000EC7BF6 /* AuthorSetting_Tab */,
@@ -523,6 +522,7 @@
 		5F55F5952B140C6000DCE164 /* BothUserStory */ = {
 			isa = PBXGroup;
 			children = (
+				5FF58F382A27043A009AF970 /* AuthorAddEditOrder */,
 				5FBA26992A15370A00E972FB /* AuthenticationUserStory */,
 				5FA15DA52A184FA9007A1AC6 /* DetailOrders */,
 			);
@@ -738,16 +738,6 @@
 			path = AuthorPortfolio_Tab;
 			sourceTree = "<group>";
 		};
-		5FB6BC022A53EA8B003E0DB3 /* AddEditOrder */ = {
-			isa = PBXGroup;
-			children = (
-				5FF58F3B2A270492009AF970 /* Views */,
-				5FF58F3A2A27048E009AF970 /* ViewModels */,
-				5FF58F392A27048C009AF970 /* Contract */,
-			);
-			path = AddEditOrder;
-			sourceTree = "<group>";
-		};
 		5FB717462A223F3000EC7BF6 /* AuthorSetting_Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -812,8 +802,8 @@
 		5FBA26832A14CAB000E972FB /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				5F55F5952B140C6000DCE164 /* BothUserStory */,
 				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
+				5F55F5952B140C6000DCE164 /* BothUserStory */,
 				5F39095D2A8F52B6006E539A /* CustomerUserStory */,
 				5F39095C2A8F52A0006E539A /* AuthorUserStory */,
 				5F9F32492A9735E0004D48B7 /* Components */,
@@ -1117,7 +1107,9 @@
 		5FF58F382A27043A009AF970 /* AuthorAddEditOrder */ = {
 			isa = PBXGroup;
 			children = (
-				5FB6BC022A53EA8B003E0DB3 /* AddEditOrder */,
+				5FF58F3B2A270492009AF970 /* Views */,
+				5FF58F3A2A27048E009AF970 /* ViewModels */,
+				5FF58F392A27048C009AF970 /* Contract */,
 			);
 			path = AuthorAddEditOrder;
 			sourceTree = "<group>";

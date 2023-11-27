@@ -27,18 +27,19 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
             ScrollView {
                     VStack(alignment: .leading, spacing: 20){
                         customerSection
-                        
+                            .padding(.top)
+                
                         if mode == .new {
                             Text(R.string.localizable.order_shooting_details())
                                 .foregroundStyle(Color(R.color.gray1.name))
                                 .font(.title2.bold())
                                 .padding(.horizontal)
                             datePicker
-                            CustomTextField(nameTextField: R.string.localizable.order_duration(), text: $viewModel.duration)
+                            CustomTextField(nameTextField: R.string.localizable.order_duration(), text: $viewModel.duration, isDisabled: false)
                                 .keyboardType (.decimalPad)
                             
-                            CustomTextField(nameTextField: R.string.localizable.order_location(), text: $viewModel.location)
-                            CustomTextField(nameTextField: R.string.localizable.order_price(), text: $viewModel.price)
+                            CustomTextField(nameTextField: R.string.localizable.order_location(), text: $viewModel.location, isDisabled: false)
+                            CustomTextField(nameTextField: R.string.localizable.order_price(), text: $viewModel.price, isDisabled: false)
                                 .keyboardType (.decimalPad)
                         
                         }
@@ -73,7 +74,6 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView.toggle()
             }
-            //.disabled(viewModel.modified)
         }
         .navigationTitle(mode == .new ? R.string.localizable.order_new_order() : R.string.localizable.order_edit_order())
         .toolbar {
@@ -106,11 +106,15 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     }
     private var customerSection: some View {
         VStack(alignment: .leading, spacing: 20) {
-            CustomTextField(nameTextField: R.string.localizable.order_client_firstName(), text: $viewModel.name)
-            CustomTextField(nameTextField: R.string.localizable.order_client_secondName(), text: $viewModel.secondName)
-            CustomTextField(nameTextField: R.string.localizable.order_instagramLink(), text: $viewModel.instagramLink)
-            CustomTextField(nameTextField: R.string.localizable.settings_section_profile_phone(), text: $viewModel.phone)
-            CustomTextField(nameTextField: R.string.localizable.settings_section_profile_email(), text: $viewModel.email)
+            CustomTextField(nameTextField: R.string.localizable.order_client_firstName(), text: $viewModel.name, isDisabled: mode == .edit)
+                .disabled(mode == .edit)
+            CustomTextField(nameTextField: R.string.localizable.order_client_secondName(), text: $viewModel.secondName, isDisabled: mode == .edit)
+                .disabled(mode == .edit)
+
+            CustomTextField(nameTextField: R.string.localizable.order_instagramLink(), text: $viewModel.instagramLink, isDisabled: false)
+            CustomTextField(nameTextField: R.string.localizable.settings_section_profile_phone(), text: $viewModel.phone, isDisabled: false)
+            CustomTextField(nameTextField: R.string.localizable.settings_section_profile_email(), text: $viewModel.email, isDisabled: mode == .edit)
+                .disabled(mode == .edit)
             
 //            textField(fieldName: R.string.localizable.order_client_firstName(), propertyName: $viewModel.name)
 //            textField(fieldName: R.string.localizable.order_client_secondName(), propertyName: $viewModel.secondName)

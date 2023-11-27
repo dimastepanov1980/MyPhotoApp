@@ -192,8 +192,10 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
         
         var body: some View {
             VStack(spacing: 0) {
-                    CustomTextField(nameTextField: R.string.localizable.email(), text: $email)
+                    CustomTextField(nameTextField: R.string.localizable.email(), text: $email, isDisabled: false)
                         .padding(.bottom, 32)
+                        .keyboardType(.emailAddress)
+
                     CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
                     Text(errorMassage)
                         .font(.footnote)
@@ -231,7 +233,8 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
         
         var body: some View {
             VStack(spacing: 0) {
-                CustomTextField(nameTextField: R.string.localizable.email(), text: $email)
+                CustomTextField(nameTextField: R.string.localizable.email(), text: $email, isDisabled: false)
+                    .keyboardType(.emailAddress)
                     .padding(.bottom, 32)
 
                 CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $password)
