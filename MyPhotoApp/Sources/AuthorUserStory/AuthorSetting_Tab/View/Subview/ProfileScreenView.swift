@@ -15,10 +15,13 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
     @State private var selectedAvatar: PhotosPickerItem?
     @State private var isAvatarUploadInProgress = false
     @State private var loadingImage = false
-    @Environment(\.dismiss) private var dismiss
+    @Binding var path: NavigationPath
 
-    init(with viewModel: ViewModel) {
+
+    init(with viewModel: ViewModel,
+         path: Binding<NavigationPath>) {
         self.viewModel = viewModel
+        self._path = path
     }
     
     var body: some View {
@@ -57,7 +60,7 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
 
                         try await viewModel.updateCurrentUser(profile: profile)
                         self.viewModel.profileIsShow = true
-                        dismiss()
+                        path.removeLast()
                     }
                 }
                 .foregroundColor(Color(R.color.gray2.name))
@@ -128,7 +131,6 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
          }
          .onAppear{
              Task{
-                 print("hello:\(viewModel.avatarProfile)")
                  try await viewModel.getAvatarImage(imagePath: viewModel.avatarProfile ?? "")
              }
          }
@@ -136,7 +138,7 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
     private var customBackButton : some View {
         Button {
             self.viewModel.profileIsShow = true
-            dismiss()
+            path.removeLast()
         } label: {
             Image(systemName: "chevron.left.circle.fill")// set image here
                .font(.title)
@@ -149,7 +151,7 @@ struct ProfileScreenView_Previews: PreviewProvider {
     private static let mocData = MockViewModel()
     static var previews: some View {
         NavigationStack{
-            ProfileScreenView(with: mocData)
+            ProfileScreenView(with: mocData, path: .constant(NavigationPath()))
         }
     }
 }

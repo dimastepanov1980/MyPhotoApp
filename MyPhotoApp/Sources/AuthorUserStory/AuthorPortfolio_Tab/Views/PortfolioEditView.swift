@@ -10,7 +10,6 @@ import PhotosUI
 
 struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @Environment(\.dismiss) private var dismiss
 
     @State private var isTapped = false
     @State private var showStyleList: Bool = false
@@ -19,9 +18,14 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @State private var loadingImage = false
     @State private var locationAuthor = ""
     @State private var selectedAvatar: PhotosPickerItem?
+    @Binding var path: NavigationPath
+    @Environment(\.dismiss) private var dismiss
 
-    init(with viewModel : ViewModel) {
+
+    init(with viewModel : ViewModel,
+         path: Binding<NavigationPath> ) {
         self.viewModel = viewModel
+        self._path = path
     }
     
     var body: some View {
@@ -74,6 +78,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                  bookingDays: [:]
                                                 ))
                                 dismiss()
+//                                path.removeLast()
                             }
                         }
                         .foregroundColor(Color(R.color.gray2.name))
@@ -87,6 +92,9 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                 .onAppear{
                     locationAuthor = viewModel.locationAuthor
                 }
+            }
+            .onAppear{
+                print("PortfolioEditView Path Count: \(path.count)")
             }
     }
     
@@ -295,6 +303,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     private var customBackButton : some View {
         Button {
             dismiss()
+//            path.removeLast()
         } label: {
             Image(systemName: "chevron.left.circle.fill")// set image here
                .font(.title)
@@ -320,7 +329,8 @@ struct PortfolioEditView_Previews: PreviewProvider {
             descriptionAuthor: .constant(viewModel.descriptionAuthor),
             longitude: .constant(0.0),
             latitude: .constant(0.0),
-            regionAuthor: .constant("TH")))
+            regionAuthor: .constant("TH")),
+            path: .constant(NavigationPath()))
     }
 }
 

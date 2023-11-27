@@ -38,7 +38,7 @@ struct CustomerPageHubView: View {
                 case 2:
                     Color.green
                 case 3:
-                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
+                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path)
                 default:
                     EmptyView()
                 }
@@ -58,7 +58,7 @@ struct CustomerPageHubView: View {
             .presentationDetents([.fraction(0.12)])
         }
         .navigationDestination(isPresented: $profileIsShown) {
-            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown))
+            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown), path: $path)
         }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {

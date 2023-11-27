@@ -20,9 +20,12 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                    GridItem(.flexible(), spacing: 0)]
     
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
+    @Binding var path: NavigationPath
 
-    init(with viewModel : ViewModel) {
+    init(with viewModel : ViewModel,
+         path: Binding<NavigationPath>) {
         self.viewModel = viewModel
+        self._path = path
     }
     
     var body: some View {
@@ -32,6 +35,9 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                         .padding(.horizontal, 24)
                     imageSection
                 }
+            }
+            .onAppear{
+                print("PortfolioView Path Count: \(path.count)")
             }
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -109,6 +115,8 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                 .padding()
             }
         }
+        
+        // TODO: - DBPortfolioModel заменить на PortfolioModel и прокинуть что бы была нормльная навигация
         .navigationDestination(isPresented: $showPortfolioEditView) {
             PortfolioEditView(with: PortfolioEditViewModel(locationAuthor: viewModel.locationAuthor,
                                                            typeAuthor: $viewModel.typeAuthor,
@@ -122,10 +130,11 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                                            descriptionAuthor: $viewModel.descriptionAuthor,
                                                            longitude: $viewModel.longitude,
                                                            latitude: $viewModel.latitude,
-                                                           regionAuthor: $viewModel.regionAuthor))
+                                                           regionAuthor: $viewModel.regionAuthor),
+                                                            path: $path)
         }
         .navigationDestination(isPresented: $showScheduleView) {
-            PortfolioScheduleView(with: PortfolioScheduleViewModel(), showScheduleView: $showScheduleView)
+            PortfolioScheduleView(with: PortfolioScheduleViewModel(), showScheduleView: $showScheduleView, path: $path)
                 .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
         }
         .onAppear{
@@ -339,7 +348,7 @@ struct PortfolioView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationStack{
-            PortfolioView(with: viewModel)
+            PortfolioView(with: viewModel, path: .constant(NavigationPath()))
         }
     }
 }

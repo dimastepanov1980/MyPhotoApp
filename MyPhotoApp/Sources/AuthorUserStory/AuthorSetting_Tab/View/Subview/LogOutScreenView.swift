@@ -12,14 +12,17 @@ struct LogOutScreenView<ViewModel: LogOutScreenViewModelType>: View {
     @ObservedObject private var viewModel: ViewModel
     @Binding var showAuthenticationView: Bool
     @State var reAuthenticationScreenSheet: Bool = false
+    @Binding var path: NavigationPath
 
     @Environment(\.dismiss) private var dismiss
 
     
     init(with viewModel: ViewModel,
-         showAuthenticationView: Binding<Bool>) {
+         showAuthenticationView: Binding<Bool>,
+         path: Binding<NavigationPath>) {
         self.viewModel = viewModel
         self._showAuthenticationView = showAuthenticationView
+        self._path = path
 
     }
 
@@ -88,7 +91,7 @@ struct LogOutScreenView_Previews: PreviewProvider {
     private static let mocData = MockViewModel()
 
     static var previews: some View {
-        LogOutScreenView(with: mocData, showAuthenticationView: .constant(false))
+        LogOutScreenView(with: mocData, showAuthenticationView: .constant(false), path: .constant(NavigationPath()))
     }
 }
 

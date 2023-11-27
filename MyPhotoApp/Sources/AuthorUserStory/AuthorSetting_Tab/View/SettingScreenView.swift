@@ -11,12 +11,15 @@ import Combine
 struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @Binding var showAuthenticationView: Bool
+    @Binding var path: NavigationPath
 
     init(with viewModel: ViewModel,
-         showAuthenticationView: Binding<Bool>) {
+         showAuthenticationView: Binding<Bool>,
+         path: Binding<NavigationPath>) {
         
         self.viewModel = viewModel
         self._showAuthenticationView = showAuthenticationView
+        self._path = path
     }
     
     var body: some View {
@@ -54,7 +57,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
 
         switch item.nameItem {
         case R.string.localizable.settings_section_profile():
-            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: .constant(true)))
+            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: .constant(true)), path: $path)
         case R.string.localizable.settings_section_notification():
             NotificationScreenView()
         case R.string.localizable.settings_section_privacy():
@@ -64,7 +67,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
         case R.string.localizable.settings_section_localization():
             LocalizationScreenView()
         case R.string.localizable.settings_section_logout():
-            LogOutScreenView(with: LogOutScreenViewModel(), showAuthenticationView: $showAuthenticationView)
+            LogOutScreenView(with: LogOutScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path)
 
         default:
             Text("Unknown View")
@@ -76,7 +79,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
 struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
-            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false))
+        SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), path: .constant(NavigationPath()))
     }
 }
 

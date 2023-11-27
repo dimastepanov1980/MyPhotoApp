@@ -36,9 +36,9 @@ struct AuthorHubPageView: View {
                                              showEditOrderView: $showEditOrderView,
                                              statusOrder: .InProgress, path: $path )
                     } else if self.index == 2 {
-                        PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
+                        PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow), path: $path)
                     } else if self.index == 3 {
-                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
+                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path)
                     }
                 }
                 .padding(.bottom, -40)
@@ -60,10 +60,10 @@ struct AuthorHubPageView: View {
                 .presentationDetents([.fraction(0.12)])
             }
             .navigationDestination(isPresented: $showProfileView) {
-                ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShow))
+                ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShow), path: $path)
             }
             .navigationDestination(isPresented: $showPortfolioView) {
-                PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
+                PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow), path: $path)
             }
             .edgesIgnoringSafeArea(.bottom)
             .fullScreenCover(isPresented: $showAddOrderView) {

@@ -12,12 +12,15 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
     @Binding var showScheduleView: Bool
     @State var showScheduleTips: Bool = false
     @State private var scheduleTimeTag: [String] = ["08:00", "09:00", "10:00", "16:00", "17:00", "18:00"]
-    
+    @Binding var path: NavigationPath
+
     
     init(with viewModel : ViewModel,
-         showScheduleView: Binding<Bool>) {
+         showScheduleView: Binding<Bool>,
+         path: Binding<NavigationPath>) {
         self.viewModel = viewModel
         self._showScheduleView = showScheduleView
+        self._path = path
     }
     var body: some View {
             List {
@@ -45,6 +48,9 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
 
                     }
                 }
+            }
+            .onAppear{
+                print("PortfolioScheduleView Path Count: \(path.count)")
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -109,7 +115,6 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
         .padding(.top, 16)
         .padding()
     }
-    
     private var scheduleCellTips: some View {
         VStack(spacing: 20){
             VStack(alignment: .leading, spacing: 6){
@@ -318,7 +323,7 @@ struct PortfolioScheduleView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
 
     static var previews: some View {
-        PortfolioScheduleView(with: viewModel, showScheduleView: .constant(false))
+        PortfolioScheduleView(with: viewModel, showScheduleView: .constant(false), path: .constant(NavigationPath()))
     }
 }
 

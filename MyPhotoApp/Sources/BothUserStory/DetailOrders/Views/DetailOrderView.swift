@@ -403,19 +403,25 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
 
             } else {
                 if viewModel.smallReferenceImages.count > 0 {
-                        ProgressView()
-                            .padding(.top, 120)
+                    VStack(alignment: .center){
+                        Spacer()
+                        ProgressView(R.string.localizable.portfolio_please_wait())
+                            .progressViewStyle(.circular)
+                    }
                 } else {
+                    VStack(alignment: .center){
                         Text(R.string.localizable.customer_order_add_sample())
                             .font(.subheadline)
                             .foregroundColor(Color(R.color.gray3.name))
                             .multilineTextAlignment(.center)
                             .padding(36)
                             .padding(.top, 120)
+                    }
                     
                 }
             }
         }
+        .frame(minWidth: 0, maxWidth: .infinity)
     }
     private func timeToMinutes(_ time: String) -> Int {
         let components = time.split(separator: ":")
