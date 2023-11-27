@@ -16,6 +16,7 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
     @State private var isAvatarUploadInProgress = false
     @State private var loadingImage = false
     @Binding var path: NavigationPath
+    @Environment(\.dismiss) private var dismiss
 
 
     init(with viewModel: ViewModel,
@@ -33,6 +34,9 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                 CustomTextField(nameTextField: R.string.localizable.settings_section_profile_instagram(), text: $viewModel.instagramLink)
                 
                 Spacer()
+            }
+            .onAppear{
+                print("ProfileScreenView path count: \(path.count)")
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: customBackButton)
@@ -60,7 +64,8 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
 
                         try await viewModel.updateCurrentUser(profile: profile)
                         self.viewModel.profileIsShow = true
-                        path.removeLast()
+                        path = NavigationPath()
+                        
                     }
                 }
                 .foregroundColor(Color(R.color.gray2.name))
@@ -138,7 +143,7 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
     private var customBackButton : some View {
         Button {
             self.viewModel.profileIsShow = true
-            path.removeLast()
+            dismiss()
         } label: {
             Image(systemName: "chevron.left.circle.fill")// set image here
                .font(.title)

@@ -411,7 +411,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.image` struct is generated, and contains static references to 13 images.
+  /// This `R.image` struct is generated, and contains static references to 14 images.
   struct image {
     /// Image `ic_arial`.
     static let ic_arial = Rswift.ImageResource(bundle: R.hostingBundle, name: "ic_arial")
@@ -439,6 +439,8 @@ struct R: Rswift.Validatable {
     static let image_no_portfolio = Rswift.ImageResource(bundle: R.hostingBundle, name: "image_no_portfolio")
     /// Image `image_pateron`.
     static let image_pateron = Rswift.ImageResource(bundle: R.hostingBundle, name: "image_pateron")
+    /// Image `image_telegram`.
+    static let image_telegram = Rswift.ImageResource(bundle: R.hostingBundle, name: "image_telegram")
 
     #if os(iOS) || os(tvOS)
     /// `UIImage(named: "ic_arial", bundle: ..., traitCollection: ...)`
@@ -531,12 +533,19 @@ struct R: Rswift.Validatable {
     }
     #endif
 
+    #if os(iOS) || os(tvOS)
+    /// `UIImage(named: "image_telegram", bundle: ..., traitCollection: ...)`
+    static func image_telegram(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.image_telegram, compatibleWith: traitCollection)
+    }
+    #endif
+
     fileprivate init() {}
   }
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 153 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 156 localization keys.
     struct localizable {
       /// en translation: About
       ///
@@ -634,7 +643,7 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let contact_information = Rswift.StringResource(key: "contact_information", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Contact with us: www.takeaphoto.app
+      /// en translation: Contact with us:
       ///
       /// Locales: en, ru
       static let contact_with_us = Rswift.StringResource(key: "contact_with_us", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
@@ -850,6 +859,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let settings_section_notification = Rswift.StringResource(key: "settings_section_notification", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Oops!
+      ///
+      /// Locales: en, ru
+      static let order_fail = Rswift.StringResource(key: "order_fail", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Order Created!
       ///
       /// Locales: en, ru
@@ -1046,6 +1059,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let signup_to_continue = Rswift.StringResource(key: "signup_to_continue", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Something wrong!  Try again later
+      ///
+      /// Locales: en, ru
+      static let order_created_message_fail = Rswift.StringResource(key: "order_created_message_fail", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Sorry, no photographers found
       ///
       /// Locales: en, ru
@@ -1082,6 +1099,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_interval = Rswift.StringResource(key: "schedule_interval", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Too bad!(
+      ///
+      /// Locales: en, ru
+      static let order_created_button_fail = Rswift.StringResource(key: "order_created_button_fail", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Total price
       ///
       /// Locales: en, ru
@@ -1511,7 +1532,7 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("contact_information", bundle: bundle, comment: "")
       }
 
-      /// en translation: Contact with us: www.takeaphoto.app
+      /// en translation: Contact with us:
       ///
       /// Locales: en, ru
       static func contact_with_us(preferredLanguages: [String]? = nil) -> String {
@@ -2321,6 +2342,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("settings_section_notification", bundle: bundle, comment: "")
       }
 
+      /// en translation: Oops!
+      ///
+      /// Locales: en, ru
+      static func order_fail(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_fail", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_fail"
+        }
+
+        return NSLocalizedString("order_fail", bundle: bundle, comment: "")
+      }
+
       /// en translation: Order Created!
       ///
       /// Locales: en, ru
@@ -3056,6 +3092,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("signup_to_continue", bundle: bundle, comment: "")
       }
 
+      /// en translation: Something wrong!  Try again later
+      ///
+      /// Locales: en, ru
+      static func order_created_message_fail(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_created_message_fail", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_created_message_fail"
+        }
+
+        return NSLocalizedString("order_created_message_fail", bundle: bundle, comment: "")
+      }
+
       /// en translation: Sorry, no photographers found
       ///
       /// Locales: en, ru
@@ -3189,6 +3240,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("schedule_interval", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Too bad!(
+      ///
+      /// Locales: en, ru
+      static func order_created_button_fail(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("order_created_button_fail", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "order_created_button_fail"
+        }
+
+        return NSLocalizedString("order_created_button_fail", bundle: bundle, comment: "")
       }
 
       /// en translation: Total price

@@ -15,12 +15,12 @@ struct CustomerStatusOrderScreenView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 10){
-            Text( R.string.localizable.order_created())
+            Text(title)
                 .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(Color(R.color.gray1.name))
             
-            Text( R.string.localizable.order_created_message())
+            Text(message)
                 .font(.callout)
                 .foregroundColor(Color(R.color.gray3.name))
             

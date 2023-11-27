@@ -20,28 +20,40 @@ struct InformationScreenView: View {
 
     var body: some View {
         VStack(alignment: .center) {
+            Spacer()
             Image(R.image.image_logo.name)
                 .padding(.top, height / 12)
             Text("\(R.string.localizable.app_version()) \(appVersion)")
                 .font(.caption)
                 .foregroundColor(Color(R.color.gray3.name))
                 .padding(.bottom, 36)
+            Spacer()
             
-            Link(destination: URL(string: "http://takeaphoto.app")!) {
-                VStack {
-                    Text(R.string.localizable.contact_with_us())
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray1.name))
-                        .padding(8)
+                Text(R.string.localizable.contact_with_us())
+                .font(.footnote.bold())
+                    .foregroundColor(Color(R.color.gray1.name))
+                    .multilineTextAlignment(.center)
+            HStack(spacing: 20){
+                Link(destination: URL(string: "http://takeaphoto.app")!) {
+                    Image(systemName: "network")
+                        .resizable()
+                        .renderingMode(.template)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 30)
+                        .foregroundColor(Color(R.color.gray3.name))
+                }
+                
+                Link(destination: URL(string: "https://t.me/takeaphotoapp")!) {
+                    Image(R.image.image_telegram.name)
+                        .resizable()
+                        .renderingMode(.template)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 30)
+                        .foregroundColor(Color(R.color.gray3.name))
                 }
             }
+
             
-            Text(R.string.localizable.notes())
-                .font(.caption)
-                .foregroundColor(Color(R.color.gray3.name))
-                .multilineTextAlignment(.center)
-                .padding(.bottom, 32)
-            Spacer()
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: customBackButton)

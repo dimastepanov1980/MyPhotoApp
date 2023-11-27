@@ -10,8 +10,11 @@ import SwiftUI
 
 @MainActor
 protocol CustomerConfirmOrderViewModelType: ObservableObject {
+    var titleStatus: String? { get set }
+    var messageStatus: String? { get set }
+    var buttonTitleStatus: String? { get set }
     
-    var showAlertOrderStatus: Bool { get set }
+    var showOrderStatusAlert: Bool { get set }
     var user: DBUserModel? { get set }
     var customerFirstName: String { get set }
     var customerSecondName: String { get set }

@@ -63,7 +63,7 @@ struct AuthorHubPageView: View {
                 ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShow), path: $path)
             }
             .navigationDestination(isPresented: $showPortfolioView) {
-                PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow), path: $path)
+                    PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow), path: $path)
             }
             .edgesIgnoringSafeArea(.bottom)
             .fullScreenCover(isPresented: $showAddOrderView) {

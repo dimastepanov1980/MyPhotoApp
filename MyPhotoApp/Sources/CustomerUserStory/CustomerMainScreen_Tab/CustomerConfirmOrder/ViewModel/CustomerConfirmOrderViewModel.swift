@@ -11,12 +11,14 @@ import SwiftUI
 @MainActor
 final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     var user: DBUserModel?
-
-    @Published var showAlertOrderStatus: Bool = false
-
+    
+    @Published var titleStatus: String?
+    @Published var messageStatus: String?
+    @Published var buttonTitleStatus: String?
+    
+    @Published var showOrderStatusAlert: Bool = false
     @Published var customerFirstName: String
     @Published var customerSecondName: String
-    
     @Published var customerInstagramLink: String
     @Published var customerPhone: String
     @Published var customerEmail: String
@@ -117,6 +119,9 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                     }
                     successBooking = true
                 } else {
+                    self.titleStatus = R.string.localizable.order_fail()
+                    self.messageStatus = R.string.localizable.order_created_message_fail()
+                    self.buttonTitleStatus = R.string.localizable.order_created_button_fail()
                     print("Error! The selected time exists, please select another time or date.")
                 }
                 
@@ -133,6 +138,9 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         }
         
         if successBooking {
+            self.titleStatus = R.string.localizable.order_created()
+            self.messageStatus = R.string.localizable.order_created_message()
+            self.buttonTitleStatus = R.string.localizable.order_created_button()
             print("Success! You have booked the selected date and time.")
             try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
         }

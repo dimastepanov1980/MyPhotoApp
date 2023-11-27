@@ -30,8 +30,11 @@
 "order_not_found" = "You don't have orders";
 "order_not_found_worning" = "Your new orders will be here.\nPlease set up a portfolio section\nso that you can be found in searches";
 "order_created" = "Order Created!";
+"order_fail" = "Oops!";
 "order_created_message" = "Thank you for order. \nThe author will contact you shortly";
+"order_created_message_fail" = "Something wrong! \nTry again later";
 "order_created_button" = "Amazing!";
+"order_created_button_fail" = "Too bad!(";
 
 // MARK: - New Order
 "order_client_firstName" = "Client's first name";
@@ -89,7 +92,7 @@
 "settings_section_logout" = "Authorization";
 
 "app_version" = "App version:";
-"contact_with_us" = "Contact with us:\nwww.takeaphoto.app";
+"contact_with_us" = "Contact with us:";
 "notes" = "When more than 100 photographers use our application,\nwe will start developing the «Portfolio» service.";
 "your_login" = "Your Login:";
 "version_not_available" = "Version not available";

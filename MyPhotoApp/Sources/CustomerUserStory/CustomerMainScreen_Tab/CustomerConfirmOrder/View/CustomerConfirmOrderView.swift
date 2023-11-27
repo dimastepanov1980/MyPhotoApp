@@ -10,8 +10,7 @@ import SwiftUI
 struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State var orderDescription: String = R.string.localizable.default_message()
-    @State var showAuthenticationCustomerView: Bool = false
-    
+    @State var showAuthenticationCustomerView: Bool = false    
     @Binding var showOrderConfirm: Bool
     @Binding var path: NavigationPath
 
@@ -52,7 +51,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                         if customerIsFilled {
                             Task{
                                 try await viewModel.createNewOrder()
-                                self.viewModel.showAlertOrderStatus = true
+                                self.viewModel.showOrderStatusAlert = true
                             }
                         }
                     }
@@ -80,12 +79,13 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                     self.showAuthenticationCustomerView = try await viewModel.getCustomerData()
                 }
             }
-            .fullScreenCover(isPresented: $viewModel.showAlertOrderStatus) {
-                CustomerStatusOrderScreenView(title: R.string.localizable.order_created(),
-                                              message: R.string.localizable.order_created_message(),
-                                              buttonTitle: R.string.localizable.order_created_button()) {
-                    path.removeLast()
-                    self.viewModel.showAlertOrderStatus = false
+            .fullScreenCover(isPresented: $viewModel.showOrderStatusAlert) {
+                CustomerStatusOrderScreenView(title: viewModel.titleStatus ?? "",
+                                              message: viewModel.messageStatus ?? "",
+                                              buttonTitle: viewModel.buttonTitleStatus ?? "") {
+                    
+                    self.viewModel.showOrderStatusAlert = false
+                    path = NavigationPath()
                     
                 }
             }
@@ -227,8 +227,12 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerConfirmOrderViewModelType, ObservableObject {
+    var titleStatus: String?
+    var messageStatus: String?
+    var buttonTitleStatus: String?
+    
     var showAuthenticationCustomerView: Bool = false
-    var showAlertOrderStatus: Bool = false
+    var showOrderStatusAlert: Bool = false
     
     var authorBookingDays: [String : [String]] = [:]
     var user: DBUserModel? = nil
