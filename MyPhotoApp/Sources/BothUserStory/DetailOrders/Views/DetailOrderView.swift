@@ -17,6 +17,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @Binding var path: NavigationPath
 
     @State private var showingOptions = false
+    @State private var selectedStatus = ""
     @State private var randomHeights: [CGFloat] = []
     @State private var selectImages: [PhotosPickerItem] = []
     @Binding var showEditOrderView: Bool
@@ -135,9 +136,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         statusIsChange = false
                        
                     default:
+                        self.selectedStatus = status
                         statusIsChange = true
-                        self.viewModel.status = status
-
                     }
 
                 }
@@ -176,7 +176,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                 OrderModel(orderId: viewModel.order.orderId,
                                                            orderCreateDate: Date(),
                                                            orderPrice: viewModel.order.orderPrice,
-                                                           orderStatus: viewModel.returnedStatus(status: viewModel.status),
+                                                           orderStatus: viewModel.returnedStatus(status: selectedStatus),
                                                            orderShootingDate: viewModel.order.orderShootingDate,
                                                            orderShootingTime: viewModel.order.orderShootingTime,
                                                            orderShootingDuration: viewModel.order.orderShootingDuration ?? "",
@@ -192,6 +192,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                            customerDescription: viewModel.order.customerDescription,
                                                            customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
                 try await viewModel.updateStatus(orderModel: userOrders)
+                print(selectedStatus)
                 path.removeLast()
             }
         }

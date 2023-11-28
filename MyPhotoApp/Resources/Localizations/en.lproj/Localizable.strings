@@ -116,7 +116,7 @@
 //MARK: - Customer Order
 "default_message" = "Write your contacts and additional information";
 "place_order" = "Place Order";
-"customer_order_add_sample" = "If you want to add sample photos,\nclick the plus icon in the toolbar";  
+"customer_order_add_sample" = "If you want to add sample photos, click the plus icon in the toolbar";  
 "photographer" = "Photographer";
 "about_customer" = "About Me";
 "message" = "Message";
