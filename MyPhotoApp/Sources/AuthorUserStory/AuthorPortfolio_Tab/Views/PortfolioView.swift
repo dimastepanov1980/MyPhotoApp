@@ -224,7 +224,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                             .resizable()
                                             .scaledToFill()
                                             .frame(width: imageGallerySize, height: imageGallerySize)
-                                            .border(Color.white)
+                                            .border(Color(.systemBackground))
                                             .clipped()
                                             .contextMenu {
                                                 Button {

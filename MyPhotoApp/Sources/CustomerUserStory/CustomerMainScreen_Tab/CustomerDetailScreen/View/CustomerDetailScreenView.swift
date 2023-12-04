@@ -10,7 +10,6 @@ import SwiftUI
 struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     
-    var startMyTripDate: Date
     @Binding var path: NavigationPath
     @State private var currentStep = 0
     @State var showOrderConfirm: Bool = false
@@ -20,10 +19,8 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     
     
     init(with viewModel: ViewModel,
-         startMyTripDate: Date,
          path: Binding<NavigationPath>) {
         self.viewModel = viewModel
-        self.startMyTripDate = startMyTripDate
         self._path = path
     }
 
@@ -66,17 +63,15 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
            .safeAreaInset(edge: .bottom) {
                VStack{
                    HStack(spacing: 16){
-                       if let selectedDay = viewModel.selectedDay {
                            HStack(spacing: 2) {
                                Image(systemName: "calendar")
                                    .font(.subheadline)
                                    .foregroundColor(Color(R.color.gray1.name))
                                
-                               Text(viewModel.formattedDate(date: selectedDay, format: "dd MMMM"))
+                               Text(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM"))
                                    .font(.subheadline)
                                    .foregroundColor(Color(R.color.gray3.name))
                            }
-                       }
                        if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
                            
                            HStack(spacing: 2) {
@@ -100,7 +95,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                        }
                    }
                    if let author = viewModel.portfolio.author {
-                       if viewModel.selectedDay != nil {
                            if viewModel.selectedTime.isEmpty {
                                CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
                                    // Action
@@ -112,11 +106,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                    
                                }
                            }
-                       } else {
-                           CustomButtonXl(titleText: "\(R.string.localizable.select_date()) ", iconName: "") {
-                               // Action
-                           }
-                       }
+                     
                    }
                }
                .padding(.top, 4)
@@ -126,7 +116,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
            .fullScreenCover(isPresented: $showOrderConfirm) {
                    CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
                     author: viewModel.portfolio,
-                    orderDate: viewModel.selectedDay ?? Date(),
+                    orderDate: viewModel.selectedDay,
                     orderTime: viewModel.selectedTime,
                     orderDuration: String(viewModel.selectedTime.count),
                     orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
@@ -140,7 +130,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
                     .font(.title)
-                    .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+                    .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
            
             }
         }
@@ -294,7 +284,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             Group {
-            if viewModel.selectedDay != nil {
                 Divider()
             Text(R.string.localizable.select_time())
                 .font(.caption2)
@@ -308,7 +297,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                        
                 }
                 .id(timeID)
-              }
                 
             }
             .padding(.horizontal, 24)
@@ -495,11 +483,10 @@ private struct RoundedCorner: Shape {
 struct CustomerDetailScreenView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
     static var previews: some View {
-        CustomerDetailScreenView(with: mocItems, startMyTripDate: Date(), path: .constant(NavigationPath()))
+        CustomerDetailScreenView(with: mocItems, path: .constant(NavigationPath()))
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
-    var startMyTrip: Date = Date()
     func getMinPrice(appointmen: [DbSchedule]) {}
     var avatarImage: UIImage?
     func getAvatarImage(imagePath: String) async throws {}
@@ -530,7 +517,7 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
                                                                  schedule: [],
                                                                  bookingDays: [:]))
     @Published var selectedTime: [String] = []
-    @Published var selectedDay: Date? = Date()
+    @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
     @Published var timeslotSelectedDay: [String] = []
     
@@ -557,7 +544,7 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
     }
     func isToday(date: Date) -> Bool {
         let calendar = Calendar.current
-        return calendar.isDate(selectedDay ?? Date(), inSameDayAs: date)
+        return calendar.isDate(selectedDay, inSameDayAs: date)
     }
 
 

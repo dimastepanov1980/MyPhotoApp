@@ -84,7 +84,7 @@ struct PortfolioDetailScreenView: View {
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
                     .font(.title)
-                    .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+                    .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
            
             }
         }

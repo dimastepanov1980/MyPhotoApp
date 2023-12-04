@@ -68,7 +68,7 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
         } label: {
             Image(systemName: "xmark.circle.fill")
                .font(.title)
-               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
         }
     }
     private struct CustomerTab: View {

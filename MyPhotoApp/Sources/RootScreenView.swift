@@ -26,9 +26,11 @@ struct RootScreenView: View {
                 }
             }
         }
-        .sheet(isPresented: $showAuthenticationView, content: {
-            AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer), showAuthenticationView: $showAuthenticationView)
-        })
+        .sheet(isPresented: $showAuthenticationView) {
+            NavigationStack{
+                AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer), showAuthenticationView: $showAuthenticationView)
+            }
+        }
 
     }
 }

@@ -24,7 +24,7 @@ struct AuthorVCellMainScreenView: View {
                 if let status = status, !status.isEmpty {
                         Text(status)
                             .font(.caption2)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(Color(.systemBackground))
                             .padding(.horizontal,10)
                             .padding(.vertical, 5)
                             .background(statusColor)

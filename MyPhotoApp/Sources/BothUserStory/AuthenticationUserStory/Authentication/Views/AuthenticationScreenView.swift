@@ -88,7 +88,27 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                     .padding(.top, 32)
                     .offset(x: index == 1 ? width / 2 : -width / 2)
             }
-            Spacer()
+
+        }
+        .toolbar {
+            ToolbarItem(placement: .destructiveAction) {
+                Button {
+                    showAuthenticationView = false
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(Color(.systemBackground), Color(R.color.gray3.name))
+                        .font(.title2)
+                        .padding(.trailing)
+                }
+            }
+            
+            ToolbarItem(placement: .principal) {
+                Text(R.string.localizable.logIn_SignUp())
+                    .font(.footnote)
+                    .foregroundColor(Color(R.color.gray3.name))
+            }
+            
+            ToolbarItem(placement: .status) {
                 Button {
                     Task {
                         try await viewModel.resetPassword()
@@ -98,31 +118,9 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray3.name))
                 }
-                .padding(.bottom, 100)
-            
-            
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                ZStack{
-                    HStack{
-                        Spacer()
-                        Button {
-                            showAuthenticationView = false
-                        } label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(.white, Color(R.color.gray3.name))
-                                .font(.title2)
-                                .padding(.trailing)
-                        }
-                    }
-                    Text(R.string.localizable.logIn_SignUp())
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray3.name))
-                    
-                }.padding(.top)
             }
+               
+            
         }
         .onAppear {
             Task {
@@ -210,7 +208,6 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                         try await action()
                     }
                 }
-                         .padding(.bottom)
             }
         }
     }
@@ -251,7 +248,6 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                         try await action()
                     }
                 }
-                               .padding(.bottom)
             }
         }
     }

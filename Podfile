@@ -5,6 +5,8 @@ target 'MyPhotoApp' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
+  pod 'GoogleUtilities', '~> 7.12'
+
   # Pods for MyPhotoApp
 	pod 'SDWebImageSwiftUI'
 

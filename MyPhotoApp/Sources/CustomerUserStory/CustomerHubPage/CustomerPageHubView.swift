@@ -64,25 +64,17 @@ struct CustomerPageHubView: View {
         .onAppear {
             Task{
                 do{
-                    try await viewModel.fetchLocation()
-                    if viewModel.portfolio.isEmpty {
-                        viewModel.getCurrentLocation()
-                        viewModel.portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-                        
-                        print("viewModel.portfolio onAppear \(viewModel.portfolio)")
-                    }
+                    viewModel.portfolio =  try await viewModel.fetchPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+
                 } catch {
-                    print("Error fetching portfolio: \(error)")
+                    print("Error fetching Location: \(error)")
                 }
             }
-        }
-        .onAppear{
-            print("CustomerPageHubView Path Count: \(path.count)")
         }
         .onChange(of: viewModel.latitude) { _ in
             Task {
                 do {
-                    viewModel.portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+                    viewModel.portfolio = try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
                     print("viewModel portfolio NEW Coordinate \(viewModel.portfolio)")
                 } catch {
                     print("Error fetching portfolio for  NEW Coordinate : \(error)")

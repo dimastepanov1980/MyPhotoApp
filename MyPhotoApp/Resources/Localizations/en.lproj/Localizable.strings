@@ -20,7 +20,7 @@
 "takeAPhoto" = "Take a Photo";
 "addPhoto" = "Add Photo";
 "delete_user" = "Delete Account";
-"delete_user_allert" = "Deleting account will delete all your information in this App. Are you sure you want to continue?";
+"delete_user_allert" = "Deleting account will delete all your information in this App.\nAre you sure you want to continue?";
 "cancel" = "Cancel";
 "delete_user_password" = "For delete account enter your current password";
 "signup_to_continue" = "Sign up to continue";
@@ -111,7 +111,11 @@
 "select_time" = "Select time";
 "reservation_button" = "Reservation for";
 "select_date_no_dates" = "We are very sorry,\nbut there are no available dates\nfor the selected period.";
+"main_screen_portfolio_not_found_title" = "No portfolio foundy.";
+"main_screen_portfolio_not_found_message" = "We were unable to find photographers. Choose another city.";
 
+"main_screen_portfolio_location_denied_title" = "Location not determined.";
+"main_screen_portfolio_location_denied_message" = "Location tracking must be enabled.";
 
 //MARK: - Customer Order
 "default_message" = "Write your contacts and additional information";
@@ -190,7 +194,8 @@
 "schedule_holidays" = "Including weekends";
 
 //MARK: - Customer Main screen
-"customer_search_bar" = "Search photographer";
+"customer_search_bar" = "Find city";
+"customer_search_select_date" = "Select shooting date";
 "customer_search" = "Search";
 "customer_search_no_result" = "Sorry, no photographers found";
 "customer_orders_worning" = "You currently have no active orders";

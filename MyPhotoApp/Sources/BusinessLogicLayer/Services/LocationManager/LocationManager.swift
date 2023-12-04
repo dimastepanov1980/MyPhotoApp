@@ -21,9 +21,24 @@ class LocationService: NSObject, ObservableObject {
         setupLocationManager()
     }
     
-    func requestLocation() async throws {
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
+//    func requestLocation() async throws {
+//        locationManager.requestWhenInUseAuthorization()
+//        locationManager.requestLocation()
+//    }
+    
+    func requestLocation() async throws -> LocationStatus{
+       switch locationManager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.requestLocation()
+            return LocationStatus.locationAccessAllow
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            return LocationStatus.locationAccessDenied
+        case .denied, .restricted:
+           return LocationStatus.locationAccessDenied
+        default:
+           return LocationStatus.locationAccessDenied
+        }
     }
     
     private func setupLocationManager() {
@@ -32,11 +47,16 @@ class LocationService: NSObject, ObservableObject {
     }
 }
 
+enum LocationStatus: String {
+    case locationAccessDenied
+    case locationAccessAllow
+}
+
+
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         self.location = location
-
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

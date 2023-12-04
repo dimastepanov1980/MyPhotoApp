@@ -35,7 +35,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
             if searchPageShow {
                     searchLocationButton
                         .matchedGeometryEffect(id: "search", in: filterspace)
-                        .background(Color.white)
+                        .background(Color(.systemBackground))
                         .onTapGesture {
                             withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
                                 self.searchPageShow = false
@@ -54,14 +54,14 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 110)
                         .navigationDestination(for: AuthorPortfolioModel.self) { portfolio in
-                            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(portfolio: portfolio), startMyTripDate: selectDate, path: $path)
+                            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(portfolio: portfolio, selectedDay: selectDate), path: $path)
                         }
                     }
                     .refreshable {
                         Task{
                             do{
                                 print("longitude: \(viewModel.longitude), latitude: \(viewModel.latitude)")
-                                viewModel.portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+                                viewModel.portfolio = try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
                             } catch {
                                 print("Error refreshable fetching portfolio: \(error)")
 
@@ -72,14 +72,12 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
 
             } else {
                 VStack{
-//                    VStack(spacing: 20){
                         CustomerSearchBar(nameTextField: R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
                         .shadow(color: Color.black.opacity(0.15) ,radius: 5)
                         .padding(.horizontal)
                         .padding(.bottom)
                             .matchedGeometryEffect(id: "search", in: filterspace)
                         dateSection
-//                    }
                     .shadow(color: Color.black.opacity(0.15) ,radius: 5)
                     .padding(.horizontal)
                     .matchedGeometryEffect(id: "overlay", in: filterspace)
@@ -124,7 +122,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                 }
                             }
                         }
-                        .background(Color.white)
+                        .background(Color(.systemBackground))
                     }
                     .offset(y: 60)
                 }
@@ -134,15 +132,21 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
         .onAppear{
             print("CustomerMainScreenView Path Count: \(path.count)")
         }
+        .alert(isPresented: $viewModel.showAlertPortfolio) {
+               Alert(
+                title: Text(viewModel.alertTitle),
+                message: Text(viewModel.alertMessage)
+               )
+           }
     }
     
     private var searchLocationButton: some View {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 21)
-                .fill(Color.white)
+                .fill(Color(.systemBackground))
                 .overlay(
                     RoundedRectangle(cornerRadius: 21)
-                        .stroke(Color.gray.opacity(0.15), lineWidth: 1)
+                        .stroke(Color(R.color.gray4.name).opacity(0.35), lineWidth: 1)
                 )
             
             HStack {
@@ -158,19 +162,28 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
             
         }.frame(height: 40)
             .padding(.horizontal)
+            .background(Color(.systemBackground))
+
 
      }
 
     private var dateSection: some View {
-        VStack {
+        VStack(alignment: .leading){
+           
+            Text( R.string.localizable.customer_search_select_date())
+                .font(.title)
+                .foregroundColor(Color(R.color.gray2.name))
+                .padding(.leading)
+            
             DatePicker("Chose Date", selection: $selectDate, displayedComponents: [.date])
             .datePickerStyle(.graphical)
             .onChange(of: selectDate) { newDate in
                 self.viewModel.selectedDate = newDate
                 print("Selected date changed to: \( self.viewModel.selectedDate)")
+                print("Selected date changed to: \( selectDate)")
                  }
         }
-            .background(Color.white)
+            .background(Color(.systemBackground))
             .cornerRadius(20, corners: .allCorners)
 
      }
@@ -186,11 +199,20 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerMainScreenViewModelType, ObservableObject {
-    var userProfileIsSet: Bool = true
-    func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
+    func fetchPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
         []
     }
-    func fetchLocation() async throws {}
+    func getPortfolioForDate(date: Date) async throws -> [AuthorPortfolioModel] {
+        []
+    }
+    func getPortfolioForLocation(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
+        []
+    }
+    var alertTitle: String = ""
+    var alertMessage: String = ""
+    var showAlertPortfolio: Bool  = false
+    
+    var userProfileIsSet: Bool = true
     func getCurrentLocation() {}
     var locationResult: [DBLocationModel] = []
     var locationAuthor: String = ""

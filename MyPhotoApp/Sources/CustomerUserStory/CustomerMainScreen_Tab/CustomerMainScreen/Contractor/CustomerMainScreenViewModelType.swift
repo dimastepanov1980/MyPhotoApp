@@ -19,11 +19,15 @@ protocol CustomerMainScreenViewModelType: ObservableObject {
     var longitude: Double { get set }
     var selectedDate: Date { get set }
     var userProfileIsSet: Bool { get set }
+    var showAlertPortfolio: Bool { get set }
+    var alertTitle: String { get set }
+    var alertMessage: String { get set }
 
-    func fetchLocation() async throws
+    func fetchPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel]
     func stringToURL(imageString: String) -> URL?
     func currencySymbol(for regionCode: String) -> String
     func imagePathToURL(imagePath: [String]) async throws
-    func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel]
+    func getPortfolioForDate(date: Date) async throws -> [AuthorPortfolioModel]
+    func getPortfolioForLocation(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel]
     func getCurrentLocation()
 }

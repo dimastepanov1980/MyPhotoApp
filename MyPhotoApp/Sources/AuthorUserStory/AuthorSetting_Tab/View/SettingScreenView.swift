@@ -79,7 +79,9 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
 struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
-        SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), path: .constant(NavigationPath()))
+        NavigationStack{
+            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), path: .constant(NavigationPath()))
+        }
     }
 }
 

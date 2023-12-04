@@ -35,7 +35,7 @@ final class AuthenticationCustomerViewModel: AuthenticationCustomerViewModelType
         }
         
         do {
-            let signInUser = try await AuthNetworkService.shared.signInUser(email: custmerEmail, password: custmerPassword)
+            try await AuthNetworkService.shared.signInUser(email: custmerEmail, password: custmerPassword)
             self.showAuthenticationCustomerView = false
             self.userIsCustomer = try await getUserType()
             

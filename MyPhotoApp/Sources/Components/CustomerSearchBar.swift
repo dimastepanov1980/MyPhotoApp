@@ -47,7 +47,7 @@ struct CustomerSearchBar: View {
             
         }
         .padding(12)
-        .background(Color.white)
+        .background(Color(R.color.gray7.name))
         .cornerRadius(20)
     }
 }

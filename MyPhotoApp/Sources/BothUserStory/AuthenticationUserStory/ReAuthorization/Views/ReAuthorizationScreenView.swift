@@ -26,7 +26,7 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                 VStack {
                     Spacer()
                     Text(R.string.localizable.delete_user_allert())
-                        .font(.body)
+                        .font(.caption)
                         .foregroundColor(Color(R.color.orange.name))
                         .multilineTextAlignment(.center)
                         .padding(.bottom, 64)
@@ -63,8 +63,8 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.white, Color(R.color.gray2.name).opacity(0.6))
-                            .font(.largeTitle)
+                            .foregroundStyle(Color(.systemBackground), Color(R.color.gray2.name).opacity(0.6))
+                            .font(.title2)
                         
                     }
                 }

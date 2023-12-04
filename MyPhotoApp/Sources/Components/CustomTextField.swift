@@ -17,7 +17,7 @@ struct CustomTextField: View {
         HStack{
             ZStack {
                 RoundedRectangle(cornerRadius: 21)
-                    .fill(isDisabled ? Color(R.color.gray6.name) : .white)
+                    .fill(isDisabled ? Color(R.color.gray6.name) : Color(.systemBackground))
                     .frame(height: 40)
                 VStack(alignment: .leading, spacing: 4) {
                     TextField("", text: $text) { (status) in

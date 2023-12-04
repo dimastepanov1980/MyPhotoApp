@@ -111,6 +111,11 @@
 "select_time" = "Выберите время";
 "reservation_button" = "Забронировать за";
 "select_date_no_dates" = "Нам очень жаль,\nно свободных дат\nна выбранный период нет.";
+"main_screen_portfolio_not_found_title" = "Портфолио не найдено.";
+"main_screen_portfolio_not_found_message" = "Нам не удалось найти фотографов. Выберете другой город";
+
+"main_screen_portfolio_location_denied_title" = "Местоположение не определено.";
+"main_screen_portfolio_location_denied_message" = "Необходимо разрешить отслеживание местоположения.";
 
 //MARK: - Customer Order
 "default_message" = "Напишите как с вами связаться и дополнительную информацию";
@@ -192,7 +197,8 @@
 "schedule_holidays" = "Включая выходные";
 
 //MARK: - Customer Main screen
-"customer_search_bar" = "Поиск фотографа";
+"customer_search_bar" = "Введите город";
+"customer_search_select_date" = "Выберите дату съемки";
 "customer_search" = "Найти";
 "customer_search_no_result" = "К сожалению фотографов не найдено";
 "customer_orders_worning" = "На данный момент у вас нет активных заказов";

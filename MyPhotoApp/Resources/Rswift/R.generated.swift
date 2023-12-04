@@ -545,7 +545,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 156 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 161 localization keys.
     struct localizable {
       /// en translation: About
       ///
@@ -735,6 +735,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let customer_login = Rswift.StringResource(key: "customer_login", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Find city
+      ///
+      /// Locales: en, ru
+      static let customer_search_bar = Rswift.StringResource(key: "customer_search_bar", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Find clients
       ///
       /// Locales: en, ru
@@ -819,6 +823,14 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let order_location = Rswift.StringResource(key: "order_location", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Location not determined.
+      ///
+      /// Locales: en, ru
+      static let main_screen_portfolio_location_denied_title = Rswift.StringResource(key: "main_screen_portfolio_location_denied_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Location tracking must be enabled.
+      ///
+      /// Locales: en, ru
+      static let main_screen_portfolio_location_denied_message = Rswift.StringResource(key: "main_screen_portfolio_location_denied_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Log Out
       ///
       /// Locales: en, ru
@@ -855,6 +867,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_add = Rswift.StringResource(key: "schedule_add", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: No portfolio foundy.
+      ///
+      /// Locales: en, ru
+      static let main_screen_portfolio_not_found_title = Rswift.StringResource(key: "main_screen_portfolio_not_found_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Notification
       ///
       /// Locales: en, ru
@@ -995,10 +1011,6 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let customer_search = Rswift.StringResource(key: "customer_search", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Search photographer
-      ///
-      /// Locales: en, ru
-      static let customer_search_bar = Rswift.StringResource(key: "customer_search_bar", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Select
       ///
       /// Locales: en, ru
@@ -1019,6 +1031,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let select_date = Rswift.StringResource(key: "select_date", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Select shooting date
+      ///
+      /// Locales: en, ru
+      static let customer_search_select_date = Rswift.StringResource(key: "customer_search_select_date", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Select time
       ///
       /// Locales: en, ru
@@ -1123,6 +1139,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let select_date_no_dates = Rswift.StringResource(key: "select_date_no_dates", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: We were unable to find photographers. Choose another city.
+      ///
+      /// Locales: en, ru
+      static let main_screen_portfolio_not_found_message = Rswift.StringResource(key: "main_screen_portfolio_not_found_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Wedding
       ///
       /// Locales: en, ru
@@ -1877,6 +1897,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("customer_login", bundle: bundle, comment: "")
       }
 
+      /// en translation: Find city
+      ///
+      /// Locales: en, ru
+      static func customer_search_bar(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_search_bar", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_search_bar"
+        }
+
+        return NSLocalizedString("customer_search_bar", bundle: bundle, comment: "")
+      }
+
       /// en translation: Find clients
       ///
       /// Locales: en, ru
@@ -2192,6 +2227,36 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("order_location", bundle: bundle, comment: "")
       }
 
+      /// en translation: Location not determined.
+      ///
+      /// Locales: en, ru
+      static func main_screen_portfolio_location_denied_title(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("main_screen_portfolio_location_denied_title", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "main_screen_portfolio_location_denied_title"
+        }
+
+        return NSLocalizedString("main_screen_portfolio_location_denied_title", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Location tracking must be enabled.
+      ///
+      /// Locales: en, ru
+      static func main_screen_portfolio_location_denied_message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("main_screen_portfolio_location_denied_message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "main_screen_portfolio_location_denied_message"
+        }
+
+        return NSLocalizedString("main_screen_portfolio_location_denied_message", bundle: bundle, comment: "")
+      }
+
       /// en translation: Log Out
       ///
       /// Locales: en, ru
@@ -2325,6 +2390,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("schedule_add", bundle: bundle, comment: "")
+      }
+
+      /// en translation: No portfolio foundy.
+      ///
+      /// Locales: en, ru
+      static func main_screen_portfolio_not_found_title(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("main_screen_portfolio_not_found_title", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "main_screen_portfolio_not_found_title"
+        }
+
+        return NSLocalizedString("main_screen_portfolio_not_found_title", bundle: bundle, comment: "")
       }
 
       /// en translation: Notification
@@ -2852,21 +2932,6 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("customer_search", bundle: bundle, comment: "")
       }
 
-      /// en translation: Search photographer
-      ///
-      /// Locales: en, ru
-      static func customer_search_bar(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("customer_search_bar", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "customer_search_bar"
-        }
-
-        return NSLocalizedString("customer_search_bar", bundle: bundle, comment: "")
-      }
-
       /// en translation: Select
       ///
       /// Locales: en, ru
@@ -2940,6 +3005,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("select_date", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Select shooting date
+      ///
+      /// Locales: en, ru
+      static func customer_search_select_date(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("customer_search_select_date", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "customer_search_select_date"
+        }
+
+        return NSLocalizedString("customer_search_select_date", bundle: bundle, comment: "")
       }
 
       /// en translation: Select time
@@ -3330,6 +3410,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("select_date_no_dates", bundle: bundle, comment: "")
+      }
+
+      /// en translation: We were unable to find photographers. Choose another city.
+      ///
+      /// Locales: en, ru
+      static func main_screen_portfolio_not_found_message(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("main_screen_portfolio_not_found_message", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "main_screen_portfolio_not_found_message"
+        }
+
+        return NSLocalizedString("main_screen_portfolio_not_found_message", bundle: bundle, comment: "")
       }
 
       /// en translation: Wedding

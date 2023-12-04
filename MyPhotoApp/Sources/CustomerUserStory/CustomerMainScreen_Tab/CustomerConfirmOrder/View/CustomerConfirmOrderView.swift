@@ -65,7 +65,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                         
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.white, Color(R.color.gray3.name))
+                            .foregroundStyle(Color(.systemBackground), Color(R.color.gray3.name))
                             .font(.largeTitle)
                             .padding(.trailing)
                     }

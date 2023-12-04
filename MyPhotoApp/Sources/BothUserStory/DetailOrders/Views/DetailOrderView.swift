@@ -48,7 +48,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     if isCopied {
                     // Shows up only when copy is done
                         Text(R.string.localizable.copied())
-                            .foregroundColor(.white)
+                            .foregroundColor(Color(.systemBackground))
                             .bold()
                             .font(.footnote)
                             .padding(12)
@@ -219,7 +219,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             } label: {
                                 Text(viewModel.status)
                                     .font(.caption2)
-                                    .foregroundColor(Color.white)
+                                    .foregroundColor(Color(.systemBackground))
                                     .padding(.horizontal,10)
                                     .padding(.vertical, 5)
                                     .background(viewModel.statusColor)
@@ -381,7 +381,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: imageGallerySize, height: imageGallerySize)
-                                        .border(Color.white)
+                                        .border(Color(.systemBackground))
                                         .clipped()
                                     
                                         .contextMenu {
@@ -440,7 +440,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
                     .font(.title)
-                    .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+                    .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
            
             }
         }

@@ -87,7 +87,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                     showAddOrderView = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.white, Color(R.color.gray3.name))
+                        .foregroundStyle(Color(.systemBackground), Color(R.color.gray3.name))
                         .font(.title2)
                         .padding(.trailing)
                 }

@@ -19,9 +19,6 @@
 		5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E072A9744FF0014AD9B /* CustomerPageHubView.swift */; };
 		5F214E0E2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E0D2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift */; };
 		5F214E102A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F214E0F2A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift */; };
-		5F245A242B0346F300C25CCA /* CustomerSearchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F245A232B0346F300C25CCA /* CustomerSearchScreenView.swift */; };
-		5F245A282B03488900C25CCA /* CustomerSearchScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F245A272B03488900C25CCA /* CustomerSearchScreenViewModel.swift */; };
-		5F245A2A2B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F245A292B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift */; };
 		5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2711882A488FAA00679028 /* WeatherModel.swift */; };
 		5F27118C2A4934AD00679028 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F27118B2A4934AD00679028 /* WeatherManager.swift */; };
 		5F27118F2A4AB7BD00679028 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F27118E2A4AB7BD00679028 /* Constants.swift */; };
@@ -77,6 +74,10 @@
 		5FBA269B2A15375E00E972FB /* AuthenticationScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269A2A15375E00E972FB /* AuthenticationScreenView.swift */; };
 		5FBA269D2A1600D800E972FB /* CustomButtonXl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269C2A1600D800E972FB /* CustomButtonXl.swift */; };
 		5FBA269F2A162D6700E972FB /* CustomSecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA269E2A162D6700E972FB /* CustomSecureTextField.swift */; };
+		5FBC00D82B19BEE300ED62BC /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBC00D42B19BEE200ED62BC /* FBSDKCoreKit.framework */; };
+		5FBC00D92B19BEE300ED62BC /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBC00D52B19BEE200ED62BC /* Bolts.framework */; };
+		5FBC00DA2B19BEE300ED62BC /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBC00D62B19BEE200ED62BC /* FBSDKLoginKit.framework */; };
+		5FBC00DB2B19BEE300ED62BC /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FBC00D72B19BEE300ED62BC /* FBSDKShareKit.framework */; };
 		5FC1C0D52A2F7C0A00081FF1 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC1C0D42A2F7C0A00081FF1 /* StorageManager.swift */; };
 		5FC418FC2ADD30080017AF56 /* CustomerOrderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC418FB2ADD30080017AF56 /* CustomerOrderCellView.swift */; };
 		5FC419002ADD3CC90017AF56 /* CustomerOrdersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC418FF2ADD3CC90017AF56 /* CustomerOrdersView.swift */; };
@@ -94,6 +95,10 @@
 		5FC4192D2AE3B9990017AF56 /* LogOutScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4192C2AE3B9990017AF56 /* LogOutScreenViewModelType.swift */; };
 		5FC4192F2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4192E2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift */; };
 		5FDB47E02AF0C68D004ABE8F /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB47DF2AF0C68D004ABE8F /* ImageDetailView.swift */; };
+		5FE009662B183F860012DC82 /* FacebookBasics in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE009652B183F860012DC82 /* FacebookBasics */; };
+		5FE009682B183F860012DC82 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE009672B183F860012DC82 /* FacebookCore */; };
+		5FE0096A2B183F860012DC82 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE009692B183F860012DC82 /* FacebookLogin */; };
+		5FE0096C2B183F860012DC82 /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE0096B2B183F860012DC82 /* FacebookShare */; };
 		5FE461122A3D9E4B001CD607 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */; };
 		5FE5AADB2AA1AFBB0033F51B /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AADA2AA1AFBB0033F51B /* PortfolioViewModel.swift */; };
 		5FE5AADE2AA1DC660033F51B /* PublicFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AADD2AA1DC660033F51B /* PublicFunction.swift */; };
@@ -140,9 +145,6 @@
 		5F214E072A9744FF0014AD9B /* CustomerPageHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerPageHubView.swift; sourceTree = "<group>"; };
 		5F214E0D2A997DFD0014AD9B /* CustomerDetailScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenViewModelType.swift; sourceTree = "<group>"; };
 		5F214E0F2A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenViewModel.swift; sourceTree = "<group>"; };
-		5F245A232B0346F300C25CCA /* CustomerSearchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchScreenView.swift; sourceTree = "<group>"; };
-		5F245A272B03488900C25CCA /* CustomerSearchScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchScreenViewModel.swift; sourceTree = "<group>"; };
-		5F245A292B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSearchScreenViewModelType.swift; sourceTree = "<group>"; };
 		5F2711882A488FAA00679028 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		5F27118B2A4934AD00679028 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		5F27118E2A4AB7BD00679028 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -199,6 +201,10 @@
 		5FBA269A2A15375E00E972FB /* AuthenticationScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationScreenView.swift; sourceTree = "<group>"; };
 		5FBA269C2A1600D800E972FB /* CustomButtonXl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonXl.swift; sourceTree = "<group>"; };
 		5FBA269E2A162D6700E972FB /* CustomSecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSecureTextField.swift; sourceTree = "<group>"; };
+		5FBC00D42B19BEE200ED62BC /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		5FBC00D52B19BEE200ED62BC /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		5FBC00D62B19BEE200ED62BC /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		5FBC00D72B19BEE300ED62BC /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		5FC1C0D42A2F7C0A00081FF1 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		5FC418FB2ADD30080017AF56 /* CustomerOrderCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrderCellView.swift; sourceTree = "<group>"; };
 		5FC418FF2ADD3CC90017AF56 /* CustomerOrdersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerOrdersView.swift; sourceTree = "<group>"; };
@@ -249,16 +255,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FBC00DA2B19BEE300ED62BC /* FBSDKLoginKit.framework in Frameworks */,
 				0E4C2DFF84317C68256C19A7 /* Pods_MyPhotoApp.framework in Frameworks */,
 				5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */,
 				5FF65ADC2A1F62D400F5142F /* FirebaseAnalytics in Frameworks */,
 				5FA767E72A6BE67E00861F7D /* GoogleMobileAds in Frameworks */,
 				5FF58F342A2497EF009AF970 /* FirebaseFirestoreSwift in Frameworks */,
 				5FE606492A8BD9DE00E33205 /* AppTrackingTransparency.framework in Frameworks */,
+				5FE0096C2B183F860012DC82 /* FacebookShare in Frameworks */,
+				5FE009662B183F860012DC82 /* FacebookBasics in Frameworks */,
+				5FE0096A2B183F860012DC82 /* FacebookLogin in Frameworks */,
+				5FE009682B183F860012DC82 /* FacebookCore in Frameworks */,
+				5FBC00D82B19BEE300ED62BC /* FBSDKCoreKit.framework in Frameworks */,
 				5FE461122A3D9E4B001CD607 /* SDWebImageSwiftUI in Frameworks */,
 				5FF58F412A2A3370009AF970 /* FirebaseStorage in Frameworks */,
+				5FBC00DB2B19BEE300ED62BC /* FBSDKShareKit.framework in Frameworks */,
 				5FF65ADE2A1F62D400F5142F /* FirebaseAnalyticsSwift in Frameworks */,
 				5FF58F322A2497EF009AF970 /* FirebaseFirestore in Frameworks */,
+				5FBC00D92B19BEE300ED62BC /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,40 +321,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		5F245A212B0346CD00C25CCA /* CustomerSearchScreen */ = {
-			isa = PBXGroup;
-			children = (
-				5F245A262B03486E00C25CCA /* Contract */,
-				5F245A252B03486000C25CCA /* ViewModel */,
-				5F245A222B0346DF00C25CCA /* View */,
-			);
-			path = CustomerSearchScreen;
-			sourceTree = "<group>";
-		};
-		5F245A222B0346DF00C25CCA /* View */ = {
-			isa = PBXGroup;
-			children = (
-				5F245A232B0346F300C25CCA /* CustomerSearchScreenView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		5F245A252B03486000C25CCA /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				5F245A272B03488900C25CCA /* CustomerSearchScreenViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		5F245A262B03486E00C25CCA /* Contract */ = {
-			isa = PBXGroup;
-			children = (
-				5F245A292B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift */,
-			);
-			path = Contract;
-			sourceTree = "<group>";
-		};
 		5F27118A2A49348600679028 /* OpenWeather */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,7 +362,6 @@
 			isa = PBXGroup;
 			children = (
 				5F53C2FB2B0DCD200015BD04 /* CustomerStatusOrderScreen */,
-				5F245A212B0346CD00C25CCA /* CustomerSearchScreen */,
 				5FA1EC9C2AF0AF340092A74D /* PortfolioDetailScreen */,
 				5FC418F42ADD21080017AF56 /* CustomerMainScreen */,
 				5F214E092A997D490014AD9B /* CustomerDetailScreen */,
@@ -748,6 +727,10 @@
 		5FBA26632A14A08200E972FB = {
 			isa = PBXGroup;
 			children = (
+				5FBC00D52B19BEE200ED62BC /* Bolts.framework */,
+				5FBC00D42B19BEE200ED62BC /* FBSDKCoreKit.framework */,
+				5FBC00D62B19BEE200ED62BC /* FBSDKLoginKit.framework */,
+				5FBC00D72B19BEE300ED62BC /* FBSDKShareKit.framework */,
 				5FB717442A2090A300EC7BF6 /* GoogleService-Info.plist */,
 				5FBA266E2A14A08200E972FB /* MyPhotoApp */,
 				5FBA266D2A14A08200E972FB /* Products */,
@@ -1189,6 +1172,10 @@
 				5FF58F402A2A3370009AF970 /* FirebaseStorage */,
 				5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */,
 				5FA767E62A6BE67E00861F7D /* GoogleMobileAds */,
+				5FE009652B183F860012DC82 /* FacebookBasics */,
+				5FE009672B183F860012DC82 /* FacebookCore */,
+				5FE009692B183F860012DC82 /* FacebookLogin */,
+				5FE0096B2B183F860012DC82 /* FacebookShare */,
 			);
 			productName = MyPhotoApp;
 			productReference = 5FBA266C2A14A08200E972FB /* MyPhotoApp.app */;
@@ -1223,6 +1210,7 @@
 				5F96A6C62A1723B200FBCFF5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				5FE461102A3D9E4B001CD607 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				5FA767E52A6BE67E00861F7D /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = 5FBA266D2A14A08200E972FB /* Products */;
 			projectDirPath = "";
@@ -1354,7 +1342,6 @@
 				5FBA269F2A162D6700E972FB /* CustomSecureTextField.swift in Sources */,
 				5FF58F302A2380C9009AF970 /* RootScreenView.swift in Sources */,
 				5FA1ECA52AF0B01D0092A74D /* PortfolioDetailScreenView.swift in Sources */,
-				5F245A282B03488900C25CCA /* CustomerSearchScreenViewModel.swift in Sources */,
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */,
 				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
@@ -1370,7 +1357,6 @@
 				5F0F8D862A31E28B00AF4EED /* DbOrderModel.swift in Sources */,
 				5F1BCAA32ABADBBE00223146 /* CustomerSearchBar.swift in Sources */,
 				5F9F32482A96F065004D48B7 /* AuthorCustomTabs.swift in Sources */,
-				5F245A2A2B03489A00C25CCA /* CustomerSearchScreenViewModelType.swift in Sources */,
 				5FC419042ADD63870017AF56 /* CustomerOrdersViewModel.swift in Sources */,
 				5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */,
 				5FC419132AE167710017AF56 /* NotificationScreenView.swift in Sources */,
@@ -1385,7 +1371,6 @@
 				5F4A1B3B2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift in Sources */,
 				5F1BCA9B2AB006BA00223146 /* PortfolioView.swift in Sources */,
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
-				5F245A242B0346F300C25CCA /* CustomerSearchScreenView.swift in Sources */,
 				5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */,
 				5FE606432A887E1200E33205 /* ReAuthorizationScreenView.swift in Sources */,
 				5FEB71782AACA92000DCC07E /* PortfolioScheduleViewModel.swift in Sources */,
@@ -1560,13 +1545,17 @@
 				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.2;
+				CURRENT_PROJECT_VERSION = 3.21;
 				DEVELOPMENT_ASSET_PATHS = "\"MyPhotoApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyPhotoApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TakeAPhoto;
+				INFOPLIST_KEY_CFBundleDisplayName = "Take a photo";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We use location to show you weather information for your current location.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use location to show you weather information for your current location.";
@@ -1580,7 +1569,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.01;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Rswift\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.takeaphoto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1602,13 +1596,17 @@
 				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.2;
+				CURRENT_PROJECT_VERSION = 3.21;
 				DEVELOPMENT_ASSET_PATHS = "\"MyPhotoApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyPhotoApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = TakeAPhoto;
+				INFOPLIST_KEY_CFBundleDisplayName = "Take a photo";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "We use location to show you weather information for your current location.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We use location to show you weather information for your current location.";
@@ -1618,11 +1616,17 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				"LD_MAP_FILE_PATH[arch=*]" = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.01;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Rswift\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.stepanoviosdev.takeaphoto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1675,6 +1679,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 14.0.0;
+			};
+		};
 		5FE461102A3D9E4B001CD607 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
@@ -1695,6 +1707,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5FA767E52A6BE67E00861F7D /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		5FE009652B183F860012DC82 /* FacebookBasics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookBasics;
+		};
+		5FE009672B183F860012DC82 /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		5FE009692B183F860012DC82 /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		5FE0096B2B183F860012DC82 /* FacebookShare */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookShare;
 		};
 		5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

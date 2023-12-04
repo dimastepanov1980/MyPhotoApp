@@ -43,7 +43,7 @@ struct InformationScreenView: View {
                         .foregroundColor(Color(R.color.gray3.name))
                 }
                 
-                Link(destination: URL(string: "https://t.me/takeaphotoapp")!) {
+                Link(destination: URL(string: "http://t.me/takeaphotoapp")!) {
                     Image(R.image.image_telegram.name)
                         .resizable()
                         .renderingMode(.template)
@@ -65,7 +65,7 @@ struct InformationScreenView: View {
         } label: {
             Image(systemName: "chevron.left.circle.fill")// set image here
                .font(.title)
-               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
         }
     }
 
