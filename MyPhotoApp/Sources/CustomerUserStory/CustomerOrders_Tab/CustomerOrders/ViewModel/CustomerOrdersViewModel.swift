@@ -11,6 +11,8 @@ import SwiftUI
 
 @MainActor
 final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObject {
+    
+    @Published  var userIsAuth: Bool = true
     @Published var orders: [DbOrderModel]
     private var listenerRegistration: ListenerRegistration?
 
@@ -18,7 +20,17 @@ final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObje
         self.orders = orders
         Task {
             try await subscribe()
+            self.userIsAuth = try await getUser()
+
         }
+    }
+    
+
+    func getUser() async throws -> Bool {
+        if let _ = try? AuthNetworkService.shared.getAuthenticationUser() {
+           return true
+        }
+        return false
     }
     
     func orderStausColor (order: String?) -> Color {

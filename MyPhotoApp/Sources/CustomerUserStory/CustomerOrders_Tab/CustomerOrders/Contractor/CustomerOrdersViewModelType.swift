@@ -11,6 +11,8 @@ import SwiftUI
 @MainActor
 protocol CustomerOrdersViewModelType: ObservableObject {
     var orders: [DbOrderModel] { get }
+    var userIsAuth: Bool { get set }
+
     func orderStausColor (order: String?) -> Color
     func orderStausName (status: String?) -> String
     func subscribe() async throws

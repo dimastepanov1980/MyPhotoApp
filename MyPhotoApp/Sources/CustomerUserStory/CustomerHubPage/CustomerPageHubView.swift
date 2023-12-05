@@ -34,7 +34,7 @@ struct CustomerPageHubView: View {
                         }
                     }
                 case 1:
-                    CustomerOrdersView(with: CustomerOrdersViewModel(), path: $path)
+                    CustomerOrdersView(with: CustomerOrdersViewModel(), path: $path, showAuthenticationView: $showAuthenticationView)
                 case 2:
                     Color.green
                 case 3:
@@ -55,6 +55,7 @@ struct CustomerPageHubView: View {
                 self.profileIsShown = true
                 self.userProfileIsSet = false
             }
+            .padding(.horizontal)
             .presentationDetents([.fraction(0.12)])
         }
         .navigationDestination(isPresented: $profileIsShown) {
@@ -64,23 +65,24 @@ struct CustomerPageHubView: View {
         .onAppear {
             Task{
                 do{
-                    viewModel.portfolio =  try await viewModel.fetchPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+                    viewModel.getCurrentLocation()
+                    viewModel.portfolio =  try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
 
                 } catch {
                     print("Error fetching Location: \(error)")
                 }
             }
         }
-        .onChange(of: viewModel.latitude) { _ in
-            Task {
-                do {
-                    viewModel.portfolio = try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-                    print("viewModel portfolio NEW Coordinate \(viewModel.portfolio)")
-                } catch {
-                    print("Error fetching portfolio for  NEW Coordinate : \(error)")
-                }
-            }
-        }
+//        .onChange(of: viewModel.latitude) { _ in
+//            Task {
+//                do {
+//                    viewModel.portfolio = try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+//                    print("viewModel portfolio NEW Coordinate \(viewModel.portfolio)")
+//                } catch {
+//                    print("Error fetching portfolio for  NEW Coordinate : \(error)")
+//                }
+//            }
+//        }
     }
 }
 

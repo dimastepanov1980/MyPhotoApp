@@ -208,6 +208,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                         try await action()
                     }
                 }
+                         .padding(.horizontal)
             }
         }
     }
@@ -247,7 +248,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                     Task {
                         try await action()
                     }
-                }
+                }.padding(.horizontal)
             }
         }
     }

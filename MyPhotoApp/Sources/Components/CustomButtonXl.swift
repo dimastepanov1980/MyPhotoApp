@@ -43,7 +43,6 @@ struct CustomButtonXl: View {
                         .foregroundColor(Color(R.color.gray6.name))
                 }
             }
-            .padding(16)
         }
     }
 }

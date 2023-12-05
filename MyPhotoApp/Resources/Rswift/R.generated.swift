@@ -545,7 +545,7 @@ struct R: Rswift.Validatable {
 
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 161 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 162 localization keys.
     struct localizable {
       /// en translation: About
       ///
@@ -687,6 +687,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let style_photography_documentary = Rswift.StringResource(key: "style_photography_documentary", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Don't have an account?
+      ///
+      /// Locales: en, ru
+      static let signup_to_continue = Rswift.StringResource(key: "signup_to_continue", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Duration
       ///
       /// Locales: en, ru
@@ -835,10 +839,18 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let signOutAccBtt = Rswift.StringResource(key: "signOutAccBtt", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Log in
+      ///
+      /// Locales: en, ru
+      static let logIn = Rswift.StringResource(key: "logIn", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Log in or Sign up
       ///
       /// Locales: en, ru
       static let logIn_SignUp = Rswift.StringResource(key: "logIn_SignUp", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
+      /// en translation: Log in to continue find your photographer.
+      ///
+      /// Locales: en, ru
+      static let signin_to_continue = Rswift.StringResource(key: "signin_to_continue", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Love Story
       ///
       /// Locales: en, ru
@@ -1063,18 +1075,10 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let order_shooting_details = Rswift.StringResource(key: "order_shooting_details", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Sign In
-      ///
-      /// Locales: en, ru
-      static let logIn = Rswift.StringResource(key: "logIn", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Sign Up
+      /// en translation: Sign up
       ///
       /// Locales: en, ru
       static let registration = Rswift.StringResource(key: "registration", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: Sign up to continue
-      ///
-      /// Locales: en, ru
-      static let signup_to_continue = Rswift.StringResource(key: "signup_to_continue", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
       /// en translation: Something wrong!  Try again later
       ///
       /// Locales: en, ru
@@ -1717,6 +1721,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("style_photography_documentary", bundle: bundle, comment: "")
       }
 
+      /// en translation: Don't have an account?
+      ///
+      /// Locales: en, ru
+      static func signup_to_continue(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("signup_to_continue", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "signup_to_continue"
+        }
+
+        return NSLocalizedString("signup_to_continue", bundle: bundle, comment: "")
+      }
+
       /// en translation: Duration
       ///
       /// Locales: en, ru
@@ -2272,6 +2291,21 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("signOutAccBtt", bundle: bundle, comment: "")
       }
 
+      /// en translation: Log in
+      ///
+      /// Locales: en, ru
+      static func logIn(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("logIn", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "logIn"
+        }
+
+        return NSLocalizedString("logIn", bundle: bundle, comment: "")
+      }
+
       /// en translation: Log in or Sign up
       ///
       /// Locales: en, ru
@@ -2285,6 +2319,21 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("logIn_SignUp", bundle: bundle, comment: "")
+      }
+
+      /// en translation: Log in to continue find your photographer.
+      ///
+      /// Locales: en, ru
+      static func signin_to_continue(preferredLanguages: [String]? = nil) -> String {
+        guard let preferredLanguages = preferredLanguages else {
+          return NSLocalizedString("signin_to_continue", bundle: hostingBundle, comment: "")
+        }
+
+        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
+          return "signin_to_continue"
+        }
+
+        return NSLocalizedString("signin_to_continue", bundle: bundle, comment: "")
       }
 
       /// en translation: Love Story
@@ -3127,22 +3176,7 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("order_shooting_details", bundle: bundle, comment: "")
       }
 
-      /// en translation: Sign In
-      ///
-      /// Locales: en, ru
-      static func logIn(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("logIn", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "logIn"
-        }
-
-        return NSLocalizedString("logIn", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Sign Up
+      /// en translation: Sign up
       ///
       /// Locales: en, ru
       static func registration(preferredLanguages: [String]? = nil) -> String {
@@ -3155,21 +3189,6 @@ struct R: Rswift.Validatable {
         }
 
         return NSLocalizedString("registration", bundle: bundle, comment: "")
-      }
-
-      /// en translation: Sign up to continue
-      ///
-      /// Locales: en, ru
-      static func signup_to_continue(preferredLanguages: [String]? = nil) -> String {
-        guard let preferredLanguages = preferredLanguages else {
-          return NSLocalizedString("signup_to_continue", bundle: hostingBundle, comment: "")
-        }
-
-        guard let (_, bundle) = localeBundle(tableName: "Localizable", preferredLanguages: preferredLanguages) else {
-          return "signup_to_continue"
-        }
-
-        return NSLocalizedString("signup_to_continue", bundle: bundle, comment: "")
       }
 
       /// en translation: Something wrong!  Try again later

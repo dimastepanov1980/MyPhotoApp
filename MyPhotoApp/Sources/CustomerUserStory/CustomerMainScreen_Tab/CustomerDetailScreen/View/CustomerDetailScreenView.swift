@@ -99,12 +99,14 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
                                    // Action
                                }
+                               .padding(.horizontal)
                            } else {
                                
                                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
                                    showOrderConfirm = true
                                    
                                }
+                               .padding(.horizontal)
                            }
                      
                    }

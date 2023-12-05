@@ -102,7 +102,7 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
                     Task {
                         try await action()
                     }
-                }
+                }       .padding(.horizontal)
                          .padding(.bottom)
             }
         }

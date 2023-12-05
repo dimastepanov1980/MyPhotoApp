@@ -13,7 +13,8 @@ import Combine
 class LocationService: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
     private var cancellables: Set<AnyCancellable> = []
-    
+    static let shared = LocationService()
+
     @Published var location: CLLocation?
     
     override init() {
@@ -21,24 +22,9 @@ class LocationService: NSObject, ObservableObject {
         setupLocationManager()
     }
     
-//    func requestLocation() async throws {
-//        locationManager.requestWhenInUseAuthorization()
-//        locationManager.requestLocation()
-//    }
-    
-    func requestLocation() async throws -> LocationStatus{
-       switch locationManager.authorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
-            locationManager.requestLocation()
-            return LocationStatus.locationAccessAllow
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-            return LocationStatus.locationAccessDenied
-        case .denied, .restricted:
-           return LocationStatus.locationAccessDenied
-        default:
-           return LocationStatus.locationAccessDenied
-        }
+    func requestLocation() {
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
     }
     
     private func setupLocationManager() {
@@ -47,11 +33,13 @@ class LocationService: NSObject, ObservableObject {
     }
 }
 
-enum LocationStatus: String {
-    case locationAccessDenied
-    case locationAccessAllow
+enum LocationStatus {
+    case locationNotDetermined
+    case locationRestricted
+    case locationDenied
+    case locationAuthorizedAlways
+    case locationAuthorizedInUse
 }
-
 
 extension LocationService: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -61,5 +49,29 @@ extension LocationService: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location update failed with error: \(error.localizedDescription)")
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) -> LocationStatus {
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            print("When user did not yet determined")
+            return LocationStatus.locationNotDetermined
+               case .restricted:
+                   print("Restricted by parental control")
+            return LocationStatus.locationRestricted
+               case .denied:
+                   print("When user select option Dont't Allow")
+            return LocationStatus.locationDenied
+               case .authorizedAlways:
+                   print("When user select option Change to Always Allow")
+            return LocationStatus.locationAuthorizedAlways
+               case .authorizedWhenInUse:
+                   print("When user select option Allow While Using App or Allow Once")
+                   locationManager.requestAlwaysAuthorization()
+            return LocationStatus.locationAuthorizedInUse
+
+               default:
+                    return LocationStatus.locationNotDetermined
+        }
     }
 }

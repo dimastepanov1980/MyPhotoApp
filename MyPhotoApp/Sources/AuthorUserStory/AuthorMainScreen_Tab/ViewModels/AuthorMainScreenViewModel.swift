@@ -95,13 +95,10 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         Task {
             try await subscribe()
             try await checkProfileAndPortfolio()
-            try await fetchLocation()
         }
     }
     
-    func fetchLocation() async throws {
-        try await location.requestLocation()
-    }
+
     func fetchWeather(with location: CLLocation) {
         let longitude = location.coordinate.longitude.description
         let latitude = location.coordinate.latitude.description

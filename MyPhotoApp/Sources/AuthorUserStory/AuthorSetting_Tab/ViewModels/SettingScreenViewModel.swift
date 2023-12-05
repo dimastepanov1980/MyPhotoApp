@@ -10,6 +10,7 @@ import Foundation
 @MainActor
 final class SettingScreenViewModel: SettingScreenViewModelType {
     var appVersion: String = ""
+    @Published  var userIsAuth: Bool = true
     
     @Published var settingsMenu: [SettingItem] = [SettingItem(imageItem: "person.circle", nameItem: R.string.localizable.settings_section_profile()),
 //                                       SettingItem(imageItem: "bell.circle", nameItem: R.string.localizable.settings_section_notification()),
@@ -18,6 +19,19 @@ final class SettingScreenViewModel: SettingScreenViewModelType {
 //                                       SettingItem(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
                                        SettingItem(imageItem: "lock.circle", nameItem: R.string.localizable.settings_section_logout())
     ]
+    
+    init() {
+        Task{
+            self.userIsAuth = try await getUser()
+        }
+    }
+    
+    func getUser() async throws -> Bool {
+        if let _ = try? AuthNetworkService.shared.getAuthenticationUser() {
+           return true
+        }
+        return false
+    }
 
 }
 

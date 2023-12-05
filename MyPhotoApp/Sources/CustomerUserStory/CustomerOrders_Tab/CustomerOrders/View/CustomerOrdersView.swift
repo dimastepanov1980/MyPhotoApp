@@ -12,33 +12,66 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     @State var showDetailView = false
     @State var showEditOrderView = false
     @Binding var path: NavigationPath
+    @Binding var showAuthenticationView: Bool
 
     init(with viewModel: ViewModel,
-         path: Binding<NavigationPath>){
+         path: Binding<NavigationPath>,
+         showAuthenticationView: Binding<Bool>){
         self.viewModel = viewModel
+        self._showAuthenticationView = showAuthenticationView
         self._path = path
     }
     
     var body: some View {
         ZStack(alignment: .center) {
-            if viewModel.orders.isEmpty{
-                Color(R.color.gray7.name)
-                    .ignoresSafeArea()
-                Text(R.string.localizable.customer_orders_worning())
-                    .multilineTextAlignment(.center)
-                    .font(.footnote)
-                    .foregroundColor(Color(R.color.gray3.name))
-                    .padding()
-                
-            } else {
-                ScrollView{
-                    ForEach(viewModel.orders, id: \.orderId) { order in
-                        NavigationLink(value: order) {
-                            CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
+            if !viewModel.userIsAuth {
+                VStack(alignment: .leading, spacing: 16){
+                    Text(R.string.localizable.signin_to_continue())
+                        .font(.subheadline)
+                        .foregroundColor(Color(R.color.gray3.name))
+                        .padding(.bottom)
+                    
+                    CustomButtonXl(titleText: R.string.localizable.logIn(), iconName: "lock") {
+                        showAuthenticationView = true
+                    }
+                    
+                    Button {
+                        showAuthenticationView = true
+                    } label: {
+                        HStack{
+                            Text(R.string.localizable.signup_to_continue())
+                                .font(.subheadline)
+                                .foregroundColor(Color(R.color.gray3.name))
+                            Text(R.string.localizable.registration())
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(R.color.gray3.name))
                         }
                     }
-                }.scrollIndicators(.hidden)
+                    Divider()
+                    Spacer()
+                }
                 .padding()
+            } else {
+                if viewModel.orders.isEmpty{
+                    Color(R.color.gray7.name)
+                        .ignoresSafeArea()
+                    Text(R.string.localizable.customer_orders_worning())
+                        .multilineTextAlignment(.center)
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.gray3.name))
+                        .padding()
+                } else {
+                    ScrollView{
+                        ForEach(viewModel.orders, id: \.orderId) { order in
+                            NavigationLink(value: order) {
+                                CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
+                            }
+                        }
+                        .padding(.bottom, 70)
+                    }.scrollIndicators(.hidden)
+                        .padding()
+                }
             }
         }
         .navigationDestination(for: DbOrderModel.self, destination: { order in
@@ -57,11 +90,13 @@ struct CustomerOrdersView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
     static var previews: some View {
-        CustomerOrdersView(with: mockModel, path: .constant(NavigationPath()))
+        CustomerOrdersView(with: mockModel, path: .constant(NavigationPath()), showAuthenticationView: .constant(false))
     }
 }
 
 private class MockViewModel: CustomerOrdersViewModelType, ObservableObject {
+    @Published  var userIsAuth: Bool = true
+
     func orderStausColor(order: String?) -> Color {
         Color.brown
     }

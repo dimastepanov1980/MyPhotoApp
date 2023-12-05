@@ -5,8 +5,8 @@
   
  
 // MARK: - Common
-"registration" = "Sign Up";
-"logIn" = "Sign In";
+"registration" = "Sign up";
+"logIn" = "Log in";
 "logIn_SignUp" = "Log in or Sign up";
 "author" = "I'm Author";
 "customer" = "I'm Customer";
@@ -23,7 +23,8 @@
 "delete_user_allert" = "Deleting account will delete all your information in this App.\nAre you sure you want to continue?";
 "cancel" = "Cancel";
 "delete_user_password" = "For delete account enter your current password";
-"signup_to_continue" = "Sign up to continue";
+"signup_to_continue" = "Don't have an account?";
+"signin_to_continue" = "Log in to continue find your photographer.";
 
 // MARK: - Main Screen
 "today" = "Order for today";

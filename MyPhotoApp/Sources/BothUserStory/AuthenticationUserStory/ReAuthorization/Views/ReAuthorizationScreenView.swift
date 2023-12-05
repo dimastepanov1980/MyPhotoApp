@@ -26,11 +26,11 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                 VStack {
                     Spacer()
                     Text(R.string.localizable.delete_user_allert())
-                        .font(.caption)
+                        .font(.headline)
                         .foregroundColor(Color(R.color.orange.name))
                         .multilineTextAlignment(.center)
                         .padding(.bottom, 64)
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, 32)
                     CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $viewModel.reSignInPassword)
                     Text(R.string.localizable.delete_user_password())
                         .font(.footnote)
@@ -55,7 +55,9 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                                 self.viewModel.errorMessage = error.localizedDescription
                             }
                         }
-                    }.padding(.bottom, 32)
+                    }
+                       .padding(.horizontal)
+                       .padding(.bottom, 32)
                 }.ignoresSafeArea(.all)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

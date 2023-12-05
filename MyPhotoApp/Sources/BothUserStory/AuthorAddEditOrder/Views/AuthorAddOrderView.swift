@@ -79,6 +79,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                     showAddOrderView = false
                     path = NavigationPath()
             }
+        .padding(.horizontal)
         }
         .navigationTitle(mode == .new ? R.string.localizable.order_new_order() : R.string.localizable.order_edit_order())
         .toolbar {
