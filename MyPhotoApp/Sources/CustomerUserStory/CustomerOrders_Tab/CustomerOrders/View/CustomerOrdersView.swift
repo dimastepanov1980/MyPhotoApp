@@ -23,8 +23,43 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     }
     
     var body: some View {
-        ZStack(alignment: .center) {
-            if !viewModel.userIsAuth {
+            orderView(userAuth: viewModel.userIsAuth)
+            
+        .navigationDestination(for: DbOrderModel.self, destination: { order in
+            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer, path: $path)
+           //                                .navigationBarBackButtonHidden(true)
+        })
+        .onAppear{
+            print("CustomerOrdersView Path count: \(path.count)")
+        }
+        .background(Color(R.color.gray7.name))
+    }
+    
+    @ViewBuilder
+    private func orderView(userAuth: Bool) -> some View {
+        if userAuth {
+            if viewModel.orders.isEmpty{
+                VStack(alignment: .center){
+                    Text(R.string.localizable.customer_orders_worning())
+                        .multilineTextAlignment(.center)
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.gray3.name))
+                        .padding()
+                }
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+            } else {
+                ScrollView{
+                    ForEach(viewModel.orders, id: \.orderId) { order in
+                        NavigationLink(value: order) {
+                            CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
+                        }
+                    }
+                    .padding(.bottom, 70)
+                }.scrollIndicators(.hidden)
+                    .padding()
+            }
+        } else {
+            List{
                 VStack(alignment: .leading, spacing: 16){
                     Text(R.string.localizable.signin_to_continue())
                         .font(.subheadline)
@@ -48,41 +83,12 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
                                 .foregroundColor(Color(R.color.gray3.name))
                         }
                     }
-                    Divider()
-                    Spacer()
                 }
-                .padding()
-            } else {
-                if viewModel.orders.isEmpty{
-                    Color(R.color.gray7.name)
-                        .ignoresSafeArea()
-                    Text(R.string.localizable.customer_orders_worning())
-                        .multilineTextAlignment(.center)
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray3.name))
-                        .padding()
-                } else {
-                    ScrollView{
-                        ForEach(viewModel.orders, id: \.orderId) { order in
-                            NavigationLink(value: order) {
-                                CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
-                            }
-                        }
-                        .padding(.bottom, 70)
-                    }.scrollIndicators(.hidden)
-                        .padding()
-                }
+                
             }
+//            .scrollContentBackground(.hidden)
+            .tint(.black)
         }
-        .navigationDestination(for: DbOrderModel.self, destination: { order in
-            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer, path: $path)
-           //                                .navigationBarBackButtonHidden(true)
-        })
-        .onAppear{
-            print("CustomerOrdersView Path count: \(path.count)")
-        }
-        .background(Color(R.color.gray7.name))
-        
     }
 }
 

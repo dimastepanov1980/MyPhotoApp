@@ -38,7 +38,7 @@ struct AuthorHubPageView: View {
                     } else if self.index == 2 {
                         PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow), path: $path)
                     } else if self.index == 3 {
-                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path)
+                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path, mode: .author)
                     }
                 }
                 .padding(.bottom, -40)

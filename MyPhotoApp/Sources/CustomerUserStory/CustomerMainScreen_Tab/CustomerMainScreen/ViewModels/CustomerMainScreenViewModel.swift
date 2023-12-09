@@ -51,6 +51,7 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             self?.locationResult = mapItems.map({ DBLocationModel(mapItem: $0) })
         }
         Task{
+            getCurrentLocation()
             try await checkProfileAndPortfolio()
             self.portfolio = try await getPortfolioForLocation(longitude: self.longitude, latitude: self.latitude, date: self.selectedDate)
             print(portfolio)

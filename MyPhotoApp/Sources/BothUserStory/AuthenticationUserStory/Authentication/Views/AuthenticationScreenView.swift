@@ -24,8 +24,8 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
     }
     
     var body: some View {
-        ZStack(alignment: .bottom) {
             VStack(spacing: 0) {
+                Spacer()
                 VStack{
                     Image(R.image.ic_logo.name)
                         .resizable()
@@ -36,7 +36,6 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
 
                     TabName(index: self.$index, offset: self.$offsetWidth)
                 }
-                    .padding(.top, height / 9)
                     HStack(alignment: .top, spacing: 0) {
                         CustomerTab(
                             email: Binding<String>(
@@ -58,6 +57,9 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                                         }
                                     }
                                 }
+                            } resetPassworAction: {
+                                
+                                try await viewModel.resetPassword()
                             }
                             .frame(width: width)
                         
@@ -81,6 +83,9 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                                         }
                                     }
                                 }
+                            } resetPassworAction: {
+                                
+                                try await viewModel.resetPassword()
                             }
                             .frame(width: width)
                         
@@ -88,8 +93,6 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                     .padding(.top, 32)
                     .offset(x: index == 1 ? width / 2 : -width / 2)
             }
-
-        }
         .toolbar {
             ToolbarItem(placement: .destructiveAction) {
                 Button {
@@ -108,26 +111,13 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                     .foregroundColor(Color(R.color.gray3.name))
             }
             
-            ToolbarItem(placement: .status) {
-                Button {
-                    Task {
-                        try await viewModel.resetPassword()
-                    }
-                } label: {
-                    Text(R.string.localizable.forgotPss())
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray3.name))
-                }
-            }
-               
-            
         }
         .onAppear {
             Task {
                 do {
-                    self.viewModel.userIsCustomer = try await viewModel.getUserType()
+                    viewModel.userIsCustomer = try await viewModel.getUserType()
                         self.viewModel.showAuthenticationView = false
-                        print("user is customer, it is customer - \(viewModel.userIsCustomer)")
+                        print("user is customer: \(viewModel.userIsCustomer)")
                 } catch {
                     print("Error: \(error)")
                     self.viewModel.showAuthenticationView = true
@@ -135,7 +125,7 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
             }
         }
     }
-    
+
     private struct TabName: View {
         @Binding var index : Int
         @Binding var offset: CGFloat
@@ -180,12 +170,19 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
         @Binding var password: String
         let errorMassage: String
         private let action: () async throws -> Void
+        private let resetPassworAction: () async throws -> Void
         
-        init(email: Binding<String>, password: Binding<String>, errorMassage: String, action: @escaping () async throws -> Void) {
+        init(email: Binding<String>, 
+             password: Binding<String>,
+             errorMassage: String,
+             action: @escaping () async throws -> Void,
+             resetPassworAction: @escaping () async throws -> Void)
+        {
             self._email = email
             self._password = password
             self.errorMassage = errorMassage
             self.action = action
+            self.resetPassworAction = resetPassworAction
         }
         
         var body: some View {
@@ -202,13 +199,26 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                 
                 
                 Spacer()
-                CustomButtonXl(titleText: R.string.localizable.customer_login(),
-                         iconName: "camera.aperture") {
-                    Task {
-                        try await action()
+                VStack(spacing: 20){
+                    Button {
+                        Task {
+                            try await resetPassworAction()
+                        }
+                    } label: {
+                        Text(R.string.localizable.forgotPss())
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray3.name))
                     }
+                    
+                    CustomButtonXl(titleText: R.string.localizable.customer_login(),
+                                   iconName: "camera.aperture") {
+                        Task {
+                            try await action()
+                        }
+                    }
+                                   .padding(.horizontal)
                 }
-                         .padding(.horizontal)
+                .padding(.bottom, 36)
             }
         }
     }
@@ -217,16 +227,20 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
         @Binding var password: String
         let errorMassage: String
         private let action: () async throws -> Void
+        private let resetPassworAction: () async throws -> Void
         
         init(email: Binding<String>,
              password: Binding<String>,
              errorMassage: String,
-             action: @escaping () async throws -> Void
-        ) {
+             action: @escaping () async throws -> Void,
+             resetPassworAction: @escaping () async throws -> Void)
+        {
             self._email = email
             self._password = password
             self.errorMassage = errorMassage
             self.action = action
+            self.resetPassworAction = resetPassworAction
+
         }
         
         var body: some View {
@@ -243,12 +257,26 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                     .padding(.horizontal)
              
                 Spacer()
-                CustomButtonXl(titleText: R.string.localizable.author_login(),
-                               iconName: "camera.aperture") {
-                    Task {
-                        try await action()
+                VStack(spacing: 20){
+                    Button {
+                        Task {
+                            try await resetPassworAction()
+                        }
+                    } label: {
+                        Text(R.string.localizable.forgotPss())
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray3.name))
                     }
-                }.padding(.horizontal)
+                    
+                    CustomButtonXl(titleText: R.string.localizable.author_login(),
+                                   iconName: "camera.aperture") {
+                        Task {
+                            try await action()
+                        }
+                    }
+                                   .padding(.horizontal)
+                }
+                .padding(.bottom, 36)
             }
         }
     }

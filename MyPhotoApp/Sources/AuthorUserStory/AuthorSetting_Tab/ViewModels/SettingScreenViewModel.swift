@@ -17,12 +17,17 @@ final class SettingScreenViewModel: SettingScreenViewModelType {
 //                                       SettingItem(imageItem: "lock.circle", nameItem: R.string.localizable.settings_section_privacy()),
                                        SettingItem(imageItem: "info.circle", nameItem: R.string.localizable.settings_section_information()),
 //                                       SettingItem(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
+//                                       SettingItem(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
                                        SettingItem(imageItem: "lock.circle", nameItem: R.string.localizable.settings_section_logout())
     ]
+    
+    
     
     init() {
         Task{
             self.userIsAuth = try await getUser()
+            print("init SettingScreenViewModel")
+
         }
     }
     

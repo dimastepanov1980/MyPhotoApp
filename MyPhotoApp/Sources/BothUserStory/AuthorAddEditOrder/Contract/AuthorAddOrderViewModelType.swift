@@ -29,10 +29,3 @@ protocol AuthorAddOrderViewModelType: ObservableObject {
     func updateOrder(orderModel: DbOrderModel) async throws
     func updatePreview()
 }
-
-enum Mode {
-    case new
-    case edit
-}
-
-

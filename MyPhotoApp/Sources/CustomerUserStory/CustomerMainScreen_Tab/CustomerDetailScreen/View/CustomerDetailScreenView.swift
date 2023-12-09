@@ -51,7 +51,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                    .navigationBarBackButtonHidden(true)
                    .navigationBarItems(leading: customBackButton)
                    .toolbarBackground(.hidden, for: .navigationBar)
-                   .onChange(of: viewModel.selectedDay) { _ in
+                   .onChange(of: viewModel.startScheduleDay) { _ in
                            withAnimation {
                                proxy.scrollTo(timeID)
                            }
@@ -68,7 +68,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                    .font(.subheadline)
                                    .foregroundColor(Color(R.color.gray1.name))
                                
-                               Text(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM"))
+                               Text(viewModel.formattedDate(date: viewModel.startScheduleDay, format: "dd MMMM"))
                                    .font(.subheadline)
                                    .foregroundColor(Color(R.color.gray3.name))
                            }
@@ -118,7 +118,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
            .fullScreenCover(isPresented: $showOrderConfirm) {
                    CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
                     author: viewModel.portfolio,
-                    orderDate: viewModel.selectedDay,
+                    orderDate: viewModel.startScheduleDay,
                     orderTime: viewModel.selectedTime,
                     orderDuration: String(viewModel.selectedTime.count),
                     orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
@@ -232,10 +232,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                 VStack(alignment: .center, spacing: 2) {
                                     Text("\(viewModel.formattedDate(date: appointment.date, format: "dd"))")
                                         .font(.body.bold())
-                                        .foregroundColor(viewModel.isToday(date: appointment.date) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
+                                        .foregroundColor(viewModel.selectedDate(date: appointment.date) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
                                     Text("\(viewModel.formattedDate(date: appointment.date, format: "MMM"))")
                                         .font(.footnote)
-                                        .foregroundColor(viewModel.isToday(date: appointment.date) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
+                                        .foregroundColor(viewModel.selectedDate(date: appointment.date) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
                                 }
                                 .padding(.vertical, 20)
                                 .frame(width: 45)
@@ -248,7 +248,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                 )
                                 .background(
                                     ZStack {
-                                        if viewModel.isToday(date: appointment.date) {
+                                        if viewModel.selectedDate(date: appointment.date) {
                                             Capsule()
                                                 .fill(Color(R.color.gray2.name))
                                         }
@@ -257,12 +257,12 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                 .containerShape(Capsule())
                                 .onTapGesture {
                                     withAnimation {
-                                        self.viewModel.selectedDay = appointment.date
+                                        self.viewModel.startScheduleDay = appointment.date
                                         self.viewModel.selectedTime = []
                                         self.viewModel.timeslotSelectedDay = appointment.timeSlot
                                         self.viewModel.priceForDay = appointment.price
                                         
-                                        print("selected Day Time and Price: \(viewModel.selectedDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
+                                        print("selected Day Time and Price: \(viewModel.startScheduleDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
                                     }
                                 }
                                 
@@ -345,11 +345,11 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
         .onTapGesture {
             if viewModel.selectedTime.contains(time) {
                 self.viewModel.selectedTime.removeAll { $0 == time }
-                print("selected Day RemoveTime and Price: \(viewModel.selectedDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
+                print("selected Day RemoveTime and Price: \(viewModel.startScheduleDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
 
             } else {
                 self.viewModel.selectedTime.append(time)
-                print("selected Day AppendTime and Price: \(viewModel.selectedDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
+                print("selected Day AppendTime and Price: \(viewModel.startScheduleDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
 
             }
         }
@@ -370,7 +370,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
             Group {
                 Text("\(currentStep + 1) / \(viewModel.portfolio.smallImagesPortfolio.count)")
                     .font(.caption2)
-                    .foregroundColor(Color(R.color.gray7.name))
+                    .foregroundColor(Color.white)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 3)
                     .background(Color.black.opacity(0.2))
@@ -516,10 +516,10 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
                                                                  smallImagesPortfolio: [],
                                                                  largeImagesPortfolio: [],
                                                                  descriptionAuthor: "",
-                                                                 schedule: [],
+                                                                 schedule: [DbSchedule(id: UUID(), holidays: true, startDate: Date(), endDate: Date(), timeIntervalSelected: "1", price: "4400", timeZone: "")],
                                                                  bookingDays: [:]))
     @Published var selectedTime: [String] = []
-    @Published var selectedDay: Date = Date()
+    @Published var startScheduleDay: Date = Date()
     @Published var today: Date = Date()
     @Published var timeslotSelectedDay: [String] = []
     
@@ -544,9 +544,9 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
     }
-    func isToday(date: Date) -> Bool {
+    func selectedDate(date: Date) -> Bool {
         let calendar = Calendar.current
-        return calendar.isDate(selectedDay, inSameDayAs: date)
+        return calendar.isDate(startScheduleDay, inSameDayAs: date)
     }
 
 

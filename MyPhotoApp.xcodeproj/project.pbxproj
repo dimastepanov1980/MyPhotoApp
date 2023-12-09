@@ -1545,7 +1545,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.21;
+				CURRENT_PROJECT_VERSION = 3.22;
 				DEVELOPMENT_ASSET_PATHS = "\"MyPhotoApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
@@ -1569,7 +1569,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.01;
+				MARKETING_VERSION = 1.1.011;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1596,7 +1596,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyPhotoApp/MyPhotoApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.21;
+				CURRENT_PROJECT_VERSION = 3.22;
 				DEVELOPMENT_ASSET_PATHS = "\"MyPhotoApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 6YR4NUJR8F;
 				ENABLE_PREVIEWS = YES;
@@ -1621,7 +1621,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.01;
+				MARKETING_VERSION = 1.1.011;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

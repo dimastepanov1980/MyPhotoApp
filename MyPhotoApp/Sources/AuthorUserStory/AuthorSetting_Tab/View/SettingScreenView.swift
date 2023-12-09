@@ -12,14 +12,18 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @Binding var showAuthenticationView: Bool
     @Binding var path: NavigationPath
-
+    
+    var mode: Constants.UserTypeDependencies
+    
     init(with viewModel: ViewModel,
          showAuthenticationView: Binding<Bool>,
-         path: Binding<NavigationPath>) {
+         path: Binding<NavigationPath>,
+         mode: Constants.UserTypeDependencies ) {
         
         self.viewModel = viewModel
         self._showAuthenticationView = showAuthenticationView
         self._path = path
+        self.mode = mode
     }
     
     var body: some View {
@@ -68,6 +72,15 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                     }
                     
                 }
+                    HStack{
+                        Image(systemName: "arrow.triangle.swap")
+                            .font(.title2)
+                            .foregroundColor(Color(R.color.gray2.name))
+                        Text( mode == .author ? R.string.localizable.settings_section_author() : R.string.localizable.settings_section_customer() )
+                            .font(.callout)
+                            .foregroundColor(Color(R.color.gray3.name))
+                    }
+
             }
         
             
@@ -93,7 +106,6 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     
     @ViewBuilder
     private func viewForSettingItem(_ item: SettingItem) -> some View {
-
         switch item.nameItem {
         case R.string.localizable.settings_section_profile():
             ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: .constant(true)), path: $path)
@@ -113,13 +125,14 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
         }
     }
     
+    
 }
 
 struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
         NavigationStack{
-            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), path: .constant(NavigationPath()))
+            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), path: .constant(NavigationPath()), mode: .author)
         }
     }
 }

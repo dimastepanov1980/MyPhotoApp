@@ -74,11 +74,11 @@
 "customer_tabs_home" = "Домой";
 "customer_tabs_message" = "Заказы";
 "customer_tabs_liked" = "Избранное";
-"customer_tabs_profile" = "Профиль";
+"customer_tabs_profile" = "Настройки";
 
 //MARK: - Setting screen
 
-"settings_name_screen" = "Настройка";
+"settings_name_screen" = "Настройки";
 "settings_section_profile" = "Профиль";
 "settings_section_profile_about" = "Расскажи о себе";
 "settings_section_profile_firstName" = "Имя";
@@ -91,6 +91,8 @@
 "settings_section_privacy" = "Конфиденциальность";
 "settings_section_information" = "Информация";
 "settings_section_logout" = "Авторизация";
+"settings_section_author" = "Войти как автора";
+"settings_section_customer" = "Войти как клиент";
 
 "app_version" = "Версия программы:";
 "contact_with_us" = "Свяжитесь с нами:";

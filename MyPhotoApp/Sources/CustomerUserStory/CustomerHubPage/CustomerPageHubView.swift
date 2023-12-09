@@ -26,9 +26,9 @@ struct CustomerPageHubView: View {
                 case 0:
                     ZStack{
                         if viewModel.portfolio.isEmpty {
-                            Color(R.color.gray7.name)
-                                .ignoresSafeArea(.all)
-                            ProgressView("Loading...")
+                            VStack{
+                                ProgressView("Loading...")
+                            }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
                         } else {
                             CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation, path: $path)
                         }
@@ -38,7 +38,7 @@ struct CustomerPageHubView: View {
                 case 2:
                     Color.green
                 case 3:
-                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path)
+                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path, mode: .customer)
                 default:
                     EmptyView()
                 }
@@ -65,24 +65,14 @@ struct CustomerPageHubView: View {
         .onAppear {
             Task{
                 do{
-                    viewModel.getCurrentLocation()
-                    viewModel.portfolio =  try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-
+                    if viewModel.portfolio.isEmpty {
+                        viewModel.portfolio =  try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+                    }
                 } catch {
                     print("Error fetching Location: \(error)")
                 }
             }
         }
-//        .onChange(of: viewModel.latitude) { _ in
-//            Task {
-//                do {
-//                    viewModel.portfolio = try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-//                    print("viewModel portfolio NEW Coordinate \(viewModel.portfolio)")
-//                } catch {
-//                    print("Error fetching portfolio for  NEW Coordinate : \(error)")
-//                }
-//            }
-//        }
     }
 }
 

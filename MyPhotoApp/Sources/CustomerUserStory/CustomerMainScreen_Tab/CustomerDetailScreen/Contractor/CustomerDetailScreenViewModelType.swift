@@ -11,7 +11,7 @@ import SwiftUI
 @MainActor
 protocol CustomerDetailScreenViewModelType: ObservableObject {
     var portfolio: AuthorPortfolioModel { get }
-    var selectedDay: Date { get set }
+    var startScheduleDay: Date { get set }
     var selectedTime: [String] { get set }
     var timeslotSelectedDay: [String] { get set }
     var today: Date { get set }
@@ -25,7 +25,7 @@ protocol CustomerDetailScreenViewModelType: ObservableObject {
     func currencySymbol(for regionCode: String) -> String
     func sortedDate(array: [String]) -> [String]
     func isTodayDay(date: Date) -> Bool
-    func isToday(date: Date) -> Bool
+    func selectedDate(date: Date) -> Bool
     func getMinPrice(appointmen: [DbSchedule])
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]])
     func getAvatarImage(imagePath: String) async throws

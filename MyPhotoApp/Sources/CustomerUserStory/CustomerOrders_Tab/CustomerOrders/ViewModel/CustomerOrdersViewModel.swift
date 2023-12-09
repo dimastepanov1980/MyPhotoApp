@@ -19,9 +19,9 @@ final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObje
     init(orders: [DbOrderModel] = []) {
         self.orders = orders
         Task {
-            try await subscribe()
             self.userIsAuth = try await getUser()
-
+            print("init CustomerOrdersViewModel")
+            try await subscribe()
         }
     }
     

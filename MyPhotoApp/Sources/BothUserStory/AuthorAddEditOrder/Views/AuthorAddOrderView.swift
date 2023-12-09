@@ -15,12 +15,12 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     @Binding var showAddOrderView: Bool
     @Binding var path: NavigationPath
 
-    var mode: Mode
+    var mode: Constants.OrderMode
     
     init(with viewModel: ViewModel,
          showAddOrderView: Binding<Bool>,
          path: Binding<NavigationPath>,
-         mode: Mode) {
+         mode: Constants.OrderMode) {
         self.viewModel = viewModel
         self._showAddOrderView = showAddOrderView
         self._path = path

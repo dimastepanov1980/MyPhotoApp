@@ -37,8 +37,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
         if searchPageShow {
             VStack{
                 searchLocationButton
-//                    .matchedGeometryEffect(id: "search", in: filterspace)
-                    .background(Color(.systemBackground))
+//                    .background(Color(.systemBackground))
                     .onTapGesture {
                         withAnimation {
                             self.searchPageShow = false
@@ -56,7 +55,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                     }
                     .padding(.bottom, 110)
                     .navigationDestination(for: AuthorPortfolioModel.self) { portfolio in
-                        CustomerDetailScreenView(with: CustomerDetailScreenViewModel(portfolio: portfolio, selectedDay: selectDate), path: $path)
+                        CustomerDetailScreenView(with: CustomerDetailScreenViewModel(portfolio: portfolio, startScheduleDay: selectDate), path: $path)
                     }
                 }
             }
@@ -93,16 +92,6 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                     print("Selected date changed to: \( self.viewModel.selectedDate)")
                     print("Selected date changed to: \( selectDate)")
                      }
-                
-                
-//                    .shadow(color: Color.black.opacity(0.15) ,radius: 5)
-//                    .padding(.horizontal)
-////                    .matchedGeometryEffect(id: "overlay", in: filterspace)
-               
-
-//                }
-//                .matchedGeometryEffect(id: "CustomButtonXl", in: filterspace)
-
             }
             .padding(.horizontal)
             .safeAreaInset(edge: .top, spacing: 20) {

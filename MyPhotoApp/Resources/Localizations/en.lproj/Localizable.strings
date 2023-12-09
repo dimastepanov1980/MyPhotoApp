@@ -68,13 +68,13 @@
 "tabs_feature" = "Feature";
 "tabs_edit" = "Edit";
 "tabs_portfolio" = "Portfolio";
-"tabs_profile" = "Profile";
+"tabs_profile" = "Settings";
 
 // MARK: - CustomerTabs
 "customer_tabs_home" = "Home";
 "customer_tabs_message" = "Orders";
 "customer_tabs_liked" = "Liked";
-"customer_tabs_profile" = "Profile";
+"customer_tabs_profile" = "Settings";
 
 //MARK: - Setting screen
 "settings_name_screen" = "Settings";
@@ -91,6 +91,8 @@
 "settings_section_privacy" = "Privacy";
 "settings_section_information" = "About";
 "settings_section_logout" = "Authorization";
+"settings_section_author" = "Switch to author";
+"settings_section_customer" = "Switch to customer";
 
 "app_version" = "App version:";
 "contact_with_us" = "Contact with us:";

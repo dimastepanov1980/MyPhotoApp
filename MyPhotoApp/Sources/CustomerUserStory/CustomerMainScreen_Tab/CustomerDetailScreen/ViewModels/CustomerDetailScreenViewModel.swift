@@ -11,7 +11,7 @@ import SwiftUI
 @MainActor
 final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var portfolio: AuthorPortfolioModel
-    @Published var selectedDay: Date
+    @Published var startScheduleDay: Date
     @Published var selectedTime: [String] = []
     @Published var priceForDay: String = ""
     @Published var minPrice: String = ""
@@ -21,12 +21,12 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var avatarImage: UIImage? = nil
     
     init(portfolio: AuthorPortfolioModel,
-         selectedDay: Date){
+         startScheduleDay: Date){
         self.portfolio = portfolio
-        self.selectedDay = selectedDay
+        self.startScheduleDay = startScheduleDay
         
         getMinPrice(appointmen: portfolio.appointmen)
-        createAppointments(schedule: portfolio.appointmen, startMyTripDate: selectedDay, bookingDays: portfolio.bookingDays ?? [:] )
+        createAppointments(schedule: portfolio.appointmen, startMyTripDate: startScheduleDay, bookingDays: portfolio.bookingDays ?? [:] )
         Task{
             try await getAvatarImage(imagePath: portfolio.avatarAuthor)
         }    }
@@ -49,7 +49,6 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     }
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]]) {
         var appointments: [AppointmentModel] = []
-        var today = Date()
         let calendar = Calendar.current
         var dateFormatter: DateFormatter {
             let dateFormatter = DateFormatter()
@@ -72,7 +71,7 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
                 if currentDate >= scheduleItem.startDate && currentDate <= scheduleItem.endDate && currentDate != today {
                     print(currentDate)
                     print(today)
-                    print(selectedDay)
+                    print(startScheduleDay)
                     let startTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.startDate)
                     let endTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.endDate)
                     guard let startHour = startTimeComponents.hour, let startMinute = startTimeComponents.minute,
@@ -137,9 +136,9 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
     }
-    func isToday(date: Date) -> Bool {
+    func selectedDate(date: Date) -> Bool {
         let calendar = Calendar.current
-        return calendar.isDate(selectedDay ?? Date(), inSameDayAs: date)
+        return calendar.isDate(startScheduleDay, inSameDayAs: date)
     }
     func getAvatarImage(imagePath: String) async throws {
         self.avatarImage = try await StorageManager.shared.getReferenceImage(path: imagePath)

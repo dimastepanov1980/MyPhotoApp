@@ -13,3 +13,4 @@ protocol SettingScreenViewModelType: ObservableObject {
     var appVersion: String { get }
     var userIsAuth: Bool { get set }
 }
+
