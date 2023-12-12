@@ -10,7 +10,6 @@ import SwiftUI
 struct AuthorHubPageView: View {
     @State var index = 0
     @Binding var showAuthenticationView: Bool
-    @Binding var path: NavigationPath
     
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
@@ -28,17 +27,17 @@ struct AuthorHubPageView: View {
                 ZStack {
                     if self.index == 0 {
                         
-                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView, showEditOrderView: $showEditOrderView, statusOrder: .Upcoming, path: $path )
+                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView, showEditOrderView: $showEditOrderView, statusOrder: .Upcoming)
                         
                     } else if self.index == 1 {
                         
                         AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView,
                                              showEditOrderView: $showEditOrderView,
-                                             statusOrder: .InProgress, path: $path )
+                                             statusOrder: .InProgress)
                     } else if self.index == 2 {
-                        PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow), path: $path)
+                        PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
                     } else if self.index == 3 {
-                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path, mode: .author)
+                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, mode: .author)
                     }
                 }
                 .padding(.bottom, -40)
@@ -60,15 +59,15 @@ struct AuthorHubPageView: View {
                 .presentationDetents([.fraction(0.12)])
             }
             .navigationDestination(isPresented: $showProfileView) {
-                ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShow), path: $path)
+                ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShow))
             }
             .navigationDestination(isPresented: $showPortfolioView) {
-                    PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow), path: $path)
+                    PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
             }
             .edgesIgnoringSafeArea(.bottom)
             .fullScreenCover(isPresented: $showAddOrderView) {
                 NavigationStack {
-                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "", orderStatus: "", orderShootingDate: Date(), orderShootingTime: [], orderShootingDuration: "", orderSamplePhotos: [], orderMessages: nil, authorId: nil, authorName: "", authorSecondName: "", authorLocation: "",   customerId: nil, customerName: nil, customerSecondName: nil, customerDescription: "",   customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))), showAddOrderView: $showAddOrderView, path: $path, mode: .new)
+                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "", orderStatus: "", orderShootingDate: Date(), orderShootingTime: [], orderShootingDuration: "", orderSamplePhotos: [], orderMessages: nil, authorId: nil, authorName: "", authorSecondName: "", authorLocation: "",   customerId: nil, customerName: nil, customerSecondName: nil, customerDescription: "",   customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))), showAddOrderView: $showAddOrderView, mode: .new)
                 }
                 .onAppear { UIDatePicker.appearance().minuteInterval = 15 }
 
@@ -79,7 +78,7 @@ struct AuthorHubPageView: View {
 
 struct AuthorHubPageView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthorHubPageView(showAuthenticationView: .constant(false), path: .constant(NavigationPath()))
+        AuthorHubPageView(showAuthenticationView: .constant(false))
     }
 }
 

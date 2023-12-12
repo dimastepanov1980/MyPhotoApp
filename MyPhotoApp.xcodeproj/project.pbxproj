@@ -343,7 +343,6 @@
 				5FA3C3462A5BDC07003EA4F8 /* AuthorHubPage */,
 				5FC418F52ADD21C00017AF56 /* AuthorMainScreen_Tab */,
 				5FA767E22A6975FB00861F7D /* AuthorPortfolio_Tab */,
-				5FB717462A223F3000EC7BF6 /* AuthorSetting_Tab */,
 			);
 			path = AuthorUserStory;
 			sourceTree = "<group>";
@@ -499,9 +498,10 @@
 		5F55F5952B140C6000DCE164 /* BothUserStory */ = {
 			isa = PBXGroup;
 			children = (
-				5FF58F382A27043A009AF970 /* AuthorAddEditOrder */,
+				5FB717462A223F3000EC7BF6 /* SettingsUserStory */,
+				5FF58F382A27043A009AF970 /* AddEditOrderUserStrory */,
 				5FBA26992A15370A00E972FB /* AuthenticationUserStory */,
-				5FA15DA52A184FA9007A1AC6 /* DetailOrders */,
+				5FA15DA52A184FA9007A1AC6 /* DetailOrdersUserStory */,
 			);
 			path = BothUserStory;
 			sourceTree = "<group>";
@@ -540,12 +540,12 @@
 			path = Contractor;
 			sourceTree = "<group>";
 		};
-		5F6940992B0B22E70043D1EA /* Router */ = {
+		5F6940992B0B22E70043D1EA /* ViewFactory */ = {
 			isa = PBXGroup;
 			children = (
 				5F69409A2B0B230B0043D1EA /* Router.swift */,
 			);
-			path = Router;
+			path = ViewFactory;
 			sourceTree = "<group>";
 		};
 		5F96A6CB2A1724D700FBCFF5 /* Services */ = {
@@ -572,7 +572,7 @@
 		5F96A6CD2A1725CF00FBCFF5 /* BusinessLogicLayer */ = {
 			isa = PBXGroup;
 			children = (
-				5F6940992B0B22E70043D1EA /* Router */,
+				5F6940992B0B22E70043D1EA /* ViewFactory */,
 				5FE5AADC2AA1DC480033F51B /* PublicFunc */,
 				5F96A6CB2A1724D700FBCFF5 /* Services */,
 			);
@@ -627,14 +627,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		5FA15DA52A184FA9007A1AC6 /* DetailOrders */ = {
+		5FA15DA52A184FA9007A1AC6 /* DetailOrdersUserStory */ = {
 			isa = PBXGroup;
 			children = (
 				5FA15DA82A184FEF007A1AC6 /* Views */,
 				5FA15DA72A184FED007A1AC6 /* ViewModels */,
 				5FA15DA62A184FEA007A1AC6 /* Contractor */,
 			);
-			path = DetailOrders;
+			path = DetailOrdersUserStory;
 			sourceTree = "<group>";
 		};
 		5FA15DA62A184FEA007A1AC6 /* Contractor */ = {
@@ -714,14 +714,14 @@
 			path = AuthorPortfolio_Tab;
 			sourceTree = "<group>";
 		};
-		5FB717462A223F3000EC7BF6 /* AuthorSetting_Tab */ = {
+		5FB717462A223F3000EC7BF6 /* SettingsUserStory */ = {
 			isa = PBXGroup;
 			children = (
 				5FC418F92ADD269D0017AF56 /* View */,
 				5FC418F82ADD269A0017AF56 /* ViewModels */,
 				5FC418F72ADD26980017AF56 /* Contractor */,
 			);
-			path = AuthorSetting_Tab;
+			path = SettingsUserStory;
 			sourceTree = "<group>";
 		};
 		5FBA26632A14A08200E972FB = {
@@ -1084,14 +1084,14 @@
 			path = Firesore;
 			sourceTree = "<group>";
 		};
-		5FF58F382A27043A009AF970 /* AuthorAddEditOrder */ = {
+		5FF58F382A27043A009AF970 /* AddEditOrderUserStrory */ = {
 			isa = PBXGroup;
 			children = (
 				5FF58F3B2A270492009AF970 /* Views */,
 				5FF58F3A2A27048E009AF970 /* ViewModels */,
 				5FF58F392A27048C009AF970 /* Contract */,
 			);
-			path = AuthorAddEditOrder;
+			path = AddEditOrderUserStrory;
 			sourceTree = "<group>";
 		};
 		5FF58F392A27048C009AF970 /* Contract */ = {

@@ -14,7 +14,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     @Namespace var animation
     @Binding var showSignInView: Bool
     @Binding var showEditOrderView: Bool
-    @Binding var path: NavigationPath
 
     @State var showActionSheet: Bool = false
     @State var shouldScroll = false
@@ -25,14 +24,12 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
          showEditOrderView: Binding<Bool>,
-         statusOrder: StatusOrder,
-         path: Binding<NavigationPath>
+         statusOrder: StatusOrder
     ) {
         self.viewModel = viewModel
         self._showSignInView = showSignInView
         self._showEditOrderView = showEditOrderView
         self.statusOrder = statusOrder
-        self._path = path
     }
     
     var body: some View {
@@ -75,13 +72,11 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                 }
             }
             .navigationDestination(for: DbOrderModel.self, destination: { order in
-                DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author, path: $path)
+                DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .author)
             })
             .ignoresSafeArea()
             .background(Color(R.color.gray7.name))
-            .onAppear{
-                print("AuthorMainScreenView Path Count: \(path.count)")
-            }
+
     }
     func headerSection(scroll: ScrollViewProxy) -> some View {
         VStack {
@@ -253,7 +248,7 @@ extension Date {
 struct AuthorMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
-        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), statusOrder: .Upcoming, path: .constant(NavigationPath()))
+        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), statusOrder: .Upcoming)
     }
 }
 private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {

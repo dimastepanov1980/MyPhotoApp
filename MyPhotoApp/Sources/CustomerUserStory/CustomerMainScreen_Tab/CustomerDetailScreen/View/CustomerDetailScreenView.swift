@@ -9,8 +9,8 @@ import SwiftUI
 
 struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    
-    @Binding var path: NavigationPath
+    @EnvironmentObject var router: Router<Views>
+
     @State private var currentStep = 0
     @State var showOrderConfirm: Bool = false
     @State var showPortfolioDetailScreenView: Bool = false
@@ -18,10 +18,8 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
     @State var orderDescription: String = R.string.localizable.default_message()
     
     
-    init(with viewModel: ViewModel,
-         path: Binding<NavigationPath>) {
+    init(with viewModel: ViewModel) {
         self.viewModel = viewModel
-        self._path = path
     }
 
 
@@ -34,7 +32,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                                ForEach(viewModel.portfolio.smallImagesPortfolio.indices, id: \.self) { index in
                                        AsyncImageView(imagePath: viewModel.portfolio.smallImagesPortfolio[index])
                                        .navigationDestination(isPresented: $showPortfolioDetailScreenView) {
-                                           PortfolioDetailScreenView(images: viewModel.portfolio.smallImagesPortfolio, path: $path)
+                                           PortfolioDetailScreenView(images: viewModel.portfolio.smallImagesPortfolio)
                                        }
                                        .onTapGesture {
                                            showPortfolioDetailScreenView.toggle()
@@ -122,12 +120,12 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                     orderTime: viewModel.selectedTime,
                     orderDuration: String(viewModel.selectedTime.count),
                     orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
-                                            showOrderConfirm: $showOrderConfirm, path: $path)
+                                            showOrderConfirm: $showOrderConfirm)
            }
     }
     private var customBackButton : some View {
         Button {
-            path.removeLast()
+            router.pop()
         } label: {
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
@@ -485,7 +483,7 @@ private struct RoundedCorner: Shape {
 struct CustomerDetailScreenView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
     static var previews: some View {
-        CustomerDetailScreenView(with: mocItems, path: .constant(NavigationPath()))
+        CustomerDetailScreenView(with: mocItems)
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {

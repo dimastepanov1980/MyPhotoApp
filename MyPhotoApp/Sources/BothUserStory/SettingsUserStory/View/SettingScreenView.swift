@@ -11,18 +11,15 @@ import Combine
 struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @Binding var showAuthenticationView: Bool
-    @Binding var path: NavigationPath
     
     var mode: Constants.UserTypeDependencies
     
     init(with viewModel: ViewModel,
          showAuthenticationView: Binding<Bool>,
-         path: Binding<NavigationPath>,
          mode: Constants.UserTypeDependencies ) {
         
         self.viewModel = viewModel
         self._showAuthenticationView = showAuthenticationView
-        self._path = path
         self.mode = mode
     }
     
@@ -30,17 +27,18 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
         
         VStack{
             List {
-                Section {
                     if !viewModel.userIsAuth {
                         VStack(alignment: .leading, spacing: 16){
                             Text(R.string.localizable.signin_to_continue())
                                 .font(.subheadline)
                                 .foregroundColor(Color(R.color.gray3.name))
-                                .padding(.bottom)
+//                                .padding(.bottom)
                             
                             CustomButtonXl(titleText: R.string.localizable.logIn(), iconName: "lock") {
                                 showAuthenticationView = true
                             }
+                            .padding(.bottom, 8)
+
                            
                                 Button {
                                     showAuthenticationView = true
@@ -54,11 +52,10 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                                             .fontWeight(.bold)
                                             .foregroundColor(Color(R.color.gray3.name))
                                     }
+                                    .padding(.bottom, 8)
                                 }
-                            Divider()
                         }
                     }
-                }
                 ForEach(viewModel.settingsMenu, id: \.self) { item in
                     NavigationLink(value: item) {
                         HStack{
@@ -72,14 +69,35 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                     }
                     
                 }
-                    HStack{
-                        Image(systemName: "arrow.triangle.swap")
-                            .font(.title2)
-                            .foregroundColor(Color(R.color.gray2.name))
-                        Text( mode == .author ? R.string.localizable.settings_section_author() : R.string.localizable.settings_section_customer() )
-                            .font(.callout)
-                            .foregroundColor(Color(R.color.gray3.name))
+                NavigationLink {
+                    switch mode {
+                    case .author:
+                        NavigationStack {
+                            CustomerPageHubView(showAuthenticationView: $showAuthenticationView)
+                        }
+                    case .customer:
+                        NavigationStack {
+                            AuthorHubPageView(showAuthenticationView: $showAuthenticationView)
+                        }
                     }
+                } label: {
+                    Button {
+                        
+                    } label: {
+                        HStack{
+                            Image(systemName: "arrow.triangle.swap")
+                                .font(.title2)
+                                .foregroundColor(Color(R.color.gray2.name))
+                            Text( mode == .author ? R.string.localizable.settings_section_author() : R.string.localizable.settings_section_customer() )
+                                .font(.callout)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
+
+                    }
+                }
+
+            
+
 
             }
         
@@ -108,7 +126,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     private func viewForSettingItem(_ item: SettingItem) -> some View {
         switch item.nameItem {
         case R.string.localizable.settings_section_profile():
-            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: .constant(true)), path: $path)
+            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: .constant(true)))
         case R.string.localizable.settings_section_notification():
             NotificationScreenView()
         case R.string.localizable.settings_section_privacy():
@@ -118,7 +136,7 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
         case R.string.localizable.settings_section_localization():
             LocalizationScreenView()
         case R.string.localizable.settings_section_logout():
-            LogOutScreenView(with: LogOutScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path)
+            LogOutScreenView(with: LogOutScreenViewModel(), showAuthenticationView: $showAuthenticationView)
 
         default:
             Text("Unknown View")
@@ -132,7 +150,7 @@ struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
         NavigationStack{
-            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), path: .constant(NavigationPath()), mode: .author)
+            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false), mode: .author)
         }
     }
 }

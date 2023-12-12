@@ -8,24 +8,23 @@
 import SwiftUI
 
 struct RootScreenView: View {
-    @State private var showAuthenticationView: Bool = true
+    @EnvironmentObject var router: Router<Views>
+    
+    @Binding var showAuthenticationView: Bool
     @State private var userIsCustomer: Bool = true
-    @State var path = NavigationPath()
-
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
+    
     var body: some View {
-        NavigationStack(path: $path){
             ZStack {
                 if !showAuthenticationView {
                     if !userIsCustomer {
-                        AuthorHubPageView(showAuthenticationView: $showAuthenticationView, path: $path)
+                        AuthorHubPageView(showAuthenticationView: $showAuthenticationView)
                     } else {
-                        CustomerPageHubView(showAuthenticationView: $showAuthenticationView, path: $path)
+                        CustomerPageHubView(showAuthenticationView: $showAuthenticationView)
                     }
                 }
             }
-        }
         .sheet(isPresented: $showAuthenticationView) {
             NavigationStack{
                 AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer), showAuthenticationView: $showAuthenticationView)
@@ -37,6 +36,6 @@ struct RootScreenView: View {
 
 struct RootScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        RootScreenView()
+        RootScreenView(showAuthenticationView: .constant(true))
     }
 }

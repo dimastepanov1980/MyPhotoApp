@@ -10,7 +10,6 @@ import SwiftUI
 struct PortfolioDetailScreenView: View {
     var images: [String]
     @Environment(\.dismiss) private var dismiss
-    @Binding var path: NavigationPath
 
     var body: some View {
         VStack{
@@ -27,9 +26,6 @@ struct PortfolioDetailScreenView: View {
                     }
 
                 }
-        }
-        .onAppear{
-            print("PortfolioDetailScreenView Path Count: \(path.count)")
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: customBackButton)
@@ -98,7 +94,7 @@ struct PortfolioDetailScreenView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationStack{
-            PortfolioDetailScreenView(images: viewModel.images, path: .constant(NavigationPath()))
+            PortfolioDetailScreenView(images: viewModel.images)
         }
     }
 }

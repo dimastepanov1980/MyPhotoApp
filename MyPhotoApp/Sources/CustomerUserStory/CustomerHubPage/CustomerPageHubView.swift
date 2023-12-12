@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct CustomerPageHubView: View {
+    @EnvironmentObject var router: Router<Views>
+
     @State var index = 0
     @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: .constant(false))
 
     @Binding var showAuthenticationView: Bool
-    @Binding var path: NavigationPath
-
     @State private var userProfileIsSet: Bool = false
     @State private var profileIsShown: Bool = false
     @State private var showAddOrderView: Bool = false
@@ -30,15 +30,15 @@ struct CustomerPageHubView: View {
                                 ProgressView("Loading...")
                             }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
                         } else {
-                            CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation, path: $path)
+                            CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation)
                         }
                     }
                 case 1:
-                    CustomerOrdersView(with: CustomerOrdersViewModel(), path: $path, showAuthenticationView: $showAuthenticationView)
+                    CustomerOrdersView(with: CustomerOrdersViewModel(), showAuthenticationView: $showAuthenticationView)
                 case 2:
                     Color.green
                 case 3:
-                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, path: $path, mode: .customer)
+                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, mode: .customer)
                 default:
                     EmptyView()
                 }
@@ -59,7 +59,7 @@ struct CustomerPageHubView: View {
             .presentationDetents([.fraction(0.12)])
         }
         .navigationDestination(isPresented: $profileIsShown) {
-            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown), path: $path)
+            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown))
         }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
@@ -79,6 +79,6 @@ struct CustomerPageHubView: View {
 
 struct CustomerPageHubView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerPageHubView(showAuthenticationView: .constant(false), path: .constant(NavigationPath()))
+        CustomerPageHubView(showAuthenticationView: .constant(false))
     }
 }

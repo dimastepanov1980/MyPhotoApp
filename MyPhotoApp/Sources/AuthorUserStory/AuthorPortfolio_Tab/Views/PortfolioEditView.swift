@@ -18,14 +18,11 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @State private var loadingImage = false
     @State private var locationAuthor = ""
     @State private var selectedAvatar: PhotosPickerItem?
-    @Binding var path: NavigationPath
     @Environment(\.dismiss) private var dismiss
 
 
-    init(with viewModel : ViewModel,
-         path: Binding<NavigationPath> ) {
+    init(with viewModel : ViewModel) {
         self.viewModel = viewModel
-        self._path = path
     }
     
     var body: some View {
@@ -92,9 +89,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                 .onAppear{
                     locationAuthor = viewModel.locationAuthor
                 }
-            }
-            .onAppear{
-                print("PortfolioEditView Path Count: \(path.count)")
             }
     }
     
@@ -329,8 +323,7 @@ struct PortfolioEditView_Previews: PreviewProvider {
             descriptionAuthor: .constant(viewModel.descriptionAuthor),
             longitude: .constant(0.0),
             latitude: .constant(0.0),
-            regionAuthor: .constant("TH")),
-            path: .constant(NavigationPath()))
+            regionAuthor: .constant("TH")))
     }
 }
 

@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View {
+    @EnvironmentObject var router: Router<Views>
+
     @ObservedObject var viewModel: ViewModel
-        @Binding var searchPageShow: Bool
+    @Binding var searchPageShow: Bool
     @Binding var requestLocation: Bool
-    @Binding var path: NavigationPath
     @FocusState var onFocus: Bool
 
     @State var selectDate: Date = Date()
@@ -20,12 +21,10 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
     
     init(with viewModel: ViewModel,
          searchPageShow: Binding<Bool>,
-         requestLocation: Binding<Bool>,
-         path: Binding<NavigationPath>) {
+         requestLocation: Binding<Bool>) {
         self.viewModel = viewModel
         self._searchPageShow = searchPageShow
         self._requestLocation = requestLocation
-        self._path = path
     }
     
     var body: some View {
@@ -37,7 +36,6 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
         if searchPageShow {
             VStack{
                 searchLocationButton
-//                    .background(Color(.systemBackground))
                     .onTapGesture {
                         withAnimation {
                             self.searchPageShow = false
@@ -48,15 +46,13 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                 ScrollView{
                     VStack{
                         ForEach(viewModel.portfolio, id: \.id) { portfolio in
-                            NavigationLink(value: portfolio) {
                                 CustomerMainCellView(items: portfolio)
-                            }
+                                .onTapGesture {
+                                    router.push(.CustomerDetailScreenView(with: portfolio))
+                                }
                         }
                     }
                     .padding(.bottom, 110)
-                    .navigationDestination(for: AuthorPortfolioModel.self) { portfolio in
-                        CustomerDetailScreenView(with: CustomerDetailScreenViewModel(portfolio: portfolio, startScheduleDay: selectDate), path: $path)
-                    }
                 }
             }
                 .refreshable {
@@ -211,7 +207,7 @@ struct CustomerMainScreenView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationStack{
-            CustomerMainScreenView(with: mockModel, searchPageShow: .constant(true), requestLocation: .constant(false), path: .constant(NavigationPath()))
+            CustomerMainScreenView(with: mockModel, searchPageShow: .constant(true), requestLocation: .constant(false))
         }
     }
 }

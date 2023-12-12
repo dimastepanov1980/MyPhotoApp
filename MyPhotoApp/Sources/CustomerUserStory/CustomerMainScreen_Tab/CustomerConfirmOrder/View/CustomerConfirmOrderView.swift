@@ -12,15 +12,12 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
     @State var orderDescription: String = R.string.localizable.default_message()
     @State var showAuthenticationCustomerView: Bool = false    
     @Binding var showOrderConfirm: Bool
-    @Binding var path: NavigationPath
 
     init(with viewModel: ViewModel,
-         showOrderConfirm: Binding<Bool>,
-         path: Binding<NavigationPath>
+         showOrderConfirm: Binding<Bool>
     ) {
         self.viewModel = viewModel
         self._showOrderConfirm = showOrderConfirm
-        self._path = path
     }
     var body: some View {
             HStack(alignment: .top) {
@@ -72,7 +69,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 }
             }
             .fullScreenCover(isPresented: $showAuthenticationCustomerView) {
-                    AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $showAuthenticationCustomerView, userIsCustomer: .constant(true)), path: $path)
+                    AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $showAuthenticationCustomerView, userIsCustomer: .constant(true)))
             }
             .onAppear{
                 Task{
@@ -86,7 +83,6 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                                               buttonTitle: viewModel.buttonTitleStatus ?? "") {
                     
                     self.viewModel.showOrderStatusAlert = false
-                    path = NavigationPath()
                     
                 }
             }
@@ -223,7 +219,7 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
 
     static var previews: some View {
-        CustomerConfirmOrderView(with: mocItems, showOrderConfirm: .constant(false), path: .constant(NavigationPath()))
+        CustomerConfirmOrderView(with: mocItems, showOrderConfirm: .constant(false))
     }
 }
 

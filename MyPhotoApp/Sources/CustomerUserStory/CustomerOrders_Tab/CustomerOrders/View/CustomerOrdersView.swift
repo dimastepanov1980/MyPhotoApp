@@ -11,27 +11,21 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State var showDetailView = false
     @State var showEditOrderView = false
-    @Binding var path: NavigationPath
     @Binding var showAuthenticationView: Bool
 
     init(with viewModel: ViewModel,
-         path: Binding<NavigationPath>,
          showAuthenticationView: Binding<Bool>){
         self.viewModel = viewModel
         self._showAuthenticationView = showAuthenticationView
-        self._path = path
     }
     
     var body: some View {
             orderView(userAuth: viewModel.userIsAuth)
             
         .navigationDestination(for: DbOrderModel.self, destination: { order in
-            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer, path: $path)
+            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer)
            //                                .navigationBarBackButtonHidden(true)
         })
-        .onAppear{
-            print("CustomerOrdersView Path count: \(path.count)")
-        }
         .background(Color(R.color.gray7.name))
     }
     
@@ -96,7 +90,7 @@ struct CustomerOrdersView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
     static var previews: some View {
-        CustomerOrdersView(with: mockModel, path: .constant(NavigationPath()), showAuthenticationView: .constant(false))
+        CustomerOrdersView(with: mockModel, showAuthenticationView: .constant(false))
     }
 }
 

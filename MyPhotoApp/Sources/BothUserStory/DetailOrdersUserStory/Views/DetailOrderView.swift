@@ -14,7 +14,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
     var detailOrderType: UserType
-    @Binding var path: NavigationPath
 
     @State private var showingOptions = false
     @State private var selectedStatus = ""
@@ -33,13 +32,11 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
 
     init(with viewModel: ViewModel,
          showEditOrderView: Binding<Bool>,
-         detailOrderType: UserType,
-         path: Binding<NavigationPath>) {
+         detailOrderType: UserType) {
         
         self.viewModel = viewModel
         self._showEditOrderView = showEditOrderView
         self.detailOrderType = detailOrderType
-        self._path = path
     }
     
     var body: some View {
@@ -117,13 +114,10 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     }
                 }
             }
-            .onAppear{
-                print("DetailOrderView Path Count: \(path.count)")
-            }
         
             .fullScreenCover(isPresented: $showEditOrderView) {
                 NavigationStack{
-                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, path: $path, mode: .edit)
+                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
                 }
             }
         
@@ -193,7 +187,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                            customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
                 try await viewModel.updateStatus(orderModel: userOrders)
                 print(selectedStatus)
-                path.removeLast()
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -435,7 +428,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     private var customBackButton : some View {
         Button {
-            path.removeLast()
+//            path.removeLast()
         } label: {
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
@@ -452,7 +445,7 @@ struct DetailOrderView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            DetailOrderView(with: modelMock, showEditOrderView: .constant(false), detailOrderType: .author, path: .constant(NavigationPath()))
+            DetailOrderView(with: modelMock, showEditOrderView: .constant(false), detailOrderType: .author)
         }
     }
 }

@@ -14,11 +14,21 @@ import CoreLocation
 
 @main
 struct MyPhotoAppApp: App {
+    @ObservedObject var router = Router<Views>()
+    @State private var showAuthenticationView: Bool = true
+
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
         WindowGroup {
-                RootScreenView()
+            NavigationStack(path: $router.paths){
+                RootScreenView(showAuthenticationView: $showAuthenticationView)
+                    .navigationDestination(for: Views.self){ destination in
+                        ViewFactory.viewForDestination(destination, showAuthenticationView: $showAuthenticationView)
+                    }
+            }
+                .environmentObject(router)
+
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
             }

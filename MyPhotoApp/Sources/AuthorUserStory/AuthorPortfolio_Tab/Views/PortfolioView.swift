@@ -20,12 +20,9 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                    GridItem(.flexible(), spacing: 0)]
     
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
-    @Binding var path: NavigationPath
 
-    init(with viewModel : ViewModel,
-         path: Binding<NavigationPath>) {
+    init(with viewModel : ViewModel) {
         self.viewModel = viewModel
-        self._path = path
     }
     
     var body: some View {
@@ -36,9 +33,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                     imageSection
                 }
             }
-            .onAppear{
-                print("PortfolioView Path Count: \(path.count)")
-            }
+
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack(spacing: 20){
@@ -130,11 +125,10 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                                            descriptionAuthor: $viewModel.descriptionAuthor,
                                                            longitude: $viewModel.longitude,
                                                            latitude: $viewModel.latitude,
-                                                           regionAuthor: $viewModel.regionAuthor),
-                                                            path: $path)
+                                                           regionAuthor: $viewModel.regionAuthor))
         }
         .navigationDestination(isPresented: $showScheduleView) {
-            PortfolioScheduleView(with: PortfolioScheduleViewModel(), showScheduleView: $showScheduleView, path: $path)
+            PortfolioScheduleView(with: PortfolioScheduleViewModel(), showScheduleView: $showScheduleView)
                 .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
         }
         .onAppear{
@@ -348,7 +342,7 @@ struct PortfolioView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationStack{
-            PortfolioView(with: viewModel, path: .constant(NavigationPath()))
+            PortfolioView(with: viewModel)
         }
     }
 }

@@ -13,17 +13,14 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
     @Binding var showAddOrderView: Bool
-    @Binding var path: NavigationPath
 
     var mode: Constants.OrderMode
     
     init(with viewModel: ViewModel,
          showAddOrderView: Binding<Bool>,
-         path: Binding<NavigationPath>,
          mode: Constants.OrderMode) {
         self.viewModel = viewModel
         self._showAddOrderView = showAddOrderView
-        self._path = path
         self.mode = mode
     }
     var body: some View {
@@ -77,7 +74,6 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                                                                                               email: viewModel.email)))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
                     showAddOrderView = false
-                    path = NavigationPath()
             }
         .padding(.horizontal)
         }
@@ -152,7 +148,7 @@ struct AuthorAddOrderView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationView {
-            AuthorAddOrderView(with: mockModel, showAddOrderView: .constant(true), path: .constant(NavigationPath()), mode: .edit)
+            AuthorAddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
         }
     }
 }

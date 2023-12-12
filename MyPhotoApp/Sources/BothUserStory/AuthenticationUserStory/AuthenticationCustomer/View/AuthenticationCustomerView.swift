@@ -10,13 +10,9 @@ import SwiftUI
 struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-    @Binding var path: NavigationPath
 
-    init(with viewModel: ViewModel,
-         path: Binding<NavigationPath>
-    ) {
+    init(with viewModel: ViewModel) {
         self.viewModel = viewModel
-        self._path = path
     }
     
     var body: some View {
@@ -53,16 +49,11 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
 
                     }
             }
-
-   
-        .onAppear{
-            print("AuthenticationCustomerView Path Count: \(path.count)")
-        }
     }
     
     private var customBackButton : some View {
         Button {
-            path.removeLast()
+            
             viewModel.showAuthenticationCustomerView = false
 
         } label: {
@@ -114,7 +105,7 @@ struct AuthenticationCustomerView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationStack{
-            AuthenticationCustomerView(with: modelMock, path: .constant(NavigationPath()))
+            AuthenticationCustomerView(with: modelMock)
         }
     }
 }
