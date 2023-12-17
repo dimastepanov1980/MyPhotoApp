@@ -33,11 +33,12 @@
 		5F4A1B402A9EF21F00EC67B2 /* SearchLocationManaget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B3F2A9EF21F00EC67B2 /* SearchLocationManaget.swift */; };
 		5F4A1B492AA086CA00EC67B2 /* PortfolioViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */; };
 		5F53C2FD2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F53C2FC2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift */; };
-		5F69408E2B086D070043D1EA /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69408D2B086D070043D1EA /* UserType.swift */; };
 		5F6940942B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6940932B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift */; };
 		5F6940962B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6940952B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift */; };
 		5F6940982B098EB50043D1EA /* AuthenticationCustomerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6940972B098EB50043D1EA /* AuthenticationCustomerView.swift */; };
 		5F69409B2B0B230B0043D1EA /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F69409A2B0B230B0043D1EA /* Router.swift */; };
+		5F8261202B289CB40021AAF5 /* UserTypeServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F82611F2B289CB40021AAF5 /* UserTypeServiceType.swift */; };
+		5F8261222B289D700021AAF5 /* UserTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8261212B289D700021AAF5 /* UserTypeService.swift */; };
 		5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96A6C72A1723B200FBCFF5 /* FirebaseAuth */; };
 		5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */; };
 		5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */; };
@@ -88,12 +89,9 @@
 		5FC419152AE167D70017AF56 /* PrivacyScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419142AE167D70017AF56 /* PrivacyScreenView.swift */; };
 		5FC419172AE167EE0017AF56 /* InformationScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419162AE167EE0017AF56 /* InformationScreenView.swift */; };
 		5FC419192AE168000017AF56 /* LocalizationScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419182AE168000017AF56 /* LocalizationScreenView.swift */; };
-		5FC4191B2AE168100017AF56 /* LogOutScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4191A2AE168100017AF56 /* LogOutScreenView.swift */; };
 		5FC4191D2AE218750017AF56 /* ProfileScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4191C2AE218750017AF56 /* ProfileScreenViewModel.swift */; };
 		5FC4191F2AE2188F0017AF56 /* ProfileScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4191E2AE2188F0017AF56 /* ProfileScreenViewModelType.swift */; };
 		5FC419242AE243480017AF56 /* DBAuthorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC419232AE243480017AF56 /* DBAuthorModel.swift */; };
-		5FC4192D2AE3B9990017AF56 /* LogOutScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4192C2AE3B9990017AF56 /* LogOutScreenViewModelType.swift */; };
-		5FC4192F2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC4192E2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift */; };
 		5FDB47E02AF0C68D004ABE8F /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB47DF2AF0C68D004ABE8F /* ImageDetailView.swift */; };
 		5FE009662B183F860012DC82 /* FacebookBasics in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE009652B183F860012DC82 /* FacebookBasics */; };
 		5FE009682B183F860012DC82 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE009672B183F860012DC82 /* FacebookCore */; };
@@ -159,11 +157,12 @@
 		5F4A1B3F2A9EF21F00EC67B2 /* SearchLocationManaget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationManaget.swift; sourceTree = "<group>"; };
 		5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModelType.swift; sourceTree = "<group>"; };
 		5F53C2FC2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerStatusOrderScreenView.swift; sourceTree = "<group>"; };
-		5F69408D2B086D070043D1EA /* UserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserType.swift; sourceTree = "<group>"; };
 		5F6940932B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCustomerViewModelType.swift; sourceTree = "<group>"; };
 		5F6940952B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCustomerViewModel.swift; sourceTree = "<group>"; };
 		5F6940972B098EB50043D1EA /* AuthenticationCustomerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCustomerView.swift; sourceTree = "<group>"; };
 		5F69409A2B0B230B0043D1EA /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		5F82611F2B289CB40021AAF5 /* UserTypeServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTypeServiceType.swift; sourceTree = "<group>"; };
+		5F8261212B289D700021AAF5 /* UserTypeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTypeService.swift; sourceTree = "<group>"; };
 		5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNetworkService.swift; sourceTree = "<group>"; };
 		5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenView.swift; sourceTree = "<group>"; };
 		5F9F323B2A93744E004D48B7 /* CustomerMainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMainScreenViewModel.swift; sourceTree = "<group>"; };
@@ -215,12 +214,9 @@
 		5FC419142AE167D70017AF56 /* PrivacyScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyScreenView.swift; sourceTree = "<group>"; };
 		5FC419162AE167EE0017AF56 /* InformationScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationScreenView.swift; sourceTree = "<group>"; };
 		5FC419182AE168000017AF56 /* LocalizationScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationScreenView.swift; sourceTree = "<group>"; };
-		5FC4191A2AE168100017AF56 /* LogOutScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutScreenView.swift; sourceTree = "<group>"; };
 		5FC4191C2AE218750017AF56 /* ProfileScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenViewModel.swift; sourceTree = "<group>"; };
 		5FC4191E2AE2188F0017AF56 /* ProfileScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreenViewModelType.swift; sourceTree = "<group>"; };
 		5FC419232AE243480017AF56 /* DBAuthorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBAuthorModel.swift; sourceTree = "<group>"; };
-		5FC4192C2AE3B9990017AF56 /* LogOutScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutScreenViewModelType.swift; sourceTree = "<group>"; };
-		5FC4192E2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutScreenViewModel.swift; sourceTree = "<group>"; };
 		5FDB47DF2AF0C68D004ABE8F /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		5FE5AADA2AA1AFBB0033F51B /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModel.swift; sourceTree = "<group>"; };
 		5FE5AADD2AA1DC660033F51B /* PublicFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicFunction.swift; sourceTree = "<group>"; };
@@ -548,6 +544,39 @@
 			path = ViewFactory;
 			sourceTree = "<group>";
 		};
+		5F82611B2B289C600021AAF5 /* RootScreen */ = {
+			isa = PBXGroup;
+			children = (
+				5F82611E2B289C7D0021AAF5 /* Contractor */,
+				5F82611D2B289C750021AAF5 /* ViewModel */,
+				5F82611C2B289C6F0021AAF5 /* View */,
+			);
+			path = RootScreen;
+			sourceTree = "<group>";
+		};
+		5F82611C2B289C6F0021AAF5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5F82611D2B289C750021AAF5 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5F8261212B289D700021AAF5 /* UserTypeService.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5F82611E2B289C7D0021AAF5 /* Contractor */ = {
+			isa = PBXGroup;
+			children = (
+				5F82611F2B289CB40021AAF5 /* UserTypeServiceType.swift */,
+			);
+			path = Contractor;
+			sourceTree = "<group>";
+		};
 		5F96A6CB2A1724D700FBCFF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -752,9 +781,9 @@
 			children = (
 				5FE6064A2A8BDC0E00E33205 /* Info.plist */,
 				5FA722502A1F145F003EB084 /* MyPhotoApp.entitlements */,
+				5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */,
 				5FBA26822A14CA9000E972FB /* Resources */,
 				5FBA26832A14CAB000E972FB /* Sources */,
-				5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */,
 				5FBA26752A14A08400E972FB /* Preview Content */,
 			);
 			path = MyPhotoApp;
@@ -783,6 +812,7 @@
 			isa = PBXGroup;
 			children = (
 				5FF58F2F2A2380C9009AF970 /* RootScreenView.swift */,
+				5F82611B2B289C600021AAF5 /* RootScreen */,
 				5F55F5952B140C6000DCE164 /* BothUserStory */,
 				5F39095D2A8F52B6006E539A /* CustomerUserStory */,
 				5F39095C2A8F52A0006E539A /* AuthorUserStory */,
@@ -944,7 +974,6 @@
 				5FC419142AE167D70017AF56 /* PrivacyScreenView.swift */,
 				5FC419162AE167EE0017AF56 /* InformationScreenView.swift */,
 				5FC419182AE168000017AF56 /* LocalizationScreenView.swift */,
-				5FC4191A2AE168100017AF56 /* LogOutScreenView.swift */,
 			);
 			path = Subview;
 			sourceTree = "<group>";
@@ -953,7 +982,6 @@
 			isa = PBXGroup;
 			children = (
 				5FC4191C2AE218750017AF56 /* ProfileScreenViewModel.swift */,
-				5FC4192E2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift */,
 			);
 			path = Subview;
 			sourceTree = "<group>";
@@ -962,7 +990,6 @@
 			isa = PBXGroup;
 			children = (
 				5FC4191E2AE2188F0017AF56 /* ProfileScreenViewModelType.swift */,
-				5FC4192C2AE3B9990017AF56 /* LogOutScreenViewModelType.swift */,
 			);
 			path = Subview;
 			sourceTree = "<group>";
@@ -987,7 +1014,6 @@
 				5F2711882A488FAA00679028 /* WeatherModel.swift */,
 				5F9F32432A94C894004D48B7 /* AuthorPortfolioModel.swift */,
 				5FEB71752AAC6A3D00DCC07E /* ScheduleModel.swift */,
-				5F69408D2B086D070043D1EA /* UserType.swift */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
@@ -1325,19 +1351,17 @@
 				5FC419192AE168000017AF56 /* LocalizationScreenView.swift in Sources */,
 				5FC1C0D52A2F7C0A00081FF1 /* StorageManager.swift in Sources */,
 				5F6940962B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift in Sources */,
-				5FC4192D2AE3B9990017AF56 /* LogOutScreenViewModelType.swift in Sources */,
 				5FB717482A223F6400EC7BF6 /* SettingScreenView.swift in Sources */,
 				5FC419152AE167D70017AF56 /* PrivacyScreenView.swift in Sources */,
 				5F27118C2A4934AD00679028 /* WeatherManager.swift in Sources */,
 				5FFC5AB32A919E4E006E10E9 /* CustomerMainScreenView.swift in Sources */,
 				5FE927E62A6FA59E00D3FEEA /* LocationManager.swift in Sources */,
-				5FC4191B2AE168100017AF56 /* LogOutScreenView.swift in Sources */,
+				5F8261202B289CB40021AAF5 /* UserTypeServiceType.swift in Sources */,
 				5FA3C3482A5BDC23003EA4F8 /* AuthorHubPageView.swift in Sources */,
 				5F3909652A8F6D1C006E539A /* DBPortfolioModel.swift in Sources */,
 				5FF546712A1B577300208455 /* AuthorMainScreenView.swift in Sources */,
 				5F9F324B2A973604004D48B7 /* CustomerCustomTabs.swift in Sources */,
 				5F0F8D842A31E22A00AF4EED /* DBUserModel.swift in Sources */,
-				5F69408E2B086D070043D1EA /* UserType.swift in Sources */,
 				5F4A1B332A9B154F00EC67B2 /* SizeReader.swift in Sources */,
 				5FBA269F2A162D6700E972FB /* CustomSecureTextField.swift in Sources */,
 				5FF58F302A2380C9009AF970 /* RootScreenView.swift in Sources */,
@@ -1351,7 +1375,6 @@
 				5FEB71762AAC6A3D00DCC07E /* ScheduleModel.swift in Sources */,
 				5F214E102A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift in Sources */,
 				5FA767E42A69762900861F7D /* PortfolioEditView.swift in Sources */,
-				5FC4192F2AE3B9DC0017AF56 /* LogOutScreenViewModel.swift in Sources */,
 				5FE606452A8880CB00E33205 /* ReAuthorizationScreenViewModel.swift in Sources */,
 				5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */,
 				5F0F8D862A31E28B00AF4EED /* DbOrderModel.swift in Sources */,
@@ -1371,6 +1394,7 @@
 				5F4A1B3B2A9C593300EC67B2 /* CustomerConfirmOrderViewModel.swift in Sources */,
 				5F1BCA9B2AB006BA00223146 /* PortfolioView.swift in Sources */,
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
+				5F8261222B289D700021AAF5 /* UserTypeService.swift in Sources */,
 				5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */,
 				5FE606432A887E1200E33205 /* ReAuthorizationScreenView.swift in Sources */,
 				5FEB71782AACA92000DCC07E /* PortfolioScheduleViewModel.swift in Sources */,

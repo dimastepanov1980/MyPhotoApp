@@ -879,7 +879,7 @@ struct R: Rswift.Validatable {
       ///
       /// Locales: en, ru
       static let schedule_add = Rswift.StringResource(key: "schedule_add", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
-      /// en translation: No portfolio foundy.
+      /// en translation: No portfolio found in your region.
       ///
       /// Locales: en, ru
       static let main_screen_portfolio_not_found_title = Rswift.StringResource(key: "main_screen_portfolio_not_found_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["en", "ru"], comment: nil)
@@ -2449,7 +2449,7 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("schedule_add", bundle: bundle, comment: "")
       }
 
-      /// en translation: No portfolio foundy.
+      /// en translation: No portfolio found in your region.
       ///
       /// Locales: en, ru
       static func main_screen_portfolio_not_found_title(preferredLanguages: [String]? = nil) -> String {

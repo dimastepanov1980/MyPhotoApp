@@ -10,8 +10,8 @@ import SwiftUI
 
 @MainActor
 protocol AuthenticationCustomerViewModelType: ObservableObject {
-    var showAuthenticationCustomerView: Bool { get set }
-    var userIsCustomer: Bool { get set }
+//    var showAuthenticationCustomerView: Bool { get set }
+//    var userIsCustomer: Bool { get set }
     func getUserType() async throws -> Bool
     
     var custmerEmail: String { get }

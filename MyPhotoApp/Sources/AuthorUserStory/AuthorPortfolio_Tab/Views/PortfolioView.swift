@@ -10,6 +10,9 @@ import PhotosUI
 
 struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
+    @EnvironmentObject var router: Router<Views>
+//    @EnvironmentObject var user: UserTypeService
+    
     @State var showPortfolioEditView: Bool = false
     @State private var showingOptions = false
     @State private var showScheduleView = false
@@ -99,7 +102,19 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                         }
                     }
                     Button {
-                        showPortfolioEditView.toggle()
+//                        router.push(.PortfolioEditView(with: PortfolioEditViewModel(locationAuthor: viewModel.locationAuthor,
+//                                                                                     typeAuthor: $viewModel.typeAuthor,
+//                                                                                     nameAuthor: $viewModel.nameAuthor,
+//                                                                                     familynameAuthor: $viewModel.familynameAuthor,
+//                                                                                     sexAuthor: $viewModel.sexAuthor,
+//                                                                                     ageAuthor: $viewModel.ageAuthor,
+//                                                                                     styleAuthor: $viewModel.styleAuthor,
+//                                                                                     avatarAuthor: viewModel.avatarAuthor,
+//                                                                                     avatarImage: viewModel.avatarImage ?? nil,
+//                                                                                     descriptionAuthor: $viewModel.descriptionAuthor,
+//                                                                                     longitude: $viewModel.longitude,
+//                                                                                     latitude: $viewModel.latitude,
+//                                                                                     regionAuthor: $viewModel.regionAuthor)))
                     } label: {
                         Image(systemName: "pencil.line")
                             .font(.headline)
@@ -141,6 +156,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                 try await viewModel.getPortfolioImages(imagesPath: viewModel.smallImagesPortfolio)
             }
         }
+ 
     }
     
     private var authorSection: some View {
@@ -357,7 +373,6 @@ private class MockViewModel: PortfolioViewModelType, ObservableObject {
     var regionAuthor: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0
-    var identifier: String = ""
     var smallImagesPortfolio: [String] = []
     func getPortfolioImages(imagesPath: [String]) async throws {}
     var typeAuthor: String = "photo"

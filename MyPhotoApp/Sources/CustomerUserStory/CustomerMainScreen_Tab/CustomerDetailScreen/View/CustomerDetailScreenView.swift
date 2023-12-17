@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: View {
-    @ObservedObject var viewModel: ViewModel
     @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
+    
+    @ObservedObject var viewModel: ViewModel
 
     @State private var currentStep = 0
-    @State var showOrderConfirm: Bool = false
     @State var showPortfolioDetailScreenView: Bool = false
     @Namespace var timeID
     @State var orderDescription: String = R.string.localizable.default_message()
@@ -31,11 +32,8 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                            TabView(selection: $currentStep) {
                                ForEach(viewModel.portfolio.smallImagesPortfolio.indices, id: \.self) { index in
                                        AsyncImageView(imagePath: viewModel.portfolio.smallImagesPortfolio[index])
-                                       .navigationDestination(isPresented: $showPortfolioDetailScreenView) {
-                                           PortfolioDetailScreenView(images: viewModel.portfolio.smallImagesPortfolio)
-                                       }
                                        .onTapGesture {
-                                           showPortfolioDetailScreenView.toggle()
+                                           router.push(.PortfolioDetailScreenView(images: viewModel.portfolio.smallImagesPortfolio))
                                        }
                                }
                            }
@@ -55,6 +53,10 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                            }
 
                    }
+                   .onAppear{
+                       print("router paths CustomerDetailScreenView: \(router.paths.count)")
+                   }
+                   
            }
            
            }
@@ -101,9 +103,9 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                            } else {
                                
                                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
-                                   showOrderConfirm = true
-                                   
+                                   router.push(.CustomerConfirmOrderView(authorId: viewModel.portfolio.id, authorName: viewModel.portfolio.author?.nameAuthor ?? "", authorSecondName: viewModel.portfolio.author?.familynameAuthor ?? "", location: viewModel.portfolio.author?.location ?? "", regionAuthor: viewModel.portfolio.author?.regionAuthor  ?? "", authorBookingDays: viewModel.portfolio.bookingDays ?? [:], orderDate: viewModel.startScheduleDay, orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)))
                                }
+                               .navigationBarBackButtonHidden(true)
                                .padding(.horizontal)
                            }
                      
@@ -112,23 +114,18 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                .padding(.top, 4)
                .background(Color(R.color.gray7.name))
            }
-           .background(Color(R.color.gray7.name))
-           .fullScreenCover(isPresented: $showOrderConfirm) {
-                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
-                    author: viewModel.portfolio,
-                    orderDate: viewModel.startScheduleDay,
-                    orderTime: viewModel.selectedTime,
-                    orderDuration: String(viewModel.selectedTime.count),
-                    orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
-                                            showOrderConfirm: $showOrderConfirm)
-           }
+          .background(Color(R.color.gray7.name))
+          .navigationBarBackButtonHidden(true)
+          .onAppear{
+              print("userType: \(user.userType)")
+          }
     }
     private var customBackButton : some View {
         Button {
             router.pop()
         } label: {
             HStack{
-                Image(systemName: "chevron.left.circle.fill")// set image here
+                Image(systemName: "chevron.left.circle.fill")
                     .font(.title)
                     .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
            

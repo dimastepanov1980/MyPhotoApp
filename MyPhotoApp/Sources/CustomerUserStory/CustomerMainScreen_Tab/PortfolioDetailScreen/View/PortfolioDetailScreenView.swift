@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PortfolioDetailScreenView: View {
     var images: [String]
-    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var router: Router<Views>
 
     var body: some View {
         VStack{
@@ -27,6 +27,9 @@ struct PortfolioDetailScreenView: View {
 
                 }
         }
+        .onAppear{
+            print("router paths PortfolioDetailScreenView: \(router.paths.count)")
+        }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: customBackButton)
     }
@@ -34,7 +37,7 @@ struct PortfolioDetailScreenView: View {
     private struct AsyncImageView: View {
         let imagePath: String
         @State private var imageURL: URL?
-        @State private var image: UIImage? // New state to hold the image
+        @State private var image: UIImage?
 
         var body: some View {
             Group {
@@ -51,7 +54,6 @@ struct PortfolioDetailScreenView: View {
             }
             .padding(.all, 2)
             .onAppear {
-                // Fetch the image URL and download the image concurrently
                 Task {
                     do {
                         let url = try await imagePathToURL(imagePath: imagePath)
@@ -65,6 +67,7 @@ struct PortfolioDetailScreenView: View {
                         print("Error fetching image URL or downloading image: \(error)")
                     }
                 }
+
             }
         }
 
@@ -75,7 +78,7 @@ struct PortfolioDetailScreenView: View {
     }
     private var customBackButton : some View {
         Button {
-            dismiss()
+            router.pop()
         } label: {
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
@@ -85,17 +88,14 @@ struct PortfolioDetailScreenView: View {
             }
         }
     }
-
-
 }
 
 struct PortfolioDetailScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
 
     static var previews: some View {
-        NavigationStack{
             PortfolioDetailScreenView(images: viewModel.images)
-        }
+    
     }
 }
 private class MockViewModel: ObservableObject, PortfolioDetailScreenViewModelType {

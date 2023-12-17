@@ -53,8 +53,8 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
         Task{
             getCurrentLocation()
             try await checkProfileAndPortfolio()
-            self.portfolio = try await getPortfolioForLocation(longitude: self.longitude, latitude: self.latitude, date: self.selectedDate)
-            print(portfolio)
+//            self.portfolio = try await getPortfolioForLocation(longitude: self.longitude, latitude: self.latitude, date: self.selectedDate)
+//            print(portfolio)
         }
     }
     

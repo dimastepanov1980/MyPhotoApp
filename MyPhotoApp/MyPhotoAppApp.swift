@@ -15,7 +15,9 @@ import CoreLocation
 @main
 struct MyPhotoAppApp: App {
     @ObservedObject var router = Router<Views>()
-    @State private var showAuthenticationView: Bool = true
+    @ObservedObject var user = UserTypeService()
+
+    @State private var showAuthenticationView: Bool = false
 
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
@@ -27,9 +29,15 @@ struct MyPhotoAppApp: App {
                         ViewFactory.viewForDestination(destination, showAuthenticationView: $showAuthenticationView)
                     }
             }
-                .environmentObject(router)
-
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            .onAppear {
+                Task {
+                    
+                    await user.getUserType()
+                }
+            }
+            .environmentObject(user)
+            .environmentObject(router)
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
             }
         }

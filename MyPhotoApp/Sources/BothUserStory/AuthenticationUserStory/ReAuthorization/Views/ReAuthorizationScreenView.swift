@@ -9,10 +9,13 @@ import SwiftUI
 
 struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
     @ObservedObject private var viewModel: ViewModel
+    
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
+
     @Binding var showReAuthenticationView: Bool
     @Binding var showAuthenticationView: Bool
     @State private var userIsCustomer: Bool = false
-    @Environment(\.dismiss) private var dismiss
 
     init(with viewModel: ViewModel,
          showReAuthenticationView: Binding<Bool>,
@@ -48,7 +51,8 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                         Task {
                             do {
                                 try await viewModel.deleteUser(password: viewModel.reSignInPassword)
-                                dismiss()
+                                router.popToRoot()
+                                user.userType = .unspecified
                                 showReAuthenticationView = false
                                 showAuthenticationView.toggle()
                             } catch {
@@ -62,7 +66,7 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        dismiss()
+                        router.pop()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(Color(.systemBackground), Color(R.color.gray2.name).opacity(0.6))

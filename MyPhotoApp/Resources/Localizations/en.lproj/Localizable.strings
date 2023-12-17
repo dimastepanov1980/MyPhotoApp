@@ -114,7 +114,7 @@
 "select_time" = "Select time";
 "reservation_button" = "Reservation for";
 "select_date_no_dates" = "We are very sorry,\nbut there are no available dates\nfor the selected period.";
-"main_screen_portfolio_not_found_title" = "No portfolio foundy.";
+"main_screen_portfolio_not_found_title" = "No portfolio found in your region.";
 "main_screen_portfolio_not_found_message" = "We were unable to find photographers. Choose another city.";
 
 "main_screen_portfolio_location_denied_title" = "Location not determined.";

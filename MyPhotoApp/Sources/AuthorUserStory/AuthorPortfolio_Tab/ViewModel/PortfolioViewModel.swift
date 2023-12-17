@@ -13,7 +13,6 @@ import PhotosUI
 final class PortfolioViewModel: PortfolioViewModelType {
     @Published var dbModel: DBPortfolioModel?
     @Published var locationAuthor: String = ""
-    @Published var identifier: String = ""
     @Published var avatarAuthor: String = ""
     @Published var nameAuthor: String = ""
     @Published var familynameAuthor: String = ""
@@ -28,6 +27,7 @@ final class PortfolioViewModel: PortfolioViewModelType {
     @Published var smallImagesPortfolio: [String] = []
     @Published var portfolioImages: [String: UIImage?] = [:]
     @Published var avatarImage: UIImage? = nil
+    
     @Binding var portfolioIsShow: Bool
     
     init(dbModel: DBPortfolioModel? = nil,

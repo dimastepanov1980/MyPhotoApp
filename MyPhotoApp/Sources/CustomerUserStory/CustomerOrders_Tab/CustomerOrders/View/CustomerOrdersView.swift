@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
+    
     @State var showDetailView = false
     @State var showEditOrderView = false
     @Binding var showAuthenticationView: Bool
@@ -20,18 +23,24 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     }
     
     var body: some View {
-            orderView(userAuth: viewModel.userIsAuth)
-            
-        .navigationDestination(for: DbOrderModel.self, destination: { order in
-            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: $showEditOrderView, detailOrderType: .customer)
-           //                                .navigationBarBackButtonHidden(true)
-        })
-        .background(Color(R.color.gray7.name))
+        VStack{
+            orderView(userAuth: user.userType == .unspecified)
+        }
+        .toolbar{
+            ToolbarItem(placement: .navigationBarLeading) {
+                Text(R.string.localizable.customer_tabs_message())
+                    .font(.title.bold())
+                    .padding()
+            }
+    }
+
+        .background(Color(.systemBackground))
+        .navigationBarBackButtonHidden(true)
     }
     
     @ViewBuilder
     private func orderView(userAuth: Bool) -> some View {
-        if userAuth {
+        if !userAuth {
             if viewModel.orders.isEmpty{
                 VStack(alignment: .center){
                     Text(R.string.localizable.customer_orders_worning())
@@ -44,9 +53,10 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
             } else {
                 ScrollView{
                     ForEach(viewModel.orders, id: \.orderId) { order in
-                        NavigationLink(value: order) {
                             CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
-                        }
+                            .onTapGesture {
+                                router.push(.DetailOrderView(order: order))
+                            }
                     }
                     .padding(.bottom, 70)
                 }.scrollIndicators(.hidden)

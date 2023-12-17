@@ -10,7 +10,10 @@ import SwiftUI
 struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
 
+    
     @State var index: Int = 1
     @Binding var showAuthenticationView: Bool
     @State var offsetWidth: CGFloat = UIScreen.main.bounds.width
@@ -46,11 +49,12 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                                 set: { viewModel.setCustmerPassword($0) }),
                             errorMassage: viewModel.custmerErrorMessage) {
                                 if !viewModel.custmerEmail.isEmpty && !viewModel.custmerPassword.isEmpty {
-                                    self.viewModel.userIsCustomer = true
+//                                    self.viewModel.userIsCustomer = true
                                     Task {
                                         do {
                                             try await viewModel.authenticationCustomer()
-                                            self.viewModel.showAuthenticationView = false
+                                            user.userType = .customer
+                                            self.showAuthenticationView = false
                                             return
                                         } catch {
                                             self.viewModel.custmerErrorMessage = error.localizedDescription
@@ -72,11 +76,12 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
                                 set: { viewModel.setAuthorPassword($0) }),
                             errorMassage: viewModel.authorErrorMessage) {
                                 if !viewModel.authorEmail.isEmpty && !viewModel.authorPassword.isEmpty {
-                                    self.viewModel.userIsCustomer = false
+//                                    self.viewModel.userIsCustomer = false
                                     Task {
                                         do {
                                             try await viewModel.authenticationAuthor()
-                                            self.viewModel.showAuthenticationView = false
+                                            user.userType = .author
+                                            self.showAuthenticationView = false
                                             return
                                         } catch {
                                             self.viewModel.authorErrorMessage = error.localizedDescription
@@ -112,18 +117,18 @@ struct AuthenticationScreenView<ViewModel: AuthenticationScreenViewModelType>: V
             }
             
         }
-        .onAppear {
-            Task {
-                do {
-                    viewModel.userIsCustomer = try await viewModel.getUserType()
-                        self.viewModel.showAuthenticationView = false
-                        print("user is customer: \(viewModel.userIsCustomer)")
-                } catch {
-                    print("Error: \(error)")
-                    self.viewModel.showAuthenticationView = true
-                }
-            }
-        }
+//        .onAppear {
+//            Task {
+//                do {
+//                    viewModel.userIsCustomer = try await viewModel.getUserType()
+//                        self.viewModel.showAuthenticationView = false
+//                        print("user is customer: \(viewModel.userIsCustomer)")
+//                } catch {
+//                    print("Error: \(error)")
+//                    self.viewModel.showAuthenticationView = true
+//                }
+//            }
+//        }
     }
 
     private struct TabName: View {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CustomerPageHubView: View {
     @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
 
     @State var index = 0
     @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: .constant(false))
@@ -31,14 +32,20 @@ struct CustomerPageHubView: View {
                             }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
                         } else {
                             CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation)
+                                .navigationBarBackButtonHidden(true)
+
                         }
                     }
                 case 1:
                     CustomerOrdersView(with: CustomerOrdersViewModel(), showAuthenticationView: $showAuthenticationView)
+                        .navigationBarBackButtonHidden(true)
+
                 case 2:
                     Color.green
                 case 3:
-                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, mode: .customer)
+                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
+                        .navigationBarBackButtonHidden(true)
+
                 default:
                     EmptyView()
                 }
@@ -49,7 +56,10 @@ struct CustomerPageHubView: View {
                     }
                 }
             }
-
+            .onAppear{
+                print("userType CustomerPageHubView: \(user.userType)")
+                print("router CustomerPageHubView: \(router.paths.count)")
+            }
         .sheet(isPresented: $profileIsShown) {
             CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
                 self.profileIsShown = true
@@ -59,7 +69,7 @@ struct CustomerPageHubView: View {
             .presentationDetents([.fraction(0.12)])
         }
         .navigationDestination(isPresented: $profileIsShown) {
-            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown))
+            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown), showAuthenticationView: $showAuthenticationView)
         }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {

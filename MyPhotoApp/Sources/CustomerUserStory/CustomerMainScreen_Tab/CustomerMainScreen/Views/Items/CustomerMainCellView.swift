@@ -18,7 +18,6 @@ struct CustomerMainCellView: View {
                     AsyncImageView(imagePath: items.smallImagesPortfolio[index])
                 }
             }
-            
             .tabViewStyle(.page(indexDisplayMode: .never))
             .frame(height: 300)
             .mask {
@@ -84,7 +83,7 @@ struct CustomerMainCellView: View {
                         .frame(minWidth: 0, maxWidth: .infinity)
                 } else {
                     ZStack{
-                        Color(R.color.gray5.name)
+                        Color(R.color.gray6.name)
                         ProgressView()
                     }
                 }

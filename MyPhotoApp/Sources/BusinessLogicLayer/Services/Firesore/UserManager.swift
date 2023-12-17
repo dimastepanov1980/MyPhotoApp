@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseCore
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Combine
@@ -80,8 +81,6 @@ final class UserManager {
         guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
             throw URLError(.badURL)
         }
-        
-        
         let orderData: [String : Any] = [
             DbOrderModel.CodingKeys.orderId.rawValue : orderId,
             DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),

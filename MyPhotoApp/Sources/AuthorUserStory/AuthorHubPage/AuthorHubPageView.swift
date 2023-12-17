@@ -26,7 +26,6 @@ struct AuthorHubPageView: View {
             VStack{
                 ZStack {
                     if self.index == 0 {
-                        
                         AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView, showEditOrderView: $showEditOrderView, statusOrder: .Upcoming)
                         
                     } else if self.index == 1 {
@@ -37,7 +36,7 @@ struct AuthorHubPageView: View {
                     } else if self.index == 2 {
                         PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
                     } else if self.index == 3 {
-                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView, mode: .author)
+                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
                     }
                 }
                 .padding(.bottom, -40)
@@ -59,19 +58,19 @@ struct AuthorHubPageView: View {
                 .presentationDetents([.fraction(0.12)])
             }
             .navigationDestination(isPresented: $showProfileView) {
-                ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShow))
+                ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShow), showAuthenticationView: $showAuthenticationView)
             }
             .navigationDestination(isPresented: $showPortfolioView) {
                     PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
             }
             .edgesIgnoringSafeArea(.bottom)
-            .fullScreenCover(isPresented: $showAddOrderView) {
-                NavigationStack {
-                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "", orderStatus: "", orderShootingDate: Date(), orderShootingTime: [], orderShootingDuration: "", orderSamplePhotos: [], orderMessages: nil, authorId: nil, authorName: "", authorSecondName: "", authorLocation: "",   customerId: nil, customerName: nil, customerSecondName: nil, customerDescription: "",   customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))), showAddOrderView: $showAddOrderView, mode: .new)
-                }
-                .onAppear { UIDatePicker.appearance().minuteInterval = 15 }
-
-            }
+//            .fullScreenCover(isPresented: $showAddOrderView) {
+//                NavigationStack {
+//                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "", orderStatus: "", orderShootingDate: Date(), orderShootingTime: [], orderShootingDuration: "", orderSamplePhotos: [], orderMessages: nil, authorId: nil, authorName: "", authorSecondName: "", authorLocation: "",   customerId: nil, customerName: nil, customerSecondName: nil, customerDescription: "",   customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))), showAddOrderView: $showAddOrderView, mode: .new)
+//                }
+//                .onAppear { UIDatePicker.appearance().minuteInterval = 15 }
+//
+//            }
     }
 }
 

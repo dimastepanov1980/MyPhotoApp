@@ -13,14 +13,6 @@ final class AuthenticationCustomerViewModel: AuthenticationCustomerViewModelType
     @Published var custmerEmail = ""
     @Published var custmerPassword = ""
     @Published var custmerErrorMessage = ""
-    @Binding var showAuthenticationCustomerView: Bool
-    @Binding var userIsCustomer: Bool
-    
-    init(showAuthenticationCustomerView: Binding<Bool>,
-         userIsCustomer: Binding<Bool>) {
-        self._showAuthenticationCustomerView = showAuthenticationCustomerView
-        self._userIsCustomer = userIsCustomer
-    }
     
     func setCustmerEmail(_ custmerEmail: String) {
         self.custmerEmail = custmerEmail
@@ -36,18 +28,18 @@ final class AuthenticationCustomerViewModel: AuthenticationCustomerViewModelType
         
         do {
             try await AuthNetworkService.shared.signInUser(email: custmerEmail, password: custmerPassword)
-            self.showAuthenticationCustomerView = false
-            self.userIsCustomer = try await getUserType()
+//            self.showAuthenticationCustomerView = false
+//            self.userIsCustomer = try await getUserType()
             
         } catch {
             do {
                 let authUserResult = try await AuthNetworkService.shared.createUser(email: custmerEmail, password: custmerPassword)
                 let dbUser = DBUserModel(auth: authUserResult, userType: "customer", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false)
                 try await UserManager.shared.createNewCustomer(user: dbUser)
-                self.showAuthenticationCustomerView = false
+//                self.showAuthenticationCustomerView = false
                 
             } catch {
-                self.showAuthenticationCustomerView = true
+//                self.showAuthenticationCustomerView = true
 
             }
         }

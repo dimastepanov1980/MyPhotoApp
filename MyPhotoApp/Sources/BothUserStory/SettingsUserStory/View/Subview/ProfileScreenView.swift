@@ -11,15 +11,20 @@ import PhotosUI
 struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-    @State private var logoutConfirmation = false
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
+
     @State private var selectedAvatar: PhotosPickerItem?
     @State private var isAvatarUploadInProgress = false
     @State private var loadingImage = false
-    @Environment(\.dismiss) private var dismiss
+    @Binding var showAuthenticationView: Bool
+    @State var reAuthenticationScreenSheet: Bool = false
 
-
-    init(with viewModel: ViewModel) {
+    init(with viewModel: ViewModel,
+         showAuthenticationView: Binding<Bool>){
         self.viewModel = viewModel
+        self._showAuthenticationView = showAuthenticationView
+
     }
     
     var body: some View {
@@ -31,17 +36,43 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                 CustomTextField(nameTextField: R.string.localizable.settings_section_profile_instagram(), text: $viewModel.instagramLink, isDisabled: false)
                 
                 Spacer()
+                VStack(spacing: 20){
+
+                    Button {
+                        Task {
+                            do {
+                                try viewModel.LogOut()
+                                user.userType = .unspecified
+                                showAuthenticationView = true
+                                router.pop()
+                            } catch {
+                                print(error.localizedDescription)
+                            }
+                        }
+                    } label: {
+                        ZStack {
+                            Text(R.string.localizable.signOutAccBtt())
+                                .font(.headline)
+                                .foregroundColor(Color(R.color.gray6.name))
+                                .padding(8)
+                                .padding(.horizontal, 16)
+                                .background(Color(R.color.gray1.name))
+                                .cornerRadius(20)
+                        }
+                    }
+                        Button {
+                            user.userType = .unspecified
+                            reAuthenticationScreenSheet.toggle()
+                            router.pop()
+                        } label: {
+                            Text(R.string.localizable.delete_user())
+                                .font(.footnote)
+                                .foregroundColor(Color(R.color.gray3.name))
+                        }
+                }
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: customBackButton)
-            .confirmationDialog("Log Out", isPresented: $logoutConfirmation) {
-                Button("Confirm") {
-                    logoutConfirmation = false
-                }
-                Button("Cancel") {
-                    logoutConfirmation = false
-                }
-            }
             .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(R.string.localizable.save()) {
@@ -65,78 +96,143 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                 .padding()
             }
         }
-    }
-    
-    private var avatarImageSection: some View {
-        PhotosPicker(selection: $selectedAvatar,
-                     matching: .any(of: [.images, .not(.videos)]),
-                     preferredItemEncoding: .automatic,
-                     photoLibrary: .shared()) {
-            if let avatarImage = viewModel.avatarImage {
-                
-                Image(uiImage: avatarImage)
-                    .resizable()
-                    .scaledToFill()
-                    .mask {
-                        Circle()
-                    }
-                    .frame(width: 110, height: 110)
-            } else {
-                ZStack{
-                    Color(R.color.gray5.name)
-                    Image(systemName: "arrow.triangle.2.circlepath.camera")
-                        .font(.largeTitle)
-                        .fontWeight(.thin)
-                        .foregroundColor(Color(R.color.gray3.name))
-                        
-                }
-                .mask {
-                    Circle()
-                }
-                .frame(width: 110, height: 110)
+            .sheet(isPresented: $reAuthenticationScreenSheet) {
+            NavigationStack {
+                ReAuthenticationScreenView(with: ReAuthenticationScreenViewModel(), showReAuthenticationView: $reAuthenticationScreenSheet, showAuthenticationView: $showAuthenticationView)
             }
         }
-         .onChange(of: selectedAvatar, perform: { avatar in
-             guard !isAvatarUploadInProgress else {
-                 return
-             }
-             isAvatarUploadInProgress = true
-             Task {
-                 do {
-                     withAnimation {
-                         loadingImage = true
-                     }
-                     try await viewModel.addAvatar(selectImage: avatar)
-                     loadingImage = false
-                 } catch {
-                     print("Error uploading avatar: \(error)")
-                 }
-                 
-                 isAvatarUploadInProgress = false
-             }
-         })
-         .overlay{
-             // Show a ProgressView while waiting for the photo to load
-             if loadingImage {
-                 ProgressView()
-                     .progressViewStyle(CircularProgressViewStyle())
-                     .frame(width: 110, height: 110)
-                 
-                     .background(Color.white.opacity(0.7))
-                     .clipShape(Circle())
-                     .animation(.default, value: loadingImage)
-             }
-         }
-         .onAppear{
-             Task{
-                 try await viewModel.getAvatarImage(imagePath: viewModel.avatarProfile ?? "")
-             }
-         }
     }
+    
+//    private var avatarImageSection: some View {
+//        PhotosPicker(selection: $selectedAvatar,
+//                     matching: .any(of: [.images, .not(.videos)]),
+//                     preferredItemEncoding: .automatic,
+//                     photoLibrary: .shared()) {
+//            if let avatarImage = viewModel.avatarImage {
+//                Image(uiImage: avatarImage)
+//                    .resizable()
+//                    .scaledToFill()
+//                    .mask {
+//                        Circle()
+//                    }
+//                    .frame(width: 110, height: 110)
+//            } else {
+//                ZStack{
+//                    Color(R.color.gray5.name)
+//                    Image(systemName: "arrow.triangle.2.circlepath.camera")
+//                        .font(.largeTitle)
+//                        .fontWeight(.thin)
+//                        .foregroundColor(Color(R.color.gray3.name))
+//                        
+//                }
+//                .mask {
+//                    Circle()
+//                }
+//                .frame(width: 110, height: 110)
+//            }
+//        }
+//         .onChange(of: selectedAvatar, perform: { avatar in
+//             guard !isAvatarUploadInProgress else {
+//                 return
+//             }
+//             isAvatarUploadInProgress = true
+//             Task {
+//                 do {
+//                     withAnimation {
+//                         loadingImage = true
+//                     }
+//                     try await viewModel.addAvatar(selectImage: avatar)
+//                     loadingImage = false
+//                 } catch {
+//                     print("Error uploading avatar: \(error)")
+//                 }
+//                 
+//                 isAvatarUploadInProgress = false
+//             }
+//         })
+//         .overlay{
+//             // Show a ProgressView while waiting for the photo to load
+//             if loadingImage {
+//                 ProgressView()
+//                     .progressViewStyle(CircularProgressViewStyle())
+//                     .frame(width: 110, height: 110)
+//                 
+//                     .background(Color.white.opacity(0.7))
+//                     .clipShape(Circle())
+//                     .animation(.default, value: loadingImage)
+//             }
+//         }
+//         .onAppear{
+//             Task{
+//                 try await viewModel.getAvatarImage(imagePath: viewModel.avatarProfile ?? "")
+//             }
+//         }
+//    }
+
+    private var avatarImageSection: some View {
+             PhotosPicker(selection: $selectedAvatar,
+                          matching: .any(of: [.images, .not(.videos)]),
+                          preferredItemEncoding: .automatic,
+                          photoLibrary: .shared()) {
+                 if let avatarImage = viewModel.avatarImage {
+                     Image(uiImage: avatarImage)
+                         .resizable()
+                         .scaledToFill()
+                         .mask {
+                             Circle()
+                         }
+                         .frame(width: 110, height: 110)
+                     
+                 } else {
+                     ZStack{
+                         Color(R.color.gray5.name)
+                         Image(systemName: "arrow.triangle.2.circlepath.camera")
+                             .font(.largeTitle)
+                             .fontWeight(.thin)
+                             .foregroundColor(Color(R.color.gray3.name))
+                             
+                     }
+                     .mask {
+                         Circle()
+                     }
+                     .frame(width: 110, height: 110)
+                 }
+             }
+                          .onChange(of: selectedAvatar, perform: { avatar in
+                              guard !isAvatarUploadInProgress else {
+                                  return
+                              }
+                              isAvatarUploadInProgress = true
+                              Task {
+                                  do {
+                                      withAnimation {
+                                          loadingImage = true
+                                      }
+                                      try await viewModel.addAvatar(selectImage: avatar)
+                                      loadingImage = false
+                                  } catch {
+                                      print("Error uploading avatar: \(error)")
+                                  }
+                                  
+                                  isAvatarUploadInProgress = false
+                              }
+                          })
+                          .overlay{
+                              if loadingImage {
+                                  ProgressView()
+                                      .progressViewStyle(CircularProgressViewStyle())
+                                      .frame(width: 110, height: 110)
+                                      .background(Color.white.opacity(0.7))
+                                      .clipShape(Circle())
+                                      .animation(.default, value: loadingImage)
+                              }
+                          }
+      }
+    
     private var customBackButton : some View {
         Button {
             self.viewModel.profileIsShow = true
-            dismiss()
+            router.pop()
         } label: {
             Image(systemName: "chevron.left.circle.fill")// set image here
                .font(.title)
@@ -149,13 +245,16 @@ struct ProfileScreenView_Previews: PreviewProvider {
     private static let mocData = MockViewModel()
     static var previews: some View {
         NavigationStack{
-            ProfileScreenView(with: mocData)
+            ProfileScreenView(with: mocData, showAuthenticationView: .constant(false))
         }
     }
 }
 
 
 private class MockViewModel: ProfileScreenViewModelType, ObservableObject {
+    func LogOut() throws {
+    }
+    
     var avatarProfile: String? = nil
     var avatarImage: UIImage? = nil
     var profileIsShow: Bool = true

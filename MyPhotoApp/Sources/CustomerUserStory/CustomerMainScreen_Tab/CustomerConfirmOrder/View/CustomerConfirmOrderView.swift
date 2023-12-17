@@ -9,27 +9,31 @@ import SwiftUI
 
 struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @State var orderDescription: String = R.string.localizable.default_message()
-    @State var showAuthenticationCustomerView: Bool = false    
-    @Binding var showOrderConfirm: Bool
+    
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
 
-    init(with viewModel: ViewModel,
-         showOrderConfirm: Binding<Bool>
-    ) {
+    @State var orderDescription: String = R.string.localizable.default_message()
+    @State var showAuthenticationCustomerView: Bool = false
+
+    init(with viewModel: ViewModel) {
         self.viewModel = viewModel
-        self._showOrderConfirm = showOrderConfirm
     }
     var body: some View {
+        if user.userType == .unspecified {
+            ViewFactory.viewForDestination(.AuthenticationCustomerView, showAuthenticationView: .constant(false))
+            
+        } else {
             HStack(alignment: .top) {
                 ScrollView {
                     VStack(alignment: .leading) {
-                            VStack(alignment: .leading, spacing: 12){
-                                authorSection
-                                locationSection
-                                dateSection
-                                priceSection
-                                    .padding(.bottom, 24)
-                            }
+                        VStack(alignment: .leading, spacing: 12){
+                            authorSection
+                            locationSection
+                            dateSection
+                            priceSection
+                                .padding(.bottom, 24)
+                        }
                         customerSection
                         messageSection
                         Spacer()
@@ -52,30 +56,13 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                             }
                         }
                     }
+                    .padding(.horizontal)
                     .disabled(!customerIsFilled)
                     .opacity(!customerIsFilled ? 0.5 : 1)
                 }
-                .overlay(alignment: .topTrailing) {
-                    
-                    Button {
-                        showOrderConfirm = false
-                        
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Color(.systemBackground), Color(R.color.gray3.name))
-                            .font(.largeTitle)
-                            .padding(.trailing)
-                    }
-                }
             }
-            .fullScreenCover(isPresented: $showAuthenticationCustomerView) {
-                    AuthenticationCustomerView(with: AuthenticationCustomerViewModel(showAuthenticationCustomerView: $showAuthenticationCustomerView, userIsCustomer: .constant(true)))
-            }
-            .onAppear{
-                Task{
-                    self.showAuthenticationCustomerView = try await viewModel.getCustomerData()
-                }
-            }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: customBackButton)
             .fullScreenCover(isPresented: $viewModel.showOrderStatusAlert) {
                 
                 CustomerStatusOrderScreenView(title: viewModel.titleStatus ?? "",
@@ -86,6 +73,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                     
                 }
             }
+        }
     }
     
     private var customerSection: some View {
@@ -191,14 +179,26 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 }
         }
     }
+    private var customBackButton : some View {
+        Button {
+            router.pop()
+        } label: {
+            HStack{
+                Image(systemName: "chevron.left.circle.fill")// set image here
+                    .font(.title)
+                    .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
+           
+            }
+        }
+    }
+    
     private func textField(fieldName: String, propertyName: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 4){
             Text(fieldName)
                 .font(.caption)
                 .foregroundColor(Color(R.color.gray4.name))
 //                .padding(.horizontal)
-            
-            TextEditor(text: propertyName)
+            TextField(fieldName, text: propertyName)
                 .font(.callout)
                 .foregroundColor(Color(R.color.gray2.name))
                 .padding(.horizontal)
@@ -210,6 +210,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
         }
 
     }
+
 }
 
 
@@ -219,7 +220,7 @@ struct CustomerConfirmOrderView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
 
     static var previews: some View {
-        CustomerConfirmOrderView(with: mocItems, showOrderConfirm: .constant(false))
+        CustomerConfirmOrderView(with: mocItems)
     }
 }
 

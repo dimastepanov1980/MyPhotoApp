@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View {
     @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
 
     @ObservedObject var viewModel: ViewModel
     @Binding var searchPageShow: Bool
@@ -28,114 +29,51 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
     }
     
     var body: some View {
-        searchPageView(searchPageShow: searchPageShow)
-    }
-    
-    @ViewBuilder
-    func searchPageView(searchPageShow: Bool) -> some View {
-        if searchPageShow {
-            VStack{
-                searchLocationButton
-                    .onTapGesture {
-                        withAnimation {
-                            self.searchPageShow = false
-                            self.onFocus = true
-                        }
-                    }
-                
-                ScrollView{
-                    VStack{
-                        ForEach(viewModel.portfolio, id: \.id) { portfolio in
-                                CustomerMainCellView(items: portfolio)
-                                .onTapGesture {
-                                    router.push(.CustomerDetailScreenView(with: portfolio))
-                                }
-                        }
-                    }
-                    .padding(.bottom, 110)
-                }
-            }
-                .refreshable {
-                    Task{
-                        do{
-                            print("longitude: \(viewModel.longitude), latitude: \(viewModel.latitude)")
-                            viewModel.portfolio = try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-                        } catch {
-                            print("Error refreshable fetching portfolio: \(error)")
-                            
-                        }
-                    }
-                }
-                .scrollIndicators(.hidden)
-                .alert(isPresented: $viewModel.showAlertPortfolio) {
-                       Alert(
-                        title: Text(viewModel.alertTitle),
-                        message: Text(viewModel.alertMessage)
-                       )
-                   }
-        } else {
-            ScrollView{
-                Text( R.string.localizable.customer_search_select_date())
-                    .font(.subheadline)
-                    .foregroundColor(Color(R.color.gray3.name))
-                
-                DatePicker("Chose Date", selection: $selectDate, displayedComponents: [.date])
-                    .background(Color(R.color.gray6.name).opacity(0.7))
-                    .cornerRadius(36)
-                .datePickerStyle(.graphical)
-                .onChange(of: selectDate) { newDate in
-                    self.viewModel.selectedDate = newDate
-                    print("Selected date changed to: \( self.viewModel.selectedDate)")
-                    print("Selected date changed to: \( selectDate)")
-                     }
-            }
-            .padding(.horizontal)
-            .safeAreaInset(edge: .top, spacing: 20) {
+        VStack{
+            mainPageView(showPageSearch: searchPageShow)
+        }
+            .navigationBarBackButtonHidden(true)
+            .toolbar{
+                ToolbarItem(placement: .principal) {
                     HStack{
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(Color(R.color.gray3.name))
-                            .onTapGesture {
-                                onFocus = true
-                            }
+                            .font(.footnote)
+                            .padding(.leading, 6)
+
                         TextField(R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
                             .font(.callout)
                             .foregroundColor(Color(R.color.gray2.name))
+                            .autocorrectionDisabled()
                             .focused($onFocus)
-                            .toolbar {
-                                ToolbarItem(placement: .keyboard) {
-                                    HStack{
-                                        Spacer()
-                                        Button("Done") {
-                                            onFocus = false
-                                        }
-                                    }
+
+                        if !viewModel.locationAuthor.isEmpty && !searchPageShow {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.subheadline)
+                                .padding(.horizontal, 4)
+                                .foregroundColor(Color(R.color.gray4.name))
+                                .onTapGesture {
+                                    viewModel.locationResult = []
+                                    viewModel.locationAuthor = ""
+                                    
                                 }
-                            }
+                        }
+
                     }
                     .padding(10)
                     .background(Color(R.color.gray6.name))
                     .cornerRadius(42)
-                    .padding(.horizontal)
-            }
-            .safeAreaInset(edge: .bottom) {
-                CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
-                    Task {
-                        do {
-                            viewModel.portfolio = try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-                            print("viewModel portfolio NEW Coordinate \(viewModel.portfolio)")
-                        } catch {
-                            print("Error fetching portfolio for  NEW Coordinate : \(error)")
+                    .onTapGesture {
+                        withAnimation {
+                            onFocus = true
+                            print("onFocus \(onFocus)")
+
+                            self.searchPageShow = false
                         }
                     }
-                    
-                    withAnimation {
-                        self.searchPageShow = true
-                    }
-                        print("chek new location \(viewModel.longitude); \(viewModel.latitude)")
-                    }
-                .padding()
-                .offset(y: -36)
             }
+                
+        }
             .overlay{
                 ScrollView{
                     VStack{
@@ -167,39 +105,95 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                             }
                         }
                     }
-                    .background(Color(.systemBackground))
+//                    .offset(y: 110)
                 }
-                .offset(y: 60)
+//                .ignoresSafeArea()
+
+                .background(Color(.systemBackground))
+
             }
 
-        }
     }
-    private var searchLocationButton: some View {
-        ZStack(alignment: .leading) {
-            RoundedRectangle(cornerRadius: 21)
-                .fill(Color(.systemBackground))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 21)
-                        .stroke(Color(R.color.gray4.name).opacity(0.35), lineWidth: 1)
-                )
-            
-            HStack {
-                Image(systemName: "magnifyingglass")
+    
+    @ViewBuilder
+    func mainPageView(showPageSearch: Bool) -> some View {
+        if showPageSearch {
+                ScrollView{
+                    VStack{
+                        ForEach(viewModel.portfolio, id: \.id) { portfolio in
+                                CustomerMainCellView(items: portfolio)
+                                .onTapGesture {
+                                    router.push(.CustomerDetailScreenView(viewModel: portfolio))
+                                }
+                        }
+                    }
+                    .padding(.bottom, 110)
+                    .padding(.top, 110)
+                }
+                .ignoresSafeArea()
+                .refreshable {
+                    Task{
+                        do{
+                            print("longitude: \(viewModel.longitude), latitude: \(viewModel.latitude)")
+                            viewModel.portfolio = try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+                        } catch {
+                            print("Error refreshable fetching portfolio: \(error)")
+                            
+                        }
+                    }
+                }
+                .scrollIndicators(.hidden)
+                .alert(isPresented: $viewModel.showAlertPortfolio) {
+                       Alert(
+                        title: Text(viewModel.alertTitle),
+                        message: Text(viewModel.alertMessage)
+                       )
+                   }
+        } else {
+            ScrollView{
+                Text( R.string.localizable.customer_search_select_date())
+                    .font(.subheadline)
                     .foregroundColor(Color(R.color.gray3.name))
                 
-                    Text(selectLocation.isEmpty ? R.string.localizable.customer_search_bar() : selectLocation)
-                        .font(.callout)
-                        .foregroundColor(selectLocation.isEmpty ? Color(R.color.gray4.name) : Color(R.color.gray2.name))
+                DatePicker("Chose Date", selection: $selectDate, displayedComponents: [.date])
+                    .background(Color(R.color.gray6.name).opacity(0.7))
+                    .cornerRadius(36)
+                .datePickerStyle(.graphical)
                 
+                .onChange(of: selectDate) { newDate in
+                    self.viewModel.selectedDate = newDate
+                    print("Selected date changed to: \( self.viewModel.selectedDate)")
+                    print("Selected date changed to: \( selectDate)")
+                     }
+//                .onTapGesture {
+//                    self.onFocus.toggle()
+//                    print("onFocus \(onFocus)")
+//                }
             }
-            .padding(.horizontal, 10)
-            
-        }   .frame(height: 40)
+            .padding(.top, 120)
             .padding(.horizontal)
-            .background(Color(.systemBackground))
-
-
-     }
+            .safeAreaInset(edge: .bottom) {
+                CustomButtonXl(titleText: R.string.localizable.customer_search(), iconName: "magnifyingglass") {
+                    Task {
+                        do {
+                            viewModel.portfolio = try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
+                            print("viewModel portfolio NEW Coordinate \(viewModel.portfolio)")
+                        } catch {
+                            print("Error fetching portfolio for  NEW Coordinate : \(error)")
+                        }
+                    }
+                    
+                    withAnimation {
+                        self.searchPageShow = true
+                    }
+                        print("chek new location \(viewModel.longitude); \(viewModel.latitude)")
+                    }
+                .padding()
+                .offset(y: -36)
+            }
+            .ignoresSafeArea()
+        }
+    }
 
 }
 struct CustomerMainScreenView_Previews: PreviewProvider {

@@ -10,7 +10,10 @@ import SwiftUI
 struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-
+    
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
+    
     init(with viewModel: ViewModel) {
         self.viewModel = viewModel
     }
@@ -27,10 +30,11 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
                         set: { viewModel.setCustmerPassword($0) }),
                     errorMassage: viewModel.custmerErrorMessage) {
                         if !viewModel.custmerEmail.isEmpty && !viewModel.custmerPassword.isEmpty {
-                            self.viewModel.userIsCustomer = true
+//                            self.viewModel.userIsCustomer = true
                             Task {
                                 do {
                                     try await viewModel.authenticationCustomer()
+                                    user.userType = .customer
                                 } catch {
                                     self.viewModel.custmerErrorMessage = error.localizedDescription
                                 }
@@ -38,28 +42,18 @@ struct AuthenticationCustomerView<ViewModel: AuthenticationCustomerViewModelType
                         }
                     }
             }
-            .overlay{
-                    VStack{
-                        HStack{
-                            Spacer()
-                            customBackButton
-                                .padding(.trailing)
-                        }
-                        Spacer()
-
-                    }
-            }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: customBackButton)
     }
     
     private var customBackButton : some View {
         Button {
-            
-            viewModel.showAuthenticationCustomerView = false
-
+            router.pop()
+            print("router.pop()")
         } label: {
-            Image(systemName: "xmark.circle.fill")
+            Image(systemName: "chevron.left.circle.fill")// set image here
                .font(.title)
-               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
+               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.5))
         }
     }
     private struct CustomerTab: View {

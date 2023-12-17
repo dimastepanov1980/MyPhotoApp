@@ -36,20 +36,20 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     @Published var regionAuthor: String
     @Published var orderDescription: String?
     
-    init(user: DBUserModel? = nil, author: AuthorPortfolioModel, orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String) {
-        self.authorId = author.id
-        self.authorName = author.author?.nameAuthor ?? ""
-        self.authorSecondName = author.author?.familynameAuthor ?? ""
-        self.location = author.author?.location ?? ""
+    init(user: DBUserModel? = nil, authorId: String, authorName: String, authorSecondName: String, location: String, regionAuthor : String, authorBookingDays: [String : [String]], orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String) {
+        self.authorId = authorId
+        self.authorName = authorName
+        self.authorSecondName = authorSecondName
+        self.location = location
         self.orderDate = orderDate
         self.orderTime = orderTime
         self.orderDuration = orderDuration
         self.orderPrice = orderPrice
-        self.regionAuthor = author.author?.regionAuthor ?? ""
+        self.regionAuthor = regionAuthor
         
         self.customerFirstName = user?.firstName ?? ""
         self.customerSecondName = user?.secondName ?? ""
-        self.authorBookingDays = author.bookingDays ?? [:]
+        self.authorBookingDays = authorBookingDays
         self.customerInstagramLink = user?.instagramLink ?? ""
         self.customerPhone = user?.phone ?? ""
         self.customerEmail = user?.email ?? ""

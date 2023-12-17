@@ -114,7 +114,7 @@
 "select_time" = "Выберите время";
 "reservation_button" = "Забронировать за";
 "select_date_no_dates" = "Нам очень жаль,\nно свободных дат\nна выбранный период нет.";
-"main_screen_portfolio_not_found_title" = "Портфолио не найдено.";
+"main_screen_portfolio_not_found_title" = "В вашем регионе портфолио не найдено.";
 "main_screen_portfolio_not_found_message" = "Нам не удалось найти фотографов. Выберете другой город";
 
 "main_screen_portfolio_location_denied_title" = "Местоположение не определено.";

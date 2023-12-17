@@ -10,6 +10,7 @@ import PhotosUI
 
 struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
+    @EnvironmentObject var router: Router<Views>
 
     @State private var isTapped = false
     @State private var showStyleList: Bool = false
@@ -18,7 +19,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @State private var loadingImage = false
     @State private var locationAuthor = ""
     @State private var selectedAvatar: PhotosPickerItem?
-    @Environment(\.dismiss) private var dismiss
 
 
     init(with viewModel : ViewModel) {
@@ -74,8 +74,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                  schedule: [DbSchedule](),
                                                  bookingDays: [:]
                                                 ))
-                                dismiss()
-//                                path.removeLast()
+                                router.pop()
                             }
                         }
                         .foregroundColor(Color(R.color.gray2.name))
@@ -141,12 +140,10 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                             }
                         })
                         .overlay{
-                            // Show a ProgressView while waiting for the photo to load
                             if loadingImage {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle())
                                     .frame(width: 110, height: 110)
-                                
                                     .background(Color.white.opacity(0.7))
                                     .clipShape(Circle())
                                     .animation(.default, value: loadingImage)
@@ -296,10 +293,9 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     }
     private var customBackButton : some View {
         Button {
-            dismiss()
-//            path.removeLast()
+            router.pop()
         } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
+            Image(systemName: "chevron.left.circle.fill")
                .font(.title)
                .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
         }

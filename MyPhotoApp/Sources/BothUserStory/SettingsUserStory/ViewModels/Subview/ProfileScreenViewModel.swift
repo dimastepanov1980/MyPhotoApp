@@ -56,6 +56,10 @@ final class ProfileScreenViewModel: ProfileScreenViewModelType {
 //        try await UserManager.shared.addAvatarUrl(userId: authDateResult.uid, path: avatarURL.absoluteString)
 //    }
     
+    func LogOut() throws {
+        try AuthNetworkService.shared.signOut()
+    }
+    
     func addAvatar(selectImage: PhotosPickerItem?) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         

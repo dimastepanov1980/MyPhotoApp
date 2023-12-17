@@ -32,6 +32,7 @@ protocol ProfileScreenViewModelType: ObservableObject {
     func getAvatarImage(imagePath: String) async throws
     func loadCurrentUser() async throws -> DBUserModel
     func updateCurrentUser(profile: DBUserModel) async throws
+    func LogOut() throws 
 
 
 }

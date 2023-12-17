@@ -9,33 +9,36 @@ import SwiftUI
 
 struct RootScreenView: View {
     @EnvironmentObject var router: Router<Views>
-    
+    @EnvironmentObject var user: UserTypeService
+
     @Binding var showAuthenticationView: Bool
-    @State private var userIsCustomer: Bool = true
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
     
+ 
     var body: some View {
-            ZStack {
-                if !showAuthenticationView {
-                    if !userIsCustomer {
-                        AuthorHubPageView(showAuthenticationView: $showAuthenticationView)
-                    } else {
-                        CustomerPageHubView(showAuthenticationView: $showAuthenticationView)
-                    }
-                }
+        userTypePageHub(userType: user.userType)
+            .navigationBarBackButtonHidden(true)
+            .sheet(isPresented: $showAuthenticationView) {
+                AuthenticationScreenView(with: AuthenticationScreenViewModel(), showAuthenticationView: $showAuthenticationView)
             }
-        .sheet(isPresented: $showAuthenticationView) {
-            NavigationStack{
-                AuthenticationScreenView(with: AuthenticationScreenViewModel(showAuthenticationView: $showAuthenticationView, userIsCustomer: $userIsCustomer), showAuthenticationView: $showAuthenticationView)
+    }
+    
+    @ViewBuilder
+    func userTypePageHub(userType: Constants.UserType) -> some View {
+            switch userType {
+            case .author:
+                ViewFactory.viewForDestination(.AuthorHubPageView, showAuthenticationView: $showAuthenticationView)
+            case .customer:
+                ViewFactory.viewForDestination(.CustomerPageHubView, showAuthenticationView: $showAuthenticationView)
+            case .unspecified:
+                ViewFactory.viewForDestination(.CustomerPageHubView, showAuthenticationView: $showAuthenticationView)
             }
-        }
-
     }
 }
 
 struct RootScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        RootScreenView(showAuthenticationView: .constant(true))
+        RootScreenView(showAuthenticationView: .constant(false))
     }
 }

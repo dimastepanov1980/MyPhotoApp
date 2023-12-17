@@ -16,7 +16,8 @@ struct InformationScreenView: View {
                    return R.string.localizable.version_not_available()
                }
     }
-    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var router: Router<Views>
+
 
     var body: some View {
         VStack(alignment: .center) {
@@ -61,7 +62,7 @@ struct InformationScreenView: View {
     
     private var customBackButton : some View {
         Button {
-            dismiss()
+            router.pop()
         } label: {
             Image(systemName: "chevron.left.circle.fill")// set image here
                .font(.title)

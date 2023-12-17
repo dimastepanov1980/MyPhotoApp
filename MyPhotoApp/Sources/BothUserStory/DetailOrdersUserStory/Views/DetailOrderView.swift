@@ -13,8 +13,9 @@ import UniformTypeIdentifiers
 struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     
     @ObservedObject private var viewModel: ViewModel
-    var detailOrderType: UserType
-
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
+    
     @State private var showingOptions = false
     @State private var selectedStatus = ""
     @State private var randomHeights: [CGFloat] = []
@@ -31,12 +32,9 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
 
     init(with viewModel: ViewModel,
-         showEditOrderView: Binding<Bool>,
-         detailOrderType: UserType) {
-        
+         showEditOrderView: Binding<Bool>) {
         self.viewModel = viewModel
         self._showEditOrderView = showEditOrderView
-        self.detailOrderType = detailOrderType
     }
     
     var body: some View {
@@ -57,7 +55,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         locationSection
                         dateSection
                         priceSection
-                        if detailOrderType == .author {
+                        if user.userType == .author {
                             contactSection
                         }
                         messageSection
@@ -68,9 +66,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .padding(.top, 32)
                     
                 }
-//                .navigationDestination(for: DbOrderModel.self, destination: { order in
-//                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: order), showAddOrderView: $showEditOrderView, path: $path, mode: .edit)
-//                })
             }
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -98,7 +93,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         .disabled( viewModel.smallReferenceImages.count > 20 )
                         
                             Button {
-                                showEditOrderView = true
+                                router.push(.AuthorAddOrderView(order: viewModel.order, mode: .edit))
                             } label: {
                                 Image(systemName: "pencil.line")
                             }
@@ -115,11 +110,11 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 }
             }
         
-            .fullScreenCover(isPresented: $showEditOrderView) {
-                NavigationStack{
-                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
-                }
-            }
+//            .fullScreenCover(isPresented: $showEditOrderView) {
+//                NavigationStack{
+//                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
+//                }
+//            }
         
         .confirmationDialog("Change Status", isPresented: $showChangeStatusSheet) {
             ForEach(viewModel.avaibleStatus, id: \.self) { status in
@@ -189,18 +184,17 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 print(selectedStatus)
             }
         }
-        .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: customBackButton)
-
+        .navigationBarBackButtonHidden(true)
         
     }
     private var nameSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(detailOrderType == .customer ? R.string.localizable.order_author() : R.string.localizable.order_customer() )
+            Text(user.userType == .customer ? R.string.localizable.order_author() : R.string.localizable.order_customer() )
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
             HStack{
-                Text(detailOrderType == .customer ? "\(viewModel.order.authorName ?? "") \(viewModel.order.authorSecondName ?? "")" : "\(viewModel.order.customerName ?? "") \(viewModel.order.customerSecondName ?? "")")
+                Text(user.userType == .customer ? "\(viewModel.order.authorName ?? "") \(viewModel.order.authorSecondName ?? "")" : "\(viewModel.order.customerName ?? "") \(viewModel.order.customerSecondName ?? "")")
                     .font(.title2.bold())
                     .foregroundColor(Color(R.color.gray2.name))
                 Spacer()
@@ -218,7 +212,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                     .background(viewModel.statusColor)
                                     .cornerRadius(15)
                             }
-                            .disabled(viewModel.status == "Canceled" || detailOrderType == .customer )
+                            .disabled(viewModel.status == "Canceled" || user.userType == .customer )
                         }
                     }
              
@@ -428,7 +422,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     private var customBackButton : some View {
         Button {
-//            path.removeLast()
+            router.pop()
         } label: {
             HStack{
                 Image(systemName: "chevron.left.circle.fill")// set image here
@@ -445,7 +439,8 @@ struct DetailOrderView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            DetailOrderView(with: modelMock, showEditOrderView: .constant(false), detailOrderType: .author)
+            DetailOrderView(with: modelMock, showEditOrderView: .constant(false))
+                .environmentObject(UserTypeService())
         }
     }
 }

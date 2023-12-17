@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ImageDetailView: View {
     let imagePath: String
-    @Environment(\.dismiss) private var dismiss
-    
+    @EnvironmentObject var router: Router<Views>
+
     var body: some View {
         ZStack {
             Color.black
@@ -66,7 +66,7 @@ struct ImageDetailView: View {
     }
     private var customBackButton : some View {
         Button {
-            dismiss()
+            router.pop()
         } label: {
             Image(systemName: "chevron.left.circle.fill")// set image here
                .font(.title)

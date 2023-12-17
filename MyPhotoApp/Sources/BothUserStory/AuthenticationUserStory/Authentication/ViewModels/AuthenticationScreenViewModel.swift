@@ -18,14 +18,6 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
     @Published var authorPassword = ""
     @Published var custmerErrorMessage = ""
     @Published var authorErrorMessage = ""
-    @Binding var showAuthenticationView: Bool
-    @Binding var userIsCustomer: Bool
-    
-    init(showAuthenticationView: Binding<Bool>,
-         userIsCustomer: Binding<Bool>) {
-        self._showAuthenticationView = showAuthenticationView
-        self._userIsCustomer = userIsCustomer
-    }
     
     func setCustmerEmail(_ custmerEmail: String) {
         self.custmerEmail = custmerEmail
@@ -41,7 +33,7 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
         
         do {
             try await AuthNetworkService.shared.signInUser(email: custmerEmail, password: custmerPassword)
-            self.userIsCustomer = try await getUserType()
+//            self.userIsCustomer = try await getUserType()
         } catch {
             let authUserResult = try await AuthNetworkService.shared.createUser(email: custmerEmail, password: custmerPassword)
             let dbUser = DBUserModel(auth: authUserResult, userType: "customer", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false)
@@ -55,6 +47,7 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
         
         return user.userType == "customer"
     }
+    
     func setAuthorEmail(_ authorPassword: String) {
         self.authorEmail = authorPassword
     }
@@ -69,7 +62,7 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
         
         do {
             try await AuthNetworkService.shared.signInUser(email: authorEmail, password: authorPassword)
-            self.userIsCustomer = try await getUserType()
+//            self.userIsCustomer = try await getUserType()
         } catch {
             let authUserResult = try await AuthNetworkService.shared.createUser(email: authorEmail, password: authorPassword)
             let dbUser = DBUserModel(auth: authUserResult, userType: "author", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false)

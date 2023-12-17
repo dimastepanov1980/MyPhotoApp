@@ -11,6 +11,5 @@ import Foundation
 protocol SettingScreenViewModelType: ObservableObject {
     var settingsMenu: [SettingItem] { get }
     var appVersion: String { get }
-    var userIsAuth: Bool { get set }
 }
 

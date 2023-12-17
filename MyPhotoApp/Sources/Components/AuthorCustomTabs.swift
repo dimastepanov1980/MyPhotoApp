@@ -21,7 +21,7 @@ struct AuthorCustomTabs: View {
                     .shadow(radius: 5)
                     .ignoresSafeArea(.all)
                 
-                HStack(alignment: .center, spacing: 10) {
+                HStack(alignment: .center, spacing: 4) {
                     tabButton(index: 0, icon: "camera.fill", name: R.string.localizable.tabs_feature())
                     tabButton(index: 1, icon: "paintbrush.fill", name: R.string.localizable.tabs_edit())
                     apertureButton

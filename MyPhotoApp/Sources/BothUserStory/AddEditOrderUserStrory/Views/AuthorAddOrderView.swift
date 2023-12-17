@@ -12,17 +12,16 @@ import FirebaseFirestoreSwift
 struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     
     @ObservedObject var viewModel: ViewModel
-    @Binding var showAddOrderView: Bool
-
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
     var mode: Constants.OrderMode
     
     init(with viewModel: ViewModel,
-         showAddOrderView: Binding<Bool>,
          mode: Constants.OrderMode) {
         self.viewModel = viewModel
-        self._showAddOrderView = showAddOrderView
         self.mode = mode
     }
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -73,22 +72,22 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                                                                                               phone: viewModel.phone,
                                                                                               email: viewModel.email)))
                 mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
-                    showAddOrderView = false
+                    router.pop()
             }
         .padding(.horizontal)
         }
         .navigationTitle(mode == .new ? R.string.localizable.order_new_order() : R.string.localizable.order_edit_order())
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    showAddOrderView = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(Color(.systemBackground), Color(R.color.gray3.name))
-                        .font(.title2)
-                        .padding(.trailing)
-                }
-            }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: customBackButton)
+    }
+    
+    private var customBackButton : some View {
+        Button {
+            router.pop()
+        } label: {
+            Image(systemName: "chevron.left.circle.fill")// set image here
+               .font(.title)
+               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
         }
     }
     private var datePicker: some View{
@@ -120,7 +119,6 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
 
         }
     }
-
     private func descriptionField(fieldName: String, propertyName: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 4){
             Text(fieldName)
@@ -148,7 +146,7 @@ struct AuthorAddOrderView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationView {
-            AuthorAddOrderView(with: mockModel, showAddOrderView: .constant(true), mode: .edit)
+            AuthorAddOrderView(with: mockModel, mode: .edit)
         }
     }
 }

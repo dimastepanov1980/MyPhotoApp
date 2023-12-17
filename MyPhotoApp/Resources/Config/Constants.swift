@@ -14,9 +14,10 @@ enum Constants {
         case invalidResponse
     }
     
-    enum UserTypeDependencies {
+    enum UserType {
         case author
         case customer
+        case unspecified
     }
     
     enum OrderMode {
