@@ -25,7 +25,7 @@ struct AuthorPortfolioModel: Hashable {
     let largeImagesPortfolio: [String]
     let descriptionAuthor: String
 //    let reviews: [DBReviews]
-    let appointmen: [DbSchedule]
+    let schedule: [DbSchedule]
     let bookingDays: [String : [String]]?
 
     
@@ -37,7 +37,7 @@ struct AuthorPortfolioModel: Hashable {
         self.largeImagesPortfolio = portfolio.largeImagesPortfolio ?? []
         self.descriptionAuthor = portfolio.descriptionAuthor ?? ""
 //        self.reviews = portfolio.reviews ?? []
-        self.appointmen = portfolio.schedule ?? []
+        self.schedule = portfolio.schedule ?? []
         self.bookingDays = portfolio.bookingDays ?? [:]
     }
 }

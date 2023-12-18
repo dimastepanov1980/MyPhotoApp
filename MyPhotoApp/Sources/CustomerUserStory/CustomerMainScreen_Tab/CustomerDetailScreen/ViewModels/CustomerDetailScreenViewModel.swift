@@ -25,8 +25,8 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         self.portfolio = portfolio
         self.startScheduleDay = startScheduleDay
         
-        getMinPrice(appointmen: portfolio.appointmen)
-        createAppointments(schedule: portfolio.appointmen, startMyTripDate: startScheduleDay, bookingDays: portfolio.bookingDays ?? [:] )
+        getMinPrice(appointmen: portfolio.schedule)
+        createAppointments(schedule: portfolio.schedule, startMyTripDate: startScheduleDay, bookingDays: portfolio.bookingDays ?? [:] )
         Task{
             try await getAvatarImage(imagePath: portfolio.avatarAuthor)
         }    }

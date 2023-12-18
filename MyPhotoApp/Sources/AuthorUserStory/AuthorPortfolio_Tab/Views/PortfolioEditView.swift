@@ -273,12 +273,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     }
     private func textField(fieldName: String, propertyName: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 4){
-            Text(fieldName)
-                .font(.caption)
-                .foregroundColor(Color(R.color.gray4.name))
-                .padding(.horizontal)
-            
-            TextEditor(text: propertyName)
+            TextField(fieldName, text: propertyName)
+                .autocorrectionDisabled()
                 .font(.callout)
                 .foregroundColor(Color(R.color.gray2.name))
                 .padding(.horizontal)
@@ -306,52 +302,28 @@ struct PortfolioEditView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     
     static var previews: some View {
-        PortfolioEditView(with: PortfolioEditViewModel(
-            locationAuthor: viewModel.locationAuthor,
-            typeAuthor: .constant(viewModel.typeAuthor),
-            nameAuthor: .constant(viewModel.nameAuthor),
-            familynameAuthor: .constant(viewModel.familynameAuthor),
-            sexAuthor: .constant("Select"),
-            ageAuthor: .constant(viewModel.ageAuthor),
-            styleAuthor: .constant(viewModel.styleAuthor),
-            avatarAuthor: viewModel.avatarAuthor,
-            avatarImage: nil,
-            descriptionAuthor: .constant(viewModel.descriptionAuthor),
-            longitude: .constant(0.0),
-            latitude: .constant(0.0),
-            regionAuthor: .constant("TH")))
+        PortfolioEditView(with: PortfolioEditViewModel(avatarImage: viewModel.avatarImage))
     }
 }
 
 private class MockViewModel: ObservableObject, PortfolioEditViewModelType {
-    var avatarImage: UIImage? = nil
+    var sexAuthorList: [String] = []
+    var locationAuthor: String = ""
+    var regionAuthor: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0
-    var regionAuthor: String = ""
-    var avatarAuthorID: UUID = UUID()
-    var avatarImageID: UUID = UUID()
-    var selectedAvatar: PhotosPickerItem?
-    var avatarURL: URL?
-    func avatarPathToURL(path: String) async throws -> URL {
-        URL(string: "")!
-    }
-    var typeAuthor = "photo"
-    func addAvatar(selectImage: PhotosPickerItem?) async throws {}
-    var sexAuthorList: [String] = ["Select", "Male", "Female"]
-    var dbModel: DBPortfolioModel?
-    var styleOfPhotography: [String] = ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food", "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate", "Sports", "Wedding", "Wildlife"]    
-    var locationAuthor: String = "Hamburg"
-    var locationResult: [DBLocationModel] = []
-    var avatarAuthor: String = ""
     var nameAuthor: String = ""
     var familynameAuthor: String = ""
-    var ageAuthor: String = ""
     var sexAuthor: String = ""
-    var location: String = "Hamburg"
-    var styleAuthor: [String]  = []
-    var descriptionAuthor: String  = ""
-    func updatePreview() {}
-    func getAuthorPortfolio() async throws {}
+    var ageAuthor: String = ""
+    var styleAuthor: [String] = []
+    var typeAuthor: String = ""
+    var avatarAuthor: String = ""
+    var descriptionAuthor: String = ""
+    var locationResult: [DBLocationModel] = []
+    var avatarImage: UIImage? = nil
+    
+    func addAvatar(selectImage: PhotosPickerItem?) async throws {}
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws {}
     func searchLocation(text: String){}
 }

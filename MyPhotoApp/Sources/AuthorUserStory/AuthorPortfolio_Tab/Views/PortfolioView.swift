@@ -11,7 +11,6 @@ import PhotosUI
 struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @EnvironmentObject var router: Router<Views>
-//    @EnvironmentObject var user: UserTypeService
     
     @State var showPortfolioEditView: Bool = false
     @State private var showingOptions = false
@@ -41,7 +40,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack(spacing: 20){
                     
-                    if let portfolio = viewModel.dbModel {
+                    if let portfolio = viewModel.portfolio {
                         
                         PhotosPicker(selection: $selectPortfolioImages,
                                      maxSelectionCount: 10,
@@ -65,9 +64,9 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                     }
                                 }
                             })
-                            .disabled( viewModel.smallImagesPortfolio.count > 60 )
+                            .disabled( viewModel.portfolio?.smallImagesPortfolio.count ?? 0 > 60 )
                         
-                        if let schedule = portfolio.schedule, schedule.isEmpty {
+                        if portfolio.schedule.isEmpty {
                             Button {
                                 showScheduleView.toggle()
                             } label: {
@@ -92,7 +91,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                             }
                         } else {
                             Button {
-                                showScheduleView.toggle()
+                                router.push(.PortfolioScheduleView)
                             } label: {
                                 Image(systemName: "calendar")
                                     .font(.headline)
@@ -102,19 +101,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                         }
                     }
                     Button {
-//                        router.push(.PortfolioEditView(with: PortfolioEditViewModel(locationAuthor: viewModel.locationAuthor,
-//                                                                                     typeAuthor: $viewModel.typeAuthor,
-//                                                                                     nameAuthor: $viewModel.nameAuthor,
-//                                                                                     familynameAuthor: $viewModel.familynameAuthor,
-//                                                                                     sexAuthor: $viewModel.sexAuthor,
-//                                                                                     ageAuthor: $viewModel.ageAuthor,
-//                                                                                     styleAuthor: $viewModel.styleAuthor,
-//                                                                                     avatarAuthor: viewModel.avatarAuthor,
-//                                                                                     avatarImage: viewModel.avatarImage ?? nil,
-//                                                                                     descriptionAuthor: $viewModel.descriptionAuthor,
-//                                                                                     longitude: $viewModel.longitude,
-//                                                                                     latitude: $viewModel.latitude,
-//                                                                                     regionAuthor: $viewModel.regionAuthor)))
+                        router.push(.PortfolioEditView(viewModel: viewModel.portfolio, image: viewModel.avatarImage ?? nil))
                     } label: {
                         Image(systemName: "pencil.line")
                             .font(.headline)
@@ -125,35 +112,12 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                 .padding()
             }
         }
-        
-        // TODO: - DBPortfolioModel заменить на PortfolioModel и прокинуть что бы была нормльная навигация
-        .navigationDestination(isPresented: $showPortfolioEditView) {
-            PortfolioEditView(with: PortfolioEditViewModel(locationAuthor: viewModel.locationAuthor,
-                                                           typeAuthor: $viewModel.typeAuthor,
-                                                           nameAuthor: $viewModel.nameAuthor,
-                                                           familynameAuthor: $viewModel.familynameAuthor,
-                                                           sexAuthor: $viewModel.sexAuthor,
-                                                           ageAuthor: $viewModel.ageAuthor,
-                                                           styleAuthor: $viewModel.styleAuthor,
-                                                           avatarAuthor: viewModel.avatarAuthor,
-                                                           avatarImage: viewModel.avatarImage ?? nil,
-                                                           descriptionAuthor: $viewModel.descriptionAuthor,
-                                                           longitude: $viewModel.longitude,
-                                                           latitude: $viewModel.latitude,
-                                                           regionAuthor: $viewModel.regionAuthor))
-        }
-        .navigationDestination(isPresented: $showScheduleView) {
-            PortfolioScheduleView(with: PortfolioScheduleViewModel(), showScheduleView: $showScheduleView)
-                .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
-        }
+
         .onAppear{
             Task {
                 try await viewModel.getAuthorPortfolio()
-                viewModel.updatePreview()
-
-                try await viewModel.getAvatarImage(imagePath: viewModel.avatarAuthor)
-                
-                try await viewModel.getPortfolioImages(imagesPath: viewModel.smallImagesPortfolio)
+                try await viewModel.getAvatarImage(imagePath: viewModel.portfolio?.avatarAuthor ?? "")
+                try await viewModel.getPortfolioImages(imagesPath: viewModel.portfolio?.smallImagesPortfolio ?? [])
             }
         }
  
@@ -185,21 +149,22 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                     }
                     .frame(width: 68, height: 68)
                 }
-                
-                VStack(alignment: .leading){
-                    Text("\(viewModel.nameAuthor) \(viewModel.familynameAuthor)")
-                        .font(.title2.bold())
-                        .foregroundColor(Color(R.color.gray1.name))
-                    Text("\(viewModel.locationAuthor)")
-                        .font(.callout)
-                        .foregroundColor(Color(R.color.gray4.name))
+                if let author = viewModel.portfolio?.author {
+                    VStack(alignment: .leading){
+                        Text("\(author.nameAuthor) \(author.familynameAuthor)")
+                            .font(.title2.bold())
+                            .foregroundColor(Color(R.color.gray1.name))
+                        Text("\(author.location)")
+                            .font(.callout)
+                            .foregroundColor(Color(R.color.gray4.name))
+                    }
+                    .padding(12)
                 }
-                .padding(12)
-                
             }
+                
             
             HStack(spacing: 16){
-                ForEach(viewModel.styleAuthor, id: \.self) { genre in
+                ForEach(viewModel.portfolio?.author?.styleAuthor ?? [] , id: \.self) { genre in
                     HStack{
                         Image(systemName: imageStyleAuthor(genre: genre))
                             .resizable()
@@ -215,7 +180,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
             }
             Divider()
             
-            Text(viewModel.descriptionAuthor)
+            Text(viewModel.portfolio?.descriptionAuthor ?? "")
                 .font(.callout)
                 .foregroundColor(Color(R.color.gray2.name))
         }
@@ -257,14 +222,14 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                         }
                     }
                 } else {
-                    if viewModel.smallImagesPortfolio.count > 0 {
+                    if viewModel.portfolio?.smallImagesPortfolio.count ?? 0 > 0 {
                         VStack(alignment: .center){
                             Spacer()
                             ProgressView(R.string.localizable.portfolio_please_wait())
                                 .progressViewStyle(.circular)
                         }
                     } else {
-                        if viewModel.dbModel == nil {
+                        if viewModel.portfolio == nil {
                             VStack(spacing: 0){
                                 Text(R.string.localizable.portfolio_setup_portfolio())
                                     .font(.subheadline)
@@ -375,20 +340,19 @@ private class MockViewModel: PortfolioViewModelType, ObservableObject {
     var longitude: Double = 0.0
     var smallImagesPortfolio: [String] = []
     func getPortfolioImages(imagesPath: [String]) async throws {}
-    var typeAuthor: String = "photo"
     var selectAvatar: PhotosPickerItem?
     var avatarAuthorID = UUID()
     
     var sexAuthorList: [String] = ["Select", "Male", "Female"]
-    var dbModel: DBPortfolioModel?
+    var portfolio: AuthorPortfolioModel?
     var styleOfPhotography: [String] = ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food", "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate", "Sports", "Wedding", "Wildlife"]
-    var locationAuthor: String = "Phuket, Thailand"
+//    var locationAuthor: String = "Phuket, Thailand"
     var locationResult: [DBLocationModel] = []
     var avatarAuthor: String = "https://images.unsplash.com/photo-1558612937-4ecf7ae1e375?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyZXR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
-    var nameAuthor: String = "Iryna"
-    var familynameAuthor: String = "Bocharova"
-    var ageAuthor: String = "27"
-    var sexAuthor: String = "Female"
+//    var nameAuthor: String = "Iryna"
+//    var familynameAuthor: String = "Bocharova"
+//    var ageAuthor: String = "27"
+//    var sexAuthor: String = "Female"
     var styleAuthor: [String]  = ["Aerial", "Architecture", "Documentary", "Sports"]
     var descriptionAuthor: String  = "Swift, SwiftUI, the Swift logo, Swift Playgrounds, Xcode, Instruments, Cocoa Touch, Touch ID, AirDrop, iBeacon, iPhone, iPad, Safari, App Store, watchOS, tvOS, Mac and macOS are trademarks of Apple Inc., registered in the U.S. and other countries. Pulp Fiction is copyright © 1994 Miramax Films. Hacking with Swift is ©2023 Hudson Heavy Industries."
     func updatePreview() {}

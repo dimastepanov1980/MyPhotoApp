@@ -9,14 +9,13 @@ import SwiftUI
 
 struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @Binding var showScheduleView: Bool
+    @EnvironmentObject var router: Router<Views>
+
     @State var showScheduleTips: Bool = false
     @State private var scheduleTimeTag: [String] = ["08:00", "09:00", "10:00", "16:00", "17:00", "18:00"]
     
-    init(with viewModel : ViewModel,
-         showScheduleView: Binding<Bool>) {
+    init(with viewModel : ViewModel) {
         self.viewModel = viewModel
-        self._showScheduleView = showScheduleView
     }
     var body: some View {
             List {
@@ -51,7 +50,7 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                     Button(R.string.localizable.save()) {
                         Task {
                             try await viewModel.setSchedule(schedules: viewModel.schedules)
-                            showScheduleView = false
+                            router.pop()
                         }
                     }
                     .foregroundColor(Color(R.color.gray2.name))
@@ -317,7 +316,7 @@ struct PortfolioScheduleView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
 
     static var previews: some View {
-        PortfolioScheduleView(with: viewModel, showScheduleView: .constant(false))
+        PortfolioScheduleView(with: viewModel)
     }
 }
 

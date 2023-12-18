@@ -34,7 +34,7 @@ struct AuthorHubPageView: View {
                                              showEditOrderView: $showEditOrderView,
                                              statusOrder: .InProgress)
                     } else if self.index == 2 {
-                        PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
+                        PortfolioView(with: PortfolioViewModel())
                     } else if self.index == 3 {
                         SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
                     }
@@ -61,7 +61,7 @@ struct AuthorHubPageView: View {
                 ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShow), showAuthenticationView: $showAuthenticationView)
             }
             .navigationDestination(isPresented: $showPortfolioView) {
-                    PortfolioView(with: PortfolioViewModel(portfolioIsShow: $portfolioIsShow))
+                    PortfolioView(with: PortfolioViewModel())
             }
             .edgesIgnoringSafeArea(.bottom)
 //            .fullScreenCover(isPresented: $showAddOrderView) {

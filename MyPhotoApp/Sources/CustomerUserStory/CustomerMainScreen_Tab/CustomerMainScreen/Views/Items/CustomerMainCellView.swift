@@ -54,12 +54,12 @@ struct CustomerMainCellView: View {
                 }
                 .padding(.leading, 24)
                     Spacer()
-                if let author = items.author, !calculateMinPrice(prices: items.appointmen).isEmpty {
+                if let author = items.author, !calculateMinPrice(prices: items.schedule).isEmpty {
                     VStack(alignment: .trailing){
                         Text(R.string.localizable.price_start())
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
-                        Text("\(calculateMinPrice(prices: items.appointmen)) \(currencySymbol(for: author.regionAuthor))")
+                        Text("\(calculateMinPrice(prices: items.schedule)) \(currencySymbol(for: author.regionAuthor))")
                             .font(.headline.bold())
                             .foregroundColor(Color(R.color.gray2.name))
                     }
