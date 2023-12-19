@@ -32,3 +32,11 @@ struct CustomSecureTextField: View {
     }
 }
 
+struct CustomSecureTextField_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        NavigationStack {
+            CustomSecureTextField(nameSecureTextField: "", text: .constant(""), isTapped: false)
+        }
+    }
+}

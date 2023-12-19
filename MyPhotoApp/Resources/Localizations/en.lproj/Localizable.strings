@@ -5,15 +5,16 @@
   
  
 // MARK: - Common
+"logo_title" = "Find your photographer\nAnywhere in the world";
 "registration" = "Sign up";
-"logIn" = "Log in";
+"logIn" = "Sign in";
 "logIn_SignUp" = "Log in or Sign up";
 "author" = "I'm Author";
 "customer" = "I'm Customer";
 "email" = "Email address";
 "password" = "Password";
-"customer_login" = "Find a photographer";
-"author_login" = "Find clients";
+"signInBtn" = "Sign in";
+"signUpBtn" = "Create account";
 "signOutAccBtt" = "Log Out";
 "forgotPss" = "Forgot password?";
 "totalPrice" = "Total price";
@@ -91,8 +92,8 @@
 "settings_section_privacy" = "Privacy";
 "settings_section_information" = "About";
 "settings_section_logout" = "Authorization";
-"settings_section_author" = "Switch to author";
-"settings_section_customer" = "Switch to customer";
+"settings_section_author" = "Switch to Author";
+"settings_section_customer" = "Back to Сustomer";
 
 "app_version" = "App version:";
 "contact_with_us" = "Contact with us:";

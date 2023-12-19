@@ -19,8 +19,8 @@ protocol AuthenticationScreenViewModelType: ObservableObject {
     func setCustmerPassword(_ custmerPassword: String)
     func authenticationCustomer() async throws
     
-    var authorEmail: String { get }
-    var authorPassword: String { get }
+    var authorEmail: String { get set }
+    var authorPassword: String { get set }
     var authorErrorMessage: String { get set }
     func authenticationAuthor() async throws
 

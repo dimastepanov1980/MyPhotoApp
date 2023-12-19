@@ -13,10 +13,11 @@ enum Views: Hashable {
     case AuthorHubPageView
     case CustomerDetailScreenView(viewModel: AuthorPortfolioModel)
     case PortfolioDetailScreenView(images: [String])
+    case ImageDetailView(image: String)
     case CustomerConfirmOrderView(authorId: String, authorName: String, authorSecondName: String, location: String, regionAuthor : String, authorBookingDays: [String : [String]], orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String)
     case DetailOrderView(order: DbOrderModel)
-    case AuthorAddOrderView(order: DbOrderModel, mode: Constants.OrderMode)
-    case AuthenticationCustomerView
+    case AuthorAddOrderView(order: DbOrderModel?, mode: Constants.OrderMode)
+    case SignInSignUpView(authType: authType)
     case ProfileScreenView
     case PortfolioView
     case PortfolioEditView(viewModel: AuthorPortfolioModel?, image: UIImage?)
@@ -34,8 +35,9 @@ enum ViewFactory {
         switch destination {
             
 // MARK: - Both Zone
-        case .AuthenticationCustomerView:
-            AuthenticationCustomerView(with: AuthenticationCustomerViewModel())
+        case .SignInSignUpView(let authType):
+            SignInSignUpView(with: SignInSignUpViewModel(), authType: authType)
+            
         case .ProfileScreenView:
             ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: .constant(true)), showAuthenticationView: showAuthenticationView)
         case .InformationScreenView:
@@ -52,10 +54,13 @@ enum ViewFactory {
             CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(authorId: authorId, authorName: authorName, authorSecondName: authorSecondName, location: authorLocation, regionAuthor: regionAuthor, authorBookingDays: authorBookingDays, orderDate: orderDate, orderTime: orderTime, orderDuration: orderDuration, orderPrice: orderPrice))
         case .DetailOrderView(let order):
             DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: .constant(false))
+        case .ImageDetailView(let image):
+            ImageDetailView(imagePath: image)
 
 // MARK: Author Zone -
         case .AuthorAddOrderView(let order, let mode):
-            AuthorAddOrderView(with: AuthorAddOrderViewModel(order: order), mode: mode)
+            AuthorAddOrderView(with: AuthorAddOrderViewModel(order: order ?? nil), mode: mode)
+                .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
         case .AuthorHubPageView:
             AuthorHubPageView(showAuthenticationView: showAuthenticationView)
         case .PortfolioView:

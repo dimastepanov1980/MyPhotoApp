@@ -23,39 +23,12 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     }
     
     var body: some View {
-        
-        VStack{
-            List {
-                if user.userType == .unspecified {
-                        VStack(alignment: .leading, spacing: 16){
-                            Text(R.string.localizable.signin_to_continue())
-                                .font(.subheadline)
-                                .foregroundColor(Color(R.color.gray3.name))
-                            
-                            CustomButtonXl(titleText: R.string.localizable.logIn(), iconName: "lock") {
-                                showAuthenticationView = true
-                            }
-                            .padding(.bottom, 8)
-
-                           
-                                Button {
-                                    showAuthenticationView = true
-                                } label: {
-                                    HStack{
-                                        Text(R.string.localizable.signup_to_continue())
-                                            .font(.subheadline)
-                                            .foregroundColor(Color(R.color.gray3.name))
-                                        Text(R.string.localizable.registration())
-                                            .font(.subheadline)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(Color(R.color.gray3.name))
-                                    }
-                                    .padding(.bottom, 8)
-                                }
-                        }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 12){
+                    if user.userType == .unspecified {
+                        SignInSignUpButton(router: _router, user: _user)
                     }
-                ForEach(viewModel.settingsMenu, id: \.self) { item in
-                    NavigationLink(value: item) {
+                    ForEach(viewModel.settingsMenu, id: \.self) { item in
                         HStack{
                             Image(systemName: item.imageItem)
                                 .font(.title2)
@@ -64,20 +37,19 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                                 .font(.callout)
                                 .foregroundColor(Color(R.color.gray3.name))
                         }
-                    }
-                        
                         .onTapGesture {
                             viewForSettingItem(item)
                         }
-                }
-                
+                        Divider()
+                           
+                    }
                     HStack{
                         Image(systemName: "arrow.triangle.swap")
                             .font(.title2)
-                            .foregroundColor(Color(R.color.gray2.name))
-                        Text( user.userType == .author ? R.string.localizable.settings_section_author() : R.string.localizable.settings_section_customer() )
+                            .foregroundColor(user.userType == .unspecified ? Color(R.color.gray5.name) : Color(R.color.gray2.name))
+                        Text(user.userType == .author ? R.string.localizable.settings_section_customer() : R.string.localizable.settings_section_author() )
                             .font(.callout)
-                            .foregroundColor(Color(R.color.gray3.name))
+                            .foregroundColor(user.userType == .unspecified ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
                     }
                     .onTapGesture {
                         switch user.userType {
@@ -89,23 +61,17 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                             user.userType = .unspecified
                         }
                     }
+                    .disabled(user.userType != .unspecified)
+                }
+                .padding(.horizontal, 32)
             }
-        }
         .frame(maxHeight: .infinity, alignment: .center)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Text(R.string.localizable.settings_name_screen())
-                    .font(.title.bold())
-                    .padding()
-            }
-
-        }
-        .navigationBarBackButtonHidden(true)
+        .navigationTitle(R.string.localizable.settings_name_screen())
         .background(Color(.systemBackground))
         .scrollContentBackground(.hidden)
+        
     }
-    
-    private func viewForSettingItem(_ item: SettingItem) {
+        private func viewForSettingItem(_ item: SettingItem) {
         switch item.nameItem {
         case R.string.localizable.settings_section_profile():
             router.push(.ProfileScreenView)

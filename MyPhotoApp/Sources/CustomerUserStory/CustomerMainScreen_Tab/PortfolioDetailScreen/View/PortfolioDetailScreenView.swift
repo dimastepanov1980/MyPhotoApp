@@ -17,18 +17,13 @@ struct PortfolioDetailScreenView: View {
                     LazyVGrid(columns: [GridItem(.flexible(), spacing: 0),
                                         GridItem(.flexible(), spacing: 0)], spacing: 0){
                         ForEach(images.indices, id: \.self) { index in
-                            NavigationLink {
-                                ImageDetailView(imagePath: images[index])
-                            } label: {
                                 AsyncImageView(imagePath: images[index])
-                            }
+                                .onTapGesture {
+                                    router.push(.ImageDetailView(image: images[index]))
+                                }
                         }
                     }
-
                 }
-        }
-        .onAppear{
-            print("router paths PortfolioDetailScreenView: \(router.paths.count)")
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: customBackButton)

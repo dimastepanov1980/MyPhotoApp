@@ -21,7 +21,8 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
     }
     var body: some View {
         if user.userType == .unspecified {
-            ViewFactory.viewForDestination(.AuthenticationCustomerView, showAuthenticationView: .constant(false))
+            ViewFactory.viewForDestination(.SignInSignUpView(authType: .signIn),
+                                           showAuthenticationView: .constant(false))
             
         } else {
             HStack(alignment: .top) {

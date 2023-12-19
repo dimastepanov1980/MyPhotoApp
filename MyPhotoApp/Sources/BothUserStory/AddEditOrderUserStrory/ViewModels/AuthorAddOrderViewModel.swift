@@ -26,10 +26,9 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     @Published var duration: String = ""
     @Published var imageUrl: [String] = []
     
-    @Published var order: DbOrderModel
+    @Published var order: DbOrderModel?
 
-    init(order: DbOrderModel) {
-        self.order = order
+    init(order: DbOrderModel? = nil) {
         updatePreview()
         Task{
             try await getUser()
@@ -37,21 +36,21 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     }
     
     func updatePreview() {
-        name = order.customerName ?? ""
-        secondName = order.customerSecondName ?? ""
+        name = order?.customerName ?? ""
+        secondName = order?.customerSecondName ?? ""
         
-        instagramLink = order.customerContactInfo.instagramLink ?? ""
-        phone = order.customerContactInfo.phone ?? ""
-        email = order.customerContactInfo.email ?? ""
+        instagramLink = order?.customerContactInfo.instagramLink ?? ""
+        phone = order?.customerContactInfo.phone ?? ""
+        email = order?.customerContactInfo.email ?? ""
         
-        authorId = order.authorId ?? ""
-        price = order.orderPrice ?? ""
-        location = order.authorLocation ?? ""
-        description = order.customerDescription ?? ""
-        duration = order.orderShootingDuration ?? ""
-        imageUrl = order.orderSamplePhotos ?? []
-        date = order.orderShootingDate
-        status = order.orderStatus ?? ""
+        authorId = order?.authorId ?? ""
+        price = order?.orderPrice ?? ""
+        location = order?.authorLocation ?? ""
+        description = order?.customerDescription ?? ""
+        duration = order?.orderShootingDuration ?? ""
+        imageUrl = order?.orderSamplePhotos ?? []
+        date = order?.orderShootingDate ?? Date()
+        status = order?.orderStatus ?? ""
     }
     func getUser() async throws {
         let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
@@ -65,6 +64,6 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
         try? await UserManager.shared.addNewOrder(userId: authDateResult.uid, order: order)
     }
     func updateOrder(orderModel: DbOrderModel) async throws {
-        try? await UserManager.shared.updateOrder(order: orderModel, orderId: order.orderId)
+        try? await UserManager.shared.updateOrder(order: orderModel, orderId: order?.orderId ?? "")
     }
 }

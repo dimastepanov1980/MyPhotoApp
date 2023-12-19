@@ -33,6 +33,10 @@
 		5F4A1B402A9EF21F00EC67B2 /* SearchLocationManaget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B3F2A9EF21F00EC67B2 /* SearchLocationManaget.swift */; };
 		5F4A1B492AA086CA00EC67B2 /* PortfolioViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */; };
 		5F53C2FD2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F53C2FC2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift */; };
+		5F5D95E52B311C72002407F6 /* SignInSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5D95E42B311C72002407F6 /* SignInSignUpView.swift */; };
+		5F5D95E72B3135D9002407F6 /* SignInViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5D95E62B3135D9002407F6 /* SignInViewModelType.swift */; };
+		5F5D95E92B313BA3002407F6 /* SignInSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5D95E82B313BA3002407F6 /* SignInSignUpViewModel.swift */; };
+		5F68AFB52B31A0710057D97D /* SignInSignUpButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F68AFB42B31A0710057D97D /* SignInSignUpButton.swift */; };
 		5F6940942B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6940932B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift */; };
 		5F6940962B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6940952B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift */; };
 		5F6940982B098EB50043D1EA /* AuthenticationCustomerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6940972B098EB50043D1EA /* AuthenticationCustomerView.swift */; };
@@ -157,6 +161,10 @@
 		5F4A1B3F2A9EF21F00EC67B2 /* SearchLocationManaget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationManaget.swift; sourceTree = "<group>"; };
 		5F4A1B482AA086CA00EC67B2 /* PortfolioViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModelType.swift; sourceTree = "<group>"; };
 		5F53C2FC2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerStatusOrderScreenView.swift; sourceTree = "<group>"; };
+		5F5D95E42B311C72002407F6 /* SignInSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInSignUpView.swift; sourceTree = "<group>"; };
+		5F5D95E62B3135D9002407F6 /* SignInViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModelType.swift; sourceTree = "<group>"; };
+		5F5D95E82B313BA3002407F6 /* SignInSignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInSignUpViewModel.swift; sourceTree = "<group>"; };
+		5F68AFB42B31A0710057D97D /* SignInSignUpButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInSignUpButton.swift; sourceTree = "<group>"; };
 		5F6940932B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCustomerViewModelType.swift; sourceTree = "<group>"; };
 		5F6940952B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCustomerViewModel.swift; sourceTree = "<group>"; };
 		5F6940972B098EB50043D1EA /* AuthenticationCustomerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationCustomerView.swift; sourceTree = "<group>"; };
@@ -619,6 +627,7 @@
 				5F9F32472A96F065004D48B7 /* AuthorCustomTabs.swift */,
 				5F4A1B2D2A9B14C500EC67B2 /* FlexibleView */,
 				5F9F324A2A973604004D48B7 /* CustomerCustomTabs.swift */,
+				5F68AFB42B31A0710057D97D /* SignInSignUpButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -627,6 +636,7 @@
 			isa = PBXGroup;
 			children = (
 				5FA15D972A175727007A1AC6 /* AuthenticationScreenViewModelType.swift */,
+				5F5D95E62B3135D9002407F6 /* SignInViewModelType.swift */,
 			);
 			path = Contracotr;
 			sourceTree = "<group>";
@@ -635,6 +645,7 @@
 			isa = PBXGroup;
 			children = (
 				5FBA269A2A15375E00E972FB /* AuthenticationScreenView.swift */,
+				5F5D95E42B311C72002407F6 /* SignInSignUpView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -643,6 +654,7 @@
 			isa = PBXGroup;
 			children = (
 				5FA15D9C2A175A91007A1AC6 /* AuthenticationScreenViewModel.swift */,
+				5F5D95E82B313BA3002407F6 /* SignInSignUpViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1341,6 +1353,7 @@
 				5FFC5AB62A91A536006E10E9 /* CustomerMainCellView.swift in Sources */,
 				5F53C2FD2B0DCEAE0015BD04 /* CustomerStatusOrderScreenView.swift in Sources */,
 				5F69409B2B0B230B0043D1EA /* Router.swift in Sources */,
+				5F5D95E92B313BA3002407F6 /* SignInSignUpViewModel.swift in Sources */,
 				5FC419022ADD62D30017AF56 /* CustomerOrdersViewModelType.swift in Sources */,
 				5F4A1B2F2A9B151200EC67B2 /* FlexibleView.swift in Sources */,
 				5FE5AAE42AA2B8AC0033F51B /* DBLocationModel.swift in Sources */,
@@ -1369,6 +1382,7 @@
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */,
 				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
+				5F5D95E72B3135D9002407F6 /* SignInViewModelType.swift in Sources */,
 				5FF5466F2A1B575500208455 /* AuthorMainScreenViewModel.swift in Sources */,
 				5F9F32422A947765004D48B7 /* StickyHeader.swift in Sources */,
 				5F9F32442A94C894004D48B7 /* AuthorPortfolioModel.swift in Sources */,
@@ -1379,6 +1393,7 @@
 				5F2711892A488FAB00679028 /* WeatherModel.swift in Sources */,
 				5F0F8D862A31E28B00AF4EED /* DbOrderModel.swift in Sources */,
 				5F1BCAA32ABADBBE00223146 /* CustomerSearchBar.swift in Sources */,
+				5F5D95E52B311C72002407F6 /* SignInSignUpView.swift in Sources */,
 				5F9F32482A96F065004D48B7 /* AuthorCustomTabs.swift in Sources */,
 				5FC419042ADD63870017AF56 /* CustomerOrdersViewModel.swift in Sources */,
 				5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */,
@@ -1410,6 +1425,7 @@
 				5FBA269B2A15375E00E972FB /* AuthenticationScreenView.swift in Sources */,
 				5F4A1B402A9EF21F00EC67B2 /* SearchLocationManaget.swift in Sources */,
 				5FF546782A1B937A00208455 /* AuthorVCellMainScreenView.swift in Sources */,
+				5F68AFB52B31A0710057D97D /* SignInSignUpButton.swift in Sources */,
 				5F6940942B098E9E0043D1EA /* AuthenticationCustomerViewModelType.swift in Sources */,
 				5FBA26982A1536A400E972FB /* CustomTextField.swift in Sources */,
 				5FA15D982A175727007A1AC6 /* AuthenticationScreenViewModelType.swift in Sources */,

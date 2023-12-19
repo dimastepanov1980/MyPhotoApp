@@ -69,7 +69,6 @@ final class AuthenticationScreenViewModel: AuthenticationScreenViewModelType {
             try await UserManager.shared.createNewAuthor(author: dbUser)
         }
     }
-    
     func resetPassword() async throws {
         do {
             try await AuthNetworkService.shared.resetPassword(email: authorEmail)

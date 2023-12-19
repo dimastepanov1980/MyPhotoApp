@@ -23,19 +23,15 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     }
     
     var body: some View {
-        VStack{
+        ScrollView {
             orderView(userAuth: user.userType == .unspecified)
+                .navigationTitle(R.string.localizable.customer_tabs_message())
+                .background(Color(.systemBackground))
+                .scrollContentBackground(.hidden)
+                .navigationBarBackButtonHidden(true)
+                .scrollIndicators(.hidden)
+                .padding(.horizontal, 32)
         }
-        .toolbar{
-            ToolbarItem(placement: .navigationBarLeading) {
-                Text(R.string.localizable.customer_tabs_message())
-                    .font(.title.bold())
-                    .padding()
-            }
-    }
-
-        .background(Color(.systemBackground))
-        .navigationBarBackButtonHidden(true)
     }
     
     @ViewBuilder
@@ -51,7 +47,6 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
             } else {
-                ScrollView{
                     ForEach(viewModel.orders, id: \.orderId) { order in
                             CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
                             .onTapGesture {
@@ -59,39 +54,9 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
                             }
                     }
                     .padding(.bottom, 70)
-                }.scrollIndicators(.hidden)
-                    .padding()
             }
         } else {
-            List{
-                VStack(alignment: .leading, spacing: 16){
-                    Text(R.string.localizable.signin_to_continue())
-                        .font(.subheadline)
-                        .foregroundColor(Color(R.color.gray3.name))
-                        .padding(.bottom)
-                    
-                    CustomButtonXl(titleText: R.string.localizable.logIn(), iconName: "lock") {
-                        showAuthenticationView = true
-                    }
-                    
-                    Button {
-                        showAuthenticationView = true
-                    } label: {
-                        HStack{
-                            Text(R.string.localizable.signup_to_continue())
-                                .font(.subheadline)
-                                .foregroundColor(Color(R.color.gray3.name))
-                            Text(R.string.localizable.registration())
-                                .font(.subheadline)
-                                .fontWeight(.bold)
-                                .foregroundColor(Color(R.color.gray3.name))
-                        }
-                    }
-                }
-                
-            }
-//            .scrollContentBackground(.hidden)
-            .tint(.black)
+                SignInSignUpButton(router: _router, user: _user)
         }
     }
 }
@@ -100,7 +65,10 @@ struct CustomerOrdersView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
 
     static var previews: some View {
-        CustomerOrdersView(with: mockModel, showAuthenticationView: .constant(false))
+        NavigationStack{
+            CustomerOrdersView(with: mockModel, showAuthenticationView: .constant(false))
+                .environmentObject(UserTypeService())
+        }
     }
 }
 

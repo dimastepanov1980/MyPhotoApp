@@ -19,9 +19,6 @@ struct RootScreenView: View {
     var body: some View {
         userTypePageHub(userType: user.userType)
             .navigationBarBackButtonHidden(true)
-            .sheet(isPresented: $showAuthenticationView) {
-                AuthenticationScreenView(with: AuthenticationScreenViewModel(), showAuthenticationView: $showAuthenticationView)
-            }
     }
     
     @ViewBuilder

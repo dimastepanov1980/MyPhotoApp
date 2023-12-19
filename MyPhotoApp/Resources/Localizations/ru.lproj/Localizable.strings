@@ -5,6 +5,7 @@
   
  
 // MARK: - Common
+"logo_title" = "Найдите своего фотографа\nВ любой точке мира";
 "registration" = "Зарегистрируйтесь";
 "logIn" = "Войти";
 "logIn_SignUp" = "Войдите или зарегистрируйтесь";
@@ -12,8 +13,8 @@
 "author" = "Автор";
 "customer" = "Клиент";
 "password" = "Введите пароль";
-"customer_login" = "Найти фотографа";
-"author_login" = "Найти клиентов";
+"signInBtn" = "Войти";
+"signUpBtn" = "Создать аккаунт";
 "signOutAccBtt" = "Выйти";
 "forgotPss" = "Забыли пароль?";
 "totalPrice" = "Стоимсоть";
@@ -91,8 +92,8 @@
 "settings_section_privacy" = "Конфиденциальность";
 "settings_section_information" = "Информация";
 "settings_section_logout" = "Авторизация";
-"settings_section_author" = "Войти как автора";
-"settings_section_customer" = "Войти как клиент";
+"settings_section_author" = "Войти как Автора";
+"settings_section_customer" = "Войти как Клиент";
 
 "app_version" = "Версия программы:";
 "contact_with_us" = "Свяжитесь с нами:";

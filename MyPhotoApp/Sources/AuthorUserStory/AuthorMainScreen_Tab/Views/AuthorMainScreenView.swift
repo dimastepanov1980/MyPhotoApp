@@ -16,7 +16,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     
     @Namespace var animation
     @Binding var showSignInView: Bool
-    @Binding var showEditOrderView: Bool
 
     @State var showActionSheet: Bool = false
     @State var shouldScroll = false
@@ -26,12 +25,10 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     
     init(with viewModel: ViewModel,
          showSignInView: Binding<Bool>,
-         showEditOrderView: Binding<Bool>,
          statusOrder: StatusOrder
     ) {
         self.viewModel = viewModel
         self._showSignInView = showSignInView
-        self._showEditOrderView = showEditOrderView
         self.statusOrder = statusOrder
     }
     
@@ -240,7 +237,8 @@ extension Date {
 struct AuthorMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
-        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), showEditOrderView: .constant(true), statusOrder: .Upcoming)
+        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), statusOrder: .Upcoming)
+            .environmentObject(UserTypeService())
     }
 }
 private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {

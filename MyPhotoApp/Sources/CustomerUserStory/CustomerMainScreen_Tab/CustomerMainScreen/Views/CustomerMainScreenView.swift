@@ -33,20 +33,20 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
             mainPageView(showPageSearch: searchPageShow)
         }
             .navigationBarBackButtonHidden(true)
-            .toolbar{
+           /* .toolbar{
                 ToolbarItem(placement: .principal) {
                     HStack{
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(Color(R.color.gray3.name))
                             .font(.footnote)
                             .padding(.leading, 6)
-
+                        
                         TextField(R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
                             .font(.callout)
                             .foregroundColor(Color(R.color.gray2.name))
                             .autocorrectionDisabled()
                             .focused($onFocus)
-
+                        
                         if !viewModel.locationAuthor.isEmpty && !searchPageShow {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.subheadline)
@@ -58,7 +58,7 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                                     
                                 }
                         }
-
+                        
                     }
                     .padding(10)
                     .background(Color(R.color.gray6.name))
@@ -67,13 +67,57 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                         withAnimation {
                             onFocus = true
                             print("onFocus \(onFocus)")
-
+                            
                             self.searchPageShow = false
                         }
                     }
-            }
-                
-        }
+                }
+            } */
+            .safeAreaInset(edge: .top, content: {
+                ZStack(alignment: .top) {
+                    Color(.systemBackground)
+                        .ignoresSafeArea()
+                        .frame(height: 20)
+                    
+                    HStack{
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(Color(R.color.gray3.name))
+                            .font(.footnote)
+                            .padding(.leading, 6)
+                        
+                        TextField(R.string.localizable.customer_search_bar(), text: $viewModel.locationAuthor)
+                            .font(.callout)
+                            .foregroundColor(Color(R.color.gray2.name))
+                            .autocorrectionDisabled()
+                            .focused($onFocus)
+                        
+                        if !viewModel.locationAuthor.isEmpty && !searchPageShow {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.subheadline)
+                                .padding(.horizontal, 4)
+                                .foregroundColor(Color(R.color.gray4.name))
+                                .onTapGesture {
+                                    viewModel.locationResult = []
+                                    viewModel.locationAuthor = ""
+                                    
+                                }
+                        }
+                        
+                    }
+                    .padding(10)
+                    .background(Color(R.color.gray6.name))
+                    .cornerRadius(42)
+                    .padding(.horizontal, 12)
+                    .onTapGesture {
+                        withAnimation {
+                            onFocus = true
+                            print("onFocus \(onFocus)")
+                            
+                            self.searchPageShow = false
+                        }
+                    }
+                }
+            })
             .overlay{
                 ScrollView{
                     VStack{
@@ -105,14 +149,9 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                             }
                         }
                     }
-//                    .offset(y: 110)
                 }
-//                .ignoresSafeArea()
-
                 .background(Color(.systemBackground))
-
             }
-
     }
     
     @ViewBuilder

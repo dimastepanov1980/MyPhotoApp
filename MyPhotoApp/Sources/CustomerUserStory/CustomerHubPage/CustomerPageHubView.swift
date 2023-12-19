@@ -32,8 +32,8 @@ struct CustomerPageHubView: View {
                             }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
                         } else {
                             CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation)
+                                .toolbar(.hidden, for: .navigationBar)
                                 .navigationBarBackButtonHidden(true)
-
                         }
                     }
                 case 1:
