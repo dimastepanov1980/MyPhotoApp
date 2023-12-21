@@ -18,7 +18,14 @@ final class SettingScreenViewModel: SettingScreenViewModelType {
 //                                       SettingItem(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
 //                                       SettingItem(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
     ]
-
+    func updateUserType(userTupe: String) async throws {
+        do {
+            let autDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+            try await UserManager.shared.swichUserType(userId: autDataResult.uid, userType: userTupe)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
 
 struct SettingItem: Hashable {

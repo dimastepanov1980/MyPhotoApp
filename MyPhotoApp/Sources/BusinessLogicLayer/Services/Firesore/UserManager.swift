@@ -14,7 +14,6 @@ import Combine
 final class UserManager {
     
     static let shared = UserManager()
-    
     private let encoder: Firestore.Encoder = {
         let encoder = Firestore.Encoder()
         return encoder
@@ -24,18 +23,8 @@ final class UserManager {
         return decoder
     }()
     private var listenerRegistration: ListenerRegistration?
-
-    //MARK: - Customer Section
-    private let customerCollection = Firestore.firestore().collection("customer")
     private let orderCollection = Firestore.firestore().collection("orders")
 
-    private func customerDocument(customerId: String) -> DocumentReference {
-        customerCollection.document(customerId)
-    }
-    
-    func createNewCustomer(user: DBUserModel) async throws {
-        try customerDocument(customerId: user.userId).setData(from: user, merge: false)
-    }
     func updateProfileData(userId: String, profile: DBUserModel) async throws {
        
         let data: [String : Any] = [
@@ -44,33 +33,32 @@ final class UserManager {
             DBUserModel.CodingKeys.instagramLink.rawValue : profile.instagramLink ?? "",
             DBUserModel.CodingKeys.phone.rawValue : profile.phone ?? ""
         ]
-        
-        try? await customerDocument(customerId: userId).updateData(data)
-        try? await authorDocument(authorId: userId).updateData(data)
+        try? await userDocument(authorId: userId).updateData(data)
+    }
+    
+    func swichUserType(userId: String, userType: String) async throws {
+        try? await userDocument(authorId: userId).updateData([ DBUserModel.CodingKeys.userType.rawValue : userType ])
     }
 
     
     //MARK: - Author Section
-    private let authorCollection = Firestore.firestore().collection("users")
+    private let userCollection = Firestore.firestore().collection("users")
     
-    private func authorDocument(authorId: String) -> DocumentReference {
-        authorCollection.document(authorId)
+    private func userDocument(authorId: String) -> DocumentReference {
+        userCollection.document(authorId)
     }
-    private func authorOrderCollection(authorId: String) -> CollectionReference {
-        authorDocument(authorId: authorId).collection("orders")
+    private func userOrderCollection(authorId: String) -> CollectionReference {
+        userDocument(authorId: authorId).collection("orders")
     }
     private func userOrderDocument(userId: String, orderId: String) -> DocumentReference {
-        authorOrderCollection(authorId: userId).document(orderId)
+        userOrderCollection(authorId: userId).document(orderId)
     }
     
-    func createNewAuthor(author: DBUserModel) async throws {
-        try authorDocument(authorId: author.userId).setData(from: author, merge: false)
+    func createNewUser(author: DBUserModel) async throws {
+        try userDocument(authorId: author.userId).setData(from: author, merge: false)
     }
     func getUser(userId: String) async throws -> DBUserModel {
-        guard let user = try? await authorDocument(authorId: userId).getDocument(as: DBUserModel.self) else {
-           return try await customerDocument(customerId: userId).getDocument(as: DBUserModel.self)
-        }
-        return user
+        return try await userDocument(authorId: userId).getDocument(as: DBUserModel.self)
     }
     
     //MARK: - NEW Query Orders
@@ -107,11 +95,7 @@ final class UserManager {
         try await customerOrder.setData(orderData, merge: false)
     }
     func subscribeAuthorOrders(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
-        // Assuming you have a reference to your Firestore collection
-        print("author_id is: \(userId)")
         let query = orderCollection.whereField("author_id", isEqualTo: userId)
-        
-        // Set up the snapshot listener
         let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print("Error fetching documents: \(error)")
@@ -126,17 +110,14 @@ final class UserManager {
             let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
                 try? queryDocumentSnapshot.data(as: DbOrderModel.self)
             }
-            // Do something with the orders array (e.g., update UI, process data, etc.)
             completion(orders)
         }
         
         return listenerRegistration
     }
     func subscribeCustomerOrder(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
-        // Assuming you have a reference to your Firestore collection
         let query = orderCollection.whereField("customer_id", isEqualTo: userId)
         
-        // Set up the snapshot listener
         let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print("Error fetching documents: \(error)")
@@ -151,7 +132,6 @@ final class UserManager {
             let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
                 try? queryDocumentSnapshot.data(as: DbOrderModel.self)
             }
-            // Do something with the orders array (e.g., update UI, process data, etc.)
             completion(orders)
         }
         
@@ -190,83 +170,7 @@ final class UserManager {
     func removeTimeSlotFromBookingDay(userId: String, selectedDay: String, selectedTime: String) async throws {
         try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : FieldValue.arrayRemove([selectedTime])])
     }
-    
-    
-    //MARK: - OLD Orders
-    /*
-    func addNewAuthorOrder(userId: String, order: DbOrderModel) async throws {
-        let document = authorOrderCollection(authorId: userId).document()
-        let documentId = document.documentID
-        guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
-            throw URLError(.badURL)
-        }
-        
-        let data: [String : Any] = [
-            DbOrderModel.CodingKeys.orderId.rawValue : documentId,
-            DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),
-            DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-            DbOrderModel.CodingKeys.orderStatus.rawValue : "Upcoming",
-            DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
-            DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
-            DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
-            DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? [],
-            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages ?? [],
-             
-            DbOrderModel.CodingKeys.authorId.rawValue :  order.authorId ?? "",
-            DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
-            DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
-            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
-            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
-            
-            DbOrderModel.CodingKeys.customerId.rawValue : order.customerId ?? "",
-            DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
-            DbOrderModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
-            DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
-            DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
-      
-        ]
-        try await document.setData(data, merge: false)
-    }
-    func updateOrder(userId: String, order: DbOrderModel, orderId: String) async throws {
-        guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
-            throw URLError(.badURL)
-        }
-        
-        let data: [String : Any] = [
-            DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus ?? "Upcoming", //R.string.localizable.status_upcoming()
-            DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
-            DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
-            DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
-            DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? [],
-            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages ?? [],
-             
-            DbOrderModel.CodingKeys.authorId.rawValue :  order.authorId ?? "",
-            DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
-            DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
-            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
-            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
-            
-            DbOrderModel.CodingKeys.customerId.rawValue : order.customerId ?? "",
-            DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
-            DbOrderModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
-            DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
-            DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
-      
-        ]
-        
-        try await userOrderDocument(userId: userId, orderId: orderId).updateData(data)
-    }
-    func removeOrder(userId: String, order: DbOrderModel) async throws {
-        try await userOrderDocument(userId: userId, orderId: order.orderId).delete()
-    }
-    func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
-        try await userOrderDocument (userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayUnion(path)])
-    }
-    func deleteImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
-        try await userOrderDocument(userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : path])
-    }
-     */
+
     //MARK: - Portfolio
     
     private let portfolioCollection = Firestore.firestore().collection("portfolio")
@@ -280,7 +184,7 @@ final class UserManager {
         }
         
         let portfolioDoc = portfolioUserDocument(userId: userId)
-        let authorDoc = authorDocument(authorId: userId)
+        let authorDoc = userDocument(authorId: userId)
         let portfolioId = portfolioDoc.documentID
         let portfolioData: [String : Any] = [
             DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
@@ -320,11 +224,11 @@ final class UserManager {
         try await portfolioUserDocument(userId: userId).setData([DBPortfolioModel.CodingKeys.avatarAuthor.rawValue : path], mergeFields: [DBPortfolioModel.CodingKeys.avatarAuthor.rawValue])
     }
     func addAvatarToAuthorProfile(userId: String, path: String) async throws {
-        try await authorDocument(authorId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
+        try await userDocument(authorId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
     }
-    func addAvatarToCustomerProfile(userId: String, path: String) async throws {
-        try await customerDocument(customerId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
-    }
+//    func addAvatarToCustomerProfile(userId: String, path: String) async throws {
+//        try await customerDocument(customerId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
+//    }
     func addPortfolioImagesUrl(userId: String, path: [String]) async throws {
         try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion(path)])
     }

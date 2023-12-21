@@ -78,18 +78,9 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
         }
         .navigationTitle(mode == .new ? R.string.localizable.order_new_order() : R.string.localizable.order_edit_order())
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: customBackButton)
+        .navigationBarItems(leading: CustomBackButtonView())
     }
-    
-    private var customBackButton : some View {
-        Button {
-            router.pop()
-        } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
-               .font(.title)
-               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
-        }
-    }
+
     private var datePicker: some View{
         VStack{
             DatePicker(R.string.localizable.order_selectDate(), selection: $viewModel.date)

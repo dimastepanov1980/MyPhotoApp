@@ -271,7 +271,7 @@ struct AddScheduleSection: View {
             }
             .pickerStyle(.menu)
             .foregroundColor(Color(R.color.gray3.name))
-            .accentColor(.black)
+            .accentColor(.primary)
             
             HStack {
                 Text(R.string.localizable.schedule_price())

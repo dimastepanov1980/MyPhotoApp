@@ -57,17 +57,7 @@ struct InformationScreenView: View {
             
         }
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: customBackButton)
-    }
-    
-    private var customBackButton : some View {
-        Button {
-            router.pop()
-        } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
-               .font(.title)
-               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
-        }
+        .navigationBarItems(leading: CustomBackButtonView())
     }
 
 }

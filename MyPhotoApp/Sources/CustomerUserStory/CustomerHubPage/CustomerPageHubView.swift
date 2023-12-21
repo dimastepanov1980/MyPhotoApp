@@ -68,9 +68,9 @@ struct CustomerPageHubView: View {
             .padding(.horizontal)
             .presentationDetents([.fraction(0.12)])
         }
-        .navigationDestination(isPresented: $profileIsShown) {
-            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown), showAuthenticationView: $showAuthenticationView)
-        }
+//        .navigationDestination(isPresented: $profileIsShown) {
+//            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown), showAuthenticationView: $showAuthenticationView)
+//        }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
             Task{

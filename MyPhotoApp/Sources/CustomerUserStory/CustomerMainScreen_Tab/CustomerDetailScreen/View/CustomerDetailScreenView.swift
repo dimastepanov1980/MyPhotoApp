@@ -45,7 +45,7 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
                            .offset(y: -110)
                    }
                    .navigationBarBackButtonHidden(true)
-                   .navigationBarItems(leading: customBackButton)
+                   .navigationBarItems(leading: CustomBackButtonView())
                    .toolbarBackground(.hidden, for: .navigationBar)
                    .onChange(of: viewModel.startScheduleDay) { _ in
                            withAnimation {
@@ -119,18 +119,6 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
           .onAppear{
               print("userType: \(user.userType)")
           }
-    }
-    private var customBackButton : some View {
-        Button {
-            router.pop()
-        } label: {
-            HStack{
-                Image(systemName: "chevron.left.circle.fill")
-                    .font(.title)
-                    .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
-           
-            }
-        }
     }
     private struct ParallaxHeader<Content: View>: View {
         @ViewBuilder var content: () -> Content

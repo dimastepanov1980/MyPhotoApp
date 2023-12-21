@@ -45,6 +45,7 @@
 		5F8261222B289D700021AAF5 /* UserTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8261212B289D700021AAF5 /* UserTypeService.swift */; };
 		5F96A6C82A1723B200FBCFF5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5F96A6C72A1723B200FBCFF5 /* FirebaseAuth */; };
 		5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */; };
+		5F9B52D72B3412FC00180E03 /* CustomBackButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9B52D62B3412FC00180E03 /* CustomBackButtonView.swift */; };
 		5F9F323A2A9373D0004D48B7 /* CustomerDetailScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */; };
 		5F9F323C2A93744E004D48B7 /* CustomerMainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F323B2A93744E004D48B7 /* CustomerMainScreenViewModel.swift */; };
 		5F9F32422A947765004D48B7 /* StickyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F32412A947765004D48B7 /* StickyHeader.swift */; };
@@ -108,7 +109,7 @@
 		5FE5AAE42AA2B8AC0033F51B /* DBLocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AAE32AA2B8AC0033F51B /* DBLocationModel.swift */; };
 		5FE5AAE82AA357500033F51B /* PhotographyStylesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AAE72AA357500033F51B /* PhotographyStylesView.swift */; };
 		5FE5AAEA2AA46C160033F51B /* PortfolioScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AAE92AA46C160033F51B /* PortfolioScheduleView.swift */; };
-		5FE606432A887E1200E33205 /* ReAuthorizationScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606422A887E1200E33205 /* ReAuthorizationScreenView.swift */; };
+		5FE606432A887E1200E33205 /* ReAuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606422A887E1200E33205 /* ReAuthorizationView.swift */; };
 		5FE606452A8880CB00E33205 /* ReAuthorizationScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606442A8880CB00E33205 /* ReAuthorizationScreenViewModel.swift */; };
 		5FE606472A8880D800E33205 /* ReAuthorizationScreenContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE606462A8880D800E33205 /* ReAuthorizationScreenContract.swift */; };
 		5FE606492A8BD9DE00E33205 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE606482A8BD9DD00E33205 /* AppTrackingTransparency.framework */; };
@@ -172,6 +173,7 @@
 		5F82611F2B289CB40021AAF5 /* UserTypeServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTypeServiceType.swift; sourceTree = "<group>"; };
 		5F8261212B289D700021AAF5 /* UserTypeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTypeService.swift; sourceTree = "<group>"; };
 		5F96A6CE2A17260900FBCFF5 /* AuthNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNetworkService.swift; sourceTree = "<group>"; };
+		5F9B52D62B3412FC00180E03 /* CustomBackButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackButtonView.swift; sourceTree = "<group>"; };
 		5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailScreenView.swift; sourceTree = "<group>"; };
 		5F9F323B2A93744E004D48B7 /* CustomerMainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerMainScreenViewModel.swift; sourceTree = "<group>"; };
 		5F9F32412A947765004D48B7 /* StickyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyHeader.swift; sourceTree = "<group>"; };
@@ -232,7 +234,7 @@
 		5FE5AAE32AA2B8AC0033F51B /* DBLocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBLocationModel.swift; sourceTree = "<group>"; };
 		5FE5AAE72AA357500033F51B /* PhotographyStylesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotographyStylesView.swift; sourceTree = "<group>"; };
 		5FE5AAE92AA46C160033F51B /* PortfolioScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioScheduleView.swift; sourceTree = "<group>"; };
-		5FE606422A887E1200E33205 /* ReAuthorizationScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthorizationScreenView.swift; sourceTree = "<group>"; };
+		5FE606422A887E1200E33205 /* ReAuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthorizationView.swift; sourceTree = "<group>"; };
 		5FE606442A8880CB00E33205 /* ReAuthorizationScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthorizationScreenViewModel.swift; sourceTree = "<group>"; };
 		5FE606462A8880D800E33205 /* ReAuthorizationScreenContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReAuthorizationScreenContract.swift; sourceTree = "<group>"; };
 		5FE606482A8BD9DD00E33205 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
@@ -628,6 +630,7 @@
 				5F4A1B2D2A9B14C500EC67B2 /* FlexibleView */,
 				5F9F324A2A973604004D48B7 /* CustomerCustomTabs.swift */,
 				5F68AFB42B31A0710057D97D /* SignInSignUpButton.swift */,
+				5F9B52D62B3412FC00180E03 /* CustomBackButtonView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1067,7 +1070,7 @@
 		5FE606412A887DE900E33205 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5FE606422A887E1200E33205 /* ReAuthorizationScreenView.swift */,
+				5FE606422A887E1200E33205 /* ReAuthorizationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1411,7 +1414,7 @@
 				5FBA26952A1502AF00E972FB /* R.generated.swift in Sources */,
 				5F8261222B289D700021AAF5 /* UserTypeService.swift in Sources */,
 				5F96A6CF2A17260900FBCFF5 /* AuthNetworkService.swift in Sources */,
-				5FE606432A887E1200E33205 /* ReAuthorizationScreenView.swift in Sources */,
+				5FE606432A887E1200E33205 /* ReAuthorizationView.swift in Sources */,
 				5FEB71782AACA92000DCC07E /* PortfolioScheduleViewModel.swift in Sources */,
 				5FE5AAE82AA357500033F51B /* PhotographyStylesView.swift in Sources */,
 				5FA15DA02A176A21007A1AC6 /* UserDataModel.swift in Sources */,
@@ -1433,6 +1436,7 @@
 				5F9F323C2A93744E004D48B7 /* CustomerMainScreenViewModel.swift in Sources */,
 				5F4A1B312A9B153100EC67B2 /* _FlexibleView.swift in Sources */,
 				5FF5466D2A1B573B00208455 /* AuthorMainScreenViewModelType.swift in Sources */,
+				5F9B52D72B3412FC00180E03 /* CustomBackButtonView.swift in Sources */,
 				5FA15DA42A184BDC007A1AC6 /* OrderModel.swift in Sources */,
 				5FA1ECA32AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift in Sources */,
 				5FE5AADB2AA1AFBB0033F51B /* PortfolioViewModel.swift in Sources */,

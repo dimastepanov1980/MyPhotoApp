@@ -63,7 +63,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: customBackButton)
+            .navigationBarItems(leading: CustomBackButtonView())
             .fullScreenCover(isPresented: $viewModel.showOrderStatusAlert) {
                 
                 CustomerStatusOrderScreenView(title: viewModel.titleStatus ?? "",
@@ -178,18 +178,6 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                         self.orderDescription = ""
                     }
                 }
-        }
-    }
-    private var customBackButton : some View {
-        Button {
-            router.pop()
-        } label: {
-            HStack{
-                Image(systemName: "chevron.left.circle.fill")// set image here
-                    .font(.title)
-                    .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
-           
-            }
         }
     }
     

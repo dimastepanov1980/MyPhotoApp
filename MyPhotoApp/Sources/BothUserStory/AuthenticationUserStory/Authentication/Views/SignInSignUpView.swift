@@ -22,26 +22,26 @@ struct SignInSignUpView<ViewModel: SignInSignUpViewModelType>: View {
     }
     
     var body: some View {
-        VStack(spacing: 20) {
+        
+        VStack(spacing: 20){
             VStack(spacing: 20){
                 Image(R.image.ic_logo.name)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 80)
                 Text(R.string.localizable.logo_title())
-                    .font(.subheadline)
+                    .font(.callout)
                     .foregroundColor(Color(R.color.gray3.name))
                     .padding(.horizontal)
                     .multilineTextAlignment(.center)
             }
-            .padding(.bottom, 64)
+            .padding(.bottom, 32)
             
             CustomTextField(nameTextField: R.string.localizable.email(), text: $viewModel.email, isDisabled: false)
                 .keyboardType(.emailAddress)
             
             CustomSecureTextField(nameSecureTextField: R.string.localizable.password(), text: $viewModel.password)
             if authType == .signIn {
-                VStack(spacing: 20) {
                     Button {
                         Task {
                             try await viewModel.resetPassword()
@@ -51,15 +51,6 @@ struct SignInSignUpView<ViewModel: SignInSignUpViewModelType>: View {
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray3.name))
                     }
-                    
-//                    Button {
-//                        print("SignUp")
-//                    } label: {
-//                        Text(R.string.localizable.signup_to_continue())
-//                            .font(.footnote)
-//                            .foregroundColor(Color(R.color.gray3.name))
-//                    }
-                }
             }
             
             Text(viewModel.errorMessage)
@@ -68,73 +59,62 @@ struct SignInSignUpView<ViewModel: SignInSignUpViewModelType>: View {
                 .padding(.top, 32)
                 .padding(.horizontal)
         }
-//        .toolbar {
-//            ToolbarItem(placement: .bottomBar) {
-//                    CustomButtonXl(titleText: authType == .signIn ? R.string.localizable.signInBtn() : R.string.localizable.signUpBtn(), iconName: "camera.aperture") {
-//                        Task {
-//                            do {
-//                                switch authType {
-//                                case .signIn:
-//                                    try await viewModel.signIn()
-//                                    
-//                                case .signUp:
-//                                    try await viewModel.signUp()
-//                                    
-//                                }
-//                                return
-//                            } catch {
-//                                self.viewModel.errorMessage = error.localizedDescription
-//                            }
-//                        }
-//                    }
-//                    .padding(.horizontal, 4)
-//                .buttonStyle(.plain)
-//            }
-//        }
+        .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
         .safeAreaInset(edge: .bottom, content: {
-            VStack{
+            VStack(spacing: 20){
                 CustomButtonXl(titleText: authType == .signIn ? R.string.localizable.signInBtn() : R.string.localizable.signUpBtn(), iconName: "camera.aperture") {
                     Task {
-                        do {
                             switch authType {
                             case .signIn:
-                                try await viewModel.signIn()
+                                do {
+                                    try await viewModel.signIn()
+                                    switch viewModel.userType {
+                                    case "author":
+                                        print(user.userType)
+                                        user.userType = .author
+
+                                    case "customer":
+                                        print(user.userType)
+                                        user.userType = .customer
+
+                                    default:
+                                        user.userType = .unspecified
+                                    }
+                                    router.pop()
+                                } catch {
+                                    self.viewModel.errorMessage = error.localizedDescription
+                                }
                                 
                             case .signUp:
+                                do {
                                 try await viewModel.signUp()
-                                
+                                    user.userType = .customer
+                                    router.push(.ProfileScreenView)
+                                } catch {
+                                    self.viewModel.errorMessage = error.localizedDescription
+                                }
                             }
-                            return
-                        } catch {
-                            self.viewModel.errorMessage = error.localizedDescription
-                        }
                     }
                 }
-                .padding(.horizontal, 4)
+                .padding(.horizontal)
                 
-                Button {
-                    print("SignUp")
-                } label: {
-                    Text(R.string.localizable.signup_to_continue())
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray3.name))
+                if authType != .signUp {
+                    Button {
+                        router.push(.SignInSignUpView(authType: .signUp))
+                    } label: {
+                        Text(R.string.localizable.signup_to_continue())
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray3.name))
+                    }
                 }
             }
+            .padding(.bottom, 8)
         })
+
         .navigationTitle(authType == .signIn ? R.string.localizable.logIn() : R.string.localizable.registration())
         .navigationBarTitleDisplayMode(.inline)
-        .ignoresSafeArea()
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: customBackButton)
-    }
-    private var customBackButton : some View {
-        Button {
-            router.pop()
-        } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
-               .font(.title)
-               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.5))
-        }
+        .navigationBarItems(leading: CustomBackButtonView())
     }
 }
 
@@ -152,6 +132,7 @@ private class MockViewModel: SignInSignUpViewModelType, ObservableObject {
     var email: String = ""
     var password: String = ""
     var errorMessage: String = ""
+    var userType: String = ""
     
     func signIn() async throws {}
     func signUp() async throws {}

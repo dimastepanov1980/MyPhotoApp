@@ -1,5 +1,5 @@
 //
-//  ReAuthenticationScreenView.swift
+//  ReAuthenticationView.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 8/13/23.
@@ -7,27 +7,18 @@
 
 import SwiftUI
 
-struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
+struct ReAuthenticationView<ViewModel: ReAuthenticationViewModelType>: View {
     @ObservedObject private var viewModel: ViewModel
     
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
 
-    @Binding var showReAuthenticationView: Bool
-    @Binding var showAuthenticationView: Bool
-    @State private var userIsCustomer: Bool = false
-
-    init(with viewModel: ViewModel,
-         showReAuthenticationView: Binding<Bool>,
-         showAuthenticationView: Binding<Bool>) {
+    init(with viewModel: ViewModel) {
         self.viewModel = viewModel
-        self._showReAuthenticationView = showReAuthenticationView
-        self._showAuthenticationView = showAuthenticationView
     }
     
     var body: some View {
                 VStack {
-                    Spacer()
                     Text(R.string.localizable.delete_user_allert())
                         .font(.headline)
                         .foregroundColor(Color(R.color.orange.name))
@@ -45,49 +36,43 @@ struct ReAuthenticationScreenView<ViewModel: ReAuthenticationScreenType>: View {
                         .foregroundColor(Color(R.color.red.name))
                         .padding(.top, 32)
                         .padding(.horizontal)
-                    Spacer()
+
+                }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: CustomBackButtonView())
+            .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxHeight: .infinity)
+            .safeAreaInset(edge: .bottom, content: {
+                VStack(spacing: 20){
                     CustomButtonXl(titleText: R.string.localizable.delete_user(),
                                    iconName: "exclamationmark.triangle") {
                         Task {
                             do {
                                 try await viewModel.deleteUser(password: viewModel.reSignInPassword)
-                                router.popToRoot()
                                 user.userType = .unspecified
-                                showReAuthenticationView = false
-                                showAuthenticationView.toggle()
+                                router.popToRoot()
                             } catch {
                                 self.viewModel.errorMessage = error.localizedDescription
                             }
                         }
                     }
                        .padding(.horizontal)
-                       .padding(.bottom, 32)
-                }.ignoresSafeArea(.all)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        router.pop()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Color(.systemBackground), Color(R.color.gray2.name).opacity(0.6))
-                            .font(.title2)
-                        
-                    }
                 }
-            }
+                .padding(.bottom, 8)
+            })
+            
     }
 }
 
-struct ReAuthenticationScreenView_Previews: PreviewProvider {
+struct ReAuthenticationView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
         NavigationView {
-            ReAuthenticationScreenView(with: viewModel, showReAuthenticationView: .constant(false), showAuthenticationView: .constant(false))
+            ReAuthenticationView(with: viewModel)
         }
     }
 }
 
-private class MockViewModel: ReAuthenticationScreenType, ObservableObject {
+private class MockViewModel: ReAuthenticationViewModelType, ObservableObject {
     var reSignInPassword: String = ""
     var errorMessage: String = ""
     

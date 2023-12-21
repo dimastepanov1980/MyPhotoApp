@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-protocol ReAuthenticationScreenType: ObservableObject {
+protocol ReAuthenticationViewModelType: ObservableObject {
     var reSignInPassword: String { get set }
     var errorMessage: String { get set }
 

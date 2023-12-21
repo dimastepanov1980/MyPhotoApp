@@ -68,7 +68,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                         
                         if portfolio.schedule.isEmpty {
                             Button {
-                                showScheduleView.toggle()
+                                router.push(.PortfolioScheduleView)
                             } label: {
                                 Image(systemName: "calendar")
                                     .font(.headline)

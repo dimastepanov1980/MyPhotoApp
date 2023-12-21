@@ -18,7 +18,7 @@ struct ImageDetailView: View {
             AsyncImageView(imagePath: imagePath)
         }
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: customBackButton)
+        .navigationBarItems(leading: CustomBackButtonView())
     }
     
     private struct AsyncImageView: View {
@@ -64,17 +64,6 @@ struct ImageDetailView: View {
             try await StorageManager.shared.getImageURL(path: imagePath)
         }
     }
-    private var customBackButton : some View {
-        Button {
-            router.pop()
-        } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
-               .font(.title)
-               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
-        }
-    }
-
-
 }
 
 struct ImageDetailView_Previews: PreviewProvider {

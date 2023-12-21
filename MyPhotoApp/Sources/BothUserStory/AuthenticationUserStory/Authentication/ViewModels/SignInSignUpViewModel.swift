@@ -9,17 +9,22 @@ import Foundation
 
 @MainActor
 final class SignInSignUpViewModel: SignInSignUpViewModelType {
-    
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var errorMessage: String = ""
+    @Published var userType: String = ""
     
     func signIn() async throws {
-        do {
+//        do {
+//            print(email)
             try await AuthNetworkService.shared.signInUser(email: email, password: password)
-        } catch  {
-            self.errorMessage = error.localizedDescription
-        }
+            let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+            let user = try await UserManager.shared.getUser(userId: userDataResult.uid)
+            self.userType = user.userType ?? "customer"
+//        } catch  {
+//            print(error.localizedDescription)
+//            self.errorMessage = error.localizedDescription
+//        }
     }
     
     func signUp() async throws {
@@ -27,14 +32,10 @@ final class SignInSignUpViewModel: SignInSignUpViewModelType {
             print("No found Email or Password")
             return
         }
+        let authUserResult = try await AuthNetworkService.shared.createUser(email: email, password: password)
+        let dbUser = DBUserModel(auth: authUserResult, userType: "customer", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false)
+        try await UserManager.shared.createNewUser(author: dbUser)
         
-        do {
-            let authUserResult = try await AuthNetworkService.shared.createUser(email: email, password: password)
-            let dbUser = DBUserModel(auth: authUserResult, userType: "author", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false)
-            try await UserManager.shared.createNewAuthor(author: dbUser)
-        } catch {
-                self.errorMessage = error.localizedDescription
-            }
     }
     
     func resetPassword() async throws {

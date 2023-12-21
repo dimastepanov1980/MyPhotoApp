@@ -41,22 +41,22 @@ struct AuthorHubPageView: View {
                 AuthorCustomTabs(index: self.$index)
             }
         
-            .sheet(isPresented: !profileIsShow ? $userProfileIsSet : .constant(false) ) {
-                CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
-                    router.push(.ProfileScreenView)
-                        self.userProfileIsSet = false
-                    }
-                .presentationDetents([.fraction(0.12)])
-            }
-            .sheet(isPresented: !portfolioIsShow /*|| profileIsShow && userPortfolioIsSet*/ ? $userPortfolioIsSet : .constant(false) ) {
-                CustomButtonXl(titleText: R.string.localizable.setup_your_portfolio(), iconName: "photo.on.rectangle") {
-                    router.push(.PortfolioView)
-
-                    self.userPortfolioIsSet = false
-                    self.portfolioIsShow = true
-                }
-                .presentationDetents([.fraction(0.12)])
-            }
+//            .sheet(isPresented: !profileIsShow ? $userProfileIsSet : .constant(false) ) {
+//                CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
+//                    router.push(.ProfileScreenView)
+//                        self.userProfileIsSet = false
+//                    }
+//                .presentationDetents([.fraction(0.12)])
+//            }
+//            .sheet(isPresented: !portfolioIsShow /*|| profileIsShow && userPortfolioIsSet*/ ? $userPortfolioIsSet : .constant(false) ) {
+//                CustomButtonXl(titleText: R.string.localizable.setup_your_portfolio(), iconName: "photo.on.rectangle") {
+//                    router.push(.PortfolioView)
+//
+//                    self.userPortfolioIsSet = false
+//                    self.portfolioIsShow = true
+//                }
+//                .presentationDetents([.fraction(0.12)])
+//            }
             .edgesIgnoringSafeArea(.bottom)
     }
 }

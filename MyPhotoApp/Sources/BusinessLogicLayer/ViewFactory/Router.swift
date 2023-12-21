@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 enum Views: Hashable {
+    case RootScreenView
     case CustomerPageHubView
     case AuthorHubPageView
     case CustomerDetailScreenView(viewModel: AuthorPortfolioModel)
@@ -18,6 +19,7 @@ enum Views: Hashable {
     case DetailOrderView(order: DbOrderModel)
     case AuthorAddOrderView(order: DbOrderModel?, mode: Constants.OrderMode)
     case SignInSignUpView(authType: authType)
+    case ReAuthenticationView
     case ProfileScreenView
     case PortfolioView
     case PortfolioEditView(viewModel: AuthorPortfolioModel?, image: UIImage?)
@@ -35,11 +37,17 @@ enum ViewFactory {
         switch destination {
             
 // MARK: - Both Zone
+        case .RootScreenView:
+            RootScreenView(showAuthenticationView: showAuthenticationView)
+            
         case .SignInSignUpView(let authType):
             SignInSignUpView(with: SignInSignUpViewModel(), authType: authType)
             
+        case .ReAuthenticationView:
+            ReAuthenticationView(with: ReAuthenticationViewModel())
+            
         case .ProfileScreenView:
-            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: .constant(true)), showAuthenticationView: showAuthenticationView)
+            ProfileScreenView(with: ProfileScreenViewModel(), showAuthenticationView: showAuthenticationView)
         case .InformationScreenView:
             InformationScreenView()
 

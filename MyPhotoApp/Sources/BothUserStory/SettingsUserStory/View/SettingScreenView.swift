@@ -24,45 +24,58 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     
     var body: some View {
             ScrollView {
-                VStack(alignment: .leading, spacing: 12){
+                VStack(alignment: .leading, spacing: 18){
                     if user.userType == .unspecified {
                         SignInSignUpButton(router: _router, user: _user)
+                            .padding(.bottom)
                     }
                     ForEach(viewModel.settingsMenu, id: \.self) { item in
-                        HStack{
-                            Image(systemName: item.imageItem)
-                                .font(.title2)
-                                .foregroundColor(Color(R.color.gray2.name))
-                            Text(item.nameItem)
-                                .font(.callout)
-                                .foregroundColor(Color(R.color.gray3.name))
-                        }
-                        .onTapGesture {
+                        Button(action: {
                             viewForSettingItem(item)
-                        }
+
+                        }, label: {
+                            HStack{
+                                Image(systemName: item.imageItem)
+                                    .font(.title2)
+                                    .foregroundColor(Color(R.color.gray2.name))
+                                Text(item.nameItem)
+                                    .font(.callout)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                            }
+                        })
+                        
                         Divider()
                            
                     }
-                    HStack{
-                        Image(systemName: "arrow.triangle.swap")
-                            .font(.title2)
-                            .foregroundColor(user.userType == .unspecified ? Color(R.color.gray5.name) : Color(R.color.gray2.name))
-                        Text(user.userType == .author ? R.string.localizable.settings_section_customer() : R.string.localizable.settings_section_author() )
-                            .font(.callout)
-                            .foregroundColor(user.userType == .unspecified ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
-                    }
-                    .onTapGesture {
+                    Button(action: {
+                        print(user.userType)
                         switch user.userType {
                         case .author:
-                            user.userType = .customer
+                            Task{
+                                try await viewModel.updateUserType(userTupe: "customer")
+                                user.userType = .customer
+                            }
                         case .customer:
-                            user.userType = .author
+                            Task{
+                                try await viewModel.updateUserType(userTupe: "author")
+                                user.userType = .author
+                            }
                         case .unspecified:
-                            user.userType = .unspecified
+                            return
                         }
-                    }
-                    .disabled(user.userType != .unspecified)
+                    }, label: {
+                        HStack{
+                            Image(systemName: "arrow.triangle.swap")
+                                .font(.title2)
+                                .foregroundColor(user.userType == .unspecified ? Color(R.color.gray5.name) : Color(R.color.gray2.name))
+                            Text(user.userType == .author ? R.string.localizable.settings_section_customer() : R.string.localizable.settings_section_author() )
+                                .font(.callout)
+                                .foregroundColor(user.userType == .unspecified ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
+                        }
+                    })
+                    .disabled(user.userType == .unspecified)
                 }
+                .padding(.top)
                 .padding(.horizontal, 32)
             }
         .frame(maxHeight: .infinity, alignment: .center)
@@ -111,6 +124,6 @@ private class MockViewModel: SettingScreenViewModelType, ObservableObject {
       .init(imageItem: "info.circle", nameItem: R.string.localizable.settings_section_information())
 //      .init(imageItem: "globe", nameItem: R.string.localizable.settings_section_localization()),
 ]
-    
     var appVersion: String = "1.2"
+    func updateUserType(userTupe: String) async throws {}
 }

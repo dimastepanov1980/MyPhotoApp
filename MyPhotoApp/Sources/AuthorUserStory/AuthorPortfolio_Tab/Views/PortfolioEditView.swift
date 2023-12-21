@@ -80,10 +80,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                         .foregroundColor(Color(R.color.gray2.name))
                         .padding()
                     }
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        customBackButton
-                    }
                 }
+                .navigationBarItems(leading: CustomBackButtonView())
                 .padding(.bottom, 64)
                 .onAppear{
                     locationAuthor = viewModel.locationAuthor
@@ -285,16 +283,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                         .stroke(Color(R.color.gray5.name), lineWidth: 1)}
         }
         .padding(.horizontal)
-
-    }
-    private var customBackButton : some View {
-        Button {
-            router.pop()
-        } label: {
-            Image(systemName: "chevron.left.circle.fill")
-               .font(.title)
-               .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
-        }
     }
 }
 

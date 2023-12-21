@@ -16,8 +16,9 @@ struct CustomTextField: View {
     var body: some View {
         HStack {
             TextField(nameTextField, text: $text)
-                .padding(10)
-                .keyboardType(.emailAddress)
+                    .frame(height: 42)
+
+//                .padding(10)
                 .autocorrectionDisabled()
             Button {
                 self.text = ""
@@ -26,7 +27,6 @@ struct CustomTextField: View {
                     .foregroundColor(Color(R.color.gray4.name))
             }
         }
-        .frame(height: 42)
         .padding(.horizontal)
         .overlay(
             RoundedRectangle(cornerRadius: 21)

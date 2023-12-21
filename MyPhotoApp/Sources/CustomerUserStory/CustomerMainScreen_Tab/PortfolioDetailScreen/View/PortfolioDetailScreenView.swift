@@ -22,11 +22,11 @@ struct PortfolioDetailScreenView: View {
                                     router.push(.ImageDetailView(image: images[index]))
                                 }
                         }
-                    }
+                    }   
                 }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: customBackButton)
+        .navigationBarItems(leading: CustomBackButtonView())
     }
     
     private struct AsyncImageView: View {
@@ -69,18 +69,6 @@ struct PortfolioDetailScreenView: View {
         private func imagePathToURL(imagePath: String) async throws -> URL {
             // Assume you have a StorageManager.shared.getImageURL method
             try await StorageManager.shared.getImageURL(path: imagePath)
-        }
-    }
-    private var customBackButton : some View {
-        Button {
-            router.pop()
-        } label: {
-            HStack{
-                Image(systemName: "chevron.left.circle.fill")// set image here
-                    .font(.title)
-                    .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
-           
-            }
         }
     }
 }

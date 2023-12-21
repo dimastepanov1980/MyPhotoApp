@@ -109,12 +109,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     }
                 }
             }
-        
-//            .fullScreenCover(isPresented: $showEditOrderView) {
-//                NavigationStack{
-//                    AuthorAddOrderView(with: AuthorAddOrderViewModel(order: viewModel.order), showAddOrderView: $showEditOrderView, mode: .edit)
-//                }
-//            }
+
         
         .confirmationDialog("Change Status", isPresented: $showChangeStatusSheet) {
             ForEach(viewModel.avaibleStatus, id: \.self) { status in
@@ -184,8 +179,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 print(selectedStatus)
             }
         }
-        .navigationBarItems(leading: customBackButton)
         .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: CustomBackButtonView())
         
     }
     private var nameSection: some View {
@@ -419,18 +414,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             return hours * 60 + minutes
         }
         return 0
-    }
-    private var customBackButton : some View {
-        Button {
-            router.pop()
-        } label: {
-            HStack{
-                Image(systemName: "chevron.left.circle.fill")// set image here
-                    .font(.title)
-                    .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.7))
-           
-            }
-        }
     }
 }
 
