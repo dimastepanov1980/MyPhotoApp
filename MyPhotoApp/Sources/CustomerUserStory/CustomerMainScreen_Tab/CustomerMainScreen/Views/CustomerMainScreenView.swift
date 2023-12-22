@@ -150,7 +150,10 @@ struct CustomerMainScreenView<ViewModel: CustomerMainScreenViewModelType> : View
                         }
                     }
                 }
+                .scrollIndicators(.hidden)
                 .background(Color(.systemBackground))
+                .offset(y: 50)
+
             }
     }
     

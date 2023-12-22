@@ -14,23 +14,26 @@ class LocationService: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
     private var cancellables: Set<AnyCancellable> = []
     static let shared = LocationService()
-
     @Published var location: CLLocation?
     
+//    //TODO: - check
     override init() {
         super.init()
         setupLocationManager()
-        print("setupLocationManager")
+        requestLocation()
     }
     
     func requestLocation() {
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
+        print("----------------- requestLocation -----------------")
+
     }
     
     private func setupLocationManager() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyReduced
+        print("----------------- setupLocationManager -----------------")
     }
 }
 
