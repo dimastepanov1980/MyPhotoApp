@@ -20,6 +20,7 @@ class LocationService: NSObject, ObservableObject {
     override init() {
         super.init()
         setupLocationManager()
+        print("setupLocationManager")
     }
     
     func requestLocation() {

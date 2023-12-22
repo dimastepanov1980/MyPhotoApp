@@ -196,7 +196,14 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                     // MARK: - make animation scroll
                     value.scrollTo(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM YYYY" ), anchor: .top)
                 }
+                .onAppear{
+                    print("day: \(day)")
+                }
             }
+            
+        }
+        .onAppear{
+            print("weatherByDate: \(viewModel.weatherByDate)")
         }
         .padding(.horizontal)
     }
@@ -306,4 +313,3 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
         //
     }
 }
-

@@ -61,7 +61,7 @@ enum ViewFactory {
         case .CustomerConfirmOrderView(let authorId, let authorName, let authorSecondName, let authorLocation, let regionAuthor, let authorBookingDays, let orderDate, let orderTime, let orderDuration, let orderPrice):
             CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(authorId: authorId, authorName: authorName, authorSecondName: authorSecondName, location: authorLocation, regionAuthor: regionAuthor, authorBookingDays: authorBookingDays, orderDate: orderDate, orderTime: orderTime, orderDuration: orderDuration, orderPrice: orderPrice))
         case .DetailOrderView(let order):
-            DetailOrderView(with: DetailOrderViewModel(order: order), showEditOrderView: .constant(false))
+            DetailOrderView(with: DetailOrderViewModel(order: order))
         case .ImageDetailView(let image):
             ImageDetailView(imagePath: image)
 

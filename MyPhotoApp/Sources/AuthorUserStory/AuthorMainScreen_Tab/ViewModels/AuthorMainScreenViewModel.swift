@@ -83,7 +83,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         self.orders = orders
         self._userProfileIsSet = userProfileIsSet
         self._userPortfolioIsSet = userPortfolioIsSet
-        
+        print("location: \(location)")
         location.$location
                   .receive(on: DispatchQueue.main) // Ensure updates are received on the main thread
                   .sink { [weak self] newLocation in
@@ -102,7 +102,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     func fetchWeather(with location: CLLocation) {
         let longitude = location.coordinate.longitude.description
         let latitude = location.coordinate.latitude.description
-        print(longitude, latitude)
+        print("fetchWeather: \(longitude), \(latitude)")
         let today = Date()
         let calendar = Calendar.current
         var weatherByDate: [Date: [Weather?]] = [:]
@@ -111,7 +111,8 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
                 let weather = try await WeatherManager.shared.fetcWeather(lat: latitude, lon: longitude, exclude: "minutely,hourly,alerts")
                 let weatherForAllDay = weather.daily
                 let weatherForCurrentDay = weather.current.weather.first?.icon
-                
+                print("weatherForCurrentDay: \(weatherForCurrentDay)")
+
                 (0...14).forEach { day in
                     let dayOfWeek = calendar.date(byAdding: .day, value: day, to: today)!
                     let matchingDate = weatherForAllDay.first { formattedDate(date: dayOfWeek, format: "dd MMMM YYYY") == formattedDate(date: $0.dt, format: "dd MMMM YYYY") }
@@ -255,6 +256,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             print("Location is nil.")
             return
         }
+        print("location: \(location)")
         fetchWeather(with: location)
     }
 

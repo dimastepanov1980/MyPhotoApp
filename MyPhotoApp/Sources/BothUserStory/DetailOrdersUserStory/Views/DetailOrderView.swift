@@ -16,11 +16,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
     
-    @State private var showingOptions = false
     @State private var selectedStatus = ""
-    @State private var randomHeights: [CGFloat] = []
     @State private var selectImages: [PhotosPickerItem] = []
-    @Binding var showEditOrderView: Bool
     @State var showChangeStatusSheet: Bool = false
     @State var isCopied: Bool = false
     @State var isCanceled: Bool = false
@@ -31,10 +28,8 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                    GridItem(.flexible(), spacing: 0)]
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
 
-    init(with viewModel: ViewModel,
-         showEditOrderView: Binding<Bool>) {
+    init(with viewModel: ViewModel) {
         self.viewModel = viewModel
-        self._showEditOrderView = showEditOrderView
     }
     
     var body: some View {
@@ -118,9 +113,9 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     case "Canceled":
                         isCanceled = true
                         statusIsChange = false
-                       
                     default:
                         self.selectedStatus = status
+                        viewModel.status = status
                         statusIsChange = true
                     }
 
@@ -422,7 +417,7 @@ struct DetailOrderView_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            DetailOrderView(with: modelMock, showEditOrderView: .constant(false))
+            DetailOrderView(with: modelMock)
                 .environmentObject(UserTypeService())
         }
     }
