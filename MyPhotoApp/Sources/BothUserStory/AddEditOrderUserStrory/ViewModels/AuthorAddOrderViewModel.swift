@@ -10,6 +10,8 @@ import SwiftUI
 
 @MainActor
 final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
+    @Published var order: DbOrderModel?
+
     @Published var status: String = ""
     @Published var name: String = ""
     @Published var secondName: String = ""
@@ -23,45 +25,46 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     @Published var location: String = ""
     @Published var description: String = ""
     @Published var date: Date = Date()
+    @Published var time: String = ""
     @Published var duration: String = ""
     @Published var imageUrl: [String] = []
-    
-    @Published var order: DbOrderModel?
 
-    init(order: DbOrderModel? = nil) {
+    init(order: DbOrderModel?) {
+        self.order = order
         updatePreview()
-        Task{
-            try await getUser()
-        }
     }
     
-    func updatePreview() {
-        name = order?.customerName ?? ""
-        secondName = order?.customerSecondName ?? ""
-        
-        instagramLink = order?.customerContactInfo.instagramLink ?? ""
-        phone = order?.customerContactInfo.phone ?? ""
-        email = order?.customerContactInfo.email ?? ""
-        
-        authorId = order?.authorId ?? ""
-        price = order?.orderPrice ?? ""
-        location = order?.authorLocation ?? ""
-        description = order?.customerDescription ?? ""
-        duration = order?.orderShootingDuration ?? ""
-        imageUrl = order?.orderSamplePhotos ?? []
-        date = order?.orderShootingDate ?? Date()
-        status = order?.orderStatus ?? ""
-    }
-    func getUser() async throws {
-        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
-        print(userDataResult.uid)
-        self.authorId = userDataResult.uid
-    }
+     func updatePreview() {
+         name = order?.customerName ?? ""
+         secondName = order?.customerSecondName ?? ""
+         instagramLink = order?.customerContactInfo.instagramLink ?? ""
+         phone = order?.customerContactInfo.phone ?? ""
+         email = order?.customerContactInfo.email ?? ""
+         authorId = order?.authorId ?? ""
+         price = order?.orderPrice ?? ""
+         location = order?.authorLocation ?? ""
+         description = order?.customerDescription ?? ""
+         duration = order?.orderShootingDuration ?? ""
+         imageUrl = order?.orderSamplePhotos ?? []
+         date = order?.orderShootingDate ?? Date()
+         status = order?.orderStatus ?? ""
+     }
+     
+//    func getUser() async throws {
+//        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+//        print(userDataResult.uid)
+//        self.authorId = userDataResult.uid
+//    }
     
-    func addOrder(order: DbOrderModel) async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        print("addOrder: \(order)")
-        try? await UserManager.shared.addNewOrder(userId: authDateResult.uid, order: order)
+    func dateToString(date: Date) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm"
+        self.time = dateFormatter.string(from: date)
+        print("time: \(time)")
+    }
+    func addOrder(order: DbOrderModel, userId: String) async throws {
+        print("addOrder details: \(order), \(userId)")
+        try? await UserManager.shared.addNewOrder(userId: userId, order: order)
     }
     func updateOrder(orderModel: DbOrderModel) async throws {
         try? await UserManager.shared.updateOrder(order: orderModel, orderId: order?.orderId ?? "")

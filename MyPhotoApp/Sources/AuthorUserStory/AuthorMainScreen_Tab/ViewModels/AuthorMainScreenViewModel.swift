@@ -20,7 +20,6 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     @Published private var user: DBUserModel?
     var filteredOtherOrders: [Date : [DbOrderModel]]  {
         var filteredOrders = [Date : [DbOrderModel]]()
-        
         let currentDate = Calendar.current.startOfDay(for: Date()) // Get the current date without time
         
         for order in orders {

@@ -14,9 +14,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
     
-    @Namespace var animation
-    @Binding var showSignInView: Bool
-
     @State var showActionSheet: Bool = false
     @State var shouldScroll = false
 
@@ -24,11 +21,9 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
 
     
     init(with viewModel: ViewModel,
-         showSignInView: Binding<Bool>,
          statusOrder: StatusOrder
     ) {
         self.viewModel = viewModel
-        self._showSignInView = showSignInView
         self.statusOrder = statusOrder
     }
     
@@ -39,26 +34,25 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVStack(pinnedViews: [.sectionHeaders]) {
                                 Section {
-                                    ScrollView(.vertical) {
+                                    ScrollView(.vertical, showsIndicators: false) {
                                         verticalCards()
-                                            .padding(.bottom)
-                                            .padding(.top, statusOrder == .Upcoming ? 0 : 32)
+                                            .padding(.bottom, 42)
+                                            .padding(.top, statusOrder == .Upcoming ? 0 : 64)
                                     }
                                 } header: {
                                     if statusOrder == .Upcoming {
                                         headerSection(scroll: data)
                                             .padding(.top, 64)
                                             .padding(.bottom, 4)
-                                            .background(Color(R.color.gray7.name))
+                                            .background(Color(.systemBackground))
                                             .ignoresSafeArea()
                                     }
                                 }
-                                
                             }
                         }
                     } else {
                         ZStack{
-                            Color(R.color.gray7.name)
+                            Color(.systemBackground)
                                 .ignoresSafeArea()
                             
                             Text(R.string.localizable.order_not_found_worning())
@@ -66,14 +60,15 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                                 .font(.footnote)
                                 .foregroundColor(Color(R.color.gray3.name))
                                 .padding()
-                        
                         }
                     }
                 }
             }
             .navigationBarBackButtonHidden(true)
+            .navigationTitle(R.string.localizable.settings_name_screen())
+
             .ignoresSafeArea()
-            .background(Color(R.color.gray7.name))
+            .background(Color(.systemBackground))
 
     }
     func headerSection(scroll: ScrollViewProxy) -> some View {
@@ -111,7 +106,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
             }
         }
     }
-    
     var horizontalCards: some View {
         HStack {
             ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
@@ -183,7 +177,6 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                         if viewModel.isToday(date: day) {
                             Capsule()
                                 .fill(Color(R.color.gray5.name))
-                                .matchedGeometryEffect(id: "CURRENTDAY", in: animation)
                         }
                     }
                 )
@@ -244,7 +237,7 @@ extension Date {
 struct AuthorMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModel()
     static var previews: some View {
-        AuthorMainScreenView(with: mockModel, showSignInView: .constant(true), statusOrder: .Upcoming)
+        AuthorMainScreenView(with: mockModel, statusOrder: .Upcoming)
             .environmentObject(UserTypeService())
     }
 }
@@ -280,7 +273,7 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
                                                                   customerName: nil,
                                                                   customerSecondName: nil,
                                                                   customerDescription: "",
-                                                                                  customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))]
+                                                                                  customerContactInfo: ContactInfo(instagramLink: nil, phone: nil, email: nil)))]
     
     init() {}
     func fetchWeather(with location: CLLocation) {

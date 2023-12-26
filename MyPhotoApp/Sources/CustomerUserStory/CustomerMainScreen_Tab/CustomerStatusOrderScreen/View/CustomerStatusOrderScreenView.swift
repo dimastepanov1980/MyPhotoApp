@@ -11,7 +11,7 @@ struct CustomerStatusOrderScreenView: View {
     let title: String
     let message: String
     let buttonTitle: String
-    let action: () async throws -> Void
+    @EnvironmentObject var router: Router<Views>
     
     var body: some View {
         VStack(alignment: .center, spacing: 10){
@@ -25,14 +25,7 @@ struct CustomerStatusOrderScreenView: View {
                 .foregroundColor(Color(R.color.gray3.name))
             
             Button {
-                Task {
-                    do {
-                        try await action()
-                    } catch {
-                        // Handle error if needed
-                        print("Error: \(error)")
-                    }
-                }
+                router.popToRoot()
             } label: {
                         Text(buttonTitle)
                             .font(.body)
@@ -47,13 +40,13 @@ struct CustomerStatusOrderScreenView: View {
 
         }
         .multilineTextAlignment(.center)
+        .navigationBarBackButtonHidden(true)
+
     }
 }
 
 struct CustomerStatusOrderScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerStatusOrderScreenView(title: "Hello", message: "Welcome", buttonTitle: "Best Idea", action: {//
-            
-        })
+        CustomerStatusOrderScreenView(title: "Hello", message: "Welcome", buttonTitle: "Best Idea")
     }
 }

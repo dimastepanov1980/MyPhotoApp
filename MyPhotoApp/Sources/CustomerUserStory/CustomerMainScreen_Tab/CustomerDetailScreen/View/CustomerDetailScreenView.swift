@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: View {
+    private enum CoordinateSpaces {
+           case scrollView
+       }
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
     
@@ -25,115 +28,139 @@ struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: V
 
 
    var body: some View {
-           ScrollViewReader { proxy in
-               ScrollView(showsIndicators: false){
-                   VStack{
-                       ParallaxHeader{
-                           TabView(selection: $currentStep) {
-                               ForEach(viewModel.portfolio.smallImagesPortfolio.indices, id: \.self) { index in
-                                       AsyncImageView(imagePath: viewModel.portfolio.smallImagesPortfolio[index])
-                                       .onTapGesture {
-                                           router.push(.PortfolioDetailScreenView(images: viewModel.portfolio.smallImagesPortfolio))
-                                       }
+       ScrollViewReader { proxy in
+           ScrollView(showsIndicators: false) {
+               ParallaxHeader(
+                coordinateSpace: CoordinateSpaces.scrollView,
+                defaultHeight: 450
+               ) {
+                   TabView(selection: $currentStep) {
+                       ForEach(viewModel.portfolio.smallImagesPortfolio.indices, id: \.self) { index in
+                           AsyncImageView(imagePath: viewModel.portfolio.smallImagesPortfolio[index])
+                               .onTapGesture {
+                                   router.push(.PortfolioDetailScreenView(images: viewModel.portfolio.smallImagesPortfolio))
                                }
-                           }
-                       }
-                       .tabViewStyle(.page(indexDisplayMode: .never))
-                       .frame(height: 350)
-                       Spacer()
-                       bottomSheet
-                           .offset(y: -110)
-                   }
-                   .navigationBarBackButtonHidden(true)
-                   .navigationBarItems(leading: CustomBackButtonView())
-                   .toolbarBackground(.hidden, for: .navigationBar)
-                   .onChange(of: viewModel.startScheduleDay) { _ in
-                           withAnimation {
-                               proxy.scrollTo(timeID)
-                           }
-
-                   }
-                   .onAppear{
-                       print("router paths CustomerDetailScreenView: \(router.paths.count)")
-                   }
-                   
-           }
-           
-           }
-           .safeAreaInset(edge: .bottom) {
-               VStack{
-                   HStack(spacing: 16){
-                           HStack(spacing: 2) {
-                               Image(systemName: "calendar")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray1.name))
-                               
-                               Text(viewModel.formattedDate(date: viewModel.startScheduleDay, format: "dd MMMM"))
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray3.name))
-                           }
-                       if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
-                           
-                           HStack(spacing: 2) {
-                               Image(systemName: "clock")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray1.name))
-                               Text(time)
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray3.name))
-                           }
-                           
-                           
-                           HStack(spacing: 2){
-                               Image(systemName: "timer")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray1.name))
-                               Text("\(viewModel.selectedTime.count)")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray3.name))
-                           }
                        }
                    }
-                   if let author = viewModel.portfolio.author {
-                           if viewModel.selectedTime.isEmpty {
-                               CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
-                                   // Action
-                               }
-                               .padding(.horizontal)
-                           } else {
-                               
-                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
-                                   router.push(.CustomerConfirmOrderView(authorId: viewModel.portfolio.id, authorName: viewModel.portfolio.author?.nameAuthor ?? "", authorSecondName: viewModel.portfolio.author?.familynameAuthor ?? "", location: viewModel.portfolio.author?.location ?? "", regionAuthor: viewModel.portfolio.author?.regionAuthor  ?? "", authorBookingDays: viewModel.portfolio.bookingDays ?? [:], orderDate: viewModel.startScheduleDay, orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)))
-                               }
-                               .navigationBarBackButtonHidden(true)
-                               .padding(.horizontal)
-                           }
-                     
-                   }
+                   .tabViewStyle(.page(indexDisplayMode: .never))
                }
-               .padding(.top, 4)
-               .background(Color(R.color.gray7.name))
+               bottomSheet
+                   .offset(y: -60)
            }
+   
+          .coordinateSpace(name: CoordinateSpaces.scrollView)
+          .safeAreaInset(edge: .bottom) {
+                VStack{
+                    HStack(spacing: 16){
+                            HStack(spacing: 2) {
+                                Image(systemName: "calendar")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray1.name))
+                                
+                                Text(viewModel.formattedDate(date: viewModel.startScheduleDay, format: "dd MMMM"))
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                            }
+                        if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
+                            
+                            HStack(spacing: 2) {
+                                Image(systemName: "clock")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray1.name))
+                                Text(time)
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                            }
+                            
+                            
+                            HStack(spacing: 2){
+                                Image(systemName: "timer")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray1.name))
+                                Text("\(viewModel.selectedTime.count)")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                            }
+                        }
+                    }
+                    if let author = viewModel.portfolio.author {
+                            if viewModel.selectedTime.isEmpty {
+                                CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
+                                    // Action
+                                }
+                                .padding(.horizontal)
+                            } else {
+                                
+                                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
+                                    router.push(.CustomerConfirmOrderView(authorId: viewModel.portfolio.id, authorName: viewModel.portfolio.author?.nameAuthor ?? "", authorSecondName: viewModel.portfolio.author?.familynameAuthor ?? "", location: viewModel.portfolio.author?.location ?? "", regionAuthor: viewModel.portfolio.author?.regionAuthor  ?? "", authorBookingDays: viewModel.portfolio.bookingDays ?? [:], orderDate: viewModel.startScheduleDay, orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)))
+                                }
+                                .navigationBarBackButtonHidden(true)
+                                .padding(.horizontal)
+                            }
+                        
+                    }
+                }
+                .padding(.top, 4)
+                .background(Color(R.color.gray7.name))
+        }
           .background(Color(R.color.gray7.name))
           .navigationBarBackButtonHidden(true)
-          .onAppear{
-              print("userType: \(user.userType)")
+          .navigationBarItems(leading: CustomBackButtonView())
+          .toolbarBackground(.hidden, for: .navigationBar)
+          .onChange(of: viewModel.startScheduleDay) { _ in
+              withAnimation {
+                  proxy.scrollTo(timeID)
+              }
           }
+       }
+                  .edgesIgnoringSafeArea(.top)
+
+
     }
-    private struct ParallaxHeader<Content: View>: View {
-        @ViewBuilder var content: () -> Content
+    struct ParallaxHeader<Content: View, Space: Hashable>: View {
+        let content: () -> Content
+        let coordinateSpace: Space
+        let defaultHeight: CGFloat
+
+        init(
+            coordinateSpace: Space,
+            defaultHeight: CGFloat,
+            @ViewBuilder _ content: @escaping () -> Content
+        ) {
+            self.content = content
+            self.coordinateSpace = coordinateSpace
+            self.defaultHeight = defaultHeight
+        }
+        
         var body: some View {
-            GeometryReader { gr in
-                let minY = gr.frame(in: .global).minY
-                content()
-                    .frame(
-                        width: gr.size.width,
-                        height: gr.size.height + max(minY * 0.3, 0)
-                    )
-                    .offset(y: -minY)
+            GeometryReader { proxy in
+                   let offset = offset(for: proxy)
+                   let heightModifier = heightModifier(for: proxy)
+
+                   content()
+                       .edgesIgnoringSafeArea(.horizontal)
+                       .frame(
+                           width: proxy.size.width,
+                           height: proxy.size.height + heightModifier
+                       )
+                       .offset(y: offset)
+               }.frame(height: defaultHeight)
+        }
+        
+        private func offset(for proxy: GeometryProxy) -> CGFloat {
+            let frame = proxy.frame(in: .named(coordinateSpace))
+            if frame.minY < 0 {
+                return -frame.minY * 0.8
             }
+            return -frame.minY
+        }
+        
+        private func heightModifier(for proxy: GeometryProxy) -> CGFloat {
+            let frame = proxy.frame(in: .named(coordinateSpace))
+            return max(0, frame.minY)
         }
     }
+    
     private var authorSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack{

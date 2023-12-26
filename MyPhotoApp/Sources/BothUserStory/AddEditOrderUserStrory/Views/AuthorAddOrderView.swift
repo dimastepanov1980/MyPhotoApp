@@ -24,7 +24,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
     
     var body: some View {
         VStack {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 20){
                         customerSection
                             .padding(.top)
@@ -44,35 +44,37 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                         
                         }
                         descriptionField(fieldName: R.string.localizable.order_description(), propertyName: $viewModel.description)
-
-                        
                     }
                 }
+            .onAppear{
+                viewModel.updatePreview()
+            }
             
         CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_add_order() : R.string.localizable.order_save_order(), iconName: "") {
+            
                 let userOrders = DbOrderModel(order:
                                                 OrderModel(orderId: UUID().uuidString,
                                                            orderCreateDate: Date(),
                                                            orderPrice: viewModel.price,
                                                            orderStatus: viewModel.status,
                                                            orderShootingDate: viewModel.date,
-                                                           orderShootingTime: [],
+                                                           orderShootingTime: [viewModel.time],
                                                            orderShootingDuration: viewModel.duration,
                                                            orderSamplePhotos: viewModel.imageUrl,
                                                            orderMessages: nil,
-                                                           authorId: viewModel.authorId,
-                                                           authorName: nil,
-                                                           authorSecondName: nil,
+                                                           authorId: user.user?.userId,
+                                                           authorName: user.user?.firstName,
+                                                           authorSecondName: user.user?.secondName,
                                                            authorLocation: viewModel.location,
                                                            customerId: nil,
                                                            customerName: viewModel.name,
                                                            customerSecondName: viewModel.secondName,
                                                            customerDescription: viewModel.description,
-                                                           customerContactInfo: DbContactInfo(instagramLink: viewModel.instagramLink,
+                                                           customerContactInfo: ContactInfo(instagramLink: viewModel.instagramLink,
                                                                                               phone: viewModel.phone,
                                                                                               email: viewModel.email)))
-                mode == .new ? try await viewModel.addOrder(order: userOrders) : try? await viewModel.updateOrder(orderModel: userOrders)
-                    router.pop()
+            mode == .new ? try await viewModel.addOrder(order: userOrders, userId: user.user?.userId ?? "") : try? await viewModel.updateOrder(orderModel: userOrders)
+                    router.popToRoot()
             }
         .padding(.horizontal)
         }
@@ -94,20 +96,20 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                 .padding(.bottom, 8)
                 .padding(.horizontal)
                 .foregroundColor(Color(R.color.gray4.name))
+                .onChange(of: viewModel.date) { newDate in
+                    viewModel.dateToString(date: newDate)
+                }
         }
     }
     private var customerSection: some View {
         VStack(alignment: .leading, spacing: 20) {
-            CustomTextField(nameTextField: R.string.localizable.order_client_firstName(), text: $viewModel.name, isDisabled: mode == .edit)
-                .disabled(mode == .edit)
-            CustomTextField(nameTextField: R.string.localizable.order_client_secondName(), text: $viewModel.secondName, isDisabled: mode == .edit)
-                .disabled(mode == .edit)
-
+            CustomTextField(nameTextField: R.string.localizable.order_client_firstName(), text: $viewModel.name, isDisabled: false /*mode == .edit*/)
+            CustomTextField(nameTextField: R.string.localizable.order_client_secondName(), text: $viewModel.secondName, isDisabled: false /*mode == .edit*/)
             CustomTextField(nameTextField: R.string.localizable.order_instagramLink(), text: $viewModel.instagramLink, isDisabled: false)
             CustomTextField(nameTextField: R.string.localizable.settings_section_profile_phone(), text: $viewModel.phone, isDisabled: false)
-            CustomTextField(nameTextField: R.string.localizable.settings_section_profile_email(), text: $viewModel.email, isDisabled: mode == .edit)
-                .disabled(mode == .edit)
-
+                .keyboardType (.numberPad)
+            CustomTextField(nameTextField: R.string.localizable.settings_section_profile_email(), text: $viewModel.email, isDisabled: false /*mode == .edit*/)
+                .keyboardType (.emailAddress)
         }
     }
     private func descriptionField(fieldName: String, propertyName: Binding<String>) -> some View {
@@ -155,14 +157,17 @@ private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
     @Published var location: String = ""
     @Published var description: String = ""
     @Published var date: Date = Date()
+    @Published var time: String = ""
     @Published var duration: String = ""
     @Published var imageUrl: [String] = []
     
-    var order: DbOrderModel = DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Upcoming", orderShootingDate: Date(), orderShootingTime: ["11:00"], orderShootingDuration: "2", orderSamplePhotos: [], orderMessages: [], authorId: "", authorName: "Dimas", authorSecondName: "Tester", authorLocation: "Phuket", authorRegion: "TH", customerId: "", customerName: "Client", customerSecondName: "FamiltName", customerDescription: "SuperPUPER", customerContactInfo: DbContactInfo(instagramLink: "NEW ONE", phone: "222 22 22", email: "TEST@TEST.COM")))
+    var order: DbOrderModel? = DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Upcoming", orderShootingDate: Date(), orderShootingTime: ["11:00"], orderShootingDuration: "2", orderSamplePhotos: [], orderMessages: [], authorId: "", authorName: "Dimas", authorSecondName: "Tester", authorLocation: "Phuket", authorRegion: "TH", customerId: "", customerName: "Client", customerSecondName: "FamiltName", customerDescription: "SuperPUPER", customerContactInfo: ContactInfo(instagramLink: "NEW ONE", phone: "222 22 22", email: "TEST@TEST.COM")))
  
     
-    func addOrder(order: DbOrderModel) async throws {}
+    func addOrder(order: DbOrderModel, userId: String) async throws {}
     func updateOrder(orderModel: DbOrderModel) async throws {}
     func updatePreview() {}
+    func dateToString(date: Date) {}
+
 }
 

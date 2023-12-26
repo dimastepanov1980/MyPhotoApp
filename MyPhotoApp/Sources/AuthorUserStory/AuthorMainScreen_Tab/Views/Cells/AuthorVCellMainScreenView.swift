@@ -32,41 +32,45 @@ struct AuthorVCellMainScreenView: View {
                     
                 }
             }
-            HStack(alignment: .top, spacing: 4) {
-                Image(systemName: "calendar")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 16)
-                    .foregroundColor(Color(R.color.gray2.name))
-                
-                Text(items.orderShootingDate.formatted(Date.FormatStyle().day().month()))
-                    .font(.footnote)
-                    .foregroundColor(Color(R.color.gray2.name))
-                    .padding(.trailing)
-                
-                Image(systemName: "clock")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 16)
-                    .foregroundColor(Color(R.color.gray2.name))
-                
-                Text(items.orderShootingDate.formatted(Date.FormatStyle().hour().minute()))
-                    .font(.footnote)
-                    .foregroundColor(Color(R.color.gray2.name))
-                    .padding(.trailing)
-                
-                Image(systemName: "timer")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 16)
-                    .foregroundColor(Color(R.color.gray2.name))
-                if let duration = items.orderShootingDuration {
-                    Text("\(duration)\(R.string.localizable.order_hour())")
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray2.name))
-                }
+            
+             HStack(alignment: .top, spacing: 16) {
+                 HStack(spacing: 4){
+                     Image(systemName: "calendar")
+                         .resizable()
+                         .aspectRatio(contentMode: .fit)
+                         .frame(width: 16)
+                         .foregroundColor(Color(R.color.gray2.name))
+                     
+                     Text(items.orderShootingDate.formatted(Date.FormatStyle().month().day()))
+                         .font(.footnote)
+                         .foregroundColor(Color(R.color.gray2.name))
+                 }
+                 HStack(spacing: 4){
+                     Image(systemName: "clock")
+                         .resizable()
+                         .aspectRatio(contentMode: .fit)
+                         .frame(width: 16)
+                         .foregroundColor(Color(R.color.gray2.name))
+                     let startTime = items.orderShootingTime?.min { timeToMinutes($0) < timeToMinutes($1) } ?? ""
+                         Text("\(startTime)\(R.string.localizable.order_hour())")
+                             .font(.footnote)
+                             .foregroundColor(Color(R.color.gray2.name))
+                 }
+                 HStack(spacing: 4){
+                     Image(systemName: "timer")
+                         .resizable()
+                         .aspectRatio(contentMode: .fit)
+                         .frame(width: 16)
+                         .foregroundColor(Color(R.color.gray2.name))
+                     
+                     if let duration = items.orderShootingDuration {
+                         Text("\(duration)\(R.string.localizable.order_hour())")
+                             .font(.footnote)
+                             .foregroundColor(Color(R.color.gray2.name))
+                     }
+                 }
+             }
 
-            }
             HStack(alignment: .bottom) {
                 Spacer()
                 if let location = items.authorLocation  {
@@ -80,6 +84,14 @@ struct AuthorVCellMainScreenView: View {
         .padding(.vertical, 18)
         .background(Color(R.color.gray5.name))
         .cornerRadius(16)
+    }
+    
+    private func timeToMinutes(_ time: String) -> Int {
+        let components = time.split(separator: ":")
+        if components.count == 2, let hours = Int(components[0]), let minutes = Int(components[1]) {
+            return hours * 60 + minutes
+        }
+        return 0
     }
 }
 
@@ -108,5 +120,5 @@ private class MockViewModelVCell: ObservableObject {
                                                                  customerName: "customerName",
                                                                  customerSecondName: "customerSecondName",
                                                                  customerDescription: "customerDescription",
-                                                                 customerContactInfo: DbContactInfo(instagramLink: "instagramLink", phone: "555-55-55", email: "email@test.com")))
+                                                                 customerContactInfo: ContactInfo(instagramLink: "instagramLink", phone: "555-55-55", email: "email@test.com")))
 }

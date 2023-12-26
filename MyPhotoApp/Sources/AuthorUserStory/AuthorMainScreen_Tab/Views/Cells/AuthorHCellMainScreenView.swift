@@ -99,7 +99,7 @@ private class MockViewModelHCell: ObservableObject {
                                                                      customerName: "Dima",
                                                                      customerSecondName: "Stepanov",
                                                                      customerDescription: "",
-                                                                     customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
+                                                                     customerContactInfo: ContactInfo(instagramLink: nil, phone: nil, email: nil)))
         
     
 }

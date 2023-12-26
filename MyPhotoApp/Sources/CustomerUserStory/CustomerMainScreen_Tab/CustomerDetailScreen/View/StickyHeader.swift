@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StickyHeader1: View {
+struct StickyHeader: View {
     
     let safeArea: EdgeInsets
     let size: CGSize
@@ -16,11 +16,10 @@ struct StickyHeader1: View {
         ScrollView(.vertical, showsIndicators: true){
             VStack(spacing: 10){
                 ImageView()
-                
-                VStack(spacing: 10){
-                    TextView()
-                        .background(Color.red)
-                }
+            }
+            VStack(spacing: 10){
+                TextView()
+                    .background(Color.red)
             }
         }
         .coordinateSpace(name: "SCROLL")
@@ -35,7 +34,7 @@ struct StickyHeader1: View {
             
             let size = proxy.size
             let minY = proxy.frame(in: .named("SCROLL")).minY
-//            let progress = minY / (height * (minY > 0 ? 0.5 : 0.8))
+            let progress = minY / (height * (minY > 0 ? 0.5 : 0.8))
             
             Image("image_no_portfolio")
                 .resizable()
@@ -54,7 +53,7 @@ struct StickyHeader1: View {
                 .font(Font.custom("Iowan Old Style", size: 20))
                 .foregroundColor(.blue)
                 .frame(width: 368, alignment: .leading)
-                .offset(y: -70)
+//                .offset(y: -70)
         }.padding(15)
     }
 }
@@ -64,7 +63,7 @@ struct StickyHeader_Previews: PreviewProvider {
         GeometryReader{
             let safeArea = $0.safeAreaInsets
             let size = $0.size
-            StickyHeader1(safeArea: safeArea, size: size)
+            StickyHeader(safeArea: safeArea, size: size)
                 .ignoresSafeArea(.container, edges: .top)
         }
     }

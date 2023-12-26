@@ -62,7 +62,6 @@ struct AuthorCustomTabs: View {
             
             Button {
                 router.push(.AuthorAddOrderView(order: nil, mode: .new))
-                
             } label: {
                 ZStack {
                     Circle()

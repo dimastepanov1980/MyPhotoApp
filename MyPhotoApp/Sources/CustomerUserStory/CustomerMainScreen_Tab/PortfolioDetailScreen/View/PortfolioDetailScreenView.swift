@@ -13,7 +13,7 @@ struct PortfolioDetailScreenView: View {
 
     var body: some View {
         VStack{
-                ScrollView{
+            ScrollView(showsIndicators: false){
                     LazyVGrid(columns: [GridItem(.flexible(), spacing: 0),
                                         GridItem(.flexible(), spacing: 0)], spacing: 0){
                         ForEach(images.indices, id: \.self) { index in

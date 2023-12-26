@@ -322,6 +322,7 @@
 		5F214E0C2A997D860014AD9B /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5F9F32412A947765004D48B7 /* StickyHeader.swift */,
 				5F9F32392A9373D0004D48B7 /* CustomerDetailScreenView.swift */,
 			);
 			path = View;
@@ -380,7 +381,6 @@
 			children = (
 				5FFC5AB42A91A50B006E10E9 /* Items */,
 				5FFC5AB22A919E4E006E10E9 /* CustomerMainScreenView.swift */,
-				5F9F32412A947765004D48B7 /* StickyHeader.swift */,
 				5F9F32452A96006D004D48B7 /* CountryCodesView.swift */,
 			);
 			path = Views;

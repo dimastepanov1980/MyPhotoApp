@@ -50,11 +50,11 @@ struct CustomerOrderCellView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
+                
                 let startTime = items.orderShootingTime?.min { timeToMinutes($0) < timeToMinutes($1) } ?? ""
                     Text("\(startTime)\(R.string.localizable.order_hour())")
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray2.name))
-                                
             }
             HStack(alignment: .bottom) {
                 Spacer()
@@ -106,5 +106,5 @@ private class MockViewModelVCell: ObservableObject {
                                                  customerName: nil,
                                                  customerSecondName: nil,
                                                  customerDescription: "",
-                                                 customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
+                                                 customerContactInfo: ContactInfo(instagramLink: nil, phone: nil, email: nil)))
 }

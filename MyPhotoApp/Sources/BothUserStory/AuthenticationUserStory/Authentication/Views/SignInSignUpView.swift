@@ -110,7 +110,9 @@ struct SignInSignUpView<ViewModel: SignInSignUpViewModelType>: View {
             }
             .padding(.bottom, 8)
         })
-
+        .onAppear{
+            print("router: \(router.paths)")
+        }
         .navigationTitle(authType == .signIn ? R.string.localizable.logIn() : R.string.localizable.registration())
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)

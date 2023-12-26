@@ -10,6 +10,7 @@ import SwiftUI
 
 @MainActor
 protocol AuthorAddOrderViewModelType: ObservableObject {
+    var order: DbOrderModel?  { get }
     var name: String { get set }
     var secondName: String { get set }
     var instagramLink: String { get set }
@@ -21,11 +22,13 @@ protocol AuthorAddOrderViewModelType: ObservableObject {
     var location: String { get set }
     var description: String { get set }
     var date: Date { get set }
+    var time: String { get set }
     var duration: String { get set }
     var imageUrl: [String] { get set }
     var status: String { get set }
     
-    func addOrder(order: DbOrderModel) async throws
+    func addOrder(order: DbOrderModel, userId: String) async throws 
     func updateOrder(orderModel: DbOrderModel) async throws
+    func dateToString(date: Date)
     func updatePreview()
 }

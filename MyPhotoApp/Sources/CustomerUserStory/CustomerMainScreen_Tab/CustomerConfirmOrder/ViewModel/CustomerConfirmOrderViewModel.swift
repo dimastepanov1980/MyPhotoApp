@@ -96,7 +96,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                customerName: customerFirstName,
                                                customerSecondName: customerSecondName,
                                                customerDescription: orderDescription,
-                                               customerContactInfo: DbContactInfo(instagramLink: customerInstagramLink, phone: customerPhone, email: customerEmail))
+                                               customerContactInfo: ContactInfo(instagramLink: customerInstagramLink, phone: customerPhone, email: customerEmail))
         
         // Make new request for chek actual booking date
         let actualBookingDateRequest = try await UserManager.shared.getUserPortfolio(userId: authorId)

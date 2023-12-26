@@ -137,6 +137,7 @@
 
 //MARK: - Add Portfolio
 "portfolio" = "Portfolio";
+"portfolio_edit" = "Setup portfolio";
 "save" = "Save";
 "portfolio_first_name" = "Firs Name";
 "portfolio_last_name" = "Last Name";

@@ -11,7 +11,6 @@ struct RootScreenView: View {
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
 
-    @Binding var showAuthenticationView: Bool
     @State private var showAddOrderView: Bool = false
     @State private var showEditOrderView: Bool = false
     
@@ -25,17 +24,17 @@ struct RootScreenView: View {
     func userTypePageHub(userType: Constants.UserType) -> some View {
             switch userType {
             case .author:
-                ViewFactory.viewForDestination(.AuthorHubPageView, showAuthenticationView: $showAuthenticationView)
+                ViewFactory.viewForDestination(.AuthorHubPageView)
             case .customer:
-                ViewFactory.viewForDestination(.CustomerPageHubView, showAuthenticationView: $showAuthenticationView)
+                ViewFactory.viewForDestination(.CustomerPageHubView)
             case .unspecified:
-                ViewFactory.viewForDestination(.CustomerPageHubView, showAuthenticationView: $showAuthenticationView)
+                ViewFactory.viewForDestination(.CustomerPageHubView)
             }
     }
 }
 
 struct RootScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        RootScreenView(showAuthenticationView: .constant(false))
+        RootScreenView()
     }
 }

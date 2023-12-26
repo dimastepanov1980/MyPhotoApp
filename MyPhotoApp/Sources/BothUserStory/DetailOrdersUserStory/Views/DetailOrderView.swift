@@ -33,6 +33,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
     }
     
     var body: some View {
+        
         ScrollView(showsIndicators: false) {
                 ZStack(alignment: .center){
                     if isCopied {
@@ -58,8 +59,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     .padding(.horizontal)
-                    .padding(.top, 32)
-                    
                 }
             }
             .toolbar{
@@ -169,7 +168,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                            customerName: nil,
                                                            customerSecondName: nil,
                                                            customerDescription: viewModel.order.customerDescription,
-                                                           customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
+                                                           customerContactInfo: ContactInfo(instagramLink: nil, phone: nil, email: nil)))
                 try await viewModel.updateStatus(orderModel: userOrders)
                 print(selectedStatus)
             }
@@ -456,7 +455,7 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
                                                              customerSecondName: "SecondName",
                                                              customerDescription: "Customer Description and Bla bla bla sdfsdf sdfsdf",
                                                              customerContactInfo:
-                                                                DbContactInfo(instagramLink: "https://instagram.com/fitnessbymaddy_?igshid=MzRlODBiNWFlZA==",
+                                                                ContactInfo(instagramLink: "https://instagram.com/fitnessbymaddy_?igshid=MzRlODBiNWFlZA==",
                                                                               phone: "+7 999 99 99",
                                                                               email: "email@email.com")))
     

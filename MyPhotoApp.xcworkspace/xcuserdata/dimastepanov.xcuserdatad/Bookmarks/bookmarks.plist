@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>47</string>
+					<string>41</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>46</string>
+					<string>40</string>
 					<key>Timestamp</key>
-					<string>724832721.572789</string>
+					<string>725178105.281746</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -46,6 +46,164 @@
     func loadCurrentUser() async throws {
 </string>
 			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>93</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>92</string>
+					<key>Timestamp</key>
+					<string>725176727.152414</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>MyPhotoApp/MyPhotoApp/Sources/BothUserStory/SettingsUserStory/View/Subview/ProfileScreenView.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>                    if !router.paths.contains(.SignInSignUpView(authType: .signUp)) {
+</string>
+				<key>leading</key>
+				<string>                }
+                ToolbarItem(placement: .topBarLeading) {
+</string>
+				<key>trailing</key>
+				<string>                        CustomBackButtonView()
+                    }
+                }
+</string>
+			</dict>
+			<key>title</key>
+			<string>preview not working</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>16</string>
+					<key>EndingLineNumber</key>
+					<string>34</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>34</string>
+					<key>Timestamp</key>
+					<string>725174763.838581</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>MyPhotoApp/MyPhotoApp/Sources/BothUserStory/SettingsUserStory/View/Subview/ProfileScreenView.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>                </string>
+				<key>leading</key>
+				<string>                
+                Spacer()
+</string>
+				<key>trailing</key>
+				<string>if user.userType != .unspecified {
+                    if  !router.paths.contains(.SignInSignUpView(authType: .signUp)) {
+                        VStack(spacing: 20){
+</string>
+			</dict>
+			<key>title</key>
+			<string>preiew not work</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>MyPhotoApp/MyPhotoApp/Sources/BothUserStory/AuthenticationUserStory/Authentication/Views/SignInSignUpView.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>27</string>
+					<key>EndingLineNumber</key>
+					<string>118</string>
+					<key>StartingColumnNumber</key>
+					<string>9</string>
+					<key>StartingLineNumber</key>
+					<string>118</string>
+					<key>Timestamp</key>
+					<string>725177509.045702</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>MyPhotoApp/MyPhotoApp/Sources/BothUserStory/AuthenticationUserStory/Authentication/Views/SignInSignUpView.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>navigationBarItems</string>
+				<key>leading</key>
+				<string>        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .</string>
+				<key>trailing</key>
+				<string>(leading: CustomBackButtonView())
+    }
+}
+</string>
+			</dict>
+			<key>title</key>
+			<string>заменимть navigationBarItems</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

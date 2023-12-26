@@ -14,7 +14,6 @@ struct CustomerPageHubView: View {
     @State var index = 0
     @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: .constant(false))
 
-    @Binding var showAuthenticationView: Bool
     @State private var userProfileIsSet: Bool = false
     @State private var profileIsShown: Bool = false
     @State private var showAddOrderView: Bool = false
@@ -37,13 +36,13 @@ struct CustomerPageHubView: View {
                         }
                     }
                 case 1:
-                    CustomerOrdersView(with: CustomerOrdersViewModel(), showAuthenticationView: $showAuthenticationView)
+                    CustomerOrdersView(with: CustomerOrdersViewModel())
                         .navigationBarBackButtonHidden(true)
 
                 case 2:
                     Color.green
                 case 3:
-                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
+                    SettingScreenView(with: SettingScreenViewModel())
                         .navigationBarBackButtonHidden(true)
 
                 default:
@@ -89,6 +88,6 @@ struct CustomerPageHubView: View {
 
 struct CustomerPageHubView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerPageHubView(showAuthenticationView: .constant(false))
+        CustomerPageHubView()
     }
 }

@@ -57,6 +57,8 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                     .padding()
                 }
             }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: CustomBackButtonView())
             .navigationTitle(R.string.localizable.schedule())
             .sheet(isPresented: $showScheduleTips) {
                 scheduleTips

@@ -57,47 +57,11 @@ struct DbOrderModel: Codable, Hashable {
         self.customerContactInfo = try container.decode(DbContactInfo.self, forKey: .customerContactInfo)
     }
     static func == (lhs: DbOrderModel, rhs: DbOrderModel) -> Bool {
-        return lhs.orderId == rhs.orderId &&
-               lhs.orderCreateDate == rhs.orderCreateDate &&
-               lhs.orderPrice == rhs.orderPrice &&
-               lhs.orderStatus == rhs.orderStatus &&
-               lhs.orderShootingDate == rhs.orderShootingDate &&
-               lhs.orderShootingTime == rhs.orderShootingTime &&
-               lhs.orderShootingDuration == rhs.orderShootingDuration &&
-               lhs.orderSamplePhotos == rhs.orderSamplePhotos &&
-               lhs.orderMessages == rhs.orderMessages &&
-               lhs.authorId == rhs.authorId &&
-               lhs.authorName == rhs.authorName &&
-               lhs.authorSecondName == rhs.authorSecondName &&
-               lhs.authorLocation == rhs.authorLocation &&
-               lhs.authorRegion == rhs.authorRegion &&
-               lhs.customerId == rhs.customerId &&
-               lhs.customerName == rhs.customerName &&
-               lhs.customerSecondName == rhs.customerSecondName &&
-               lhs.customerDescription == rhs.customerDescription &&
-               lhs.customerContactInfo == rhs.customerContactInfo
+        return lhs.orderId == rhs.orderId
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(orderId)
-        hasher.combine(orderCreateDate)
-        hasher.combine(orderPrice)
-        hasher.combine(orderStatus)
-        hasher.combine(orderShootingDate)
-        hasher.combine(orderShootingTime)
-        hasher.combine(orderShootingDuration)
-        hasher.combine(orderSamplePhotos)
-        hasher.combine(orderMessages)
-        hasher.combine(authorId)
-        hasher.combine(authorName)
-        hasher.combine(authorSecondName)
-        hasher.combine(authorLocation)
-        hasher.combine(authorRegion)
-        hasher.combine(customerId)
-        hasher.combine(customerName)
-        hasher.combine(customerSecondName)
-        hasher.combine(customerDescription)
-        hasher.combine(customerContactInfo)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -167,7 +131,7 @@ struct DbOrderModel: Codable, Hashable {
         self.customerName = order.customerName
         self.customerSecondName = order.customerSecondName
         self.customerDescription = order.customerDescription
-        self.customerContactInfo = order.customerContactInfo
+        self.customerContactInfo = DbContactInfo(info: order.customerContactInfo) 
         self.orderSamplePhotos = order.orderSamplePhotos
         self.orderMessages = order.orderMessages
         self.authorRegion = order.authorRegion
@@ -179,6 +143,12 @@ struct DbContactInfo: Codable, Equatable, Hashable {
     let instagramLink: String?
     let phone: String?
     let email: String?
+    
+    init(info: ContactInfo) {
+        self.instagramLink = info.instagramLink
+        self.phone = info.phone
+        self.email = info.email
+    }
     
     init(instagramLink: String?, phone: String?, email: String?) {
         self.instagramLink = instagramLink

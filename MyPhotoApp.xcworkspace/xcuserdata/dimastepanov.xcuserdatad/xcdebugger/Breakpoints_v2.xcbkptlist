@@ -113,53 +113,5 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D2146D9B-3890-48B2-B520-293438F84F54"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MyPhotoApp/Sources/CustomerUserStory/CustomerMainScreen_Tab/CustomerMainScreen/ViewModels/CustomerMainScreenViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "init(userProfileIsSet:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D2146D9B-3890-48B2-B520-293438F84F54 - 48c190ae3efbacba"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for closure #2 @Sendable () async throws -&gt; () in MyPhotoApp.CustomerMainScreenViewModel.init(userProfileIsSet: SwiftUI.Binding&lt;Swift.Bool&gt;) -&gt; MyPhotoApp.CustomerMainScreenViewModel"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/MyPhotoApp/MyPhotoApp/Sources/CustomerUserStory/CustomerMainScreen_Tab/CustomerMainScreen/ViewModels/CustomerMainScreenViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "57"
-                  endingLineNumber = "57"
-                  offsetFromSymbolStart = "92">
-               </Location>
-               <Location
-                  uuid = "D2146D9B-3890-48B2-B520-293438F84F54 - 48c190ae3efbac5b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for closure #2 @Sendable () async throws -&gt; () in MyPhotoApp.CustomerMainScreenViewModel.init(userProfileIsSet: SwiftUI.Binding&lt;Swift.Bool&gt;) -&gt; MyPhotoApp.CustomerMainScreenViewModel"
-                  moduleName = "MyPhotoApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dimastepanov/MyPhotoApp/MyPhotoApp/Sources/CustomerUserStory/CustomerMainScreen_Tab/CustomerMainScreen/ViewModels/CustomerMainScreenViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "56">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

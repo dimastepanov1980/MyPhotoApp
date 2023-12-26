@@ -138,6 +138,7 @@
 
 //MARK: - Add Portfolio
 "portfolio" = "Портфолио";
+"portfolio_edit" = "Настроить портфолио";
 "save" = "Сохранить";
 "portfolio_first_name" = "Имя";
 "portfolio_last_name" = "Фамилия";

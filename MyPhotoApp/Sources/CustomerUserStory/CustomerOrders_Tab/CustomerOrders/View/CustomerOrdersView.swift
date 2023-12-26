@@ -14,23 +14,21 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
     
     @State var showDetailView = false
     @State var showEditOrderView = false
-    @Binding var showAuthenticationView: Bool
 
-    init(with viewModel: ViewModel,
-         showAuthenticationView: Binding<Bool>){
+    init(with viewModel: ViewModel){
         self.viewModel = viewModel
-        self._showAuthenticationView = showAuthenticationView
     }
     
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             orderView(userAuth: user.userType == .unspecified)
                 .navigationTitle(R.string.localizable.customer_tabs_message())
                 .background(Color(.systemBackground))
                 .scrollContentBackground(.hidden)
                 .navigationBarBackButtonHidden(true)
-                .scrollIndicators(.hidden)
-                .padding(.horizontal, 32)
+                .padding(.top)
+                .padding(.horizontal, 8)
+                .padding(.bottom, 86)
         }
     }
     
@@ -47,16 +45,16 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
             } else {
-                    ForEach(viewModel.orders, id: \.orderId) { order in
-                            CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
-                            .onTapGesture {
-                                router.push(.DetailOrderView(order: order))
-                            }
-                    }
-                    .padding(.bottom, 70)
+                ForEach(viewModel.orders.sorted(by: { $0.orderShootingDate < $1.orderShootingDate }), id: \.orderId) { order in
+                    CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
+                        .onTapGesture {
+                            router.push(.DetailOrderView(order: order))
+                        }
+                }
             }
         } else {
                 SignInSignUpButton(router: _router, user: _user)
+                .padding(.horizontal, 24)
         }
     }
 }
@@ -66,7 +64,7 @@ struct CustomerOrdersView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationStack{
-            CustomerOrdersView(with: mockModel, showAuthenticationView: .constant(false))
+            CustomerOrdersView(with: mockModel)
                 .environmentObject(UserTypeService())
         }
     }
@@ -84,7 +82,7 @@ private class MockViewModel: CustomerOrdersViewModelType, ObservableObject {
     }
     
     
-    var orders: [DbOrderModel] = [DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Umpcoming", orderShootingDate: Date(), orderShootingTime: ["11:30"], orderShootingDuration: "2", orderSamplePhotos: [""], orderMessages: nil, authorId: "", authorName: "Author", authorSecondName: "SecondName", authorLocation: "Phuket, Thailand", customerId: "", customerName: "customerName", customerSecondName: "customerSecondName", customerDescription: "Customer Description and Bla bla bla", customerContactInfo: DbContactInfo(instagramLink: "", phone: "", email: "")))]
+    var orders: [DbOrderModel] = [DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Umpcoming", orderShootingDate: Date(), orderShootingTime: ["11:30"], orderShootingDuration: "2", orderSamplePhotos: [""], orderMessages: nil, authorId: "", authorName: "Author", authorSecondName: "SecondName", authorLocation: "Phuket, Thailand", customerId: "", customerName: "customerName", customerSecondName: "customerSecondName", customerDescription: "Customer Description and Bla bla bla", customerContactInfo: ContactInfo(instagramLink: "", phone: "", email: "")))]
     
     func subscribe() async throws {}
 }

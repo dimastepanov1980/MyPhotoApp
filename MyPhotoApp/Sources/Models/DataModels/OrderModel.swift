@@ -29,8 +29,13 @@ struct OrderModel {
     var customerName: String?
     var customerSecondName: String?
     var customerDescription: String?
-    var customerContactInfo: DbContactInfo
+    var customerContactInfo: ContactInfo
+}
 
+struct ContactInfo {
+    var instagramLink: String?
+    var phone: String?
+    var email: String?
 }
 
 

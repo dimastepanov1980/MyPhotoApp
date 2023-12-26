@@ -14,19 +14,17 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
     @EnvironmentObject var user: UserTypeService
 
     @State var orderDescription: String = R.string.localizable.default_message()
-    @State var showAuthenticationCustomerView: Bool = false
 
     init(with viewModel: ViewModel) {
         self.viewModel = viewModel
     }
     var body: some View {
         if user.userType == .unspecified {
-            ViewFactory.viewForDestination(.SignInSignUpView(authType: .signIn),
-                                           showAuthenticationView: .constant(false))
+            ViewFactory.viewForDestination(.SignInSignUpView(authType: .signIn))
             
         } else {
             HStack(alignment: .top) {
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading) {
                         VStack(alignment: .leading, spacing: 12){
                             authorSection
@@ -42,7 +40,6 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                     .padding(.top)
                     
                 }
-                .scrollIndicators(.hidden)
                 .padding(.horizontal, 24)
                 .safeAreaInset(edge: .bottom) {
                     let customerIsFilled = !viewModel.customerFirstName.isEmpty && !viewModel.customerSecondName.isEmpty &&
@@ -53,7 +50,9 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                         if customerIsFilled {
                             Task{
                                 try await viewModel.createNewOrder()
-                                self.viewModel.showOrderStatusAlert = true
+                                router.push(.CustomerStatusOrderScreenView(title: viewModel.titleStatus ?? "",
+                                                                           message: viewModel.messageStatus ?? "",
+                                                                           buttonTitle: viewModel.buttonTitleStatus ?? ""))
                             }
                         }
                     }
@@ -64,16 +63,6 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: CustomBackButtonView())
-            .fullScreenCover(isPresented: $viewModel.showOrderStatusAlert) {
-                
-                CustomerStatusOrderScreenView(title: viewModel.titleStatus ?? "",
-                                              message: viewModel.messageStatus ?? "",
-                                              buttonTitle: viewModel.buttonTitleStatus ?? "") {
-                    
-                    self.viewModel.showOrderStatusAlert = false
-                    
-                }
-            }
         }
     }
     

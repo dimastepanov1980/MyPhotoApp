@@ -12,10 +12,13 @@ enum Views: Hashable {
     case RootScreenView
     case CustomerPageHubView
     case AuthorHubPageView
-    case CustomerDetailScreenView(viewModel: AuthorPortfolioModel)
+    case CustomerDetailScreenView(viewModel: AuthorPortfolioModel, date: Date)
     case PortfolioDetailScreenView(images: [String])
     case ImageDetailView(image: String)
     case CustomerConfirmOrderView(authorId: String, authorName: String, authorSecondName: String, location: String, regionAuthor : String, authorBookingDays: [String : [String]], orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String)
+    case CustomerStatusOrderScreenView(title: String,
+                                       message: String,
+                                       buttonTitle: String)
     case DetailOrderView(order: DbOrderModel)
     case AuthorAddOrderView(order: DbOrderModel?, mode: Constants.OrderMode)
     case SignInSignUpView(authType: authType)
@@ -32,13 +35,13 @@ enum Views: Hashable {
 enum ViewFactory {
     
     @MainActor @ViewBuilder
-    static func viewForDestination(_ destination: Views, showAuthenticationView: Binding<Bool>) -> some View {
+    static func viewForDestination(_ destination: Views) -> some View {
         
         switch destination {
             
 // MARK: - Both Zone
         case .RootScreenView:
-            RootScreenView(showAuthenticationView: showAuthenticationView)
+            RootScreenView()
             
         case .SignInSignUpView(let authType):
             SignInSignUpView(with: SignInSignUpViewModel(), authType: authType)
@@ -47,19 +50,22 @@ enum ViewFactory {
             ReAuthenticationView(with: ReAuthenticationViewModel())
             
         case .ProfileScreenView:
-            ProfileScreenView(with: ProfileScreenViewModel(), showAuthenticationView: showAuthenticationView)
+            ProfileScreenView(with: ProfileScreenViewModel())
         case .InformationScreenView:
             InformationScreenView()
 
 // MARK: Customer Zone-
         case .CustomerPageHubView:
-            CustomerPageHubView(showAuthenticationView: showAuthenticationView)
+            CustomerPageHubView()
         case .PortfolioDetailScreenView(let images):
             PortfolioDetailScreenView(images: images)
-        case .CustomerDetailScreenView(let viewModel):
-            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(portfolio: viewModel, startScheduleDay: Date()))
+        case .CustomerDetailScreenView(let viewModel, let date):
+            CustomerDetailScreenView(with: CustomerDetailScreenViewModel(portfolio: viewModel, startScheduleDay: date))
         case .CustomerConfirmOrderView(let authorId, let authorName, let authorSecondName, let authorLocation, let regionAuthor, let authorBookingDays, let orderDate, let orderTime, let orderDuration, let orderPrice):
             CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(authorId: authorId, authorName: authorName, authorSecondName: authorSecondName, location: authorLocation, regionAuthor: regionAuthor, authorBookingDays: authorBookingDays, orderDate: orderDate, orderTime: orderTime, orderDuration: orderDuration, orderPrice: orderPrice))
+        case .CustomerStatusOrderScreenView(let title, let message,let buttonTitle):
+            CustomerStatusOrderScreenView(title: title, message: message, buttonTitle: buttonTitle)
+            
         case .DetailOrderView(let order):
             DetailOrderView(with: DetailOrderViewModel(order: order))
         case .ImageDetailView(let image):
@@ -67,10 +73,10 @@ enum ViewFactory {
 
 // MARK: Author Zone -
         case .AuthorAddOrderView(let order, let mode):
-            AuthorAddOrderView(with: AuthorAddOrderViewModel(order: order ?? nil), mode: mode)
+            AuthorAddOrderView(with: AuthorAddOrderViewModel(order: order), mode: mode)
                 .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
         case .AuthorHubPageView:
-            AuthorHubPageView(showAuthenticationView: showAuthenticationView)
+            AuthorHubPageView()
         case .PortfolioView:
             PortfolioView(with: PortfolioViewModel())
         case .PortfolioEditView(let viewModel, let image):

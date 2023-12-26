@@ -98,12 +98,12 @@ final class UserManager {
         let query = orderCollection.whereField("author_id", isEqualTo: userId)
         let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
             if let error = error {
-                print("Error fetching documents: \(error)")
+                print("-------------------------------Error fetching documents: \(error)-------------------------------")
                 return
             }
             
             guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
-                print("No documents")
+                print("-------------------------------No documents-------------------------------")
                 return
             }
             
@@ -120,12 +120,12 @@ final class UserManager {
         
         let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
             if let error = error {
-                print("Error fetching documents: \(error)")
+                print("-------------------------------Error fetching documents: \(error)-------------------------------")
                 return
             }
             
             guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
-                print("No documents")
+                print("-------------------------------No documents-------------------------------")
                 return
             }
             
@@ -151,10 +151,32 @@ final class UserManager {
         guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
             throw URLError(.badURL)
         }
+//        let orderData: [String : Any] = [
+//            DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
+//            DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
+//        ]
         let orderData: [String : Any] = [
+//            DbOrderModel.CodingKeys.orderId.rawValue : orderId,
+//            DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),
+            DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
+//            DbOrderModel.CodingKeys.orderStatus.rawValue : "Upcoming", //R.string.localizable.status_upcoming()
+            DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
+            DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
+            DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
+//            DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? [],
+//            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages ?? [],
+             
+//            DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
+//            DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
+//            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
+//            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
+            
+            DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
+            DbOrderModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
             DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
             DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
         ]
+        
         try await orderCollection.document(orderId).updateData(orderData)
     }
  
@@ -257,7 +279,7 @@ final class UserManager {
                 .getDocuments(as: DBPortfolioModel.self)
             
             if longitudeQuerySnapshot.isEmpty {
-                print("get longitude 0.03 portoflio")
+                print("-----------------------------------get longitude 0.03 portoflio-----------------------------------")
                  longitudeQuerySnapshot = try await portfolioCollection
                     .whereField("author.longitude", isGreaterThan: longitude - 0.03 * longitude)
                     .whereField("author.longitude", isLessThan: longitude + 0.03 * longitude)
@@ -265,7 +287,7 @@ final class UserManager {
             }
             
             if longitudeQuerySnapshot.isEmpty {
-                print("get longitude 0.1 portoflio")
+                print("-----------------------------------get longitude 0.1 portoflio-----------------------------------")
                  longitudeQuerySnapshot = try await portfolioCollection
                     .whereField("author.longitude", isGreaterThan: longitude - 0.1 * longitude)
                     .whereField("author.longitude", isLessThan: longitude + 0.1 * longitude)
@@ -279,7 +301,7 @@ final class UserManager {
                 .getDocuments(as: DBPortfolioModel.self)
             
             if latitudeQuerySnapshot.isEmpty {
-                print("get latitude 0.03 portoflio")
+                print("-----------------------------------get latitude 0.03 portoflio-----------------------------------")
                 latitudeQuerySnapshot = try await portfolioCollection
                     .whereField("author.latitude", isGreaterThan: latitude - 0.03 * latitude)
                     .whereField("author.latitude", isLessThan: latitude + 0.03 * latitude)
@@ -287,7 +309,7 @@ final class UserManager {
             }
             
             if latitudeQuerySnapshot.isEmpty {
-                print("get latitude 0.1 portoflio")
+                print("-----------------------------------get latitude 0.1 portoflio-----------------------------------")
                 latitudeQuerySnapshot = try await portfolioCollection
                     .whereField("author.latitude", isGreaterThan: latitude - 0.1 * latitude)
                     .whereField("author.latitude", isLessThan: latitude + 0.1 * latitude)
@@ -303,7 +325,8 @@ final class UserManager {
                 return schedule.contains { $0.startDate <= startEventDate }
             }
             
-            print(Array(filteredPortfolios))
+            print("filteredPortfolios: \(Array(filteredPortfolios))")
+            print("commonPortfolios:  \(Array(commonPortfolios))")
             return Array(filteredPortfolios)
         } catch  {
             print(String(describing: error))
@@ -345,7 +368,7 @@ extension Query {
         
         let listener = self.addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
-                print("No documents")
+                print("-----------------------------------No documents-----------------------------------")
                 return
             }
             

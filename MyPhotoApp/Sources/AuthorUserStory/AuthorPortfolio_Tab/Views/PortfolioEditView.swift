@@ -87,6 +87,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     locationAuthor = viewModel.locationAuthor
                 }
             }
+            .navigationTitle(R.string.localizable.portfolio_edit())
+            .navigationBarTitleDisplayMode(.inline)
     }
     
   private var avatarImageSection: some View {

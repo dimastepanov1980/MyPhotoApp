@@ -35,84 +35,83 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                     imageSection
                 }
             }
-
-        .toolbar{
-            ToolbarItem(placement: .navigationBarTrailing) {
-                HStack(spacing: 20){
-                    
-                    if let portfolio = viewModel.portfolio {
+            .navigationTitle(R.string.localizable.portfolio())
+            .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack(spacing: 20){
                         
-                        PhotosPicker(selection: $selectPortfolioImages,
-                                     maxSelectionCount: 10,
-                                     matching: .any(of: [.images, .not(.videos)]),
-                                     preferredItemEncoding: .automatic,
-                                     photoLibrary: .shared()) {
-                            Image(systemName: "plus.app")
-                                .font(.headline)
-                                .fontWeight(.light)
-                                .foregroundColor(Color(R.color.gray2.name))
-                        }
-                            .onChange(of: selectPortfolioImages, perform: { images in
-                                Task {
-                                    do {
-                                        print("uploading images:")
-                                        selectPortfolioImages = []
-                                        try await viewModel.addPortfolioImages(selectedImages: images)
-                                    } catch {
-                                        print("Error uploading images: \(error)")
-                                        throw error
-                                    }
-                                }
-                            })
-                            .disabled( viewModel.portfolio?.smallImagesPortfolio.count ?? 0 > 60 )
-                        
-                        if portfolio.schedule.isEmpty {
-                            Button {
-                                router.push(.PortfolioScheduleView)
-                            } label: {
-                                Image(systemName: "calendar")
-                                    .font(.headline)
-                                    .fontWeight(.light)
-                                    .foregroundStyle(Color(R.color.gray2.name))
-                                    .overlay {
-                                        ZStack{
-                
-                                            Circle()
-                                                .frame(width: 18)
-                                                .foregroundStyle(Color(R.color.red.name))
-                                            
-                                            Text("!")
-                                                .font(.callout)
-                                                .fontWeight(.heavy)
-                                                .foregroundColor(Color(R.color.gray7.name))
-                                               
-                                        } .offset(x: 10, y: 10)
-                                    }
-                            }
-                        } else {
-                            Button {
-                                router.push(.PortfolioScheduleView)
-                            } label: {
-                                Image(systemName: "calendar")
+                        if let portfolio = viewModel.portfolio {
+                            
+                            PhotosPicker(selection: $selectPortfolioImages,
+                                         maxSelectionCount: 10,
+                                         matching: .any(of: [.images, .not(.videos)]),
+                                         preferredItemEncoding: .automatic,
+                                         photoLibrary: .shared()) {
+                                Image(systemName: "plus.app")
                                     .font(.headline)
                                     .fontWeight(.light)
                                     .foregroundColor(Color(R.color.gray2.name))
                             }
+                                         .onChange(of: selectPortfolioImages, perform: { images in
+                                             Task {
+                                                 do {
+                                                     print("uploading images:")
+                                                     selectPortfolioImages = []
+                                                     try await viewModel.addPortfolioImages(selectedImages: images)
+                                                 } catch {
+                                                     print("Error uploading images: \(error)")
+                                                     throw error
+                                                 }
+                                             }
+                                         })
+                                         .disabled( viewModel.portfolio?.smallImagesPortfolio.count ?? 0 > 60 )
+                            
+                            if portfolio.schedule.isEmpty {
+                                Button {
+                                    router.push(.PortfolioScheduleView)
+                                } label: {
+                                    Image(systemName: "calendar")
+                                        .font(.headline)
+                                        .fontWeight(.light)
+                                        .foregroundStyle(Color(R.color.gray2.name))
+                                        .overlay {
+                                            ZStack{
+                                                
+                                                Circle()
+                                                    .frame(width: 18)
+                                                    .foregroundStyle(Color(R.color.red.name))
+                                                
+                                                Text("!")
+                                                    .font(.callout)
+                                                    .fontWeight(.heavy)
+                                                    .foregroundColor(Color(R.color.gray7.name))
+                                                
+                                            } .offset(x: 10, y: 10)
+                                        }
+                                }
+                            } else {
+                                Button {
+                                    router.push(.PortfolioScheduleView)
+                                } label: {
+                                    Image(systemName: "calendar")
+                                        .font(.headline)
+                                        .fontWeight(.light)
+                                        .foregroundColor(Color(R.color.gray2.name))
+                                }
+                            }
+                        }
+                        Button {
+                            router.push(.PortfolioEditView(viewModel: viewModel.portfolio, image: viewModel.avatarImage ?? nil))
+                        } label: {
+                            Image(systemName: "pencil.line")
+                                .font(.headline)
+                                .fontWeight(.light)
+                                .foregroundColor(Color(R.color.gray2.name))
                         }
                     }
-                    Button {
-                        router.push(.PortfolioEditView(viewModel: viewModel.portfolio, image: viewModel.avatarImage ?? nil))
-                    } label: {
-                        Image(systemName: "pencil.line")
-                            .font(.headline)
-                            .fontWeight(.light)
-                            .foregroundColor(Color(R.color.gray2.name))
-                    }
+                    .padding()
                 }
-                .padding()
             }
-        }
-
         .onAppear{
             Task {
                 try await viewModel.getAuthorPortfolio()
@@ -184,7 +183,6 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                 .font(.callout)
                 .foregroundColor(Color(R.color.gray2.name))
         }
-        .padding(.top, 24)
         
     }
     private var imageSection: some View {
@@ -238,7 +236,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                                     .padding(36)
                                     .padding(.top, 120)
                                 Button {
-                                    showPortfolioEditView = true
+                                    router.push(.PortfolioEditView(viewModel: nil, image: nil))
                                 } label: {
                                     Text(R.string.localizable.portfolio_setup_portfolio_btt())
                                         .font(.headline)

@@ -11,12 +11,14 @@ import SwiftUI
 final class UserTypeService: ObservableObject {
 
     @Published var userType: Constants.UserType = .unspecified
-
+    @Published var user: DBUserModel?
+    
     func getUserType() async {
         do {
             let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
             let user = try await UserManager.shared.getUser(userId: userDataResult.uid)
-
+            self.user = user
+            
             switch user.userType {
             case "author":
                 userType = .author
@@ -29,10 +31,5 @@ final class UserTypeService: ObservableObject {
             print("UserTypeService: Error fetching user type: \(error.localizedDescription)")
         }
     }
-    
-    func setUserType() async throws {
-        //
-    }
-
 }
 

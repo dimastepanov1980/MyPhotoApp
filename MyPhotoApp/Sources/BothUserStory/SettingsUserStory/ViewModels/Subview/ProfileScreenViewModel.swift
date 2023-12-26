@@ -14,22 +14,16 @@ final class ProfileScreenViewModel: ProfileScreenViewModelType {
     @Published var user: DBUserModel?
     @Published var avatarProfile: String?
     @Published var avatarImage: UIImage? = nil
-//    @Published var dateOfBirthday: Date?
     @Published var nameCustomer: String = ""
     @Published var secondNameCustomer: String = ""
-//    @Published var descriptionCustomer: String?
     @Published var instagramLink: String = ""
     @Published var phone: String = ""
-//    @Published var email: String
-//    @Binding var profileIsShow: Bool
-
     
     init() {
         Task{
             try await loadCurrentUser()
             updatePreview()
             try await getAvatarImage(imagePath: avatarProfile ?? "")
-            print(avatarProfile)
         }
     }
     

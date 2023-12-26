@@ -17,13 +17,9 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
     @State private var selectedAvatar: PhotosPickerItem?
     @State private var isAvatarUploadInProgress = false
     @State private var loadingImage = false
-    @Binding var showAuthenticationView: Bool
 
-    init(with viewModel: ViewModel,
-         showAuthenticationView: Binding<Bool>){
+    init(with viewModel: ViewModel){
         self.viewModel = viewModel
-        self._showAuthenticationView = showAuthenticationView
-
     }
     
     var body: some View {
@@ -37,63 +33,69 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
                 
                 Spacer()
                 if user.userType != .unspecified {
-                    VStack(spacing: 20){
-                        Button {
-                            Task {
-                                do {
-                                    try viewModel.LogOut()
-                                    user.userType = .unspecified
-                                    showAuthenticationView = true
-                                    router.pop()
-                                } catch {
-                                    print(error.localizedDescription)
+                    if  !router.paths.contains(.SignInSignUpView(authType: .signUp)) {
+                        VStack(spacing: 20){
+                            Button {
+                                Task {
+                                    do {
+                                        try viewModel.LogOut()
+                                        user.userType = .unspecified
+                                        router.pop()
+                                    } catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            } label: {
+                                ZStack {
+                                    Text(R.string.localizable.signOutAccBtt())
+                                        .font(.headline)
+                                        .foregroundColor(Color(R.color.gray6.name))
+                                        .padding(8)
+                                        .padding(.horizontal, 16)
+                                        .background(Color(R.color.gray1.name))
+                                        .cornerRadius(20)
                                 }
                             }
-                        } label: {
-                            ZStack {
-                                Text(R.string.localizable.signOutAccBtt())
-                                    .font(.headline)
-                                    .foregroundColor(Color(R.color.gray6.name))
-                                    .padding(8)
-                                    .padding(.horizontal, 16)
-                                    .background(Color(R.color.gray1.name))
-                                    .cornerRadius(20)
+                            Button {
+                                router.push(.ReAuthenticationView)
+                            } label: {
+                                Text(R.string.localizable.delete_user())
+                                    .font(.footnote)
+                                    .foregroundColor(Color(R.color.gray3.name))
                             }
-                        }
-                        Button {
-                            router.push(.ReAuthenticationView)
-                        } label: {
-                            Text(R.string.localizable.delete_user())
-                                .font(.footnote)
-                                .foregroundColor(Color(R.color.gray3.name))
                         }
                     }
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: CustomBackButtonView())
             .toolbar{
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(R.string.localizable.save()) {
-                    Task {
-                        let profile: DBUserModel = DBUserModel(userId: "",
-                                                               firstName: viewModel.nameCustomer,
-                                                               secondName: viewModel.secondNameCustomer,
-                                                               instagramLink: viewModel.instagramLink,
-                                                               phone: viewModel.phone,
-                                                               email: "",
-                                                               dateCreate: nil,
-                                                               userType: nil,
-                                                               setPortfolio: false)
-
-                        try await viewModel.updateCurrentUser(profile: profile)
-                        router.popToRoot()
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(R.string.localizable.save()) {
+                        Task {
+                            let profile: DBUserModel = DBUserModel(userId: "",
+                                                                   firstName: viewModel.nameCustomer,
+                                                                   secondName: viewModel.secondNameCustomer,
+                                                                   instagramLink: viewModel.instagramLink,
+                                                                   phone: viewModel.phone,
+                                                                   email: "",
+                                                                   dateCreate: nil,
+                                                                   userType: nil,
+                                                                   setPortfolio: false)
+                            
+                            try await viewModel.updateCurrentUser(profile: profile)
+                            router.popToRoot()
+                        }
+                    }
+                    .foregroundColor(Color(R.color.gray2.name))
+                    .padding()
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    if !router.paths.contains(.SignInSignUpView(authType: .signUp)) {
+                        CustomBackButtonView()
                     }
                 }
-                .foregroundColor(Color(R.color.gray2.name))
-                .padding()
             }
-        }
+        
     }
     private var avatarImageSection: some View {
              PhotosPicker(selection: $selectedAvatar,
@@ -159,8 +161,10 @@ struct ProfileScreenView<ViewModel: ProfileScreenViewModelType>: View {
 struct ProfileScreenView_Previews: PreviewProvider {
     private static let mocData = MockViewModel()
     static var previews: some View {
-            ProfileScreenView(with: mocData, showAuthenticationView: .constant(false))
-            .environmentObject(UserTypeService())
+        NavigationStack{
+            ProfileScreenView(with: mocData)
+                .environmentObject(UserTypeService())
+        }
     }
 }
 

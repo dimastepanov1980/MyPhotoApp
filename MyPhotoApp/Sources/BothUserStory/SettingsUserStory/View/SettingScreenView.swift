@@ -10,20 +10,15 @@ import Combine
 
 struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @Binding var showAuthenticationView: Bool
-    
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
     
-    init(with viewModel: ViewModel,
-         showAuthenticationView: Binding<Bool>) {
-        
+    init(with viewModel: ViewModel) {
         self.viewModel = viewModel
-        self._showAuthenticationView = showAuthenticationView
     }
     
     var body: some View {
-            ScrollView {
+        ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 18){
                     if user.userType == .unspecified {
                         SignInSignUpButton(router: _router, user: _user)
@@ -59,6 +54,11 @@ struct SettingScreenView<ViewModel: SettingScreenViewModelType>: View {
                             Task{
                                 try await viewModel.updateUserType(userTupe: "author")
                                 user.userType = .author
+                                await user.getUserType()
+                                print("user.user?.setPortfolio \(String(describing: user.user?.setPortfolio))")
+                                if !(user.user?.setPortfolio ?? false) {
+                                    router.push(.PortfolioEditView(viewModel: nil, image: nil))
+                                }
                             }
                         case .unspecified:
                             return
@@ -108,7 +108,7 @@ struct SettingScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     static var previews: some View {
         NavigationStack{
-            SettingScreenView(with: viewModel, showAuthenticationView: .constant(false))
+            SettingScreenView(with: viewModel)
                 .environmentObject(UserTypeService())
 
         }

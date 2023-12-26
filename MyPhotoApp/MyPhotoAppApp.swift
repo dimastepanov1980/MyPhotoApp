@@ -17,17 +17,16 @@ struct MyPhotoAppApp: App {
     @ObservedObject var router = Router<Views>()
     @ObservedObject var user = UserTypeService()
 
-    @State private var showAuthenticationView: Bool = false
-
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $router.paths){
-                RootScreenView(showAuthenticationView: $showAuthenticationView)
+                RootScreenView()
                     .navigationDestination(for: Views.self){ destination in
-                        ViewFactory.viewForDestination(destination, showAuthenticationView: $showAuthenticationView)
+                        ViewFactory.viewForDestination(destination)
                     }
+                    .navigationBarBackButtonHidden()
             }
             .onAppear {
                 Task {

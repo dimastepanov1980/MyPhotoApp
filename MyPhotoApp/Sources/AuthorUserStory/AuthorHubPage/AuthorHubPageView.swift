@@ -12,9 +12,6 @@ struct AuthorHubPageView: View {
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
     
-    @Binding var showAuthenticationView: Bool
-
-    
     @State private var profileIsShow: Bool = false
     @State private var userProfileIsSet: Bool = false
     
@@ -25,38 +22,24 @@ struct AuthorHubPageView: View {
             VStack{
                 ZStack {
                     if self.index == 0 {
-                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView, statusOrder: .Upcoming)
+                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), statusOrder: .Upcoming)
+                            .toolbar(.hidden, for: .navigationBar)
+
                         
                     } else if self.index == 1 {
                         
-                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), showSignInView: $showAuthenticationView,
-                                             statusOrder: .InProgress)
+                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), statusOrder: .InProgress)
+                        .toolbar(.hidden, for: .navigationBar)
+
                     } else if self.index == 2 {
                         PortfolioView(with: PortfolioViewModel())
                     } else if self.index == 3 {
-                        SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
+                        SettingScreenView(with: SettingScreenViewModel())
                     }
                 }
                 .padding(.bottom, -40)
                 AuthorCustomTabs(index: self.$index)
             }
-        
-//            .sheet(isPresented: !profileIsShow ? $userProfileIsSet : .constant(false) ) {
-//                CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
-//                    router.push(.ProfileScreenView)
-//                        self.userProfileIsSet = false
-//                    }
-//                .presentationDetents([.fraction(0.12)])
-//            }
-//            .sheet(isPresented: !portfolioIsShow /*|| profileIsShow && userPortfolioIsSet*/ ? $userPortfolioIsSet : .constant(false) ) {
-//                CustomButtonXl(titleText: R.string.localizable.setup_your_portfolio(), iconName: "photo.on.rectangle") {
-//                    router.push(.PortfolioView)
-//
-//                    self.userPortfolioIsSet = false
-//                    self.portfolioIsShow = true
-//                }
-//                .presentationDetents([.fraction(0.12)])
-//            }
             .edgesIgnoringSafeArea(.bottom)
     }
 }
@@ -64,7 +47,7 @@ struct AuthorHubPageView: View {
 
 struct AuthorHubPageView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthorHubPageView(showAuthenticationView: .constant(false))
+        AuthorHubPageView()
     }
 }
 
