@@ -37,6 +37,7 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
     @Published var longitude: Double
     @Published var latitude: Double
     @Published var regionAuthor: String
+    @Published var schedule: [DbSchedule]
     
     init(portfolio: AuthorPortfolioModel? = nil,
          avatarImage: UIImage?
@@ -56,6 +57,7 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
         self.longitude = portfolio?.author?.longitude ?? 0.0
         self.latitude = portfolio?.author?.latitude ?? 0.0
         self.regionAuthor = portfolio?.author?.regionAuthor ?? ""
+        self.schedule = portfolio?.schedule ?? []
         
         let globalCoordinate = CLLocationCoordinate2D()
 

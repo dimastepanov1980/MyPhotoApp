@@ -47,12 +47,12 @@ final class UserManager {
     private func userDocument(authorId: String) -> DocumentReference {
         userCollection.document(authorId)
     }
-    private func userOrderCollection(authorId: String) -> CollectionReference {
-        userDocument(authorId: authorId).collection("orders")
-    }
-    private func userOrderDocument(userId: String, orderId: String) -> DocumentReference {
-        userOrderCollection(authorId: userId).document(orderId)
-    }
+//    private func userOrderCollection(authorId: String) -> CollectionReference {
+//        userDocument(authorId: authorId).collection("orders")
+//    }
+//    private func userOrderDocument(userId: String, orderId: String) -> DocumentReference {
+//        userOrderCollection(authorId: userId).document(orderId)
+//    }
     
     func createNewUser(author: DBUserModel) async throws {
         try userDocument(authorId: author.userId).setData(from: author, merge: false)
@@ -140,6 +140,9 @@ final class UserManager {
 
     func addSampleImageUrl(path: [String], orderId: String) async throws {
         try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayUnion(path)])
+    }
+    func deleteSampleImageUrl(path: String, orderId: String) async throws {
+        try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayRemove([path])])
     }
     func updateStatus(order: DbOrderModel, orderId: String) async throws {
         let orderData: [String : Any] = [
@@ -248,12 +251,10 @@ final class UserManager {
     func addAvatarToAuthorProfile(userId: String, path: String) async throws {
         try await userDocument(authorId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
     }
-//    func addAvatarToCustomerProfile(userId: String, path: String) async throws {
-//        try await customerDocument(customerId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
+
+//    func addPortfolioImagesUrl(userId: String, path: [String]) async throws {
+//        try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion(path)])
 //    }
-    func addPortfolioImagesUrl(userId: String, path: [String]) async throws {
-        try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion(path)])
-    }
     func addImageUrlToPortfolio(userId: String, path: String) async throws {
         try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion([path])])
     }

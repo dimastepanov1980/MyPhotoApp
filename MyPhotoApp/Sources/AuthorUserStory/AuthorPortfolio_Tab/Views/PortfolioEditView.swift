@@ -74,7 +74,12 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                  schedule: [DbSchedule](),
                                                  bookingDays: [:]
                                                 ))
-                                router.pop()
+                                if viewModel.schedule.isEmpty {
+                                    router.push(.PortfolioScheduleView)
+                                } else {
+                                    router.push(.PortfolioView)
+                                    router.paths = []
+                                }
                             }
                         }
                         .foregroundColor(Color(R.color.gray2.name))
@@ -297,6 +302,7 @@ struct PortfolioEditView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: ObservableObject, PortfolioEditViewModelType {
+    var schedule: [DbSchedule] = []
     var sexAuthorList: [String] = []
     var locationAuthor: String = ""
     var regionAuthor: String = ""

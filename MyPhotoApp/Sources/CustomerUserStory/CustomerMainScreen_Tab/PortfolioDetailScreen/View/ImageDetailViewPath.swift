@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ImageDetailView: View {
+struct ImageDetailViewPath: View {
     let imagePath: String
     @EnvironmentObject var router: Router<Views>
 
@@ -24,7 +24,7 @@ struct ImageDetailView: View {
     private struct AsyncImageView: View {
         let imagePath: String
         @State private var imageURL: URL?
-        @State private var image: UIImage? // New state to hold the image
+        @State private var image: UIImage?
         
         var body: some View {
             Group {
@@ -60,7 +60,6 @@ struct ImageDetailView: View {
         }
         
         private func imagePathToURL(imagePath: String) async throws -> URL {
-            // Assume you have a StorageManager.shared.getImageURL method
             try await StorageManager.shared.getImageURL(path: imagePath)
         }
     }
@@ -68,6 +67,6 @@ struct ImageDetailView: View {
 
 struct ImageDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ImageDetailView(imagePath:"")
+        ImageDetailViewPath(imagePath:"")
     }
 }

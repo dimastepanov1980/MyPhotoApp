@@ -50,7 +50,7 @@ struct PortfolioScheduleView<ViewModel: PortfolioScheduleViewModelType>: View {
                     Button(R.string.localizable.save()) {
                         Task {
                             try await viewModel.setSchedule(schedules: viewModel.schedules)
-                            router.pop()
+                            router.popToRoot()
                         }
                     }
                     .foregroundColor(Color(R.color.gray2.name))

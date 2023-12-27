@@ -102,7 +102,8 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
     func deleteReferenceImages(pathKey: String) async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         self.referenceImages.removeValue(forKey: pathKey)
-        try await UserManager.shared.deletePortfolioImage(userId: authDateResult.uid, path: pathKey)
+        try await UserManager.shared.deleteSampleImageUrl(path: pathKey, orderId: order.orderId)
+        try await StorageManager.shared.deleteSampleImageDataToFirebase(path: pathKey)
 
     }
     func returnedStatus(status: String) -> String {

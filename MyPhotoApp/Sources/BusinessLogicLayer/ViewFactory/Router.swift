@@ -25,6 +25,7 @@ enum Views: Hashable {
     case ReAuthenticationView
     case ProfileScreenView
     case PortfolioView
+    case ImageDetailViewUIImage(image: UIImage?)
     case PortfolioEditView(viewModel: AuthorPortfolioModel?, image: UIImage?)
     case PortfolioScheduleView
     case InformationScreenView
@@ -69,7 +70,7 @@ enum ViewFactory {
         case .DetailOrderView(let order):
             DetailOrderView(with: DetailOrderViewModel(order: order))
         case .ImageDetailView(let image):
-            ImageDetailView(imagePath: image)
+            ImageDetailViewPath(imagePath: image)
 
 // MARK: Author Zone -
         case .AuthorAddOrderView(let order, let mode):
@@ -79,6 +80,8 @@ enum ViewFactory {
             AuthorHubPageView()
         case .PortfolioView:
             PortfolioView(with: PortfolioViewModel())
+        case .ImageDetailViewUIImage(let image):
+            ImageDetailView(image: image)
         case .PortfolioEditView(let viewModel, let image):
             PortfolioEditView(with: PortfolioEditViewModel(portfolio: viewModel, avatarImage: image))
         case .PortfolioScheduleView:

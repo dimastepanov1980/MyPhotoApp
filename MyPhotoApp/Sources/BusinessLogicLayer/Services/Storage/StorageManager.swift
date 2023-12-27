@@ -130,6 +130,12 @@ final class StorageManager {
         }
         return ("", "")
     }
+    
+    func deleteSampleImageDataToFirebase(path: String) async throws {
+        let imagePath = storage.storage.reference(withPath: path)
+        try await imagePath.delete()
+    }
+    
     func uploadAvatarToFairbase(image: UIImage, userId: String) async throws -> (path: String, name: String) {
         guard let resizeImage = resizeImage(image: image, targetSize: CGSize(width: 240, height: 240)),
               let jpegData = resizeImage.jpegData(compressionQuality: 0.8) else {
