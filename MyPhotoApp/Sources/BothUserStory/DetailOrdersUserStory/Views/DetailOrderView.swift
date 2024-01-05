@@ -61,50 +61,51 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .padding(.horizontal)
                 }
             }
-            .toolbar{
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack{
-                        PhotosPicker(selection: $selectImages,
-                                     maxSelectionCount: 10,
-                                     matching: .any(of: [.images, .not(.videos)]),
-                                     preferredItemEncoding: .automatic,
-                                     photoLibrary: .shared()) {
-                            Image(systemName: "plus.app")
-                        }
-                                     .onChange(of: selectImages, perform: { image in
-                                                      Task {
-                                                          do {
-                                                              print("uploading images:")
-                                                              selectImages = []
-                                                              try await viewModel.addReferenceImages(selectedImages: image)
-                                                          } catch {
-                                                              print("Error uploading images: \(error)")
-                                                              throw error
-                                                          }
-                                                     }
-                                                  })
-
-                        .disabled( viewModel.smallReferenceImages.count > 20 )
-                        
-                            Button {
-                                router.push(.AuthorAddOrderView(order: viewModel.order, mode: .edit))
-                            } label: {
-                                Image(systemName: "pencil.line")
-                            }
+        .toolbar{
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack{
+                    Button {
+                        router.push(.MessagerView(title: user.userType == .author ? "\(viewModel.order.customerName ?? "") \(viewModel.order.customerSecondName ?? "")" : "\(viewModel.order.authorName ?? "") \(viewModel.order.authorSecondName ?? "")", orderId: viewModel.order.orderId))
+                    } label: {
+                        Image(systemName: "bubble.left")
                     }
-                    .foregroundColor(Color(R.color.gray2.name))
-                    .padding()
+                    
+                    PhotosPicker(selection: $selectImages,
+                                 maxSelectionCount: 10,
+                                 matching: .any(of: [.images, .not(.videos)]),
+                                 preferredItemEncoding: .automatic,
+                                 photoLibrary: .shared()) {
+                        Image(systemName: "plus.app")
+                    }
+                                 .onChange(of: selectImages, perform: { image in
+                                     Task {
+                                         do {
+                                             print("uploading images:")
+                                             selectImages = []
+                                             try await viewModel.addReferenceImages(selectedImages: image)
+                                         } catch {
+                                             print("Error uploading images: \(error)")
+                                             throw error
+                                         }
+                                     }
+                                 })
+                                 .disabled( viewModel.smallReferenceImages.count > 20 )
+                    Button {
+                        router.push(.AuthorAddOrderView(order: viewModel.order, mode: .edit))
+                    } label: {
+                        Image(systemName: "pencil.line")
+                    }                    }
+                .foregroundColor(Color(R.color.gray2.name))
+                .padding()
+            }
+        }
+        .onAppear{
+            Task {
+                if let images = viewModel.order.orderSamplePhotos {
+                    try await viewModel.getReferenceImages(imagesPath: images)
                 }
             }
-            .onAppear{
-                Task {
-                    if let images = viewModel.order.orderSamplePhotos {
-                        try await viewModel.getReferenceImages(imagesPath: images)
-                    }
-                }
-            }
-
-        
+        }
         .confirmationDialog("Change Status", isPresented: $showChangeStatusSheet) {
             ForEach(viewModel.avaibleStatus, id: \.self) { status in
                 Button(status) {
@@ -117,7 +118,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         viewModel.status = status
                         statusIsChange = true
                     }
-
+                    
                 }
             }
         }
@@ -126,9 +127,9 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         ) {
             HStack{
                 Button("Cancel", role: .cancel) {
-
+                    
                 }
-
+                
                 Button("Ok", role: .destructive) {
                     Task {
                         do{
@@ -142,10 +143,10 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         } catch {
                             throw error
                         }
-                     
+                        
                     }
                 }
-               
+                
             }
         }
         .onChange(of: statusIsChange) { _ in
@@ -445,7 +446,7 @@ private class MockViewModel: DetailOrderViewModelType, ObservableObject {
                                                              orderShootingTime: ["11:30"],
                                                              orderShootingDuration: "2",
                                                              orderSamplePhotos: [""],
-                                                             orderMessages: nil,
+                                                             orderMessages: false,
                                                              authorId: "",
                                                              authorName: "authorName",
                                                              authorSecondName: "authorSecondName",

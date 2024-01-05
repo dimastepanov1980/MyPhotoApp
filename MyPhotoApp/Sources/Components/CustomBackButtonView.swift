@@ -16,7 +16,7 @@ struct CustomBackButtonView: View {
             router.pop()
         } label: {
             Image(systemName: "chevron.left.circle.fill")// set image here
-               .font(.title)
+               .font(.title2)
                .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.5))
         }
     }

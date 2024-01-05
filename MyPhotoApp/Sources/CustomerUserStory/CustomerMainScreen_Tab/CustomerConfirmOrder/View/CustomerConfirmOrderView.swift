@@ -112,7 +112,7 @@ struct CustomerConfirmOrderView<ViewModel: CustomerConfirmOrderViewModelType>: V
                     Image(systemName: "calendar")
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray1.name))
-                    Text(viewModel.formattedDate(date: viewModel.orderDate, format: "dd MMMM"))
+                    Text(viewModel.formattedDate(date: viewModel.orderDate, format: "dd MMMM YYYY"))
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray3.name))
                 }

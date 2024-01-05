@@ -29,7 +29,8 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         createAppointments(schedule: portfolio.schedule, startMyTripDate: startScheduleDay, bookingDays: portfolio.bookingDays ?? [:] )
         Task{
             try await getAvatarImage(imagePath: portfolio.avatarAuthor)
-        }    }
+        }
+    }
     
     func getMinPrice(appointmen: [DbSchedule]){
         var arrayPrices: [Int] = []
@@ -84,7 +85,8 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
                     while currentTime <= calendar.date(bySettingHour: endHour, minute: endMinute, second: 0, of: currentDate)! {
                         let currentDayString = dateFormatter.string(from: currentTime)
                         let timeSlot = timeFormatter.string(from: currentTime)
-                        
+                        print("--------------------booking Day: \(bookingDays) currentDayString \(currentDayString)-----------------------")
+
                         if let selectedTimeSlot = bookingDays[currentDayString] {
                             print("Current Day: \(currentDayString) existans Time Slot: \(selectedTimeSlot), Current Time Slot: \(timeSlot)")
                             if !selectedTimeSlot.contains(where: { $0 == timeSlot }) {

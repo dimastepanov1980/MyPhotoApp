@@ -8,16 +8,6 @@
 import Foundation
 
 struct AuthorPortfolioModel: Hashable {
-    
-    func hash(into hasher: inout Hasher) {
-         hasher.combine(id)
-         
-     }
-
-     static func == (lhs: AuthorPortfolioModel, rhs: AuthorPortfolioModel) -> Bool {
-         return lhs.id == rhs.id
-     }
-    
     let id: String
     let author: DBAuthor?
     let avatarAuthor: String
@@ -40,6 +30,15 @@ struct AuthorPortfolioModel: Hashable {
         self.schedule = portfolio.schedule ?? []
         self.bookingDays = portfolio.bookingDays ?? [:]
     }
+    
+    func hash(into hasher: inout Hasher) {
+         hasher.combine(id)
+         
+     }
+
+     static func == (lhs: AuthorPortfolioModel, rhs: AuthorPortfolioModel) -> Bool {
+         return lhs.id == rhs.id
+     }
 }
 
 struct AuthorModel {

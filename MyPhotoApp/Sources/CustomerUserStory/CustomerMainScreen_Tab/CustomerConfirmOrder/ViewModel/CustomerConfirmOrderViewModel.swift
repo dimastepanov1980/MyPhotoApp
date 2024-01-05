@@ -75,10 +75,13 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
  
     }
     func createNewOrder() async throws {
+        print(orderDate)
+        print(orderTime)
+        print(orderDuration)
         var successBooking: Bool = false
         let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
         let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
-        let orderData: OrderModel = OrderModel(orderId: UUID().uuidString,
+        let orderData: OrderModel = OrderModel(orderId: "",
                                                orderCreateDate: Date(),
                                                orderPrice: orderPrice,
                                                orderStatus: "upcoming",
@@ -86,7 +89,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                orderShootingTime: orderTime,
                                                orderShootingDuration: orderDuration,
                                                orderSamplePhotos: [],
-                                               orderMessages: [],
+                                               orderMessages: true,
                                                authorId: authorId,
                                                authorName: authorName,
                                                authorSecondName: authorSecondName,
@@ -142,7 +145,8 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
             self.messageStatus = R.string.localizable.order_created_message()
             self.buttonTitleStatus = R.string.localizable.order_created_button()
             print("Success! You have booked the selected date and time.")
-            try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
+            let orderId = try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
+            try await UserManager.shared.createNewChat(orderId: orderId, authorId: authorId, customerId: customer.userId)
         }
     }
 

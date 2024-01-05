@@ -13,6 +13,7 @@ enum Views: Hashable {
     case CustomerPageHubView
     case AuthorHubPageView
     case CustomerDetailScreenView(viewModel: AuthorPortfolioModel, date: Date)
+    case MessagerView(title: String, orderId: String)
     case PortfolioDetailScreenView(images: [String])
     case ImageDetailView(image: String)
     case CustomerConfirmOrderView(authorId: String, authorName: String, authorSecondName: String, location: String, regionAuthor : String, authorBookingDays: [String : [String]], orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String)
@@ -43,7 +44,8 @@ enum ViewFactory {
 // MARK: - Both Zone
         case .RootScreenView:
             RootScreenView()
-            
+        case .MessagerView(let title, let orderId):
+            MessagerView(with: MessagerViewModel(orderId: orderId), navigationTitle: title)
         case .SignInSignUpView(let authType):
             SignInSignUpView(with: SignInSignUpViewModel(), authType: authType)
             

@@ -90,7 +90,7 @@ private class MockViewModelHCell: ObservableObject {
                                                                      orderShootingTime: [""],
                                                                      orderShootingDuration: "1",
                                                                      orderSamplePhotos: [],
-                                                                     orderMessages: [],
+                                                                     orderMessages: true,
                                                                      authorId: "",
                                                                      authorName: "",
                                                                      authorSecondName: "",

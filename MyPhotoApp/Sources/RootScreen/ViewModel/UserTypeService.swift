@@ -12,12 +12,14 @@ final class UserTypeService: ObservableObject {
 
     @Published var userType: Constants.UserType = .unspecified
     @Published var user: DBUserModel?
+    @Published var userID: String?
     
     func getUserType() async {
         do {
             let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
             let user = try await UserManager.shared.getUser(userId: userDataResult.uid)
             self.user = user
+            self.userID = userDataResult.uid
             
             switch user.userType {
             case "author":

@@ -18,7 +18,7 @@ struct DbOrderModel: Codable, Hashable {
     let orderShootingTime: [String]?
     let orderShootingDuration: String?
     let orderSamplePhotos: [String]?
-    let orderMessages: [DbMessage]?
+    let orderMessages: Bool
     
     let authorId: String?
     let authorName: String?
@@ -41,7 +41,7 @@ struct DbOrderModel: Codable, Hashable {
         self.orderShootingDate = try container.decode(Date.self, forKey: .orderShootingDate)
         self.orderShootingTime = try container.decodeIfPresent([String].self, forKey: .orderShootingTime)
         self.orderShootingDuration = try container.decodeIfPresent(String.self, forKey: .orderShootingDuration)
-        self.orderMessages = try container.decodeIfPresent([DbMessage].self, forKey: .orderMessages)
+        self.orderMessages = try container.decode(Bool.self, forKey: .orderMessages)
         self.orderSamplePhotos = try container.decodeIfPresent([String].self, forKey: .orderSamplePhotos)
 
         self.authorId = try container.decodeIfPresent(String.self, forKey: .authorId)

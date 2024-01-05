@@ -23,7 +23,10 @@ final class UserManager {
         return decoder
     }()
     private var listenerRegistration: ListenerRegistration?
+    
     private let orderCollection = Firestore.firestore().collection("orders")
+    private let messageCollection = Firestore.firestore().collection("messages")
+    private let userCollection = Firestore.firestore().collection("users")
 
     func updateProfileData(userId: String, profile: DBUserModel) async throws {
        
@@ -42,17 +45,14 @@ final class UserManager {
 
     
     //MARK: - Author Section
-    private let userCollection = Firestore.firestore().collection("users")
     
     private func userDocument(authorId: String) -> DocumentReference {
         userCollection.document(authorId)
     }
-//    private func userOrderCollection(authorId: String) -> CollectionReference {
-//        userDocument(authorId: authorId).collection("orders")
-//    }
-//    private func userOrderDocument(userId: String, orderId: String) -> DocumentReference {
-//        userOrderCollection(authorId: userId).document(orderId)
-//    }
+    
+    private func chatDocumentForOrder(orderId: String) -> DocumentReference {
+        messageCollection.document(orderId)
+    }
     
     func createNewUser(author: DBUserModel) async throws {
         try userDocument(authorId: author.userId).setData(from: author, merge: false)
@@ -62,10 +62,9 @@ final class UserManager {
     }
     
     //MARK: - NEW Query Orders
-    func addNewOrder(userId: String, order: DbOrderModel) async throws {
+    func addNewOrder(userId: String, order: DbOrderModel) async throws -> String {
         let customerOrder = orderCollection.document()
         let orderId = customerOrder.documentID
-        
         guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
             throw URLError(.badURL)
         }
@@ -78,8 +77,8 @@ final class UserManager {
             DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
             DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? [],
-            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages ?? [],
-             
+            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages,
+            
             DbOrderModel.CodingKeys.authorId.rawValue :  order.authorId ?? "",
             DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
             DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
@@ -93,7 +92,9 @@ final class UserManager {
             DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
         ]
         try await customerOrder.setData(orderData, merge: false)
+        return orderId
     }
+    
     func subscribeAuthorOrders(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
         let query = orderCollection.whereField("author_id", isEqualTo: userId)
         let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
@@ -134,10 +135,90 @@ final class UserManager {
             }
             completion(orders)
         }
-        
         return listenerRegistration
     }
+    func createNewChat(orderId: String, authorId: String, customerId: String) async throws {
+        let chatData: [String : Any] = [
+            DBMessagerModel.CodingKeys.id.rawValue : orderId,
+            DBMessagerModel.CodingKeys.authorId.rawValue : authorId,
+            DBMessagerModel.CodingKeys.customerId.rawValue : customerId,
+            DBMessagerModel.CodingKeys.messages.rawValue : []
+            ]
+            
+        do {
+            try await chatDocumentForOrder(orderId: orderId).setData(chatData, merge: false)
+        } catch {
+            print(error.localizedDescription)
+        }
+       
+    }
+    func addNewMessage(orderId: String, message: DBMessageModel) async throws {
+        let chatData: [String : Any] = [
+            DBMessageModel.CodingKeys.id.rawValue : message.id,
+            DBMessageModel.CodingKeys.isViewed.rawValue : message.isViewed,
+            DBMessageModel.CodingKeys.message.rawValue : message.message,
+            DBMessageModel.CodingKeys.timestamp.rawValue : message.timestamp,
+            DBMessageModel.CodingKeys.recived.rawValue : message.recived
+        ]
+        try await chatDocumentForOrder(orderId: orderId).updateData([DBMessagerModel.CodingKeys.messages.rawValue : FieldValue.arrayUnion([chatData])])
 
+    }
+    func subscribeMessage(orderId: String, completion: @escaping (DBMessagerModel) -> Void) -> ListenerRegistration {
+       return messageCollection.document(orderId).addSnapshotListener { querySnapshot, error in
+            guard let querySnapshot = querySnapshot else {
+                print("No documents---\(String(describing: error?.localizedDescription))----------------------------")
+                return
+            }
+            do {
+              let message = try querySnapshot.data(as: DBMessagerModel.self)
+                completion(message)
+                print(message)
+            } catch {
+                print(error.localizedDescription)
+                return
+            }
+            
+        }
+    }
+    
+    func subscribeMessageCustomer(id: String, completion: @escaping ([DBMessagerModel]) -> Void) -> ListenerRegistration {
+        let query = messageCollection.whereField("customer_id", isEqualTo: id)
+        
+        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("-------------------------------Error fetching documents: \(error)-------------------------------")
+                return
+            }
+            
+            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
+                print("No documents---\(error?.localizedDescription)----------------------------")
+                return
+            }
+            let message = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                
+                try? queryDocumentSnapshot.data(as: DBMessagerModel.self)
+            }
+            print("message: \(message), orderId: \(id), querySnapshot: \(querySnapshot.count)")
+            completion(message)
+        }
+        return listenerRegistration
+    }
+    func subscribeMessageAuthor(id: String, completion: @escaping ([DBMessagerModel]) -> Void) -> ListenerRegistration {
+        let query = messageCollection.whereField("author_id", isEqualTo: id)
+        
+        return query.addSnapshotListener { querySnapshot, error in
+            let message = querySnapshot?.documents.compactMap { documents -> DBMessagerModel? in
+                    do {
+                        return try documents.data(as: DBMessagerModel.self)
+                    } catch {
+                        print(error.localizedDescription)
+                        return nil
+                    }
+                }
+            completion(message!)
+
+        }
+    }
     func addSampleImageUrl(path: [String], orderId: String) async throws {
         try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayUnion(path)])
     }
@@ -154,32 +235,16 @@ final class UserManager {
         guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
             throw URLError(.badURL)
         }
-//        let orderData: [String : Any] = [
-//            DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
-//            DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
-//        ]
         let orderData: [String : Any] = [
-//            DbOrderModel.CodingKeys.orderId.rawValue : orderId,
-//            DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),
             DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-//            DbOrderModel.CodingKeys.orderStatus.rawValue : "Upcoming", //R.string.localizable.status_upcoming()
             DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
             DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
-//            DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? [],
-//            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages ?? [],
-             
-//            DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
-//            DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
-//            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
-//            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
-            
             DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
             DbOrderModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
             DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
             DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
         ]
-        
         try await orderCollection.document(orderId).updateData(orderData)
     }
  
@@ -187,11 +252,9 @@ final class UserManager {
     func addNewBookingDays(userId: String, selectedDay: String, selectedTimes: [String]) async throws {
         try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : selectedTimes])
          }
-
     func addTimeSlotForBookingDay(userId: String, selectedDay: String, selectedTime: String) async throws {
         try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : FieldValue.arrayUnion([selectedTime])])
     }
-    
     func removeTimeSlotFromBookingDay(userId: String, selectedDay: String, selectedTime: String) async throws {
         try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : FieldValue.arrayRemove([selectedTime])])
     }
@@ -251,10 +314,6 @@ final class UserManager {
     func addAvatarToAuthorProfile(userId: String, path: String) async throws {
         try await userDocument(authorId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
     }
-
-//    func addPortfolioImagesUrl(userId: String, path: [String]) async throws {
-//        try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion(path)])
-//    }
     func addImageUrlToPortfolio(userId: String, path: String) async throws {
         try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion([path])])
     }
@@ -343,7 +402,6 @@ final class UserManager {
 }
 
 extension Query {
-    
     func getDocuments<T>(as type: T.Type) async throws -> [T] where T : Decodable {
         try await getDocumentsWithSnapshot(as: type).products
     }

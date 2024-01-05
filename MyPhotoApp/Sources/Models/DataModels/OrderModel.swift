@@ -17,7 +17,7 @@ struct OrderModel {
     var orderShootingTime: [String]?
     var orderShootingDuration: String
     var orderSamplePhotos: [String]
-    var orderMessages: [DbMessage]?
+    var orderMessages: Bool
     
     var authorId: String?
     var authorName: String?

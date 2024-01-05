@@ -12,25 +12,15 @@ import SwiftUI
 @MainActor
 final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObject {
     
-    @Published  var userIsAuth: Bool = true
     @Published var orders: [DbOrderModel]
     private var listenerRegistration: ListenerRegistration?
 
     init(orders: [DbOrderModel] = []) {
         self.orders = orders
         Task {
-            self.userIsAuth = try await getUser()
             print("init CustomerOrdersViewModel")
             try await subscribe()
         }
-    }
-    
-
-    func getUser() async throws -> Bool {
-        if let _ = try? AuthNetworkService.shared.getAuthenticationUser() {
-           return true
-        }
-        return false
     }
     
     func orderStausColor (order: String?) -> Color {
@@ -67,7 +57,6 @@ final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObje
         }
         return R.string.localizable.status_upcoming()
     }
-    
     func subscribe() async throws {
         let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
         print("subscribe to Customer: \(authDateResult)")

@@ -160,7 +160,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
             textField(fieldName: R.string.localizable.portfolio_location(), propertyName: $locationAuthor)
             
             ForEach(viewModel.locationResult) { result in
-                if locationAuthor != result.city {
+                if locationAuthor != result.location {
                     VStack(alignment: .leading){
                         Text(result.city)
                             .font(.subheadline)
@@ -176,7 +176,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                     .onTapGesture {
                         print("before \(locationAuthor)")
                         
-                        self.locationAuthor = result.city
+                        self.locationAuthor = result.location
                         viewModel.latitude = result.latitude
                         viewModel.longitude = result.longitude
                         

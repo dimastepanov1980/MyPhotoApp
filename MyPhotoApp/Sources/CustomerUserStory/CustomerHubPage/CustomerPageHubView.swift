@@ -55,10 +55,6 @@ struct CustomerPageHubView: View {
                     }
                 }
             }
-            .onAppear{
-                print("userType CustomerPageHubView: \(user.userType)")
-                print("router CustomerPageHubView: \(router.paths.count)")
-            }
         .sheet(isPresented: $profileIsShown) {
             CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
                 self.profileIsShown = true
@@ -67,9 +63,6 @@ struct CustomerPageHubView: View {
             .padding(.horizontal)
             .presentationDetents([.fraction(0.12)])
         }
-//        .navigationDestination(isPresented: $profileIsShown) {
-//            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown), showAuthenticationView: $showAuthenticationView)
-//        }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
             Task{

@@ -10,7 +10,7 @@ import FirebaseCore
 import AppTrackingTransparency
 import FBSDKCoreKit
 import CoreLocation
-
+import UserNotifications
 
 @main
 struct MyPhotoAppApp: App {
@@ -30,7 +30,6 @@ struct MyPhotoAppApp: App {
             }
             .onAppear {
                 Task {
-                    
                     await user.getUserType()
                 }
             }

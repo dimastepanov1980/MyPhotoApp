@@ -17,6 +17,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     var location = LocationService()
     private var cancellables = Set<AnyCancellable>()
     private var listenerRegistration: ListenerRegistration?
+    private var listenerRegistrationMessages: ListenerRegistration?
     @Published private var user: DBUserModel?
     var filteredOtherOrders: [Date : [DbOrderModel]]  {
         var filteredOrders = [Date : [DbOrderModel]]()
@@ -93,10 +94,10 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         
         Task {
             try await subscribe()
-            try await checkProfileAndPortfolio()
         }
     }
     
+
 
     func fetchWeather(with location: CLLocation) {
         let longitude = location.coordinate.longitude.description
@@ -110,7 +111,7 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
                 let weather = try await WeatherManager.shared.fetcWeather(lat: latitude, lon: longitude, exclude: "minutely,hourly,alerts")
                 let weatherForAllDay = weather.daily
                 let weatherForCurrentDay = weather.current.weather.first?.icon
-                print("weatherForCurrentDay: \(weatherForCurrentDay)")
+                print("weatherForCurrentDay: \(String(describing: weatherForCurrentDay))")
 
                 (0...14).forEach { day in
                     let dayOfWeek = calendar.date(byAdding: .day, value: day, to: today)!
@@ -157,38 +158,10 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         listenerRegistration = UserManager.shared.subscribeAuthorOrders(userId: authDateResult.uid, completion: { orders in
             self.orders = orders
         })
+        listenerRegistrationMessages = UserManager.shared.subscribeMessageAuthor(id: authDateResult.uid) { message in
+        print("listenerRegistrationMessages: \(message)")
+        }
         print("get orders from subscribe to Author \(authDateResult): \(orders)")
-    }
-    func checkProfileAndPortfolio() async throws {
-        
-        if user?.avatarUser?.isEmpty ?? true {
-            self.userProfileIsSet = true
-            print("Set up your avatarUser")
-        }
-
-        if user?.firstName?.isEmpty ?? true {
-            self.userProfileIsSet = true
-            print("Set up your firstName")
-        }
-
-        if user?.secondName?.isEmpty ?? true {
-            self.userProfileIsSet = true
-            print("Set up your secondName")
-        }
-
-        if (user?.phone?.isEmpty ?? true) {
-            self.userProfileIsSet = true
-            print("Set up your contacts - Phone")
-        }
-        if (user?.instagramLink?.isEmpty ?? true) {
-            self.userProfileIsSet = true
-            print("Set up your contacts - instagram Link")
-        }
-
-        if user?.setPortfolio == false {
-            self.userPortfolioIsSet = true
-            print("Set up your portfolio")
-        }
     }
 
     func orderStausColor (order: String?) -> Color {

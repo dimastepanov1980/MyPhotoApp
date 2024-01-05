@@ -264,7 +264,7 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
                                                                   orderShootingTime: [""],
                                                                   orderShootingDuration: "1",
                                                                   orderSamplePhotos: [],
-                                                                  orderMessages: [],
+                                                                  orderMessages: true,
                                                                   authorId: "",
                                                                   authorName: "",
                                                                   authorSecondName: "",

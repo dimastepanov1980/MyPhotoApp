@@ -97,7 +97,7 @@ private class MockViewModelVCell: ObservableObject {
                                                  orderShootingTime: ["11:30", "12:30", "09:30"],
                                                  orderShootingDuration: "2",
                                                  orderSamplePhotos: [],
-                                                 orderMessages: [],
+                                                 orderMessages: true,
                                                  authorId: "",
                                                  authorName: "Boby",
                                                  authorSecondName: "Jungel",
