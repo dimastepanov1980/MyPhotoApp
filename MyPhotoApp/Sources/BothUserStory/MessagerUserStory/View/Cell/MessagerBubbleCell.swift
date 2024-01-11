@@ -15,9 +15,9 @@ struct MessagerBubbleCell: View {
     var vAlignment: HorizontalAlignment {
         switch user.userType {
         case .author:
-            return item.received ? .leading : .trailing
+            return !item.senderIsAuthor ? .leading : .trailing
         case .customer:
-            return !item.received ? .leading : .trailing
+            return item.senderIsAuthor ? .leading : .trailing
         case .unspecified:
             return .leading
         }
@@ -26,9 +26,9 @@ struct MessagerBubbleCell: View {
     var alignment: Alignment {
         switch user.userType {
         case .author:
-            return item.received ? .leading : .trailing
+            return !item.senderIsAuthor ? .leading : .trailing
         case .customer:
-            return !item.received ? .leading : .trailing
+            return item.senderIsAuthor ? .leading : .trailing
         case .unspecified:
             return .leading
         }
@@ -39,8 +39,8 @@ struct MessagerBubbleCell: View {
             HStack {
                 Text("\(item.message)")
                     .font(.callout)
-                    .foregroundColor(item.received ? Color(R.color.gray1.name) : Color(R.color.gray1.name))
-                    .frame(alignment: user.userType == .customer && item.received ? .leading : .trailing)
+                    .foregroundColor(!item.senderIsAuthor ? Color(R.color.gray1.name) : Color(R.color.gray1.name))
+                    .frame(alignment: user.userType == .author && item.senderIsAuthor ? .leading : .trailing)
                 
                     .padding(.horizontal, 18)
                     .padding(.top, 8)
@@ -48,8 +48,8 @@ struct MessagerBubbleCell: View {
                     .background(
                         ZStack{
                             Rectangle()
-                                .fill(item.received ? Color(R.color.gray6.name) : Color(R.color.gray4.name))
-                                .cornerRadius(20, corners: item.received ? [.topRight, .bottomRight, .bottomLeft] : [.topLeft, .topRight, .bottomLeft] )
+                                .fill(!item.senderIsAuthor ? Color(R.color.gray6.name) : Color(R.color.gray4.name))
+                                .cornerRadius(20, corners: !item.senderIsAuthor ? [.topRight, .bottomRight, .bottomLeft] : [.topLeft, .topRight, .bottomLeft] )
                             Text(formattedDate(date: item.timestamp, format: "hh:mm"))
                                 .frame(minWidth: 0, idealWidth: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, idealHeight: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .bottomTrailing)
                                 .font(.system(size: 9).italic())
@@ -81,4 +81,4 @@ var messageMoc: MessageModel = MessageModel(id: UUID().uuidString,
                                               message: "Secure your Firebase database with custom security rules by following this comprehensive tutorial. Learn how to restrict access, prevent unauthorized modifications, and protect sensitive data in your app. Watch now to get started!",
                                               timestamp: Date(),
                                               isViewed: false,
-                                              recived: false)
+                                            senderIsAuthor: false)

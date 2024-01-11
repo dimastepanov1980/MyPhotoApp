@@ -221,7 +221,7 @@
 					<key>StartingLineNumber</key>
 					<string>102</string>
 					<key>Timestamp</key>
-					<string>725708074.11105</string>
+					<string>726625991.689437</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -251,6 +251,100 @@
 			</dict>
 			<key>title</key>
 			<string>Переделать запрос на получения пользователя из userType</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>98</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>97</string>
+					<key>Timestamp</key>
+					<string>726223501.909011</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>MyPhotoApp/MyPhotoApp/MyPhotoAppApp.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>        NotificationCenter.default.post(name: Notification.Name("Constants.FCM_TOKEN"), object: fcmToken, userInfo: deviceToken)
+</string>
+				<key>leading</key>
+				<string>      let deviceToken:[String: String] = ["token": fcmToken ?? ""]
+        print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
+</string>
+				<key>trailing</key>
+				<string>        UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
+    }
+}
+</string>
+			</dict>
+			<key>title</key>
+			<string>сделаь структурку Constants.FCM_TOKEN</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>33</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>32</string>
+					<key>Timestamp</key>
+					<string>726571933.704646</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>MyPhotoApp/MyPhotoApp/Sources/BothUserStory/MessagerUserStory/View/MessagerView.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>                /*
+</string>
+				<key>leading</key>
+				<string>                .padding(.top)
+                .padding(.horizontal, 8)
+</string>
+				<key>trailing</key>
+				<string>                Text(String(messageCount ?? 0))
+                    .onAppear(perform: {
+                        switch user.userType {
+</string>
+			</dict>
+			<key>title</key>
+			<string>Выводить бейдж с непрочитанными сообщениями</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

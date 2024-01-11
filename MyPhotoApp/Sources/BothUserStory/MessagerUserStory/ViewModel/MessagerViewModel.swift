@@ -12,7 +12,7 @@ import SwiftUI
 
 @MainActor
 final class MessagerViewModel: MessagerViewModelType {
-    @Published var getMessage: MessagerModel?
+    @Published var getMessage: [MessageModel]?
     @Published var orderId: String
     private var listenerRegistration: ListenerRegistration?
     
@@ -23,19 +23,24 @@ final class MessagerViewModel: MessagerViewModelType {
     
     func subscribe() {
         listenerRegistration = UserManager.shared.subscribeMessage(orderId: orderId) { message in
-            self.getMessage = MessagerModel(item: message)
+            self.getMessage = message.map { MessageModel(message: $0) }.sorted(by: { $0.timestamp < $1.timestamp })
         }
     }
-   
-    func subscribeAuthor() {
-        listenerRegistration = UserManager.shared.subscribeMessageAuthor(id: orderId) { message in
-//            self.getMessage = MessagerModel(item: message)
+    
+    func messageViewed(messages: [MessageModel]) async throws {
+        for message in messages {
+            do {
+                try await UserManager.shared.messageViewed(orderId: orderId, messageID: message.id)
+            } catch {
+                print(error.localizedDescription)
+            }
         }
     }
     
     func addNewMessage(message: MessageModel) async throws {
         do {
             try await UserManager.shared.addNewMessage(orderId: orderId, message: DBMessageModel(message: message))
+            print(message)
         } catch {
             print(error.localizedDescription)
         }

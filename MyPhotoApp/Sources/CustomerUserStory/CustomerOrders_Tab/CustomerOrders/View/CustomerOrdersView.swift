@@ -45,8 +45,17 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
             } else {
+//                ForEach(viewModel.orders.sorted(by: { $0.orderShootingDate < $1.orderShootingDate }), id: \.orderId) { order in
+//                        CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""),
+//                                              status: viewModel.orderStausName(status: order.orderStatus ?? ""))
+//                            .onTapGesture {
+//                                router.push(.DetailOrderView(order: order, messages: viewModel.getMessages?[order.orderId] ?? []))
+//                            }
+//                }
                 ForEach(viewModel.orders.sorted(by: { $0.orderShootingDate < $1.orderShootingDate }), id: \.orderId) { order in
-                    CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""), status: viewModel.orderStausName(status: order.orderStatus ?? ""))
+                    CustomerOrderCellView(items: order, 
+                                          statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""),
+                                          status: viewModel.orderStausName(status: order.orderStatus ?? ""))
                         .onTapGesture {
                             router.push(.DetailOrderView(order: order))
                         }
@@ -71,15 +80,14 @@ struct CustomerOrdersView_Previews: PreviewProvider {
 }
 
 private class MockViewModel: CustomerOrdersViewModelType, ObservableObject {
+    var getMessages: [String : [MessageModel]]?
+    func subscribeMessageCustomer() async throws {}
     func orderStausColor(order: String?) -> Color {
         Color.brown
     }
-    
     func orderStausName(status: String?) -> String {
         "Upcoming"
     }
-    
-    
     var orders: [DbOrderModel] = [DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Umpcoming", orderShootingDate: Date(), orderShootingTime: ["11:30"], orderShootingDuration: "2", orderSamplePhotos: [""], orderMessages: true, authorId: "", authorName: "Author", authorSecondName: "SecondName", authorLocation: "Phuket, Thailand", customerId: "", customerName: "customerName", customerSecondName: "customerSecondName", customerDescription: "Customer Description and Bla bla bla", customerContactInfo: ContactInfo(instagramLink: "", phone: "", email: "")))]
     
     func subscribe() async throws {}

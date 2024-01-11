@@ -11,13 +11,11 @@ struct MessagerModel: Codable, Identifiable {
     var id: String
     var authorId: String
     var customerId: String
-    var messages: [DBMessageModel]
     
     init(item: DBMessagerModel) {
         self.id = item.id
         self.authorId = item.authorId
         self.customerId = item.customerId
-        self.messages = item.messages
     }
 }
 
@@ -27,21 +25,21 @@ struct MessageModel: Codable, Identifiable, Hashable {
     var message: String
     var timestamp: Date
     var isViewed: Bool
-    var received: Bool
+    var senderIsAuthor: Bool
     
-    init(id: String, message: String, timestamp: Date, isViewed: Bool, recived: Bool) {
+    init(id: String, message: String, timestamp: Date, isViewed: Bool, senderIsAuthor: Bool) {
         self.id = id
         self.message = message
         self.timestamp = timestamp
         self.isViewed = isViewed
-        self.received = recived
+        self.senderIsAuthor = senderIsAuthor
     }
     init(message: DBMessageModel) {
         self.id = message.id
         self.message = message.message
         self.timestamp = message.timestamp
         self.isViewed = message.isViewed
-        self.received = message.recived
+        self.senderIsAuthor = message.senderIsAuthor
     }
     
     func hash(into hasher: inout Hasher) {

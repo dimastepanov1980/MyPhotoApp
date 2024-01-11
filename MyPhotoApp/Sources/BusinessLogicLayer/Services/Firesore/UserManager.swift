@@ -25,7 +25,7 @@ final class UserManager {
     private var listenerRegistration: ListenerRegistration?
     
     private let orderCollection = Firestore.firestore().collection("orders")
-    private let messageCollection = Firestore.firestore().collection("messages")
+    private let chatCollection = Firestore.firestore().collection("chats")
     private let userCollection = Firestore.firestore().collection("users")
 
     func updateProfileData(userId: String, profile: DBUserModel) async throws {
@@ -51,7 +51,7 @@ final class UserManager {
     }
     
     private func chatDocumentForOrder(orderId: String) -> DocumentReference {
-        messageCollection.document(orderId)
+        chatCollection.document(orderId)
     }
     
     func createNewUser(author: DBUserModel) async throws {
@@ -60,7 +60,9 @@ final class UserManager {
     func getUser(userId: String) async throws -> DBUserModel {
         return try await userDocument(authorId: userId).getDocument(as: DBUserModel.self)
     }
-    
+    func updateToken(userId: String, token: String) async throws {
+        try? await userDocument(authorId: userId).updateData([ DBUserModel.CodingKeys.token.rawValue : token ])
+    }
     //MARK: - NEW Query Orders
     func addNewOrder(userId: String, order: DbOrderModel) async throws -> String {
         let customerOrder = orderCollection.document()
@@ -94,7 +96,6 @@ final class UserManager {
         try await customerOrder.setData(orderData, merge: false)
         return orderId
     }
-    
     func subscribeAuthorOrders(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
         let query = orderCollection.whereField("author_id", isEqualTo: userId)
         let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
@@ -142,9 +143,7 @@ final class UserManager {
             DBMessagerModel.CodingKeys.id.rawValue : orderId,
             DBMessagerModel.CodingKeys.authorId.rawValue : authorId,
             DBMessagerModel.CodingKeys.customerId.rawValue : customerId,
-            DBMessagerModel.CodingKeys.messages.rawValue : []
             ]
-            
         do {
             try await chatDocumentForOrder(orderId: orderId).setData(chatData, merge: false)
         } catch {
@@ -153,72 +152,119 @@ final class UserManager {
        
     }
     func addNewMessage(orderId: String, message: DBMessageModel) async throws {
-        let chatData: [String : Any] = [
-            DBMessageModel.CodingKeys.id.rawValue : message.id,
+        let newMessageDocument = orderCollection.document(orderId).collection("messages").document()
+        let messageId = newMessageDocument.documentID
+
+        let messageData: [String : Any] = [
+            DBMessageModel.CodingKeys.id.rawValue : messageId,
             DBMessageModel.CodingKeys.isViewed.rawValue : message.isViewed,
             DBMessageModel.CodingKeys.message.rawValue : message.message,
             DBMessageModel.CodingKeys.timestamp.rawValue : message.timestamp,
-            DBMessageModel.CodingKeys.recived.rawValue : message.recived
+            DBMessageModel.CodingKeys.senderIsAuthor.rawValue : message.senderIsAuthor
         ]
-        try await chatDocumentForOrder(orderId: orderId).updateData([DBMessagerModel.CodingKeys.messages.rawValue : FieldValue.arrayUnion([chatData])])
+        try await newMessageDocument.setData(messageData)
+    }
+    func messageViewed(orderId: String, messageID: String) async throws {
+        let messageDocument = chatDocumentForOrder(orderId: orderId).collection("messages").document(messageID)
+        try await messageDocument.updateData([DBMessageModel.CodingKeys.isViewed.rawValue : true])
 
     }
-    func subscribeMessage(orderId: String, completion: @escaping (DBMessagerModel) -> Void) -> ListenerRegistration {
-       return messageCollection.document(orderId).addSnapshotListener { querySnapshot, error in
+    func subscribeMessage(orderId: String, completion: @escaping ([DBMessageModel]) -> Void) -> ListenerRegistration {
+        return chatCollection.document(orderId).collection("messages").addSnapshotListener { querySnapshot, error in
             guard let querySnapshot = querySnapshot else {
                 print("No documents---\(String(describing: error?.localizedDescription))----------------------------")
                 return
             }
-            do {
-              let message = try querySnapshot.data(as: DBMessagerModel.self)
-                completion(message)
-                print(message)
-            } catch {
-                print(error.localizedDescription)
-                return
+            let message = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                try? queryDocumentSnapshot.data(as: DBMessageModel.self)
             }
-            
+            completion(message)
         }
     }
     
-    func subscribeMessageCustomer(id: String, completion: @escaping ([DBMessagerModel]) -> Void) -> ListenerRegistration {
-        let query = messageCollection.whereField("customer_id", isEqualTo: id)
-        
-        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
-            if let error = error {
-                print("-------------------------------Error fetching documents: \(error)-------------------------------")
-                return
-            }
-            
-            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
-                print("No documents---\(error?.localizedDescription)----------------------------")
-                return
-            }
-            let message = querySnapshot.documents.compactMap { queryDocumentSnapshot in
-                
-                try? queryDocumentSnapshot.data(as: DBMessagerModel.self)
-            }
-            print("message: \(message), orderId: \(id), querySnapshot: \(querySnapshot.count)")
-            completion(message)
-        }
-        return listenerRegistration
-    }
-    func subscribeMessageAuthor(id: String, completion: @escaping ([DBMessagerModel]) -> Void) -> ListenerRegistration {
-        let query = messageCollection.whereField("author_id", isEqualTo: id)
-        
-        return query.addSnapshotListener { querySnapshot, error in
-            let message = querySnapshot?.documents.compactMap { documents -> DBMessagerModel? in
-                    do {
-                        return try documents.data(as: DBMessagerModel.self)
-                    } catch {
-                        print(error.localizedDescription)
-                        return nil
-                    }
-                }
-            completion(message!)
+    func subscribeMessageCustomer(userId: String, completion: @escaping ([String : [DBMessageModel]]) -> Void) -> [ListenerRegistration] {
+        let query = chatCollection.whereField("customer_id", isEqualTo: userId)
+        var listenerRegistrations: [ListenerRegistration] = []
 
+        query.addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error fetching documents: \(error.localizedDescription)")
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                print("No documents found.")
+                return
+            }
+
+            // Loop through each document
+            for document in documents {
+                let orderId = document.documentID
+                let subcollectionRef = self.chatCollection.document(orderId).collection("messages")
+
+                // Add a listener for each subcollection
+                let listenerRegistration = subcollectionRef.addSnapshotListener { subcollectionSnapshot, subcollectionError in
+                    if let subcollectionError = subcollectionError {
+                        print("Error fetching subcollection: \(subcollectionError.localizedDescription)")
+                        return
+                    }
+
+                    guard let subcollectionSnapshot = subcollectionSnapshot else {
+                        print("No subcollection documents found.")
+                        return
+                    }
+
+                    let messages = subcollectionSnapshot.documents.compactMap { subcollectionDocument in
+                        try? subcollectionDocument.data(as: DBMessageModel.self)
+                    }
+
+                    print("Subcollection messages: \(messages), Document ID: \(orderId)")
+                    completion([orderId : messages])
+                }
+
+                listenerRegistrations.append(listenerRegistration)
+            }
         }
+
+        return listenerRegistrations
     }
+    
+//    func subscribeMessageCustomer(id: String, completion: @escaping ([DBMessagerModel]) -> Void) -> ListenerRegistration {
+//        let query = chatCollection.whereField("customer_id", isEqualTo: id)
+//        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+//            if let error = error {
+//                print("-------------------------------Error fetching documents: \(error)-------------------------------")
+//                return
+//            }
+//            
+//            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
+//                print("No documents---\(error?.localizedDescription)----------------------------")
+//                return
+//            }
+//            let message = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+//                
+//                try? queryDocumentSnapshot.data(as: DBMessagerModel.self)
+//            }
+//            print("message: \(message), orderId: \(id), querySnapshot: \(querySnapshot.count)")
+//            completion(message)
+//        }
+//        return listenerRegistration
+//    }
+//    func subscribeMessageAuthor(id: String, completion: @escaping ([DBMessagerModel]) -> Void) -> ListenerRegistration {
+//        let query = chatCollection.whereField("author_id", isEqualTo: id)
+//        
+//        return query.addSnapshotListener { querySnapshot, error in
+//            let message = querySnapshot?.documents.compactMap { documents -> DBMessagerModel? in
+//                    do {
+//                        return try documents.data(as: DBMessagerModel.self)
+//                    } catch {
+//                        print(error.localizedDescription)
+//                        return nil
+//                    }
+//                }
+//            completion(message!)
+//
+//        }
+//    }
     func addSampleImageUrl(path: [String], orderId: String) async throws {
         try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayUnion(path)])
     }

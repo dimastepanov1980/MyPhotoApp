@@ -22,31 +22,37 @@ struct MessagerView<ViewModel: MessagerViewModelType>: View {
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            if let message = viewModel.getMessage {
+            if let messages = viewModel.getMessage {
                 VStack{
-                    ForEach(message.messages, id: \.id) { message in
-                        MessagerBubbleCell(item: MessageModel(message: message))
+                    ForEach(messages, id: \.id) { orderId in
+                            MessagerBubbleCell(item: orderId)
                     }
                 }
                 .padding(.top)
                 .padding(.horizontal, 8)
+                /*
                 Text(String(messageCount ?? 0))
                     .onAppear(perform: {
                         switch user.userType {
                         case .author:
-                            let authorRecived = message.messages.filter { $0.recived == false}
-                            self.messageCount = authorRecived.count
-                            print("authorRecived: \(authorRecived)")
+                            let authorSender = messages.filter { $0.senderIsAuthor == false}
+                            let isViewed = authorSender.filter { $0.isViewed }
+                            self.messageCount = isViewed.count
+                                Task{
+                                    try await viewModel.messageViewed(messages: authorSender)
+                                }
+                            self.messageCount = authorSender.count
+                            print("authorRecived: \(authorSender)")
                         case .customer:
-                            let customerRecived = message.messages.filter { $0.recived == true}
-                            self.messageCount = customerRecived.count
-                            print("customerRecived: \(customerRecived)")
+                            let customerSender = messages.filter { $0.senderIsAuthor == true}
+                            self.messageCount = customerSender.count
+                            print("customerRecived: \(customerSender)")
 
                         case .unspecified:
                             break
                         }
                     })
-
+                 */
             }
         }
         .toolbarBackground(Color(R.color.gray6.name), for: .navigationBar)
@@ -58,7 +64,7 @@ struct MessagerView<ViewModel: MessagerViewModelType>: View {
                                                              message: message,
                                                              timestamp: Date(),
                                                              isViewed: false,
-                                                             recived: user.userType == .customer)
+                                                             senderIsAuthor: user.userType == .author)
                     self.message = ""
                     try await viewModel.addNewMessage(message: sendMessage)
                 }
@@ -69,8 +75,6 @@ struct MessagerView<ViewModel: MessagerViewModelType>: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: CustomBackButtonView())
-
-
     }
 }
 
@@ -86,10 +90,13 @@ struct MessagerView_Previews: PreviewProvider {
 
 
 private class MockViewModel: MessagerViewModelType, ObservableObject {
+    var getMessage: [MessageModel]?
+    var getMessages: [String : [MessageModel]]?
+
+    func messageViewed(messages: [MessageModel]) async throws {}
     func addNewMessage(message: MessageModel) async throws {}
     func subscribe() {}
     var orderId: String = ""
-    var getMessage: MessagerModel?
 //    = [
 //        MessageModel(id: UUID().uuidString, message: "Hello", timestamp: Date(), isViewed: true, recived: true),
 //        MessageModel(id: UUID().uuidString, message: "Hello, how are you", timestamp: Date(), isViewed: true, recived: false),

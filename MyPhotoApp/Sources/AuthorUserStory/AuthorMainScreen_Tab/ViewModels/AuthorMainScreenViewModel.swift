@@ -158,9 +158,9 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         listenerRegistration = UserManager.shared.subscribeAuthorOrders(userId: authDateResult.uid, completion: { orders in
             self.orders = orders
         })
-        listenerRegistrationMessages = UserManager.shared.subscribeMessageAuthor(id: authDateResult.uid) { message in
-        print("listenerRegistrationMessages: \(message)")
-        }
+//        listenerRegistrationMessages = UserManager.shared.subscribeMessageAuthor(id: authDateResult.uid) { message in
+//        print("listenerRegistrationMessages: \(message)")
+//        }
         print("get orders from subscribe to Author \(authDateResult): \(orders)")
     }
 

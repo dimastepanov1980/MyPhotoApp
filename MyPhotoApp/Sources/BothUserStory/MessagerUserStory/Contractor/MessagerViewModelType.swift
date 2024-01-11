@@ -9,8 +9,9 @@ import Foundation
 
 @MainActor
 protocol MessagerViewModelType: ObservableObject {
-    var getMessage: MessagerModel?  { get set }
+    var getMessage: [MessageModel]? { get set }
     
-    func subscribe()
+//    func subscribe()
     func addNewMessage(message: MessageModel) async throws
+    func messageViewed(messages: [MessageModel]) async throws
 }

@@ -13,18 +13,24 @@ final class SignInSignUpViewModel: SignInSignUpViewModelType {
     @Published var password: String = ""
     @Published var errorMessage: String = ""
     @Published var userType: String = ""
+    @Published var token: String?
+    
+    init(){
+        getToken()
+    }
+    
+    func getToken(){
+        self.token = UserDefaults.standard.string(forKey:"fcmToken")
+    }
     
     func signIn() async throws {
-//        do {
-//            print(email)
-            try await AuthNetworkService.shared.signInUser(email: email, password: password)
-            let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
-            let user = try await UserManager.shared.getUser(userId: userDataResult.uid)
-            self.userType = user.userType ?? "customer"
-//        } catch  {
-//            print(error.localizedDescription)
-//            self.errorMessage = error.localizedDescription
-//        }
+        try await AuthNetworkService.shared.signInUser(email: email, password: password)
+        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+        let user = try await UserManager.shared.getUser(userId: userDataResult.uid)
+        if user.token != token {
+            try await UserManager.shared.updateToken(userId: userDataResult.uid, token: token ?? "")
+        }
+        self.userType = user.userType ?? "customer"
     }
     
     func signUp() async throws {
@@ -33,7 +39,8 @@ final class SignInSignUpViewModel: SignInSignUpViewModelType {
             return
         }
         let authUserResult = try await AuthNetworkService.shared.createUser(email: email, password: password)
-        let dbUser = DBUserModel(auth: authUserResult, userType: "customer", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false)
+        let dbUser = DBUserModel(auth: authUserResult, userType: "customer", firstName: "", secondName: "", instagramLink: "", phone: "", avatarUser: "", setPortfolio: false, token: token)
+        print(dbUser)
         try await UserManager.shared.createNewUser(author: dbUser)
         
     }

@@ -18,7 +18,11 @@ struct RootScreenView: View {
     var body: some View {
         userTypePageHub(userType: user.userType)
             .navigationBarBackButtonHidden(true)
+            .onAppear {
+              UNUserNotificationCenter.current().setBadgeCount(0)
+            }
     }
+    
     
     @ViewBuilder
     func userTypePageHub(userType: Constants.UserType) -> some View {

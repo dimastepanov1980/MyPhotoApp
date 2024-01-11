@@ -176,7 +176,6 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: CustomBackButtonView())
-        
     }
     private var nameSection: some View {
         VStack(alignment: .leading, spacing: 0) {

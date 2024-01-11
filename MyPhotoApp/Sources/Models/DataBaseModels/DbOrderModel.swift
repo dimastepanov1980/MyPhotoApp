@@ -8,8 +8,6 @@
 import Foundation
 
 struct DbOrderModel: Codable, Hashable {
-
-    
     let orderId: String
     let orderCreateDate: Date
     let orderPrice: String?
