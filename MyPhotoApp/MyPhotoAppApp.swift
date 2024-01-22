@@ -18,7 +18,7 @@ import UserNotifications
 struct MyPhotoAppApp: App {
     @ObservedObject var router = Router<Views>()
     @ObservedObject var user = UserTypeService()
-
+    @ObservedObject var orders = CustomerOrdersViewModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     var body: some Scene {
@@ -35,6 +35,7 @@ struct MyPhotoAppApp: App {
                     await user.getUserType()
                 }
             }
+            .environmentObject(orders)
             .environmentObject(user)
             .environmentObject(router)
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in

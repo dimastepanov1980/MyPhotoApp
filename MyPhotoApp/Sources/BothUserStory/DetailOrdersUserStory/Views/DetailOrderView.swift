@@ -10,12 +10,12 @@ import PhotosUI
 import Firebase
 import UniformTypeIdentifiers
 
-struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
+struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
     
-    @ObservedObject private var viewModel: ViewModel
+    @ObservedObject private var viewModel: DetailOrderViewModel
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
-    
+
     @State private var selectedStatus = ""
     @State private var selectImages: [PhotosPickerItem] = []
     @State var showChangeStatusSheet: Bool = false
@@ -28,9 +28,13 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                    GridItem(.flexible(), spacing: 0)]
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
 
-    init(with viewModel: ViewModel) {
-        self.viewModel = viewModel
-    }
+//    init(with viewModel: ViewModel) {
+//        self.viewModel = viewModel
+//    }
+    
+    init(with viewModel: DetailOrderViewModel) {
+           self._viewModel = ObservedObject(wrappedValue: viewModel)
+       }
     
     var body: some View {
         
@@ -61,13 +65,76 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     .padding(.horizontal)
                 }
             }
+        .onChange(of: viewModel.order) { _ in
+            print(viewModel.order)
+            print("*--*********************************objectWillChange")
+            
+            
+        }
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack{
                     Button {
                         router.push(.MessagerView(title: user.userType == .author ? "\(viewModel.order.customerName ?? "") \(viewModel.order.customerSecondName ?? "")" : "\(viewModel.order.authorName ?? "") \(viewModel.order.authorSecondName ?? "")", orderId: viewModel.order.orderId))
                     } label: {
-                        Image(systemName: "bubble.left")
+                        switch user.userType {
+                        case .author:
+                            if viewModel.order.newMessagesAuthor > 0 {
+                                ZStack{
+                                    Image(systemName: "message")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 22)
+                                        .foregroundColor(Color(R.color.gray2.name))
+                                    
+                                    Text(String(viewModel.order.newMessagesAuthor))
+                                        .font(.system(size: 10))
+                                        .foregroundColor(Color(.systemBackground))
+                                        .padding(.horizontal, 5)
+                                        .padding(.vertical, 2)
+                                        .background((Color(R.color.red.name)))
+                                        .cornerRadius(15)
+                                        .offset(x: 12, y: 5)
+                                }
+                            } else {
+                                Image(systemName: "message")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: 22)
+                                    .foregroundColor(Color(R.color.gray2.name))
+                            }
+                        case .customer:
+                            if viewModel.order.newMessagesCustomer > 0 {
+                                ZStack{
+                                    Image(systemName: "message")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 22)
+                                        .foregroundColor(Color(R.color.gray2.name))
+                                    
+                                    Text(String(viewModel.order.newMessagesCustomer))
+                                        .font(.system(size: 10))
+                                        .foregroundColor(Color(.systemBackground))
+                                        .padding(.horizontal, 5)
+                                        .padding(.vertical, 2)
+                                        .background((Color(R.color.red.name)))
+                                        .cornerRadius(15)
+                                        .offset(x: 12, y: 5)
+                                }
+                            } else {
+                                Image(systemName: "message")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(height: 22)
+                                    .foregroundColor(Color(R.color.gray2.name))
+                            }
+                        case .unspecified:
+                            Image(systemName: "message")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 22)
+                                .foregroundColor(Color(R.color.gray2.name))
+                        }
                     }
                     
                     PhotosPicker(selection: $selectImages,
@@ -101,9 +168,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         }
         .onAppear{
             Task {
-                if let images = viewModel.order.orderSamplePhotos {
-                    try await viewModel.getReferenceImages(imagesPath: images)
-                }
+                try await viewModel.getReferenceImages(imagesPath: viewModel.order.orderSamplePhotos)
             }
         }
         .confirmationDialog("Change Status", isPresented: $showChangeStatusSheet) {
@@ -158,9 +223,11 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                                                            orderStatus: viewModel.returnedStatus(status: selectedStatus),
                                                            orderShootingDate: viewModel.order.orderShootingDate,
                                                            orderShootingTime: viewModel.order.orderShootingTime,
-                                                           orderShootingDuration: viewModel.order.orderShootingDuration ?? "",
-                                                           orderSamplePhotos: viewModel.order.orderSamplePhotos ?? [],
+                                                           orderShootingDuration: viewModel.order.orderShootingDuration,
+                                                           orderSamplePhotos: viewModel.order.orderSamplePhotos,
                                                            orderMessages: viewModel.order.orderMessages,
+                                                           newMessagesAuthor: 0,
+                                                           newMessagesCustomer: 0,
                                                            authorId: viewModel.order.authorId,
                                                            authorName: viewModel.order.authorName,
                                                            authorSecondName: viewModel.order.authorSecondName,
@@ -175,7 +242,15 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: CustomBackButtonView())
+        .navigationBarItems(leading: 
+                                Button {
+                                    router.pop()
+                                } label: {
+                                    Image(systemName: "chevron.left.circle.fill")
+                                       .font(.title2)
+                                       .foregroundStyle(Color(.systemBackground), Color(R.color.gray1.name).opacity(0.5))
+                                }
+        )
     }
     private var nameSection: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -246,7 +321,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                     Image(systemName: "timer")
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray1.name))
-                    Text("\(viewModel.order.orderShootingDuration ?? "")")
+                    Text("\(viewModel.order.orderShootingDuration)")
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray3.name))
                 }
@@ -281,7 +356,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                 .foregroundColor(Color(R.color.gray4.name))
             VStack(alignment: .leading, spacing: 10){
                
-                    if let instagramLink = viewModel.order.customerContactInfo.instagramLink {
+                if let instagramLink = viewModel.order.customerContactInfo.instagramLink {
                         HStack{
                             Image("image_instagram")
                                 .resizable()
@@ -296,7 +371,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                             viewModel.openInstagramProfile(username: instagramLink)
                         }
                     }
-                    if let phone = viewModel.order.customerContactInfo.phone {
+                if let phone = viewModel.order.customerContactInfo.phone {
                         HStack{
                             Image(systemName: "phone.circle")
                                 .font(.title3)
@@ -319,7 +394,7 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
                         }
                         
                     }
-                    if let email = viewModel.order.customerContactInfo.email {
+                if let email = viewModel.order.customerContactInfo.email {
                         HStack{
                             Image(systemName: "envelope")
                                 .font(.title3)
@@ -409,71 +484,74 @@ struct DetailOrderView<ViewModel: DetailOrderViewModelType>: View {
         }
         return 0
     }
+
 }
 
-struct DetailOrderView_Previews: PreviewProvider {
-    private static let modelMock = MockViewModel()
-    
-    static var previews: some View {
-        NavigationView {
-            DetailOrderView(with: modelMock)
-                .environmentObject(UserTypeService())
-        }
-    }
-}
-
-private class MockViewModel: DetailOrderViewModelType, ObservableObject {
-    func openInstagramProfile(username: String) {}
-    
-    var smallReferenceImages: [String] = []
-    var referenceImages: [String : UIImage?] = [:]
-    func addReferenceImages(selectedImages: [PhotosPickerItem]) async throws {}
-    func deleteReferenceImages(pathKey: String) async throws {}
-    func getReferenceImages(imagesPath: [String]) async throws {}
-    func currencySymbol(for regionCode: String) -> String{
-        "$"
-    }
-    func sortedDate(array: [String]) -> [String] {
-        array.sorted(by: { $0 < $1 })
-    }
-
-    var order: DbOrderModel = DbOrderModel(order: OrderModel(orderId: "",
-                                                             orderCreateDate: Date(),
-                                                             orderPrice: "5500",
-                                                             orderStatus: "Umpcoming",
-                                                             orderShootingDate: Date(),
-                                                             orderShootingTime: ["11:30"],
-                                                             orderShootingDuration: "2",
-                                                             orderSamplePhotos: [""],
-                                                             orderMessages: false,
-                                                             authorId: "",
-                                                             authorName: "authorName",
-                                                             authorSecondName: "authorSecondName",
-                                                             authorLocation: "Phuket, Thailand",
-                                                             customerId: "",
-                                                             customerName: "Name",
-                                                             customerSecondName: "SecondName",
-                                                             customerDescription: "Customer Description and Bla bla bla sdfsdf sdfsdf",
-                                                             customerContactInfo:
-                                                                ContactInfo(instagramLink: "https://instagram.com/fitnessbymaddy_?igshid=MzRlODBiNWFlZA==",
-                                                                              phone: "+7 999 99 99",
-                                                                              email: "email@email.com")))
-    
-    var avaibleStatus: [String] = ["Upcoming", "Cancel Order"]
-    
-    var status: String = "Upcoming"
-    
-    var statusColor: Color = .blue
-    
-    func formattedDate(date: Date, format: String) -> String {
-        "10 Октября"
-    }
-    
-    func updateStatus(orderModel: DbOrderModel) async throws {
-        
-    }
-    
-    func returnedStatus(status: String) -> String {
-        ""
-    }
-}
+//struct DetailOrderView_Previews: PreviewProvider {
+//    private static let modelMock = MockViewModel()
+//    
+//    static var previews: some View {
+//        NavigationView {
+//            DetailOrderView()
+//                .environmentObject(UserTypeService())
+//        }
+//    }
+//}
+//
+//private class MockViewModel: DetailOrderViewModelType, ObservableObject {
+//    func openInstagramProfile(username: String) {}
+//    
+//    var smallReferenceImages: [String] = []
+//    var referenceImages: [String : UIImage?] = [:]
+//    func addReferenceImages(selectedImages: [PhotosPickerItem]) async throws {}
+//    func deleteReferenceImages(pathKey: String) async throws {}
+//    func getReferenceImages(imagesPath: [String]) async throws {}
+//    func currencySymbol(for regionCode: String) -> String{
+//        "$"
+//    }
+//    func sortedDate(array: [String]) -> [String] {
+//        array.sorted(by: { $0 < $1 })
+//    }
+//
+//    var order: OrderModel = OrderModel(orderId: "",
+//                                                             orderCreateDate: Date(),
+//                                                             orderPrice: "5500",
+//                                                             orderStatus: "Umpcoming",
+//                                                             orderShootingDate: Date(),
+//                                                             orderShootingTime: ["11:30"],
+//                                                             orderShootingDuration: "2",
+//                                                             orderSamplePhotos: [""],
+//                                                             orderMessages: false,
+//                                                             newMessagesAuthor: 1,
+//                                                             newMessagesCustomer: 1,
+//                                                             authorId: "",
+//                                                             authorName: "authorName",
+//                                                             authorSecondName: "authorSecondName",
+//                                                             authorLocation: "Phuket, Thailand",
+//                                                             customerId: "",
+//                                                             customerName: "Name",
+//                                                             customerSecondName: "SecondName",
+//                                                             customerDescription: "Customer Description and Bla bla bla sdfsdf sdfsdf",
+//                                                             customerContactInfo:
+//                                                                ContactInfo(instagramLink: "https://instagram.com/fitnessbymaddy_?igshid=MzRlODBiNWFlZA==",
+//                                                                              phone: "+7 999 99 99",
+//                                                                              email: "email@email.com"))
+//    
+//    var avaibleStatus: [String] = ["Upcoming", "Cancel Order"]
+//    
+//    var status: String = "Upcoming"
+//    
+//    var statusColor: Color = .blue
+//    
+//    func formattedDate(date: Date, format: String) -> String {
+//        "10 Октября"
+//    }
+//    
+//    func updateStatus(orderModel: DbOrderModel) async throws {
+//        
+//    }
+//    
+//    func returnedStatus(status: String) -> String {
+//        ""
+//    }
+//}

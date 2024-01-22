@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 enum Views: Hashable {
+    case TestDetailMessage(message: DetailMessageModel)
+
     case RootScreenView
     case CustomerPageHubView
     case AuthorHubPageView
@@ -20,8 +22,8 @@ enum Views: Hashable {
     case CustomerStatusOrderScreenView(title: String,
                                        message: String,
                                        buttonTitle: String)
-    case DetailOrderView(order: DbOrderModel)
-    case AuthorAddOrderView(order: DbOrderModel?, mode: Constants.OrderMode)
+    case DetailOrderView(order: OrderModel)
+    case AuthorAddOrderView(order: OrderModel?, mode: Constants.OrderMode)
     case SignInSignUpView(authType: authType)
     case ReAuthenticationView
     case ProfileScreenView
@@ -35,12 +37,13 @@ enum Views: Hashable {
 }
 
 enum ViewFactory {
-    
-    @MainActor @ViewBuilder
+    @MainActor
+    @ViewBuilder
     static func viewForDestination(_ destination: Views) -> some View {
         
         switch destination {
-            
+        case . TestDetailMessage(let message):
+            DetailMessageView(with: DetailMessageViewModel(message: message))
 // MARK: - Both Zone
         case .RootScreenView:
             RootScreenView()
@@ -71,13 +74,14 @@ enum ViewFactory {
             
         case .DetailOrderView(let order):
             DetailOrderView(with: DetailOrderViewModel(order: order))
+
         case .ImageDetailView(let image):
             ImageDetailViewPath(imagePath: image)
 
 // MARK: Author Zone -
         case .AuthorAddOrderView(let order, let mode):
             AuthorAddOrderView(with: AuthorAddOrderViewModel(order: order), mode: mode)
-                .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
+                .onAppear { UIDatePicker.appearance().minuteInterval = 15 }
         case .AuthorHubPageView:
             AuthorHubPageView()
         case .PortfolioView:
@@ -88,7 +92,7 @@ enum ViewFactory {
             PortfolioEditView(with: PortfolioEditViewModel(portfolio: viewModel, avatarImage: image))
         case .PortfolioScheduleView:
             PortfolioScheduleView(with: PortfolioScheduleViewModel())
-                .onAppear { UIDatePicker.appearance().minuteInterval = 30 }
+                .onAppear { UIDatePicker.appearance().minuteInterval = 15 }
         case .EmptyView:
             VStack{
                 Text("Hello")
@@ -99,7 +103,7 @@ enum ViewFactory {
 
 final class Router<T: Hashable>: ObservableObject {
     @Published var paths: [T] = []
-    
+
     func push(_ path: T) {
         paths.append(path)
     }

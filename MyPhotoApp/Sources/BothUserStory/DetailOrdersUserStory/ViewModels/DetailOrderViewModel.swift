@@ -11,7 +11,7 @@ import SwiftUI
 
 @MainActor
 final class DetailOrderViewModel: DetailOrderViewModelType {
-    @Published var order: DbOrderModel
+    @Published var order: OrderModel
     @Published var avaibleStatus: [String] = [R.string.localizable.status_upcoming(),
                                               R.string.localizable.status_inProgress(),
                                               R.string.localizable.status_completed(),
@@ -36,7 +36,7 @@ final class DetailOrderViewModel: DetailOrderViewModelType {
         }
     }
     
-    init(order: DbOrderModel) {
+    init(order: OrderModel) {
         self.order = order
         updateStatus()
 

@@ -62,6 +62,8 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                                                            orderShootingDuration: viewModel.duration,
                                                            orderSamplePhotos: viewModel.imageUrl,
                                                            orderMessages: false,
+                                                           newMessagesAuthor: 0,
+                                                           newMessagesCustomer: 0,
                                                            authorId: user.user?.userId,
                                                            authorName: user.user?.firstName,
                                                            authorSecondName: user.user?.secondName,
@@ -161,7 +163,7 @@ private class MockViewModel: AuthorAddOrderViewModelType, ObservableObject {
     @Published var duration: String = ""
     @Published var imageUrl: [String] = []
     
-    var order: DbOrderModel? = DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Upcoming", orderShootingDate: Date(), orderShootingTime: ["11:00"], orderShootingDuration: "2", orderSamplePhotos: [], orderMessages: true, authorId: "", authorName: "Dimas", authorSecondName: "Tester", authorLocation: "Phuket", authorRegion: "TH", customerId: "", customerName: "Client", customerSecondName: "FamiltName", customerDescription: "SuperPUPER", customerContactInfo: ContactInfo(instagramLink: "NEW ONE", phone: "222 22 22", email: "TEST@TEST.COM")))
+    var order: OrderModel? = OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Upcoming", orderShootingDate: Date(), orderShootingTime: ["11:00"], orderShootingDuration: "2", orderSamplePhotos: [], orderMessages: true, newMessagesAuthor: 0, newMessagesCustomer: 0, authorId: "", authorName: "Dimas", authorSecondName: "Tester", authorLocation: "Phuket", authorRegion: "TH", customerId: "", customerName: "Client", customerSecondName: "FamiltName", customerDescription: "SuperPUPER", customerContactInfo: ContactInfo(instagramLink: "NEW ONE", phone: "222 22 22", email: "TEST@TEST.COM"))
  
     
     func addOrder(order: DbOrderModel, userId: String) async throws {}

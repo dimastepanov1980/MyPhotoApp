@@ -10,7 +10,7 @@ import SwiftUI
 
 @MainActor
 final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
-    @Published var order: DbOrderModel?
+    @Published var order: OrderModel?
 
     @Published var status: String = ""
     @Published var name: String = ""
@@ -29,7 +29,7 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     @Published var duration: String = ""
     @Published var imageUrl: [String] = []
 
-    init(order: DbOrderModel?) {
+    init(order: OrderModel?) {
         self.order = order
         updatePreview()
     }
@@ -49,12 +49,6 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
          date = order?.orderShootingDate ?? Date()
          status = order?.orderStatus ?? ""
      }
-     
-//    func getUser() async throws {
-//        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
-//        print(userDataResult.uid)
-//        self.authorId = userDataResult.uid
-//    }
     
     func dateToString(date: Date) {
         let dateFormatter = DateFormatter()
@@ -64,7 +58,7 @@ final class AuthorAddOrderViewModel: AuthorAddOrderViewModelType {
     }
     func addOrder(order: DbOrderModel, userId: String) async throws {
         print("addOrder details: \(order), \(userId)")
-        try? await UserManager.shared.addNewOrder(userId: userId, order: order)
+        let orderId = try await UserManager.shared.addNewOrder(userId: userId, order: order)
     }
     func updateOrder(orderModel: DbOrderModel) async throws {
         try? await UserManager.shared.updateOrder(order: orderModel, orderId: order?.orderId ?? "")

@@ -7,17 +7,13 @@
 
 import SwiftUI
 
-struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
-    @ObservedObject var viewModel: ViewModel
+struct CustomerOrdersView: View {
     @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var viewModel: CustomerOrdersViewModel
     @EnvironmentObject var user: UserTypeService
     
     @State var showDetailView = false
     @State var showEditOrderView = false
-
-    init(with viewModel: ViewModel){
-        self.viewModel = viewModel
-    }
     
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -31,40 +27,50 @@ struct CustomerOrdersView<ViewModel: CustomerOrdersViewModelType>: View {
                 .padding(.bottom, 86)
         }
     }
+  
     
     @ViewBuilder
     private func orderView(userAuth: Bool) -> some View {
         if !userAuth {
-            if viewModel.orders.isEmpty{
-                VStack(alignment: .center){
-                    Text(R.string.localizable.customer_orders_worning())
-                        .multilineTextAlignment(.center)
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray3.name))
-                        .padding()
-                }
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
-            } else {
-//                ForEach(viewModel.orders.sorted(by: { $0.orderShootingDate < $1.orderShootingDate }), id: \.orderId) { order in
-//                        CustomerOrderCellView(items: order, statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""),
-//                                              status: viewModel.orderStausName(status: order.orderStatus ?? ""))
-//                            .onTapGesture {
-//                                router.push(.DetailOrderView(order: order, messages: viewModel.getMessages?[order.orderId] ?? []))
-//                            }
-//                }
-                ForEach(viewModel.orders.sorted(by: { $0.orderShootingDate < $1.orderShootingDate }), id: \.orderId) { order in
-                    CustomerOrderCellView(items: order, 
-                                          statusColor: viewModel.orderStausColor(order: order.orderStatus ?? ""),
-                                          status: viewModel.orderStausName(status: order.orderStatus ?? ""))
-                        .onTapGesture {
+                if viewModel.orders.isEmpty{
+                    VStack(alignment: .center){
+                        Text(R.string.localizable.customer_orders_worning())
+                            .multilineTextAlignment(.center)
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray3.name))
+                            .padding()
+                    }
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+                } else {
+                    ForEach(viewModel.orders.sorted(by: { $0.orderShootingDate < $1.orderShootingDate }), id: \.orderId) { order in
+                        
+                        
+                        CustomerOrderCellView(items: CellOrderModel(order: order),
+                                              statusColor: viewModel.orderStausColor(order: order.orderStatus),
+                                              status: viewModel.orderStausName(status: order.orderStatus), action: {
+//                            router.push(.DetailMessage(message: DetailMessageModel(messageCount: String(order.newMessagesCustomer))))
                             router.push(.DetailOrderView(order: order))
-                        }
+                        })
+                        
+//                        NavigationLink {
+//                            DetailMessageView(with: DetailMessageViewModel(message: DetailMessageModel(messageCount: String(order.newMessagesCustomer))))
+//                        } label: {
+//                            CustomerOrderCellView(items: CellOrderModel(order: order),
+//                                                  statusColor: viewModel.orderStausColor(order: order.orderStatus),
+//                                                  status: viewModel.orderStausName(status: order.orderStatus), action: {
+//    //                            router.push(.DetailMessage(message: DetailMessageModel(messageCount: String(order.newMessagesCustomer))))
+//    //                            router.push(.DetailOrderView(order: order))
+//                            })
+//                        }
+
+                    }
                 }
-            }
+          
         } else {
                 SignInSignUpButton(router: _router, user: _user)
                 .padding(.horizontal, 24)
         }
+        
     }
 }
 
@@ -73,22 +79,24 @@ struct CustomerOrdersView_Previews: PreviewProvider {
 
     static var previews: some View {
         NavigationStack{
-            CustomerOrdersView(with: mockModel)
+            CustomerOrdersView()
                 .environmentObject(UserTypeService())
+                .environmentObject(CustomerOrdersViewModel())
         }
     }
 }
 
 private class MockViewModel: CustomerOrdersViewModelType, ObservableObject {
+    var newMessagesCount: Int = 0
+    
     var getMessages: [String : [MessageModel]]?
-    func subscribeMessageCustomer() async throws {}
     func orderStausColor(order: String?) -> Color {
         Color.brown
     }
     func orderStausName(status: String?) -> String {
         "Upcoming"
     }
-    var orders: [DbOrderModel] = [DbOrderModel(order: OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Umpcoming", orderShootingDate: Date(), orderShootingTime: ["11:30"], orderShootingDuration: "2", orderSamplePhotos: [""], orderMessages: true, authorId: "", authorName: "Author", authorSecondName: "SecondName", authorLocation: "Phuket, Thailand", customerId: "", customerName: "customerName", customerSecondName: "customerSecondName", customerDescription: "Customer Description and Bla bla bla", customerContactInfo: ContactInfo(instagramLink: "", phone: "", email: "")))]
+    var orders: [OrderModel] = [OrderModel(orderId: "", orderCreateDate: Date(), orderPrice: "5500", orderStatus: "Umpcoming", orderShootingDate: Date(), orderShootingTime: ["11:30"], orderShootingDuration: "2", orderSamplePhotos: [""], orderMessages: true, newMessagesAuthor: 0, newMessagesCustomer: 0, authorId: "", authorName: "Author", authorSecondName: "SecondName", authorLocation: "Phuket, Thailand", customerId: "", customerName: "customerName", customerSecondName: "customerSecondName", customerDescription: "Customer Description and Bla bla bla", customerContactInfo: ContactInfo(instagramLink: "", phone: "", email: ""))]
     
     func subscribe() async throws {}
 }

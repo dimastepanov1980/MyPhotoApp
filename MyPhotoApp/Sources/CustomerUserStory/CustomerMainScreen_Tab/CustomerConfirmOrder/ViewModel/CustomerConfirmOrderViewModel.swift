@@ -90,6 +90,8 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                orderShootingDuration: orderDuration,
                                                orderSamplePhotos: [],
                                                orderMessages: true,
+                                               newMessagesAuthor: 0,
+                                               newMessagesCustomer: 0,
                                                authorId: authorId,
                                                authorName: authorName,
                                                authorSecondName: authorSecondName,

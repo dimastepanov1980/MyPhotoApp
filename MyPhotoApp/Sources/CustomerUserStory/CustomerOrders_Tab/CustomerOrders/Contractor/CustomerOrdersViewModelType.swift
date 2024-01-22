@@ -10,11 +10,9 @@ import SwiftUI
 
 @MainActor
 protocol CustomerOrdersViewModelType: ObservableObject {
-    var orders: [DbOrderModel] { get }
-//    var getMessages: [String : [MessageModel]]?  { get set }
-
+    var orders: [OrderModel] { get }
+    var newMessagesCount: Int { get set }
     func orderStausColor (order: String?) -> Color
     func orderStausName (status: String?) -> String
     func subscribe() async throws
-//    func subscribeMessageCustomer() async throws
 }

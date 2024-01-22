@@ -17,6 +17,8 @@ struct DbOrderModel: Codable, Hashable {
     let orderShootingDuration: String?
     let orderSamplePhotos: [String]?
     let orderMessages: Bool
+    let newMessagesAuthor: Int
+    let newMessagesCustomer: Int
     
     let authorId: String?
     let authorName: String?
@@ -40,6 +42,8 @@ struct DbOrderModel: Codable, Hashable {
         self.orderShootingTime = try container.decodeIfPresent([String].self, forKey: .orderShootingTime)
         self.orderShootingDuration = try container.decodeIfPresent(String.self, forKey: .orderShootingDuration)
         self.orderMessages = try container.decode(Bool.self, forKey: .orderMessages)
+        self.newMessagesAuthor = try container.decode(Int.self, forKey: .newMessagesAuthor)
+        self.newMessagesCustomer = try container.decode(Int.self, forKey: .newMessagesCustomer)
         self.orderSamplePhotos = try container.decodeIfPresent([String].self, forKey: .orderSamplePhotos)
 
         self.authorId = try container.decodeIfPresent(String.self, forKey: .authorId)
@@ -72,6 +76,8 @@ struct DbOrderModel: Codable, Hashable {
         case orderShootingDuration = "order_shooting_duration"
         case orderSamplePhotos = "order_sample_photos"
         case orderMessages = "order_messages"
+        case newMessagesAuthor = "new_messages_author"
+        case newMessagesCustomer = "new_messages_customer"
         case authorId = "author_id"
         case authorLocation = "author_location"
         case authorRegion = "author_region"
@@ -97,6 +103,8 @@ struct DbOrderModel: Codable, Hashable {
         try container.encodeIfPresent(self.orderShootingDuration, forKey: .orderShootingDuration)
         try container.encodeIfPresent(self.orderSamplePhotos, forKey: .orderSamplePhotos)
         try container.encodeIfPresent(self.orderMessages, forKey: .orderMessages)
+        try container.encodeIfPresent(self.newMessagesAuthor, forKey: .newMessagesAuthor)
+        try container.encodeIfPresent(self.newMessagesCustomer, forKey: .newMessagesCustomer)
 
         try container.encodeIfPresent(self.authorId, forKey: .authorId)
         try container.encodeIfPresent(self.authorName, forKey: .authorName)
@@ -129,9 +137,11 @@ struct DbOrderModel: Codable, Hashable {
         self.customerName = order.customerName
         self.customerSecondName = order.customerSecondName
         self.customerDescription = order.customerDescription
-        self.customerContactInfo = DbContactInfo(info: order.customerContactInfo) 
+        self.customerContactInfo =  DbContactInfo(info: order.customerContactInfo)
         self.orderSamplePhotos = order.orderSamplePhotos
         self.orderMessages = order.orderMessages
+        self.newMessagesAuthor = order.newMessagesAuthor
+        self.newMessagesCustomer = order.newMessagesCustomer
         self.authorRegion = order.authorRegion
     }
     

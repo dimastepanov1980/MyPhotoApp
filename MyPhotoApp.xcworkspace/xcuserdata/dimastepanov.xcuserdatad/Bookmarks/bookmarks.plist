@@ -215,13 +215,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>103</string>
+					<string>104</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>102</string>
+					<string>103</string>
 					<key>Timestamp</key>
-					<string>726625991.689437</string>
+					<string>727164163.190176</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -237,16 +237,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+				<string>        self.referenceImages.removeValue(forKey: pathKey)
 </string>
 				<key>leading</key>
-				<string>    }
-    func deleteReferenceImages(pathKey: String) async throws {
+				<string>    func deleteReferenceImages(pathKey: String) async throws {
+        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
 </string>
 				<key>trailing</key>
-				<string>        self.referenceImages.removeValue(forKey: pathKey)
-        try await UserManager.shared.deleteSampleImageUrl(path: pathKey, orderId: order.orderId)
+				<string>        try await UserManager.shared.deleteSampleImageUrl(path: pathKey, orderId: order.orderId)
         try await StorageManager.shared.deleteSampleImageDataToFirebase(path: pathKey)
+
 </string>
 			</dict>
 			<key>title</key>
@@ -262,13 +262,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>98</string>
+					<string>99</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>97</string>
+					<string>98</string>
 					<key>Timestamp</key>
-					<string>726223501.909011</string>
+					<string>727366648.040486</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -309,13 +309,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>33</string>
+					<string>94</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>32</string>
+					<string>93</string>
 					<key>Timestamp</key>
-					<string>726571933.704646</string>
+					<string>727625579.557851</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -331,16 +331,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>                /*
+				<string>
 </string>
 				<key>leading</key>
-				<string>                .padding(.top)
-                .padding(.horizontal, 8)
+				<string>            .navigationBarItems(leading: CustomBackButtonView())
+    }
 </string>
 				<key>trailing</key>
-				<string>                Text(String(messageCount ?? 0))
-                    .onAppear(perform: {
-                        switch user.userType {
+				<string>}
+
+
 </string>
 			</dict>
 			<key>title</key>

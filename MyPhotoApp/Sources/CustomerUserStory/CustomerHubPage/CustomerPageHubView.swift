@@ -10,6 +10,7 @@ import SwiftUI
 struct CustomerPageHubView: View {
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
+    @EnvironmentObject var orders: CustomerOrdersViewModel
 
     @State var index = 0
     @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: .constant(false))
@@ -36,7 +37,7 @@ struct CustomerPageHubView: View {
                         }
                     }
                 case 1:
-                    CustomerOrdersView(with: CustomerOrdersViewModel())
+                    CustomerOrdersView()
                         .navigationBarBackButtonHidden(true)
 
                 case 2:
@@ -51,10 +52,11 @@ struct CustomerPageHubView: View {
                 
                 if searchPageShow {
                     withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                        CustomerCustomTabs(index: $index)
+                        CustomerCustomTabs(index: $index, messagesCounter: $orders.newMessagesCount)
                     }
                 }
             }
+
         .sheet(isPresented: $profileIsShown) {
             CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
                 self.profileIsShown = true

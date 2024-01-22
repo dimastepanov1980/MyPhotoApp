@@ -30,7 +30,7 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     var body: some View {
             VStack {
                 ScrollViewReader { data in
-                    if !viewModel.orders.isEmpty{
+//                    if !viewModel.orders.isEmpty{
                         ScrollView(.vertical, showsIndicators: false) {
                             LazyVStack(pinnedViews: [.sectionHeaders]) {
                                 Section {
@@ -50,18 +50,18 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                                 }
                             }
                         }
-                    } else {
-                        ZStack{
-                            Color(.systemBackground)
-                                .ignoresSafeArea()
-                            
-                            Text(R.string.localizable.order_not_found_worning())
-                                .multilineTextAlignment(.center)
-                                .font(.footnote)
-                                .foregroundColor(Color(R.color.gray3.name))
-                                .padding()
-                        }
-                    }
+//                    } else {
+//                        ZStack{
+//                            Color(.systemBackground)
+//                                .ignoresSafeArea()
+//                            
+//                            Text(R.string.localizable.order_not_found_worning())
+//                                .multilineTextAlignment(.center)
+//                                .font(.footnote)
+//                                .foregroundColor(Color(R.color.gray3.name))
+//                                .padding()
+//                        }
+//                    }
                 }
             }
             .navigationBarBackButtonHidden(true)
@@ -109,7 +109,20 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     var horizontalCards: some View {
         HStack {
             ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
-                    AuthorHCellMainScreenView(items: order)
+                let shootingTime = order.orderShootingTime?.min { viewModel.getMinimalTimeSlot($0) < viewModel.getMinimalTimeSlot($1) } ?? ""
+                AuthorHCellMainScreenView(items: CellOrderModel(orderPrice: order.orderPrice ?? "",
+                                                                orderStatus: order.orderStatus,
+                                                                orderShootingDate: order.orderShootingDate,
+                                                                orderShootingTime: shootingTime,
+                                                                orderShootingDuration: order.orderShootingDuration,
+                                                                newMessagesAuthor: order.newMessagesAuthor,
+                                                                newMessagesCustomer: order.newMessagesCustomer,
+                                                                authorName: order.authorName ?? "",
+                                                                authorSecondName: order.authorSecondName ?? "",
+                                                                authorLocation: order.authorLocation ?? "",
+                                                                customerName: order.customerName ?? "",
+                                                                customerSecondName: order.customerSecondName ?? "",
+                                                                customerDescription: order.customerDescription ?? ""))
                     .onTapGesture {
                         router.push(.DetailOrderView(order: order))
                     }
@@ -201,21 +214,35 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
         .padding(.horizontal)
     }
     
+
     func verticalCards() -> some View {
-        VStack(alignment: .center) {
-                ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders.keys.sorted() : viewModel.filteredOtherOrders.keys.sorted(), id: \.self) { date in
+        LazyVStack(alignment: .center) {
+            ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders.keys.sorted(by: <) : viewModel.filteredOtherOrders.keys.sorted(by: >), id: \.self) { date in
                     Section(header: Text(date, style: .date)
                         .id(viewModel.formattedDate(date: date, format: "dd MMMM YYYY" ))
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray3.name))) {
                             ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.orderId) { order in
-                                    AuthorVCellMainScreenView(items: order,
-                                                              statusColor: viewModel.orderStausColor(order: order.orderStatus),
-                                                              status: viewModel.orderStausName (status: order.orderStatus))
+                                let orderShootingTime = order.orderShootingTime?.min { viewModel.getMinimalTimeSlot($0) < viewModel.getMinimalTimeSlot($1) } ?? ""
+                                AuthorVCellMainScreenView(items: CellOrderModel(orderPrice: order.orderPrice ?? "",
+                                                                                orderStatus: order.orderStatus,
+                                                                                orderShootingDate: order.orderShootingDate,
+                                                                                orderShootingTime: orderShootingTime,
+                                                                                orderShootingDuration: order.orderShootingDuration,
+                                                                                newMessagesAuthor: order.newMessagesAuthor,
+                                                                                newMessagesCustomer: order.newMessagesCustomer,
+                                                                                authorName: order.authorName ?? "",
+                                                                                authorSecondName: order.authorSecondName ?? "",
+                                                                                authorLocation: order.authorLocation ?? "",
+                                                                                customerName: order.customerName ?? "",
+                                                                                customerSecondName: order.customerSecondName ?? "",
+                                                                                customerDescription: order.customerDescription ?? ""),
+                                                          statusColor: viewModel.orderStausColor(order: order.orderStatus),
+                                                          status: viewModel.orderStausName (status: order.orderStatus),
+                                                          newMessagesAuthor: String(order.newMessagesAuthor))
                                     .onTapGesture {
                                         router.push(.DetailOrderView(order: order))
                                     }
-
                             }
                         }
                 }
@@ -242,11 +269,15 @@ struct AuthorMainScreenView_Previews: PreviewProvider {
     }
 }
 private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
+    func getMinimalTimeSlot(_ time: String) -> Int {
+        return 0
+    }
+    
     var userProfileIsSet: Bool = true
     
-    var filteredOtherOrders: [Date : [DbOrderModel]] = [:]
-    var filteredOrdersForToday: [DbOrderModel] = []
-    var filteredUpcomingOrders: [Date : [DbOrderModel]] = [:]
+    var filteredOtherOrders: [Date : [OrderModel]] = [:]
+    var filteredOrdersForToday: [OrderModel] = []
+    var filteredUpcomingOrders: [Date : [OrderModel]] = [:]
     var vm = AuthorMainScreenViewModel(userProfileIsSet: .constant(true), userPortfolioIsSet: .constant(false))
     var location = LocationService()
     
@@ -255,25 +286,6 @@ private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
     @Published var weaterId: String = ""
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
-    @Published var orders: [DbOrderModel] = [DbOrderModel(order: OrderModel(orderId:
-                                                                UUID().uuidString,
-                                                                orderCreateDate: Date(),
-                                                                  orderPrice: "5500",
-                                                                  orderStatus: "Upcoming",
-                                                                  orderShootingDate: Date(),
-                                                                  orderShootingTime: [""],
-                                                                  orderShootingDuration: "1",
-                                                                  orderSamplePhotos: [],
-                                                                  orderMessages: true,
-                                                                  authorId: "",
-                                                                  authorName: "",
-                                                                  authorSecondName: "",
-                                                                  authorLocation: "",
-                                                                  customerId: nil,
-                                                                  customerName: nil,
-                                                                  customerSecondName: nil,
-                                                                  customerDescription: "",
-                                                                                  customerContactInfo: ContactInfo(instagramLink: nil, phone: nil, email: nil)))]
     
     init() {}
     func fetchWeather(with location: CLLocation) {

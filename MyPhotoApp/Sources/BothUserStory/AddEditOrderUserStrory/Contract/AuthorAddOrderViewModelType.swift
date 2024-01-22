@@ -10,7 +10,7 @@ import SwiftUI
 
 @MainActor
 protocol AuthorAddOrderViewModelType: ObservableObject {
-    var order: DbOrderModel?  { get }
+    var order: OrderModel?  { get }
     var name: String { get set }
     var secondName: String { get set }
     var instagramLink: String { get set }

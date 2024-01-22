@@ -12,16 +12,15 @@ import MapKit
 
 @MainActor
 protocol AuthorMainScreenViewModelType: ObservableObject {
-    var orders: [DbOrderModel] { get }
     var userProfileIsSet: Bool { get set }
     
     var weatherByDate: [Date: [Weather?]] { get }
     var selectedDay: Date { get set }
     var today: Date { get set }
     var weatherForCurrentDay: String? { get }
-    var filteredUpcomingOrders: [Date : [DbOrderModel]] { get }
-    var filteredOtherOrders: [Date : [DbOrderModel]] { get }
-    var filteredOrdersForToday: [DbOrderModel] { get }
+    var filteredUpcomingOrders: [Date : [OrderModel]] { get }
+    var filteredOtherOrders: [Date : [OrderModel]] { get }
+    var filteredOrdersForToday: [OrderModel] { get }
     var location: LocationService { get set }
     
     func formattedDate(date: Date, format: String) -> String
@@ -31,4 +30,5 @@ protocol AuthorMainScreenViewModelType: ObservableObject {
     func orderStausColor (order: String?) -> Color
     func orderStausName (status: String?) -> String
     func getIconForWeatherCode(weatherCode: String) -> String
+    func getMinimalTimeSlot(_ time: String) -> Int 
 }

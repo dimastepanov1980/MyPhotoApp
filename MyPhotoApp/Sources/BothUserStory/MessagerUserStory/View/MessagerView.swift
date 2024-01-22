@@ -21,61 +21,77 @@ struct MessagerView<ViewModel: MessagerViewModelType>: View {
     }
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        VStack{
             if let messages = viewModel.getMessage {
-                VStack{
-                    ForEach(messages, id: \.id) { orderId in
-                            MessagerBubbleCell(item: orderId)
-                    }
-                }
-                .padding(.top)
-                .padding(.horizontal, 8)
-                /*
-                Text(String(messageCount ?? 0))
-                    .onAppear(perform: {
-                        switch user.userType {
-                        case .author:
-                            let authorSender = messages.filter { $0.senderIsAuthor == false}
-                            let isViewed = authorSender.filter { $0.isViewed }
-                            self.messageCount = isViewed.count
-                                Task{
-                                    try await viewModel.messageViewed(messages: authorSender)
+                ScrollViewReader { proxy in
+                    ScrollView(showsIndicators: false) {
+                        LazyVStack {
+                            ForEach(messages, id: \.id) { message in
+                                
+                                MessagerBubbleCell(item: message)
+                                    .id(message.id)
+                                    .onAppear {
+                                        if user.userType == .author && (viewModel.getMessage?.last?.senderIsAuthor) == false {
+                                            if !message.isViewed {
+                                                Task{
+                                                    try await viewModel.messageViewed(message: message, user: .author)
+                                                    print("author is view messages")
+                                                }
+                                            }
+                                        } else if user.userType == .customer && (viewModel.getMessage?.last?.senderIsAuthor) == true {
+                                            print("customer recive messages")
+                                            if !message.isViewed {
+                                                Task{
+                                                    try await viewModel.messageViewed(message: message, user: .customer)
+                                                    print("customer is view messages")
+                                                }
+                                            }
+                                        }
+                                    }
+                            }
+                        }
+                        .padding(.top)
+                        .padding(.horizontal, 8)
+                        .onReceive(viewModel.objectWillChange) { _ in
+                            if let lastMessageID = viewModel.getMessage?.last?.id {
+                                withAnimation {
+                                    proxy.scrollTo(lastMessageID, anchor: .bottom)
                                 }
-                            self.messageCount = authorSender.count
-                            print("authorRecived: \(authorSender)")
-                        case .customer:
-                            let customerSender = messages.filter { $0.senderIsAuthor == true}
-                            self.messageCount = customerSender.count
-                            print("customerRecived: \(customerSender)")
-
-                        case .unspecified:
-                            break
+                            }
+                        }
+                        .onAppear {
+                                if let lastMessageID = messages.last?.id {
+                                    proxy.scrollTo(lastMessageID, anchor: .bottom)
+                                }
+                        }
+                    }
+                    .toolbarBackground(Color(R.color.gray6.name), for: .navigationBar)
+                    .toolbarBackground(.visible, for: .navigationBar)
+                    .safeAreaInset(edge: .bottom, content: {
+                        MessageField(message: $message) {
+                            Task {
+                                let sendMessage: MessageModel = MessageModel(id: UUID().uuidString,
+                                                                             message: message,
+                                                                             timestamp: Date(),
+                                                                             isViewed: false,
+                                                                             senderIsAuthor: user.userType == .author)
+                                self.message = ""
+                                try await viewModel.addNewMessage(message: sendMessage)
+                            }
                         }
                     })
-                 */
-            }
-        }
-        .toolbarBackground(Color(R.color.gray6.name), for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .safeAreaInset(edge: .bottom, content: {
-            MessageField(message: $message) {
-                Task{
-                    let sendMessage: MessageModel = MessageModel(id: UUID().uuidString,
-                                                             message: message,
-                                                             timestamp: Date(),
-                                                             isViewed: false,
-                                                             senderIsAuthor: user.userType == .author)
-                    self.message = ""
-                    try await viewModel.addNewMessage(message: sendMessage)
+                    .ignoresSafeArea(.container, edges: .bottom)
+                    .navigationTitle(navigationTitle)
+                    .navigationBarTitleDisplayMode(.inline)
+                    
+                    
                 }
             }
-        })
-        .ignoresSafeArea(.container, edges: /*@START_MENU_TOKEN@*/.bottom/*@END_MENU_TOKEN@*/)
-        .navigationTitle(navigationTitle)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: CustomBackButtonView())
+        }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: CustomBackButtonView())
     }
+
 }
 
 
@@ -90,21 +106,10 @@ struct MessagerView_Previews: PreviewProvider {
 
 
 private class MockViewModel: MessagerViewModelType, ObservableObject {
+    func messageViewed(message: MessageModel, user: Constants.UserType) async throws {}
+    
     var getMessage: [MessageModel]?
-    var getMessages: [String : [MessageModel]]?
-
-    func messageViewed(messages: [MessageModel]) async throws {}
+    var orderId: String = ""
     func addNewMessage(message: MessageModel) async throws {}
     func subscribe() {}
-    var orderId: String = ""
-//    = [
-//        MessageModel(id: UUID().uuidString, message: "Hello", timestamp: Date(), isViewed: true, recived: true),
-//        MessageModel(id: UUID().uuidString, message: "Hello, how are you", timestamp: Date(), isViewed: true, recived: false),
-//        MessageModel(id: UUID().uuidString, message: "My Name is Dima", timestamp: Date(), isViewed: true, recived: true),
-//        MessageModel(id: UUID().uuidString, message: "Иногда правила безопасности Cloud Firestore проверяют, вошел ли пользователь в систему, но не ограничивают доступ на основе этой аутентификации. Если одно из ваших правил включает auth != null , подтвердите, что вы хотите, чтобы любой вошедший в систему пользователь имел доступ к данным.", timestamp: Date(), isViewed: true, recived: true),
-//        MessageModel(id: UUID().uuidString, message: "Иногда правила безопасности Cloud Firestore проверяют, вошел ли пользователь в систему, но не ограничивают доступ на основе этой аутентификации. Если одно из ваших правил включает auth != null , подтвердите, что вы хотите, чтобы любой вошедший в систему пользователь имел доступ к данным.", timestamp: Date(), isViewed: true, recived: true),
-//        MessageModel(id: UUID().uuidString, message: "Иногда правила безопасности Cloud Firestore проверяют, вошел ли пользователь в систему, но не ограничивают доступ на основе этой аутентификации. Если одно из ваших правил включает auth != null , подтвердите, что вы хотите, чтобы любой вошедший в систему пользователь имел доступ к данным.", timestamp: Date(), isViewed: true, recived: true),
-//        MessageModel(id: UUID().uuidString, message: "Иногда правила безопасности Cloud Firestore проверяют, вошел ли пользователь в систему, но не ограничивают доступ на основе этой аутентификации. Если одно из ваших правил включает auth != null , подтвердите, что вы хотите, чтобы любой вошедший в систему пользователь имел доступ к данным.", timestamp: Date(), isViewed: true, recived: true),
-//        MessageModel(id: UUID().uuidString, message: "Иногда правила безопасности Cloud Firestore проверяют, вошел ли пользователь в систему, но не ограничивают доступ на основе этой аутентификации. Если одно из ваших правил включает auth != null , подтвердите, что вы хотите, чтобы любой вошедший в систему пользователь имел доступ к данным.", timestamp: Date(), isViewed: true, recived: true)
-//    ]
 }

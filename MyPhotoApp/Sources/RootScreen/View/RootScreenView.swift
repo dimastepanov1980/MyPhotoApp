@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RootScreenView: View {
-    @EnvironmentObject var router: Router<Views>
+//    @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
 
     @State private var showAddOrderView: Bool = false

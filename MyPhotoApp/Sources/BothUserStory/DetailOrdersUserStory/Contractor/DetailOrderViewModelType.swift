@@ -11,7 +11,7 @@ import PhotosUI
 
 @MainActor
 protocol DetailOrderViewModelType: ObservableObject {
-    var order: DbOrderModel { get set }
+    var order: OrderModel { get set }
     var avaibleStatus: [String] { get set }
     var status: String { get set }
     var statusColor: Color { get }
