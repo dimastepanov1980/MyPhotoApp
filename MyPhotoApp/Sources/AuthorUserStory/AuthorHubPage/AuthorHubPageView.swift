@@ -11,9 +11,7 @@ struct AuthorHubPageView: View {
     @State var index = 0
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
-    
-    @State private var profileIsShow: Bool = false
-    @State private var userProfileIsSet: Bool = false
+
     
     @State private var portfolioIsShow: Bool = false
     @State private var userPortfolioIsSet: Bool = false
@@ -22,15 +20,11 @@ struct AuthorHubPageView: View {
             VStack{
                 ZStack {
                     if self.index == 0 {
-                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), statusOrder: .Upcoming)
+                        AuthorMainScreenView()
                             .toolbar(.hidden, for: .navigationBar)
-
-                        
                     } else if self.index == 1 {
-                        
-                        AuthorMainScreenView(with: AuthorMainScreenViewModel(userProfileIsSet: $userProfileIsSet, userPortfolioIsSet: $userPortfolioIsSet), statusOrder: .InProgress)
+                        AuthorEditScreenView()
                         .toolbar(.hidden, for: .navigationBar)
-
                     } else if self.index == 2 {
                         PortfolioView(with: PortfolioViewModel())
                     } else if self.index == 3 {

@@ -9,66 +9,56 @@ import SwiftUI
 import Combine
 import MapKit
 
-struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
-    @ObservedObject var viewModel: ViewModel
+struct AuthorMainScreenView: View {
     @EnvironmentObject var router: Router<Views>
     @EnvironmentObject var user: UserTypeService
+    @EnvironmentObject var viewModel: AuthorMainScreenViewModel
     
     @State var showActionSheet: Bool = false
     @State var shouldScroll = false
-
-    var statusOrder: StatusOrder
-
-    
-    init(with viewModel: ViewModel,
-         statusOrder: StatusOrder
-    ) {
-        self.viewModel = viewModel
-        self.statusOrder = statusOrder
-    }
+    let currentDate = Date()  // Get the current date
+    let calendar = Calendar.current
     
     var body: some View {
-            VStack {
-                ScrollViewReader { data in
-//                    if !viewModel.orders.isEmpty{
-                        ScrollView(.vertical, showsIndicators: false) {
-                            LazyVStack(pinnedViews: [.sectionHeaders]) {
-                                Section {
-                                    ScrollView(.vertical, showsIndicators: false) {
-                                        verticalCards()
-                                            .padding(.bottom, 42)
-                                            .padding(.top, statusOrder == .Upcoming ? 0 : 64)
-                                    }
-                                } header: {
-                                    if statusOrder == .Upcoming {
-                                        headerSection(scroll: data)
-                                            .padding(.top, 64)
-                                            .padding(.bottom, 4)
-                                            .background(Color(.systemBackground))
-                                            .ignoresSafeArea()
-                                    }
+        VStack {
+            ScrollViewReader { data in
+                if !viewModel.authorOrders.isEmpty{
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVStack(pinnedViews: [.sectionHeaders]) {
+                            Section {
+                                ScrollView(.vertical, showsIndicators: false) {
+                                    verticalCards()
+                                        .padding(.bottom, 42)
+                                        .padding(.top, 0)
                                 }
+                            } header: {
+                                headerSection(scroll: data)
+                                    .padding(.top, 64)
+                                    .padding(.bottom, 4)
+                                    .background(Color(.systemBackground))
+                                    .ignoresSafeArea()
                             }
                         }
-//                    } else {
-//                        ZStack{
-//                            Color(.systemBackground)
-//                                .ignoresSafeArea()
-//                            
-//                            Text(R.string.localizable.order_not_found_worning())
-//                                .multilineTextAlignment(.center)
-//                                .font(.footnote)
-//                                .foregroundColor(Color(R.color.gray3.name))
-//                                .padding()
-//                        }
-//                    }
+                    }
+                } else {
+                    ZStack{
+                        Color(.systemBackground)
+                            .ignoresSafeArea()
+                        
+                        Text(R.string.localizable.order_not_found_worning())
+                            .multilineTextAlignment(.center)
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray3.name))
+                            .padding()
+                    }
                 }
             }
-            .navigationBarBackButtonHidden(true)
-            .navigationTitle(R.string.localizable.settings_name_screen())
-
-            .ignoresSafeArea()
-            .background(Color(.systemBackground))
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationTitle(R.string.localizable.settings_name_screen())
+        
+        .ignoresSafeArea()
+        .background(Color(.systemBackground))
 
     }
     func headerSection(scroll: ScrollViewProxy) -> some View {
@@ -108,27 +98,17 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
     }
     var horizontalCards: some View {
         HStack {
-            ForEach(viewModel.filteredOrdersForToday, id: \.orderId) { order in
-                let shootingTime = order.orderShootingTime?.min { viewModel.getMinimalTimeSlot($0) < viewModel.getMinimalTimeSlot($1) } ?? ""
-                AuthorHCellMainScreenView(items: CellOrderModel(orderPrice: order.orderPrice ?? "",
-                                                                orderStatus: order.orderStatus,
-                                                                orderShootingDate: order.orderShootingDate,
-                                                                orderShootingTime: shootingTime,
-                                                                orderShootingDuration: order.orderShootingDuration,
-                                                                newMessagesAuthor: order.newMessagesAuthor,
-                                                                newMessagesCustomer: order.newMessagesCustomer,
-                                                                authorName: order.authorName ?? "",
-                                                                authorSecondName: order.authorSecondName ?? "",
-                                                                authorLocation: order.authorLocation ?? "",
-                                                                customerName: order.customerName ?? "",
-                                                                customerSecondName: order.customerSecondName ?? "",
-                                                                customerDescription: order.customerDescription ?? ""))
-                    .onTapGesture {
-                        router.push(.DetailOrderView(order: order))
+            ForEach(viewModel.authorOrders.indices, id: \.self) { index in
+                if calendar.isDate(viewModel.authorOrders[index].orderShootingDate, inSameDayAs: currentDate) {
+                    AuthorHCellMainScreenView(items: CellOrderModel(order: viewModel.authorOrders[index])) {
+                        router.push(.AuthorDetailOrderView(index: index))
                     }
+                }
             }
-        }.padding(.horizontal)
+        }
+        .padding(.horizontal)
     }
+    /*
     func calendarSection(value: ScrollViewProxy) -> some View {
         HStack(alignment: .bottom, spacing: 8 ) {
             ForEach(viewModel.weatherByDate.keys.sorted(), id: \.self) { day in
@@ -154,21 +134,24 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                             .foregroundColor(Color(R.color.gray3.name))
                         
                         HStack(spacing: 2) {
-                            ForEach(viewModel.filteredUpcomingOrders.keys.sorted(), id: \.self) { date in
-                                ForEach(viewModel.filteredUpcomingOrders[date]!, id: \.orderShootingDate) { index in
-                                    if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: index.orderShootingDate, format: "dd, MM, YYYY") {
+                            ForEach(viewModel.authorOrders.indices, id: \.self) { index in
+                                if calendar.compare(viewModel.authorOrders[index].orderShootingDate, to: currentDate, toGranularity: .day) == .orderedDescending {
+                                    if viewModel.formattedDate(date: day, format: "dd MMMM YYYY") == viewModel.formattedDate(date: viewModel.authorOrders[index].orderShootingDate, format: "dd MMMM YYYY") {
                                         Circle()
                                             .fill(Color.gray)
                                             .frame(height: 6)
                                     }
+                                    }
                                 }
-                            }
                             
-                            ForEach(viewModel.filteredOrdersForToday, id: \.orderShootingDate) { item in
-                                if viewModel.formattedDate(date: day, format: "dd, MM, YYYY") == viewModel.formattedDate(date: item.orderShootingDate, format: "dd, MM, YYYY") {
-                                    Circle()
-                                        .fill(Color.red)
-                                        .frame(height: 6)
+                            ForEach(viewModel.authorOrders.indices, id: \.self) { index in
+                                if calendar.isDate(viewModel.authorOrders[index].orderShootingDate, inSameDayAs: currentDate) {
+                                    
+                                    if viewModel.formattedDate(date: day, format: "dd MMMM YYYY") == viewModel.formattedDate(date: viewModel.authorOrders[index].orderShootingDate, format: "dd MMMM YYYY") {
+                                        Circle()
+                                            .fill(Color.red)
+                                            .frame(height: 6)
+                                    }
                                 }
                             }
                         }
@@ -197,124 +180,195 @@ struct AuthorMainScreenView<ViewModel: AuthorMainScreenViewModelType> : View {
                 .onTapGesture {
                     withAnimation {
                         viewModel.selectedDay = day
+                        print(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM YYYY" ))
+                        print("scroll to: \(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM YYYY" ))")
+
+                        // MARK: - make animation scroll
+                        value.scrollTo(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM YYYY" ), anchor: .bottom)
                         shouldScroll.toggle()
                     }
-                    // MARK: - make animation scroll
-                    value.scrollTo(viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM YYYY" ), anchor: .top)
                 }
                 .onAppear{
                     print("day: \(day)")
                 }
             }
-            
-        }
-        .onAppear{
-            print("weatherByDate: \(viewModel.weatherByDate)")
         }
         .padding(.horizontal)
     }
-    
+     */
+    func calendarSection(value: ScrollViewProxy) -> some View {
+        HStack(alignment: .bottom, spacing: 8 ) {
+            ForEach(viewModel.weatherByDate.keys.sorted(), id: \.self) { day in
+                ForEach(viewModel.weatherByDate[day]!, id: \.self) { icon in
+                    VStack(spacing: 4) {
+                        Spacer()
+                        if let returnedItem = icon {
+                            Image(systemName: viewModel.getIconForWeatherCode(weatherCode: returnedItem.icon))
+                                .symbolRenderingMode(.palette)
+                                .font(.system(size: 16))
+                                .foregroundStyle(Color(R.color.gray4.name), Color(R.color.upcoming.name))
+                        } else {
+                            Image(systemName: "icloud.slash")
+                                .symbolRenderingMode(.palette)
+                                .font(.system(size: 14))
+                                .foregroundStyle(Color(R.color.upcoming.name), Color(R.color.gray4.name))
+                        }
+                        Text(viewModel.formattedDate(date: day, format: "dd"))
+                            .font(.body.bold())
+                            .foregroundColor(Color(R.color.gray2.name))
+                        Text(viewModel.formattedDate(date: day, format: "EEE"))
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray3.name))
 
-    func verticalCards() -> some View {
-        LazyVStack(alignment: .center) {
-            ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders.keys.sorted(by: <) : viewModel.filteredOtherOrders.keys.sorted(by: >), id: \.self) { date in
-                    Section(header: Text(date, style: .date)
-                        .id(viewModel.formattedDate(date: date, format: "dd MMMM YYYY" ))
-                        .font(.footnote)
-                        .foregroundColor(Color(R.color.gray3.name))) {
-                            ForEach(statusOrder == .Upcoming ? viewModel.filteredUpcomingOrders[date]! : viewModel.filteredOtherOrders[date]! , id: \.orderId) { order in
-                                let orderShootingTime = order.orderShootingTime?.min { viewModel.getMinimalTimeSlot($0) < viewModel.getMinimalTimeSlot($1) } ?? ""
-                                AuthorVCellMainScreenView(items: CellOrderModel(orderPrice: order.orderPrice ?? "",
-                                                                                orderStatus: order.orderStatus,
-                                                                                orderShootingDate: order.orderShootingDate,
-                                                                                orderShootingTime: orderShootingTime,
-                                                                                orderShootingDuration: order.orderShootingDuration,
-                                                                                newMessagesAuthor: order.newMessagesAuthor,
-                                                                                newMessagesCustomer: order.newMessagesCustomer,
-                                                                                authorName: order.authorName ?? "",
-                                                                                authorSecondName: order.authorSecondName ?? "",
-                                                                                authorLocation: order.authorLocation ?? "",
-                                                                                customerName: order.customerName ?? "",
-                                                                                customerSecondName: order.customerSecondName ?? "",
-                                                                                customerDescription: order.customerDescription ?? ""),
-                                                          statusColor: viewModel.orderStausColor(order: order.orderStatus),
-                                                          status: viewModel.orderStausName (status: order.orderStatus),
-                                                          newMessagesAuthor: String(order.newMessagesAuthor))
-                                    .onTapGesture {
-                                        router.push(.DetailOrderView(order: order))
+                        HStack(spacing: 2) {
+                            ForEach(viewModel.authorOrders.indices, id: \.self) { index in
+                                if calendar.compare(viewModel.authorOrders[index].orderShootingDate, to: currentDate, toGranularity: .day) == .orderedDescending {
+                                    if viewModel.formattedDate(date: day, format: "dd MMMM YYYY") == viewModel.formattedDate(date: viewModel.authorOrders[index].orderShootingDate, format: "dd MMMM YYYY") {
+                                        Circle()
+                                            .fill(Color.gray)
+                                            .frame(height: 6)
                                     }
+                                }
+                            }
+
+                            ForEach(viewModel.authorOrders.indices, id: \.self) { index in
+                                if calendar.isDate(viewModel.authorOrders[index].orderShootingDate, inSameDayAs: currentDate) {
+
+                                    if viewModel.formattedDate(date: day, format: "dd MMMM YYYY") == viewModel.formattedDate(date: viewModel.authorOrders[index].orderShootingDate, format: "dd MMMM YYYY") {
+                                        Circle()
+                                            .fill(Color.red)
+                                            .frame(height: 6)
+                                    }
+                                }
                             }
                         }
+                    }
+                    .padding(.bottom, 16)
                 }
-            
-        }  .padding(.horizontal)
+                .frame(width: 50, height: 100)
+                .background(
+                    ZStack {
+                        if viewModel.isTodayDay(date: day) {
+                            Capsule()
+                                .strokeBorder(Color(R.color.gray4.name), lineWidth: 1)
+                                .opacity(viewModel.isTodayDay(date: Date()) ? 1 : 0)
+                        }
+                    }
+                )
+                .background(
+                    ZStack {
+                        if viewModel.isToday(date: day) {
+                            Capsule()
+                                .fill(Color(R.color.gray5.name))
+                        }
+                    }
+                )
+                .containerShape(Capsule())
+                .onTapGesture {
+                    withAnimation {
+                        viewModel.selectedDay = day
+                        let formattedDate = viewModel.formattedDate(date: viewModel.selectedDay, format: "dd MMMM YYYY")
+                        print("Selected day: \(formattedDate)")
+
+                        // Ensure the ID matches the expected section ID
+                        let sectionId = viewModel.formattedDate(date: day, format: "dd MMMM YYYY")
+                        print("Scrolling to section: \(sectionId)")
+
+                        // Scroll to the selected section
+                        value.scrollTo(sectionId, anchor: .top)
+                        shouldScroll.toggle()
+                    }
+                }
+                .onAppear {
+                    print("day: \(day)")
+                }
+            }
+        }
+        .padding(.horizontal)
     }
-}
-// MARK: Формтируем дату в День месяц
-extension Date {
-    var displayDayToday: String {
-        self.formatted(
-            .dateTime
-                .day()
-                .month(.abbreviated)
-        )
+
+    func verticalCards() -> some View {
+        VStack(alignment: .center) {
+            ForEach(viewModel.authorOrders
+                .sorted(by: { $0.orderShootingDate < $1.orderShootingDate })
+                .filter { calendar.compare($0.orderShootingDate, to: currentDate, toGranularity: .day) == .orderedDescending },
+                    id: \.orderShootingDate) { date in
+                
+                Section(header: Text(viewModel.formattedDate(date: date.orderShootingDate, format: "dd MMMM YYYY" ))
+                    .onTapGesture {
+                        print(viewModel.formattedDate(date: date.orderShootingDate, format: "dd MMMM YYYY" ))
+                    }
+                    .id(viewModel.formattedDate(date: date.orderShootingDate, format: "dd MMMM YYYY" ))
+                    .font(.footnote)
+                    .foregroundColor(Color(R.color.gray3.name))) {
+                        ForEach(viewModel.authorOrders.filter { calendar.isDate($0.orderShootingDate, inSameDayAs: date.orderShootingDate) }, id: \.self) { order in
+                            AuthorVCellMainScreenView(items: CellOrderModel(order: order),
+                                                      statusColor: viewModel.orderStausColor(order: order.orderStatus),
+                                                      status: viewModel.orderStausName(status: order.orderStatus)) {
+                                router.push(.AuthorDetailOrderView(index: viewModel.authorOrders.firstIndex(of: order) ?? 0))
+                            }
+                        }
+                    }
+            }
+        }
+        .padding(.horizontal)
     }
 }
 
-struct AuthorMainScreenView_Previews: PreviewProvider {
-    private static let mockModel = MockViewModel()
-    static var previews: some View {
-        AuthorMainScreenView(with: mockModel, statusOrder: .Upcoming)
-            .environmentObject(UserTypeService())
-    }
-}
-private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
-    func getMinimalTimeSlot(_ time: String) -> Int {
-        return 0
-    }
-    
-    var userProfileIsSet: Bool = true
-    
-    var filteredOtherOrders: [Date : [OrderModel]] = [:]
-    var filteredOrdersForToday: [OrderModel] = []
-    var filteredUpcomingOrders: [Date : [OrderModel]] = [:]
-    var vm = AuthorMainScreenViewModel(userProfileIsSet: .constant(true), userPortfolioIsSet: .constant(false))
-    var location = LocationService()
-    
-    @Published var weatherByDate = [Date : [Weather?]]()
-    @Published var weatherForCurrentDay: String? = nil
-    @Published var weaterId: String = ""
-    @Published var selectedDay: Date = Date()
-    @Published var today: Date = Date()
-    
-    init() {}
-    func fetchWeather(with location: CLLocation) {
-    }
-    
-    func getIconForWeatherCode(weatherCode: String) -> String {
-        return ""
-    }
-    
-    func orderStausName(status: String?) -> String {
-        "Upcoming"
-    }
-    func fetchWeather() async throws {
-        //
-    }
-    func orderStausColor(order: String?) -> Color {
-        return Color.gray
-    }
-    
-    func formattedDate(date: Date, format: String) -> String {
-        return ""
-    }
-    func isToday(date: Date) -> Bool {
-        return true
-    }
-    func isTodayDay(date: Date) -> Bool {
-        return true
-    }
-    func deleteOrder(order: DbOrderModel) async throws {
-        //
-    }
-}
+//struct AuthorMainScreenView_Previews: PreviewProvider {
+//    private static let mockModel = MockViewModel()
+//    static var previews: some View {
+//        AuthorMainScreenView(with: mockModel, statusOrder: .Upcoming)
+//            .environmentObject(UserTypeService())
+//    }
+//}
+//private class MockViewModel: AuthorMainScreenViewModelType, ObservableObject {
+//    func getMinimalTimeSlot(_ time: String) -> Int {
+//        return 0
+//    }
+//    
+//    var userProfileIsSet: Bool = true
+//    
+//    var filteredOtherOrders: [Date : [OrderModel]] = [:]
+//    var filteredOrdersForToday: [OrderModel] = []
+//    var filteredUpcomingOrders: [Date : [OrderModel]] = [:]
+//    var vm = AuthorMainScreenViewModel()
+//    var location = LocationService()
+//    
+//    @Published var weatherByDate = [Date : [Weather?]]()
+//    @Published var weatherForCurrentDay: String? = nil
+//    @Published var weaterId: String = ""
+//    @Published var selectedDay: Date = Date()
+//    @Published var today: Date = Date()
+//    
+//    init() {}
+//    func fetchWeather(with location: CLLocation) {
+//    }
+//    
+//    func getIconForWeatherCode(weatherCode: String) -> String {
+//        return ""
+//    }
+//    
+//    func orderStausName(status: String?) -> String {
+//        "Upcoming"
+//    }
+//    func fetchWeather() async throws {
+//        //
+//    }
+//    func orderStausColor(order: String?) -> Color {
+//        return Color.gray
+//    }
+//    
+//    func formattedDate(date: Date, format: String) -> String {
+//        return ""
+//    }
+//    func isToday(date: Date) -> Bool {
+//        return true
+//    }
+//    func isTodayDay(date: Date) -> Bool {
+//        return true
+//    }
+//    func deleteOrder(order: DbOrderModel) async throws {
+//        //
+//    }
+//}

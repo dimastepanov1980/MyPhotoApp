@@ -11,8 +11,8 @@ struct AuthorVCellMainScreenView: View {
     var items: CellOrderModel
     var statusColor: Color
     var status: String?
-    var newMessagesAuthor: String
-    
+    let action: () -> Void
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top) {
@@ -76,7 +76,9 @@ struct AuthorVCellMainScreenView: View {
         .padding(.vertical, 18)
         .background(Color(R.color.gray5.name))
         .cornerRadius(16)
-        
+        .onTapGesture {
+            action()
+        }
     }
     
     @ViewBuilder
@@ -105,7 +107,7 @@ struct AuthorVCellMainScreenView: View {
 struct AuthorVCellMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModelVCell()
     static var previews: some View {
-        AuthorVCellMainScreenView(items: mockModel.mocData, statusColor: Color(R.color.upcoming.name), newMessagesAuthor: "0")
+        AuthorVCellMainScreenView(items: mockModel.mocData, statusColor: Color(R.color.upcoming.name), action: {})
     }
 }
 private class MockViewModelVCell: ObservableObject {

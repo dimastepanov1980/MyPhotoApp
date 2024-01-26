@@ -155,7 +155,6 @@ final class UserManager {
 
         }
     }
-
     func createNewChat(orderId: String, authorId: String, customerId: String) async throws {
         let chatData: [String : Any] = [
             DBMessagerModel.CodingKeys.id.rawValue : orderId,
@@ -167,7 +166,6 @@ final class UserManager {
         } catch {
             print(error.localizedDescription)
         }
-       
     }
     func addNewMessage(orderId: String, message: DBMessageModel) async throws {
         let newMessageDocument = chatDocumentForOrder(orderId: orderId).collection("messages").document()
@@ -208,7 +206,6 @@ final class UserManager {
             completion(message)
         }
     }
-    
     func messageDecrementCount(orderId: String, user: Constants.UserType) async throws {
         switch user {
         case .author:
@@ -219,7 +216,6 @@ final class UserManager {
             break
         }
     }
-    
     func subscribeToAllCustomerOrders(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> [ListenerRegistration] {
         let query = orderCollection.whereField("customer_id", isEqualTo: userId)
         do {
@@ -327,17 +323,20 @@ final class UserManager {
     func deleteSampleImageUrl(path: String, orderId: String) async throws {
         try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayRemove([path])])
     }
-    func updateStatus(order: DbOrderModel, orderId: String) async throws {
-        let orderData: [String : Any] = [
-            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus as Any
-        ]
-        try await orderCollection.document(orderId).updateData(orderData)
+    func updateStatus(status: String, orderId: String) async throws {
+        try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderStatus.rawValue : status])
     }
     func updateOrder(order: DbOrderModel, orderId: String) async throws {
         guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
             throw URLError(.badURL)
         }
+        
         let orderData: [String : Any] = [
+            DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
+            DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
+            DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
+            DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
+            
             DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
             DbOrderModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
             DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",

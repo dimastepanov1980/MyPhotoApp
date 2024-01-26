@@ -16,9 +16,10 @@ import UserNotifications
 
 @main
 struct MyPhotoAppApp: App {
-    @ObservedObject var router = Router<Views>()
-    @ObservedObject var user = UserTypeService()
-    @ObservedObject var orders = CustomerOrdersViewModel()
+    @StateObject var router = Router<Views>()
+    @StateObject var user = UserTypeService()
+    @StateObject var customerOrders = CustomerOrdersViewModel()
+    @StateObject var authorOrders = AuthorMainScreenViewModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     var body: some Scene {
@@ -35,7 +36,8 @@ struct MyPhotoAppApp: App {
                     await user.getUserType()
                 }
             }
-            .environmentObject(orders)
+            .environmentObject(customerOrders)
+            .environmentObject(authorOrders)
             .environmentObject(user)
             .environmentObject(router)
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in

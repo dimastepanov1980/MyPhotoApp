@@ -17,29 +17,21 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
     var location = LocationService()
     private var cancellables = Set<AnyCancellable>()
     private var listenerRegistration: [ListenerRegistration]?
+    
     @Published private var user: DBUserModel?
-
     @Published var filteredOtherOrders: [Date : [OrderModel]] = [:]
     @Published var filteredUpcomingOrders: [Date : [OrderModel]] = [:]
-    @Published var filteredOrdersForToday: [OrderModel] = []
-    
-    @Binding var userProfileIsSet: Bool
-    @Binding var userPortfolioIsSet: Bool
+    @Published var authorOrders: [OrderModel] = []
     @Published var weatherByDate: [Date: [Weather?]] = [:]
     @Published var weatherForCurrentDay: String? = nil
     @Published var selectedDay: Date = Date()
     @Published var today: Date = Date()
     @Published var modified = false
     
-    init(userProfileIsSet: Binding<Bool>,
-         userPortfolioIsSet: Binding<Bool>) {
-        self._userProfileIsSet = userProfileIsSet
-        self._userPortfolioIsSet = userPortfolioIsSet
-        print("location: \(location)")
+    init() {
         location.$location
-                  .receive(on: DispatchQueue.main) // Ensure updates are received on the main thread
+                  .receive(on: DispatchQueue.main)
                   .sink { [weak self] newLocation in
-                      // Update the view with the new location value
                       self?.handleNewLocation(newLocation)
                   }
                   .store(in: &cancellables)
@@ -48,6 +40,19 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
          await subscribe()
         }
     }
+    func subscribe() async {
+//        var ordersForToday: [OrderModel] = []
+        let currentDate = Calendar.current.startOfDay(for: Date())
+        
+        guard let authDateResult = try? AuthNetworkService.shared.getAuthenticationUser() else {
+            return
+        }
+        listenerRegistration = UserManager.shared.subscribeToAllAuthorOrders(userId: authDateResult.uid) { recivingOrders in
+            self.authorOrders =  recivingOrders.map { OrderModel(order: $0) }
+        }
+    }
+
+    
     func fetchWeather(with location: CLLocation) {
         let longitude = location.coordinate.longitude.description
         let latitude = location.coordinate.latitude.description
@@ -99,49 +104,6 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
     }
-
-    func subscribe() async {
-        var filteredOtherOrders: [Date: [OrderModel]] = [:]
-        var filteredUpcomingOrders: [Date: [OrderModel]] = [:]
-        let currentDate = Calendar.current.startOfDay(for: Date())
-        
-        guard let authDateResult = try? AuthNetworkService.shared.getAuthenticationUser() else {
-            return
-        }
-        listenerRegistration = UserManager.shared.subscribeToAllAuthorOrders(userId: authDateResult.uid) { recivingOrders in
-            var ordersForToday: [OrderModel] = []
-            for order in recivingOrders {
-                let date = Calendar.current.startOfDay(for: order.orderShootingDate)
-                if date < currentDate {
-                    if filteredOtherOrders[date] == nil {
-                        filteredOtherOrders[date] = [OrderModel(order: order)]
-                    } else {
-                        filteredOtherOrders[date]?.append(contentsOf: [OrderModel(order: order)])
-                    }
-                } else if date > currentDate {
-                    if filteredUpcomingOrders[date] == nil {
-                        filteredUpcomingOrders[date] = [OrderModel(order: order)]
-                    } else {
-                        filteredUpcomingOrders[date, default: []].append(contentsOf: [OrderModel(order: order)])
-                    }
-                } else if date == currentDate {
-                    if ordersForToday.isEmpty {
-                        ordersForToday = [OrderModel(order: order)]
-                    } else {
-                        ordersForToday.append(contentsOf: [OrderModel(order: order)])
-                    }
-                }
-            }
-            
-            self.filteredOrdersForToday = ordersForToday
-            ordersForToday = []
-            self.filteredOtherOrders = filteredOtherOrders
-            filteredOtherOrders = [:]
-            self.filteredUpcomingOrders = filteredUpcomingOrders
-            filteredUpcomingOrders = [:]
-        }
-    }
-
 
     func orderStausColor (order: String?) -> Color {
         if let order = order {
@@ -201,7 +163,6 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
             return "icloud.slash"
         }
     }
-    
     func getMinimalTimeSlot(_ time: String) -> Int {
         let components = time.split(separator: ":")
         if components.count == 2, let hours = Int(components[0]), let minutes = Int(components[1]) {
@@ -209,7 +170,6 @@ final class AuthorMainScreenViewModel: AuthorMainScreenViewModelType, Observable
         }
         return 0
     }
-    
     private func handleNewLocation(_ location: CLLocation?) {
         guard let location = location else {
             print("Location is nil.")

@@ -134,16 +134,19 @@
 		5FA15D9D2A175A91007A1AC6 /* AuthenticationScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D9C2A175A91007A1AC6 /* AuthenticationScreenViewModel.swift */; };
 		5FA15DA02A176A21007A1AC6 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15D9F2A176A21007A1AC6 /* UserDataModel.swift */; };
 		5FA15DA42A184BDC007A1AC6 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DA32A184BDC007A1AC6 /* OrderModel.swift */; };
-		5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DA92A1851E8007A1AC6 /* DetailOrderViewModelType.swift */; };
-		5FA15DAC2A185305007A1AC6 /* DetailOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */; };
-		5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAD2A186BED007A1AC6 /* DetailOrderView.swift */; };
+		5FA15DAA2A1851E8007A1AC6 /* CustomerDetailOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DA92A1851E8007A1AC6 /* CustomerDetailOrderViewModelType.swift */; };
+		5FA15DAC2A185305007A1AC6 /* CustomerDetailOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAB2A185305007A1AC6 /* CustomerDetailOrderViewModel.swift */; };
+		5FA15DAE2A186BED007A1AC6 /* CustomerDetailOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA15DAD2A186BED007A1AC6 /* CustomerDetailOrderView.swift */; };
 		5FA1ECA12AF0AFC10092A74D /* PortfolioDetailScreenViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1ECA02AF0AFC10092A74D /* PortfolioDetailScreenViewModelType.swift */; };
 		5FA1ECA32AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1ECA22AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift */; };
 		5FA1ECA52AF0B01D0092A74D /* PortfolioDetailScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1ECA42AF0B01D0092A74D /* PortfolioDetailScreenView.swift */; };
 		5FA3C3482A5BDC23003EA4F8 /* AuthorHubPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA3C3472A5BDC23003EA4F8 /* AuthorHubPageView.swift */; };
 		5FA767E42A69762900861F7D /* PortfolioEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA767E32A69762900861F7D /* PortfolioEditView.swift */; };
 		5FA767E72A6BE67E00861F7D /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 5FA767E62A6BE67E00861F7D /* GoogleMobileAds */; };
-		5FAFBDD02B5A53B1000F3AD6 /* DetailMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAFBDCF2B5A53B1000F3AD6 /* DetailMessageView.swift */; };
+		5FAF02C62B60D14F006F7D63 /* AuthorDetailOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAF02C52B60D14F006F7D63 /* AuthorDetailOrderView.swift */; };
+		5FAF02C82B60D15F006F7D63 /* AuthorDetailOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAF02C72B60D15F006F7D63 /* AuthorDetailOrderViewModel.swift */; };
+		5FAF02CA2B60D16D006F7D63 /* AuthorDetailOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAF02C92B60D16D006F7D63 /* AuthorDetailOrderViewModelType.swift */; };
+		5FAF02CC2B60DC36006F7D63 /* AuthorEditScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAF02CB2B60DC36006F7D63 /* AuthorEditScreenView.swift */; };
 		5FB717452A2090A300EC7BF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FB717442A2090A300EC7BF6 /* GoogleService-Info.plist */; };
 		5FB717482A223F6400EC7BF6 /* SettingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB717472A223F6400EC7BF6 /* SettingScreenView.swift */; };
 		5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA266F2A14A08200E972FB /* MyPhotoAppApp.swift */; };
@@ -273,16 +276,19 @@
 		5FA15D9C2A175A91007A1AC6 /* AuthenticationScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationScreenViewModel.swift; sourceTree = "<group>"; };
 		5FA15D9F2A176A21007A1AC6 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
 		5FA15DA32A184BDC007A1AC6 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
-		5FA15DA92A1851E8007A1AC6 /* DetailOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderViewModelType.swift; sourceTree = "<group>"; };
-		5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderViewModel.swift; sourceTree = "<group>"; };
-		5FA15DAD2A186BED007A1AC6 /* DetailOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailOrderView.swift; sourceTree = "<group>"; };
+		5FA15DA92A1851E8007A1AC6 /* CustomerDetailOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailOrderViewModelType.swift; sourceTree = "<group>"; };
+		5FA15DAB2A185305007A1AC6 /* CustomerDetailOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailOrderViewModel.swift; sourceTree = "<group>"; };
+		5FA15DAD2A186BED007A1AC6 /* CustomerDetailOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerDetailOrderView.swift; sourceTree = "<group>"; };
 		5FA1ECA02AF0AFC10092A74D /* PortfolioDetailScreenViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDetailScreenViewModelType.swift; sourceTree = "<group>"; };
 		5FA1ECA22AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDetailScreenViewModel.swift; sourceTree = "<group>"; };
 		5FA1ECA42AF0B01D0092A74D /* PortfolioDetailScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioDetailScreenView.swift; sourceTree = "<group>"; };
 		5FA3C3472A5BDC23003EA4F8 /* AuthorHubPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorHubPageView.swift; sourceTree = "<group>"; };
 		5FA722502A1F145F003EB084 /* MyPhotoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyPhotoApp.entitlements; sourceTree = "<group>"; };
 		5FA767E32A69762900861F7D /* PortfolioEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioEditView.swift; sourceTree = "<group>"; };
-		5FAFBDCF2B5A53B1000F3AD6 /* DetailMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMessageView.swift; sourceTree = "<group>"; };
+		5FAF02C52B60D14F006F7D63 /* AuthorDetailOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorDetailOrderView.swift; sourceTree = "<group>"; };
+		5FAF02C72B60D15F006F7D63 /* AuthorDetailOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorDetailOrderViewModel.swift; sourceTree = "<group>"; };
+		5FAF02C92B60D16D006F7D63 /* AuthorDetailOrderViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorDetailOrderViewModelType.swift; sourceTree = "<group>"; };
+		5FAF02CB2B60DC36006F7D63 /* AuthorEditScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorEditScreenView.swift; sourceTree = "<group>"; };
 		5FB717442A2090A300EC7BF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5FB717472A223F6400EC7BF6 /* SettingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingScreenView.swift; sourceTree = "<group>"; };
 		5FBA266C2A14A08200E972FB /* MyPhotoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPhotoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -513,6 +519,7 @@
 		5F39095C2A8F52A0006E539A /* AuthorUserStory */ = {
 			isa = PBXGroup;
 			children = (
+				5FAF02C12B60D0E9006F7D63 /* AuthorDetailOrder */,
 				5FA3C3462A5BDC07003EA4F8 /* AuthorHubPage */,
 				5FC418F52ADD21C00017AF56 /* AuthorMainScreen_Tab */,
 				5FA767E22A6975FB00861F7D /* AuthorPortfolio_Tab */,
@@ -675,7 +682,6 @@
 				5FB717462A223F3000EC7BF6 /* SettingsUserStory */,
 				5FF58F382A27043A009AF970 /* AddEditOrderUserStrory */,
 				5FBA26992A15370A00E972FB /* AuthenticationUserStory */,
-				5FA15DA52A184FA9007A1AC6 /* DetailOrdersUserStory */,
 			);
 			path = BothUserStory;
 			sourceTree = "<group>";
@@ -840,20 +846,20 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		5FA15DA52A184FA9007A1AC6 /* DetailOrdersUserStory */ = {
+		5FA15DA52A184FA9007A1AC6 /* CustomerDetailOrder */ = {
 			isa = PBXGroup;
 			children = (
 				5FA15DA82A184FEF007A1AC6 /* Views */,
 				5FA15DA72A184FED007A1AC6 /* ViewModels */,
 				5FA15DA62A184FEA007A1AC6 /* Contractor */,
 			);
-			path = DetailOrdersUserStory;
+			path = CustomerDetailOrder;
 			sourceTree = "<group>";
 		};
 		5FA15DA62A184FEA007A1AC6 /* Contractor */ = {
 			isa = PBXGroup;
 			children = (
-				5FA15DA92A1851E8007A1AC6 /* DetailOrderViewModelType.swift */,
+				5FA15DA92A1851E8007A1AC6 /* CustomerDetailOrderViewModelType.swift */,
 			);
 			path = Contractor;
 			sourceTree = "<group>";
@@ -861,7 +867,7 @@
 		5FA15DA72A184FED007A1AC6 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				5FA15DAB2A185305007A1AC6 /* DetailOrderViewModel.swift */,
+				5FA15DAB2A185305007A1AC6 /* CustomerDetailOrderViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -869,8 +875,7 @@
 		5FA15DA82A184FEF007A1AC6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5FA15DAD2A186BED007A1AC6 /* DetailOrderView.swift */,
-				5FAFBDCF2B5A53B1000F3AD6 /* DetailMessageView.swift */,
+				5FA15DAD2A186BED007A1AC6 /* CustomerDetailOrderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -926,6 +931,40 @@
 				5F4A1B462AA0869200EC67B2 /* Contract */,
 			);
 			path = AuthorPortfolio_Tab;
+			sourceTree = "<group>";
+		};
+		5FAF02C12B60D0E9006F7D63 /* AuthorDetailOrder */ = {
+			isa = PBXGroup;
+			children = (
+				5FAF02C42B60D126006F7D63 /* Contractor */,
+				5FAF02C32B60D11E006F7D63 /* ViewModel */,
+				5FAF02C22B60D116006F7D63 /* View */,
+			);
+			path = AuthorDetailOrder;
+			sourceTree = "<group>";
+		};
+		5FAF02C22B60D116006F7D63 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5FAF02C52B60D14F006F7D63 /* AuthorDetailOrderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5FAF02C32B60D11E006F7D63 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5FAF02C72B60D15F006F7D63 /* AuthorDetailOrderViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5FAF02C42B60D126006F7D63 /* Contractor */ = {
+			isa = PBXGroup;
+			children = (
+				5FAF02C92B60D16D006F7D63 /* AuthorDetailOrderViewModelType.swift */,
+			);
+			path = Contractor;
 			sourceTree = "<group>";
 		};
 		5FB717462A223F3000EC7BF6 /* SettingsUserStory */ = {
@@ -1053,6 +1092,7 @@
 		5FC418F32ADD20D00017AF56 /* CustomerOrders_Tab */ = {
 			isa = PBXGroup;
 			children = (
+				5FA15DA52A184FA9007A1AC6 /* CustomerDetailOrder */,
 				5FC419052ADE68970017AF56 /* CustomerOrders */,
 			);
 			path = CustomerOrders_Tab;
@@ -1304,6 +1344,7 @@
 			children = (
 				5FF546722A1B57C800208455 /* Cells */,
 				5FF546702A1B577300208455 /* AuthorMainScreenView.swift */,
+				5FAF02CB2B60DC36006F7D63 /* AuthorEditScreenView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1654,12 +1695,13 @@
 				5FE606472A8880D800E33205 /* ReAuthorizationScreenContract.swift in Sources */,
 				5F3909632A8F5FD5006E539A /* CustomerMainScreenViewModelType.swift in Sources */,
 				5FF546742A1B57E500208455 /* AuthorHCellMainScreenView.swift in Sources */,
-				5FA15DAE2A186BED007A1AC6 /* DetailOrderView.swift in Sources */,
+				5FA15DAE2A186BED007A1AC6 /* CustomerDetailOrderView.swift in Sources */,
 				5FC419192AE168000017AF56 /* LocalizationScreenView.swift in Sources */,
 				5FC1C0D52A2F7C0A00081FF1 /* StorageManager.swift in Sources */,
 				5F6940962B098EAA0043D1EA /* AuthenticationCustomerViewModel.swift in Sources */,
 				5FB717482A223F6400EC7BF6 /* SettingScreenView.swift in Sources */,
 				5FC419152AE167D70017AF56 /* PrivacyScreenView.swift in Sources */,
+				5FAF02C82B60D15F006F7D63 /* AuthorDetailOrderViewModel.swift in Sources */,
 				5F27118C2A4934AD00679028 /* WeatherManager.swift in Sources */,
 				5FFC5AB32A919E4E006E10E9 /* CustomerMainScreenView.swift in Sources */,
 				5FE927E62A6FA59E00D3FEEA /* LocationManager.swift in Sources */,
@@ -1676,7 +1718,7 @@
 				5FA1ECA52AF0B01D0092A74D /* PortfolioDetailScreenView.swift in Sources */,
 				5FBA26702A14A08200E972FB /* MyPhotoAppApp.swift in Sources */,
 				5F214E082A9744FF0014AD9B /* CustomerPageHubView.swift in Sources */,
-				5FA15DAA2A1851E8007A1AC6 /* DetailOrderViewModelType.swift in Sources */,
+				5FA15DAA2A1851E8007A1AC6 /* CustomerDetailOrderViewModelType.swift in Sources */,
 				5F5D95E72B3135D9002407F6 /* SignInViewModelType.swift in Sources */,
 				5FC7B0102B42FB53002DF58A /* MessagerViewModel.swift in Sources */,
 				5FC7B0122B42FB5E002DF58A /* MessagerView.swift in Sources */,
@@ -1685,6 +1727,7 @@
 				5F9F32442A94C894004D48B7 /* AuthorPortfolioModel.swift in Sources */,
 				5FEB71762AAC6A3D00DCC07E /* ScheduleModel.swift in Sources */,
 				5F214E102A997EBE0014AD9B /* CustomerDetailScreenViewModel.swift in Sources */,
+				5FAF02CA2B60D16D006F7D63 /* AuthorDetailOrderViewModelType.swift in Sources */,
 				5FC7B00E2B42FB47002DF58A /* MessagerViewModelType.swift in Sources */,
 				5FA767E42A69762900861F7D /* PortfolioEditView.swift in Sources */,
 				5FE606452A8880CB00E33205 /* ReAuthorizationScreenViewModel.swift in Sources */,
@@ -1700,9 +1743,9 @@
 				5FF58F3D2A2704CA009AF970 /* AuthorAddOrderView.swift in Sources */,
 				5FEB717A2AACA93100DCC07E /* PortfolioScheduleViewModelType.swift in Sources */,
 				5FC4191F2AE2188F0017AF56 /* ProfileScreenViewModelType.swift in Sources */,
+				5FAF02C62B60D14F006F7D63 /* AuthorDetailOrderView.swift in Sources */,
 				5FC7B0192B44F292002DF58A /* DBMessagerModel.swift in Sources */,
 				5FDB47E02AF0C68D004ABE8F /* ImageDetailViewPath.swift in Sources */,
-				5FAFBDD02B5A53B1000F3AD6 /* DetailMessageView.swift in Sources */,
 				5FA0EB782A79523E0024AB71 /* SettingScreenViewModelType.swift in Sources */,
 				5FE5AAEA2AA46C160033F51B /* PortfolioScheduleView.swift in Sources */,
 				5FC419172AE167EE0017AF56 /* InformationScreenView.swift in Sources */,
@@ -1732,6 +1775,7 @@
 				5FBA26982A1536A400E972FB /* CustomTextField.swift in Sources */,
 				5FA15D982A175727007A1AC6 /* AuthenticationScreenViewModelType.swift in Sources */,
 				5FC419002ADD3CC90017AF56 /* CustomerOrdersView.swift in Sources */,
+				5FAF02CC2B60DC36006F7D63 /* AuthorEditScreenView.swift in Sources */,
 				5F9F323C2A93744E004D48B7 /* CustomerMainScreenViewModel.swift in Sources */,
 				5F4A1B312A9B153100EC67B2 /* _FlexibleView.swift in Sources */,
 				5FF5466D2A1B573B00208455 /* AuthorMainScreenViewModelType.swift in Sources */,
@@ -1739,7 +1783,7 @@
 				5FA15DA42A184BDC007A1AC6 /* OrderModel.swift in Sources */,
 				5FA1ECA32AF0B00E0092A74D /* PortfolioDetailScreenViewModel.swift in Sources */,
 				5FE5AADB2AA1AFBB0033F51B /* PortfolioViewModel.swift in Sources */,
-				5FA15DAC2A185305007A1AC6 /* DetailOrderViewModel.swift in Sources */,
+				5FA15DAC2A185305007A1AC6 /* CustomerDetailOrderViewModel.swift in Sources */,
 				5FA15D9D2A175A91007A1AC6 /* AuthenticationScreenViewModel.swift in Sources */,
 				5FE5AAE22AA1DEFE0033F51B /* CustomTextEdit.swift in Sources */,
 				5FC418FC2ADD30080017AF56 /* CustomerOrderCellView.swift in Sources */,

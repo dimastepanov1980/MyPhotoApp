@@ -29,7 +29,7 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
                         customerSection
                             .padding(.top)
                 
-                        if mode == .new {
+                        if mode == .new || mode == .edit && viewModel.authorId == viewModel.order?.customerId {
                             Text(R.string.localizable.order_shooting_details())
                                 .foregroundStyle(Color(R.color.gray1.name))
                                 .font(.title2.bold())
@@ -52,32 +52,39 @@ struct AuthorAddOrderView<ViewModel: AuthorAddOrderViewModelType>: View {
             
         CustomButtonXl(titleText: mode == .new ? R.string.localizable.order_add_order() : R.string.localizable.order_save_order(), iconName: "") {
             
-                let userOrders = DbOrderModel(order:
-                                                OrderModel(orderId: UUID().uuidString,
-                                                           orderCreateDate: Date(),
-                                                           orderPrice: viewModel.price,
-                                                           orderStatus: viewModel.status,
-                                                           orderShootingDate: viewModel.date,
-                                                           orderShootingTime: [viewModel.time],
-                                                           orderShootingDuration: viewModel.duration,
-                                                           orderSamplePhotos: viewModel.imageUrl,
-                                                           orderMessages: false,
-                                                           newMessagesAuthor: 0,
-                                                           newMessagesCustomer: 0,
-                                                           authorId: user.user?.userId,
-                                                           authorName: user.user?.firstName,
-                                                           authorSecondName: user.user?.secondName,
-                                                           authorLocation: viewModel.location,
-                                                           customerId: nil,
-                                                           customerName: viewModel.name,
-                                                           customerSecondName: viewModel.secondName,
-                                                           customerDescription: viewModel.description,
-                                                           customerContactInfo: ContactInfo(instagramLink: viewModel.instagramLink,
-                                                                                              phone: viewModel.phone,
-                                                                                              email: viewModel.email)))
-            mode == .new ? try await viewModel.addOrder(order: userOrders, userId: user.user?.userId ?? "") : try? await viewModel.updateOrder(orderModel: userOrders)
-                    router.popToRoot()
+            let userOrders = DbOrderModel(order:
+                                            OrderModel(orderId: UUID().uuidString,
+                                                       orderCreateDate: Date(),
+                                                       orderPrice: viewModel.price,
+                                                       orderStatus: viewModel.status,
+                                                       orderShootingDate: viewModel.date,
+                                                       orderShootingTime: [viewModel.time],
+                                                       orderShootingDuration: viewModel.duration,
+                                                       orderSamplePhotos: viewModel.imageUrl,
+                                                       orderMessages: false,
+                                                       newMessagesAuthor: 0,
+                                                       newMessagesCustomer: 0,
+                                                       authorId: user.user?.userId,
+                                                       authorName: user.user?.firstName,
+                                                       authorSecondName: user.user?.secondName,
+                                                       authorLocation: viewModel.location,
+                                                       customerId: mode == .new ? user.user?.userId : viewModel.order?.customerId,
+                                                       customerName: viewModel.name,
+                                                       customerSecondName: viewModel.secondName,
+                                                       customerDescription: viewModel.description,
+                                                       customerContactInfo: ContactInfo(instagramLink: viewModel.instagramLink,
+                                                                                        phone: viewModel.phone,
+                                                                                        email: viewModel.email)))
+            
+            switch mode {
+            case .new:
+                try await viewModel.addOrder(order: userOrders, userId: user.user?.userId ?? "")
+                router.popToRoot()
+            case .edit:
+                try? await viewModel.updateOrder(orderModel: userOrders)
+                router.pop()
             }
+        }
         .padding(.horizontal)
         }
         .navigationTitle(mode == .new ? R.string.localizable.order_new_order() : R.string.localizable.order_edit_order())

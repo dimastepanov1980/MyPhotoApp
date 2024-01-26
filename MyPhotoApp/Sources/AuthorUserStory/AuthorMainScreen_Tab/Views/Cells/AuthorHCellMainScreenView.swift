@@ -11,6 +11,7 @@ import SwiftUI
 
 struct AuthorHCellMainScreenView: View {
     var items: CellOrderModel
+    let action: () -> Void
 
     var body: some View {
             VStack(alignment: .leading, spacing: 8) {
@@ -59,6 +60,9 @@ struct AuthorHCellMainScreenView: View {
             .padding(.horizontal, 16)
             .background(Color(R.color.gray5.name))
             .cornerRadius(16)
+            .onTapGesture {
+                action()
+            }
     }
     
     @ViewBuilder
@@ -98,7 +102,9 @@ struct AuthorHCellMainScreenView_Previews: PreviewProvider {
     private static let mockModel = MockViewModelHCell()
     
     static var previews: some View {
-        AuthorHCellMainScreenView(items: mockModel.mocData)
+        AuthorHCellMainScreenView(items: mockModel.mocData, action: {
+            
+        })
     }
 }
 

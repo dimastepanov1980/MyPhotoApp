@@ -16,61 +16,41 @@ struct CustomerOrdersView: View {
     @State var showEditOrderView = false
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            orderView(userAuth: user.userType == .unspecified)
-                .navigationTitle(R.string.localizable.customer_tabs_message())
-                .background(Color(.systemBackground))
-                .scrollContentBackground(.hidden)
-                .navigationBarBackButtonHidden(true)
-                .padding(.top)
-                .padding(.horizontal, 8)
-                .padding(.bottom, 86)
-        }
+            ScrollView(showsIndicators: false) {
+                orderView(userAuth: user.userType == .unspecified)
+                    .navigationTitle(R.string.localizable.customer_tabs_message())
+                    .background(Color(.systemBackground))
+                    .scrollContentBackground(.hidden)
+                    .navigationBarBackButtonHidden(true)
+                    .padding(.top)
+                    .padding(.horizontal, 8)
+                    .padding(.bottom, 86)
+            }
     }
   
     
     @ViewBuilder
     private func orderView(userAuth: Bool) -> some View {
         if !userAuth {
-                if viewModel.orders.isEmpty{
-                    VStack(alignment: .center){
-                        Text(R.string.localizable.customer_orders_worning())
-                            .multilineTextAlignment(.center)
-                            .font(.footnote)
-                            .foregroundColor(Color(R.color.gray3.name))
-                            .padding()
-                    }
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
-                } else {
-                    ForEach(viewModel.orders.sorted(by: { $0.orderShootingDate < $1.orderShootingDate }), id: \.orderId) { order in
-                        
-                        
-                        CustomerOrderCellView(items: CellOrderModel(order: order),
-                                              statusColor: viewModel.orderStausColor(order: order.orderStatus),
-                                              status: viewModel.orderStausName(status: order.orderStatus), action: {
-//                            router.push(.DetailMessage(message: DetailMessageModel(messageCount: String(order.newMessagesCustomer))))
-                            router.push(.DetailOrderView(order: order))
-                        })
-                        
-//                        NavigationLink {
-//                            DetailMessageView(with: DetailMessageViewModel(message: DetailMessageModel(messageCount: String(order.newMessagesCustomer))))
-//                        } label: {
-//                            CustomerOrderCellView(items: CellOrderModel(order: order),
-//                                                  statusColor: viewModel.orderStausColor(order: order.orderStatus),
-//                                                  status: viewModel.orderStausName(status: order.orderStatus), action: {
-//    //                            router.push(.DetailMessage(message: DetailMessageModel(messageCount: String(order.newMessagesCustomer))))
-//    //                            router.push(.DetailOrderView(order: order))
-//                            })
-//                        }
-
-                    }
+            if viewModel.orders.isEmpty{
+                VStack(alignment: .center){
+                    Text(R.string.localizable.customer_orders_worning())
+                        .multilineTextAlignment(.center)
+                        .font(.footnote)
+                        .foregroundColor(Color(R.color.gray3.name))
+                        .padding()
                 }
-          
+                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
+            } else {
+                ForEach(viewModel.orders.indices, id: \.self) { index in
+                    CustomerOrderCellView(items: CellOrderModel(order: viewModel.orders[index]),
+                                          action: { router.push(.CustomerDetailOrderView(index: index)) })
+                }
+            }
         } else {
-                SignInSignUpButton(router: _router, user: _user)
+            SignInSignUpButton(router: _router, user: _user)
                 .padding(.horizontal, 24)
         }
-        
     }
 }
 

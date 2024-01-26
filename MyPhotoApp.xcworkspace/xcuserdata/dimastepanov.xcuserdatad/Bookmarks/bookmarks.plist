@@ -215,13 +215,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>104</string>
+					<string>98</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>103</string>
+					<string>97</string>
 					<key>Timestamp</key>
-					<string>727164163.190176</string>
+					<string>727690775.270067</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -237,16 +237,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        self.referenceImages.removeValue(forKey: pathKey)
+				<string>        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
 </string>
 				<key>leading</key>
-				<string>    func deleteReferenceImages(pathKey: String) async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+				<string>    }
+    func deleteReferenceImages(pathKey: String, orderId: String) async throws {
 </string>
 				<key>trailing</key>
-				<string>        try await UserManager.shared.deleteSampleImageUrl(path: pathKey, orderId: order.orderId)
+				<string>        self.referenceImages.removeValue(forKey: pathKey)
+        try await UserManager.shared.deleteSampleImageUrl(path: pathKey, orderId: orderId)
         try await StorageManager.shared.deleteSampleImageDataToFirebase(path: pathKey)
-
 </string>
 			</dict>
 			<key>title</key>
@@ -262,13 +262,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>99</string>
+					<string>102</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>98</string>
+					<string>101</string>
 					<key>Timestamp</key>
-					<string>727366648.040486</string>
+					<string>727766772.3243949</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -284,16 +284,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        NotificationCenter.default.post(name: Notification.Name("Constants.FCM_TOKEN"), object: fcmToken, userInfo: deviceToken)
+				<string>        UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
 </string>
 				<key>leading</key>
-				<string>      let deviceToken:[String: String] = ["token": fcmToken ?? ""]
-        print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
+				<string>        print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
+        NotificationCenter.default.post(name: Notification.Name("Constants.FCM_TOKEN"), object: fcmToken, userInfo: deviceToken)
 </string>
 				<key>trailing</key>
-				<string>        UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
-    }
+				<string>    }
 }
+
 </string>
 			</dict>
 			<key>title</key>

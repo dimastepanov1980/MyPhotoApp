@@ -9,8 +9,6 @@ import Foundation
 import SwiftUI
 
 enum Views: Hashable {
-    case TestDetailMessage(message: DetailMessageModel)
-
     case RootScreenView
     case CustomerPageHubView
     case AuthorHubPageView
@@ -22,7 +20,8 @@ enum Views: Hashable {
     case CustomerStatusOrderScreenView(title: String,
                                        message: String,
                                        buttonTitle: String)
-    case DetailOrderView(order: OrderModel)
+    case CustomerDetailOrderView(index: Int)
+    case AuthorDetailOrderView(index: Int)
     case AuthorAddOrderView(order: OrderModel?, mode: Constants.OrderMode)
     case SignInSignUpView(authType: authType)
     case ReAuthenticationView
@@ -42,8 +41,6 @@ enum ViewFactory {
     static func viewForDestination(_ destination: Views) -> some View {
         
         switch destination {
-        case . TestDetailMessage(let message):
-            DetailMessageView(with: DetailMessageViewModel(message: message))
 // MARK: - Both Zone
         case .RootScreenView:
             RootScreenView()
@@ -72,8 +69,8 @@ enum ViewFactory {
         case .CustomerStatusOrderScreenView(let title, let message,let buttonTitle):
             CustomerStatusOrderScreenView(title: title, message: message, buttonTitle: buttonTitle)
             
-        case .DetailOrderView(let order):
-            DetailOrderView(with: DetailOrderViewModel(order: order))
+        case .CustomerDetailOrderView(let index):
+            CustomerDetailOrderView(index: index)
 
         case .ImageDetailView(let image):
             ImageDetailViewPath(imagePath: image)
@@ -88,6 +85,10 @@ enum ViewFactory {
             PortfolioView(with: PortfolioViewModel())
         case .ImageDetailViewUIImage(let image):
             ImageDetailView(image: image)
+            
+        case .AuthorDetailOrderView(let index):
+            AuthorDetailOrderView(index: index)
+            
         case .PortfolioEditView(let viewModel, let image):
             PortfolioEditView(with: PortfolioEditViewModel(portfolio: viewModel, avatarImage: image))
         case .PortfolioScheduleView:
@@ -103,11 +104,11 @@ enum ViewFactory {
 
 final class Router<T: Hashable>: ObservableObject {
     @Published var paths: [T] = []
-
+    
     func push(_ path: T) {
         paths.append(path)
     }
-    
+
     func pop() {
            paths.removeLast(1)
        }

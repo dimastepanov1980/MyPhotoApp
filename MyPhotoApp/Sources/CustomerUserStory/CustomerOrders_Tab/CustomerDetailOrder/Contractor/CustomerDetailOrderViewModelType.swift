@@ -1,5 +1,5 @@
 //
-//  DetailOrderViewModelType.swift
+//  CustomerDetailOrderViewModelType.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/20/23.
@@ -10,8 +10,7 @@ import SwiftUI
 import PhotosUI
 
 @MainActor
-protocol DetailOrderViewModelType: ObservableObject {
-    var order: OrderModel { get set }
+protocol CustomerDetailOrderViewModelType: ObservableObject {
     var avaibleStatus: [String] { get set }
     var status: String { get set }
     var statusColor: Color { get }
@@ -20,13 +19,13 @@ protocol DetailOrderViewModelType: ObservableObject {
 
     
     func formattedDate(date: Date, format: String) -> String
-    func updateStatus(orderModel: DbOrderModel) async throws
+    func lacalizationStatus(orderStatus: String)
     func returnedStatus(status: String) -> String
     func sortedDate(array: [String]) -> [String]
     func currencySymbol(for regionCode: String) -> String
     
-    func addReferenceImages(selectedImages: [PhotosPickerItem]) async throws
-    func deleteReferenceImages(pathKey: String) async throws
+    func addReferenceImages(selectedImages: [PhotosPickerItem], orderId: String) async throws
+    func deleteReferenceImages(pathKey: String, orderId: String) async throws
     func getReferenceImages(imagesPath: [String]) async throws
     func openInstagramProfile(username: String)
 

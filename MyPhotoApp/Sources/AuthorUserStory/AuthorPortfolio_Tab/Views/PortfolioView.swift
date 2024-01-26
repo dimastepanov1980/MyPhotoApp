@@ -13,10 +13,7 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
     @EnvironmentObject var router: Router<Views>
     
     @State var showPortfolioEditView: Bool = false
-//    @State private var showingOptions = false
-//    @State private var showScheduleView = false
     @State private var selectPortfolioImages: [PhotosPickerItem] = []
-//    @State private var selectPortfolioImagesData: [Data]? = []
     @State private var columns = [ GridItem(.flexible(), spacing: 0),
                                    GridItem(.flexible(), spacing: 0),
                                    GridItem(.flexible(), spacing: 0)]
@@ -113,13 +110,15 @@ struct PortfolioView<ViewModel: PortfolioViewModelType>: View {
                 }
             }
         .onAppear{
-                Task {
-                    try await viewModel.getAuthorPortfolio()
-                    try await viewModel.getAvatarImage(imagePath: viewModel.portfolio?.avatarAuthor ?? "")
+            Task {
+                try await viewModel.getAuthorPortfolio()
+                try await viewModel.getAvatarImage(imagePath: viewModel.portfolio?.avatarAuthor ?? "")
+                if viewModel.portfolioImages.isEmpty {
                     try await viewModel.getPortfolioImages(imagesPath: viewModel.portfolio?.smallImagesPortfolio ?? [])
                 }
+            }
         }
- 
+        
     }
     
     private var authorSection: some View {

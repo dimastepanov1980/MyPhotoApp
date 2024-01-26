@@ -63,7 +63,7 @@ final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObje
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
             listenerRegistration = UserManager.shared.subscribeToAllCustomerOrders(userId: authDateResult.uid) { receivedOrders in
                 print(">>>>>>>>>>>> Orders received: \(receivedOrders.count)")
-                self.orders = receivedOrders.map { OrderModel(order: $0) }
+                self.orders = receivedOrders.sorted(by: { $0.orderShootingDate > $1.orderShootingDate }).map { OrderModel(order: $0) }
                 self.newMessagesCount = self.orders.reduce(0) { result, order in
                     return result + order.newMessagesCustomer
                 }

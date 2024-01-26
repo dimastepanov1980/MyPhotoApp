@@ -12,7 +12,7 @@ import MapKit
 
 @MainActor
 protocol AuthorMainScreenViewModelType: ObservableObject {
-    var userProfileIsSet: Bool { get set }
+//    var userProfileIsSet: Bool { get set }
     
     var weatherByDate: [Date: [Weather?]] { get }
     var selectedDay: Date { get set }
@@ -20,7 +20,7 @@ protocol AuthorMainScreenViewModelType: ObservableObject {
     var weatherForCurrentDay: String? { get }
     var filteredUpcomingOrders: [Date : [OrderModel]] { get }
     var filteredOtherOrders: [Date : [OrderModel]] { get }
-    var filteredOrdersForToday: [OrderModel] { get }
+    var authorOrders: [OrderModel] { get }
     var location: LocationService { get set }
     
     func formattedDate(date: Date, format: String) -> String

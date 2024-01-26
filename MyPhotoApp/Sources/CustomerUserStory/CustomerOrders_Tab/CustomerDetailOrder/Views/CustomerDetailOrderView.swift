@@ -1,5 +1,5 @@
 //
-//  DetailOrderView.swift
+//  CustomerDetailOrderView.swift
 //  MyPhotoApp
 //
 //  Created by Dima Stepanov on 5/20/23.
@@ -10,11 +10,19 @@ import PhotosUI
 import Firebase
 import UniformTypeIdentifiers
 
-struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
+struct CustomerDetailOrderView: View {
+    var index: Int
+    var orderId: String {
+        return viewModelOrder.orders[index].orderId
+    }
+    var orderSamplePhotos: [String] {
+        viewModelOrder.orders[index].orderSamplePhotos
+    }
     
-    @ObservedObject private var viewModel: DetailOrderViewModel
+    @ObservedObject private var viewModel = CustomerDetailOrderViewModel()
+    
     @EnvironmentObject var router: Router<Views>
-    @EnvironmentObject var user: UserTypeService
+    @EnvironmentObject var viewModelOrder: CustomerOrdersViewModel
 
     @State private var selectedStatus = ""
     @State private var selectImages: [PhotosPickerItem] = []
@@ -22,26 +30,19 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
     @State var isCopied: Bool = false
     @State var isCanceled: Bool = false
     @State var statusIsChange: Bool = false
-    @State private var selectedImageURL: URL?
     @State private var columns = [ GridItem(.flexible(), spacing: 0),
                                    GridItem(.flexible(), spacing: 0),
                                    GridItem(.flexible(), spacing: 0)]
     @State private var imageGallerySize = UIScreen.main.bounds.width / 3
-
-//    init(with viewModel: ViewModel) {
-//        self.viewModel = viewModel
-//    }
     
-    init(with viewModel: DetailOrderViewModel) {
-           self._viewModel = ObservedObject(wrappedValue: viewModel)
-       }
+    init(index: Int) {
+        self.index = index
+    }
     
     var body: some View {
-        
         ScrollView(showsIndicators: false) {
                 ZStack(alignment: .center){
                     if isCopied {
-                    // Shows up only when copy is done
                         Text(R.string.localizable.copied())
                             .foregroundColor(Color(.systemBackground))
                             .bold()
@@ -49,15 +50,11 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                             .padding(12)
                             .background(Color(R.color.gray2.name).opacity(0.8).cornerRadius(21))
                     }
-                    
                     VStack(alignment: .leading, spacing: 18) {
                         nameSection
                         locationSection
                         dateSection
                         priceSection
-                        if user.userType == .author {
-                            contactSection
-                        }
                         messageSection
                         imageSection
                     }
@@ -65,21 +62,13 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                     .padding(.horizontal)
                 }
             }
-        .onChange(of: viewModel.order) { _ in
-            print(viewModel.order)
-            print("*--*********************************objectWillChange")
-            
-            
-        }
         .toolbar{
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack{
                     Button {
-                        router.push(.MessagerView(title: user.userType == .author ? "\(viewModel.order.customerName ?? "") \(viewModel.order.customerSecondName ?? "")" : "\(viewModel.order.authorName ?? "") \(viewModel.order.authorSecondName ?? "")", orderId: viewModel.order.orderId))
+                        router.push(.MessagerView(title: "\(viewModelOrder.orders[index].authorName ?? "") \(viewModelOrder.orders[index].authorSecondName ?? "")", orderId: viewModelOrder.orders[index].orderId))
                     } label: {
-                        switch user.userType {
-                        case .author:
-                            if viewModel.order.newMessagesAuthor > 0 {
+                            if viewModelOrder.orders[index].newMessagesCustomer > 0 {
                                 ZStack{
                                     Image(systemName: "message")
                                         .resizable()
@@ -87,7 +76,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                                         .frame(height: 22)
                                         .foregroundColor(Color(R.color.gray2.name))
                                     
-                                    Text(String(viewModel.order.newMessagesAuthor))
+                                    Text(String(viewModelOrder.orders[index].newMessagesCustomer))
                                         .font(.system(size: 10))
                                         .foregroundColor(Color(.systemBackground))
                                         .padding(.horizontal, 5)
@@ -103,38 +92,6 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                                     .frame(height: 22)
                                     .foregroundColor(Color(R.color.gray2.name))
                             }
-                        case .customer:
-                            if viewModel.order.newMessagesCustomer > 0 {
-                                ZStack{
-                                    Image(systemName: "message")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(height: 22)
-                                        .foregroundColor(Color(R.color.gray2.name))
-                                    
-                                    Text(String(viewModel.order.newMessagesCustomer))
-                                        .font(.system(size: 10))
-                                        .foregroundColor(Color(.systemBackground))
-                                        .padding(.horizontal, 5)
-                                        .padding(.vertical, 2)
-                                        .background((Color(R.color.red.name)))
-                                        .cornerRadius(15)
-                                        .offset(x: 12, y: 5)
-                                }
-                            } else {
-                                Image(systemName: "message")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(height: 22)
-                                    .foregroundColor(Color(R.color.gray2.name))
-                            }
-                        case .unspecified:
-                            Image(systemName: "message")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 22)
-                                .foregroundColor(Color(R.color.gray2.name))
-                        }
                     }
                     
                     PhotosPicker(selection: $selectImages,
@@ -149,7 +106,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                                          do {
                                              print("uploading images:")
                                              selectImages = []
-                                             try await viewModel.addReferenceImages(selectedImages: image)
+                                             try await viewModel.addReferenceImages(selectedImages: image, orderId: orderId)
                                          } catch {
                                              print("Error uploading images: \(error)")
                                              throw error
@@ -158,7 +115,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                                  })
                                  .disabled( viewModel.smallReferenceImages.count > 20 )
                     Button {
-                        router.push(.AuthorAddOrderView(order: viewModel.order, mode: .edit))
+                        router.push(.AuthorAddOrderView(order: viewModelOrder.orders[index], mode: .edit))
                     } label: {
                         Image(systemName: "pencil.line")
                     }                    }
@@ -168,7 +125,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
         }
         .onAppear{
             Task {
-                try await viewModel.getReferenceImages(imagesPath: viewModel.order.orderSamplePhotos)
+                try await viewModel.getReferenceImages(imagesPath: orderSamplePhotos)
             }
         }
         .confirmationDialog("Change Status", isPresented: $showChangeStatusSheet) {
@@ -198,9 +155,9 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                 Button("Ok", role: .destructive) {
                     Task {
                         do{
-                            if let orderShootingTime = viewModel.order.orderShootingTime {
+                            if let orderShootingTime = viewModelOrder.orders[index].orderShootingTime {
                                 for time in orderShootingTime {
-                                    try await UserManager.shared.removeTimeSlotFromBookingDay(userId: viewModel.order.authorId ?? "", selectedDay: viewModel.formattedDate(date: viewModel.order.orderShootingDate, format: "YYYYMMdd"), selectedTime: time)
+                                    try await UserManager.shared.removeTimeSlotFromBookingDay(userId: viewModelOrder.orders[index].authorId ?? "", selectedDay: viewModel.formattedDate(date: viewModelOrder.orders[index].orderShootingDate, format: "YYYYMMdd"), selectedTime: time)
                                 }
                             }
                             self.viewModel.status = "Canceled"
@@ -212,33 +169,6 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                     }
                 }
                 
-            }
-        }
-        .onChange(of: statusIsChange) { _ in
-            Task {
-                let userOrders = DbOrderModel(order:
-                                                OrderModel(orderId: viewModel.order.orderId,
-                                                           orderCreateDate: Date(),
-                                                           orderPrice: viewModel.order.orderPrice,
-                                                           orderStatus: viewModel.returnedStatus(status: selectedStatus),
-                                                           orderShootingDate: viewModel.order.orderShootingDate,
-                                                           orderShootingTime: viewModel.order.orderShootingTime,
-                                                           orderShootingDuration: viewModel.order.orderShootingDuration,
-                                                           orderSamplePhotos: viewModel.order.orderSamplePhotos,
-                                                           orderMessages: viewModel.order.orderMessages,
-                                                           newMessagesAuthor: 0,
-                                                           newMessagesCustomer: 0,
-                                                           authorId: viewModel.order.authorId,
-                                                           authorName: viewModel.order.authorName,
-                                                           authorSecondName: viewModel.order.authorSecondName,
-                                                           authorLocation: viewModel.order.authorLocation ?? "",
-                                                           customerId: nil,
-                                                           customerName: nil,
-                                                           customerSecondName: nil,
-                                                           customerDescription: viewModel.order.customerDescription,
-                                                           customerContactInfo: ContactInfo(instagramLink: nil, phone: nil, email: nil)))
-                try await viewModel.updateStatus(orderModel: userOrders)
-                print(selectedStatus)
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -254,11 +184,11 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
     }
     private var nameSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(user.userType == .customer ? R.string.localizable.order_author() : R.string.localizable.order_customer() )
+            Text(R.string.localizable.order_author() )
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
             HStack{
-                Text(user.userType == .customer ? "\(viewModel.order.authorName ?? "") \(viewModel.order.authorSecondName ?? "")" : "\(viewModel.order.customerName ?? "") \(viewModel.order.customerSecondName ?? "")")
+                Text("\(viewModelOrder.orders[index].authorName ?? "") \(viewModelOrder.orders[index].authorSecondName ?? "")")
                     .font(.title2.bold())
                     .foregroundColor(Color(R.color.gray2.name))
                 Spacer()
@@ -276,7 +206,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                                     .background(viewModel.statusColor)
                                     .cornerRadius(15)
                             }
-                            .disabled(viewModel.status == "Canceled" || user.userType == .customer )
+                            .disabled(viewModel.status == "Canceled")
                         }
                     }
              
@@ -288,7 +218,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
             Text(R.string.localizable.location())
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
-            Text("\(viewModel.order.authorLocation ?? "")")
+            Text("\(viewModelOrder.orders[index].authorLocation ?? "")")
                 .font(.body)
                 .foregroundColor(Color(R.color.gray2.name))
         }
@@ -303,11 +233,11 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                     Image(systemName: "calendar")
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray1.name))
-                    Text(viewModel.formattedDate(date: viewModel.order.orderShootingDate, format: "dd MMMM"))
+                    Text(viewModel.formattedDate(date: viewModelOrder.orders[index].orderShootingDate, format: "dd MMMM"))
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray3.name))
                 }
-                if let time = viewModel.sortedDate(array: viewModel.order.orderShootingTime ?? []).first{
+                if let time = viewModel.sortedDate(array: viewModelOrder.orders[index].orderShootingTime ?? []).first{
                     HStack(spacing: 2){
                         Image(systemName: "clock")
                             .font(.subheadline)
@@ -321,7 +251,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                     Image(systemName: "timer")
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray1.name))
-                    Text("\(viewModel.order.orderShootingDuration)")
+                    Text("\(viewModelOrder.orders[index].orderShootingDuration)")
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray3.name))
                 }
@@ -333,7 +263,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
             Text(R.string.localizable.total_price())
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
-            Text("\(viewModel.order.orderPrice ?? "") \(viewModel.currencySymbol(for: viewModel.order.authorRegion ?? ""))")
+            Text("\(viewModelOrder.orders[index].orderPrice ?? "") \(viewModel.currencySymbol(for: viewModelOrder.orders[index].authorRegion ?? ""))")
                 .font(.body)
                 .foregroundColor(Color(R.color.gray2.name))
         }
@@ -344,7 +274,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                 .font(.caption2)
                 .foregroundColor(Color(R.color.gray4.name))
                
-            Text(viewModel.order.customerDescription ?? "")
+            Text(viewModelOrder.orders[index].customerDescription ?? "")
                 .font(.body)
                 .foregroundColor(Color(R.color.gray2.name))
         }
@@ -356,7 +286,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                 .foregroundColor(Color(R.color.gray4.name))
             VStack(alignment: .leading, spacing: 10){
                
-                if let instagramLink = viewModel.order.customerContactInfo.instagramLink {
+                if let instagramLink = viewModelOrder.orders[index].customerContactInfo.instagramLink {
                         HStack{
                             Image("image_instagram")
                                 .resizable()
@@ -371,7 +301,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                             viewModel.openInstagramProfile(username: instagramLink)
                         }
                     }
-                if let phone = viewModel.order.customerContactInfo.phone {
+                if let phone = viewModelOrder.orders[index].customerContactInfo.phone {
                         HStack{
                             Image(systemName: "phone.circle")
                                 .font(.title3)
@@ -394,7 +324,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                         }
                         
                     }
-                if let email = viewModel.order.customerContactInfo.email {
+                if let email = viewModelOrder.orders[index].customerContactInfo.email {
                         HStack{
                             Image(systemName: "envelope")
                                 .font(.title3)
@@ -439,7 +369,7 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
                                                Button {
                                                    Task{
                                                        do {
-                                                           try await viewModel.deleteReferenceImages(pathKey: key)
+                                                           try await viewModel.deleteReferenceImages(pathKey: key, orderId: orderId)
                                                            print(key)
                                                        } catch  {
                                                            print(error.localizedDescription)
@@ -492,13 +422,20 @@ struct DetailOrderView/*<ViewModel: DetailOrderViewModelType>*/: View {
 //    
 //    static var previews: some View {
 //        NavigationView {
-//            DetailOrderView()
+//            CustomerDetailOrderView(index: 1)
 //                .environmentObject(UserTypeService())
+//                .environmentObject(CustomerOrdersViewModel())
 //        }
 //    }
 //}
 //
-//private class MockViewModel: DetailOrderViewModelType, ObservableObject {
+//private class MockViewModel: CustomerDetailOrderViewModelType, ObservableObject {
+//    func lacalizationStatus(orderStatus: String) {}
+//    
+//    func addReferenceImages(selectedImages: [PhotosPickerItem], orderId: String) async throws {}
+//    
+//    func deleteReferenceImages(pathKey: String, orderId: String) async throws {}
+//    
 //    func openInstagramProfile(username: String) {}
 //    
 //    var smallReferenceImages: [String] = []

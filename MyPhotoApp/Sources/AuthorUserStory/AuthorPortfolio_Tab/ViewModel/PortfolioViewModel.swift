@@ -24,6 +24,7 @@ final class PortfolioViewModel: PortfolioViewModelType {
             let portfolio = try await UserManager.shared.getUserPortfolio(userId: authDateResult.uid)
             let authorPortfolioModel = AuthorPortfolioModel(portfolio: portfolio)
             self.portfolio = authorPortfolioModel
+            print("I get portfolio")
         } catch {
             print(error.localizedDescription)
             print(String(describing: error))
@@ -55,6 +56,7 @@ final class PortfolioViewModel: PortfolioViewModelType {
             }
         }
         self.portfolioImages = portfolioImages
+        print("I get portfolio Images")
     }
     func getAvatarImage(imagePath: String) async throws {
         print("getAvatarImage imagePath:\(imagePath)")
