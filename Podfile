@@ -6,6 +6,8 @@ target 'MyPhotoApp' do
   use_frameworks!
 
   pod 'GoogleUtilities', '~> 7.12'
+  pod 'FirebaseCrashlytics'
+  pod 'Firebase/AnalyticsWithoutAdIdSupport'
 
   # Pods for MyPhotoApp
 	pod 'SDWebImageSwiftUI'

@@ -289,30 +289,34 @@ struct AuthorMainScreenView: View {
 
     func verticalCards() -> some View {
         VStack(alignment: .center) {
-            ForEach(viewModel.authorOrders
-                .sorted(by: { $0.orderShootingDate < $1.orderShootingDate })
-                .filter { calendar.compare($0.orderShootingDate, to: currentDate, toGranularity: .day) == .orderedDescending },
-                    id: \.orderShootingDate) { date in
-                
-                Section(header: Text(viewModel.formattedDate(date: date.orderShootingDate, format: "dd MMMM YYYY" ))
-                    .onTapGesture {
-                        print(viewModel.formattedDate(date: date.orderShootingDate, format: "dd MMMM YYYY" ))
-                    }
-                    .id(viewModel.formattedDate(date: date.orderShootingDate, format: "dd MMMM YYYY" ))
-                    .font(.footnote)
-                    .foregroundColor(Color(R.color.gray3.name))) {
-                        ForEach(viewModel.authorOrders.filter { calendar.isDate($0.orderShootingDate, inSameDayAs: date.orderShootingDate) }, id: \.self) { order in
-                            AuthorVCellMainScreenView(items: CellOrderModel(order: order),
-                                                      statusColor: viewModel.orderStausColor(order: order.orderStatus),
-                                                      status: viewModel.orderStausName(status: order.orderStatus)) {
-                                router.push(.AuthorDetailOrderView(index: viewModel.authorOrders.firstIndex(of: order) ?? 0))
+            ForEach(Array(viewModel.authorOrders
+                            .sorted(by: { $0.orderShootingDate < $1.orderShootingDate })
+                            .filter { calendar.compare($0.orderShootingDate, to: currentDate, toGranularity: .day) == .orderedDescending }
+                            .reduce(into: [Date: [OrderModel]]()) { result, order in
+                                let key = calendar.startOfDay(for: order.orderShootingDate)
+                                result[key, default: []].append(order)
                             }
+                            .sorted { $0.key < $1.key }
+                            .enumerated()), id: \.1.key) { index, group in
+                            
+                Section(header: Text(viewModel.formattedDate(date: group.key, format: "dd MMMM YYYY" ))
+                            .id(viewModel.formattedDate(date: group.key, format: "dd MMMM YYYY" ))
+                            .font(.footnote)
+                            .foregroundColor(Color(R.color.gray3.name))) {
+                                
+                    ForEach(group.value, id: \.self) { order in
+                        AuthorVCellMainScreenView(items: CellOrderModel(order: order),
+                                                  statusColor: viewModel.orderStausColor(order: order.orderStatus),
+                                                  status: viewModel.orderStausName(status: order.orderStatus)) {
+                            router.push(.AuthorDetailOrderView(index: viewModel.authorOrders.firstIndex(of: order) ?? 0))
                         }
                     }
+                }
             }
         }
         .padding(.horizontal)
     }
+
 }
 
 //struct AuthorMainScreenView_Previews: PreviewProvider {

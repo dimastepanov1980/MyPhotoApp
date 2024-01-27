@@ -11,6 +11,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.stepanoviosdev.takeaphoto</string>
+	</array>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<string>TRUE</string>
 	<key>FacebookAppID</key>

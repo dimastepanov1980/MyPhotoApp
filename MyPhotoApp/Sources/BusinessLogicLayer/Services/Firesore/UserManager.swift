@@ -337,11 +337,15 @@ final class UserManager {
             DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
             
+            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
+            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
+            
             DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
             DbOrderModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
             DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
             DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
         ]
+
         try await orderCollection.document(orderId).updateData(orderData)
     }
  
