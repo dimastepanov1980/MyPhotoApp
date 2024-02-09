@@ -12,9 +12,12 @@ struct PhotographyStylesView: View {
                                       "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate",
                                       "Sports", "Wedding", "Wildlife"]
     @Binding var styleSelected: [String]
+    @Binding var showStyleList: Bool
 
-    init(styleSelected: Binding<[String]>) {
+    init(styleSelected: Binding<[String]>,
+         showStyleList: Binding<Bool>) {
         self._styleSelected = styleSelected
+        self._showStyleList = showStyleList
     }
     
     var body: some View {
@@ -30,6 +33,12 @@ struct PhotographyStylesView: View {
                                 self.styleSelected.append(item)
                             }
                         }
+                    }
+                }
+            } .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(R.string.localizable.done()) {
+                        self.showStyleList = false
                     }
                 }
             }
@@ -108,7 +117,7 @@ struct MultipleSelectionRow: View {
 
 struct PhotoGenresView_Previews: PreviewProvider {
     static var previews: some View {
-        PhotographyStylesView(styleSelected: .constant(["Sports", "Aerial"]))
+        PhotographyStylesView(styleSelected: .constant(["Sports", "Aerial"]), showStyleList: .constant(false))
     }
 }
 

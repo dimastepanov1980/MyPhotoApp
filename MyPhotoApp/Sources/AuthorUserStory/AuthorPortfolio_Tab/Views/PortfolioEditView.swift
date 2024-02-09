@@ -42,7 +42,7 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                             showStyleList.toggle()
                         }
                         .sheet(isPresented: $showStyleList) {
-                            PhotographyStylesView(styleSelected: $viewModel.styleAuthor)
+                            PhotographyStylesView(styleSelected: $viewModel.styleAuthor, showStyleList: $showStyleList)
                         }
                         .padding(.top, 8)
                     

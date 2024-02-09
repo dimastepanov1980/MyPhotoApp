@@ -72,7 +72,7 @@
 "tabs_profile" = "Settings";
 
 // MARK: - CustomerTabs
-"customer_tabs_home" = "Home";
+"customer_tabs_home" = "Portfolio";
 "customer_tabs_message" = "Orders";
 "customer_tabs_liked" = "Liked";
 "customer_tabs_profile" = "Settings";
@@ -139,6 +139,7 @@
 "portfolio" = "Portfolio";
 "portfolio_edit" = "Setup portfolio";
 "save" = "Save";
+"done" = "Done";
 "portfolio_first_name" = "Firs Name";
 "portfolio_last_name" = "Last Name";
 "portfolio_age" = "Your Age";

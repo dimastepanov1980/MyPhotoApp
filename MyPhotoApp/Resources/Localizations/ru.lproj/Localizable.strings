@@ -72,7 +72,7 @@
 "tabs_profile" = "Профиль";
 
 // MARK: - CustomerTabs
-"customer_tabs_home" = "Домой";
+"customer_tabs_home" = "Портфолио";
 "customer_tabs_message" = "Заказы";
 "customer_tabs_liked" = "Избранное";
 "customer_tabs_profile" = "Настройки";
@@ -92,7 +92,7 @@
 "settings_section_privacy" = "Конфиденциальность";
 "settings_section_information" = "Информация";
 "settings_section_logout" = "Авторизация";
-"settings_section_author" = "Войти как Автора";
+"settings_section_author" = "Войти как автор";
 "settings_section_customer" = "Войти как Клиент";
 
 "app_version" = "Версия программы:";
@@ -140,6 +140,7 @@
 "portfolio" = "Портфолио";
 "portfolio_edit" = "Настроить портфолио";
 "save" = "Сохранить";
+"done" = "Выбрать";
 "portfolio_first_name" = "Имя";
 "portfolio_last_name" = "Фамилия";
 "portfolio_age" = "Возраст";
