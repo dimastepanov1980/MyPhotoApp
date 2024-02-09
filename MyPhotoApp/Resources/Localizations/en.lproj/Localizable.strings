@@ -5,34 +5,44 @@
   
  
 // MARK: - Common
-"registration" = "Sign Up";
-"logIn" = "Sign In";
+"logo_title" = "Find your photographer\nAnywhere in the world";
+"registration" = "Sign up";
+"logIn" = "Sign in";
+"logIn_SignUp" = "Log in or Sign up";
 "author" = "I'm Author";
 "customer" = "I'm Customer";
 "email" = "Email address";
 "password" = "Password";
-"customer_login" = "Find a photographer";
-"author_login" = "Find clients";
+"signInBtn" = "Sign in";
+"signUpBtn" = "Create account";
 "signOutAccBtt" = "Log Out";
 "forgotPss" = "Forgot password?";
 "totalPrice" = "Total price";
 "takeAPhoto" = "Take a Photo";
 "addPhoto" = "Add Photo";
 "delete_user" = "Delete Account";
-"delete_user_allert" = "Deleting account will delete all your information in this App. Are you sure you want to continue?";
+"delete_user_allert" = "Deleting account will delete all your information in this App.\nAre you sure you want to continue?";
 "cancel" = "Cancel";
 "delete_user_password" = "For delete account enter your current password";
+"signup_to_continue" = "Don't have an account?";
+"signin_to_continue" = "Log in to continue find your photographer.";
 
 // MARK: - Main Screen
 "today" = "Order for today";
 "order_not_found" = "You don't have orders";
 "order_not_found_worning" = "Your new orders will be here.\nPlease set up a portfolio section\nso that you can be found in searches";
-
-
+"order_created" = "Order Created!";
+"order_fail" = "Oops!";
+"order_created_message" = "Thank you for order. \nThe author will contact you shortly";
+"order_created_message_fail" = "Something wrong! \nTry again later";
+"order_created_button" = "Amazing!";
+"order_created_button_fail" = "Too bad!(";
 
 // MARK: - New Order
 "order_client_firstName" = "Client's first name";
 "order_client_secondName" = "Сlient's last name";
+"order_author" = "Author";
+"order_customer" = "Customer";
 "order_location" = "Location";
 "order_price" = "Price";
 "order_instagramLink" = "Instagram username";
@@ -59,18 +69,20 @@
 "tabs_feature" = "Feature";
 "tabs_edit" = "Edit";
 "tabs_portfolio" = "Portfolio";
-"tabs_profile" = "Profile";
+"tabs_profile" = "Settings";
 
 // MARK: - CustomerTabs
-"customer_tabs_home" = "Home";
+"customer_tabs_home" = "Portfolio";
 "customer_tabs_message" = "Orders";
 "customer_tabs_liked" = "Liked";
-"customer_tabs_profile" = "Profile";
+"customer_tabs_profile" = "Settings";
 
 //MARK: - Setting screen
 "settings_name_screen" = "Settings";
 "settings_section_profile" = "Profile";
 "settings_section_profile_about" = "Tell about yourself";
+"settings_section_profile_firstName" = "Name";
+"settings_section_profile_lastName" = "Last name";
 "settings_section_profile_email" = "Email";
 "settings_section_profile_phone" = "Phone";
 "settings_section_profile_instagram" = "Instagram username";
@@ -78,11 +90,13 @@
 "settings_section_notification" = "Notification";
 "settings_section_localization" = "Localization";
 "settings_section_privacy" = "Privacy";
-"settings_section_information" = "Information";
-"settings_section_logout" = "LogOut";
+"settings_section_information" = "About";
+"settings_section_logout" = "Authorization";
+"settings_section_author" = "Switch to Author";
+"settings_section_customer" = "Back to Сustomer";
 
 "app_version" = "App version:";
-"contact_with_us" = "Contact with us:\nwww.takeaphoto.app";
+"contact_with_us" = "Contact with us:";
 "notes" = "When more than 100 photographers use our application,\nwe will start developing the «Portfolio» service.";
 "your_login" = "Your Login:";
 "version_not_available" = "Version not available";
@@ -101,14 +115,18 @@
 "select_time" = "Select time";
 "reservation_button" = "Reservation for";
 "select_date_no_dates" = "We are very sorry,\nbut there are no available dates\nfor the selected period.";
+"main_screen_portfolio_not_found_title" = "No portfolio found in your region.";
+"main_screen_portfolio_not_found_message" = "We were unable to find photographers. Choose another city.";
 
+"main_screen_portfolio_location_denied_title" = "Location not determined.";
+"main_screen_portfolio_location_denied_message" = "Location tracking must be enabled.";
 
 //MARK: - Customer Order
 "default_message" = "Write your contacts and additional information";
 "place_order" = "Place Order";
-"customer_order_add_sample" = "If you want to add sample photos,\nclick the plus icon in the toolbar";  
+"customer_order_add_sample" = "If you want to add sample photos, click the plus icon in the toolbar";  
 "photographer" = "Photographer";
-"customer" = "Customer";
+"about_customer" = "About Me";
 "message" = "Message";
 "total_price" = "Total price";
 "contact_information" = "Contact information";
@@ -119,7 +137,9 @@
 
 //MARK: - Add Portfolio
 "portfolio" = "Portfolio";
+"portfolio_edit" = "Setup portfolio";
 "save" = "Save";
+"done" = "Done";
 "portfolio_first_name" = "Firs Name";
 "portfolio_last_name" = "Last Name";
 "portfolio_age" = "Your Age";
@@ -129,6 +149,11 @@
 "portfolio_genre_description" = "Select 4 genres";
 "portfolio_about" = "About your self";
 "portfolio_schedule" = "Please set up a schedule\nso you can be found in searches";
+"portfolio_schedule_tips_title" = "Add new schedules for any long period.";
+"portfolio_schedule_tips_body" = "For example, if you want to allow bookings on the same day for the morning time from 8:00 to 10:00 and the evening time from 16:00 to 18:00, create two schedules with different times:";
+"portfolio_schedule_tips_body2" = "Schedule for each day selected period";
+
+
 "portfolio_schedule_btn" = "Setup schedule";
 "portfolio_add_images" = "Please add images for Portfolio\nby tapping on plus icon on toolbar\nor on button bellow";
 "portfolio_add_images_btt" = "Add images";
@@ -138,7 +163,6 @@
 "portfolio_please_wait" = "Please wait";
 
 //MARK: - Style of Photography
-
 "style_photography_aerial" = "Aerial";
 "style_photography_architecture" = "Architecture";
 "style_photography_documentary" = "Documentary";
@@ -176,7 +200,8 @@
 "schedule_holidays" = "Including weekends";
 
 //MARK: - Customer Main screen
-"customer_search_bar" = "Search photographer";
+"customer_search_bar" = "Find city";
+"customer_search_select_date" = "Select shooting date";
 "customer_search" = "Search";
 "customer_search_no_result" = "Sorry, no photographers found";
 "customer_orders_worning" = "You currently have no active orders";

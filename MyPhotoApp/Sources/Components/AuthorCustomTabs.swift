@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct AuthorCustomTabs: View {
-    @Binding var showAddOrderView: Bool
+    @EnvironmentObject var router: Router<Views>
+    
     @Binding var index: Int
     
     var body: some View {
@@ -21,7 +22,7 @@ struct AuthorCustomTabs: View {
                     .shadow(radius: 5)
                     .ignoresSafeArea(.all)
                 
-                HStack(alignment: .center, spacing: 10) {
+                HStack(alignment: .center, spacing: 4) {
                     tabButton(index: 0, icon: "camera.fill", name: R.string.localizable.tabs_feature())
                     tabButton(index: 1, icon: "paintbrush.fill", name: R.string.localizable.tabs_edit())
                     apertureButton
@@ -60,7 +61,7 @@ struct AuthorCustomTabs: View {
                 .padding(4)
             
             Button {
-                showAddOrderView.toggle()
+                router.push(.AuthorAddOrderView(order: nil, mode: .new))
             } label: {
                 ZStack {
                     Circle()
@@ -81,6 +82,6 @@ struct AuthorCustomTabs: View {
 
 struct AuthorCustomTabs_Previews: PreviewProvider {
     static var previews: some View {
-        AuthorCustomTabs(showAddOrderView: .constant(true), index: .constant(0))
+        AuthorCustomTabs(index: .constant(0))
     }
 }

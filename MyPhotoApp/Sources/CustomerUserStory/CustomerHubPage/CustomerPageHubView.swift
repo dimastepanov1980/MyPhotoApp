@@ -8,89 +8,72 @@
 import SwiftUI
 
 struct CustomerPageHubView: View {
-    @State var index = 0
-    @State private var portfolio: [AuthorPortfolioModel] = []
-    @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: .constant(false))
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
+    @EnvironmentObject var orders: CustomerOrdersViewModel
 
-    @Binding var showAuthenticationView: Bool
+    @State var index = 0
+    @StateObject private var viewModel = CustomerMainScreenViewModel(userProfileIsSet: .constant(false))
 
     @State private var userProfileIsSet: Bool = false
     @State private var profileIsShown: Bool = false
     @State private var showAddOrderView: Bool = false
     @State private var requestLocation: Bool = false
-    @State var searchPageShow: Bool = true
+    @State private var searchPageShow: Bool = true
 
     var body: some View {
-        VStack {
             ZStack(alignment: .bottom) {
                 switch self.index {
                 case 0:
                     ZStack{
-                        if portfolio.isEmpty {
-                            Color(R.color.gray7.name)
-                                .ignoresSafeArea(.all)
-                            ProgressView("Loading...")
+                        if viewModel.portfolio.isEmpty {
+                            VStack{
+                                ProgressView("Loading...")
+                            }.frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
                         } else {
-                            CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation, portfolio: portfolio)
+                            CustomerMainScreenView(with: viewModel, searchPageShow: $searchPageShow, requestLocation: $requestLocation)
+                                .toolbar(.hidden, for: .navigationBar)
+                                .navigationBarBackButtonHidden(true)
                         }
                     }
                 case 1:
-                    CustomerOrdersView(with: CustomerOrdersViewModel())
+                    CustomerOrdersView()
+                        .navigationBarBackButtonHidden(true)
+
                 case 2:
                     Color.green
                 case 3:
-                    SettingScreenView(with: SettingScreenViewModel(), showAuthenticationView: $showAuthenticationView)
+                    SettingScreenView(with: SettingScreenViewModel())
+                        .navigationBarBackButtonHidden(true)
+
                 default:
                     EmptyView()
                 }
-            }
-            .padding(.bottom, -40)
-
-            if searchPageShow {
-                withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                    CustomerCustomTabs(index: $index)
+                
+                if searchPageShow {
+                    withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                        CustomerCustomTabs(index: $index, messagesCounter: $orders.newMessagesCount)
+                    }
                 }
             }
-        }
+
         .sheet(isPresented: $profileIsShown) {
             CustomButtonXl(titleText: R.string.localizable.setup_your_profile(), iconName: "person.crop.circle") {
                 self.profileIsShown = true
                 self.userProfileIsSet = false
             }
+            .padding(.horizontal)
             .presentationDetents([.fraction(0.12)])
-        }
-        .navigationDestination(isPresented: $profileIsShown) {
-            ProfileScreenView(with: ProfileScreenViewModel(profileIsShow: $profileIsShown))
         }
         .edgesIgnoringSafeArea(.bottom)
         .onAppear {
-            
             Task{
-                try await viewModel.fetchLocation()
-                if portfolio.isEmpty {
-                    viewModel.getCurrentLocation()
-                    Task {
-                        do {
-                            portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-                            print("portfolio \(portfolio)")
-                            print("viewModel.portfolio \(viewModel.portfolio)")
-                        } catch {
-                            print("Error fetching portfolio: \(error)")
-                        }
+                do{
+                    if viewModel.portfolio.isEmpty {
+                        viewModel.portfolio =  try await viewModel.getPortfolioForLocation(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
                     }
-                }
-            }
-            
-
-        }
-        .onChange(of: viewModel.latitude) { _ in
-            Task {
-                do {
-                    portfolio = try await viewModel.getPortfolio(longitude: viewModel.longitude, latitude: viewModel.latitude, date: viewModel.selectedDate)
-                    print("portfolio \(portfolio)")
-                    print("viewModel portfolio NEW Coordinate \(viewModel.portfolio)")
                 } catch {
-                    print("Error fetching portfolio for  NEW Coordinate : \(error)")
+                    print("Error fetching Location: \(error)")
                 }
             }
         }
@@ -100,6 +83,6 @@ struct CustomerPageHubView: View {
 
 struct CustomerPageHubView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerPageHubView(showAuthenticationView: .constant(false))
+        CustomerPageHubView()
     }
 }

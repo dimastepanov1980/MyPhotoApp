@@ -10,7 +10,7 @@ import PhotosUI
 
 struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var router: Router<Views>
 
     @State private var isTapped = false
     @State private var showStyleList: Bool = false
@@ -20,12 +20,12 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     @State private var locationAuthor = ""
     @State private var selectedAvatar: PhotosPickerItem?
 
+
     init(with viewModel : ViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
-        NavigationStack{
             ScrollView(showsIndicators: false){
                 VStack(spacing: 12){
                     avatarImageSection
@@ -42,13 +42,13 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                             showStyleList.toggle()
                         }
                         .sheet(isPresented: $showStyleList) {
-                            PhotographyStylesView(styleSelected: $viewModel.styleAuthor)
+                            PhotographyStylesView(styleSelected: $viewModel.styleAuthor, showStyleList: $showStyleList)
                         }
                         .padding(.top, 8)
                     
                     descriptionSection
                 }
-
+                .navigationBarBackButtonHidden(true)
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(R.string.localizable.save()) {
@@ -74,23 +74,26 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                                                  schedule: [DbSchedule](),
                                                  bookingDays: [:]
                                                 ))
-                                dismiss()
+                                if viewModel.schedule.isEmpty {
+                                    router.push(.PortfolioScheduleView)
+                                } else {
+                                    router.push(.PortfolioView)
+                                    router.paths = []
+                                }
                             }
                         }
                         .foregroundColor(Color(R.color.gray2.name))
                         .padding()
                     }
                 }
+                .navigationBarItems(leading: CustomBackButtonView())
                 .padding(.bottom, 64)
                 .onAppear{
                     locationAuthor = viewModel.locationAuthor
                 }
-                .navigationBarBackButtonHidden(true)
-                .navigationBarItems(leading: customBackButton)
             }
-        }
-        
-        
+            .navigationTitle(R.string.localizable.portfolio_edit())
+            .navigationBarTitleDisplayMode(.inline)
     }
     
   private var avatarImageSection: some View {
@@ -142,12 +145,10 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                             }
                         })
                         .overlay{
-                            // Show a ProgressView while waiting for the photo to load
                             if loadingImage {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle())
                                     .frame(width: 110, height: 110)
-                                
                                     .background(Color.white.opacity(0.7))
                                     .clipShape(Circle())
                                     .animation(.default, value: loadingImage)
@@ -277,12 +278,8 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
     }
     private func textField(fieldName: String, propertyName: Binding<String>) -> some View {
         VStack(alignment: .leading, spacing: 4){
-            Text(fieldName)
-                .font(.caption)
-                .foregroundColor(Color(R.color.gray4.name))
-                .padding(.horizontal)
-            
-            TextEditor(text: propertyName)
+            TextField(fieldName, text: propertyName)
+                .autocorrectionDisabled()
                 .font(.callout)
                 .foregroundColor(Color(R.color.gray2.name))
                 .padding(.horizontal)
@@ -293,16 +290,6 @@ struct PortfolioEditView<ViewModel: PortfolioEditViewModelType>: View {
                         .stroke(Color(R.color.gray5.name), lineWidth: 1)}
         }
         .padding(.horizontal)
-
-    }
-    private var customBackButton : some View {
-        Button {
-            dismiss()
-        } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
-               .font(.title)
-               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
-        }
     }
 }
 
@@ -310,52 +297,29 @@ struct PortfolioEditView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
     
     static var previews: some View {
-        PortfolioEditView(with: PortfolioEditViewModel(
-            locationAuthor: viewModel.locationAuthor,
-            typeAuthor: .constant(viewModel.typeAuthor),
-            nameAuthor: .constant(viewModel.nameAuthor),
-            familynameAuthor: .constant(viewModel.familynameAuthor),
-            sexAuthor: .constant("Select"),
-            ageAuthor: .constant(viewModel.ageAuthor),
-            styleAuthor: .constant(viewModel.styleAuthor),
-            avatarAuthor: viewModel.avatarAuthor,
-            avatarImage: nil,
-            descriptionAuthor: .constant(viewModel.descriptionAuthor),
-            longitude: .constant(0.0),
-            latitude: .constant(0.0),
-            regionAuthor: .constant("TH")))
+        PortfolioEditView(with: PortfolioEditViewModel(avatarImage: viewModel.avatarImage))
     }
 }
 
 private class MockViewModel: ObservableObject, PortfolioEditViewModelType {
-    var avatarImage: UIImage? = nil
+    var schedule: [DbSchedule] = []
+    var sexAuthorList: [String] = []
+    var locationAuthor: String = ""
+    var regionAuthor: String = ""
     var latitude: Double = 0.0
     var longitude: Double = 0.0
-    var regionAuthor: String = ""
-    var avatarAuthorID: UUID = UUID()
-    var avatarImageID: UUID = UUID()
-    var selectedAvatar: PhotosPickerItem?
-    var avatarURL: URL?
-    func avatarPathToURL(path: String) async throws -> URL {
-        URL(string: "")!
-    }
-    var typeAuthor = "photo"
-    func addAvatar(selectImage: PhotosPickerItem?) async throws {}
-    var sexAuthorList: [String] = ["Select", "Male", "Female"]
-    var dbModel: DBPortfolioModel?
-    var styleOfPhotography: [String] = ["Aerial", "Architecture", "Documentary", "Event", "Fashion", "Food", "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate", "Sports", "Wedding", "Wildlife"]    
-    var locationAuthor: String = "Hamburg"
-    var locationResult: [DBLocationModel] = []
-    var avatarAuthor: String = ""
     var nameAuthor: String = ""
     var familynameAuthor: String = ""
-    var ageAuthor: String = ""
     var sexAuthor: String = ""
-    var location: String = "Hamburg"
-    var styleAuthor: [String]  = []
-    var descriptionAuthor: String  = ""
-    func updatePreview() {}
-    func getAuthorPortfolio() async throws {}
+    var ageAuthor: String = ""
+    var styleAuthor: [String] = []
+    var typeAuthor: String = ""
+    var avatarAuthor: String = ""
+    var descriptionAuthor: String = ""
+    var locationResult: [DBLocationModel] = []
+    var avatarImage: UIImage? = nil
+    
+    func addAvatar(selectImage: PhotosPickerItem?) async throws {}
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws {}
     func searchLocation(text: String){}
 }

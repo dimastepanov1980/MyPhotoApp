@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseCore
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import Combine
@@ -13,7 +14,6 @@ import Combine
 final class UserManager {
     
     static let shared = UserManager()
-    
     private let encoder: Firestore.Encoder = {
         let encoder = Firestore.Encoder()
         return encoder
@@ -23,18 +23,11 @@ final class UserManager {
         return decoder
     }()
     private var listenerRegistration: ListenerRegistration?
-
-    //MARK: - Customer Section
-    private let customerCollection = Firestore.firestore().collection("customer")
-    private let orderCollection = Firestore.firestore().collection("orders")
-
-    private func customerDocument(customerId: String) -> DocumentReference {
-        customerCollection.document(customerId)
-    }
     
-    func createNewCustomer(user: DBUserModel) async throws {
-        try customerDocument(customerId: user.userId).setData(from: user, merge: false)
-    }
+    private let orderCollection = Firestore.firestore().collection("orders")
+    private let chatCollection = Firestore.firestore().collection("chats")
+    private let userCollection = Firestore.firestore().collection("users")
+
     func updateProfileData(userId: String, profile: DBUserModel) async throws {
        
         let data: [String : Any] = [
@@ -43,45 +36,38 @@ final class UserManager {
             DBUserModel.CodingKeys.instagramLink.rawValue : profile.instagramLink ?? "",
             DBUserModel.CodingKeys.phone.rawValue : profile.phone ?? ""
         ]
-        
-        try? await customerDocument(customerId: userId).updateData(data)
-        try? await authorDocument(authorId: userId).updateData(data)
+        try? await userDocument(authorId: userId).updateData(data)
     }
-
     
+    func swichUserType(userId: String, userType: String) async throws {
+        try? await userDocument(authorId: userId).updateData([ DBUserModel.CodingKeys.userType.rawValue : userType ])
+    }
     //MARK: - Author Section
-    private let authorCollection = Firestore.firestore().collection("users")
     
-    private func authorDocument(authorId: String) -> DocumentReference {
-        authorCollection.document(authorId)
-    }
-    private func authorOrderCollection(authorId: String) -> CollectionReference {
-        authorDocument(authorId: authorId).collection("orders")
-    }
-    private func userOrderDocument(userId: String, orderId: String) -> DocumentReference {
-        authorOrderCollection(authorId: userId).document(orderId)
+    private func userDocument(authorId: String) -> DocumentReference {
+        userCollection.document(authorId)
     }
     
-    func createNewAuthor(author: DBUserModel) async throws {
-        try authorDocument(authorId: author.userId).setData(from: author, merge: false)
+    private func chatDocumentForOrder(orderId: String) -> DocumentReference {
+        chatCollection.document(orderId)
+    }
+    
+    func createNewUser(author: DBUserModel) async throws {
+        try userDocument(authorId: author.userId).setData(from: author, merge: false)
     }
     func getUser(userId: String) async throws -> DBUserModel {
-        guard let user = try? await authorDocument(authorId: userId).getDocument(as: DBUserModel.self) else {
-           return try await customerDocument(customerId: userId).getDocument(as: DBUserModel.self)
-        }
-        return user
+        return try await userDocument(authorId: userId).getDocument(as: DBUserModel.self)
     }
-    
+    func updateToken(userId: String, token: String) async throws {
+        try? await userDocument(authorId: userId).updateData([ DBUserModel.CodingKeys.token.rawValue : token ])
+    }
     //MARK: - NEW Query Orders
-    func addNewOrder(userId: String, order: DbOrderModel) async throws {
+    func addNewOrder(userId: String, order: DbOrderModel) async throws -> String {
         let customerOrder = orderCollection.document()
         let orderId = customerOrder.documentID
-        
         guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
             throw URLError(.badURL)
         }
-        
-        
         let orderData: [String : Any] = [
             DbOrderModel.CodingKeys.orderId.rawValue : orderId,
             DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),
@@ -91,8 +77,10 @@ final class UserManager {
             DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
             DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
             DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? [],
-            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages ?? [],
-             
+            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages,
+            DbOrderModel.CodingKeys.newMessagesAuthor.rawValue : order.newMessagesAuthor,
+            DbOrderModel.CodingKeys.newMessagesCustomer.rawValue : order.newMessagesCustomer,
+            
             DbOrderModel.CodingKeys.authorId.rawValue :  order.authorId ?? "",
             DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
             DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
@@ -106,76 +94,258 @@ final class UserManager {
             DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
         ]
         try await customerOrder.setData(orderData, merge: false)
+        return orderId
     }
     func subscribeAuthorOrders(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
-        // Assuming you have a reference to your Firestore collection
-        print("author_id is: \(userId)")
         let query = orderCollection.whereField("author_id", isEqualTo: userId)
-        
-        // Set up the snapshot listener
         let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
             if let error = error {
-                print("Error fetching documents: \(error)")
+                print("-------------------------------Error fetching documents: \(error)-------------------------------")
                 return
             }
             
             guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
-                print("No documents")
+                print("-------------------------------No documents-------------------------------")
                 return
             }
             
             let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
                 try? queryDocumentSnapshot.data(as: DbOrderModel.self)
             }
-            // Do something with the orders array (e.g., update UI, process data, etc.)
-            completion(orders)
-        }
-        
-        return listenerRegistration
-    }
-    func subscribeCustomerOrder(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> ListenerRegistration {
-        // Assuming you have a reference to your Firestore collection
-        let query = orderCollection.whereField("customer_id", isEqualTo: userId)
-        
-        // Set up the snapshot listener
-        let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
-            if let error = error {
-                print("Error fetching documents: \(error)")
-                return
-            }
-            
-            guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
-                print("No documents")
-                return
-            }
-            
-            let orders = querySnapshot.documents.compactMap { queryDocumentSnapshot in
-                try? queryDocumentSnapshot.data(as: DbOrderModel.self)
-            }
-            // Do something with the orders array (e.g., update UI, process data, etc.)
             completion(orders)
         }
         
         return listenerRegistration
     }
 
+    func subscribeMessageCustomer(id: String, completion: @escaping ([DBMessagerModel]) -> Void) -> ListenerRegistration {
+            let query = chatCollection.whereField("customer_id", isEqualTo: id)
+            let listenerRegistration = query.addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    print("-------------------------------Error fetching documents: \(error)-------------------------------")
+                    return
+                }
+    
+                guard let querySnapshot = querySnapshot, !querySnapshot.isEmpty else {
+                    print("No documents---\(error?.localizedDescription)----------------------------")
+                    return
+                }
+                let message = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+    
+                    try? queryDocumentSnapshot.data(as: DBMessagerModel.self)
+                }
+                print("message: \(message), orderId: \(id), querySnapshot: \(querySnapshot.count)")
+                completion(message)
+            }
+            return listenerRegistration
+        }
+    func subscribeMessageAuthor(id: String, completion: @escaping ([DBMessagerModel]) -> Void) -> ListenerRegistration {
+        let query = chatCollection.whereField("author_id", isEqualTo: id)
+
+        return query.addSnapshotListener { querySnapshot, error in
+            let message = querySnapshot?.documents.compactMap { documents -> DBMessagerModel? in
+                    do {
+                        return try documents.data(as: DBMessagerModel.self)
+                    } catch {
+                        print(error.localizedDescription)
+                        return nil
+                    }
+                }
+            completion(message!)
+
+        }
+    }
+    func createNewChat(orderId: String, authorId: String, customerId: String) async throws {
+        let chatData: [String : Any] = [
+            DBMessagerModel.CodingKeys.id.rawValue : orderId,
+            DBMessagerModel.CodingKeys.authorId.rawValue : authorId,
+            DBMessagerModel.CodingKeys.customerId.rawValue : customerId,
+            ]
+        do {
+            try await chatDocumentForOrder(orderId: orderId).setData(chatData, merge: false)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    func addNewMessage(orderId: String, message: DBMessageModel) async throws {
+        let newMessageDocument = chatDocumentForOrder(orderId: orderId).collection("messages").document()
+        let messageId = newMessageDocument.documentID
+
+        let messageData: [String : Any] = [
+            DBMessageModel.CodingKeys.id.rawValue : messageId,
+            DBMessageModel.CodingKeys.isViewed.rawValue : message.isViewed,
+            DBMessageModel.CodingKeys.message.rawValue : message.message,
+            DBMessageModel.CodingKeys.timestamp.rawValue : message.timestamp,
+            DBMessageModel.CodingKeys.senderIsAuthor.rawValue : message.senderIsAuthor
+        ]
+        try await newMessageDocument.setData(messageData)
+    }
+    func messageViewed(orderId: String, messageID: String, user: Constants.UserType) async throws {
+        let messageDocument = chatDocumentForOrder(orderId: orderId).collection("messages").document(messageID)
+        try await messageDocument.updateData([DBMessageModel.CodingKeys.isViewed.rawValue : true])
+        
+        switch user {
+        case .author:
+            try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.newMessagesAuthor.rawValue : FieldValue.increment(Int64(-1))])
+        case .customer:
+            try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.newMessagesCustomer.rawValue : FieldValue.increment(Int64(-1))])
+        case .unspecified:
+            break
+        }
+        
+    }
+    func subscribeMessage(orderId: String, completion: @escaping ([DBMessageModel]) -> Void) -> ListenerRegistration {
+        return chatCollection.document(orderId).collection("messages").addSnapshotListener { querySnapshot, error in
+            guard let querySnapshot = querySnapshot else {
+                print("No documents---\(String(describing: error?.localizedDescription))----------------------------")
+                return
+            }
+            let message = querySnapshot.documents.compactMap { queryDocumentSnapshot in
+                try? queryDocumentSnapshot.data(as: DBMessageModel.self)
+            }
+            completion(message)
+        }
+    }
+    func messageDecrementCount(orderId: String, user: Constants.UserType) async throws {
+        switch user {
+        case .author:
+            try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.newMessagesAuthor.rawValue : FieldValue.increment(Int64(-1))])
+        case .customer:
+            try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.newMessagesCustomer.rawValue : FieldValue.increment(Int64(-1))])
+        case .unspecified:
+            break
+        }
+    }
+    func subscribeToAllCustomerOrders(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> [ListenerRegistration] {
+        let query = orderCollection.whereField("customer_id", isEqualTo: userId)
+        do {
+            var listenerRegistrations: [ListenerRegistration] = []
+
+            let listener = query.addSnapshotListener { querySnapshot, error in
+                var orders: [DbOrderModel] = []
+
+                if let error = error {
+                    print("Error fetching documents: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents found.")
+                    return
+                }
+                print("Documents Count in subscribe: \(documents.count)")
+
+                for document in documents {
+                    let orderId = document.documentID
+                    let orderDocumentRef = self.orderCollection.document(orderId)
+
+                    // Add a listener for each order document
+                    let listenerRegistration = orderDocumentRef.addSnapshotListener { orderSnapshot, orderError in
+                        if let orderError = orderError {
+                            print("Error fetching order document: \(orderError.localizedDescription)")
+                            return
+                        }
+
+                        guard let orderSnapshot = orderSnapshot else {
+                            print("No order document found for orderId: \(orderId)")
+                            return
+                        }
+
+                        if let order = try? orderSnapshot.data(as: DbOrderModel.self) {
+                            orders.append(order)
+                        }
+                        print("Orders Count in subscribe: \(orders.count)")
+
+                        completion(orders)
+                    }
+                    listenerRegistrations.append(listenerRegistration)
+                }
+            }
+            return listenerRegistrations
+            listener.remove()
+        }
+    }
+    func subscribeToAllAuthorOrders(userId: String, completion: @escaping ([DbOrderModel]) -> Void) -> [ListenerRegistration] {
+        let query = orderCollection.whereField("author_id", isEqualTo: userId)
+        var listenerRegistrations: [ListenerRegistration] = []
+
+        query.addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error fetching documents: \(error.localizedDescription)")
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                print("No documents found.")
+                return
+            }
+            print(">>>>>>>>>>>> Query documents: \(documents)")
+
+            var orders: [DbOrderModel] = []
+            
+            for document in documents {
+                let orderId = document.documentID
+                let orderDocumentRef = self.orderCollection.document(orderId)
+
+                // Add a listener for each order document
+                let listenerRegistration = orderDocumentRef.addSnapshotListener { orderSnapshot, orderError in
+                    if let orderError = orderError {
+                        print(">>>>>>>>>>>> Error fetching order document: \(orderError.localizedDescription)")
+                        return
+                    }
+
+                    guard let orderSnapshot = orderSnapshot else {
+                        print(">>>>>>>>>>>> No order document found for orderId: \(orderId)")
+                        return
+                    }
+                    if let order = try? orderSnapshot.data(as: DbOrderModel.self) {
+                        orders.append(order)
+                        print(">>>>>>>>>>>> Order: \(order)")
+                        // Handle messages or subcollections here if needed
+                    }
+                    
+                    // Call completion when all orders are processed
+                    print(">>>>>>>>>>>> Orders count: \(orders.count)")
+                    print(">>>>>>>>>>>> Documents count: \(documents.count)")
+
+                        completion(orders)
+                        print(">>>>>>>>>>>> All Order: \(orders)")
+                }
+
+                listenerRegistrations.append(listenerRegistration)
+            }
+        }
+
+        return listenerRegistrations
+    }
     func addSampleImageUrl(path: [String], orderId: String) async throws {
         try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayUnion(path)])
     }
-    func updateStatus(order: DbOrderModel, orderId: String) async throws {
-        let orderData: [String : Any] = [
-            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus as Any
-        ]
-        try await orderCollection.document(orderId).updateData(orderData)
+    func deleteSampleImageUrl(path: String, orderId: String) async throws {
+        try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayRemove([path])])
+    }
+    func updateStatus(status: String, orderId: String) async throws {
+        try await orderCollection.document(orderId).updateData([DbOrderModel.CodingKeys.orderStatus.rawValue : status])
     }
     func updateOrder(order: DbOrderModel, orderId: String) async throws {
         guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
             throw URLError(.badURL)
         }
+        
         let orderData: [String : Any] = [
+            DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
+            DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
+            DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
+            DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
+            
+            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
+            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
+            
+            DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
+            DbOrderModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
             DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
             DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
         ]
+
         try await orderCollection.document(orderId).updateData(orderData)
     }
  
@@ -183,91 +353,13 @@ final class UserManager {
     func addNewBookingDays(userId: String, selectedDay: String, selectedTimes: [String]) async throws {
         try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : selectedTimes])
          }
-
     func addTimeSlotForBookingDay(userId: String, selectedDay: String, selectedTime: String) async throws {
         try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : FieldValue.arrayUnion([selectedTime])])
     }
-    
     func removeTimeSlotFromBookingDay(userId: String, selectedDay: String, selectedTime: String) async throws {
         try await portfolioUserDocument(userId: userId).updateData(["\(DBPortfolioModel.CodingKeys.bookingDays.rawValue).\(selectedDay)" : FieldValue.arrayRemove([selectedTime])])
     }
-    
-    
-    //MARK: - OLD Orders
-    /*
-    func addNewAuthorOrder(userId: String, order: DbOrderModel) async throws {
-        let document = authorOrderCollection(authorId: userId).document()
-        let documentId = document.documentID
-        guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
-            throw URLError(.badURL)
-        }
-        
-        let data: [String : Any] = [
-            DbOrderModel.CodingKeys.orderId.rawValue : documentId,
-            DbOrderModel.CodingKeys.orderCreateDate.rawValue : Date(),
-            DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-            DbOrderModel.CodingKeys.orderStatus.rawValue : "Upcoming",
-            DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
-            DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
-            DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
-            DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? [],
-            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages ?? [],
-             
-            DbOrderModel.CodingKeys.authorId.rawValue :  order.authorId ?? "",
-            DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
-            DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
-            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
-            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
-            
-            DbOrderModel.CodingKeys.customerId.rawValue : order.customerId ?? "",
-            DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
-            DbOrderModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
-            DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
-            DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
-      
-        ]
-        try await document.setData(data, merge: false)
-    }
-    func updateOrder(userId: String, order: DbOrderModel, orderId: String) async throws {
-        guard let customerContact = try? encoder.encode(order.customerContactInfo) else {
-            throw URLError(.badURL)
-        }
-        
-        let data: [String : Any] = [
-            DbOrderModel.CodingKeys.orderPrice.rawValue : order.orderPrice ?? "",
-            DbOrderModel.CodingKeys.orderStatus.rawValue : order.orderStatus ?? "Upcoming", //R.string.localizable.status_upcoming()
-            DbOrderModel.CodingKeys.orderShootingDate.rawValue : order.orderShootingDate,
-            DbOrderModel.CodingKeys.orderShootingTime.rawValue : order.orderShootingTime ?? [],
-            DbOrderModel.CodingKeys.orderShootingDuration.rawValue : order.orderShootingDuration ?? "",
-            DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : order.orderSamplePhotos ?? [],
-            DbOrderModel.CodingKeys.orderMessages.rawValue : order.orderMessages ?? [],
-             
-            DbOrderModel.CodingKeys.authorId.rawValue :  order.authorId ?? "",
-            DbOrderModel.CodingKeys.authorName.rawValue : order.authorName ?? "",
-            DbOrderModel.CodingKeys.authorSecondName.rawValue : order.authorSecondName ?? "",
-            DbOrderModel.CodingKeys.authorLocation.rawValue : order.authorLocation ?? "",
-            DbOrderModel.CodingKeys.authorRegion.rawValue : order.authorRegion ?? "",
-            
-            DbOrderModel.CodingKeys.customerId.rawValue : order.customerId ?? "",
-            DbOrderModel.CodingKeys.customerName.rawValue : order.customerName ?? "",
-            DbOrderModel.CodingKeys.customerSecondName.rawValue : order.customerSecondName ?? "",
-            DbOrderModel.CodingKeys.customerDescription.rawValue : order.customerDescription ?? "",
-            DbOrderModel.CodingKeys.customerContactInfo.rawValue : customerContact
-      
-        ]
-        
-        try await userOrderDocument(userId: userId, orderId: orderId).updateData(data)
-    }
-    func removeOrder(userId: String, order: DbOrderModel) async throws {
-        try await userOrderDocument(userId: userId, orderId: order.orderId).delete()
-    }
-    func addToImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
-        try await userOrderDocument (userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : FieldValue.arrayUnion(path)])
-    }
-    func deleteImagesUrlLinks(userId: String, path: [String], orderId: String) async throws {
-        try await userOrderDocument(userId: userId, orderId: orderId).updateData([DbOrderModel.CodingKeys.orderSamplePhotos.rawValue : path])
-    }
-     */
+
     //MARK: - Portfolio
     
     private let portfolioCollection = Firestore.firestore().collection("portfolio")
@@ -281,12 +373,12 @@ final class UserManager {
         }
         
         let portfolioDoc = portfolioUserDocument(userId: userId)
-        let authorDoc = authorDocument(authorId: userId)
+        let authorDoc = userDocument(authorId: userId)
         let portfolioId = portfolioDoc.documentID
         let portfolioData: [String : Any] = [
             DBPortfolioModel.CodingKeys.id.rawValue : portfolioId,
             DBPortfolioModel.CodingKeys.author.rawValue : authorData,
-            DBPortfolioModel.CodingKeys.schedule.rawValue : [] as NSArray,
+            DBPortfolioModel.CodingKeys.schedule.rawValue : FieldValue.arrayUnion([]),
             DBPortfolioModel.CodingKeys.descriptionAuthor.rawValue : portfolio.descriptionAuthor ?? ""
         ]
         
@@ -321,13 +413,7 @@ final class UserManager {
         try await portfolioUserDocument(userId: userId).setData([DBPortfolioModel.CodingKeys.avatarAuthor.rawValue : path], mergeFields: [DBPortfolioModel.CodingKeys.avatarAuthor.rawValue])
     }
     func addAvatarToAuthorProfile(userId: String, path: String) async throws {
-        try await authorDocument(authorId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
-    }
-    func addAvatarToCustomerProfile(userId: String, path: String) async throws {
-        try await customerDocument(customerId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
-    }
-    func addPortfolioImagesUrl(userId: String, path: [String]) async throws {
-        try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion(path)])
+        try await userDocument(authorId: userId).setData([DBUserModel.CodingKeys.avatarUser.rawValue : path], mergeFields: [DBUserModel.CodingKeys.avatarUser.rawValue])
     }
     func addImageUrlToPortfolio(userId: String, path: String) async throws {
         try await portfolioUserDocument(userId: userId).updateData([DBPortfolioModel.CodingKeys.smallImagesPortfolio.rawValue : FieldValue.arrayUnion([path])])
@@ -354,7 +440,7 @@ final class UserManager {
                 .getDocuments(as: DBPortfolioModel.self)
             
             if longitudeQuerySnapshot.isEmpty {
-                print("get longitude 0.03 portoflio")
+                print("-----------------------------------get longitude 0.03 portoflio-----------------------------------")
                  longitudeQuerySnapshot = try await portfolioCollection
                     .whereField("author.longitude", isGreaterThan: longitude - 0.03 * longitude)
                     .whereField("author.longitude", isLessThan: longitude + 0.03 * longitude)
@@ -362,7 +448,7 @@ final class UserManager {
             }
             
             if longitudeQuerySnapshot.isEmpty {
-                print("get longitude 0.1 portoflio")
+                print("-----------------------------------get longitude 0.1 portoflio-----------------------------------")
                  longitudeQuerySnapshot = try await portfolioCollection
                     .whereField("author.longitude", isGreaterThan: longitude - 0.1 * longitude)
                     .whereField("author.longitude", isLessThan: longitude + 0.1 * longitude)
@@ -376,7 +462,7 @@ final class UserManager {
                 .getDocuments(as: DBPortfolioModel.self)
             
             if latitudeQuerySnapshot.isEmpty {
-                print("get latitude 0.03 portoflio")
+                print("-----------------------------------get latitude 0.03 portoflio-----------------------------------")
                 latitudeQuerySnapshot = try await portfolioCollection
                     .whereField("author.latitude", isGreaterThan: latitude - 0.03 * latitude)
                     .whereField("author.latitude", isLessThan: latitude + 0.03 * latitude)
@@ -384,7 +470,7 @@ final class UserManager {
             }
             
             if latitudeQuerySnapshot.isEmpty {
-                print("get latitude 0.1 portoflio")
+                print("-----------------------------------get latitude 0.1 portoflio-----------------------------------")
                 latitudeQuerySnapshot = try await portfolioCollection
                     .whereField("author.latitude", isGreaterThan: latitude - 0.1 * latitude)
                     .whereField("author.latitude", isLessThan: latitude + 0.1 * latitude)
@@ -400,7 +486,8 @@ final class UserManager {
                 return schedule.contains { $0.startDate <= startEventDate }
             }
             
-            print(Array(filteredPortfolios))
+            print("filteredPortfolios: \(Array(filteredPortfolios))")
+            print("commonPortfolios:  \(Array(commonPortfolios))")
             return Array(filteredPortfolios)
         } catch  {
             print(String(describing: error))
@@ -416,7 +503,6 @@ final class UserManager {
 }
 
 extension Query {
-    
     func getDocuments<T>(as type: T.Type) async throws -> [T] where T : Decodable {
         try await getDocumentsWithSnapshot(as: type).products
     }
@@ -442,7 +528,7 @@ extension Query {
         
         let listener = self.addSnapshotListener { querySnapshot, error in
             guard let documents = querySnapshot?.documents else {
-                print("No documents")
+                print("-----------------------------------No documents-----------------------------------")
                 return
             }
             

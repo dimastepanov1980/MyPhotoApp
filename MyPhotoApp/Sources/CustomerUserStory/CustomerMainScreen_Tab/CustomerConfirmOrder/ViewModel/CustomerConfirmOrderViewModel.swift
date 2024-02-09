@@ -10,11 +10,15 @@ import SwiftUI
 
 @MainActor
 final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
+    var user: DBUserModel?
     
-    @Published var user: DBUserModel?
+    @Published var titleStatus: String?
+    @Published var messageStatus: String?
+    @Published var buttonTitleStatus: String?
+    
+    @Published var showOrderStatusAlert: Bool = false
     @Published var customerFirstName: String
     @Published var customerSecondName: String
-    
     @Published var customerInstagramLink: String
     @Published var customerPhone: String
     @Published var customerEmail: String
@@ -32,43 +36,52 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
     @Published var regionAuthor: String
     @Published var orderDescription: String?
     
-    init(user: DBUserModel? = nil, author: AuthorPortfolioModel, orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String) {
-        self.authorId = author.id
-        self.authorName = author.author?.nameAuthor ?? ""
-        self.authorSecondName = author.author?.familynameAuthor ?? ""
-        self.location = author.author?.location ?? ""
+    init(user: DBUserModel? = nil, authorId: String, authorName: String, authorSecondName: String, location: String, regionAuthor : String, authorBookingDays: [String : [String]], orderDate: Date, orderTime: [String], orderDuration: String, orderPrice: String) {
+        self.authorId = authorId
+        self.authorName = authorName
+        self.authorSecondName = authorSecondName
+        self.location = location
         self.orderDate = orderDate
         self.orderTime = orderTime
         self.orderDuration = orderDuration
         self.orderPrice = orderPrice
-        self.regionAuthor = author.author?.regionAuthor ?? ""
+        self.regionAuthor = regionAuthor
         
         self.customerFirstName = user?.firstName ?? ""
         self.customerSecondName = user?.secondName ?? ""
-        self.authorBookingDays = author.bookingDays ?? [:]
+        self.authorBookingDays = authorBookingDays
         self.customerInstagramLink = user?.instagramLink ?? ""
         self.customerPhone = user?.phone ?? ""
         self.customerEmail = user?.email ?? ""
-
+        
         Task{
          try await getCustomerData()
         }
     }
-    func getCustomerData() async throws{
-        let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
-        let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
-        self.customerFirstName = customer.firstName ?? ""
-        self.customerSecondName = customer.secondName ?? ""
-        self.customerInstagramLink = customer.instagramLink ?? ""
-        self.customerEmail = customer.email ?? ""
-        self.customerPhone = customer.phone ?? ""
+    func getCustomerData() async throws -> Bool{
+        do {
+            let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
+            let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
+            self.customerFirstName = customer.firstName ?? ""
+            self.customerSecondName = customer.secondName ?? ""
+            self.customerInstagramLink = customer.instagramLink ?? ""
+            self.customerEmail = customer.email ?? ""
+            self.customerPhone = customer.phone ?? ""
+            return false
+            
+        } catch {
+            return true
+        }
+ 
     }
-
     func createNewOrder() async throws {
+        print(orderDate)
+        print(orderTime)
+        print(orderDuration)
         var successBooking: Bool = false
         let userDataResult = try AuthNetworkService.shared.getAuthenticationUser()
         let customer = try await UserManager.shared.getUser(userId: userDataResult.uid)
-        let orderData: OrderModel = OrderModel(orderId: UUID().uuidString,
+        let orderData: OrderModel = OrderModel(orderId: "",
                                                orderCreateDate: Date(),
                                                orderPrice: orderPrice,
                                                orderStatus: "upcoming",
@@ -76,7 +89,9 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                orderShootingTime: orderTime,
                                                orderShootingDuration: orderDuration,
                                                orderSamplePhotos: [],
-                                               orderMessages: [],
+                                               orderMessages: true,
+                                               newMessagesAuthor: 0,
+                                               newMessagesCustomer: 0,
                                                authorId: authorId,
                                                authorName: authorName,
                                                authorSecondName: authorSecondName,
@@ -86,7 +101,7 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                                                customerName: customerFirstName,
                                                customerSecondName: customerSecondName,
                                                customerDescription: orderDescription,
-                                               customerContactInfo: DbContactInfo(instagramLink: customerInstagramLink, phone: customerPhone, email: customerEmail))
+                                               customerContactInfo: ContactInfo(instagramLink: customerInstagramLink, phone: customerPhone, email: customerEmail))
         
         // Make new request for chek actual booking date
         let actualBookingDateRequest = try await UserManager.shared.getUserPortfolio(userId: authorId)
@@ -109,6 +124,9 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
                     }
                     successBooking = true
                 } else {
+                    self.titleStatus = R.string.localizable.order_fail()
+                    self.messageStatus = R.string.localizable.order_created_message_fail()
+                    self.buttonTitleStatus = R.string.localizable.order_created_button_fail()
                     print("Error! The selected time exists, please select another time or date.")
                 }
                 
@@ -125,8 +143,12 @@ final class CustomerConfirmOrderViewModel: CustomerConfirmOrderViewModelType {
         }
         
         if successBooking {
+            self.titleStatus = R.string.localizable.order_created()
+            self.messageStatus = R.string.localizable.order_created_message()
+            self.buttonTitleStatus = R.string.localizable.order_created_button()
             print("Success! You have booked the selected date and time.")
-             try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
+            let orderId = try await UserManager.shared.addNewOrder(userId: userDataResult.uid, order: DbOrderModel(order: orderData))
+            try await UserManager.shared.createNewChat(orderId: orderId, authorId: authorId, customerId: customer.userId)
         }
     }
 

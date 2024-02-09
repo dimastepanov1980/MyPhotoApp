@@ -7,153 +7,170 @@
 
 import SwiftUI
 
-struct CustomerDetailScreenView: View {
-    @ObservedObject var viewModel: CustomerDetailScreenViewModel = CustomerDetailScreenViewModel()
-    var portfolio: AuthorPortfolioModel
-    var startMyTripDate: Date
-    @State private var currentStep = 0
-    @State var showOrderConfirm: Bool = false
-    @Environment(\.dismiss) private var dismiss
+struct CustomerDetailScreenView<ViewModel: CustomerDetailScreenViewModelType>: View {
+    private enum CoordinateSpaces {
+           case scrollView
+       }
+    @EnvironmentObject var router: Router<Views>
+    @EnvironmentObject var user: UserTypeService
+    
+    @ObservedObject var viewModel: ViewModel
 
+    @State private var currentStep = 0
+    @State var showPortfolioDetailScreenView: Bool = false
+    @Namespace var timeID
     @State var orderDescription: String = R.string.localizable.default_message()
+    
+    
+    init(with viewModel: ViewModel) {
+        self.viewModel = viewModel
+    }
+
 
    var body: some View {
-       NavigationStack{
-           ScrollView(showsIndicators: false){
-               VStack{
-                   ParallaxHeader{
-                       TabView(selection: $currentStep) {
-                           ForEach(portfolio.smallImagesPortfolio.indices, id: \.self) { index in
-                               NavigationLink {
-                                   PortfolioDetailScreenView(images: portfolio.smallImagesPortfolio)
-                               } label: {
-                                   AsyncImageView(imagePath: portfolio.smallImagesPortfolio[index])
+       ScrollViewReader { proxy in
+           ScrollView(showsIndicators: false) {
+               ParallaxHeader(
+                coordinateSpace: CoordinateSpaces.scrollView,
+                defaultHeight: 450
+               ) {
+                   TabView(selection: $currentStep) {
+                       ForEach(viewModel.portfolio.smallImagesPortfolio.indices, id: \.self) { index in
+                           AsyncImageView(imagePath: viewModel.portfolio.smallImagesPortfolio[index])
+                               .onTapGesture {
+                                   router.push(.PortfolioDetailScreenView(images: viewModel.portfolio.smallImagesPortfolio))
                                }
-                               
-                           }
                        }
                    }
                    .tabViewStyle(.page(indexDisplayMode: .never))
-                   .frame(height: 350)
-                   Spacer()
-                   bottomSheet
-                       .offset(y: -110)
                }
-               .navigationBarBackButtonHidden(true)
-               .navigationBarItems(leading: customBackButton)
+               bottomSheet
+                   .offset(y: -60)
            }
+   
+          .coordinateSpace(name: CoordinateSpaces.scrollView)
+          .safeAreaInset(edge: .bottom) {
+                VStack{
+                    HStack(spacing: 16){
+                            HStack(spacing: 2) {
+                                Image(systemName: "calendar")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray1.name))
+                                
+                                Text(viewModel.formattedDate(date: viewModel.startScheduleDay, format: "dd MMMM"))
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                            }
+                        if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
+                            
+                            HStack(spacing: 2) {
+                                Image(systemName: "clock")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray1.name))
+                                Text(time)
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                            }
+                            
+                            
+                            HStack(spacing: 2){
+                                Image(systemName: "timer")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray1.name))
+                                Text("\(viewModel.selectedTime.count)")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(R.color.gray3.name))
+                            }
+                        }
+                    }
+                    if let author = viewModel.portfolio.author {
+                            if viewModel.selectedTime.isEmpty {
+                                CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
+                                    // Action
+                                }
+                                .padding(.horizontal)
+                            } else {
+                                
+                                CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
+                                    router.push(.CustomerConfirmOrderView(authorId: viewModel.portfolio.id, authorName: viewModel.portfolio.author?.nameAuthor ?? "", authorSecondName: viewModel.portfolio.author?.familynameAuthor ?? "", location: viewModel.portfolio.author?.location ?? "", regionAuthor: viewModel.portfolio.author?.regionAuthor  ?? "", authorBookingDays: viewModel.portfolio.bookingDays ?? [:], orderDate: viewModel.startScheduleDay, orderTime: viewModel.selectedTime, orderDuration: String(viewModel.selectedTime.count), orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)))
+                                }
+                                .navigationBarBackButtonHidden(true)
+                                .padding(.horizontal)
+                            }
+                        
+                    }
+                }
+                .padding(.top, 4)
+                .background(Color(R.color.gray7.name))
+        }
+          .background(Color(R.color.gray7.name))
+          .navigationBarBackButtonHidden(true)
+          .navigationBarItems(leading: CustomBackButtonView())
+          .toolbarBackground(.hidden, for: .navigationBar)
+          .onChange(of: viewModel.startScheduleDay) { _ in
+              withAnimation {
+                  proxy.scrollTo(timeID)
+              }
+          }
        }
-           .onAppear{
-               viewModel.getMinPrice()
-               viewModel.createAppointments(schedule: portfolio.appointmen, startMyTripDate: startMyTripDate, bookingDays: portfolio.bookingDays ?? [:] )
-               Task{
-                   try await viewModel.getAvatarImage(imagePath: portfolio.avatarAuthor)
-                 
-               }
-           }
-           .safeAreaInset(edge: .bottom) {
-               VStack{
-                   HStack(spacing: 16){
-                       if let selectedDay = viewModel.selectedDay {
-                           HStack(spacing: 2) {
-                               Image(systemName: "calendar")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray1.name))
-                               
-                               Text(viewModel.formattedDate(date: selectedDay, format: "dd MMMM"))
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray3.name))
-                           }
-                       }
-                       if let time = viewModel.sortedDate(array: viewModel.selectedTime).first {
-                           
-                           HStack(spacing: 2) {
-                               Image(systemName: "clock")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray1.name))
-                               Text(time)
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray3.name))
-                           }
-                           
-                           
-                           HStack(spacing: 2){
-                               Image(systemName: "timer")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray1.name))
-                               Text("\(viewModel.selectedTime.count)")
-                                   .font(.subheadline)
-                                   .foregroundColor(Color(R.color.gray3.name))
-                           }
-                       }
-                   }
-                   if let author = portfolio.author {
-                       if viewModel.selectedDay != nil {
-                           if viewModel.selectedTime.isEmpty {
-                               CustomButtonXl(titleText: "\(R.string.localizable.select_time()) ", iconName: "") {
-                                   // Action
-                               }
-                           } else {
-                               
-                               //                      TODO: - change price property form Schedule
-                               CustomButtonXl(titleText: "\(R.string.localizable.reservation_button()) \(totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime))\(viewModel.currencySymbol(for: author.regionAuthor))", iconName: "") {
-                                   showOrderConfirm.toggle()
-                                   
-                               }.fullScreenCover(isPresented: $showOrderConfirm) {
-                                   
-                                   CustomerConfirmOrderView(with: CustomerConfirmOrderViewModel(
-                                    author: portfolio,
-                                    orderDate: viewModel.selectedDay ?? Date(),
-                                    orderTime: viewModel.selectedTime,
-                                    orderDuration: String(viewModel.selectedTime.count),
-                                    orderPrice: totalCost(price: viewModel.priceForDay, timeSlot: viewModel.selectedTime)),
-                                                            showOrderConfirm: $showOrderConfirm)
-                               }
-                           }
-                       } else {
-                           CustomButtonXl(titleText: "\(R.string.localizable.select_date()) ", iconName: "") {
-                               // Action
-                           }
-                       }
-                   }
-               }.padding(.top, 4)
-                   .background(Color(R.color.gray7.name))
-           }
-           .background(Color(R.color.gray7.name))
+                  .edgesIgnoringSafeArea(.top)
+
+
     }
-    private var customBackButton : some View {
-        Button {
-            dismiss()
-        } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
-               .font(.title)
-               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
+    struct ParallaxHeader<Content: View, Space: Hashable>: View {
+        let content: () -> Content
+        let coordinateSpace: Space
+        let defaultHeight: CGFloat
+
+        init(
+            coordinateSpace: Space,
+            defaultHeight: CGFloat,
+            @ViewBuilder _ content: @escaping () -> Content
+        ) {
+            self.content = content
+            self.coordinateSpace = coordinateSpace
+            self.defaultHeight = defaultHeight
         }
-    }
-    private struct ParallaxHeader<Content: View>: View {
-        @ViewBuilder var content: () -> Content
+        
         var body: some View {
-            GeometryReader { gr in
-                let minY = gr.frame(in: .global).minY
-                content()
-                    .frame(
-                        width: gr.size.width,
-                        height: gr.size.height + max(minY * 0.3, 0)
-                    )
-                    .offset(y: -minY)
+            GeometryReader { proxy in
+                   let offset = offset(for: proxy)
+                   let heightModifier = heightModifier(for: proxy)
+
+                   content()
+                       .edgesIgnoringSafeArea(.horizontal)
+                       .frame(
+                           width: proxy.size.width,
+                           height: proxy.size.height + heightModifier
+                       )
+                       .offset(y: offset)
+               }.frame(height: defaultHeight)
+        }
+        
+        private func offset(for proxy: GeometryProxy) -> CGFloat {
+            let frame = proxy.frame(in: .named(coordinateSpace))
+            if frame.minY < 0 {
+                return -frame.minY * 0.8
             }
+            return -frame.minY
+        }
+        
+        private func heightModifier(for proxy: GeometryProxy) -> CGFloat {
+            let frame = proxy.frame(in: .named(coordinateSpace))
+            return max(0, frame.minY)
         }
     }
+    
     private var authorSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack{
-                AsyncImageView(imagePath: portfolio.avatarAuthor)
+                AsyncImageView(imagePath: viewModel.portfolio.avatarAuthor)
                      .frame(width: 68, height: 68)
                      .mask {
                           Circle()
                       }
 
-                if let author = portfolio.author {
+                if let author = viewModel.portfolio.author {
                     VStack(alignment: .leading){
                         Text("\(author.nameAuthor) \(author.familynameAuthor)")
                             .font(.title2.bold())
@@ -169,7 +186,7 @@ struct CustomerDetailScreenView: View {
                             .font(.footnote)
                             .foregroundColor(Color(R.color.gray4.name))
                         
-                        Text("\(viewModel.minPrice) \(viewModel.currencySymbol(for: portfolio.author?.regionAuthor ?? "$"))")
+                        Text("\(viewModel.minPrice) \(viewModel.currencySymbol(for: viewModel.portfolio.author?.regionAuthor ?? "$"))")
                             .font(.headline)
                             .foregroundColor(Color(R.color.gray2.name))
                         
@@ -177,7 +194,7 @@ struct CustomerDetailScreenView: View {
                 }
             }
             
-            if let author = portfolio.author {
+            if let author = viewModel.portfolio.author {
                 HStack(spacing: 16){
                     ForEach(author.styleAuthor, id: \.self) { genre in
                         HStack{
@@ -194,10 +211,14 @@ struct CustomerDetailScreenView: View {
                 }
                 Divider()
             }
-                Text(portfolio.descriptionAuthor)
+            if !viewModel.portfolio.descriptionAuthor.isEmpty {
+                
+                Text(viewModel.portfolio.descriptionAuthor)
                     .font(.callout)
                     .foregroundColor(Color(R.color.gray2.name))
-                
+            Divider()
+            }
+               
         }
         .padding(.top, 24)
 
@@ -206,7 +227,7 @@ struct CustomerDetailScreenView: View {
         VStack(alignment: .leading, spacing: 6){
             
             Group {
-                Divider()
+                
                 Text(R.string.localizable.select_date())
                     .font(.caption2)
                     .foregroundColor(Color(R.color.gray3.name))
@@ -216,15 +237,15 @@ struct CustomerDetailScreenView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .bottom, spacing: 8 ) {
                     
-                        ForEach(viewModel.appointments, id: \.date) { appointment in
+                    ForEach(viewModel.appointments, id: \.date) { appointment in
                             VStack{
                                 VStack(alignment: .center, spacing: 2) {
                                     Text("\(viewModel.formattedDate(date: appointment.date, format: "dd"))")
                                         .font(.body.bold())
-                                        .foregroundColor(viewModel.isToday(date: appointment.date) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
+                                        .foregroundColor(viewModel.selectedDate(date: appointment.date) ? Color(R.color.gray7.name) : Color(R.color.gray2.name))
                                     Text("\(viewModel.formattedDate(date: appointment.date, format: "MMM"))")
                                         .font(.footnote)
-                                        .foregroundColor(viewModel.isToday(date: appointment.date) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
+                                        .foregroundColor(viewModel.selectedDate(date: appointment.date) ? Color(R.color.gray5.name) : Color(R.color.gray3.name))
                                 }
                                 .padding(.vertical, 20)
                                 .frame(width: 45)
@@ -237,7 +258,7 @@ struct CustomerDetailScreenView: View {
                                 )
                                 .background(
                                     ZStack {
-                                        if viewModel.isToday(date: appointment.date) {
+                                        if viewModel.selectedDate(date: appointment.date) {
                                             Capsule()
                                                 .fill(Color(R.color.gray2.name))
                                         }
@@ -246,10 +267,12 @@ struct CustomerDetailScreenView: View {
                                 .containerShape(Capsule())
                                 .onTapGesture {
                                     withAnimation {
-                                        viewModel.selectedDay = appointment.date
-                                        viewModel.selectedTime = []
-                                        viewModel.timeslotSelectedDay = appointment.timeSlot
-                                        viewModel.priceForDay = appointment.price
+                                        self.viewModel.startScheduleDay = appointment.date
+                                        self.viewModel.selectedTime = []
+                                        self.viewModel.timeslotSelectedDay = appointment.timeSlot
+                                        self.viewModel.priceForDay = appointment.price
+                                        
+                                        print("selected Day Time and Price: \(viewModel.startScheduleDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
                                     }
                                 }
                                 
@@ -273,7 +296,6 @@ struct CustomerDetailScreenView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             Group {
-            if viewModel.selectedDay != nil {
                 Divider()
             Text(R.string.localizable.select_time())
                 .font(.caption2)
@@ -284,8 +306,9 @@ struct CustomerDetailScreenView: View {
                 spacing: 6,
                 alignment: .leading) { time in
                     tagTime(time: time)
+                       
                 }
-              }
+                .id(timeID)
                 
             }
             .padding(.horizontal, 24)
@@ -331,9 +354,13 @@ struct CustomerDetailScreenView: View {
         }
         .onTapGesture {
             if viewModel.selectedTime.contains(time) {
-                viewModel.selectedTime.removeAll { $0 == time }
+                self.viewModel.selectedTime.removeAll { $0 == time }
+                print("selected Day RemoveTime and Price: \(viewModel.startScheduleDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
+
             } else {
-                viewModel.selectedTime.append(time)
+                self.viewModel.selectedTime.append(time)
+                print("selected Day AppendTime and Price: \(viewModel.startScheduleDay):\(viewModel.selectedTime):\(viewModel.priceForDay)")
+
             }
         }
     }
@@ -351,9 +378,9 @@ struct CustomerDetailScreenView: View {
             )
         .overlay(alignment: .topTrailing) {
             Group {
-                Text("\(currentStep + 1) / \(portfolio.smallImagesPortfolio.count)")
+                Text("\(currentStep + 1) / \(viewModel.portfolio.smallImagesPortfolio.count)")
                     .font(.caption2)
-                    .foregroundColor(Color(R.color.gray7.name))
+                    .foregroundColor(Color.white)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 3)
                     .background(Color.black.opacity(0.2))
@@ -419,7 +446,10 @@ struct CustomerDetailScreenView: View {
                         .scaledToFill()
                         .frame(minWidth: 0, maxWidth: .infinity)
                 } else {
-                    ProgressView()
+                    ZStack{
+                        Color(R.color.gray5.name)
+                        ProgressView()
+                    }
                 }
             }
             .onAppear {
@@ -445,6 +475,7 @@ struct CustomerDetailScreenView: View {
             try await StorageManager.shared.getImageURL(path: imagePath)
         }
     }
+
 }
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
@@ -464,12 +495,11 @@ private struct RoundedCorner: Shape {
 struct CustomerDetailScreenView_Previews: PreviewProvider {
     private static let mocItems = MockViewModel()
     static var previews: some View {
-        CustomerDetailScreenView(portfolio: mocItems.items, startMyTripDate: Date())
+        CustomerDetailScreenView(with: mocItems)
     }
 }
 private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject {
-    var startMyTrip: Date = Date()
-    func getMinPrice() {}
+    func getMinPrice(appointmen: [DbSchedule]) {}
     var avatarImage: UIImage?
     func getAvatarImage(imagePath: String) async throws {}
     var minPrice: String = ""
@@ -477,7 +507,7 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
     func createAppointments(schedule: [DbSchedule], startMyTripDate: Date, bookingDays: [String : [String]]) {}
 
     @Published var appointments: [AppointmentModel] = []
-    @Published var items: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
+    @Published var portfolio: AuthorPortfolioModel = AuthorPortfolioModel(portfolio:
                                                 DBPortfolioModel(id: UUID().uuidString,
                                                                  author:   DBAuthor(rateAuthor: 0.0,
                                                                                     likedAuthor: true,
@@ -496,10 +526,10 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
                                                                  smallImagesPortfolio: [],
                                                                  largeImagesPortfolio: [],
                                                                  descriptionAuthor: "",
-                                                                 schedule: [],
+                                                                 schedule: [DbSchedule(id: UUID(), holidays: true, startDate: Date(), endDate: Date(), timeIntervalSelected: "1", price: "4400", timeZone: "")],
                                                                  bookingDays: [:]))
     @Published var selectedTime: [String] = []
-    @Published var selectedDay: Date? = Date()
+    @Published var startScheduleDay: Date = Date()
     @Published var today: Date = Date()
     @Published var timeslotSelectedDay: [String] = []
     
@@ -524,9 +554,9 @@ private class MockViewModel: CustomerDetailScreenViewModelType, ObservableObject
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
     }
-    func isToday(date: Date) -> Bool {
+    func selectedDate(date: Date) -> Bool {
         let calendar = Calendar.current
-        return calendar.isDate(selectedDay ?? Date(), inSameDayAs: date)
+        return calendar.isDate(startScheduleDay, inSameDayAs: date)
     }
 
 

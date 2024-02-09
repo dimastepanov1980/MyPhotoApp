@@ -11,36 +11,22 @@ struct CustomTextField: View {
     @State var nameTextField: String
     @Binding var text: String
     @State var isTapped = false
+    var isDisabled: Bool
+    
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                TextField("", text: $text) { (status) in
-                    if status {
-                        withAnimation(.easeIn) {
-                            isTapped = true
-                        }
-                    } else {
-                        if text == "" {
-                            withAnimation(.easeOut) {
-                                isTapped = false
-                            }
-                        }
-                    }
-                }
-                .font(.callout)
-                .foregroundColor(Color(R.color.gray2.name))
-                .background (
-                    Text(nameTextField)
-                        .font(.callout)
-                        .scaleEffect(isTapped || !text.isEmpty ? 0.7 : 0.9)
-                        .offset(x: isTapped || !text.isEmpty ? -10 : 0, y: isTapped || !text.isEmpty ? -30 : 0 )
-                        .foregroundColor(Color(R.color.gray4.name)),
-                    alignment: .leading
-                )
-                
+            TextField(nameTextField, text: $text)
+                    .frame(height: 42)
+
+//                .padding(10)
+                .autocorrectionDisabled()
+            Button {
+                self.text = ""
+            } label: {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundColor(Color(R.color.gray4.name))
             }
         }
-        .frame(height: 42)
         .padding(.horizontal)
         .overlay(
             RoundedRectangle(cornerRadius: 21)
@@ -49,3 +35,9 @@ struct CustomTextField: View {
     }
 }
 
+struct CustomTextField_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        CustomTextField(nameTextField: "Email", text: .constant(""), isDisabled: true)
+    }
+}

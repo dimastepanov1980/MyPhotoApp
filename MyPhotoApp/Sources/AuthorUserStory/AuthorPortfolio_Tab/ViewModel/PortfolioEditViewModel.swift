@@ -13,10 +13,11 @@ import PhotosUI
 
 @MainActor
 final class PortfolioEditViewModel: PortfolioEditViewModelType {
-
     var service: SearchLocationManager
+
     private var cancellable: AnyCancellable?
-    
+    private var portfolio: AuthorPortfolioModel?
+
     @State var sexAuthorList = ["Select", "Male", "Female"]
     @Published var locationResult: [DBLocationModel]
     @Published var locationAuthor: String {
@@ -26,46 +27,37 @@ final class PortfolioEditViewModel: PortfolioEditViewModelType {
     }
     @Published var avatarImage: UIImage?
     @Published var avatarAuthor: String
-
-    @Binding var typeAuthor: String
-    @Binding var nameAuthor: String
-    @Binding var familynameAuthor: String
-    @Binding var sexAuthor: String
-    @Binding var ageAuthor: String
-    @Binding var styleAuthor: [String]
-    @Binding var descriptionAuthor: String
-    @Binding var longitude: Double
-    @Binding var latitude: Double
-    @Binding var regionAuthor: String
+    @Published var typeAuthor: String
+    @Published var nameAuthor: String
+    @Published var familynameAuthor: String
+    @Published var sexAuthor: String
+    @Published var ageAuthor: String
+    @Published var styleAuthor: [String]
+    @Published var descriptionAuthor: String
+    @Published var longitude: Double
+    @Published var latitude: Double
+    @Published var regionAuthor: String
+    @Published var schedule: [DbSchedule]
     
-    init(locationAuthor: String,
-         typeAuthor: Binding<String>,
-         nameAuthor: Binding<String>,
-         familynameAuthor: Binding<String>,
-         sexAuthor: Binding<String>,
-         ageAuthor: Binding<String>,
-         styleAuthor: Binding<[String]>,
-         avatarAuthor: String,
-         avatarImage: UIImage?,
-         descriptionAuthor: Binding<String>,
-         longitude: Binding<Double>,
-         latitude: Binding<Double>,
-         regionAuthor: Binding<String>) {
+    init(portfolio: AuthorPortfolioModel? = nil,
+         avatarImage: UIImage?
+    ) {
         
-        self.locationAuthor = locationAuthor
-        self.avatarAuthor = avatarAuthor
+        self.locationAuthor = portfolio?.author?.location ?? ""
+        self.avatarAuthor = portfolio?.avatarAuthor ?? ""
         self.avatarImage = avatarImage
 
-        self._typeAuthor = typeAuthor
-        self._nameAuthor = nameAuthor
-        self._familynameAuthor = familynameAuthor
-        self._sexAuthor = sexAuthor
-        self._ageAuthor = ageAuthor
-        self._styleAuthor = styleAuthor
-        self._descriptionAuthor = descriptionAuthor
-        self._longitude = longitude
-        self._latitude = latitude
-        self._regionAuthor = regionAuthor
+        self.typeAuthor = portfolio?.author?.typeAuthor ?? ""
+        self.nameAuthor = portfolio?.author?.nameAuthor ?? ""
+        self.familynameAuthor = portfolio?.author?.familynameAuthor ?? ""
+        self.sexAuthor = portfolio?.author?.sexAuthor ?? ""
+        self.ageAuthor = portfolio?.author?.ageAuthor  ?? ""
+        self.styleAuthor = portfolio?.author?.styleAuthor ?? []
+        self.descriptionAuthor = portfolio?.descriptionAuthor ?? ""
+        self.longitude = portfolio?.author?.longitude ?? 0.0
+        self.latitude = portfolio?.author?.latitude ?? 0.0
+        self.regionAuthor = portfolio?.author?.regionAuthor ?? ""
+        self.schedule = portfolio?.schedule ?? []
         
         let globalCoordinate = CLLocationCoordinate2D()
 

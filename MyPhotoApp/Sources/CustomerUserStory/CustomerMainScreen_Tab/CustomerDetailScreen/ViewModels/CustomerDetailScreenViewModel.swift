@@ -10,7 +10,8 @@ import SwiftUI
 
 @MainActor
 final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
-    @Published var selectedDay: Date? = nil
+    @Published var portfolio: AuthorPortfolioModel
+    @Published var startScheduleDay: Date
     @Published var selectedTime: [String] = []
     @Published var priceForDay: String = ""
     @Published var minPrice: String = ""
@@ -19,19 +20,29 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
     @Published var appointments: [AppointmentModel] = []
     @Published var avatarImage: UIImage? = nil
     
-    func getMinPrice(){
-//        var arrayPrices: [Int] = []
-//
-//        for item in items.appointmen {
-//            if let price = Int(item.price) {
-//                arrayPrices.append(price)
-//            }
-//        }
-//        guard let minPrice = arrayPrices.min() else { return }
-//        self.minPrice = String(minPrice)
-      }
+    init(portfolio: AuthorPortfolioModel,
+         startScheduleDay: Date){
+        self.portfolio = portfolio
+        self.startScheduleDay = startScheduleDay
+        
+        getMinPrice(appointmen: portfolio.schedule)
+        createAppointments(schedule: portfolio.schedule, startMyTripDate: startScheduleDay, bookingDays: portfolio.bookingDays ?? [:] )
+        Task{
+            try await getAvatarImage(imagePath: portfolio.avatarAuthor)
+        }
+    }
     
-    private func setEndMyTripDate(startMyTrip: Date, endMyTrip: Int) -> Date{
+    func getMinPrice(appointmen: [DbSchedule]){
+        var arrayPrices: [Int] = []
+        for price in appointmen {
+            if let price = Int(price.price) {
+                arrayPrices.append(price)
+            }
+        }
+        guard let minPrice = arrayPrices.min() else { return }
+        self.minPrice = String(minPrice)
+      }
+    func setEndMyTripDate(startMyTrip: Date, endMyTrip: Int) -> Date{
         let today = startMyTrip
         let calendar = Calendar.current
         guard let endMyTripDate = calendar.date(byAdding: .day, value: endMyTrip, to: today) else { return Date()}
@@ -58,7 +69,10 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
             var priceForCurrentDay = ""
             
             for scheduleItem in schedule {
-                if currentDate >= scheduleItem.startDate && currentDate <= scheduleItem.endDate {
+                if currentDate >= scheduleItem.startDate && currentDate <= scheduleItem.endDate && currentDate != today {
+                    print(currentDate)
+                    print(today)
+                    print(startScheduleDay)
                     let startTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.startDate)
                     let endTimeComponents = calendar.dateComponents([.hour, .minute], from: scheduleItem.endDate)
                     guard let startHour = startTimeComponents.hour, let startMinute = startTimeComponents.minute,
@@ -71,7 +85,8 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
                     while currentTime <= calendar.date(bySettingHour: endHour, minute: endMinute, second: 0, of: currentDate)! {
                         let currentDayString = dateFormatter.string(from: currentTime)
                         let timeSlot = timeFormatter.string(from: currentTime)
-                        
+                        print("--------------------booking Day: \(bookingDays) currentDayString \(currentDayString)-----------------------")
+
                         if let selectedTimeSlot = bookingDays[currentDayString] {
                             print("Current Day: \(currentDayString) existans Time Slot: \(selectedTimeSlot), Current Time Slot: \(timeSlot)")
                             if !selectedTimeSlot.contains(where: { $0 == timeSlot }) {
@@ -123,9 +138,9 @@ final class CustomerDetailScreenViewModel: CustomerDetailScreenViewModelType {
         let calendar = Calendar.current
         return calendar.isDate(today, inSameDayAs: date)
     }
-    func isToday(date: Date) -> Bool {
+    func selectedDate(date: Date) -> Bool {
         let calendar = Calendar.current
-        return calendar.isDate(selectedDay ?? Date(), inSameDayAs: date)
+        return calendar.isDate(startScheduleDay, inSameDayAs: date)
     }
     func getAvatarImage(imagePath: String) async throws {
         self.avatarImage = try await StorageManager.shared.getReferenceImage(path: imagePath)

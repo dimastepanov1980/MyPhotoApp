@@ -19,9 +19,10 @@ struct DBLocationModel: Identifiable {
     
     init(mapItem: MKMapItem) {
         self.city = mapItem.name ?? ""
-        self.location = mapItem.placemark.title ?? ""
+        self.location = "\(mapItem.name ?? ""), \(mapItem.placemark.country ?? "")"
         self.latitude = mapItem.placemark.location?.coordinate.latitude ?? 0.0
         self.longitude = mapItem.placemark.location?.coordinate.longitude ?? 0.0
         self.regionCode = mapItem.placemark.countryCode ?? ""
+        print(mapItem.name, mapItem.placemark.country)
     }
 }

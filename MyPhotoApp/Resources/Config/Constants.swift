@@ -8,9 +8,22 @@
 import Foundation
 
 enum Constants {
+    
     enum CustomError: Error {
         case invalidURL
         case invalidResponse
     }
+    
+    enum UserType {
+        case author
+        case customer
+        case unspecified
+    }
+    
+    enum OrderMode {
+        case new
+        case edit
+    }
+    
 }
 

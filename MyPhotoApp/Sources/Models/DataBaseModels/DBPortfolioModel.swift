@@ -125,7 +125,7 @@ struct BookingDay: Codable {
     }
 }
 
-struct DbSchedule: Codable {
+struct DbSchedule: Codable, Hashable {
     let id: UUID
     var holidays: Bool
     var startDate: Date

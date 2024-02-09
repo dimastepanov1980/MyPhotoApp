@@ -27,6 +27,7 @@ protocol PortfolioEditViewModelType: ObservableObject {
     var avatarImage: UIImage? { get set }
     var descriptionAuthor: String { get set }
     var locationResult: [DBLocationModel] { get set }
+    var schedule: [DbSchedule] { get set }
 
     func setAuthorPortfolio(portfolio: DBPortfolioModel) async throws
     func addAvatar(selectImage: PhotosPickerItem?) async throws

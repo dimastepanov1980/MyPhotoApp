@@ -12,12 +12,12 @@ struct PhotographyStylesView: View {
                                       "Love Story", "Macro", "People", "Pet", "Portraits", "Product", "Real Estate",
                                       "Sports", "Wedding", "Wildlife"]
     @Binding var styleSelected: [String]
-//    @Binding var showStyleList: Bool
+    @Binding var showStyleList: Bool
 
-    init(/*photographyStyles: [String],*/styleSelected: Binding<[String]>/*, showStyleList: Binding<Bool>*/) {
-//        self.photographyStyles = photographyStyles
+    init(styleSelected: Binding<[String]>,
+         showStyleList: Binding<Bool>) {
         self._styleSelected = styleSelected
-//        self._showStyleList = showStyleList
+        self._showStyleList = showStyleList
     }
     
     var body: some View {
@@ -35,9 +35,14 @@ struct PhotographyStylesView: View {
                         }
                     }
                 }
+            } .toolbar{
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(R.string.localizable.done()) {
+                        self.showStyleList = false
+                    }
+                }
             }
             .navigationTitle(R.string.localizable.portfolio_genre_description())
-            .scrollIndicators(ScrollIndicatorVisibility.hidden)
             .scrollContentBackground(.hidden)
             .padding(.trailing)
         }
@@ -112,7 +117,7 @@ struct MultipleSelectionRow: View {
 
 struct PhotoGenresView_Previews: PreviewProvider {
     static var previews: some View {
-        PhotographyStylesView(/*photographyStyles: ["Aerial", "Sports"],*/ styleSelected: .constant(["Sports", "Aerial"])/*, showStyleList: .constant(false)*/)
+        PhotographyStylesView(styleSelected: .constant(["Sports", "Aerial"]), showStyleList: .constant(false))
     }
 }
 

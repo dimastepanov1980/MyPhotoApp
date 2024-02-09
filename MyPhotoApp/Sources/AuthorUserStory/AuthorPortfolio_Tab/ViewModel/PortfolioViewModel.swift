@@ -11,52 +11,20 @@ import PhotosUI
 
 @MainActor
 final class PortfolioViewModel: PortfolioViewModelType {
-    @Published var dbModel: DBPortfolioModel?
-    @Published var locationAuthor: String = ""
-    @Published var identifier: String = ""
-    @Published var avatarAuthor: String = ""
-    @Published var nameAuthor: String = ""
-    @Published var familynameAuthor: String = ""
-    @Published var ageAuthor: String = ""
-    @Published var sexAuthor: String = "Select"
-    @Published var styleAuthor: [String] = []
-    @Published var descriptionAuthor: String = ""
-    @Published var typeAuthor: String = ""
-    @Published var latitude: Double = 0.0
-    @Published var longitude: Double = 0.0
-    @Published var regionAuthor = ""
-    @Published var smallImagesPortfolio: [String] = []
+    @Published var portfolio: AuthorPortfolioModel?
+
     @Published var portfolioImages: [String: UIImage?] = [:]
     @Published var avatarImage: UIImage? = nil
-    @Binding var portfolioIsShow: Bool
+
     
-    init(dbModel: DBPortfolioModel? = nil,
-         portfolioIsShow: Binding<Bool>) {
-        self._portfolioIsShow = portfolioIsShow
-        self.dbModel = dbModel
-    }
-    
-    func updatePreview(){
-        if let dbModel = dbModel {
-            avatarAuthor = dbModel.avatarAuthor ?? ""
-            nameAuthor = dbModel.author?.nameAuthor ?? ""
-            familynameAuthor = dbModel.author?.familynameAuthor ?? ""
-            ageAuthor = dbModel.author?.ageAuthor ?? ""
-            sexAuthor = dbModel.author?.sexAuthor ?? ""
-            locationAuthor = dbModel.author?.location ?? ""
-            styleAuthor = dbModel.author?.styleAuthor ?? []
-            descriptionAuthor = dbModel.descriptionAuthor ?? ""
-            smallImagesPortfolio = dbModel.smallImagesPortfolio ?? []
-            latitude = dbModel.author?.latitude ?? 0.0
-            longitude = dbModel.author?.longitude ?? 0.0
-            regionAuthor = dbModel.author?.regionAuthor ?? ""
-        }
-    }
+    // TODO: -- Change getAuthorPortfolio() to getPortfolioForLocation
     func getAuthorPortfolio() async throws {
         do {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
             let portfolio = try await UserManager.shared.getUserPortfolio(userId: authDateResult.uid)
-            self.dbModel = portfolio
+            let authorPortfolioModel = AuthorPortfolioModel(portfolio: portfolio)
+            self.portfolio = authorPortfolioModel
+            print("I get portfolio")
         } catch {
             print(error.localizedDescription)
             print(String(describing: error))
@@ -88,6 +56,7 @@ final class PortfolioViewModel: PortfolioViewModelType {
             }
         }
         self.portfolioImages = portfolioImages
+        print("I get portfolio Images")
     }
     func getAvatarImage(imagePath: String) async throws {
         print("getAvatarImage imagePath:\(imagePath)")

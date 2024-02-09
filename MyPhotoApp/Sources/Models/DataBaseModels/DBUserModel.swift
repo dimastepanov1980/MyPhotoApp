@@ -18,8 +18,9 @@ struct DBUserModel: Codable {
     let dateCreate: Date?
     let userType: String?
     let setPortfolio: Bool
+    let token: String?
     
-    init(auth: UserDataModel, userType: String, firstName: String, secondName: String, instagramLink: String, phone: String, avatarUser: String?, setPortfolio: Bool) {
+    init(auth: UserDataModel, userType: String, firstName: String, secondName: String, instagramLink: String, phone: String, avatarUser: String?, setPortfolio: Bool, token: String?) {
         self.userId = auth.uid
         self.firstName = firstName
         self.secondName = secondName
@@ -30,6 +31,7 @@ struct DBUserModel: Codable {
         self.dateCreate = Date()
         self.userType = userType
         self.setPortfolio = setPortfolio
+        self.token = token
     }
 
     init(userId: String,
@@ -41,7 +43,8 @@ struct DBUserModel: Codable {
          email: String? = nil,
          dateCreate: Date? = nil,
          userType: String? = nil,
-         setPortfolio: Bool
+         setPortfolio: Bool,
+         token: String? = nil
     ){
         self.userId = userId
         self.firstName = firstName
@@ -53,6 +56,7 @@ struct DBUserModel: Codable {
         self.dateCreate = dateCreate
         self.userType = userType
         self.setPortfolio = setPortfolio
+        self.token = token
     }
     
     enum CodingKeys: String, CodingKey {
@@ -66,6 +70,7 @@ struct DBUserModel: Codable {
         case dateCreate = "date_create"
         case userType = "user_type"
         case setPortfolio = "set_portfolio"
+        case token = "token"
     }
     
     init(from decoder: Decoder) throws {
@@ -80,6 +85,7 @@ struct DBUserModel: Codable {
         self.dateCreate = try container.decodeIfPresent(Date.self, forKey: .dateCreate)
         self.userType = try container.decodeIfPresent(String.self, forKey: .userType)
         self.setPortfolio = try container.decodeIfPresent(Bool.self, forKey: .setPortfolio) ?? false
+        self.token = try container.decodeIfPresent(String.self, forKey: .token) ?? ""
     }
     
     func encode(to encoder: Encoder) throws {
@@ -94,5 +100,7 @@ struct DBUserModel: Codable {
         try container.encodeIfPresent(self.dateCreate, forKey: .dateCreate)
         try container.encodeIfPresent(self.userType, forKey: .userType)
         try container.encodeIfPresent(self.setPortfolio, forKey: .setPortfolio)
+        try container.encodeIfPresent(self.token, forKey: .token)
     }
+    
 }

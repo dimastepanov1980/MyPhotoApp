@@ -9,32 +9,30 @@ import SwiftUI
 
 struct PortfolioDetailScreenView: View {
     var images: [String]
-    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var router: Router<Views>
 
     var body: some View {
         VStack{
-                ScrollView{
+            ScrollView(showsIndicators: false){
                     LazyVGrid(columns: [GridItem(.flexible(), spacing: 0),
                                         GridItem(.flexible(), spacing: 0)], spacing: 0){
                         ForEach(images.indices, id: \.self) { index in
-                            NavigationLink {
-                                ImageDetailView(imagePath: images[index])
-                            } label: {
                                 AsyncImageView(imagePath: images[index])
-                            }
+                                .onTapGesture {
+                                    router.push(.ImageDetailView(image: images[index]))
+                                }
                         }
-                    }
-
+                    }   
                 }
         }
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: customBackButton)
+        .navigationBarItems(leading: CustomBackButtonView())
     }
     
     private struct AsyncImageView: View {
         let imagePath: String
         @State private var imageURL: URL?
-        @State private var image: UIImage? // New state to hold the image
+        @State private var image: UIImage?
 
         var body: some View {
             Group {
@@ -46,12 +44,11 @@ struct PortfolioDetailScreenView: View {
                         .frame(maxHeight: 250)
                         .cornerRadius(10)
                 } else {
-                    ProgressView()
+                        ProgressView()
                 }
             }
             .padding(.all, 2)
             .onAppear {
-                // Fetch the image URL and download the image concurrently
                 Task {
                     do {
                         let url = try await imagePathToURL(imagePath: imagePath)
@@ -65,6 +62,7 @@ struct PortfolioDetailScreenView: View {
                         print("Error fetching image URL or downloading image: \(error)")
                     }
                 }
+
             }
         }
 
@@ -73,29 +71,16 @@ struct PortfolioDetailScreenView: View {
             try await StorageManager.shared.getImageURL(path: imagePath)
         }
     }
-    private var customBackButton : some View {
-        Button {
-            dismiss()
-        } label: {
-            Image(systemName: "chevron.left.circle.fill")// set image here
-               .font(.title)
-               .foregroundStyle(.white, Color(R.color.gray1.name).opacity(0.7))
-        }
-    }
-
 }
 
 struct PortfolioDetailScreenView_Previews: PreviewProvider {
     private static let viewModel = MockViewModel()
 
     static var previews: some View {
-        NavigationStack{
             PortfolioDetailScreenView(images: viewModel.images)
-        }
+    
     }
 }
-
-
 private class MockViewModel: ObservableObject, PortfolioDetailScreenViewModelType {
     @Published var images: [String] = ["String","String","String", "String", "String", "String", "String"]
 }

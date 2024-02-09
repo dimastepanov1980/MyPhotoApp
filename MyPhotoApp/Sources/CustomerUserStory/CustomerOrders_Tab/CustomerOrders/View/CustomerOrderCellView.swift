@@ -8,24 +8,25 @@
 import SwiftUI
 
 struct CustomerOrderCellView: View {
-    let items: DbOrderModel
-    let statusColor: Color?
+    var items: CellOrderModel
+    var statusColor: Color?
     var status: String?
-    
+    let action: () -> Void
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                if let location = items.authorLocation {
-                    Text(location)
+//                if let location = items.authorLocation {
+                    Text(items.authorLocation)
                         .lineLimit(1)
                         .font(.title2.bold())
                         .foregroundColor(Color(R.color.gray1.name))
-                }
+//                }
                 Spacer()
                 if let status = status, !status.isEmpty {
                         Text(status)
                             .font(.caption2)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(Color(.systemBackground))
                             .padding(.horizontal,10)
                             .padding(.vertical, 5)
                             .background(statusColor)
@@ -50,25 +51,53 @@ struct CustomerOrderCellView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 16)
                     .foregroundColor(Color(R.color.gray2.name))
-                let startTime = items.orderShootingTime?.min { timeToMinutes($0) < timeToMinutes($1) } ?? ""
-                    Text("\(startTime)\(R.string.localizable.order_hour())")
+                
+//                let startTime = items.orderShootingTime?.min { timeToMinutes($0) < timeToMinutes($1) } ?? ""
+                    Text("\(items.orderShootingTime)\(R.string.localizable.order_hour())")
                         .font(.footnote)
                         .foregroundColor(Color(R.color.gray2.name))
-                                
             }
-            HStack(alignment: .bottom) {
-                Spacer()
-                if let name = items.authorName, let secondName = items.authorSecondName  {
-                    Text("\(name) \(secondName)")
+            HStack(alignment: .top) {
+                    Spacer()
+//                if let name = items.authorName, let secondName = items.authorSecondName  {
+                    Text("\(items.authorName) \(items.authorSecondName)")
                         .font(.subheadline)
                         .foregroundColor(Color(R.color.gray3.name))
-                }
+//                }
+                messages(messageCounter: items.newMessagesCustomer)
+
             }
+            .padding(.trailing, 8)
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 18)
         .background(Color(R.color.gray5.name))
         .cornerRadius(16)
+        .onTapGesture {
+            action()
+        }
+    }
+    
+    @ViewBuilder
+    func messages(messageCounter: Int) -> some View {
+        if messageCounter > 0 {
+                ZStack{
+                    Image(systemName: "message")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 22)
+                        .foregroundColor(Color(R.color.gray2.name))
+                    
+                    Text(String(messageCounter))
+                        .font(.caption2)
+                        .foregroundColor(Color(.systemBackground))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background((Color(R.color.red.name)))
+                        .cornerRadius(15)
+                        .offset(x: 15, y: 5)
+                }
+        }
     }
     private func timeToMinutes(_ time: String) -> Int {
         let components = time.split(separator: ":")
@@ -83,28 +112,24 @@ struct CustomerOrderCellView_Previews: PreviewProvider {
     private static let mockModel = MockViewModelVCell()
 
     static var previews: some View {
-        CustomerOrderCellView(items: mockModel.mocData, statusColor: Color(R.color.upcoming.name))
+        CustomerOrderCellView(items: mockModel.mocData, statusColor: Color(R.color.upcoming.name), action: {
+            //
+        })
     }
 }
 
 private class MockViewModelVCell: ObservableObject {
-    let mocData: DbOrderModel = DbOrderModel(order:
-                                OrderModel(orderId: UUID().uuidString,
-                                            orderCreateDate: Date(),
-                                                 orderPrice: "5500",
-                                                 orderStatus: "Upcoming",
-                                                 orderShootingDate: Date(),
-                                                 orderShootingTime: ["11:30", "12:30", "09:30"],
-                                                 orderShootingDuration: "2",
-                                                 orderSamplePhotos: [],
-                                                 orderMessages: [],
-                                                 authorId: "",
-                                                 authorName: "Boby",
-                                                 authorSecondName: "Jungel",
-                                                 authorLocation: "Phuket, Thailand",
-                                                 customerId: nil,
-                                                 customerName: nil,
-                                                 customerSecondName: nil,
-                                                 customerDescription: "",
-                                                 customerContactInfo: DbContactInfo(instagramLink: nil, phone: nil, email: nil)))
+    let mocData: CellOrderModel = CellOrderModel(orderPrice: "5500",
+                                                  orderStatus: "Upcoming",
+                                                  orderShootingDate: Date(),
+                                                  orderShootingTime: "11:30",
+                                                  orderShootingDuration: "2",
+                                                  newMessagesAuthor: 2,
+                                                  newMessagesCustomer: 1,
+                                                  authorName: "Author",
+                                                  authorSecondName: "SecondName",
+                                                  authorLocation: "Author Location",
+                                                  customerName: "customerName",
+                                                  customerSecondName: "customerSecondName",
+                                                  customerDescription: "customerDescription")
 }

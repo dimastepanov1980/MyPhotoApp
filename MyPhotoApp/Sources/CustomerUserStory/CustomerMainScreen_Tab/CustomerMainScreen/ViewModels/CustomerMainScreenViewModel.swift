@@ -13,8 +13,9 @@ import PhotosUI
 
 @MainActor
 final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, ObservableObject {
-    
-    var location = LocationService()
+    func fetchPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
+        []
+    }
     var searchService: SearchLocationManager
     private var cancellable: AnyCancellable?
     
@@ -22,8 +23,12 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
     @Published var portfolio: [AuthorPortfolioModel] = []
     private var portfolioCache: [String: [AuthorPortfolioModel]] = [:]
 
-    @Published var selectedItem: AuthorPortfolioModel? = nil
     @Published var showDetailScreen: Bool = false
+    @Published var showAlertPortfolio: Bool = false
+    
+    @Published var alertTitle: String = ""
+    @Published var alertMessage: String = ""
+    
     @Published var locationResult: [DBLocationModel] = []
     @Published var locationAuthor: String = "" {
         didSet {
@@ -46,7 +51,10 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             self?.locationResult = mapItems.map({ DBLocationModel(mapItem: $0) })
         }
         Task{
+            getCurrentLocation()
             try await checkProfileAndPortfolio()
+//            self.portfolio = try await getPortfolioForLocation(longitude: self.longitude, latitude: self.latitude, date: self.selectedDate)
+//            print(portfolio)
         }
     }
     
@@ -58,10 +66,55 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
             print("New longitude \(self.longitude)")
         }
     }
-    func fetchLocation() async throws {
-        try await location.requestLocation()
+    
+//    func fetchPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel]{
+//        switch try await location.requestLocation() {
+//        case .locationAccessAllow:
+//            return try await getPortfolioForLocation(longitude: self.longitude, latitude: self.latitude, date: date)
+//        case .locationAccessDenied:
+//            print("Location access Denied")
+//            self.alertTitle = R.string.localizable.main_screen_portfolio_location_denied_title()
+//            self.alertMessage = R.string.localizable.main_screen_portfolio_location_denied_message()
+//            self.showAlertPortfolio = true
+//            return try await getPortfolioForDate(date: date)
+//
+//        }
+//    }
+    
+    func getPortfolioForDate(date: Date) async throws -> [AuthorPortfolioModel] {
+        do {
+            return try await UserManager.shared.getAllPortfolio(startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0) }
+        } catch {
+            print(error.localizedDescription)
+            print(String(describing: error))
+            throw error
+        }
     }
-    func checkProfileAndPortfolio() async throws {
+    func getPortfolioForLocation(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
+        do {
+            let portfolio = try await UserManager.shared.getPortfolioForCoordinateAndDate(longitude: longitude, latitude: latitude, startEventDate: date).map{
+                AuthorPortfolioModel(portfolio: $0)
+            }
+            
+            if portfolio.isEmpty {
+                self.alertTitle = R.string.localizable.main_screen_portfolio_not_found_title()
+                self.alertMessage = R.string.localizable.main_screen_portfolio_not_found_message()
+                self.showAlertPortfolio = true
+                
+                let portfolio = try await UserManager.shared.getAllPortfolio(startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0) }
+                return portfolio
+            }
+            
+            return portfolio
+            
+        } catch {
+            print(error.localizedDescription)
+            print(String(describing: error))
+            throw error
+        }
+    }
+    
+    private func checkProfileAndPortfolio() async throws {
         do {
             let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
             let user = try await UserManager.shared.getUser(userId: authDateResult.uid)
@@ -105,24 +158,7 @@ final class CustomerMainScreenViewModel: CustomerMainScreenViewModelType, Observ
         }
         
     }
-    func getPortfolio(longitude: Double, latitude: Double, date: Date) async throws -> [AuthorPortfolioModel] {
-        do {
-            let portfolio = try await UserManager.shared.getPortfolioForCoordinateAndDate(longitude: longitude, latitude: latitude, startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0)
-            }
-            if portfolio.isEmpty {
-                let portfolio = try await UserManager.shared.getAllPortfolio(startEventDate: date).map{ AuthorPortfolioModel(portfolio: $0) }
-                
-                return portfolio
-            }
-            
-            return portfolio
-            
-        } catch {
-            print(error.localizedDescription)
-            print(String(describing: error))
-            throw error
-        }
-    }
+
     func stringToURL(imageString: String) -> URL? {
         guard let imageURL = URL(string: imageString) else { return nil }
         return imageURL

@@ -11,13 +11,15 @@ import SwiftUI
 
 @MainActor
 final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObject {
-    @Published var orders: [DbOrderModel]
-    private var listenerRegistration: ListenerRegistration?
+    
+    @Published var orders: [OrderModel] = []
+    @Published var newMessagesCount: Int = 0
+    private var listenerRegistration: [ListenerRegistration]?
 
-    init(orders: [DbOrderModel] = []) {
-        self.orders = orders
+    init() {
         Task {
-            try await subscribe()
+            print("init CustomerOrdersViewModel")
+            await subscribe()
         }
     }
     
@@ -55,13 +57,21 @@ final class CustomerOrdersViewModel: CustomerOrdersViewModelType, ObservableObje
         }
         return R.string.localizable.status_upcoming()
     }
-    
-    func subscribe() async throws {
-        let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
-        print("subscribe to Customer: \(authDateResult)")
-        listenerRegistration = UserManager.shared.subscribeCustomerOrder(userId: authDateResult.uid, completion: { orders in
-            self.orders = orders
-        })
+    func subscribe() async {
+        print("******************** init subscribe")
+        do {
+            let authDateResult = try AuthNetworkService.shared.getAuthenticationUser()
+            listenerRegistration = UserManager.shared.subscribeToAllCustomerOrders(userId: authDateResult.uid) { receivedOrders in
+                print(">>>>>>>>>>>> Orders received: \(receivedOrders.count)")
+                self.orders = receivedOrders.sorted(by: { $0.orderShootingDate > $1.orderShootingDate }).map { OrderModel(order: $0) }
+                self.newMessagesCount = self.orders.reduce(0) { result, order in
+                    return result + order.newMessagesCustomer
+                }
+                print(">>>>>>>>>>>> Orders updated: \(self.orders.count)")
+            }
+        } catch {
+            print(">>>>>>>>>>>> Error subscribing to orders: \(error.localizedDescription)")
+        }
     }
-    
+
 }

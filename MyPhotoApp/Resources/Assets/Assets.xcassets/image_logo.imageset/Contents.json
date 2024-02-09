@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "TakeAPhoto_logo_Light.pdf",
+      "filename" : "LogoTAP.pdf",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "TakeAPhoto_logo_Dark.pdf",
+      "filename" : "LogoTAP_dark.pdf",
       "idiom" : "universal"
     }
   ],

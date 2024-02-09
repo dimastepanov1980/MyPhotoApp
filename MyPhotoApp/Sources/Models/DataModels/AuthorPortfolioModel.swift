@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AuthorPortfolioModel {
+struct AuthorPortfolioModel: Hashable {
     let id: String
     let author: DBAuthor?
     let avatarAuthor: String
@@ -15,7 +15,7 @@ struct AuthorPortfolioModel {
     let largeImagesPortfolio: [String]
     let descriptionAuthor: String
 //    let reviews: [DBReviews]
-    let appointmen: [DbSchedule]
+    let schedule: [DbSchedule]
     let bookingDays: [String : [String]]?
 
     
@@ -27,9 +27,18 @@ struct AuthorPortfolioModel {
         self.largeImagesPortfolio = portfolio.largeImagesPortfolio ?? []
         self.descriptionAuthor = portfolio.descriptionAuthor ?? ""
 //        self.reviews = portfolio.reviews ?? []
-        self.appointmen = portfolio.schedule ?? []
+        self.schedule = portfolio.schedule ?? []
         self.bookingDays = portfolio.bookingDays ?? [:]
     }
+    
+    func hash(into hasher: inout Hasher) {
+         hasher.combine(id)
+         
+     }
+
+     static func == (lhs: AuthorPortfolioModel, rhs: AuthorPortfolioModel) -> Bool {
+         return lhs.id == rhs.id
+     }
 }
 
 struct AuthorModel {
