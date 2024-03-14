@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import FirebaseCore
+import AppsFlyerLib
 import FirebaseMessaging
 import AppTrackingTransparency
 import FBSDKCoreKit
@@ -41,7 +42,20 @@ struct MyPhotoAppApp: App {
             .environmentObject(user)
             .environmentObject(router)
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in })
+                ATTrackingManager.requestTrackingAuthorization { (status) in
+                  switch status {
+                  case .denied:
+                      print("AuthorizationSatus is denied")
+                  case .notDetermined:
+                      print("AuthorizationSatus is notDetermined")
+                  case .restricted:
+                      print("AuthorizationSatus is restricted")
+                  case .authorized:
+                      print("AuthorizationSatus is authorized")
+                  @unknown default:
+                      fatalError("Invalid authorization status")
+                  }
+                }
             }
         }
     }
@@ -56,6 +70,28 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             application,
             didFinishLaunchingWithOptions: launchOptions
         )
+        AppsFlyerLib.shared().isDebug = true
+        AppsFlyerLib.shared().appsFlyerDevKey = "9vzN75Ct6EfFTNBd8XapJb"
+        AppsFlyerLib.shared().appleAppID = "6456941641"
+        AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
+        AppsFlyerLib.shared().start()
+        if #available(iOS 14, *) {
+           ATTrackingManager.requestTrackingAuthorization { (status) in
+             switch status {
+             case .denied:
+                 print("AuthorizationSatus is denied")
+             case .notDetermined:
+                 print("AuthorizationSatus is notDetermined")
+             case .restricted:
+                 print("AuthorizationSatus is restricted")
+             case .authorized:
+                 print("AuthorizationSatus is authorized")
+             @unknown default:
+                 fatalError("Invalid authorization status")
+             }
+           }
+         }
+        
         FirebaseApp.configure()
         LocationService.shared.requestLocation()
         Messaging.messaging().delegate = self
@@ -70,7 +106,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         application.registerForRemoteNotifications()
         return true
     }
-          
+
     func application(_ app: UIApplication,
         open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         ApplicationDelegate.shared.application(

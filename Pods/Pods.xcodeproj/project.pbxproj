@@ -32,6 +32,7 @@
 		3BD2824D2A244C6A2A28D54041CD971F /* ReuseIdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359026B50A492293E841255D41FD6D95 /* ReuseIdentifierProtocol.swift */; };
 		3FF99FA666CEA41A2C5D17C05A106C15 /* NibResource+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C2DA649054F688A973AD3589DD5DE8 /* NibResource+UIKit.swift */; };
 		45D29014FD96DF5AA20FEC3A14D6A022 /* UIColor+ColorResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798E4B9E98B7FDCAE5F93129E9F5C024 /* UIColor+ColorResource.swift */; };
+		5F103B262BA1A7C4004363E0 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 5F103B252BA1A7C4004363E0 /* AppsFlyerLib */; };
 		60DE480E22296CAFC2D441EEFED72F91 /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D74FCA368F47F4F0D56D852C1347499 /* Identifier.swift */; };
 		68C9EB7767C82A690174EB04BF093409 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		6A5656DB4569C29582509B80B869791D /* Pods-MyPhotoApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D2EE11888200C15F253454472DCBC7F7 /* Pods-MyPhotoApp-dummy.m */; };
@@ -146,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				68C9EB7767C82A690174EB04BF093409 /* Foundation.framework in Frameworks */,
+				5F103B262BA1A7C4004363E0 /* AppsFlyerLib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +348,9 @@
 				B750FDF908B4CE8A9BB732F6E12C046B /* PBXTargetDependency */,
 			);
 			name = "Pods-MyPhotoApp";
+			packageProductDependencies = (
+				5F103B252BA1A7C4004363E0 /* AppsFlyerLib */,
+			);
 			productName = Pods_MyPhotoApp;
 			productReference = A861396E04F66863F902F2FABD096B03 /* Pods_MyPhotoApp.framework */;
 			productType = "com.apple.product-type.framework";
@@ -369,6 +374,9 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			packageReferences = (
+				5F103B242BA1A7C4004363E0 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+			);
 			productRefGroup = 707B381C316BE07F53AA75026843BA24 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -814,6 +822,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5F103B242BA1A7C4004363E0 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 6.13.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5F103B252BA1A7C4004363E0 /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F103B242BA1A7C4004363E0 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 }

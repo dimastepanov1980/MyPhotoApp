@@ -169,7 +169,6 @@
 		5FA1ECA52AF0B01D0092A74D /* PortfolioDetailScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA1ECA42AF0B01D0092A74D /* PortfolioDetailScreenView.swift */; };
 		5FA3C3482A5BDC23003EA4F8 /* AuthorHubPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA3C3472A5BDC23003EA4F8 /* AuthorHubPageView.swift */; };
 		5FA767E42A69762900861F7D /* PortfolioEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA767E32A69762900861F7D /* PortfolioEditView.swift */; };
-		5FA767E72A6BE67E00861F7D /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 5FA767E62A6BE67E00861F7D /* GoogleMobileAds */; };
 		5FAF02C62B60D14F006F7D63 /* AuthorDetailOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAF02C52B60D14F006F7D63 /* AuthorDetailOrderView.swift */; };
 		5FAF02C82B60D15F006F7D63 /* AuthorDetailOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAF02C72B60D15F006F7D63 /* AuthorDetailOrderViewModel.swift */; };
 		5FAF02CA2B60D16D006F7D63 /* AuthorDetailOrderViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAF02C92B60D16D006F7D63 /* AuthorDetailOrderViewModelType.swift */; };
@@ -214,7 +213,6 @@
 		5FE009682B183F860012DC82 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE009672B183F860012DC82 /* FacebookCore */; };
 		5FE0096A2B183F860012DC82 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE009692B183F860012DC82 /* FacebookLogin */; };
 		5FE0096C2B183F860012DC82 /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE0096B2B183F860012DC82 /* FacebookShare */; };
-		5FE461122A3D9E4B001CD607 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */; };
 		5FE5AADB2AA1AFBB0033F51B /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AADA2AA1AFBB0033F51B /* PortfolioViewModel.swift */; };
 		5FE5AADE2AA1DC660033F51B /* PublicFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AADD2AA1DC660033F51B /* PublicFunction.swift */; };
 		5FE5AAE22AA1DEFE0033F51B /* CustomTextEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FE5AAE12AA1DEFE0033F51B /* CustomTextEdit.swift */; };
@@ -398,7 +396,6 @@
 				5F098B022B6532F80022F797 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				5F0FE9362B48339C0093F603 /* FirebaseAppDistribution-Beta in Frameworks */,
 				5F0FE8FA2B47F99C0093F603 /* FirebaseAnalyticsSwift in Frameworks */,
-				5FA767E72A6BE67E00861F7D /* GoogleMobileAds in Frameworks */,
 				5F098B142B6532F80022F797 /* FirebaseStorageCombine-Community in Frameworks */,
 				5F0FE9122B47F99C0093F603 /* FirebaseFirestoreSwift in Frameworks */,
 				5F0FE9342B48339C0093F603 /* FirebaseAppCheck in Frameworks */,
@@ -453,7 +450,6 @@
 				5F0FE90A2B47F99C0093F603 /* FirebaseDatabaseSwift in Frameworks */,
 				5F0FE9462B48339C0093F603 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				5F5602F92B47CADE002CF19E /* FirebaseFunctions in Frameworks */,
-				5FE461122A3D9E4B001CD607 /* SDWebImageSwiftUI in Frameworks */,
 				5F098B0E2B6532F80022F797 /* FirebaseRemoteConfig in Frameworks */,
 				5FF58F412A2A3370009AF970 /* FirebaseStorage in Frameworks */,
 				5F5602E92B47CADE002CF19E /* FirebaseAuthCombine-Community in Frameworks */,
@@ -1522,8 +1518,6 @@
 				5FF58F312A2497EF009AF970 /* FirebaseFirestore */,
 				5FF58F332A2497EF009AF970 /* FirebaseFirestoreSwift */,
 				5FF58F402A2A3370009AF970 /* FirebaseStorage */,
-				5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */,
-				5FA767E62A6BE67E00861F7D /* GoogleMobileAds */,
 				5FE009652B183F860012DC82 /* FacebookBasics */,
 				5FE009672B183F860012DC82 /* FacebookCore */,
 				5FE009692B183F860012DC82 /* FacebookLogin */,
@@ -1660,8 +1654,6 @@
 			mainGroup = 5FBA26632A14A08200E972FB;
 			packageReferences = (
 				5F96A6C62A1723B200FBCFF5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				5FE461102A3D9E4B001CD607 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
-				5FA767E52A6BE67E00861F7D /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = 5FBA266D2A14A08200E972FB /* Products */;
@@ -2146,28 +2138,12 @@
 				minimumVersion = 10.0.0;
 			};
 		};
-		5FA767E52A6BE67E00861F7D /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.0.0;
-			};
-		};
 		5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 14.0.0;
-			};
-		};
-		5FE461102A3D9E4B001CD607 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -2597,11 +2573,6 @@
 			package = 5F96A6C62A1723B200FBCFF5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
-		5FA767E62A6BE67E00861F7D /* GoogleMobileAds */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5FA767E52A6BE67E00861F7D /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
-			productName = GoogleMobileAds;
-		};
 		5FE009652B183F860012DC82 /* FacebookBasics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
@@ -2621,11 +2592,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5FE009642B183F860012DC82 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookShare;
-		};
-		5FE461112A3D9E4B001CD607 /* SDWebImageSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5FE461102A3D9E4B001CD607 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
-			productName = SDWebImageSwiftUI;
 		};
 		5FF58F312A2497EF009AF970 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;

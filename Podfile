@@ -6,8 +6,9 @@ target 'MyPhotoApp' do
   use_frameworks!
 
   pod 'GoogleUtilities', '~> 7.12'
-
-  # Pods for MyPhotoApp
+  pod 'AppsFlyerFramework'
+  
+# Pods for MyPhotoApp
 	pod 'SDWebImageSwiftUI'
 
 end
